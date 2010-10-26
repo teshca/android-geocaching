@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">Geocaching.su Mobile Client</string>
+    <string name="select_geocache_button_text">Select GeoCache</string>
+    <string name="search_geocache_button_text">Search GeoCache</string>
+</resources>
