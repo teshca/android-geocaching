@@ -23,7 +23,7 @@ public class MainMenu extends Activity implements OnClickListener {
     public void onCreate(Bundle savedInstanceState) {
 	super.onCreate(savedInstanceState);
 	Log.d(TAG, "MainMenu Activity creating:");
-	setContentView(R.layout.main);
+	setContentView(R.layout.main_menu);
 
 	btSearchGeocache = (Button) findViewById(R.id.btSearchGeocache);
 	btSelectGeocache = (Button) findViewById(R.id.btSelectGeocache);
