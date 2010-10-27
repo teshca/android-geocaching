@@ -1,6 +1,7 @@
 package su.geocaching.android;
 
 import android.app.Activity;
+import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -14,6 +15,8 @@ import android.widget.Button;
  */
 public class MainMenu extends Activity implements OnClickListener {
     protected final static String TAG = "su.geocaching.android";
+    private final static int DEFAULT_GEOCACHE_ID_VALUE = 8984;
+    protected final static String DEFAULT_GEOCACHE_ID_NAME = "GeoCache id";
 
     private Button btSearchGeocache;
     private Button btSelectGeocache;
@@ -22,7 +25,6 @@ public class MainMenu extends Activity implements OnClickListener {
     @Override
     public void onCreate(Bundle savedInstanceState) {
 	super.onCreate(savedInstanceState);
-	Log.d(TAG, "MainMenu Activity creating:");
 	setContentView(R.layout.main_menu);
 
 	btSearchGeocache = (Button) findViewById(R.id.btSearchGeocache);
@@ -30,7 +32,6 @@ public class MainMenu extends Activity implements OnClickListener {
 	
 	btSearchGeocache.setOnClickListener(this);
 	btSelectGeocache.setOnClickListener(this);
-	Log.d(TAG, "MainMenu Activity was created.");
     }
 
     /**
@@ -38,16 +39,24 @@ public class MainMenu extends Activity implements OnClickListener {
      */
     @Override
     public void onClick(View v) {
-	Log.d(TAG, "on click:");
 	if (v.equals(btSearchGeocache)) {
-	    Log.d(TAG, "	btSearchGeocache");
-	    // TODO: connect with Search Geocache Activity
+	    startSearchGeoCache();
 	} else if (v.equals(btSelectGeocache)) {
-	    Log.d(TAG, "	btSelectGeocache");
+	    Log.d(TAG, "Not implemented or nor connected yet");
 	    // TODO: connect with Select Geocache Activity
 	} else {
-	    Log.d(TAG, "	unknown view was clicked");
+	    Log.d(TAG, "unknown view was clicked");
 	    // not implemented yet
 	}
+    }
+
+    /**
+     * Starting activity to search GeoCache
+     */
+    private void startSearchGeoCache() {
+	    Intent intent = new Intent(this, SearchGeoCacheMap.class);
+	    intent.putExtra(DEFAULT_GEOCACHE_ID_NAME, DEFAULT_GEOCACHE_ID_VALUE);
+	    startActivity(intent);
+	    this.finish();
     }
 }
