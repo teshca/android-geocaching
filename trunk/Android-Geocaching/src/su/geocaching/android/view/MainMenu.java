@@ -1,5 +1,6 @@
-package su.geocaching.android;
+package su.geocaching.android.view;
 
+import su.geocaching.android.view.R;
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
@@ -14,16 +15,18 @@ import android.widget.Button;
  * 	Main menu activity stub
  */
 public class MainMenu extends Activity implements OnClickListener {
+    
+    public final static String DEFAULT_GEOCACHE_ID_NAME = "GeoCache id";
     protected final static String TAG = "su.geocaching.android";
     private final static int DEFAULT_GEOCACHE_ID_VALUE = 8984;
-    protected final static String DEFAULT_GEOCACHE_ID_NAME = "GeoCache id";
+   
 
     private Button btSearchGeocache;
     private Button btSelectGeocache;
 
     /** Called when the activity is first created. */
     @Override
-    public void onCreate(Bundle savedInstanceState) {
+    protected void onCreate(Bundle savedInstanceState) {
 	super.onCreate(savedInstanceState);
 	setContentView(R.layout.main_menu);
 
