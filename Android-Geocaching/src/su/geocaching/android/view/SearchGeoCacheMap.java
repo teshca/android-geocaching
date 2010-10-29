@@ -1,5 +1,7 @@
-package su.geocaching.android;
+package su.geocaching.android.view;
 
+import su.geocaching.android.model.GeoCache;
+import su.geocaching.android.view.R;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
@@ -20,7 +22,7 @@ public class SearchGeoCacheMap extends MapActivity {
     private GeoCache geoCache;
 
     @Override
-    public void onCreate(Bundle savedInstanceState) {
+    protected void onCreate(Bundle savedInstanceState) {
 	super.onCreate(savedInstanceState);
 	setContentView(R.layout.search_geocache_map);
 	Intent intent = this.getIntent();
@@ -31,7 +33,8 @@ public class SearchGeoCacheMap extends MapActivity {
     }
 
     @Override
-    public void onResume() {
+    protected void onResume() {
+	super.onResume();
 	// TODO: request updates from location manager, show user location and
 	// geocache location on the map etc...
     }

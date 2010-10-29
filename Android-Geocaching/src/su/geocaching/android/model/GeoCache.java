@@ -1,4 +1,4 @@
-package su.geocaching.android;
+package su.geocaching.android.model;
 
 import com.google.android.maps.GeoPoint;
 
@@ -8,7 +8,7 @@ import com.google.android.maps.GeoPoint;
  * 	GeoCache - central concept of geocaching game.
  */
 public class GeoCache {
-    private GeoPoint location;	//Coordinates of cache location
+    private GeoPoint locationGeoPoint;	//Coordinates of cache location
     private int id;		//Unique identifier of GeoCache(from geocaching.su)
 
     // TODO: if cache id not found - throw exception?
@@ -16,11 +16,11 @@ public class GeoCache {
 	this.id = id;
 
 	// TODO: retrieve data from API Manager
-	location = new GeoPoint(59879936, 2982861);
+	locationGeoPoint = new GeoPoint(59879936, 2982861);
     }
 
     public GeoPoint getLocation() {
-	return location;
+	return locationGeoPoint;
     }
 
     public int getId() {
