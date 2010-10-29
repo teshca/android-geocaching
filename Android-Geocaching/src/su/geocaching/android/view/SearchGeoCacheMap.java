@@ -30,6 +30,7 @@ public class SearchGeoCacheMap extends MapActivity {
 		MainMenu.DEFAULT_GEOCACHE_ID_NAME, -1));
 	mvMap = (MapView) findViewById(R.id.searchGeocacheMap);
 	mcMapController = mvMap.getController();
+	mvMap.setBuiltInZoomControls(true);
     }
 
     @Override
