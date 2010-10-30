@@ -19,6 +19,11 @@ public class GeoCache {
 	locationGeoPoint = new GeoPoint(59879936, 2982861);
     }
 
+    public GeoCache(int latitude, int longitude, int id) {
+	this.id = id;	
+	locationGeoPoint = new GeoPoint(latitude, longitude);
+    }
+    
     public GeoPoint getLocation() {
 	return locationGeoPoint;
     }
