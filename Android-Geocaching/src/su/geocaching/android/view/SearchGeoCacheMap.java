@@ -24,9 +24,11 @@ import com.google.android.maps.OverlayItem;
 /**
  * @author Android-Geocaching.su student project team
  * @since October 2010 
- * 	Search GeoCache with map.
+ * 	Search GeoCache with the map.
  */
 public class SearchGeoCacheMap extends MapActivity {
+    
+    public final static String DEFAULT_GEOCACHE_ID_NAME = "GeoCache id";
 
     private MapView mvMap;
     private MapController mcMapController;
@@ -74,6 +76,7 @@ public class SearchGeoCacheMap extends MapActivity {
     }
 
     public void updateUserOverlay(Location location, float angle) {
+	//TODO: if (distanceToGeoCache<Accuracy) then startCompasView
 	GeoPoint point = new GeoPoint((int) (location.getLatitude() * 1E6),
 		(int) (location.getLongitude() * 1E6));
 	if (userOverlay==null) {
@@ -94,5 +97,17 @@ public class SearchGeoCacheMap extends MapActivity {
     
     public Location getLastLocation() {
 	return locationManager.getCurrentLocation();
+    }
+    
+    private void startCompasView() {
+	    Intent intent = new Intent(this, SearchGeoCacheCompas.class);
+	    intent.putExtra(DEFAULT_GEOCACHE_ID_NAME, geoCache.getId());
+	    startActivity(intent);
+	    this.finish();
+    }
+    
+    protected float getDistanceToGeoCache(Location location) {
+	//TODO: implement using Location.distanceBetween
+	return 0;
     }
 }
