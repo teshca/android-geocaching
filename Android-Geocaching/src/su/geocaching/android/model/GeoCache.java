@@ -16,7 +16,7 @@ public class GeoCache {
 	this.id = id;
 
 	// TODO: retrieve data from API Manager
-	locationGeoPoint = new GeoPoint(59879936, 2982861);
+	locationGeoPoint = new GeoPoint(59879936, 29828610);
     }
 
     public GeoCache(int latitude, int longitude, int id) {

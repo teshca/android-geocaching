@@ -1,14 +1,25 @@
 package su.geocaching.android.view;
 
+import java.util.List;
+
 import su.geocaching.android.model.GeoCache;
+import su.geocaching.android.searchGeoCache.GeoCacheItemizedOverlay;
+import su.geocaching.android.searchGeoCache.SearchGeoCacheCompasManager;
+import su.geocaching.android.searchGeoCache.SearchGeoCacheLocationManager;
+import su.geocaching.android.searchGeoCache.UserLocationOverlay;
 import su.geocaching.android.view.R;
 import android.content.Intent;
+import android.graphics.drawable.Drawable;
+import android.location.Location;
 import android.os.Bundle;
 import android.util.Log;
 
+import com.google.android.maps.GeoPoint;
 import com.google.android.maps.MapActivity;
 import com.google.android.maps.MapController;
 import com.google.android.maps.MapView;
+import com.google.android.maps.Overlay;
+import com.google.android.maps.OverlayItem;
 
 /**
  * @author Android-Geocaching.su student project team
@@ -20,6 +31,12 @@ public class SearchGeoCacheMap extends MapActivity {
     private MapView mvMap;
     private MapController mcMapController;
     private GeoCache geoCache;
+    private GeoCacheItemizedOverlay cacheItemizedOverlay;
+    private OverlayItem cacheOverlayItem;
+    private UserLocationOverlay userOverlay;
+    private SearchGeoCacheCompasManager compas;
+    private SearchGeoCacheLocationManager locationManager;
+    private List<Overlay> mapOverlays;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -31,13 +48,24 @@ public class SearchGeoCacheMap extends MapActivity {
 	mvMap = (MapView) findViewById(R.id.searchGeocacheMap);
 	mcMapController = mvMap.getController();
 	mvMap.setBuiltInZoomControls(true);
+	mapOverlays = mvMap.getOverlays();
     }
 
     @Override
     protected void onResume() {
 	super.onResume();
-	// TODO: request updates from location manager, show user location and
-	// geocache location on the map etc...
+	Drawable cacheMarker = this.getResources().getDrawable(R.drawable.orangecache);
+	cacheMarker.setBounds(0,
+		-cacheMarker.getMinimumHeight(),
+		cacheMarker.getMinimumWidth(), 0);
+	cacheItemizedOverlay = new GeoCacheItemizedOverlay(cacheMarker);
+	cacheOverlayItem = new OverlayItem(geoCache.getLocation(), "", "");
+	cacheItemizedOverlay.addOverlay(cacheOverlayItem);
+	mapOverlays.add(cacheItemizedOverlay);
+	mvMap.invalidate();
+	mcMapController.animateTo(geoCache.getLocation());
+	compas = new SearchGeoCacheCompasManager(this);
+	locationManager = new SearchGeoCacheLocationManager(this);
     }
 
     @Override
@@ -45,4 +73,26 @@ public class SearchGeoCacheMap extends MapActivity {
 	return false;
     }
 
+    public void updateUserOverlay(Location location, float angle) {
+	GeoPoint point = new GeoPoint((int) (location.getLatitude() * 1E6),
+		(int) (location.getLongitude() * 1E6));
+	if (userOverlay==null) {
+	    userOverlay = new UserLocationOverlay(this, point, angle, location.getAccuracy());
+	}else{
+	    mapOverlays.remove(userOverlay);
+	    userOverlay.setPoint(point);
+	    userOverlay.setAngle(angle);
+	    userOverlay.setRadius(location.getAccuracy());
+	}
+	mapOverlays.add(userOverlay);
+	mvMap.invalidate();
+    }
+    
+    public float getLastAzimuth() {
+	return compas.getLastAzimuth();
+    }
+    
+    public Location getLastLocation() {
+	return locationManager.getCurrentLocation();
+    }
 }

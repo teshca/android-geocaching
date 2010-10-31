@@ -1,5 +1,6 @@
 package su.geocaching.android.searchGeoCache;
 
+import su.geocaching.android.view.SearchGeoCacheMap;
 import android.content.Context;
 import android.location.Criteria;
 import android.location.Location;
@@ -20,8 +21,9 @@ public class SearchGeoCacheLocationManager implements LocationListener {
 	lastLocation = lmLocationManager
 		.getLastKnownLocation(Context.LOCATION_SERVICE);
 	if (lastLocation != null) {
-	    //TODO: context.update(lastLocation)
+	    updateLocation();
 	}
+	resume();
     }
 
     /**
@@ -30,22 +32,22 @@ public class SearchGeoCacheLocationManager implements LocationListener {
     @Override
     public void onLocationChanged(Location location) {
 	lastLocation = location;
-	//TODO: context.update(lastLocation)
+	updateLocation();
     }
 
     @Override
     public void onProviderDisabled(String provider) {
-	//TODO: implement onProviderDisabled
+	// TODO: implement onProviderDisabled
     }
 
     @Override
     public void onProviderEnabled(String provider) {
-	//TODO: implement onProviderEnabled
+	// TODO: implement onProviderEnabled
     }
 
     @Override
     public void onStatusChanged(String provider, int status, Bundle extras) {
-	//TODO: implement onStatusChanged
+	// TODO: implement onStatusChanged
     }
 
     /**
@@ -65,7 +67,14 @@ public class SearchGeoCacheLocationManager implements LocationListener {
 	lmLocationManager.requestLocationUpdates(provider, 1000, 1, this);
     }
 
-    protected Location getCurrentLocation() {
+    public Location getCurrentLocation() {
 	return lastLocation;
+    }
+
+    private void updateLocation() {
+	if (context instanceof SearchGeoCacheMap) {
+	    float azimuth = ((SearchGeoCacheMap) context).getLastAzimuth();
+	    ((SearchGeoCacheMap) context).updateUserOverlay(lastLocation, azimuth);
+	}
     }
 }

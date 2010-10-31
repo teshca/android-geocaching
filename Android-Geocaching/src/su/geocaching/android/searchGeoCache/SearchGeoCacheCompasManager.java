@@ -1,10 +1,12 @@
 package su.geocaching.android.searchGeoCache;
 
+import su.geocaching.android.view.SearchGeoCacheMap;
 import android.content.Context;
 import android.hardware.Sensor;
 import android.hardware.SensorEvent;
 import android.hardware.SensorEventListener;
 import android.hardware.SensorManager;
+import android.location.Location;
 
 public class SearchGeoCacheCompasManager implements SensorEventListener {
 
@@ -27,7 +29,7 @@ public class SearchGeoCacheCompasManager implements SensorEventListener {
 
     @Override
     public void onAccuracyChanged(Sensor arg0, int arg1) {
-	//TODO: implement this method
+	// TODO: implement this method
     }
 
     /*
@@ -42,7 +44,7 @@ public class SearchGeoCacheCompasManager implements SensorEventListener {
 	} else if (type == Sensor.TYPE_MAGNETIC_FIELD) {
 	    data = afGeomagnetic;
 	} else {
-	    //we do not handle this sensor type
+	    // we do not handle this sensor type
 	    return;
 	}
 
@@ -52,11 +54,18 @@ public class SearchGeoCacheCompasManager implements SensorEventListener {
 	SensorManager.getRotationMatrix(afRotation, afInclination, afGravity,
 		afGeomagnetic);
 	SensorManager.getOrientation(afRotation, afOrientation);
-	float loclastAzimuth = afOrientation[0]*RAD2DEG;
+	float loclastAzimuth = afOrientation[0] * RAD2DEG;
 	loclastAzimuth = Math.round(loclastAzimuth);
 	if (loclastAzimuth != lastAzimuth) {
-	    //TODO: handle change of azimuth
 	    lastAzimuth = loclastAzimuth;
+	    if (context instanceof SearchGeoCacheMap) {
+		Location location = ((SearchGeoCacheMap) context)
+			.getLastLocation();
+		if (location != null) {
+		    ((SearchGeoCacheMap) context).updateUserOverlay(location,
+			    lastAzimuth);
+		}
+	    }
 	}
     }
 
@@ -75,7 +84,7 @@ public class SearchGeoCacheCompasManager implements SensorEventListener {
 	smSensorManager.unregisterListener(this);
     }
 
-    protected float getLastAzimuth() {
+    public float getLastAzimuth() {
 	return lastAzimuth;
     }
 }

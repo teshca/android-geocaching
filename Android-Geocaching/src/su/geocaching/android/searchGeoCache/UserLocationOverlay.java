@@ -9,20 +9,22 @@ import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
+import android.graphics.Color;
 import android.graphics.Matrix;
 import android.graphics.Paint;
 import android.graphics.Point;
+import android.util.Log;
 
 /**
  * @author Android-Geocaching.su student project team
- * @since October 2010 
- * 	Overlay contains of arrow rotated by user azimuth and circle of accuracy
+ * @since October 2010 Overlay contains of arrow rotated by user azimuth and
+ *        circle of accuracy
  */
 public class UserLocationOverlay extends com.google.android.maps.Overlay {
     private Context context;
     private GeoPoint point;
     private float angle;
-    private float radius;
+    private float radius; // accuracy radius in meters
 
     public UserLocationOverlay(Context context, GeoPoint gp, float angle,
 	    float radius) {
@@ -52,25 +54,26 @@ public class UserLocationOverlay extends com.google.android.maps.Overlay {
 		bmpDefault.getWidth(), bmpDefault.getHeight(), matrix, true);
 	canvas.drawBitmap(bmpRotated, screenPts.x - bmpRotated.getWidth() / 2,
 		screenPts.y - bmpRotated.getHeight() / 2, null);
-	
-	// Draw accuracy circle
-	Paint paint = new Paint();
-	paint.setColor(0x0000FF);
-	canvas.drawCircle(screenPts.x - bmpRotated.getWidth() / 2,
-		screenPts.y - bmpRotated.getHeight() / 2, radius, paint);
 
+	// Draw accuracy circle
+	float radiusInPixels = mapView.getProjection().metersToEquatorPixels(
+		radius);
+	Paint paint = new Paint();
+	paint.setColor(Color.BLUE);
+	paint.setStyle(Paint.Style.STROKE);
+	canvas.drawCircle(screenPts.x, screenPts.y, radiusInPixels, paint);
 	return true;
     }
 
-    protected void setPoint(GeoPoint point) {
-        this.point = point;
+    public void setPoint(GeoPoint point) {
+	this.point = point;
     }
 
-    protected void setAngle(float angle) {
-        this.angle = angle;
+    public void setAngle(float angle) {
+	this.angle = angle;
     }
 
-    protected void setRadius(float radius) {
-        this.radius = radius;
+    public void setRadius(float radius) {
+	this.radius = radius;
     }
 }
