@@ -1,12 +1,18 @@
 Файл debug.keystore нужно скачать здесь 
-http://code.google.com/p/android-geocaching/downloads/list
+[http://code.google.com/p/android-geocaching/downloads/list]
 
 В коде (search_geocache_map.xml) карта инициализируется с ключом полученным по этому файлу, поэтому он необходим для корректной работы приложения.
 
 Алгоритм установки:
 1. скачать файл
+
 2. положить его в папку .android:
+
+ 
  The location of the AVD directories varies by platform:
-  Windows Vista: C:\Users\<user>\.android\
-  Windows XP: C:\Documents and Settings\<user>\.android\
-  OS X and Linux: ~/.android/
+ 
+ Windows Vista: C:\Users\%user%\.android\
+
+ Windows XP: C:\Documents and Settings\%user%\.android\ 
+
+ OS X and Linux: ~/.android/
