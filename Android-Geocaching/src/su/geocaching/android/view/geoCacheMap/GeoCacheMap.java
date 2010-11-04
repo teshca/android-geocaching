@@ -1,7 +1,9 @@
 package su.geocaching.android.view.geoCacheMap;
 
 import android.location.Location;
+import android.os.Bundle;
 import com.google.android.maps.*;
+import su.geocaching.android.view.R;
 
 import java.util.List;
 
@@ -18,6 +20,22 @@ public abstract class GeoCacheMap extends MapActivity {
     protected SearchGeoCacheCompassManager compassManager;
     protected SearchGeoCacheLocationManager locationManager;
     protected List<Overlay> mapOverlays;
+
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        mvMap = (MapView) findViewById(R.id.searchGeocacheMap);
+        mcMapController = mvMap.getController();
+        mvMap.setBuiltInZoomControls(true);
+        mapOverlays = mvMap.getOverlays();
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        compassManager = new SearchGeoCacheCompassManager(this);
+        locationManager = new SearchGeoCacheLocationManager(this);
+    }
 
     @Override
     protected boolean isRouteDisplayed() {

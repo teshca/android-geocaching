@@ -8,6 +8,7 @@ import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.Button;
 import su.geocaching.android.searchGeoCache.SearchGeoCacheMap;
+import su.geocaching.android.selectGeoCache.SelectGeoCacheMap;
 
 /**
  * @author Android-Geocaching.su student project team
@@ -46,8 +47,7 @@ public class MainMenu extends Activity implements OnClickListener {
         if (v.equals(btSearchGeoCache)) {
             startSearchGeoCache();
         } else if (v.equals(btSelectGeoCache)) {
-            Log.d(TAG, "Not implemented or nor connected yet");
-            // TODO: connect with Select GeoCache Activity
+            startSelectGeoCache();
         } else {
             Log.d(TAG, "unknown view was clicked");
             // not implemented yet
@@ -60,6 +60,15 @@ public class MainMenu extends Activity implements OnClickListener {
     private void startSearchGeoCache() {
         Intent intent = new Intent(this, SearchGeoCacheMap.class);
         intent.putExtra(DEFAULT_GEOCACHE_ID_NAME, DEFAULT_GEOCACHE_ID_VALUE);
+        startActivity(intent);
+        this.finish();
+    }
+
+    /**
+     * Starting activity to select GeoCache
+     */
+    private void startSelectGeoCache() {
+        Intent intent = new Intent(this, SelectGeoCacheMap.class);
         startActivity(intent);
         this.finish();
     }
