@@ -21,7 +21,7 @@
             </intent-filter>
         </activity>
         
-        <activity android:name=".SearchGeoCacheMap"
+        <activity android:name="su.geocaching.android.searchGeoCache.SearchGeoCacheMap"
                   android:label="@string/app_name"
                   android:theme="@android:style/Theme.NoTitleBar">
             <intent-filter>
@@ -30,7 +30,7 @@
             </intent-filter>
         </activity>
         
-        <activity android:name=".SearchGeoCacheCompas"
+        <activity android:name="su.geocaching.android.searchGeoCache.SearchGeoCacheCompass"
                   android:label="@string/app_name">
             <intent-filter>
             	<action android:name="android.intent.action.RUN" />
