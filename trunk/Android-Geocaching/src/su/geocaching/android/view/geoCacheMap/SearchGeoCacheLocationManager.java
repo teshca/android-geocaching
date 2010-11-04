@@ -1,6 +1,5 @@
-package su.geocaching.android.searchGeoCache;
+package su.geocaching.android.view.geoCacheMap;
 
-import su.geocaching.android.view.SearchGeoCacheMap;
 import android.content.Context;
 import android.location.Criteria;
 import android.location.Location;
@@ -15,15 +14,15 @@ public class SearchGeoCacheLocationManager implements LocationListener {
     private Location lastLocation;
 
     public SearchGeoCacheLocationManager(Context context) {
-	this.context = context;
-	lmLocationManager = (LocationManager) context
-		.getSystemService(Context.LOCATION_SERVICE);
-	lastLocation = lmLocationManager
-		.getLastKnownLocation(Context.LOCATION_SERVICE);
-	if (lastLocation != null) {
-	    updateLocation();
-	}
-	resume();
+        this.context = context;
+        lmLocationManager = (LocationManager) context
+                .getSystemService(Context.LOCATION_SERVICE);
+        lastLocation = lmLocationManager
+                .getLastKnownLocation(Context.LOCATION_SERVICE);
+        if (lastLocation != null) {
+            updateLocation();
+        }
+        resume();
     }
 
     /**
@@ -31,50 +30,50 @@ public class SearchGeoCacheLocationManager implements LocationListener {
      */
     @Override
     public void onLocationChanged(Location location) {
-	lastLocation = location;
-	updateLocation();
+        lastLocation = location;
+        updateLocation();
     }
 
     @Override
     public void onProviderDisabled(String provider) {
-	// TODO: implement onProviderDisabled
+        // TODO: implement onProviderDisabled
     }
 
     @Override
     public void onProviderEnabled(String provider) {
-	// TODO: implement onProviderEnabled
+        // TODO: implement onProviderEnabled
     }
 
     @Override
     public void onStatusChanged(String provider, int status, Bundle extras) {
-	// TODO: implement onStatusChanged
+        // TODO: implement onStatusChanged
     }
 
     /**
      * Remove updates, when need to pause work
      */
     public void pause() {
-	lmLocationManager.removeUpdates(this);
+        lmLocationManager.removeUpdates(this);
     }
 
     /**
      * Add updates after pause.
      */
     public void resume() {
-	Criteria criteria = new Criteria();
-	criteria.setAccuracy(Criteria.ACCURACY_FINE);
-	String provider = lmLocationManager.getBestProvider(criteria, true);
-	lmLocationManager.requestLocationUpdates(provider, 1000, 1, this);
+        Criteria criteria = new Criteria();
+        criteria.setAccuracy(Criteria.ACCURACY_FINE);
+        String provider = lmLocationManager.getBestProvider(criteria, true);
+        lmLocationManager.requestLocationUpdates(provider, 1000, 1, this);
     }
 
     public Location getCurrentLocation() {
-	return lastLocation;
+        return lastLocation;
     }
 
     private void updateLocation() {
-	if (context instanceof SearchGeoCacheMap) {
-	    float azimuth = ((SearchGeoCacheMap) context).getLastAzimuth();
-	    ((SearchGeoCacheMap) context).updateUserOverlay(lastLocation, azimuth);
-	}
+        if (context instanceof GeoCacheMap) {
+            float azimuth = ((GeoCacheMap) context).getLastAzimuth();
+            ((GeoCacheMap) context).updateUserOverlay(lastLocation, azimuth);
+        }
     }
 }
