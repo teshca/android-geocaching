@@ -1,8 +1,8 @@
-package su.geocaching.android.apimanager;
+package su.geocaching.android.controller.apimanager;
+
+import su.geocaching.android.model.dataType.GeoCache;
 
 import java.util.Collection;
-
-import su.geocaching.android.model.GeoCache;
 
 public interface IApiManager {
 

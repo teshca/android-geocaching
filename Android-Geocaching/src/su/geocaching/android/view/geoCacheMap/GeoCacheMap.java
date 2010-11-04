@@ -43,7 +43,6 @@ public abstract class GeoCacheMap extends MapActivity {
     }
 
     public void updateUserOverlay(Location location, float angle) {
-        //TODO: if (distanceToGeoCache<Accuracy) then startCompassView
         GeoPoint point = new GeoPoint((int) (location.getLatitude() * 1E6),
                 (int) (location.getLongitude() * 1E6));
         if (userOverlay == null) {

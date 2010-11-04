@@ -1,11 +1,11 @@
-package su.geocaching.android.searchGeoCache;
+package su.geocaching.android.view.userStory.searchGeoCache;
 
 import android.content.Intent;
 import android.graphics.drawable.Drawable;
 import android.location.Location;
 import android.os.Bundle;
 import com.google.android.maps.OverlayItem;
-import su.geocaching.android.model.GeoCache;
+import su.geocaching.android.model.dataType.GeoCache;
 import su.geocaching.android.view.MainMenu;
 import su.geocaching.android.view.R;
 import su.geocaching.android.view.geoCacheMap.GeoCacheItemizedOverlay;
@@ -19,8 +19,8 @@ import su.geocaching.android.view.geoCacheMap.GeoCacheMap;
 public class SearchGeoCacheMap extends GeoCacheMap {
     public final static String DEFAULT_GEOCACHE_ID_NAME = "GeoCache id";
 
-    protected GeoCache geoCache;
-    protected OverlayItem cacheOverlayItem;
+    private GeoCache geoCache;
+    private OverlayItem cacheOverlayItem;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

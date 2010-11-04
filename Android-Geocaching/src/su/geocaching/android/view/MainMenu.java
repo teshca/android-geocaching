@@ -7,8 +7,8 @@ import android.util.Log;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.Button;
-import su.geocaching.android.searchGeoCache.SearchGeoCacheMap;
-import su.geocaching.android.selectGeoCache.SelectGeoCacheMap;
+import su.geocaching.android.view.userStory.searchGeoCache.SearchGeoCacheMap;
+import su.geocaching.android.view.userStory.selectGeoCache.SelectGeoCacheMap;
 
 /**
  * @author Android-Geocaching.su student project team
@@ -18,8 +18,8 @@ import su.geocaching.android.selectGeoCache.SelectGeoCacheMap;
 public class MainMenu extends Activity implements OnClickListener {
 
     public static final String DEFAULT_GEOCACHE_ID_NAME = "GeoCache id";
-    protected static final String TAG = "su.geocaching.android";
     private static final int DEFAULT_GEOCACHE_ID_VALUE = 8984;
+    protected static final String TAG = "su.geocaching.android";
 
     private Button btSearchGeoCache;
     private Button btSelectGeoCache;

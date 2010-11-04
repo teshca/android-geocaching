@@ -1,4 +1,4 @@
-package su.geocaching.android.searchGeoCache;
+package su.geocaching.android.view.userStory.searchGeoCache;
 
 import android.content.Context;
 import android.graphics.Canvas;
