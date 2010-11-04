@@ -1,15 +1,31 @@
-package su.geocaching.android.apimanager;
+package su.geocaching.android.controller.apimanager;
 
-import su.geocaching.android.model.GeoCache;
+import su.geocaching.android.model.dataType.GeoCache;
 
-import java.util.ArrayList;
 import java.util.Collection;
+import java.util.LinkedList;
 
 public class ApiManager implements IApiManager {
+    private static ApiManager instance;
+    private LinkedList<GeoCache> geoCaches;
+
+    private ApiManager() {
+    }
+
+    public static ApiManager getInstance() {
+        if (instance == null) {
+            synchronized (ApiManager.class) {
+                if (instance == null) {
+                    instance = new ApiManager();
+                }
+            }
+        }
+        return instance;
+    }
 
     @Override
     public Collection<GeoCache> getGeoCashList(int latitudeE6, int longitudeE6, float radius) {
-        ArrayList<GeoCache> geoCaches = new ArrayList<GeoCache>(10);
+        geoCaches = new LinkedList<GeoCache>();
 
         //TODO
         //---------------
@@ -25,5 +41,14 @@ public class ApiManager implements IApiManager {
         geoCaches.add(new GeoCache(59848672, 29879713, 9));
         //---------------
         return geoCaches;
+    }
+
+    public GeoCache getGeoCacheByID(int id) {
+        for (GeoCache geoCache : geoCaches) {
+            if (geoCache.getId() == id) {
+                return geoCache;
+            }
+        }
+        return null;
     }
 }

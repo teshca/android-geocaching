@@ -1,4 +1,4 @@
-package su.geocaching.android.model;
+package su.geocaching.android.model.dataType;
 
 import com.google.android.maps.GeoPoint;
 
