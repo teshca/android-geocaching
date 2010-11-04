@@ -1,18 +1,14 @@
-Файл debug.keystore нужно скачать здесь 
-[http://code.google.com/p/android-geocaching/downloads/list]
+Итак после некотрых попыток было принято такое решение:
+1. Каждый разработчик использует свой собственный api key - полученный
+им самостоятельно
+2. Для того чтобы код проекта выложенного в svn у вас работал, вам
+необходимо создать файл
+dev.xml в папке res/values со следующи содержимым
 
-В коде (search_geocache_map.xml) карта инициализируется с ключом полученным по этому файлу, поэтому он необходим для корректной работы приложения.
+<?xml version="1.0" encoding="UTF-8"?>
+<resources>
+   <string name="google_map_api_key">{Ваш личный персональный ключ
+полученный}</string>
+</resources>
 
-Алгоритм установки:
-1. скачать файл
-
-2. положить его в папку .android:
-
- 
- The location of the AVD directories varies by platform:
- 
- Windows Vista: C:\Users\%user%\.android\
-
- Windows XP: C:\Documents and Settings\%user%\.android\ 
-
- OS X and Linux: ~/.android/
+Если у вас что-то не получается - пишите в эту тему.
