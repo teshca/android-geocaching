@@ -4,15 +4,12 @@ import android.content.Intent;
 import android.graphics.drawable.Drawable;
 import android.location.Location;
 import android.os.Bundle;
-import com.google.android.maps.MapView;
 import com.google.android.maps.OverlayItem;
 import su.geocaching.android.model.GeoCache;
 import su.geocaching.android.view.MainMenu;
 import su.geocaching.android.view.R;
 import su.geocaching.android.view.geoCacheMap.GeoCacheItemizedOverlay;
 import su.geocaching.android.view.geoCacheMap.GeoCacheMap;
-import su.geocaching.android.view.geoCacheMap.SearchGeoCacheCompassManager;
-import su.geocaching.android.view.geoCacheMap.SearchGeoCacheLocationManager;
 
 /**
  * @author Android-Geocaching.su student project team
@@ -27,15 +24,12 @@ public class SearchGeoCacheMap extends GeoCacheMap {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
         setContentView(R.layout.search_geocache_map);
+        super.onCreate(savedInstanceState);
+
         Intent intent = this.getIntent();
         geoCache = new GeoCache(intent.getIntExtra(
                 MainMenu.DEFAULT_GEOCACHE_ID_NAME, -1));
-        mvMap = (MapView) findViewById(R.id.searchGeocacheMap);
-        mcMapController = mvMap.getController();
-        mvMap.setBuiltInZoomControls(true);
-        mapOverlays = mvMap.getOverlays();
     }
 
     @Override
@@ -51,8 +45,6 @@ public class SearchGeoCacheMap extends GeoCacheMap {
         mapOverlays.add(cacheItemizedOverlay);
         mvMap.invalidate();
         mcMapController.animateTo(geoCache.getLocation());
-        compassManager = new SearchGeoCacheCompassManager(this);
-        locationManager = new SearchGeoCacheLocationManager(this);
     }
 
     private void startCompassView() {

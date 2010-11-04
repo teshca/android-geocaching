@@ -37,7 +37,11 @@
 			    <category android:name="android.intent.category.DEFAULT" />
             </intent-filter>                  
         </activity>
-        
+        <activity android:name="su.geocaching.android.selectGeoCache.SelectGeoCacheMap"/>
+        <intent-filter>
+            	<action android:name="android.intent.action.RUN" />
+			    <category android:name="android.intent.category.DEFAULT" />
+            </intent-filter>
         <uses-library android:name="com.google.android.maps" />
     </application>
 
