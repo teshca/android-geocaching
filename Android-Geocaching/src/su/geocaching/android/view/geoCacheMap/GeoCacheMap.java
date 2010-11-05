@@ -1,5 +1,6 @@
 package su.geocaching.android.view.geoCacheMap;
 
+import android.content.Intent;
 import android.location.Location;
 import android.os.Bundle;
 import com.google.android.maps.*;
@@ -15,7 +16,6 @@ import java.util.List;
 public abstract class GeoCacheMap extends MapActivity {
     protected MapView mvMap;
     protected MapController mcMapController;
-    protected GeoCacheItemizedOverlay cacheItemizedOverlay;
     protected UserLocationOverlay userOverlay;
     protected SearchGeoCacheCompassManager compassManager;
     protected SearchGeoCacheLocationManager locationManager;
@@ -24,7 +24,15 @@ public abstract class GeoCacheMap extends MapActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        mvMap = (MapView) findViewById(R.id.searchGeocacheMap);
+        Intent intent = this.getIntent();
+        // int layout = intent.getIntExtra("layout", R.layout.select_geocache_map);
+        // int id = intent.getIntExtra("id", R.id.selectGeocacheMap);
+
+        setContentView(R.layout.select_geocache_map);
+        mvMap = (MapView) findViewById(R.id.selectGeocacheMap);
+        //TODO: deal with the transfer of resources
+        // Log.d("albama", Integer.toString(id));
+        // Log.d("albama", Boolean.toString(mvMap == null));
         mcMapController = mvMap.getController();
         mvMap.setBuiltInZoomControls(true);
         mapOverlays = mvMap.getOverlays();

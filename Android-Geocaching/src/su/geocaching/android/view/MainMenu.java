@@ -1,12 +1,14 @@
 package su.geocaching.android.view;
 
 import android.app.Activity;
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.Button;
+import android.widget.Toast;
 import su.geocaching.android.view.userStory.searchGeoCache.SearchGeoCacheMap;
 import su.geocaching.android.view.userStory.selectGeoCache.SelectGeoCacheMap;
 
@@ -58,10 +60,16 @@ public class MainMenu extends Activity implements OnClickListener {
      * Starting activity to search GeoCache
      */
     private void startSearchGeoCache() {
-        Intent intent = new Intent(this, SearchGeoCacheMap.class);
-        intent.putExtra(DEFAULT_GEOCACHE_ID_NAME, DEFAULT_GEOCACHE_ID_VALUE);
-        startActivity(intent);
-        this.finish();
+        if (getSystemService(Context.CONNECTIVITY_SERVICE) == null) {
+            Toast.makeText(getApplicationContext(), "No Internet connection!", Toast.LENGTH_SHORT);
+        } else {
+            Intent intent = new Intent(this, SearchGeoCacheMap.class);
+            intent.putExtra(DEFAULT_GEOCACHE_ID_NAME, DEFAULT_GEOCACHE_ID_VALUE);
+            intent.putExtra("layout", R.layout.search_geocache_map);
+            intent.putExtra("id", R.id.searchGeocacheMap);
+            startActivity(intent);
+            this.finish();
+        }
     }
 
     /**
@@ -69,6 +77,8 @@ public class MainMenu extends Activity implements OnClickListener {
      */
     private void startSelectGeoCache() {
         Intent intent = new Intent(this, SelectGeoCacheMap.class);
+        intent.putExtra("layout", R.layout.select_geocache_map);
+        intent.putExtra("id", R.id.searchGeocacheMap);
         startActivity(intent);
         this.finish();
     }

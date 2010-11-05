@@ -2,7 +2,6 @@ package su.geocaching.android.controller.apimanager;
 
 import su.geocaching.android.model.dataType.GeoCache;
 
-import java.util.Collection;
 import java.util.LinkedList;
 
 public class ApiManager implements IApiManager {
@@ -24,7 +23,7 @@ public class ApiManager implements IApiManager {
     }
 
     @Override
-    public Collection<GeoCache> getGeoCashList(int latitudeE6, int longitudeE6, float radius) {
+    public LinkedList<GeoCache> getGeoCashList(int latitudeE6, int longitudeE6, float radius) {
         geoCaches = new LinkedList<GeoCache>();
 
         //TODO

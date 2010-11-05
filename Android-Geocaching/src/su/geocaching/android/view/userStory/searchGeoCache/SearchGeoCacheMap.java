@@ -21,10 +21,11 @@ public class SearchGeoCacheMap extends GeoCacheMap {
 
     private GeoCache geoCache;
     private OverlayItem cacheOverlayItem;
+    private GeoCacheItemizedOverlay cacheItemizedOverlay;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-        setContentView(R.layout.search_geocache_map);
         super.onCreate(savedInstanceState);
 
         Intent intent = this.getIntent();
