@@ -28,10 +28,9 @@ public class GeoCacheStorage {
         return instance;
     }
 
-    /*
+    /**
      * Get GeoCache from favorites by ID
      */
-
     public GeoCache getGeoCacheByID(int id) {
         for (GeoCache geoCache : savedGeoCaches) {
             if (geoCache.getId() == id) {
@@ -45,10 +44,9 @@ public class GeoCacheStorage {
         return savedGeoCaches;
     }
 
-    /*
+    /**
      * Adding new GeoCache to favorites
      */
-
     public void add(GeoCache geoCache) {
         savedGeoCaches.add(geoCache);
     }
