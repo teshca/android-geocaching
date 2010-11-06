@@ -8,6 +8,8 @@ import com.google.android.maps.*;
 
 import java.util.List;
 
+import su.geocaching.android.view.R;
+
 /**
  * @author Android-Geocaching.su student project team
  * @since October 2010
@@ -23,9 +25,12 @@ public abstract class GeoCacheMap extends MapActivity implements IActivityWithLo
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         Intent intent = this.getIntent();
-//        int layout = intent.getIntExtra("layout", R.layout.select_geocache_map);
-//        int id = intent.getIntExtra("id", R.id.selectGeocacheMap);
-
+        int layout = intent.getIntExtra("layout", R.layout.select_geocache_map);
+        int mapID = intent.getIntExtra("mapID", R.id.selectGeocacheMap);
+        setContentView(layout);
+        map = (MapView) findViewById(mapID);
+        mapController = map.getController();
+        
         //TODO: deal with the transfer of resources
         // Log.d("albama", Integer.toString(id));
         // Log.d("albama", Boolean.toString(mvMap == null));
@@ -37,10 +42,9 @@ public abstract class GeoCacheMap extends MapActivity implements IActivityWithLo
     protected void onResume() {
         super.onResume();
         
-        mapController = map.getController();
         map.setBuiltInZoomControls(true);
         mapOverlays = map.getOverlays();
-        
+        locationManager.resume();
 //        compassManager = new SearchGeoCacheCompassManager(this);
     }
     

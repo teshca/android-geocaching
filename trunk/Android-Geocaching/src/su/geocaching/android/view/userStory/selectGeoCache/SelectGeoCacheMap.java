@@ -38,14 +38,14 @@ public class SelectGeoCacheMap extends GeoCacheMap {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
 	super.onCreate(savedInstanceState);
-        setContentView(R.layout.select_geocache_map);
-        map = (MapView) findViewById(R.id.selectGeocacheMap);
 	controller = Controller.getInstance();
     }
 
     @Override
     protected void onResume() {
 	super.onResume();
+	
+	//TODO: Deprecated. it's already doing in updateLocation.
 	if (locationManager.getCurrentLocation() != null) {
 	    GeoPoint locationPoint = new GeoPoint((int) (locationManager.getCurrentLocation().getLatitude() * 1E6), (int) (locationManager.getCurrentLocation().getLongitude() * 1E6));
 	    mapController.animateTo(locationPoint);

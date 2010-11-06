@@ -61,12 +61,13 @@ public class MainMenu extends Activity implements OnClickListener {
      */
     private void startSearchGeoCache() {
         if (getSystemService(Context.CONNECTIVITY_SERVICE) == null) {
+            //wtf?? why?? we need GPS.
             Toast.makeText(getApplicationContext(), "No Internet connection!", Toast.LENGTH_SHORT);
         } else {
             Intent intent = new Intent(this, SearchGeoCacheMap.class);
             intent.putExtra(DEFAULT_GEOCACHE_ID_NAME, DEFAULT_GEOCACHE_ID_VALUE);
             intent.putExtra("layout", R.layout.search_geocache_map);
-            intent.putExtra("id", R.id.searchGeocacheMap);
+            intent.putExtra("mapID", R.id.searchGeocacheMap);
             startActivity(intent);
             this.finish();
         }
@@ -78,7 +79,7 @@ public class MainMenu extends Activity implements OnClickListener {
     private void startSelectGeoCache() {
         Intent intent = new Intent(this, SelectGeoCacheMap.class);
         intent.putExtra("layout", R.layout.select_geocache_map);
-        intent.putExtra("id", R.id.searchGeocacheMap);
+        intent.putExtra("mapID", R.id.selectGeocacheMap);
         startActivity(intent);
         this.finish();
     }
