@@ -25,9 +25,14 @@ import su.geocaching.android.model.dataType.GeoCache;
  * </c>
  */
 
+/**
+ * @author Nikita
+ *
+ * Class for parsing data from geocaching.su and put it in the List of GeoCach.
+ * This class extends DefaultHandler
+ */
 public class GeoCacheSaxHandler extends DefaultHandler {
 
-   // private final static String DATA = "data";
     private final static String C = "c";
     private final static String ID = "id";
     private final static String CN = "cn";
@@ -74,6 +79,8 @@ public class GeoCacheSaxHandler extends DefaultHandler {
 	    // TODO What is CT
 	} else if (localName.equalsIgnoreCase(ST)) {
 	    // TODO What is ST
+	} else if (localName.equalsIgnoreCase(C)) {
+	    geoCacheList.add(geoCache);
 	}
 
 	super.endElement(uri, localName, qName);
@@ -81,19 +88,18 @@ public class GeoCacheSaxHandler extends DefaultHandler {
 
     @Override
     public void startDocument() throws SAXException {
-	geoCacheList = new LinkedList<GeoCache>();	
+	geoCacheList = new LinkedList<GeoCache>();
 	super.startDocument();
     }
 
     @Override
     public void startElement(String uri, String localName, String name, Attributes attributes) throws SAXException {
-
 	if (localName.equalsIgnoreCase(C)) {
 	    geoCache = new GeoCache();
 	}
     }
 
-    public LinkedList<GeoCache> getGeoCaches(){
-	return geoCacheList;	
+    public LinkedList<GeoCache> getGeoCaches() {
+	return geoCacheList;
     }
 }
