@@ -5,7 +5,7 @@ import com.google.android.maps.GeoPoint;
 import java.util.HashMap;
 
 /**
- * @author Android-Geocaching.su student project team
+ * @author Nikita Bumakov
  * @since October 2010
  *        GeoCache - central concept of geocaching game.
  */
@@ -19,11 +19,9 @@ public class GeoCache {
     private void initParam() {
         param = new HashMap<String, String>();
 
-        param.put("name", "name of cache");
-        param.put("type", "traditional");
-        // may be traditional, virtual, step by step, extreme, event
-        param.put("status", "valid");
-        // may be valid, not valid, not confirmed that it is not valid
+        param.put(GEOCASHE_NAME, "name of cache");
+        param.put(GEOCASHE_TYPE, TYPE_TRADITIONAL);        
+        param.put(GEOCASHE_STATUS, STATUS_VALID);       
         //TODO: add more parameters of cache
     }
 
@@ -62,10 +60,6 @@ public class GeoCache {
         return id;
     }
 
-    public String getName() {
-        return param.get("name");
-    }
-
     public void setLocationGeoPoint(GeoPoint locationGeoPoint) {
         this.locationGeoPoint = locationGeoPoint;
     }
@@ -74,11 +68,30 @@ public class GeoCache {
         this.id = id;
     }
 
-    public void setName(String name) {
-        param.put("name", name);
+    public String getGeoCachParameter(String parametrId){
+	return param.get(parametrId);
     }
-
-    public GeoPoint getLocation() {
-        return getLocationGeoPoint();
+    
+    public void setGeoCachParameter(String parametrId, String value){
+	param.put(parametrId, value);
     }
+    
+    //parameter types
+    public static final String GEOCASHE_NAME = "name";
+    public static final String GEOCASHE_TYPE = "type";
+    public static final String GEOCASHE_STATUS = "status";
+    
+    //types of caches
+    public static final String TYPE_TRADITIONAL = "traditional";
+    public static final String TYPE_VIRTUAL = "virtual";
+    public static final String TYPE_STEP_BY_STEP = "step by step";
+    public static final String TYPE_EXTREME = "extreme";
+    public static final String TYPE_EVENT = "event";
+    
+    //statuses of caches
+    public static final String STATUS_VALID = "valid";
+    public static final String STATUS_NOT_VALID = "not valid";
+    public static final String STATUS_NOT_CONFIRMED = "not confirmed";
+    
+    
 }
