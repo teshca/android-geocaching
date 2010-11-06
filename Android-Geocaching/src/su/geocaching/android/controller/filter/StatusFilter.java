@@ -8,7 +8,7 @@ import java.util.LinkedList;
  * Author: Yuri Denison
  * Date: 05.11.2010 3:01:35
  */
-public class StatusFilter implements Filter {
+public class StatusFilter implements IFilter {
     private String param;
 
     public StatusFilter(String param) {

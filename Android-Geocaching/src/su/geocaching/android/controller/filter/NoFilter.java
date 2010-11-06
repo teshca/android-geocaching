@@ -8,7 +8,7 @@ import java.util.LinkedList;
  * Author: Yuri Denison
  * Date: 05.11.2010 1:50:54
  */
-public class NoFilter implements Filter {
+public class NoFilter implements IFilter {
     private static NoFilter instance;
 
     private NoFilter() {

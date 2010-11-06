@@ -3,7 +3,7 @@ package su.geocaching.android.controller;
 import android.graphics.drawable.Drawable;
 import su.geocaching.android.controller.apimanager.ApiManager;
 import su.geocaching.android.controller.apimanager.IApiManager;
-import su.geocaching.android.controller.filter.Filter;
+import su.geocaching.android.controller.filter.IFilter;
 import su.geocaching.android.model.dataStorage.GeoCacheStorage;
 import su.geocaching.android.model.dataStorage.SettingsStorage;
 import su.geocaching.android.model.dataType.GeoCache;
@@ -51,21 +51,21 @@ public class Controller {
         }
         return apiManager.getGeoCacheByID(id);
     }
-    
+
     /**
-     * @param maxLatitude - coordinate of the visible area
-     * @param minLatitude - coordinate of the visible area
+     * @param maxLatitude  - coordinate of the visible area
+     * @param minLatitude  - coordinate of the visible area
      * @param maxLongitude - coordinate of the visible area
      * @param minLongitude - coordinate of the visible area
-     * @param filterList - list of filters (if null - no filter)
+     * @param filterList   - list of filters (if null - no filter)
      * @return
      */
-    public LinkedList<GeoCache> getGeoCacheList(double maxLatitude, double minLatitude, double maxLongitude, double minLongitude, LinkedList<Filter> filterList) {
+    public LinkedList<GeoCache> getGeoCacheList(double maxLatitude, double minLatitude, double maxLongitude, double minLongitude, LinkedList<IFilter> filterList) {
         if (filterList == null) {
             return apiManager.getGeoCashList(maxLatitude, minLatitude, maxLongitude, minLongitude);
         } else {
             LinkedList<GeoCache> list = apiManager.getGeoCashList(maxLatitude, minLatitude, maxLongitude, minLongitude);
-            for (Filter filter : filterList) {
+            for (IFilter filter : filterList) {
                 list = filter.filter(list);
             }
             return list;
@@ -78,12 +78,12 @@ public class Controller {
      * @param filterList - list of filters (if null - no filter)
      * @return LinkedList<GeoCache>
      */
-    public LinkedList<GeoCache> getFavoriteGeoCaches(LinkedList<Filter> filterList) {
+    public LinkedList<GeoCache> getFavoriteGeoCaches(LinkedList<IFilter> filterList) {
         if (filterList == null) {
             return favoriteGeoCacheStorage.getGeoCacheList();
         } else {
             LinkedList<GeoCache> list = favoriteGeoCacheStorage.getGeoCacheList();
-            for (Filter filter : filterList) {
+            for (IFilter filter : filterList) {
                 list = filter.filter(list);
             }
             return list;
@@ -93,8 +93,8 @@ public class Controller {
     /**
      * @return List of geoCaches filters from settings
      */
-    public LinkedList<Filter> getFilterList() {
-        LinkedList<Filter> list = new LinkedList<Filter>();
+    public LinkedList<IFilter> getFilterList() {
+        LinkedList<IFilter> list = new LinkedList<IFilter>();
         list.addAll(settingsStorage.getFilters());
         return list;
     }
