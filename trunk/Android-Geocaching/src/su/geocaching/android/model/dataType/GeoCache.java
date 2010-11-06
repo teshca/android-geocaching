@@ -87,6 +87,7 @@ public class GeoCache {
     public static final String TYPE_STEP_BY_STEP = "step by step";
     public static final String TYPE_EXTREME = "extreme";
     public static final String TYPE_EVENT = "event";
+  
     
     //statuses of caches
     public static final String STATUS_VALID = "valid";

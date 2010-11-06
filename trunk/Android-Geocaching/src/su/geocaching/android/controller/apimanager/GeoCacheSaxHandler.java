@@ -27,9 +27,9 @@ import su.geocaching.android.model.dataType.GeoCache;
 
 /**
  * @author Nikita
- *
- * Class for parsing data from geocaching.su and put it in the List of GeoCach.
- * This class extends DefaultHandler
+ * 
+ *         Class for parsing data from geocaching.su and put it in the List of
+ *         GeoCach. This class extends DefaultHandler
  */
 public class GeoCacheSaxHandler extends DefaultHandler {
 
@@ -40,8 +40,8 @@ public class GeoCacheSaxHandler extends DefaultHandler {
     private final static String NAME = "n";
     private final static String LATITUDE = "la";
     private final static String LONGITUDE = "ln";
-    private final static String CT = "ct";
-    private final static String ST = "st";
+    private final static String CACH_TYPE = "ct";
+    private final static String STATUS = "st";
 
     private GeoCache geoCache;
     private int latitude, longitude;
@@ -75,15 +75,51 @@ public class GeoCacheSaxHandler extends DefaultHandler {
 	} else if (localName.equalsIgnoreCase(LONGITUDE)) {
 	    longitude = (int) (Double.parseDouble(text) * 1E6);
 	    geoCache.setLocationGeoPoint(new GeoPoint(latitude, longitude));
-	} else if (localName.equalsIgnoreCase(CT)) {
-	    // TODO What is CT
-	} else if (localName.equalsIgnoreCase(ST)) {
-	    // TODO What is ST
+	} else if (localName.equalsIgnoreCase(CACH_TYPE)) {
+	    int type = Integer.parseInt(text);
+	    setGeoCacheType(type);
+	} else if (localName.equalsIgnoreCase(STATUS)) {
+	    int status = Integer.parseInt(text);
+	   setGeoCacheStatus(status);
 	} else if (localName.equalsIgnoreCase(C)) {
 	    geoCacheList.add(geoCache);
 	}
 
 	super.endElement(uri, localName, qName);
+    }
+
+    private void setGeoCacheType(int type) {
+	switch (type) {
+	case 1:
+	    geoCache.setGeoCachParameter(GeoCache.TYPE, GeoCache.TYPE_TRADITIONAL);
+	    break;
+	case 2:
+	    geoCache.setGeoCachParameter(GeoCache.TYPE, GeoCache.TYPE_STEP_BY_STEP);
+	    break;
+	case 3:
+	    geoCache.setGeoCachParameter(GeoCache.TYPE, GeoCache.TYPE_VIRTUAL);
+	    break;
+	case 4:
+	    geoCache.setGeoCachParameter(GeoCache.TYPE, GeoCache.TYPE_EVENT);
+	    break;
+	case 6:
+	    geoCache.setGeoCachParameter(GeoCache.TYPE, GeoCache.TYPE_EXTREME);
+	    break;
+	}
+    }
+    
+    private void setGeoCacheStatus(int status) {
+	 switch (status) {
+	    case 1:
+		geoCache.setGeoCachParameter(GeoCache.STATUS, GeoCache.STATUS_VALID);
+		break;
+	    case 2:
+		geoCache.setGeoCachParameter(GeoCache.STATUS, GeoCache.STATUS_NOT_VALID);
+		break;
+	    case 3:
+		geoCache.setGeoCachParameter(GeoCache.STATUS, GeoCache.STATUS_NOT_CONFIRMED);
+		break;
+	    }
     }
 
     @Override
