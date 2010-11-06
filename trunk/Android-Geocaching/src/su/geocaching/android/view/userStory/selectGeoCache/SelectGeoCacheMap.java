@@ -75,7 +75,7 @@ public class SelectGeoCacheMap extends GeoCacheMap {
                 //TODO: make markers on map clickable
             }
             cacheItemizedOverlays.get(marker).addOverlay(
-                    new OverlayItem(geoCache.getLocation(), "", ""));
+                    new OverlayItem(geoCache.getLocationGeoPoint(), "", ""));
         }
         for (GeoCacheItemizedOverlay overlay : cacheItemizedOverlays.values()) {
             mapOverlays.add(overlay);

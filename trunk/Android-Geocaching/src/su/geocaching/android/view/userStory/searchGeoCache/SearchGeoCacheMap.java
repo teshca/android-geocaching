@@ -41,11 +41,11 @@ public class SearchGeoCacheMap extends GeoCacheMap {
                 -cacheMarker.getMinimumHeight(),
                 cacheMarker.getMinimumWidth(), 0);
         cacheItemizedOverlay = new GeoCacheItemizedOverlay(cacheMarker);
-        cacheOverlayItem = new OverlayItem(geoCache.getLocation(), "", "");
+        cacheOverlayItem = new OverlayItem(geoCache.getLocationGeoPoint(), "", "");
         cacheItemizedOverlay.addOverlay(cacheOverlayItem);
         mapOverlays.add(cacheItemizedOverlay);
         mvMap.invalidate();
-        mcMapController.animateTo(geoCache.getLocation());
+        mcMapController.animateTo(geoCache.getLocationGeoPoint());
     }
 
     private void startCompassView() {
