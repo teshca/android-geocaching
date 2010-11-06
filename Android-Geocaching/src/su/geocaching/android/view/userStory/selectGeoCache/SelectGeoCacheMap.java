@@ -2,6 +2,8 @@ package su.geocaching.android.view.userStory.selectGeoCache;
 
 import android.content.Intent;
 import android.graphics.drawable.Drawable;
+import android.location.Location;
+import android.location.LocationManager;
 import android.os.Bundle;
 import android.util.Log;
 
@@ -10,9 +12,12 @@ import com.google.android.maps.OverlayItem;
 import su.geocaching.android.controller.Controller;
 import su.geocaching.android.controller.apimanager.ApiManager;
 import su.geocaching.android.model.dataType.GeoCache;
+import su.geocaching.android.view.R;
 import su.geocaching.android.view.geoCacheMap.GeoCacheItemizedOverlay;
 import su.geocaching.android.view.geoCacheMap.GeoCacheMap;
+import su.geocaching.android.view.geoCacheMap.SearchGeoCacheLocationManager;
 import su.geocaching.android.view.userStory.showGeoCacheInfo.ShowGeoCacheInfo;
+import com.google.android.maps.MapView;
 
 import java.util.HashMap;
 import java.util.LinkedList;
@@ -33,6 +38,8 @@ public class SelectGeoCacheMap extends GeoCacheMap {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
 	super.onCreate(savedInstanceState);
+        setContentView(R.layout.select_geocache_map);
+        map = (MapView) findViewById(R.id.selectGeocacheMap);
 	controller = Controller.getInstance();
     }
 
@@ -41,11 +48,11 @@ public class SelectGeoCacheMap extends GeoCacheMap {
 	super.onResume();
 	if (locationManager.getCurrentLocation() != null) {
 	    GeoPoint locationPoint = new GeoPoint((int) (locationManager.getCurrentLocation().getLatitude() * 1E6), (int) (locationManager.getCurrentLocation().getLongitude() * 1E6));
-	    mcMapController.animateTo(locationPoint);
-	    mcMapController.setCenter(locationPoint);
+	    mapController.animateTo(locationPoint);
+	    mapController.setCenter(locationPoint);
 	    updateCacheOverlay(locationPoint);
 	}
-	mvMap.invalidate();
+	map.invalidate();
     }
 
     /* Handles item selections */
@@ -82,12 +89,23 @@ public class SelectGeoCacheMap extends GeoCacheMap {
 	for (GeoCacheItemizedOverlay overlay : cacheItemizedOverlays.values()) {
 	    mapOverlays.add(overlay);
 	}
-	mvMap.invalidate();
+	map.invalidate();
     }
 
     private void startGeoCacheInfoView() {
 	Intent intent = new Intent(this, ShowGeoCacheInfo.class);
 	startActivity(intent);
 	this.finish();
+    }
+
+    @Override
+    public void updateLocation(Location location) {
+	// TODO Auto-generated method stub
+	
+    }
+
+    @Override
+    public Location getLastLocation() {
+	return locationManager.getCurrentLocation();
     }
 }

@@ -1,11 +1,9 @@
 package su.geocaching.android.view.geoCacheMap;
 
-import android.content.Context;
 import android.hardware.Sensor;
 import android.hardware.SensorEvent;
 import android.hardware.SensorEventListener;
 import android.hardware.SensorManager;
-import android.location.Location;
 
 public class SearchGeoCacheCompassManager implements SensorEventListener {
 
@@ -16,13 +14,12 @@ public class SearchGeoCacheCompassManager implements SensorEventListener {
     private float[] afRotation = new float[16];
     private float[] afInclination = new float[16];
     private float[] afOrientation = new float[3];
-    private Context context;
+    private IActivityWithCompass context;
     private float lastAzimuth;
 
-    public SearchGeoCacheCompassManager(Context context) {
+    public SearchGeoCacheCompassManager(IActivityWithCompass context, SensorManager sensorManager) {
         this.context = context;
-        smSensorManager = (SensorManager) context
-                .getSystemService(Context.SENSOR_SERVICE);
+        smSensorManager = sensorManager;
         resume();
     }
 
@@ -57,14 +54,7 @@ public class SearchGeoCacheCompassManager implements SensorEventListener {
         loclastAzimuth = Math.round(loclastAzimuth);
         if (loclastAzimuth != lastAzimuth) {
             lastAzimuth = loclastAzimuth;
-            if (context instanceof GeoCacheMap) {
-                Location location = ((GeoCacheMap) context)
-                        .getLastLocation();
-                if (location != null) {
-                    ((GeoCacheMap) context).updateUserOverlay(location,
-                            lastAzimuth);
-                }
-            }
+            context.updateAzimuth(lastAzimuth);
         }
     }
 
