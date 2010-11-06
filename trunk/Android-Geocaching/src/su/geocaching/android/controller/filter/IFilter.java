@@ -8,7 +8,7 @@ import java.util.LinkedList;
  * Author: Yuri Denison
  * Date: 05.11.2010 1:49:20
  */
-public interface Filter {
+public interface IFilter {
     /**
      * @param list of GeoCaches
      * @return filtered input list by parameter

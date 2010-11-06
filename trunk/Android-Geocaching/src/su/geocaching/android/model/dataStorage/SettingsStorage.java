@@ -1,6 +1,6 @@
 package su.geocaching.android.model.dataStorage;
 
-import su.geocaching.android.controller.filter.Filter;
+import su.geocaching.android.controller.filter.IFilter;
 
 import java.util.LinkedList;
 
@@ -23,7 +23,7 @@ public class SettingsStorage {
     }
     //TODO create settings storage using android resources
 
-    public LinkedList<Filter> getFilters() {
+    public LinkedList<IFilter> getFilters() {
         return null;
     }
 }
