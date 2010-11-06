@@ -2,6 +2,7 @@ package su.geocaching.android.controller;
 
 import android.graphics.drawable.Drawable;
 import su.geocaching.android.controller.apimanager.ApiManager;
+import su.geocaching.android.controller.apimanager.IApiManager;
 import su.geocaching.android.controller.filter.Filter;
 import su.geocaching.android.model.dataStorage.GeoCacheStorage;
 import su.geocaching.android.model.dataStorage.SettingsStorage;
@@ -18,7 +19,7 @@ import java.util.LinkedList;
 public class Controller {
     private static Controller instance;
 
-    private ApiManager apiManager;
+    private IApiManager apiManager;
     private GeoCacheStorage favoriteGeoCacheStorage;
     private SettingsStorage settingsStorage;
 
@@ -50,22 +51,20 @@ public class Controller {
         }
         return apiManager.getGeoCacheByID(id);
     }
-
+    
     /**
-     * Get a list of GeoCaches in radius of the GeoPoint (latitudeE6, longitudeE6) filtered with chosen filters
-     *
-     * @param latitudeE6  - coordinate of search center
-     * @param longitudeE6 - coordinate of search center
-     * @param radius      - float > 0
-     * @param filterList  - list of filters (if null - no filter)
-     * @return LinkedList<GeoCache>
+     * @param maxLatitude - coordinate of the visible area
+     * @param minLatitude - coordinate of the visible area
+     * @param maxLongitude - coordinate of the visible area
+     * @param minLongitude - coordinate of the visible area
+     * @param filterList - list of filters (if null - no filter)
+     * @return
      */
-    public LinkedList<GeoCache> getGeoCacheList(int latitudeE6, int longitudeE6,
-                                                float radius, LinkedList<Filter> filterList) {
+    public LinkedList<GeoCache> getGeoCacheList(double maxLatitude, double minLatitude, double maxLongitude, double minLongitude, LinkedList<Filter> filterList) {
         if (filterList == null) {
-            return apiManager.getGeoCashList(latitudeE6, longitudeE6, radius);
+            return apiManager.getGeoCashList(maxLatitude, minLatitude, maxLongitude, minLongitude);
         } else {
-            LinkedList<GeoCache> list = apiManager.getGeoCashList(latitudeE6, longitudeE6, radius);
+            LinkedList<GeoCache> list = apiManager.getGeoCashList(maxLatitude, minLatitude, maxLongitude, minLongitude);
             for (Filter filter : filterList) {
                 list = filter.filter(list);
             }
