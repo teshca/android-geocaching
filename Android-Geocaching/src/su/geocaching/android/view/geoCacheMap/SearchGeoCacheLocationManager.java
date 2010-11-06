@@ -17,12 +17,6 @@ public class SearchGeoCacheLocationManager implements LocationListener {
 	    LocationManager locationManager) {
 	this.context = context;
 	this.locationManager = locationManager;
-	resume();
-	lastLocation = this.locationManager
-		.getLastKnownLocation(provider);
-	if (lastLocation != null) {
-	    updateLocation();
-	}
     }
 
     /**
@@ -64,6 +58,10 @@ public class SearchGeoCacheLocationManager implements LocationListener {
 	criteria.setAccuracy(Criteria.ACCURACY_FINE);
 	provider = locationManager.getBestProvider(criteria, true);
 	locationManager.requestLocationUpdates(provider, 1000, 1, this);
+	lastLocation = this.locationManager.getLastKnownLocation(provider);
+	if (lastLocation != null) {
+	    updateLocation();
+	}
     }
 
     public Location getCurrentLocation() {
