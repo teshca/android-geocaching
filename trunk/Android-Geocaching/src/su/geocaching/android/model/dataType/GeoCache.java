@@ -19,9 +19,9 @@ public class GeoCache {
     private void initParam() {
         param = new HashMap<String, String>();
 
-        param.put(GEOCASHE_NAME, "name of cache");
-        param.put(GEOCASHE_TYPE, TYPE_TRADITIONAL);        
-        param.put(GEOCASHE_STATUS, STATUS_VALID);       
+        param.put(NAME, "name of cache");
+        param.put(TYPE, TYPE_TRADITIONAL);        
+        param.put(STATUS, STATUS_VALID);       
         //TODO: add more parameters of cache
     }
 
@@ -77,9 +77,9 @@ public class GeoCache {
     }
     
     //parameter types
-    public static final String GEOCASHE_NAME = "name";
-    public static final String GEOCASHE_TYPE = "type";
-    public static final String GEOCASHE_STATUS = "status";
+    public static final String NAME = "name";
+    public static final String TYPE = "type";
+    public static final String STATUS = "status";
     
     //types of caches
     public static final String TYPE_TRADITIONAL = "traditional";
