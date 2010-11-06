@@ -106,56 +106,49 @@ public class Controller {
      */
     public Drawable getMarker(GeoCache geoCache, GeoCacheMap map) {
         //TODO: add different icons for different types of geoCache
-        if (geoCache.getParam().get("status").equals("valid")) {
-            if (geoCache.getParam().get("type").equals("traditional")) {
-                return getMarker(R.drawable.orangecache, map);
-            }
-            if (geoCache.getParam().get("type").equals("virtual")) {
-                return getMarker(R.drawable.orangecache, map);
-            }
-            if (geoCache.getParam().get("type").equals("step by step")) {
-                return getMarker(R.drawable.orangecache, map);
-            }
-            if (geoCache.getParam().get("type").equals("extreme")) {
-                return getMarker(R.drawable.orangecache, map);
-            }
-            if (geoCache.getParam().get("type").equals("event")) {
-                return getMarker(R.drawable.orangecache, map);
-            }
-        }
-        if (geoCache.getParam().get("status").equals("not valid")) {
-            if (geoCache.getParam().get("type").equals("traditional")) {
-                return getMarker(R.drawable.orangecache, map);
-            }
-            if (geoCache.getParam().get("type").equals("virtual")) {
-                return getMarker(R.drawable.orangecache, map);
-            }
-            if (geoCache.getParam().get("type").equals("step by step")) {
-                return getMarker(R.drawable.orangecache, map);
-            }
-            if (geoCache.getParam().get("type").equals("extreme")) {
-                return getMarker(R.drawable.orangecache, map);
-            }
-            if (geoCache.getParam().get("type").equals("event")) {
-                return getMarker(R.drawable.orangecache, map);
-            }
-        }
-        if (geoCache.getParam().get("status").equals("not confirmed that it is not valid")) {
-            if (geoCache.getParam().get("type").equals("traditional")) {
-                return getMarker(R.drawable.orangecache, map);
-            }
-            if (geoCache.getParam().get("type").equals("virtual")) {
-                return getMarker(R.drawable.orangecache, map);
-            }
-            if (geoCache.getParam().get("type").equals("step by step")) {
-                return getMarker(R.drawable.orangecache, map);
-            }
-            if (geoCache.getParam().get("type").equals("extreme")) {
-                return getMarker(R.drawable.orangecache, map);
-            }
-            if (geoCache.getParam().get("type").equals("event")) {
-                return getMarker(R.drawable.orangecache, map);
-            }
+        switch (geoCache.getStatus()) {
+            case VALID:
+                switch (geoCache.getType()) {
+                    case TRADITIONAL:
+                        return getMarker(R.drawable.orangecache, map);
+                    case VIRTUAL:
+                        return getMarker(R.drawable.orangecache, map);
+                    case STEP_BY_STEP:
+                        return getMarker(R.drawable.orangecache, map);
+                    case EXTREME:
+                        return getMarker(R.drawable.orangecache, map);
+                    case EVENT:
+                        return getMarker(R.drawable.orangecache, map);
+                }
+                break;
+            case NOT_VALID:
+                switch (geoCache.getType()) {
+                    case TRADITIONAL:
+                        return getMarker(R.drawable.orangecache, map);
+                    case VIRTUAL:
+                        return getMarker(R.drawable.orangecache, map);
+                    case STEP_BY_STEP:
+                        return getMarker(R.drawable.orangecache, map);
+                    case EXTREME:
+                        return getMarker(R.drawable.orangecache, map);
+                    case EVENT:
+                        return getMarker(R.drawable.orangecache, map);
+                }
+                break;
+            case NOT_CONFIRMED:
+                switch (geoCache.getType()) {
+                    case TRADITIONAL:
+                        return getMarker(R.drawable.orangecache, map);
+                    case VIRTUAL:
+                        return getMarker(R.drawable.orangecache, map);
+                    case STEP_BY_STEP:
+                        return getMarker(R.drawable.orangecache, map);
+                    case EXTREME:
+                        return getMarker(R.drawable.orangecache, map);
+                    case EVENT:
+                        return getMarker(R.drawable.orangecache, map);
+                }
+                break;
         }
         return null;
     }
