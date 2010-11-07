@@ -4,6 +4,7 @@ import android.graphics.drawable.Drawable;
 import su.geocaching.android.controller.apimanager.ApiManager;
 import su.geocaching.android.controller.apimanager.IApiManager;
 import su.geocaching.android.controller.filter.IFilter;
+import su.geocaching.android.controller.filter.NoFilter;
 import su.geocaching.android.model.datastorage.GeoCacheStorage;
 import su.geocaching.android.model.datastorage.SettingsStorage;
 import su.geocaching.android.model.datatype.GeoCache;
@@ -96,10 +97,15 @@ public class Controller {
 
     /**
      * @return List of geoCaches filters from settings
+     *      if settingsStorage.getFilters() returns null, than return NoFilter
      */
     public LinkedList<IFilter> getFilterList() {
         LinkedList<IFilter> list = new LinkedList<IFilter>();
-        list.addAll(settingsStorage.getFilters());
+        if(settingsStorage.getFilters() == null) {
+            list.add(NoFilter.getInstance());
+        } else {
+            list.addAll(settingsStorage.getFilters());
+        }
         return list;
     }
 
