@@ -1,4 +1,4 @@
-package su.geocaching.android.view.userStory.searchGeoCache;
+package su.geocaching.android.view.userStory1.searchGeoCache1;
 
 import android.app.Activity;
 import android.os.Bundle;

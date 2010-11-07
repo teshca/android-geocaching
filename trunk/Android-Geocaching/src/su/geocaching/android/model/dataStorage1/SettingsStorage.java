@@ -1,4 +1,4 @@
-package su.geocaching.android.model.dataStorage;
+package su.geocaching.android.model.dataStorage1;
 
 import su.geocaching.android.controller.filter.IFilter;
 

@@ -9,8 +9,8 @@ import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.Button;
 import android.widget.Toast;
-import su.geocaching.android.view.userStory.searchGeoCache.SearchGeoCacheMap;
-import su.geocaching.android.view.userStory.selectGeoCache.SelectGeoCacheMap;
+import su.geocaching.android.view.userStory1.searchGeoCache1.SearchGeoCacheMap;
+import su.geocaching.android.view.userStory1.selectGeoCache1.SelectGeoCacheMap;
 
 /**
  * @author Android-Geocaching.su student project team
@@ -60,27 +60,27 @@ public class MainMenu extends Activity implements OnClickListener {
      * Starting activity to search GeoCache
      */
     private void startSearchGeoCache() {
-        if (getSystemService(Context.CONNECTIVITY_SERVICE) == null) {
-            //wtf?? why?? we need GPS.
-            Toast.makeText(getApplicationContext(), "No Internet connection!", Toast.LENGTH_SHORT);
-        } else {
-            Intent intent = new Intent(this, SearchGeoCacheMap.class);
-            intent.putExtra(DEFAULT_GEOCACHE_ID_NAME, DEFAULT_GEOCACHE_ID_VALUE);
-            intent.putExtra("layout", R.layout.search_geocache_map);
-            intent.putExtra("mapID", R.id.searchGeocacheMap);
-            startActivity(intent);
-            this.finish();
-        }
+        Intent intent = new Intent(this, SearchGeoCacheMap.class);
+        intent.putExtra(DEFAULT_GEOCACHE_ID_NAME, DEFAULT_GEOCACHE_ID_VALUE);
+        intent.putExtra("layout", R.layout.search_geocache_map);
+        intent.putExtra("mapID", R.id.searchGeocacheMap);
+        startActivity(intent);
+        this.finish();
+
     }
 
     /**
      * Starting activity to select GeoCache
      */
     private void startSelectGeoCache() {
-        Intent intent = new Intent(this, SelectGeoCacheMap.class);
-        intent.putExtra("layout", R.layout.select_geocache_map);
-        intent.putExtra("mapID", R.id.selectGeocacheMap);
-        startActivity(intent);
-        this.finish();
+        if (getSystemService(Context.CONNECTIVITY_SERVICE) == null) {
+            Toast.makeText(getApplicationContext(), "You must be connected to the Internet!", Toast.LENGTH_SHORT);
+        } else {
+            Intent intent = new Intent(this, SelectGeoCacheMap.class);
+            intent.putExtra("layout", R.layout.select_geocache_map);
+            intent.putExtra("mapID", R.id.selectGeocacheMap);
+            startActivity(intent);
+            this.finish();
+        }
     }
 }

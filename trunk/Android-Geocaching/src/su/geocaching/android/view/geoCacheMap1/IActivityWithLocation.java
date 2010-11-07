@@ -1,4 +1,4 @@
-package su.geocaching.android.view.geoCacheMap;
+package su.geocaching.android.view.geoCacheMap1;
 
 import android.location.Location;
 

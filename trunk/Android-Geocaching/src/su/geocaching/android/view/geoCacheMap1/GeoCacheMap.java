@@ -1,14 +1,16 @@
-package su.geocaching.android.view.geoCacheMap;
+package su.geocaching.android.view.geoCacheMap1;
 
 import android.content.Intent;
 import android.location.Location;
 import android.location.LocationManager;
 import android.os.Bundle;
-import com.google.android.maps.*;
+import com.google.android.maps.MapActivity;
+import com.google.android.maps.MapController;
+import com.google.android.maps.MapView;
+import com.google.android.maps.Overlay;
+import su.geocaching.android.view.R;
 
 import java.util.List;
-
-import su.geocaching.android.view.R;
 
 /**
  * @author Android-Geocaching.su student project team
@@ -30,28 +32,28 @@ public abstract class GeoCacheMap extends MapActivity implements IActivityWithLo
         setContentView(layout);
         map = (MapView) findViewById(mapID);
         mapController = map.getController();
-        
+
         //TODO: deal with the transfer of resources
         // Log.d("albama", Integer.toString(id));
         // Log.d("albama", Boolean.toString(mvMap == null));
-	locationManager = new SearchGeoCacheLocationManager(
-		this, (LocationManager) this.getSystemService(LOCATION_SERVICE));
+        locationManager = new SearchGeoCacheLocationManager(
+                this, (LocationManager) this.getSystemService(LOCATION_SERVICE));
     }
 
     @Override
     protected void onResume() {
         super.onResume();
-        
+
         map.setBuiltInZoomControls(true);
         mapOverlays = map.getOverlays();
         locationManager.resume();
 //        compassManager = new SearchGeoCacheCompassManager(this);
     }
-    
+
     @Override
     protected void onPause() {
-	super.onPause();
-	locationManager.pause();
+        super.onPause();
+        locationManager.pause();
     }
 
     @Override
@@ -60,6 +62,7 @@ public abstract class GeoCacheMap extends MapActivity implements IActivityWithLo
     }
 
     //public abstract float getLastAzimuth();
+
     public abstract Location getLastLocation();
-    
+
 }
