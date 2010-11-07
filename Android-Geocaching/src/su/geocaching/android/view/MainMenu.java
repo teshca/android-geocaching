@@ -3,6 +3,7 @@ package su.geocaching.android.view;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
+import android.net.ConnectivityManager;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -73,7 +74,8 @@ public class MainMenu extends Activity implements OnClickListener {
      * Starting activity to select GeoCache
      */
     private void startSelectGeoCache() {
-        if (getSystemService(Context.CONNECTIVITY_SERVICE) == null) {
+        ConnectivityManager cm = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
+        if (cm.getActiveNetworkInfo() == null || !cm.getActiveNetworkInfo().isConnectedOrConnecting()) {
             Toast.makeText(getApplicationContext(), "You must be connected to the Internet!", Toast.LENGTH_SHORT);
         } else {
             Intent intent = new Intent(this, SelectGeoCacheMap.class);
