@@ -20,7 +20,6 @@ public class SearchGeoCacheCompassManager implements SensorEventListener {
     public SearchGeoCacheCompassManager(IActivityWithCompass context, SensorManager sensorManager) {
         this.context = context;
         smSensorManager = sensorManager;
-        resume();
     }
 
     @Override
