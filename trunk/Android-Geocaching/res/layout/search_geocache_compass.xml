@@ -4,7 +4,7 @@
               android:layout_width="fill_parent"
               android:layout_height="fill_parent"
         >
-    <su.geocaching.android.view.userStory.searchGeoCache.CompassView
+    <su.geocaching.android.view.userstory.searchgeocache.CompassView
             android:layout_width="fill_parent"
             android:layout_height="fill_parent"/>
 </LinearLayout>

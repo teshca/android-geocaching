@@ -4,6 +4,10 @@ import android.content.Intent;
 import android.graphics.drawable.Drawable;
 import android.location.Location;
 import android.os.Bundle;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
+
 import com.google.android.maps.GeoPoint;
 import com.google.android.maps.MyLocationOverlay;
 import com.google.android.maps.OverlayItem;
@@ -27,6 +31,7 @@ public class SearchGeoCacheMap extends GeoCacheMap {
     private GeoCacheItemizedOverlay cacheItemizedOverlay;
     private DistanceToGeoCacheOverlay distanceOverlay;
     private MyLocationOverlay userOverlay;
+	private boolean locationFixed;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -40,6 +45,7 @@ public class SearchGeoCacheMap extends GeoCacheMap {
         geoCache = new GeoCache(intent.getIntExtra(
                 MainMenu.DEFAULT_GEOCACHE_ID_NAME, -1));
         userOverlay = new MyLocationOverlay(this, map);
+		locationFixed = false;
     }
 
     @Override
@@ -97,6 +103,7 @@ public class SearchGeoCacheMap extends GeoCacheMap {
 
         if (distanceOverlay == null) { // It's really first run of update
             // location
+        	locationFixed=true;
             setDefaultZoom();
             distanceOverlay = new DistanceToGeoCacheOverlay(currentGeoPoint,
                     geoCache.getLocationGeoPoint());
@@ -135,4 +142,33 @@ public class SearchGeoCacheMap extends GeoCacheMap {
                         + currentGeoPoint.getLongitudeE6()) / 2);
         mapController.animateTo(center);
     }
+    
+    /**
+	 * Creating menu object
+	 */
+	@Override
+	public boolean onCreateOptionsMenu(Menu menu) {
+		MenuInflater inflater = getMenuInflater();
+		inflater.inflate(R.menu.search_geocache_map, menu);
+		return true;
+	}
+
+	/**
+	 * Called when menu element selected
+	 */
+	@Override
+	public boolean onOptionsItemSelected(MenuItem item) {
+		switch (item.getItemId()) {
+		case R.id.menuDefaultZoom:
+			if (locationFixed) {
+				setDefaultZoom();
+			}
+			return true;
+		case R.id.menuStartCompass:
+			this.startCompassView();
+			return true;
+		default:
+			return super.onOptionsItemSelected(item);
+		}
+	}
 }
