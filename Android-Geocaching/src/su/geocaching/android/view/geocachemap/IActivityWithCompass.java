@@ -1,4 +1,4 @@
-package su.geocaching.android.view.geoCacheMap1;
+package su.geocaching.android.view.geocachemap;
 
 public interface IActivityWithCompass {
     public void updateAzimuth(float azimuth);

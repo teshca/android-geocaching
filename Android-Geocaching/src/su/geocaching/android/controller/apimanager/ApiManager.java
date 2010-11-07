@@ -3,7 +3,7 @@ package su.geocaching.android.controller.apimanager;
 import android.util.Log;
 import org.xml.sax.InputSource;
 import org.xml.sax.SAXException;
-import su.geocaching.android.model.dataType1.GeoCache;
+import su.geocaching.android.model.datatype.GeoCache;
 
 import javax.xml.parsers.ParserConfigurationException;
 import javax.xml.parsers.SAXParser;

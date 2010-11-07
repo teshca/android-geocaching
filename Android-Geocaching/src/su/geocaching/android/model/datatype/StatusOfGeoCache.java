@@ -1,4 +1,4 @@
-package su.geocaching.android.model.dataType1;
+package su.geocaching.android.model.datatype;
 
 public enum StatusOfGeoCache {
     VALID, NOT_VALID, NOT_CONFIRMED

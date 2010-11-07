@@ -4,11 +4,11 @@ import android.graphics.drawable.Drawable;
 import su.geocaching.android.controller.apimanager.ApiManager;
 import su.geocaching.android.controller.apimanager.IApiManager;
 import su.geocaching.android.controller.filter.IFilter;
-import su.geocaching.android.model.dataStorage1.GeoCacheStorage;
-import su.geocaching.android.model.dataStorage1.SettingsStorage;
-import su.geocaching.android.model.dataType1.GeoCache;
+import su.geocaching.android.model.datastorage.GeoCacheStorage;
+import su.geocaching.android.model.datastorage.SettingsStorage;
+import su.geocaching.android.model.datatype.GeoCache;
 import su.geocaching.android.view.R;
-import su.geocaching.android.view.geoCacheMap1.GeoCacheMap;
+import su.geocaching.android.view.geocachemap.GeoCacheMap;
 
 import java.util.LinkedList;
 
@@ -160,7 +160,7 @@ public class Controller {
     private Drawable getMarker(int resource, GeoCacheMap map) {
         Drawable cacheMarker = map.getResources().getDrawable(resource);
         cacheMarker.setBounds(0, -cacheMarker.getMinimumHeight(), cacheMarker
-				.getMinimumWidth(), 0);
-		return cacheMarker;
-	}
+                .getMinimumWidth(), 0);
+        return cacheMarker;
+    }
 }

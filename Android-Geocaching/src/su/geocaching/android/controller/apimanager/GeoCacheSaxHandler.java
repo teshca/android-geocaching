@@ -4,7 +4,7 @@ import com.google.android.maps.GeoPoint;
 import org.xml.sax.Attributes;
 import org.xml.sax.SAXException;
 import org.xml.sax.helpers.DefaultHandler;
-import su.geocaching.android.model.dataType1.GeoCache;
+import su.geocaching.android.model.datatype.GeoCache;
 
 import java.util.LinkedList;
 
