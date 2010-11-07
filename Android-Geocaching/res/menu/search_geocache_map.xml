@@ -1,0 +1,6 @@
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+	<item android:id="@+id/menuDefaultZoom"
+          android:title="@string/menu_default_zoom" />
+    <item android:id="@+id/menuStartCompass"
+          android:title="@string/menu_start_compass" />
+</menu>

@@ -21,7 +21,7 @@
             </intent-filter>
         </activity>
 
-        <activity android:name=".userStory.searchGeoCache.SearchGeoCacheMap"
+        <activity android:name=".userstory.searchgeocache.SearchGeoCacheMap"
                   android:label="@string/app_name"
                   android:theme="@android:style/Theme.NoTitleBar">
             <intent-filter>
@@ -30,7 +30,7 @@
             </intent-filter>
         </activity>
 
-        <activity android:name=".userStory.searchGeoCache.SearchGeoCacheCompass"
+        <activity android:name=".userstory.searchgeocache.SearchGeoCacheCompass"
                   android:label="@string/app_name">
             <intent-filter>
                 <action android:name="android.intent.action.RUN"/>
@@ -38,7 +38,7 @@
             </intent-filter>
         </activity>
 
-        <activity android:name=".userStory.selectGeoCache.SelectGeoCacheMap"
+        <activity android:name=".userstory.selectgeocache.SelectGeoCacheMap"
                   android:theme="@android:style/Theme.NoTitleBar">
             <intent-filter>
                 <action android:name="android.intent.action.RUN"/>
@@ -46,7 +46,7 @@
             </intent-filter>
         </activity>
 
-        <activity android:name=".userStory.showGeoCacheInfo.ShowGeoCacheInfo">
+        <activity android:name=".userstory.showgeocacheinfo.ShowGeoCacheInfo">
             <intent-filter>
                 <action android:name="android.intent.action.RUN"/>
                 <category android:name="android.intent.category.DEFAULT"/>
