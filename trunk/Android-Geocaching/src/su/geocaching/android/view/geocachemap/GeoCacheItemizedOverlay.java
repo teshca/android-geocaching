@@ -1,4 +1,4 @@
-package su.geocaching.android.view.geoCacheMap1;
+package su.geocaching.android.view.geocachemap;
 
 import android.graphics.drawable.Drawable;
 import com.google.android.maps.GeoPoint;
