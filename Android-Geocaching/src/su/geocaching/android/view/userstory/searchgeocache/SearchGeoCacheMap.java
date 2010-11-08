@@ -11,7 +11,6 @@ import android.view.MenuItem;
 import com.google.android.maps.GeoPoint;
 import com.google.android.maps.MyLocationOverlay;
 import com.google.android.maps.OverlayItem;
-import su.geocaching.android.controller.Controller;
 import su.geocaching.android.model.datatype.GeoCache;
 import su.geocaching.android.view.MainMenu;
 import su.geocaching.android.view.R;
@@ -31,13 +30,12 @@ public class SearchGeoCacheMap extends GeoCacheMap {
     private GeoCacheItemizedOverlay cacheItemizedOverlay;
     private DistanceToGeoCacheOverlay distanceOverlay;
     private MyLocationOverlay userOverlay;
-	private boolean locationFixed;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         Intent intent = this.getIntent();
-        Controller controller = Controller.getInstance();
+        //Controller controller = Controller.getInstance();
 
         // not working yet
         // geoCache = controller.getGeoCacheByID(intent.getIntExtra(
@@ -45,7 +43,6 @@ public class SearchGeoCacheMap extends GeoCacheMap {
         geoCache = new GeoCache(intent.getIntExtra(
                 MainMenu.DEFAULT_GEOCACHE_ID_NAME, -1));
         userOverlay = new MyLocationOverlay(this, map);
-		locationFixed = false;
     }
 
     @Override
@@ -101,9 +98,8 @@ public class SearchGeoCacheMap extends GeoCacheMap {
                 (int) (loc.getLatitude() * 1E6),
                 (int) (loc.getLongitude() * 1E6));
 
-        if (distanceOverlay == null) { // It's really first run of update
-            // location
-        	locationFixed=true;
+        if (distanceOverlay == null) { 
+        	// It's really first run of update location
             setDefaultZoom();
             distanceOverlay = new DistanceToGeoCacheOverlay(currentGeoPoint,
                     geoCache.getLocationGeoPoint());
@@ -113,10 +109,6 @@ public class SearchGeoCacheMap extends GeoCacheMap {
         distanceOverlay.setCachePoint(geoCache.getLocationGeoPoint());
         distanceOverlay.setUserPoint(currentGeoPoint);
         map.invalidate();
-    }
-
-    public float getLastAzimuth() {
-        return userOverlay.getOrientation();
     }
 
     @Override
@@ -160,7 +152,7 @@ public class SearchGeoCacheMap extends GeoCacheMap {
 	public boolean onOptionsItemSelected(MenuItem item) {
 		switch (item.getItemId()) {
 		case R.id.menuDefaultZoom:
-			if (locationFixed) {
+			if (locationManager.isLocationFixed()) {
 				setDefaultZoom();
 			}
 			return true;

@@ -15,7 +15,7 @@ import java.util.List;
 /**
  * @author Android-Geocaching.su student project team
  * @since October 2010
- *        Search GeoCache with the map.
+ * @description Search GeoCache with the map.
  */
 public abstract class GeoCacheMap extends MapActivity implements IActivityWithLocation {
     protected MapView map;
@@ -34,8 +34,6 @@ public abstract class GeoCacheMap extends MapActivity implements IActivityWithLo
         mapController = map.getController();
 
         //TODO: deal with the transfer of resources
-        // Log.d("albama", Integer.toString(id));
-        // Log.d("albama", Boolean.toString(mvMap == null));
         locationManager = new SearchGeoCacheLocationManager(
                 this, (LocationManager) this.getSystemService(LOCATION_SERVICE));
     }
@@ -47,7 +45,6 @@ public abstract class GeoCacheMap extends MapActivity implements IActivityWithLo
         map.setBuiltInZoomControls(true);
         mapOverlays = map.getOverlays();
         locationManager.resume();
-//        compassManager = new SearchGeoCacheCompassManager(this);
     }
 
     @Override
@@ -61,8 +58,9 @@ public abstract class GeoCacheMap extends MapActivity implements IActivityWithLo
         return false;
     }
 
-    //public abstract float getLastAzimuth();
-
+    /**
+     * @return last known location of location manager
+     */
     public abstract Location getLastLocation();
 
 }
