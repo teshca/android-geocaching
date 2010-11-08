@@ -5,6 +5,11 @@ import android.hardware.SensorEvent;
 import android.hardware.SensorEventListener;
 import android.hardware.SensorManager;
 
+/**
+ * @author Grigory Kalabin. grigory.kalabin@gmail.com
+ * @since Nov 10, 2010
+ * @description Sensor manager which calculate azimuth of user
+ */
 public class SearchGeoCacheCompassManager implements SensorEventListener {
 
     private static final float RAD2DEG = (float) (180 / Math.PI);
@@ -17,6 +22,10 @@ public class SearchGeoCacheCompassManager implements SensorEventListener {
     private IActivityWithCompass context;
     private float lastAzimuth;
 
+    /**
+     * @param context - Activity which use this sensor
+     * @param sensorManager - sensor manager of context
+     */
     public SearchGeoCacheCompassManager(IActivityWithCompass context, SensorManager sensorManager) {
         this.context = context;
         smSensorManager = sensorManager;
@@ -57,6 +66,9 @@ public class SearchGeoCacheCompassManager implements SensorEventListener {
         }
     }
 
+    /**
+     * Starting sensor
+     */
     public void resume() {
         Sensor gravitySensor = smSensorManager
                 .getDefaultSensor(Sensor.TYPE_ACCELEROMETER);
@@ -68,10 +80,16 @@ public class SearchGeoCacheCompassManager implements SensorEventListener {
                 SensorManager.SENSOR_DELAY_NORMAL);
     }
 
+    /**
+     * Stop sensor work
+     */
     public void pause() {
         smSensorManager.unregisterListener(this);
     }
 
+    /**
+     * @return last known azimuth
+     */
     public float getLastAzimuth() {
         return lastAzimuth;
     }

@@ -5,4 +5,8 @@
     <string name="search_geocache_button_text">Search GeoCache</string>
     <string name="menu_default_zoom">Set Default Zoom</string>
     <string name="menu_start_compass">Compass</string>
+    <string name="menu_start_map">Map</string>
+    <string name="menu_main_menu">Main menu</string>   
+    <string name="menu_geocache_info">GeoCache info</string>  
+    <string name="menu_quit">Exit</string>       
 </resources>

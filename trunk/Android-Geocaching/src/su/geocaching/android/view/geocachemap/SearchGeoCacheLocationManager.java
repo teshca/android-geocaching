@@ -6,17 +6,29 @@ import android.location.LocationListener;
 import android.location.LocationManager;
 import android.os.Bundle;
 
+/**
+ * @author Grigory Kalabin. grigory.kalabin@gmail.com
+ * @since fall, 2010
+ * @description Location manager which get updates of location by GPS or GSM/Wi-Fi
+ */
 public class SearchGeoCacheLocationManager implements LocationListener {
 
     private IActivityWithLocation context;
     private LocationManager locationManager;
     private Location lastLocation;
     private String provider;
+    private boolean locationFixed;
 
+    /**
+     * @param context - Activity which use this sensor
+     * @param locationManager - location manager of context
+     */
     public SearchGeoCacheLocationManager(IActivityWithLocation context,
                                          LocationManager locationManager) {
         this.context = context;
         this.locationManager = locationManager;
+        locationFixed = false;
+        
     }
 
     /**
@@ -25,6 +37,7 @@ public class SearchGeoCacheLocationManager implements LocationListener {
     @Override
     public void onLocationChanged(Location location) {
         lastLocation = location;
+        locationFixed = true;
         updateLocation();
     }
 
@@ -64,11 +77,21 @@ public class SearchGeoCacheLocationManager implements LocationListener {
         }
     }
 
+    /**
+     * @return last known location
+     */
     public Location getCurrentLocation() {
         return lastLocation;
     }
 
+    /**
+     * Calling when we get new location and want tell it to context
+     */
     private void updateLocation() {
         context.updateLocation(lastLocation);
+    }
+    
+    public boolean isLocationFixed() {
+    	return locationFixed;
     }
 }
