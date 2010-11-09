@@ -5,8 +5,8 @@ import org.xml.sax.Attributes;
 import org.xml.sax.SAXException;
 import org.xml.sax.helpers.DefaultHandler;
 import su.geocaching.android.model.datatype.GeoCache;
-import su.geocaching.android.model.datatype.StatusOfGeoCache;
-import su.geocaching.android.model.datatype.TypeOfGeoCache;
+import su.geocaching.android.model.datatype.GeoCacheStatus;
+import su.geocaching.android.model.datatype.GeoCacheType;
 
 import java.util.LinkedList;
 
@@ -113,19 +113,19 @@ public class GeoCacheSaxHandler extends DefaultHandler {
 	private void setGeoCacheType(int type) {
 		switch (type) {
 		case 1:
-			geoCache.setType(TypeOfGeoCache.TRADITIONAL);
+			geoCache.setType(GeoCacheType.TRADITIONAL);
 			break;
 		case 2:
-			geoCache.setType(TypeOfGeoCache.STEP_BY_STEP);
+			geoCache.setType(GeoCacheType.STEP_BY_STEP);
 			break;
 		case 3:
-			geoCache.setType(TypeOfGeoCache.VIRTUAL);
+			geoCache.setType(GeoCacheType.VIRTUAL);
 			break;
 		case 4:
-			geoCache.setType(TypeOfGeoCache.EVENT);
+			geoCache.setType(GeoCacheType.EVENT);
 			break;
 		case 6:
-			geoCache.setType(TypeOfGeoCache.EXTREME);
+			geoCache.setType(GeoCacheType.EXTREME);
 			break;
 		}
 
@@ -134,13 +134,13 @@ public class GeoCacheSaxHandler extends DefaultHandler {
 	private void setGeoCacheStatus(int status) {
 		switch (status) {
 		case 1:
-			geoCache.setStatus(StatusOfGeoCache.VALID);
+			geoCache.setStatus(GeoCacheStatus.VALID);
 			break;
 		case 2:
-			geoCache.setStatus(StatusOfGeoCache.NOT_VALID);
+			geoCache.setStatus(GeoCacheStatus.NOT_VALID);
 			break;
 		case 3:
-			geoCache.setStatus(StatusOfGeoCache.NOT_CONFIRMED);
+			geoCache.setStatus(GeoCacheStatus.NOT_CONFIRMED);
 			break;
 		}
 	}
