@@ -30,75 +30,75 @@ public class SelectGeoCacheMap extends GeoCacheMap {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        controller = Controller.getInstance();
+	super.onCreate(savedInstanceState);
+	controller = Controller.getInstance();
     }
 
     @Override
     protected void onResume() {
-        super.onResume();
+	super.onResume();
 
-        //TODO: Deprecated. it's already doing in updateLocation.
-        if (locationManager.getCurrentLocation() != null) {
-            GeoPoint locationPoint = new GeoPoint((int) (locationManager.getCurrentLocation().getLatitude() * 1E6), (int) (locationManager.getCurrentLocation().getLongitude() * 1E6));
-            mapController.animateTo(locationPoint);
-            mapController.setCenter(locationPoint);
-            updateCacheOverlay(locationPoint);
-        }
-        map.invalidate();
+	// TODO: Deprecated. it's already doing in updateLocation.
+	if (locationManager.getCurrentLocation() != null) {
+	    GeoPoint locationPoint = new GeoPoint((int) (locationManager.getCurrentLocation().getLatitude() * 1E6), (int) (locationManager.getCurrentLocation().getLongitude() * 1E6));
+	    mapController.animateTo(locationPoint);
+	    mapController.setCenter(locationPoint);
+	    updateCacheOverlay(locationPoint);
+	}
+	map.invalidate();
     }
 
     /* Handles item selections */
 
     @Override
     public boolean onOptionsItemSelected(final android.view.MenuItem item) {
-        switch (item.getItemId()) {
-            case MENU_FILTER:
-                showFilterMenu();
-                return true;
-        }
-        return false;
+	switch (item.getItemId()) {
+	case MENU_FILTER:
+	    showFilterMenu();
+	    return true;
+	}
+	return false;
     }
 
     private void showFilterMenu() {
-        // TODO: implement filter menu
+	// TODO: implement filter menu
     }
 
     private void updateCacheOverlay(GeoPoint locationPoint) {
-        // TODO add real visible area bounds
-        double maxLatitude = (double) locationPoint.getLatitudeE6() / 1e6 + 2;
-        double minLatitude = (double) locationPoint.getLatitudeE6() / 1e6 - 2;
-        double maxLongitude = (double) locationPoint.getLongitudeE6() / 1e6 + 2;
-        double minLongitude = (double) locationPoint.getLongitudeE6() / 1e6 - 2;
-        geoCacheList = controller.getGeoCacheList(maxLatitude, minLatitude, maxLongitude, minLongitude, controller.getFilterList());
-        for (GeoCache geoCache : geoCacheList) {
-            Drawable marker = controller.getMarker(geoCache, this);
-            if (cacheItemizedOverlays.get(marker) == null) {
-                cacheItemizedOverlays.put(marker, new GeoCacheItemizedOverlay(marker));
-                // TODO: make markers on map clickable
-            }
-            cacheItemizedOverlays.get(marker).addOverlay(new OverlayItem(geoCache.getLocationGeoPoint(), "", ""));
-        }
-        for (GeoCacheItemizedOverlay overlay : cacheItemizedOverlays.values()) {
-            mapOverlays.add(overlay);
-        }
-        map.invalidate();
+	// TODO add real visible area bounds
+	double maxLatitude = (double) locationPoint.getLatitudeE6() / 1e6 + 2;
+	double minLatitude = (double) locationPoint.getLatitudeE6() / 1e6 - 2;
+	double maxLongitude = (double) locationPoint.getLongitudeE6() / 1e6 + 2;
+	double minLongitude = (double) locationPoint.getLongitudeE6() / 1e6 - 2;
+	geoCacheList = controller.getGeoCacheList(maxLatitude, minLatitude, maxLongitude, minLongitude, controller.getFilterList());
+	for (GeoCache geoCache : geoCacheList) {
+	    Drawable marker = controller.getMarker(geoCache, this);
+	    if (cacheItemizedOverlays.get(marker) == null) {
+		cacheItemizedOverlays.put(marker, new GeoCacheItemizedOverlay(marker));
+		// TODO: make markers on map clickable
+	    }
+	    cacheItemizedOverlays.get(marker).addOverlay(new OverlayItem(geoCache.getLocationGeoPoint(), "", ""));
+	}
+	for (GeoCacheItemizedOverlay overlay : cacheItemizedOverlays.values()) {
+	    mapOverlays.add(overlay);
+	}
+	map.invalidate();
     }
 
     private void startGeoCacheInfoView() {
-        Intent intent = new Intent(this, ShowGeoCacheInfo.class);
-        startActivity(intent);
-        this.finish();
+	Intent intent = new Intent(this, ShowGeoCacheInfo.class);
+	startActivity(intent);
+	this.finish();
     }
 
     @Override
     public void updateLocation(Location location) {
-        // TODO Auto-generated method stub
+	// TODO Auto-generated method stub
 
     }
 
     @Override
     public Location getLastLocation() {
-        return locationManager.getCurrentLocation();
+	return locationManager.getCurrentLocation();
     }
 }

@@ -5,9 +5,10 @@ package su.geocaching.android.view.geocachemap;
  * @since Nov 10, 2010
  * @description Interface of activities uses compass sensor
  */
-public interface IActivityWithCompass {
+public interface ICompassAware {
     /**
-     * @param azimuth - new azimuth
+     * @param azimuth
+     *            - new azimuth
      */
     public void updateAzimuth(float azimuth);
 }

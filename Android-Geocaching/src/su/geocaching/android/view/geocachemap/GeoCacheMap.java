@@ -17,45 +17,44 @@ import java.util.List;
  * @since October 2010
  * @description Search GeoCache with the map.
  */
-public abstract class GeoCacheMap extends MapActivity implements IActivityWithLocation {
+public abstract class GeoCacheMap extends MapActivity implements ILocationAware {
     protected MapView map;
     protected MapController mapController;
-    protected SearchGeoCacheLocationManager locationManager;
+    protected GeoCacheLocationManager locationManager;
     protected List<Overlay> mapOverlays;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        Intent intent = this.getIntent();
-        int layout = intent.getIntExtra("layout", R.layout.select_geocache_map);
-        int mapID = intent.getIntExtra("mapID", R.id.selectGeocacheMap);
-        setContentView(layout);
-        map = (MapView) findViewById(mapID);
-        mapController = map.getController();
+	super.onCreate(savedInstanceState);
+	Intent intent = this.getIntent();
+	int layout = intent.getIntExtra("layout", R.layout.select_geocache_map);
+	int mapID = intent.getIntExtra("mapID", R.id.selectGeocacheMap);
+	setContentView(layout);
+	map = (MapView) findViewById(mapID);
+	mapController = map.getController();
 
-        //TODO: deal with the transfer of resources
-        locationManager = new SearchGeoCacheLocationManager(
-                this, (LocationManager) this.getSystemService(LOCATION_SERVICE));
+	// TODO: deal with the transfer of resources
+	locationManager = new GeoCacheLocationManager(this, (LocationManager) this.getSystemService(LOCATION_SERVICE));
     }
 
     @Override
     protected void onResume() {
-        super.onResume();
+	super.onResume();
 
-        map.setBuiltInZoomControls(true);
-        mapOverlays = map.getOverlays();
-        locationManager.resume();
+	map.setBuiltInZoomControls(true);
+	mapOverlays = map.getOverlays();
+	locationManager.resume();
     }
 
     @Override
     protected void onPause() {
-        super.onPause();
-        locationManager.pause();
+	super.onPause();
+	locationManager.pause();
     }
 
     @Override
     protected boolean isRouteDisplayed() {
-        return false;
+	return false;
     }
 
     /**

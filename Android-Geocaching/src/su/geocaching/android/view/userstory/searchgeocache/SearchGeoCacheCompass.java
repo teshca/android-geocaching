@@ -20,13 +20,14 @@ import su.geocaching.android.view.geocachemap.*;
  * @since October 2010
  * @description Search GeoCache with the compass.
  */
-public class SearchGeoCacheCompass extends Activity implements IActivityWithLocation, IActivityWithCompass {
+public class SearchGeoCacheCompass extends Activity implements ILocationAware, ICompassAware {
 
     private CompassView compassView;
     private GeoCache geoCache;
-    private SearchGeoCacheLocationManager locManager;
-    private SearchGeoCacheCompassManager compass;
+    private GeoCacheLocationManager locManager;
+    private GeoCacheCompassManager compass;
     private ProgressDialog progressDialog;
+    private boolean isLocationFixed;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -35,9 +36,12 @@ public class SearchGeoCacheCompass extends Activity implements IActivityWithLoca
 	compassView = (CompassView) findViewById(R.id.compassView);
 	Intent intent = this.getIntent();
 	geoCache = new GeoCache(intent.getIntExtra(MainMenu.DEFAULT_GEOCACHE_ID_NAME, -1));
-	locManager = new SearchGeoCacheLocationManager(this, (LocationManager) this.getSystemService(LOCATION_SERVICE));
-	compass = new SearchGeoCacheCompassManager(this, (SensorManager) this.getSystemService(SENSOR_SERVICE));
-	progressDialog = ProgressDialog.show(this, getString(R.string.waiting_location_fix_title), getString(R.string.waiting_location_fix_message));
+	locManager = new GeoCacheLocationManager(this, (LocationManager) this.getSystemService(LOCATION_SERVICE));
+	compass = new GeoCacheCompassManager(this, (SensorManager) this.getSystemService(SENSOR_SERVICE));
+	isLocationFixed = intent.getBooleanExtra("location fixed", false);
+	if (!isLocationFixed) {
+	    progressDialog = ProgressDialog.show(this, getString(R.string.waiting_location_fix_title), getString(R.string.waiting_location_fix_message));
+	}
     }
 
     @Override
@@ -62,7 +66,19 @@ public class SearchGeoCacheCompass extends Activity implements IActivityWithLoca
     @Override
     public void updateLocation(Location location) {
 	if (locManager.isLocationFixed()) {
-	    progressDialog.dismiss();
+	    if (!isLocationFixed) {
+		progressDialog.dismiss();
+	    }
+	    isLocationFixed = true;
+	} else {
+	    if (isLocationFixed) {
+		locManager.setLocationFixed();
+	    }
+	}
+	if (!isLocationFixed) {
+	    return;
+	}
+	if (locManager.isLocationFixed()) {
 	}
 	compassView.setAzimuthToGeoCache(getBearingToGeoCache(location));
 	compassView.setDistanceToGeoCache(getDistanceToGeoCache(location));
@@ -126,6 +142,7 @@ public class SearchGeoCacheCompass extends Activity implements IActivityWithLoca
 	intent.putExtra(MainMenu.DEFAULT_GEOCACHE_ID_NAME, geoCache.getId());
 	intent.putExtra("layout", R.layout.search_geocache_map);
 	intent.putExtra("mapID", R.id.searchGeocacheMap);
+	intent.putExtra("location fixed", locManager.isLocationFixed());
 	startActivity(intent);
 	this.finish();
     }

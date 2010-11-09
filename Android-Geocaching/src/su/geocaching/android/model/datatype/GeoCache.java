@@ -8,9 +8,9 @@ import com.google.android.maps.GeoPoint;
  * @author Nikita Bumakov
  * @since October 2010 GeoCache - central concept of geocaching game.
  */
-public class GeoCache implements Serializable{
+public class GeoCache implements Serializable {
     private int id; // Unique identifier of GeoCache(from geocaching.su)
-    private GeoPoint locationGeoPoint;   
+    private GeoPoint locationGeoPoint;
     private String name;
     private GeoCacheType type;
     private GeoCacheStatus status;
@@ -28,7 +28,7 @@ public class GeoCache implements Serializable{
     public GeoPoint getLocationGeoPoint() {
 	return locationGeoPoint;
     }
-    
+
     public void setLocationGeoPoint(GeoPoint locationGeoPoint) {
 	this.locationGeoPoint = locationGeoPoint;
     }
@@ -36,7 +36,7 @@ public class GeoCache implements Serializable{
     public int getId() {
 	return id;
     }
-    
+
     public void setId(int id) {
 	this.id = id;
     }

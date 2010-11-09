@@ -17,7 +17,7 @@ import java.util.LinkedList;
  * <id>8901</id>
  * <cn>10</cn>
  * <a>47</a>
- * <n>Òðîèöêàÿ öåðêîâü â ñåëå Ì¸äóøè</n>
+ * <n>Ã’Ã°Ã®Ã¨Ã¶ÃªÃ Ã¿ Ã¶Ã¥Ã°ÃªÃ®Ã¢Ã¼ Ã¢ Ã±Ã¥Ã«Ã¥ ÃŒÂ¸Ã¤Ã³Ã¸Ã¨</n>
  * <la>59.6952333333</la>
  * <ln>29.3968666667</ln>
  * <ct>3</ct>
@@ -32,7 +32,7 @@ import java.util.LinkedList;
  *         GeoCach. This class extends DefaultHandler
  */
 public class GeoCacheSaxHandler extends DefaultHandler {
-    
+
     private static final String TAG = GeoCacheSaxHandler.class.getCanonicalName();
 
     private final static String C = "c";
@@ -55,22 +55,22 @@ public class GeoCacheSaxHandler extends DefaultHandler {
 	text += new String(ch, start, length).trim();
 	super.characters(ch, start, length);
     }
-    
+
     @Override
     public void startDocument() throws SAXException {
 	geoCacheList = new LinkedList<GeoCache>();
 	super.startDocument();
     }
-    
+
     @Override
     public void startElement(String uri, String localName, String name, Attributes attributes) throws SAXException {
 	if (localName.equalsIgnoreCase(C)) {
 	    geoCache = new GeoCache();
-	}else {
+	} else {
 	    text = new String();
 	}
 	super.startElement(uri, localName, name, attributes);
-    }  
+    }
 
     @Override
     public void endElement(String uri, String localName, String qName) throws SAXException {
@@ -96,29 +96,29 @@ public class GeoCacheSaxHandler extends DefaultHandler {
 	} else if (localName.equalsIgnoreCase(C)) {
 	    geoCache.setLocationGeoPoint(new GeoPoint(latitude, longitude));
 	    geoCacheList.add(geoCache);
-	}	
+	}
 
 	super.endElement(uri, localName, qName);
     }
-    
-    private int parseCoordinate(String coordinate){
+
+    private int parseCoordinate(String coordinate) {
 	int result = 0;
-	try{
+	try {
 	    result = (int) (Double.parseDouble(coordinate) * 1E6);
-	}catch (NumberFormatException e) {
+	} catch (NumberFormatException e) {
 	    Log.e(TAG, "parseCoordinate: Invalid numeric format", e);
 	}
-	return result;	
+	return result;
     }
-    
-    private int parseCacheParametr(String parametr){
+
+    private int parseCacheParametr(String parametr) {
 	int result = 1;
-	try{
+	try {
 	    result = Integer.parseInt(parametr);
-	}catch (NumberFormatException e) {
+	} catch (NumberFormatException e) {
 	    Log.e(TAG, "parseCacheParametr: Invalid numeric format", e);
 	}
-	return result;	
+	return result;
     }
 
     private void setGeoCacheType(int type) {
@@ -154,7 +154,7 @@ public class GeoCacheSaxHandler extends DefaultHandler {
 	    break;
 	}
     }
-    
+
     @Override
     public void endDocument() throws SAXException {
 	// TODO Auto-generated method stub
