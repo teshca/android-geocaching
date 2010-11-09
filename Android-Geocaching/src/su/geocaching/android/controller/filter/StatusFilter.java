@@ -1,7 +1,7 @@
 package su.geocaching.android.controller.filter;
 
 import su.geocaching.android.model.datatype.GeoCache;
-import su.geocaching.android.model.datatype.StatusOfGeoCache;
+import su.geocaching.android.model.datatype.GeoCacheStatus;
 
 import java.util.LinkedList;
 
@@ -10,9 +10,9 @@ import java.util.LinkedList;
  * Date: 05.11.2010 3:01:35
  */
 public class StatusFilter implements IFilter {
-    private StatusOfGeoCache param;
+    private GeoCacheStatus param;
 
-    public StatusFilter(StatusOfGeoCache param) {
+    public StatusFilter(GeoCacheStatus param) {
         this.param = param;
     }
 

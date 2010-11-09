@@ -10,8 +10,8 @@ public class GeoCache {
     private GeoPoint locationGeoPoint; // Coordinates of cache location
     private int id; // Unique identifier of GeoCache(from geocaching.su)
     private String name;
-    private TypeOfGeoCache type;
-    private StatusOfGeoCache status;
+    private GeoCacheType type;
+    private GeoCacheStatus status;
 
     public GeoCache() {
         locationGeoPoint = new GeoPoint(0, 0);
@@ -58,19 +58,19 @@ public class GeoCache {
         this.name = name;
     }
 
-    public TypeOfGeoCache getType() {
+    public GeoCacheType getType() {
         return type;
     }
 
-    public void setType(TypeOfGeoCache type) {
+    public void setType(GeoCacheType type) {
         this.type = type;
     }
 
-    public StatusOfGeoCache getStatus() {
+    public GeoCacheStatus getStatus() {
         return status;
     }
 
-    public void setStatus(StatusOfGeoCache status) {
+    public void setStatus(GeoCacheStatus status) {
         this.status = status;
     }
 

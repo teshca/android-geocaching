@@ -1,5 +1,5 @@
 package su.geocaching.android.model.datatype;
 
-public enum TypeOfGeoCache {
+public enum GeoCacheType {
     TRADITIONAL, VIRTUAL, STEP_BY_STEP, EXTREME, EVENT
 }
