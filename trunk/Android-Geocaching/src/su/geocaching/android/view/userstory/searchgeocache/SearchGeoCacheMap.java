@@ -32,145 +32,143 @@ public class SearchGeoCacheMap extends GeoCacheMap {
     private DistanceToGeoCacheOverlay distanceOverlay;
     private MyLocationOverlay userOverlay;
     private ProgressDialog progressDialog;
+    private boolean isLocationFixed;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        Intent intent = this.getIntent();
-        //Controller controller = Controller.getInstance();
+	super.onCreate(savedInstanceState);
+	Intent intent = this.getIntent();
+	// Controller controller = Controller.getInstance();
 
-        // not working yet
-        // geoCache = controller.getGeoCacheByID(intent.getIntExtra(
-        // MainMenu.DEFAULT_GEOCACHE_ID_NAME, -1));
-        geoCache = new GeoCache(intent.getIntExtra(
-                MainMenu.DEFAULT_GEOCACHE_ID_NAME, -1));
-	progressDialog = ProgressDialog.show(this, getString(R.string.waiting_location_fix_title), getString(R.string.waiting_location_fix_message));
+	// not working yet
+	// geoCache = controller.getGeoCacheByID(intent.getIntExtra(
+	// MainMenu.DEFAULT_GEOCACHE_ID_NAME, -1));
+	geoCache = new GeoCache(intent.getIntExtra(MainMenu.DEFAULT_GEOCACHE_ID_NAME, -1));
+	isLocationFixed = intent.getBooleanExtra("location fixed", false);
+	if (!isLocationFixed) {
+	    progressDialog = ProgressDialog.show(this, getString(R.string.waiting_location_fix_title), getString(R.string.waiting_location_fix_message));
+	}
     }
 
     @Override
     protected void onResume() {
-        super.onResume();
+	super.onResume();
 
-        Drawable cacheMarker = this.getResources().getDrawable(
-                R.drawable.orangecache);
-        cacheMarker.setBounds(0, -cacheMarker.getMinimumHeight(),
-                cacheMarker.getMinimumWidth(), 0);
+	Drawable cacheMarker = this.getResources().getDrawable(R.drawable.orangecache);
+	cacheMarker.setBounds(0, -cacheMarker.getMinimumHeight(), cacheMarker.getMinimumWidth(), 0);
 
-        cacheItemizedOverlay = new GeoCacheItemizedOverlay(cacheMarker);
-        cacheOverlayItem = new OverlayItem(geoCache.getLocationGeoPoint(), "",
-                "");
-        cacheItemizedOverlay.addOverlay(cacheOverlayItem);
-        mapOverlays.add(cacheItemizedOverlay);
-        
-        userOverlay = new MyLocationOverlay(this, map);
-        userOverlay.enableCompass();
-        userOverlay.enableMyLocation();
+	cacheItemizedOverlay = new GeoCacheItemizedOverlay(cacheMarker);
+	cacheOverlayItem = new OverlayItem(geoCache.getLocationGeoPoint(), "", "");
+	cacheItemizedOverlay.addOverlay(cacheOverlayItem);
+	mapOverlays.add(cacheItemizedOverlay);
 
-        if (locationManager.isLocationFixed()) {
-            updateLocation(locationManager.getCurrentLocation());
-        }
-        map.invalidate();
+	userOverlay = new MyLocationOverlay(this, map);
+	userOverlay.enableCompass();
+	userOverlay.enableMyLocation();
+
+	if (locationManager.isLocationFixed()) {
+	    updateLocation(locationManager.getCurrentLocation());
+	}
+	map.invalidate();
     }
 
     @Override
     protected void onPause() {
-        super.onPause();
+	super.onPause();
 
-        userOverlay.disableCompass();
-        userOverlay.disableMyLocation();
+	userOverlay.disableCompass();
+	userOverlay.disableMyLocation();
     }
 
     private void startCompassView() {
-        Intent intent = new Intent(this, SearchGeoCacheCompass.class);
-        intent.putExtra(DEFAULT_GEOCACHE_ID_NAME, geoCache.getId());
-        startActivity(intent);
-        this.finish();
+	Intent intent = new Intent(this, SearchGeoCacheCompass.class);
+	intent.putExtra(DEFAULT_GEOCACHE_ID_NAME, geoCache.getId());
+	intent.putExtra("location fixed", locationManager.isLocationFixed());
+	startActivity(intent);
+	this.finish();
     }
 
     protected float getDistanceToGeoCache(Location location) {
-        float[] results = new float[3];
-        double endLatitude = geoCache.getLocationGeoPoint().getLatitudeE6() / 1E6;
-        double endLongitude = geoCache.getLocationGeoPoint().getLongitudeE6() / 1E6;
-        Location.distanceBetween(location.getLatitude(),
-                location.getLongitude(), endLatitude, endLongitude, results);
-        return results[0];
+	float[] results = new float[3];
+	double endLatitude = geoCache.getLocationGeoPoint().getLatitudeE6() / 1E6;
+	double endLongitude = geoCache.getLocationGeoPoint().getLongitudeE6() / 1E6;
+	Location.distanceBetween(location.getLatitude(), location.getLongitude(), endLatitude, endLongitude, results);
+	return results[0];
     }
 
     @Override
     public void updateLocation(Location location) {
-	if (!locationManager.isLocationFixed()) {
+	if (locationManager.isLocationFixed()) {
+	    if (!isLocationFixed) {
+		progressDialog.dismiss();
+	    }
+	    isLocationFixed = true;
+	} else {
+	    if (isLocationFixed) {
+		locationManager.setLocationFixed();
+	    }
+	}
+	if (!isLocationFixed) {
 	    return;
 	}
-        Location loc = locationManager.getCurrentLocation();
-        GeoPoint currentGeoPoint = new GeoPoint(
-                (int) (loc.getLatitude() * 1E6),
-                (int) (loc.getLongitude() * 1E6));
+	Location loc = locationManager.getCurrentLocation();
+	GeoPoint currentGeoPoint = new GeoPoint((int) (loc.getLatitude() * 1E6), (int) (loc.getLongitude() * 1E6));
 
-        if (distanceOverlay == null) { 
-        	// It's really first run of update location
-            progressDialog.dismiss();
-            setDefaultZoom();
-            distanceOverlay = new DistanceToGeoCacheOverlay(currentGeoPoint,
-                    geoCache.getLocationGeoPoint());
-            mapOverlays.add(distanceOverlay);
-            mapOverlays.add(userOverlay);
-            return;
-        }
-        distanceOverlay.setCachePoint(geoCache.getLocationGeoPoint());
-        distanceOverlay.setUserPoint(currentGeoPoint);
-        map.invalidate();
+	if (distanceOverlay == null) {
+	    // It's really first run of update location
+	    setDefaultZoom();
+	    distanceOverlay = new DistanceToGeoCacheOverlay(currentGeoPoint, geoCache.getLocationGeoPoint());
+	    mapOverlays.add(distanceOverlay);
+	    mapOverlays.add(userOverlay);
+	    return;
+	}
+	distanceOverlay.setCachePoint(geoCache.getLocationGeoPoint());
+	distanceOverlay.setUserPoint(currentGeoPoint);
+	map.invalidate();
     }
 
     @Override
     public Location getLastLocation() {
-        return locationManager.getCurrentLocation();
+	return locationManager.getCurrentLocation();
     }
 
     private void setDefaultZoom() {
-        Location loc = locationManager.getCurrentLocation();
-        GeoPoint currentGeoPoint = new GeoPoint(
-                (int) (loc.getLatitude() * 1E6),
-                (int) (loc.getLongitude() * 1E6));
-        mapController.zoomToSpan(
-                Math.abs(geoCache.getLocationGeoPoint().getLatitudeE6()
-                        - currentGeoPoint.getLatitudeE6()),
-                Math.abs(geoCache.getLocationGeoPoint().getLongitudeE6()
-                        - currentGeoPoint.getLongitudeE6()));
+	Location loc = locationManager.getCurrentLocation();
+	GeoPoint currentGeoPoint = new GeoPoint((int) (loc.getLatitude() * 1E6), (int) (loc.getLongitude() * 1E6));
+	mapController.zoomToSpan(Math.abs(geoCache.getLocationGeoPoint().getLatitudeE6() - currentGeoPoint.getLatitudeE6()),
+		Math.abs(geoCache.getLocationGeoPoint().getLongitudeE6() - currentGeoPoint.getLongitudeE6()));
 
-        GeoPoint center = new GeoPoint(
-                (geoCache.getLocationGeoPoint().getLatitudeE6()
-                        + currentGeoPoint.getLatitudeE6()) / 2,
-                (geoCache.getLocationGeoPoint().getLongitudeE6()
-                        + currentGeoPoint.getLongitudeE6()) / 2);
-        mapController.animateTo(center);
+	GeoPoint center = new GeoPoint((geoCache.getLocationGeoPoint().getLatitudeE6() + currentGeoPoint.getLatitudeE6()) / 2,
+		(geoCache.getLocationGeoPoint().getLongitudeE6() + currentGeoPoint.getLongitudeE6()) / 2);
+	mapController.animateTo(center);
     }
-    
-    /**
-	 * Creating menu object
-	 */
-	@Override
-	public boolean onCreateOptionsMenu(Menu menu) {
-		MenuInflater inflater = getMenuInflater();
-		inflater.inflate(R.menu.search_geocache_map, menu);
-		return true;
-	}
 
-	/**
-	 * Called when menu element selected
-	 */
-	@Override
-	public boolean onOptionsItemSelected(MenuItem item) {
-		switch (item.getItemId()) {
-		case R.id.menuDefaultZoom:
-			if (locationManager.isLocationFixed()) {
-				setDefaultZoom();
-			}
-			return true;
-		case R.id.menuStartCompass:
-			this.startCompassView();
-			return true;
-		default:
-			return super.onOptionsItemSelected(item);
-		}
+    /**
+     * Creating menu object
+     */
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+	MenuInflater inflater = getMenuInflater();
+	inflater.inflate(R.menu.search_geocache_map, menu);
+	return true;
+    }
+
+    /**
+     * Called when menu element selected
+     */
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+	switch (item.getItemId()) {
+	case R.id.menuDefaultZoom:
+	    if (locationManager.isLocationFixed()) {
+		setDefaultZoom();
+	    }
+	    return true;
+	case R.id.menuStartCompass:
+	    this.startCompassView();
+	    return true;
+	default:
+	    return super.onOptionsItemSelected(item);
 	}
+    }
 }

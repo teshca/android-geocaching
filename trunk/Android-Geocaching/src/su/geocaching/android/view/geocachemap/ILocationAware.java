@@ -7,9 +7,10 @@ import android.location.Location;
  * @since Nov 10, 2010
  * @description Interface of activities uses location updates
  */
-public interface IActivityWithLocation {
+public interface ILocationAware {
     /**
-     * @param location - new location
+     * @param location
+     *            - new location
      */
     public void updateLocation(Location location);
 }
