@@ -3,6 +3,11 @@
     <string name="app_name">Geocaching.su Mobile Client</string>
     <string name="select_geocache_button_text">Select GeoCache</string>
     <string name="search_geocache_button_text">Search GeoCache</string>
+    
+    <string name="waiting_location_fix_title">Waiting for location fix</string>
+    <string name="waiting_location_fix_message">Please, wait. Obtainig your location...</string>
+    
+    
     <string name="menu_default_zoom">Set Default Zoom</string>
     <string name="menu_start_compass">Compass</string>
     <string name="menu_start_map">Map</string>
