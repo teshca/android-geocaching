@@ -23,7 +23,7 @@ import java.util.LinkedList;
  */
 public class ApiManager implements IApiManager {
 
-    private static final String TAG = "Android GeoCaching. ApiManager";
+    private static final String TAG = ApiManager.class.getCanonicalName();
 
     private static IApiManager instance;
     private LinkedList<GeoCache> geoCaches;
