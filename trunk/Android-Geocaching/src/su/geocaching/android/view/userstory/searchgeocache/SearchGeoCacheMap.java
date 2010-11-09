@@ -1,5 +1,6 @@
 package su.geocaching.android.view.userstory.searchgeocache;
 
+import android.app.ProgressDialog;
 import android.content.Intent;
 import android.graphics.drawable.Drawable;
 import android.location.Location;
@@ -30,6 +31,7 @@ public class SearchGeoCacheMap extends GeoCacheMap {
     private GeoCacheItemizedOverlay cacheItemizedOverlay;
     private DistanceToGeoCacheOverlay distanceOverlay;
     private MyLocationOverlay userOverlay;
+    private ProgressDialog progressDialog;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -42,7 +44,7 @@ public class SearchGeoCacheMap extends GeoCacheMap {
         // MainMenu.DEFAULT_GEOCACHE_ID_NAME, -1));
         geoCache = new GeoCache(intent.getIntExtra(
                 MainMenu.DEFAULT_GEOCACHE_ID_NAME, -1));
-        userOverlay = new MyLocationOverlay(this, map);
+	progressDialog = ProgressDialog.show(this, getString(R.string.waiting_location_fix_title), getString(R.string.waiting_location_fix_message));
     }
 
     @Override
@@ -54,16 +56,19 @@ public class SearchGeoCacheMap extends GeoCacheMap {
         cacheMarker.setBounds(0, -cacheMarker.getMinimumHeight(),
                 cacheMarker.getMinimumWidth(), 0);
 
-        userOverlay.enableCompass();
-        userOverlay.enableMyLocation();
-
         cacheItemizedOverlay = new GeoCacheItemizedOverlay(cacheMarker);
         cacheOverlayItem = new OverlayItem(geoCache.getLocationGeoPoint(), "",
                 "");
         cacheItemizedOverlay.addOverlay(cacheOverlayItem);
         mapOverlays.add(cacheItemizedOverlay);
-        mapOverlays.add(userOverlay);
+        
+        userOverlay = new MyLocationOverlay(this, map);
+        userOverlay.enableCompass();
+        userOverlay.enableMyLocation();
 
+        if (locationManager.isLocationFixed()) {
+            updateLocation(locationManager.getCurrentLocation());
+        }
         map.invalidate();
     }
 
@@ -93,6 +98,9 @@ public class SearchGeoCacheMap extends GeoCacheMap {
 
     @Override
     public void updateLocation(Location location) {
+	if (!locationManager.isLocationFixed()) {
+	    return;
+	}
         Location loc = locationManager.getCurrentLocation();
         GeoPoint currentGeoPoint = new GeoPoint(
                 (int) (loc.getLatitude() * 1E6),
@@ -100,10 +108,12 @@ public class SearchGeoCacheMap extends GeoCacheMap {
 
         if (distanceOverlay == null) { 
         	// It's really first run of update location
+            progressDialog.dismiss();
             setDefaultZoom();
             distanceOverlay = new DistanceToGeoCacheOverlay(currentGeoPoint,
                     geoCache.getLocationGeoPoint());
             mapOverlays.add(distanceOverlay);
+            mapOverlays.add(userOverlay);
             return;
         }
         distanceOverlay.setCachePoint(geoCache.getLocationGeoPoint());
@@ -113,7 +123,7 @@ public class SearchGeoCacheMap extends GeoCacheMap {
 
     @Override
     public Location getLastLocation() {
-        return userOverlay.getLastFix();
+        return locationManager.getCurrentLocation();
     }
 
     private void setDefaultZoom() {
