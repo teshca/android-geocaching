@@ -1,12 +1,14 @@
 package su.geocaching.android.model.datatype;
 
+import java.io.Serializable;
+
 import com.google.android.maps.GeoPoint;
 
 /**
  * @author Nikita Bumakov
  * @since October 2010 GeoCache - central concept of geocaching game.
  */
-public class GeoCache {
+public class GeoCache implements Serializable{
     private int id; // Unique identifier of GeoCache(from geocaching.su)
     private GeoPoint locationGeoPoint;   
     private String name;
