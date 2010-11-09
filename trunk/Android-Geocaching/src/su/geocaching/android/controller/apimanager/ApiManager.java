@@ -25,22 +25,7 @@ public class ApiManager implements IApiManager {
 
     private static final String TAG = ApiManager.class.getCanonicalName();
 
-    private static IApiManager instance;
     private LinkedList<GeoCache> geoCaches;
-
-    private ApiManager() {
-    }
-
-    public static IApiManager getInstance() {
-        if (instance == null) {
-            synchronized (ApiManager.class) {
-                if (instance == null) {
-                    instance = new ApiManager();
-                }
-            }
-        }
-        return instance;
-    }
 
     /*
      * (non-Javadoc)
@@ -52,39 +37,39 @@ public class ApiManager implements IApiManager {
 
     @Override
     public LinkedList<GeoCache> getGeoCashList(double maxLatitude, double minLatitude, double maxLongitude, double minLongitude) {
-        Log.d(TAG, "getGeoCashList");
+	Log.d(TAG, "getGeoCashList");
 
-        geoCaches = new LinkedList<GeoCache>();
+	geoCaches = new LinkedList<GeoCache>();
 
-        GeoCacheSaxHandler handler = null;
-        try {
-            SAXParserFactory factory = SAXParserFactory.newInstance();
-            SAXParser parser = factory.newSAXParser();
-            URL url = generateUrl(maxLatitude, minLatitude, maxLongitude, minLongitude);
-            HttpURLConnection connection = (HttpURLConnection) url.openConnection();
-            if (connection.getResponseCode() != HttpURLConnection.HTTP_OK) {
-                return null;
-            }
-            InputSource courseXml = new InputSource(new InputStreamReader(connection.getInputStream(), ENCODING));
-            handler = new GeoCacheSaxHandler();
-            parser.parse(courseXml, handler);
-        } catch (MalformedURLException e) {
-            Log.e(TAG, e.getMessage(), e);
-        } catch (IOException e) {
-            Log.e(TAG, e.getMessage(), e);
-        } catch (SAXException e) {
-            Log.e(TAG, e.getMessage(), e);
-        } catch (ParserConfigurationException e) {
-            Log.e(TAG, e.getMessage(), e);
-        }
+	GeoCacheSaxHandler handler = null;
+	try {
+	    SAXParserFactory factory = SAXParserFactory.newInstance();
+	    SAXParser parser = factory.newSAXParser();
+	    URL url = generateUrl(maxLatitude, minLatitude, maxLongitude, minLongitude);
+	    HttpURLConnection connection = (HttpURLConnection) url.openConnection();
+	    if (connection.getResponseCode() != HttpURLConnection.HTTP_OK) {
+		return null;
+	    }
+	    InputSource courseXml = new InputSource(new InputStreamReader(connection.getInputStream(), ENCODING));
+	    handler = new GeoCacheSaxHandler();
+	    parser.parse(courseXml, handler);
+	} catch (MalformedURLException e) {
+	    Log.e(TAG, e.getMessage(), e);
+	} catch (IOException e) {
+	    Log.e(TAG, e.getMessage(), e);
+	} catch (SAXException e) {
+	    Log.e(TAG, e.getMessage(), e);
+	} catch (ParserConfigurationException e) {
+	    Log.e(TAG, e.getMessage(), e);
+	}
 
-        return handler.getGeoCaches();
+	return handler.getGeoCaches();
     }
 
     private URL generateUrl(double maxLatitude, double minLatitude, double maxLongitude, double minLongitude) throws MalformedURLException {
-        String request = URL + "?lngmax=" + (maxLongitude) + "&lngmin=" + (minLongitude) + "&latmax=" + (maxLatitude) + "&latmin=" + (minLatitude) + "&id=" + ((int) (Math.random() * 1E6))
-                + "&geocaching=" + "d6970489a98b83cb7382f7db94d574df";
-        return new URL(request);
+	String request = URL + "?lngmax=" + (maxLongitude) + "&lngmin=" + (minLongitude) + "&latmax=" + (maxLatitude) + "&latmin=" + (minLatitude) + "&id=" + ((int) (Math.random() * 1E6))
+		+ "&geocaching=" + "d6970489a98b83cb7382f7db94d574df";
+	return new URL(request);
     }
 
     /*
@@ -97,12 +82,12 @@ public class ApiManager implements IApiManager {
 
     @Override
     public GeoCache getGeoCacheByID(int id) {
-        for (GeoCache geoCache : geoCaches) {
-            if (geoCache.getId() == id) {
-                return geoCache;
-            }
-        }
-        return null;
+	for (GeoCache geoCache : geoCaches) {
+	    if (geoCache.getId() == id) {
+		return geoCache;
+	    }
+	}
+	return null;
     }
 
     private String URL = "http://www.geocaching.su/pages/1031.ajax.php";
