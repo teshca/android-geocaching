@@ -1,12 +1,16 @@
 package su.geocaching.android.view.userstory.searchgeocache;
 
 import android.app.Activity;
+import android.app.AlertDialog;
 import android.app.ProgressDialog;
+import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.hardware.SensorManager;
 import android.location.Location;
 import android.location.LocationManager;
 import android.os.Bundle;
+import android.provider.Settings;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
@@ -22,40 +26,107 @@ import su.geocaching.android.view.geocachemap.*;
  */
 public class SearchGeoCacheCompass extends Activity implements ILocationAware, ICompassAware {
 
-    private CompassView compassView;
+    private GraphicCompassView compassView;
     private GeoCache geoCache;
     private GeoCacheLocationManager locManager;
     private GeoCacheCompassManager compass;
-    private ProgressDialog progressDialog;
+    private AlertDialog waitingLocationFixAlert;
     private boolean isLocationFixed;
+    private Intent thisIntent;
+    private boolean wasInitialized;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
 	super.onCreate(savedInstanceState);
-	setContentView(R.layout.search_geocache_compass);
-	compassView = (CompassView) findViewById(R.id.compassView);
-	Intent intent = this.getIntent();
-	geoCache = new GeoCache(intent.getIntExtra(MainMenu.DEFAULT_GEOCACHE_ID_NAME, -1));
-	locManager = new GeoCacheLocationManager(this, (LocationManager) this.getSystemService(LOCATION_SERVICE));
-	compass = new GeoCacheCompassManager(this, (SensorManager) this.getSystemService(SENSOR_SERVICE));
-	isLocationFixed = intent.getBooleanExtra("location fixed", false);
-	if (!isLocationFixed) {
-	    progressDialog = ProgressDialog.show(this, getString(R.string.waiting_location_fix_title), getString(R.string.waiting_location_fix_message));
-	}
+	thisIntent = this.getIntent();
+	wasInitialized = false;
+
     }
 
     @Override
     protected void onResume() {
 	super.onResume();
-	locManager.resume();
-	compass.resume();
+	if (!isGPSEnabled()) {
+	    askTurnOnGPS();
+	} else {
+	    runLogic();
+	}
     }
 
     @Override
     protected void onPause() {
 	super.onPause();
-	locManager.pause();
-	compass.pause();
+
+	if (wasInitialized) {
+	    locManager.pause();
+	    compass.pause();
+	}
+    }
+
+    /**
+     * Ask user turn on GPS, if this disabled
+     */
+    private void askTurnOnGPS() {
+	if (isGPSEnabled()) {
+	    return;
+	}
+	AlertDialog.Builder builder = new AlertDialog.Builder(this);
+	builder.setMessage(getString(R.string.ask_enable_gps_text)).setCancelable(false).setPositiveButton(getString(R.string.ask_enable_gps_yes), new DialogInterface.OnClickListener() {
+	    public void onClick(DialogInterface dialog, int id) {
+		Intent startGPS = new Intent(Settings.ACTION_SECURITY_SETTINGS);
+		startActivity(startGPS);
+		dialog.cancel();
+	    }
+	}).setNegativeButton(getString(R.string.ask_enable_gps_no), new DialogInterface.OnClickListener() {
+	    public void onClick(DialogInterface dialog, int id) {
+		dialog.cancel();
+		finish();
+	    }
+	});
+	AlertDialog turnOnGPSAlert = builder.create();
+	turnOnGPSAlert.show();
+    }
+
+    /**
+     * @return true if GPS enabled
+     */
+    private boolean isGPSEnabled() {
+	LocationManager locManager = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
+	return locManager.isProviderEnabled(LocationManager.GPS_PROVIDER);
+    }
+
+    /**
+     * Run all activity logic
+     */
+    private void runLogic() {
+	// from onCreate
+	setContentView(R.layout.search_geocache_compass);
+	compassView = (GraphicCompassView) findViewById(R.id.compassView);
+	thisIntent = this.getIntent();
+	geoCache = new GeoCache(thisIntent.getIntExtra(MainMenu.DEFAULT_GEOCACHE_ID_NAME, -1));
+	locManager = new GeoCacheLocationManager(this, (LocationManager) this.getSystemService(LOCATION_SERVICE));
+	compass = new GeoCacheCompassManager(this, (SensorManager) this.getSystemService(SENSOR_SERVICE));
+	isLocationFixed = thisIntent.getBooleanExtra("location fixed", false);
+	if (!isLocationFixed) {
+	    showWaitingLocationFix();
+	}
+
+	// from onResume
+	locManager.resume();
+	compass.resume();
+    }
+
+    private void showWaitingLocationFix() {
+	AlertDialog.Builder builder = new AlertDialog.Builder(this);
+	builder.setMessage(getString(R.string.waiting_location_fix_message)).setCancelable(false)
+		.setNegativeButton(getString(R.string.waiting_location_fix_cancel), new DialogInterface.OnClickListener() {
+		    public void onClick(DialogInterface dialog, int id) {
+			dialog.cancel();
+			finish();
+		    }
+		});
+	waitingLocationFixAlert = builder.create();
+	waitingLocationFixAlert.show();
     }
 
     @Override
@@ -67,17 +138,17 @@ public class SearchGeoCacheCompass extends Activity implements ILocationAware, I
     public void updateLocation(Location location) {
 	if (locManager.isLocationFixed()) {
 	    if (!isLocationFixed) {
-		progressDialog.dismiss();
+		waitingLocationFixAlert.dismiss();
 	    }
 	    isLocationFixed = true;
 	} else {
 	    if (isLocationFixed) {
 		locManager.setLocationFixed();
+	    } else {
+		return;
 	    }
 	}
-	if (!isLocationFixed) {
-	    return;
-	}
+
 	if (locManager.isLocationFixed()) {
 	}
 	compassView.setAzimuthToGeoCache(getBearingToGeoCache(location));
