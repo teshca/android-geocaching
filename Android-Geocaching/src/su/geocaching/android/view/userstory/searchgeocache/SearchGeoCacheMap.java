@@ -1,10 +1,17 @@
 package su.geocaching.android.view.userstory.searchgeocache;
 
+import android.app.AlertDialog;
 import android.app.ProgressDialog;
+import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.drawable.Drawable;
+import android.location.Criteria;
 import android.location.Location;
+import android.location.LocationManager;
 import android.os.Bundle;
+import android.provider.Settings;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
@@ -31,29 +38,94 @@ public class SearchGeoCacheMap extends GeoCacheMap {
     private GeoCacheItemizedOverlay cacheItemizedOverlay;
     private DistanceToGeoCacheOverlay distanceOverlay;
     private MyLocationOverlay userOverlay;
-    private ProgressDialog progressDialog;
+    private AlertDialog waitingLocationFixAlert;
     private boolean isLocationFixed;
+    private Intent thisIntent;
+    private boolean wasInitialized;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
 	super.onCreate(savedInstanceState);
-	Intent intent = this.getIntent();
-	// Controller controller = Controller.getInstance();
+	thisIntent = this.getIntent();
+	wasInitialized = false;
+    }
 
-	// not working yet
-	// geoCache = controller.getGeoCacheByID(intent.getIntExtra(
-	// MainMenu.DEFAULT_GEOCACHE_ID_NAME, -1));
-	geoCache = new GeoCache(intent.getIntExtra(MainMenu.DEFAULT_GEOCACHE_ID_NAME, -1));
-	isLocationFixed = intent.getBooleanExtra("location fixed", false);
-	if (!isLocationFixed) {
-	    progressDialog = ProgressDialog.show(this, getString(R.string.waiting_location_fix_title), getString(R.string.waiting_location_fix_message));
+    @Override
+    protected void onPause() {
+	super.onPause();
+
+	if (wasInitialized) {
+	    userOverlay.disableCompass();
+	    userOverlay.disableMyLocation();
+	    locationManager.pause();
 	}
     }
 
     @Override
     protected void onResume() {
 	super.onResume();
+	if (!isGPSEnabled()) {
+	    askTurnOnGPS();
+	} else {
+	    runLogic();
+	}
+    }
 
+    /**
+     * Ask user turn on GPS, if this disabled
+     */
+    private void askTurnOnGPS() {
+	if (isGPSEnabled()) {
+	    return;
+	}
+	AlertDialog.Builder builder = new AlertDialog.Builder(this);
+	builder.setMessage(getString(R.string.ask_enable_gps_text)).setCancelable(false).setPositiveButton(getString(R.string.ask_enable_gps_yes), new DialogInterface.OnClickListener() {
+	    public void onClick(DialogInterface dialog, int id) {
+		Intent startGPS = new Intent(Settings.ACTION_SECURITY_SETTINGS);
+		startActivity(startGPS);
+		dialog.cancel();
+	    }
+	}).setNegativeButton(getString(R.string.ask_enable_gps_no), new DialogInterface.OnClickListener() {
+	    public void onClick(DialogInterface dialog, int id) {
+		dialog.cancel();
+		finish();
+	    }
+	});
+	AlertDialog turnOnGPSAlert = builder.create();
+	turnOnGPSAlert.show();
+    }
+
+    /**
+     * @return true if GPS enabled
+     */
+    private boolean isGPSEnabled() {
+	LocationManager locManager = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
+	return locManager.isProviderEnabled(LocationManager.GPS_PROVIDER);
+    }
+
+    /**
+     * Init and run all activity content
+     */
+    private void runLogic() {
+	// from onCreate
+	// Controller controller = Controller.getInstance();
+
+	// not working yet
+	// geoCache = controller.getGeoCacheByID(intent.getIntExtra(
+	// MainMenu.DEFAULT_GEOCACHE_ID_NAME, -1));
+
+	geoCache = new GeoCache(thisIntent.getIntExtra(MainMenu.DEFAULT_GEOCACHE_ID_NAME, -1));
+	isLocationFixed = thisIntent.getBooleanExtra("location fixed", false);
+	if (!isLocationFixed) {
+	    showWaitingLocationFix();
+	}
+
+	userOverlay = new MyLocationOverlay(this, map);
+	userOverlay.enableCompass();
+	userOverlay.enableMyLocation();
+
+	// from onResume
+	locationManager.resume();
 	Drawable cacheMarker = this.getResources().getDrawable(R.drawable.orangecache);
 	cacheMarker.setBounds(0, -cacheMarker.getMinimumHeight(), cacheMarker.getMinimumWidth(), 0);
 
@@ -62,24 +134,30 @@ public class SearchGeoCacheMap extends GeoCacheMap {
 	cacheItemizedOverlay.addOverlay(cacheOverlayItem);
 	mapOverlays.add(cacheItemizedOverlay);
 
-	userOverlay = new MyLocationOverlay(this, map);
-	userOverlay.enableCompass();
-	userOverlay.enableMyLocation();
-
-	if (locationManager.isLocationFixed()) {
-	    updateLocation(locationManager.getCurrentLocation());
-	}
 	map.invalidate();
+
+	wasInitialized = true;
     }
 
-    @Override
-    protected void onPause() {
-	super.onPause();
-
-	userOverlay.disableCompass();
-	userOverlay.disableMyLocation();
+    /**
+     * Show cancelable alert which tell user what location fixing
+     */
+    private void showWaitingLocationFix() {
+	AlertDialog.Builder builder = new AlertDialog.Builder(this);
+	builder.setMessage(getString(R.string.waiting_location_fix_message)).setCancelable(false)
+		.setNegativeButton(getString(R.string.waiting_location_fix_cancel), new DialogInterface.OnClickListener() {
+		    public void onClick(DialogInterface dialog, int id) {
+			dialog.cancel();
+			finish();
+		    }
+		});
+	waitingLocationFixAlert = builder.create();
+	waitingLocationFixAlert.show();
     }
 
+    /**
+     * Start SearchGeoCacheCompass activity
+     */
     private void startCompassView() {
 	Intent intent = new Intent(this, SearchGeoCacheCompass.class);
 	intent.putExtra(DEFAULT_GEOCACHE_ID_NAME, geoCache.getId());
@@ -100,23 +178,23 @@ public class SearchGeoCacheMap extends GeoCacheMap {
     public void updateLocation(Location location) {
 	if (locationManager.isLocationFixed()) {
 	    if (!isLocationFixed) {
-		progressDialog.dismiss();
+		waitingLocationFixAlert.dismiss();
 	    }
 	    isLocationFixed = true;
 	} else {
 	    if (isLocationFixed) {
 		locationManager.setLocationFixed();
+		userOverlay.onLocationChanged(location);
+	    } else {
+		return;
 	    }
-	}
-	if (!isLocationFixed) {
-	    return;
 	}
 	Location loc = locationManager.getCurrentLocation();
 	GeoPoint currentGeoPoint = new GeoPoint((int) (loc.getLatitude() * 1E6), (int) (loc.getLongitude() * 1E6));
 
 	if (distanceOverlay == null) {
 	    // It's really first run of update location
-	    setDefaultZoom();
+	    resetZoom();
 	    distanceOverlay = new DistanceToGeoCacheOverlay(currentGeoPoint, geoCache.getLocationGeoPoint());
 	    mapOverlays.add(distanceOverlay);
 	    mapOverlays.add(userOverlay);
@@ -132,7 +210,10 @@ public class SearchGeoCacheMap extends GeoCacheMap {
 	return locationManager.getCurrentLocation();
     }
 
-    private void setDefaultZoom() {
+    /**
+     * Set map zoom which can show userPoint and GeoCachePoint
+     */
+    private void resetZoom() {
 	Location loc = locationManager.getCurrentLocation();
 	GeoPoint currentGeoPoint = new GeoPoint((int) (loc.getLatitude() * 1E6), (int) (loc.getLongitude() * 1E6));
 	mapController.zoomToSpan(Math.abs(geoCache.getLocationGeoPoint().getLatitudeE6() - currentGeoPoint.getLatitudeE6()),
@@ -161,7 +242,7 @@ public class SearchGeoCacheMap extends GeoCacheMap {
 	switch (item.getItemId()) {
 	case R.id.menuDefaultZoom:
 	    if (locationManager.isLocationFixed()) {
-		setDefaultZoom();
+		resetZoom();
 	    }
 	    return true;
 	case R.id.menuStartCompass:

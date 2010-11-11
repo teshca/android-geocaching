@@ -65,7 +65,6 @@ public class MainMenu extends Activity implements OnClickListener {
 	intent.putExtra("layout", R.layout.search_geocache_map);
 	intent.putExtra("mapID", R.id.searchGeocacheMap);
 	startActivity(intent);
-	this.finish();
     }
 
     /**
