@@ -2,7 +2,6 @@ package su.geocaching.android.view.userstory.searchgeocache;
 
 import android.app.Activity;
 import android.app.AlertDialog;
-import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -15,6 +14,7 @@ import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import su.geocaching.android.model.datatype.GeoCache;
+import su.geocaching.android.utils.Helper;
 import su.geocaching.android.view.MainMenu;
 import su.geocaching.android.view.R;
 import su.geocaching.android.view.geocachemap.*;
@@ -151,34 +151,8 @@ public class SearchGeoCacheCompass extends Activity implements ILocationAware, I
 
 	if (locManager.isLocationFixed()) {
 	}
-	compassView.setAzimuthToGeoCache(getBearingToGeoCache(location));
-	compassView.setDistanceToGeoCache(getDistanceToGeoCache(location));
-    }
-
-    /**
-     * @param location
-     * @return distance in meters of shortest way from location to geoPoint
-     *         location
-     */
-    protected float getDistanceToGeoCache(Location location) {
-	float[] results = new float[3];
-	double endLatitude = geoCache.getLocationGeoPoint().getLatitudeE6() / 1E6;
-	double endLongitude = geoCache.getLocationGeoPoint().getLongitudeE6() / 1E6;
-	Location.distanceBetween(location.getLatitude(), location.getLongitude(), endLatitude, endLongitude, results);
-	return results[0];
-    }
-
-    /**
-     * @param location
-     * @return bearing in degrees of shortest way from location to geoPoint
-     *         location
-     */
-    protected float getBearingToGeoCache(Location location) {
-	float[] results = new float[3];
-	double endLatitude = geoCache.getLocationGeoPoint().getLatitudeE6() / 1E6;
-	double endLongitude = geoCache.getLocationGeoPoint().getLongitudeE6() / 1E6;
-	Location.distanceBetween(location.getLatitude(), location.getLongitude(), endLatitude, endLongitude, results);
-	return results[1];
+	compassView.setAzimuthToGeoCache(Helper.getBearingBetween(location, geoCache.getLocationGeoPoint()));
+	compassView.setDistanceToGeoCache(Helper.getDistanceBetween(location, geoCache.getLocationGeoPoint()));
     }
 
     /**
