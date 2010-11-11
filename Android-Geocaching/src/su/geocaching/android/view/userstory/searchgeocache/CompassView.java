@@ -1,6 +1,6 @@
 package su.geocaching.android.view.userstory.searchgeocache;
 
-import java.text.DecimalFormat;
+import su.geocaching.android.utils.Helper;
 
 import android.content.Context;
 import android.graphics.Canvas;
@@ -23,15 +23,6 @@ public class CompassView extends View {
     private static final String CACHE_NAME = "GC";
     private static final double DEG2RAD = Math.PI / 180;
     private static final int HALF_PI_GRAD = 90;
-
-    // if distance(m) > BIG_DISTANCE_VALUE
-    // show "(x/1000) km" else "x m"
-    private static final int BIG_DISTANCE_VALUE = 10000;
-
-    private static final DecimalFormat BIG_DISTANCE_NUMBER_FORMAT = new DecimalFormat("0.0");
-    private static final DecimalFormat SMALL_DISTANCE_NUMBER_FORMAT = new DecimalFormat("0");
-    private static final String BIG_DISTANCE_VALUE_NAME = "km";
-    private static final String SMALL_DISTANCE_VALUE_NAME = "m";
 
     private float azimuthToNorth; // in degrees
     private float azimuthToCache; // in degrees
@@ -100,15 +91,8 @@ public class CompassView extends View {
 	int cacheX = (int) Math.round(bigRadius * Math.cos(DEG2RAD * azimuthGCRel)) + center;
 	int cacheY = (int) -Math.round(bigRadius * Math.sin(DEG2RAD * azimuthGCRel)) + center;
 
-	// Build string of distance
-	String textDistance = "";
-	if (distanceToGeoCache >= BIG_DISTANCE_VALUE) {
-	    textDistance = BIG_DISTANCE_NUMBER_FORMAT.format(distanceToGeoCache / 1000) + " " + BIG_DISTANCE_VALUE_NAME;
-	} else {
-	    textDistance = SMALL_DISTANCE_NUMBER_FORMAT.format(distanceToGeoCache) + " " + SMALL_DISTANCE_VALUE_NAME;
-	}
-
 	// Calculate rectangle which contain text
+	String textDistance = Helper.distanceToString(distanceToGeoCache);
 	Rect northTextBounds = new Rect();
 	northTextPaint.getTextBounds(NORTH_NAME, 0, NORTH_NAME.length(), northTextBounds);
 	Rect cacheTextBounds = new Rect();

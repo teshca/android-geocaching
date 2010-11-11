@@ -1,8 +1,7 @@
 package su.geocaching.android.view.userstory.searchgeocache;
 
-import java.text.DecimalFormat;
+import su.geocaching.android.utils.Helper;
 
-import android.R;
 import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
@@ -10,11 +9,7 @@ import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Matrix;
 import android.graphics.Paint;
-import android.graphics.Paint.Style;
-import android.graphics.PorterDuff;
-import android.graphics.PorterDuffXfermode;
 import android.graphics.Rect;
-import android.graphics.drawable.BitmapDrawable;
 import android.util.AttributeSet;
 import android.view.View;
 
@@ -27,15 +22,6 @@ import android.view.View;
 public class GraphicCompassView extends View {
     private static final int DEFAULT_PADDING = 15;
     private static final int DEFAULT_TEXT_SIZE = 20;
-
-    // if distance(m) > BIG_DISTANCE_VALUE
-    // show "(x/1000) km" else "x m"
-    private static final int BIG_DISTANCE_VALUE = 10000;
-
-    private static final DecimalFormat BIG_DISTANCE_NUMBER_FORMAT = new DecimalFormat("0.0");
-    private static final DecimalFormat SMALL_DISTANCE_NUMBER_FORMAT = new DecimalFormat("0");
-    private static final String BIG_DISTANCE_VALUE_NAME = "km";
-    private static final String SMALL_DISTANCE_VALUE_NAME = "m";
 
     private float azimuthToNorth; // in degrees
     private float azimuthToCache; // in degrees
@@ -120,12 +106,7 @@ public class GraphicCompassView extends View {
 	canvas.drawBitmap(rectangle, center - rectangle.getWidth() / 2, center + DEFAULT_PADDING, null);
 
 	// Build string of distance
-	String textDistance = "";
-	if (distanceToGeoCache >= BIG_DISTANCE_VALUE) {
-	    textDistance = BIG_DISTANCE_NUMBER_FORMAT.format(distanceToGeoCache / 1000) + " " + BIG_DISTANCE_VALUE_NAME;
-	} else {
-	    textDistance = SMALL_DISTANCE_NUMBER_FORMAT.format(distanceToGeoCache) + " " + SMALL_DISTANCE_VALUE_NAME;
-	}
+	String textDistance = Helper.distanceToString(distanceToGeoCache);
 
 	// Draw text
 	Rect textBounds = new Rect();

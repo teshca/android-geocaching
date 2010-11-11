@@ -1,17 +1,14 @@
 package su.geocaching.android.view.userstory.searchgeocache;
 
 import android.app.AlertDialog;
-import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.drawable.Drawable;
-import android.location.Criteria;
 import android.location.Location;
 import android.location.LocationManager;
 import android.os.Bundle;
 import android.provider.Settings;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
@@ -164,14 +161,6 @@ public class SearchGeoCacheMap extends GeoCacheMap {
 	intent.putExtra("location fixed", locationManager.isLocationFixed());
 	startActivity(intent);
 	this.finish();
-    }
-
-    protected float getDistanceToGeoCache(Location location) {
-	float[] results = new float[3];
-	double endLatitude = geoCache.getLocationGeoPoint().getLatitudeE6() / 1E6;
-	double endLongitude = geoCache.getLocationGeoPoint().getLongitudeE6() / 1E6;
-	Location.distanceBetween(location.getLatitude(), location.getLongitude(), endLatitude, endLongitude, results);
-	return results[0];
     }
 
     @Override
