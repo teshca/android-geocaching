@@ -1,6 +1,7 @@
 package su.geocaching.android.view.geocachemap;
 
 import android.location.Location;
+import android.os.Bundle;
 
 /**
  * @author Grigory Kalabin. grigory.kalabin@gmail.com
@@ -13,4 +14,10 @@ public interface ILocationAware {
      *            - new location
      */
     public void updateLocation(Location location);
+
+    public void onStatusChanged(String provider, int status, Bundle extras);
+
+    public void onProviderEnabled(String provider);
+
+    public void onProviderDisabled(String provider);
 }

@@ -20,30 +20,34 @@ public class DistanceToGeoCacheOverlay extends com.google.android.maps.Overlay {
 
     private GeoPoint userPoint;
     private GeoPoint cachePoint;
+    private boolean withShortestWay;
 
     public DistanceToGeoCacheOverlay(GeoPoint userPoint, GeoPoint cachePoint) {
 	this.userPoint = userPoint;
 	this.cachePoint = cachePoint;
+	withShortestWay = true;
     }
 
     @Override
     public boolean draw(Canvas canvas, MapView mapView, boolean shadow, long when) {
 	super.draw(canvas, mapView, shadow);
-	Projection proj = mapView.getProjection();
-	Paint paintLine = new Paint();
-	paintLine.setColor(LINE_COLOR);
-	paintLine.setAntiAlias(true);
+
 	Paint paintText = new Paint();
 	paintText.setColor(TEXT_COLOR);
 	paintText.setTextSize(DEFAULT_TEXT_SIZE);
 	paintText.setAntiAlias(true);
 	paintText.setFakeBoldText(true);
-	Point from = new Point();
-	Point to = new Point();
-	proj.toPixels(userPoint, from);
-	proj.toPixels(cachePoint, to);
-
-	canvas.drawLine(from.x, from.y, to.x, to.y, paintLine);
+	if (withShortestWay) {
+	    Point from = new Point();
+	    Point to = new Point();
+	    Projection proj = mapView.getProjection();
+	    Paint paintLine = new Paint();
+	    paintLine.setColor(LINE_COLOR);
+	    paintLine.setAntiAlias(true);
+	    proj.toPixels(userPoint, from);
+	    proj.toPixels(cachePoint, to);
+	    canvas.drawLine(from.x, from.y, to.x, to.y, paintLine);
+	}
 
 	float dist = Helper.getDistanceBetween(userPoint, cachePoint);
 	canvas.drawText(Helper.distanceToString(dist), DEFAULT_TEXT_X, DEFAULT_TEXT_Y, paintText);
@@ -58,4 +62,12 @@ public class DistanceToGeoCacheOverlay extends com.google.android.maps.Overlay {
     protected void setCachePoint(GeoPoint cachePoint) {
 	this.cachePoint = cachePoint;
     }
+    
+    protected void setShorteshtWayVisible(boolean with) {
+	withShortestWay=with;
+    }
+    
+    protected void toggleShorteshtWayVisible() {
+	withShortestWay=!withShortestWay;
+    }    
 }

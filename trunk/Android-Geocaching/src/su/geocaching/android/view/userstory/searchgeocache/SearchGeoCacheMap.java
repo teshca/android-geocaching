@@ -5,13 +5,17 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.drawable.Drawable;
+import android.location.Criteria;
 import android.location.Location;
 import android.location.LocationManager;
+import android.location.LocationProvider;
 import android.os.Bundle;
 import android.provider.Settings;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
+import android.widget.TextView;
+import android.widget.Toast;
 
 import com.google.android.maps.GeoPoint;
 import com.google.android.maps.MyLocationOverlay;
@@ -37,13 +41,12 @@ public class SearchGeoCacheMap extends GeoCacheMap {
     private MyLocationOverlay userOverlay;
     private AlertDialog waitingLocationFixAlert;
     private boolean isLocationFixed;
-    private Intent thisIntent;
     private boolean wasInitialized;
+    private TextView statusTextView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
 	super.onCreate(savedInstanceState);
-	thisIntent = this.getIntent();
 	wasInitialized = false;
     }
 
@@ -61,7 +64,7 @@ public class SearchGeoCacheMap extends GeoCacheMap {
     @Override
     protected void onResume() {
 	super.onResume();
-	if (!isGPSEnabled()) {
+	if (!isBestProviderEnabled()) {
 	    askTurnOnGPS();
 	} else {
 	    runLogic();
@@ -72,7 +75,7 @@ public class SearchGeoCacheMap extends GeoCacheMap {
      * Ask user turn on GPS, if this disabled
      */
     private void askTurnOnGPS() {
-	if (isGPSEnabled()) {
+	if (isBestProviderEnabled()) {
 	    return;
 	}
 	AlertDialog.Builder builder = new AlertDialog.Builder(this);
@@ -93,11 +96,17 @@ public class SearchGeoCacheMap extends GeoCacheMap {
     }
 
     /**
-     * @return true if GPS enabled
+     * @return true if best provider enabled
      */
-    private boolean isGPSEnabled() {
+    private boolean isBestProviderEnabled() {
 	LocationManager locManager = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
-	return locManager.isProviderEnabled(LocationManager.GPS_PROVIDER);
+	Criteria criteria = new Criteria();
+	criteria.setAccuracy(Criteria.ACCURACY_FINE);
+	String bestProv = locManager.getBestProvider(criteria, false);
+	if (!bestProv.equals(LocationManager.GPS_PROVIDER)) {
+		Toast.makeText(this, getString(R.string.device_without_gps_alert), Toast.LENGTH_LONG).show();
+	}
+	return locManager.isProviderEnabled(bestProv);
     }
 
     /**
@@ -111,15 +120,18 @@ public class SearchGeoCacheMap extends GeoCacheMap {
 	// geoCache = controller.getGeoCacheByID(intent.getIntExtra(
 	// MainMenu.DEFAULT_GEOCACHE_ID_NAME, -1));
 
-	geoCache = new GeoCache(thisIntent.getIntExtra(MainMenu.DEFAULT_GEOCACHE_ID_NAME, -1));
-	isLocationFixed = thisIntent.getBooleanExtra("location fixed", false);
-	if (!isLocationFixed) {
-	    showWaitingLocationFix();
-	}
+	Intent intent = this.getIntent();
+	geoCache = new GeoCache(intent.getIntExtra(MainMenu.DEFAULT_GEOCACHE_ID_NAME, -1));
+	isLocationFixed = intent.getBooleanExtra("location fixed", false);
+	statusTextView = (TextView) findViewById(R.id.statusTextView);
 
 	userOverlay = new MyLocationOverlay(this, map);
 	userOverlay.enableCompass();
 	userOverlay.enableMyLocation();
+
+	if (!isLocationFixed) {
+	    showWaitingLocationFix();
+	}
 
 	// from onResume
 	locationManager.resume();
@@ -142,7 +154,13 @@ public class SearchGeoCacheMap extends GeoCacheMap {
     private void showWaitingLocationFix() {
 	AlertDialog.Builder builder = new AlertDialog.Builder(this);
 	builder.setMessage(getString(R.string.waiting_location_fix_message)).setCancelable(false)
-		.setNegativeButton(getString(R.string.waiting_location_fix_cancel), new DialogInterface.OnClickListener() {
+		.setPositiveButton(getString(R.string.waiting_location_fix_fon), new DialogInterface.OnClickListener() {
+		    public void onClick(DialogInterface dialog, int id) {
+			dialog.cancel();
+			statusTextView.setText("Waiting location fix...");
+			
+		    }
+		}).setNegativeButton(getString(R.string.waiting_location_fix_cancel), new DialogInterface.OnClickListener() {
 		    public void onClick(DialogInterface dialog, int id) {
 			dialog.cancel();
 			finish();
@@ -167,7 +185,12 @@ public class SearchGeoCacheMap extends GeoCacheMap {
     public void updateLocation(Location location) {
 	if (locationManager.isLocationFixed()) {
 	    if (!isLocationFixed) {
-		waitingLocationFixAlert.dismiss();
+		if (waitingLocationFixAlert.isShowing()) {
+		    waitingLocationFixAlert.dismiss();
+		} else {
+		   statusTextView.setText("Location fixed");
+		}
+
 	    }
 	    isLocationFixed = true;
 	} else {
@@ -237,8 +260,57 @@ public class SearchGeoCacheMap extends GeoCacheMap {
 	case R.id.menuStartCompass:
 	    this.startCompassView();
 	    return true;
+	case R.id.menuToggleShortestWay:
+	    distanceOverlay.toggleShorteshtWayVisible();
+	    return true;	    
 	default:
 	    return super.onOptionsItemSelected(item);
+	}
+    }
+
+    @Override
+    public void onStatusChanged(String provider, int status, Bundle extras) {
+	String statusString = "";
+	if (!isLocationFixed) {
+	    statusString = "Fixing location:\n\t";
+	}
+	statusString += "Provider: " + provider + "\n\t";
+	switch (status) {
+	case LocationProvider.OUT_OF_SERVICE:
+	    statusString += "Status: out of service";
+	case LocationProvider.TEMPORARILY_UNAVAILABLE:
+	    statusString += "Status: temporarily unavailable";
+	case LocationProvider.AVAILABLE:
+	    statusString += "Status: available";
+	}
+	if (provider.equals(LocationManager.GPS_PROVIDER)) {
+	    statusString += "\n\t" + "Satellites: " + extras.getString("satellites");
+	}
+	showInfo(statusString);
+    }
+
+    /**
+     * @param string
+     *            string which will be shown on waiting dialog or textView
+     */
+    private void showInfo(String string) {
+	if (waitingLocationFixAlert.isShowing()) {
+	    waitingLocationFixAlert.setMessage(string);
+	} else {
+	    statusTextView.setText(string);
+	}
+    }
+
+    @Override
+    public void onProviderEnabled(String provider) {
+	// TODO Auto-generated method stub
+
+    }
+
+    @Override
+    public void onProviderDisabled(String provider) {
+	if (!isBestProviderEnabled()) {
+	    askTurnOnGPS();
 	}
     }
 }
