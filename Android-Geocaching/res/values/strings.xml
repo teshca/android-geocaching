@@ -6,11 +6,14 @@
     
     <string name="waiting_location_fix_message">Получение координат. Это может занять некоторое время.</string>
     <string name="waiting_location_fix_cancel">Назад</string>
+    <string name="waiting_location_fix_fon">В фоне</string>
+    <string name="device_without_gps_alert">Внимание!\n\r На Вашем устройстве отстутствует GPS.\n\rВаше положение может определяться не точно.</string>
     <string name="ask_enable_gps_text">Для дальнейшей работы необходим GPS. Включить?</string>
     <string name="ask_enable_gps_yes">Да</string>
     <string name="ask_enable_gps_no">Нет</string>
     
-    <string name="menu_default_zoom">Set Default Zoom</string>
+    <string name="menu_default_zoom">Reset zoom</string>
+    <string name="menu_toggle_shortest_way">Убрать/поставить кратчайший путь</string>
     <string name="menu_start_compass">Compass</string>
     <string name="menu_start_map">Map</string>
     <string name="menu_main_menu">Main menu</string>   
