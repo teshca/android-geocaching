@@ -73,7 +73,7 @@ public class MainMenu extends Activity implements OnClickListener {
     private void startSelectGeoCache() {
         ConnectivityManager cm = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
         if (cm.getActiveNetworkInfo() == null || !cm.getActiveNetworkInfo().isConnectedOrConnecting()) {
-            Toast.makeText(getApplicationContext(), "You must be connected to the Internet!", Toast.LENGTH_SHORT);
+            Toast.makeText(getApplicationContext(), "You must be connected to the Internet!", Toast.LENGTH_SHORT).show();
         } else {
             Intent intent = new Intent(this, SelectGeoCacheMap.class);
             intent.putExtra("layout", R.layout.select_geocache_map);
