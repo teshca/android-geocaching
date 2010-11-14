@@ -33,15 +33,14 @@ public abstract class GeoCacheMap extends MapActivity implements ILocationAware 
 	map = (MapView) findViewById(mapID);
 	mapController = map.getController();
 	mapOverlays = map.getOverlays();
+	map.setBuiltInZoomControls(true);
 
 	locationManager = new GeoCacheLocationManager(this, (LocationManager) this.getSystemService(LOCATION_SERVICE));
     }
 
     @Override
     protected void onResume() {
-	super.onResume();
-
-	map.setBuiltInZoomControls(true);
+	super.onResume();	
     }
 
     @Override
