@@ -10,8 +10,8 @@ import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.Button;
 import android.widget.Toast;
-import su.geocaching.android.view.userstory.searchgeocache.SearchGeoCacheMap;
-import su.geocaching.android.view.userstory.selectgeocache.SelectGeoCacheMap;
+import su.geocaching.android.view.searchgeocache.SearchGeoCacheMap;
+import su.geocaching.android.view.selectgeocache.SelectGeoCacheMap;
 
 /**
  * @author Android-Geocaching.su student project team
