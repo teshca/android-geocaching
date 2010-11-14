@@ -37,6 +37,7 @@ public class SelectGeoCacheMap extends GeoCacheMap {
     protected void onCreate(Bundle savedInstanceState) {
 	super.onCreate(savedInstanceState);
 	controller = Controller.getInstance();
+	cacheItemizedOverlays = new HashMap<Drawable, GeoCacheItemizedOverlay>(); 
     }
 
     @Override
