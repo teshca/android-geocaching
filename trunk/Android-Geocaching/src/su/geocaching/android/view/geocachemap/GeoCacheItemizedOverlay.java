@@ -12,25 +12,30 @@ import java.util.ArrayList;
  * @since October 2010 GeoCache Itemized Overlay for one or more caches
  */
 public class GeoCacheItemizedOverlay extends com.google.android.maps.ItemizedOverlay<OverlayItem> {
-    private ArrayList<OverlayItem> Overlays;
+    private ArrayList<OverlayItem> items;
 
     public GeoCacheItemizedOverlay(Drawable defaultMarker) {
 	super(defaultMarker);
-	Overlays = new ArrayList<OverlayItem>();
+	items = new ArrayList<OverlayItem>();
     }
 
-    public void addOverlay(OverlayItem overlay) {
-	Overlays.add(overlay);
+    public void addOverlayItem(OverlayItem overlay) {
+	items.add(overlay);
 	populate();
     }
-
+    
+    @Override
     protected OverlayItem createItem(int i) {
-	return Overlays.get(i);
+	return items.get(i);
     }
 
     @Override
     public int size() {
-	return Overlays.size();
+	return items.size();
+    }
+    
+    public void clear() {
+	items.clear();
     }
 
     protected OverlayItem update(OverlayItem overlay, GeoPoint point) {
@@ -38,8 +43,8 @@ public class GeoCacheItemizedOverlay extends com.google.android.maps.ItemizedOve
 	    return null;
 	}
 	OverlayItem overlay_new = new OverlayItem(point, overlay.getTitle(), overlay.getSnippet());
-	Overlays.remove(overlay);
-	addOverlay(overlay_new);
+	items.remove(overlay);
+	addOverlayItem(overlay_new);
 	populate();
 	return overlay_new;
     }

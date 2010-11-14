@@ -10,6 +10,7 @@ import com.google.android.maps.GeoPoint;
 import com.google.android.maps.OverlayItem;
 import su.geocaching.android.controller.Controller;
 import su.geocaching.android.model.datatype.GeoCache;
+import su.geocaching.android.model.datatype.GeoCacheType;
 import su.geocaching.android.view.geocachemap.GeoCacheItemizedOverlay;
 import su.geocaching.android.view.geocachemap.GeoCacheMap;
 import su.geocaching.android.view.userstory.showgeocacheinfo.ShowGeoCacheInfo;
@@ -27,17 +28,18 @@ public class SelectGeoCacheMap extends GeoCacheMap {
     public static final int DEFAULT_SEARCH_RADIUS = 10000; // in meters
     private static final int MENU_FILTER = 1;
 
-    public static final int DEFAULT_ZOOM = 15;
+    public static final int DEFAULT_ZOOM = 5;
     // TODO: set default zoom to radius 10km
     private Controller controller;
     private LinkedList<GeoCache> geoCacheList;
-    private HashMap<Drawable, GeoCacheItemizedOverlay> cacheItemizedOverlays;
+    private HashMap<GeoCacheType, GeoCacheItemizedOverlay> cacheItemizedOverlays;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
 	super.onCreate(savedInstanceState);
 	controller = Controller.getInstance();
-	cacheItemizedOverlays = new HashMap<Drawable, GeoCacheItemizedOverlay>(); 
+	cacheItemizedOverlays = new HashMap<GeoCacheType, GeoCacheItemizedOverlay>();
+	mapController.setZoom(DEFAULT_ZOOM);
     }
 
     @Override
@@ -81,17 +83,32 @@ public class SelectGeoCacheMap extends GeoCacheMap {
 	Log.d(TAG, "updateCacheOverlay");
 	// TODO add real visible area bounds
 	double maxLatitude = (double) upperLeftCorner.getLatitudeE6() / 1e6;
-	double minLatitude = (double) upperLeftCorner.getLatitudeE6() / 1e6;
+	double minLatitude = (double) lowerRightCorner.getLatitudeE6() / 1e6;
 	double maxLongitude = (double) lowerRightCorner.getLongitudeE6() / 1e6;
-	double minLongitude = (double) lowerRightCorner.getLongitudeE6() / 1e6;
+	double minLongitude = (double) upperLeftCorner.getLongitudeE6() / 1e6;
 	geoCacheList = controller.getGeoCacheList(maxLatitude, minLatitude, maxLongitude, minLongitude, controller.getFilterList());
+
+	// TODO:
+	Drawable marker = controller.getMarker(new GeoCache(), this);
+	if (geoCacheList != null) {
+	    marker = controller.getMarker(geoCacheList.get(0), this);
+	}
+	// -------------
+
 	for (GeoCache geoCache : geoCacheList) {
-	    Drawable marker = controller.getMarker(geoCache, this);
-	    if (cacheItemizedOverlays.get(marker) == null) {
-		cacheItemizedOverlays.put(marker, new GeoCacheItemizedOverlay(marker));
+	    // This code creates the N overlay with N overlayItem
+	    // Drawable marker = controller.getMarker(geoCache, this);
+	    // if (cacheItemizedOverlays.get(marker) == null) {
+	    // cacheItemizedOverlays.put(marker, new
+	    // GeoCacheItemizedOverlay(marker));
+	    // // TODO: make markers on map clickable
+	    // }
+
+	    if (cacheItemizedOverlays.get(geoCache.getType()) == null) {
+		cacheItemizedOverlays.put(geoCache.getType(), new GeoCacheItemizedOverlay(marker));
 		// TODO: make markers on map clickable
 	    }
-	    cacheItemizedOverlays.get(marker).addOverlay(new OverlayItem(geoCache.getLocationGeoPoint(), "", ""));
+	    cacheItemizedOverlays.get(geoCache.getType()).addOverlayItem(new OverlayItem(geoCache.getLocationGeoPoint(), "", ""));
 	}
 	for (GeoCacheItemizedOverlay overlay : cacheItemizedOverlays.values()) {
 	    mapOverlays.add(overlay);
