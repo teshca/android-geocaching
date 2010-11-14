@@ -1,6 +1,8 @@
 package su.geocaching.android.controller.apimanager;
 
 import android.util.Log;
+import android.webkit.URLUtil;
+
 import org.xml.sax.InputSource;
 import org.xml.sax.SAXException;
 import su.geocaching.android.model.datatype.GeoCache;
@@ -17,7 +19,7 @@ import java.util.LinkedList;
 
 /**
  * @author Nikita Bumakov
- *         <p/>
+ * 
  *         Class for getting data from Geocaching.su. This class implements
  *         IApiManager
  */
@@ -67,8 +69,10 @@ public class ApiManager implements IApiManager {
     }
 
     private URL generateUrl(double maxLatitude, double minLatitude, double maxLongitude, double minLongitude) throws MalformedURLException {
-	String request = URL + "?lngmax=" + (maxLongitude) + "&lngmin=" + (minLongitude) + "&latmax=" + (maxLatitude) + "&latmin=" + (minLatitude) + "&id=" + ((int) (Math.random() * 1E6))
-		+ "&geocaching=" + "d6970489a98b83cb7382f7db94d574df";
+	String GEOCACHING_PARAM = "abc"; // I don't know what it is....
+	int id = (int) (Math.random() * 1E6);
+	String request = String.format("%s%s%f%s%f%s%f%s%f%s%d%s%s", URL, "?lngmax=", maxLongitude, "&lngmin=", minLongitude, "&latmax=", maxLatitude, "&latmin=", minLatitude, "&id=", id,
+		"&geocaching=", GEOCACHING_PARAM);
 	return new URL(request);
     }
 

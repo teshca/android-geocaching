@@ -4,6 +4,8 @@ import android.content.Intent;
 import android.graphics.drawable.Drawable;
 import android.location.Location;
 import android.os.Bundle;
+import android.util.Log;
+
 import com.google.android.maps.GeoPoint;
 import com.google.android.maps.OverlayItem;
 import su.geocaching.android.controller.Controller;
@@ -19,6 +21,9 @@ import java.util.LinkedList;
  * Author: Yuri Denison Date: 04.11.2010 18:26:39
  */
 public class SelectGeoCacheMap extends GeoCacheMap {
+
+    private static final String TAG = SelectGeoCacheMap.class.getCanonicalName();
+
     public static final int DEFAULT_SEARCH_RADIUS = 10000; // in meters
     private static final int MENU_FILTER = 1;
 
@@ -37,15 +42,22 @@ public class SelectGeoCacheMap extends GeoCacheMap {
     @Override
     protected void onResume() {
 	super.onResume();
+	locationManager.resume();
 
 	// TODO: Deprecated. it's already doing in updateLocation.
 	if (locationManager.getCurrentLocation() != null) {
 	    GeoPoint locationPoint = new GeoPoint((int) (locationManager.getCurrentLocation().getLatitude() * 1E6), (int) (locationManager.getCurrentLocation().getLongitude() * 1E6));
 	    mapController.animateTo(locationPoint);
 	    mapController.setCenter(locationPoint);
-	    updateCacheOverlay(locationPoint);
+	    updateCacheOverlay(map.getProjection().fromPixels(0, 0), map.getProjection().fromPixels(map.getRight(), map.getBottom()));
 	}
 	map.invalidate();
+    }
+
+    @Override
+    protected void onPause() {
+	super.onPause();
+	locationManager.pause();
     }
 
     /* Handles item selections */
@@ -64,12 +76,13 @@ public class SelectGeoCacheMap extends GeoCacheMap {
 	// TODO: implement filter menu
     }
 
-    private void updateCacheOverlay(GeoPoint locationPoint) {
+    private void updateCacheOverlay(GeoPoint upperLeftCorner, GeoPoint lowerRightCorner) {
+	Log.d(TAG, "updateCacheOverlay");
 	// TODO add real visible area bounds
-	double maxLatitude = (double) locationPoint.getLatitudeE6() / 1e6 + 2;
-	double minLatitude = (double) locationPoint.getLatitudeE6() / 1e6 - 2;
-	double maxLongitude = (double) locationPoint.getLongitudeE6() / 1e6 + 2;
-	double minLongitude = (double) locationPoint.getLongitudeE6() / 1e6 - 2;
+	double maxLatitude = (double) upperLeftCorner.getLatitudeE6() / 1e6;
+	double minLatitude = (double) upperLeftCorner.getLatitudeE6() / 1e6;
+	double maxLongitude = (double) lowerRightCorner.getLongitudeE6() / 1e6;
+	double minLongitude = (double) lowerRightCorner.getLongitudeE6() / 1e6;
 	geoCacheList = controller.getGeoCacheList(maxLatitude, minLatitude, maxLongitude, minLongitude, controller.getFilterList());
 	for (GeoCache geoCache : geoCacheList) {
 	    Drawable marker = controller.getMarker(geoCache, this);
@@ -105,18 +118,18 @@ public class SelectGeoCacheMap extends GeoCacheMap {
     @Override
     public void onStatusChanged(String provider, int status, Bundle extras) {
 	// TODO Auto-generated method stub
-	
+
     }
 
     @Override
     public void onProviderEnabled(String provider) {
 	// TODO Auto-generated method stub
-	
+
     }
 
     @Override
     public void onProviderDisabled(String provider) {
 	// TODO Auto-generated method stub
-	
+
     }
 }
