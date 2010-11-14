@@ -1,4 +1,4 @@
-package su.geocaching.android.view.userstory.searchgeocache;
+package su.geocaching.android.view.searchgeocache;
 
 import android.app.AlertDialog;
 import android.content.Context;

@@ -1,4 +1,4 @@
-package su.geocaching.android.view.userstory.showgeocacheinfo;
+package su.geocaching.android.view.showgeocacheinfo;
 
 import android.app.Activity;
 import android.os.Bundle;
