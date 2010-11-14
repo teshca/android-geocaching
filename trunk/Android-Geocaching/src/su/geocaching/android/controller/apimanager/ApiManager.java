@@ -5,6 +5,8 @@ import android.webkit.URLUtil;
 
 import org.xml.sax.InputSource;
 import org.xml.sax.SAXException;
+
+import su.geocaching.android.controller.Controller;
 import su.geocaching.android.model.datatype.GeoCache;
 
 import javax.xml.parsers.ParserConfigurationException;
@@ -26,8 +28,23 @@ import java.util.LinkedList;
 public class ApiManager implements IApiManager {
 
     private static final String TAG = ApiManager.class.getCanonicalName();
+    private static ApiManager instance;
 
     private LinkedList<GeoCache> geoCaches;
+
+    private ApiManager() {
+    }
+
+    public static ApiManager getInstance() {
+	if (instance == null) {
+	    synchronized (Controller.class) {
+		if (instance == null) {
+		    instance = new ApiManager();
+		}
+	    }
+	}
+	return instance;
+    }
 
     /*
      * (non-Javadoc)
@@ -52,13 +69,13 @@ public class ApiManager implements IApiManager {
 	    connection = (HttpURLConnection) url.openConnection();
 
 	    if (connection.getResponseCode() != HttpURLConnection.HTTP_OK) {
-		//TODO make real error message
+		// TODO make real error message
 		Log.e(TAG, "Cann't connect ti internet");
 	    }
 	    InputSource courseXml = new InputSource(new InputStreamReader(connection.getInputStream(), ENCODING));
 	    handler = new GeoCacheSaxHandler();
 	    parser.parse(courseXml, handler);
-	    geoCaches =  handler.getGeoCaches();
+	    geoCaches = handler.getGeoCaches();
 	} catch (MalformedURLException e) {
 	    Log.e(TAG, e.getMessage(), e);
 	} catch (IOException e) {

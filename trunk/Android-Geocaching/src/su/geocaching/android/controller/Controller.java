@@ -24,7 +24,7 @@ public class Controller {
     private SettingsStorage settingsStorage;
 
     private Controller() {
-	apiManager = new ApiManager();
+	apiManager = ApiManager.getInstance();
 	favoriteGeoCacheStorage = GeoCacheStorage.getInstance();
 	settingsStorage = SettingsStorage.getInstance();
     }
