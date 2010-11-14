@@ -140,7 +140,7 @@ public class SearchGeoCacheMap extends GeoCacheMap {
 
 	cacheItemizedOverlay = new GeoCacheItemizedOverlay(cacheMarker);
 	cacheOverlayItem = new OverlayItem(geoCache.getLocationGeoPoint(), "", "");
-	cacheItemizedOverlay.addOverlay(cacheOverlayItem);
+	cacheItemizedOverlay.addOverlayItem(cacheOverlayItem);
 	mapOverlays.add(cacheItemizedOverlay);
 
 	map.invalidate();

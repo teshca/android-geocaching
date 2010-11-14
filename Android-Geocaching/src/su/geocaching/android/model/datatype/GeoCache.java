@@ -17,6 +17,8 @@ public class GeoCache implements Serializable {
 
     public GeoCache() {
 	locationGeoPoint = new GeoPoint(0, 0);
+	type = GeoCacheType.TRADITIONAL;
+	status = GeoCacheStatus.VALID;
     }
 
     @Deprecated
