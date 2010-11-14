@@ -31,14 +31,14 @@ public class MainMenu extends Activity implements OnClickListener {
      */
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-	super.onCreate(savedInstanceState);
-	setContentView(R.layout.main_menu);
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.main_menu);
 
-	btSearchGeoCache = (Button) findViewById(R.id.btSearchGeocache);
-	btSelectGeoCache = (Button) findViewById(R.id.btSelectGeocache);
+        btSearchGeoCache = (Button) findViewById(R.id.btSearchGeocache);
+        btSelectGeoCache = (Button) findViewById(R.id.btSelectGeocache);
 
-	btSearchGeoCache.setOnClickListener(this);
-	btSelectGeoCache.setOnClickListener(this);
+        btSearchGeoCache.setOnClickListener(this);
+        btSelectGeoCache.setOnClickListener(this);
     }
 
     /**
@@ -46,44 +46,39 @@ public class MainMenu extends Activity implements OnClickListener {
      */
     @Override
     public void onClick(View v) {
-	if (v.equals(btSearchGeoCache)) {
-	    startSearchGeoCache();
-	} else if (v.equals(btSelectGeoCache)) {
-	    startSelectGeoCache();
-	} else {
-	    Log.d(TAG, "unknown view was clicked");
-	    // not implemented yet
-	}
+        if (v.equals(btSearchGeoCache)) {
+            startSearchGeoCache();
+        } else if (v.equals(btSelectGeoCache)) {
+            startSelectGeoCache();
+        } else {
+            Log.d(TAG, "unknown view was clicked");
+            // not implemented yet
+        }
     }
 
     /**
      * Starting activity to search GeoCache
      */
     private void startSearchGeoCache() {
-	Intent intent = new Intent(this, SearchGeoCacheMap.class);
-	intent.putExtra(DEFAULT_GEOCACHE_ID_NAME, DEFAULT_GEOCACHE_ID_VALUE);
-	intent.putExtra("layout", R.layout.search_geocache_map);
-	intent.putExtra("mapID", R.id.searchGeocacheMap);
-	startActivity(intent);
+        Intent intent = new Intent(this, SearchGeoCacheMap.class);
+        intent.putExtra(DEFAULT_GEOCACHE_ID_NAME, DEFAULT_GEOCACHE_ID_VALUE);
+        intent.putExtra("layout", R.layout.search_geocache_map);
+        intent.putExtra("mapID", R.id.searchGeocacheMap);
+        startActivity(intent);
     }
 
     /**
      * Starting activity to select GeoCache
      */
     private void startSelectGeoCache() {
-	// this code does not work. it is meaningless
-	// ConnectivityManager cm = (ConnectivityManager)
-	// getSystemService(Context.CONNECTIVITY_SERVICE);
-	// if (cm.getActiveNetworkInfo() == null ||
-	// !cm.getActiveNetworkInfo().isConnectedOrConnecting()) {
-	// Toast.makeText(getApplicationContext(),
-	// "You must be connected to the Internet!", Toast.LENGTH_SHORT);
-	// } else {
-	Intent intent = new Intent(this, SelectGeoCacheMap.class);
-	intent.putExtra("layout", R.layout.select_geocache_map);
-	intent.putExtra("mapID", R.id.selectGeocacheMap);
-	startActivity(intent);
-	// this.finish();
-	// }
+        ConnectivityManager cm = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
+        if (cm.getActiveNetworkInfo() == null || !cm.getActiveNetworkInfo().isConnectedOrConnecting()) {
+            Toast.makeText(getApplicationContext(), "You must be connected to the Internet!", Toast.LENGTH_SHORT);
+        } else {
+            Intent intent = new Intent(this, SelectGeoCacheMap.class);
+            intent.putExtra("layout", R.layout.select_geocache_map);
+            intent.putExtra("mapID", R.id.selectGeocacheMap);
+            startActivity(intent);
+        }
     }
 }
