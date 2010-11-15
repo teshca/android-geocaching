@@ -20,13 +20,11 @@
     <string name="menu_geocache_info">GeoCache info</string>  
     <string name="menu_quit">Exit</string>  
     
-     <string name="google_map_api_key"></string>     
-     
-     <string name="info_geocach_button_text">Подробная информация</string>
-      <string name="info_geocach_Go_button">Перейти к поиску</string>
-      <string name="info_geocach_name_geocach">Название</string>
+    <string name="info_geocach_button_text">Подробная информация</string>
+    <string name="info_geocach_Go_button">Перейти к поиску</string>
+    <string name="info_geocach_name_geocach">Название</string>
       
-      <string name="favorit_folder_title_text">Список добавленных тайников\nВ разработке</string>
-      <string name="favorit_folder_userstory_text">Папка Favorit</string>
+    <string name="favorit_folder_title_text">Список добавленных тайников\nВ разработке</string>
+    <string name="favorit_folder_userstory_text">Папка Favorit</string>
       
 </resources>
