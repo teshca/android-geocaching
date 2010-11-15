@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+  xmlns:android="http://schemas.android.com/apk/res/android"
+  android:layout_width="fill_parent"
+  android:layout_height="fill_parent"
+  android:orientation="vertical"
+  android:padding="5dip">
+  	<LinearLayout 
+  	xmlns:android="http://schemas.android.com/apk/res/android"
+  	android:layout_width="fill_parent"
+  	android:layout_height="wrap_content"
+  	android:orientation="horizontal"
+  	>
+  <TextView
+  	android:layout_width="wrap_content"
+  	android:layout_height="wrap_content"
+  	android:id="@+id/info_text_name"
+  	android:text="@string/info_geocach_name_geocach"
+  	 />
+  	 
+  	 <ImageButton
+  	 	android:src="@drawable/red_star"
+  	 	android:id="@+id/td"
+  	 	android:layout_width="fill_parent"
+  	 	android:background="#000000"
+  		android:layout_height="wrap_content"
+  		 
+  	 />
+  	 
+  	 </LinearLayout>
+  <WebView
+  android:id="@+id/info_web_brouse"
+  	android:layout_width="fill_parent"
+  	android:layout_height="wrap_content"
+  />
+  <Button
+  	android:layout_width="wrap_content"
+  	android:layout_height="wrap_content"
+  	android:gravity="left"
+  	android:text="@string/info_geocach_Go_button"
+  	android:id="@+id/info_geocach_Go_button"
+  	 />
+</LinearLayout>

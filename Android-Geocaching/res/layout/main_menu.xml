@@ -11,10 +11,24 @@
         android:clickable="true"
         android:text="@string/select_geocache_button_text"/>
         
-    <Button android:id="@+id/btSearchGeocache"
+        <Button android:id="@+id/btSearchGeocache"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
         android:padding="10px"
         android:clickable="true"
         android:text="@string/search_geocache_button_text"/>
+        
+        <Button android:id="@+id/btInfoGeocache"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:padding="10px"
+        android:clickable="true"
+        android:text="@string/info_geocach_button_text"/>
+        
+        <Button android:id="@+id/btFavoritFolder"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:padding="10px"
+        android:clickable="true"
+        android:text="@string/favorit_folder_userstory_text"/>
 </LinearLayout>
