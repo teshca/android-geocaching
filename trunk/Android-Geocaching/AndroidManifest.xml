@@ -54,8 +54,25 @@
             </intent-filter>
         </activity>
 
+        <activity android:name=".userstory.incocach.Info_cach">
+        		<intent-filter>
+                <action android:name="android.intent.action.RUN"/>
+                <category android:name="android.intent.category.DEFAULT"/>
+            </intent-filter>
+        </activity>
+        
+        <activity android:name=".userstory.favoritwork.FavoritFolder">
+        	<intent-filter>
+                <action android:name="android.intent.action.RUN"/>
+                <category android:name="android.intent.category.DEFAULT"/>
+            </intent-filter>
+        </activity>
+        
+        
         <uses-library android:name="com.google.android.maps"/>
-    </application>
+    
+
+</application>
 
 
 </manifest>

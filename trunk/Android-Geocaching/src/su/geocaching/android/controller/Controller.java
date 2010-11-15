@@ -5,6 +5,7 @@ import su.geocaching.android.controller.apimanager.ApiManager;
 import su.geocaching.android.controller.apimanager.IApiManager;
 import su.geocaching.android.controller.filter.IFilter;
 import su.geocaching.android.controller.filter.NoFilter;
+import su.geocaching.android.model.datastorage.DBmanager;
 import su.geocaching.android.model.datastorage.GeoCacheStorage;
 import su.geocaching.android.model.datastorage.SettingsStorage;
 import su.geocaching.android.model.datatype.GeoCache;
