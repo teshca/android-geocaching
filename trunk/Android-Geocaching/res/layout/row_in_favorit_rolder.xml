@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+  xmlns:android="http://schemas.android.com/apk/res/android"
+  android:layout_width="wrap_content"
+  android:layout_height="fill_parent"
+  android:orientation="horizontal"
+  >
+  
+  <ImageView
+  android:layout_width="wrap_content"
+  android:layout_height="fill_parent"
+  android:id="@+id/favorit_list_imagebutton_type"
+  android:layout_gravity="center_vertical"
+  />
+  <TextView 
+  android:layout_width="wrap_content"
+  android:layout_height="fill_parent"
+  android:id="@+id/favorit_list_textview_name"
+  android:textStyle="bold"
+  android:layout_marginLeft="10dip"
+  android:layout_marginTop="5dip"
+  android:layout_marginBottom="5dip"
+  android:text="fdskkl;vjas"
+  android:gravity="center_vertical"
+  />
+  
+  <LinearLayout 
+  xmlns:android="http://schemas.android.com/apk/res/android"
+  android:layout_width="fill_parent"
+  android:layout_height="fill_parent"
+  android:orientation="horizontal"
+  android:gravity="right"
+    >
+  <ImageView
+  	android:layout_width="wrap_content"
+  	android:layout_height="fill_parent"
+  	android:src="@drawable/icon_favorit_folder_delete"
+  	android:layout_gravity="center"
+  />
+  
+  <ImageView
+  	android:layout_width="wrap_content"
+  	android:layout_height="fill_parent"
+  	android:src="@drawable/icon_search"
+  	android:layout_gravity="right"
+  />
+  </LinearLayout>
+  
+</LinearLayout>
