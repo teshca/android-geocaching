@@ -1,4 +1,4 @@
-package su.geocaching.android.view.geocachemap;
+package su.geocaching.android.ui.geocachemap;
 
 import android.hardware.Sensor;
 import android.hardware.SensorEvent;

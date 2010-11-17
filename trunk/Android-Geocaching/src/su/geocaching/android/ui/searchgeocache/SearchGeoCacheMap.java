@@ -1,10 +1,10 @@
-package su.geocaching.android.view.searchgeocache;
+package su.geocaching.android.ui.searchgeocache;
 
 import su.geocaching.android.model.datatype.GeoCache;
 import su.geocaching.android.ui.MenuActivity;
 import su.geocaching.android.ui.R;
-import su.geocaching.android.view.geocachemap.GeoCacheItemizedOverlay;
-import su.geocaching.android.view.geocachemap.GeoCacheMap;
+import su.geocaching.android.ui.geocachemap.GeoCacheItemizedOverlay;
+import su.geocaching.android.ui.geocachemap.GeoCacheMap;
 import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;

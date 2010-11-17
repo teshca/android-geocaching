@@ -1,13 +1,13 @@
-package su.geocaching.android.view.searchgeocache;
+package su.geocaching.android.ui.searchgeocache;
 
 import su.geocaching.android.model.datatype.GeoCache;
 import su.geocaching.android.ui.MenuActivity;
 import su.geocaching.android.ui.R;
+import su.geocaching.android.ui.geocachemap.GeoCacheCompassManager;
+import su.geocaching.android.ui.geocachemap.GeoCacheLocationManager;
+import su.geocaching.android.ui.geocachemap.ICompassAware;
+import su.geocaching.android.ui.geocachemap.ILocationAware;
 import su.geocaching.android.utils.Helper;
-import su.geocaching.android.view.geocachemap.GeoCacheCompassManager;
-import su.geocaching.android.view.geocachemap.GeoCacheLocationManager;
-import su.geocaching.android.view.geocachemap.ICompassAware;
-import su.geocaching.android.view.geocachemap.ILocationAware;
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.Context;

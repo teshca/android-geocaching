@@ -10,7 +10,7 @@ import su.geocaching.android.model.datastorage.GeoCacheStorage;
 import su.geocaching.android.model.datastorage.SettingsStorage;
 import su.geocaching.android.model.datatype.GeoCache;
 import su.geocaching.android.ui.R;
-import su.geocaching.android.view.geocachemap.GeoCacheMap;
+import su.geocaching.android.ui.geocachemap.GeoCacheMap;
 import android.graphics.drawable.Drawable;
 
 /**

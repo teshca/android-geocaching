@@ -1,7 +1,7 @@
 package su.geocaching.android.ui;
 
-import su.geocaching.android.view.searchgeocache.SearchGeoCacheMap;
-import su.geocaching.android.view.selectgeocache.SelectGeoCacheMap;
+import su.geocaching.android.ui.searchgeocache.SearchGeoCacheMap;
+import su.geocaching.android.ui.selectgeocache.SelectGeoCacheMap;
 import su.geocaching.android.view.userstory.favoritwork.FavoritFolder;
 import su.geocaching.android.view.userstory.incocach.Info_cach;
 import android.app.Activity;
