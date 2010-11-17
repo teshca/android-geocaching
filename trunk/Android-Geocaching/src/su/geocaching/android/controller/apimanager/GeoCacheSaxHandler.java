@@ -18,7 +18,7 @@ import com.google.android.maps.GeoPoint;
  * <id>8901</id>
  * <cn>10</cn>
  * <a>47</a>
- * <n>Òðîèöêàÿ öåðêîâü â ñåëå Ì¸äóøè</n>
+ * <n>Geocache name</n>
  * <la>59.6952333333</la>
  * <ln>29.3968666667</ln>
  * <ct>3</ct>
@@ -79,9 +79,7 @@ public class GeoCacheSaxHandler extends DefaultHandler {
 	if (localName.equalsIgnoreCase(ID)) {
 	    geoCache.setId(Integer.parseInt(text));
 	} else if (localName.equalsIgnoreCase(CN)) {
-	    // TODO What is CN?
 	} else if (localName.equalsIgnoreCase(A)) {
-	    // TODO What is A?
 	} else if (localName.equalsIgnoreCase(NAME)) {
 	    geoCache.setName(text);
 	} else if (localName.equalsIgnoreCase(LATITUDE)) {
@@ -89,10 +87,10 @@ public class GeoCacheSaxHandler extends DefaultHandler {
 	} else if (localName.equalsIgnoreCase(LONGITUDE)) {
 	    longitude = parseCoordinate(text);
 	} else if (localName.equalsIgnoreCase(CACH_TYPE)) {
-	    int type = parseCacheParametr(text);
+	    int type = parseCacheParameter(text);
 	    setGeoCacheType(type);
 	} else if (localName.equalsIgnoreCase(STATUS)) {
-	    int status = parseCacheParametr(text);
+	    int status = parseCacheParameter(text);
 	    setGeoCacheStatus(status);
 	} else if (localName.equalsIgnoreCase(C)) {
 	    geoCache.setLocationGeoPoint(new GeoPoint(latitude, longitude));
@@ -102,7 +100,7 @@ public class GeoCacheSaxHandler extends DefaultHandler {
 	super.endElement(uri, localName, qName);
     }
 
-    private int parseCoordinate(String coordinate) {
+    private static int parseCoordinate(String coordinate) {
 	int result = 0;
 	try {
 	    result = (int) (Double.parseDouble(coordinate) * 1E6);
@@ -112,7 +110,7 @@ public class GeoCacheSaxHandler extends DefaultHandler {
 	return result;
     }
 
-    private int parseCacheParametr(String parametr) {
+    private static int parseCacheParameter(String parametr) {
 	int result = 1;
 	try {
 	    result = Integer.parseInt(parametr);
@@ -158,7 +156,6 @@ public class GeoCacheSaxHandler extends DefaultHandler {
 
     @Override
     public void endDocument() throws SAXException {
-	// TODO Auto-generated method stub
 	super.endDocument();
     }
 
