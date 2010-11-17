@@ -1,18 +1,17 @@
 package su.geocaching.android.controller;
 
-import android.graphics.drawable.Drawable;
+import java.util.LinkedList;
+
 import su.geocaching.android.controller.apimanager.ApiManager;
 import su.geocaching.android.controller.apimanager.IApiManager;
 import su.geocaching.android.controller.filter.IFilter;
 import su.geocaching.android.controller.filter.NoFilter;
-import su.geocaching.android.model.datastorage.DBmanager;
 import su.geocaching.android.model.datastorage.GeoCacheStorage;
 import su.geocaching.android.model.datastorage.SettingsStorage;
 import su.geocaching.android.model.datatype.GeoCache;
-import su.geocaching.android.view.R;
+import su.geocaching.android.ui.R;
 import su.geocaching.android.view.geocachemap.GeoCacheMap;
-
-import java.util.LinkedList;
+import android.graphics.drawable.Drawable;
 
 /**
  * Author: Yuri Denison Date: 04.11.2010 21:06:02

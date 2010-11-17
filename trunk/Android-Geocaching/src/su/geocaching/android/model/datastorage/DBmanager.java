@@ -1,7 +1,5 @@
 package su.geocaching.android.model.datastorage;
 
-import com.google.android.maps.GeoPoint;
-
 import su.geocaching.android.model.datatype.GeoCache;
 import su.geocaching.android.model.datatype.GeoCacheStatus;
 import su.geocaching.android.model.datatype.GeoCacheType;
@@ -11,6 +9,8 @@ import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 import android.util.Log;
+
+import com.google.android.maps.GeoPoint;
 
 public class DBmanager extends SQLiteOpenHelper {
 

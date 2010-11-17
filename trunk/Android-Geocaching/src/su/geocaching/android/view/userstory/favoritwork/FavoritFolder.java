@@ -1,16 +1,13 @@
 package su.geocaching.android.view.userstory.favoritwork;
 
-import su.geocaching.android.view.R;
+import su.geocaching.android.ui.R;
 import android.app.Activity;
-import android.app.ListActivity;
 import android.content.Context;
-import android.graphics.Color;
 import android.os.Bundle;
 import android.view.Display;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.ViewGroup.LayoutParams;
 import android.view.WindowManager;
 import android.widget.BaseAdapter;
 import android.widget.ImageView;

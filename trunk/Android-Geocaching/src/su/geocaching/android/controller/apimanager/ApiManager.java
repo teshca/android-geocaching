@@ -1,23 +1,22 @@
 package su.geocaching.android.controller.apimanager;
 
-import android.util.Log;
-import android.webkit.URLUtil;
-
-import org.xml.sax.InputSource;
-import org.xml.sax.SAXException;
-
-import su.geocaching.android.controller.Controller;
-import su.geocaching.android.model.datatype.GeoCache;
-
-import javax.xml.parsers.ParserConfigurationException;
-import javax.xml.parsers.SAXParser;
-import javax.xml.parsers.SAXParserFactory;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.LinkedList;
+
+import javax.xml.parsers.ParserConfigurationException;
+import javax.xml.parsers.SAXParser;
+import javax.xml.parsers.SAXParserFactory;
+
+import org.xml.sax.InputSource;
+import org.xml.sax.SAXException;
+
+import su.geocaching.android.controller.Controller;
+import su.geocaching.android.model.datatype.GeoCache;
+import android.util.Log;
 
 /**
  * @author Nikita Bumakov

@@ -1,5 +1,10 @@
 package su.geocaching.android.view.searchgeocache;
 
+import su.geocaching.android.model.datatype.GeoCache;
+import su.geocaching.android.ui.MenuActivity;
+import su.geocaching.android.ui.R;
+import su.geocaching.android.view.geocachemap.GeoCacheItemizedOverlay;
+import su.geocaching.android.view.geocachemap.GeoCacheMap;
 import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
@@ -20,11 +25,6 @@ import android.widget.Toast;
 import com.google.android.maps.GeoPoint;
 import com.google.android.maps.MyLocationOverlay;
 import com.google.android.maps.OverlayItem;
-import su.geocaching.android.model.datatype.GeoCache;
-import su.geocaching.android.view.MainMenu;
-import su.geocaching.android.view.R;
-import su.geocaching.android.view.geocachemap.GeoCacheItemizedOverlay;
-import su.geocaching.android.view.geocachemap.GeoCacheMap;
 
 /**
  * @author Android-Geocaching.su student project team
@@ -121,7 +121,7 @@ public class SearchGeoCacheMap extends GeoCacheMap {
 	// MainMenu.DEFAULT_GEOCACHE_ID_NAME, -1));
 
 	Intent intent = this.getIntent();
-	geoCache = new GeoCache(intent.getIntExtra(MainMenu.DEFAULT_GEOCACHE_ID_NAME, -1));
+	geoCache = new GeoCache(intent.getIntExtra(MenuActivity.DEFAULT_GEOCACHE_ID_NAME, -1));
 	isLocationFixed = intent.getBooleanExtra("location fixed", false);
 	statusTextView = (TextView) findViewById(R.id.statusTextView);
 

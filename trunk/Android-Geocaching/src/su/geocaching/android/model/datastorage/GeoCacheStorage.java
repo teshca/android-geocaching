@@ -1,8 +1,8 @@
 package su.geocaching.android.model.datastorage;
 
-import su.geocaching.android.model.datatype.GeoCache;
-
 import java.util.LinkedList;
+
+import su.geocaching.android.model.datatype.GeoCache;
 
 /**
  * Author: Yuri Denison Date: 04.11.2010 21:16:59

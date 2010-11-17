@@ -1,11 +1,12 @@
 package su.geocaching.android.view.geocachemap;
 
+import java.util.ArrayList;
+
 import android.graphics.drawable.Drawable;
+
 import com.google.android.maps.GeoPoint;
 import com.google.android.maps.MapView;
 import com.google.android.maps.OverlayItem;
-
-import java.util.ArrayList;
 
 /**
  * @author Android-Geocaching.su student project team

@@ -1,5 +1,13 @@
 package su.geocaching.android.view.searchgeocache;
 
+import su.geocaching.android.model.datatype.GeoCache;
+import su.geocaching.android.ui.MenuActivity;
+import su.geocaching.android.ui.R;
+import su.geocaching.android.utils.Helper;
+import su.geocaching.android.view.geocachemap.GeoCacheCompassManager;
+import su.geocaching.android.view.geocachemap.GeoCacheLocationManager;
+import su.geocaching.android.view.geocachemap.ICompassAware;
+import su.geocaching.android.view.geocachemap.ILocationAware;
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.Context;
@@ -13,11 +21,6 @@ import android.provider.Settings;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
-import su.geocaching.android.model.datatype.GeoCache;
-import su.geocaching.android.utils.Helper;
-import su.geocaching.android.view.MainMenu;
-import su.geocaching.android.view.R;
-import su.geocaching.android.view.geocachemap.*;
 
 /**
  * @author Android-Geocaching.su student project team
@@ -103,7 +106,7 @@ public class SearchGeoCacheCompass extends Activity implements ILocationAware, I
 	setContentView(R.layout.search_geocache_compass);
 	compassView = (GraphicCompassView) findViewById(R.id.compassView);
 	thisIntent = this.getIntent();
-	geoCache = new GeoCache(thisIntent.getIntExtra(MainMenu.DEFAULT_GEOCACHE_ID_NAME, -1));
+	geoCache = new GeoCache(thisIntent.getIntExtra(MenuActivity.DEFAULT_GEOCACHE_ID_NAME, -1));
 	locManager = new GeoCacheLocationManager(this, (LocationManager) this.getSystemService(LOCATION_SERVICE));
 	compass = new GeoCacheCompassManager(this, (SensorManager) this.getSystemService(SENSOR_SERVICE));
 	isLocationFixed = thisIntent.getBooleanExtra("location fixed", false);
@@ -184,7 +187,7 @@ public class SearchGeoCacheCompass extends Activity implements ILocationAware, I
      */
     private void startMapView() {
 	Intent intent = new Intent(this, SearchGeoCacheMap.class);
-	intent.putExtra(MainMenu.DEFAULT_GEOCACHE_ID_NAME, geoCache.getId());
+	intent.putExtra(MenuActivity.DEFAULT_GEOCACHE_ID_NAME, geoCache.getId());
 	intent.putExtra("layout", R.layout.search_geocache_map);
 	intent.putExtra("mapID", R.id.searchGeocacheMap);
 	intent.putExtra("location fixed", locManager.isLocationFixed());

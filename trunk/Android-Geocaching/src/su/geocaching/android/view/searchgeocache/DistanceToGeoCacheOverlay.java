@@ -1,14 +1,14 @@
 package su.geocaching.android.view.searchgeocache;
 
+import su.geocaching.android.utils.Helper;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
 import android.graphics.Point;
+
 import com.google.android.maps.GeoPoint;
 import com.google.android.maps.MapView;
 import com.google.android.maps.Projection;
-
-import su.geocaching.android.utils.Helper;
 
 public class DistanceToGeoCacheOverlay extends com.google.android.maps.Overlay {
 
