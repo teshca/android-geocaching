@@ -1,4 +1,4 @@
-package su.geocaching.android.view.geocachemap;
+package su.geocaching.android.ui.geocachemap;
 
 import java.util.List;
 

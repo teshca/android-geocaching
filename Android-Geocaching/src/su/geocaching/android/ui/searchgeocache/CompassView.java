@@ -1,4 +1,4 @@
-package su.geocaching.android.view.searchgeocache;
+package su.geocaching.android.ui.searchgeocache;
 
 import su.geocaching.android.utils.Helper;
 import android.content.Context;

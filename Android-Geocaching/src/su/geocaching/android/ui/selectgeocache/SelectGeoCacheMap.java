@@ -1,4 +1,4 @@
-package su.geocaching.android.view.selectgeocache;
+package su.geocaching.android.ui.selectgeocache;
 
 import java.util.HashMap;
 import java.util.LinkedList;
@@ -6,8 +6,8 @@ import java.util.LinkedList;
 import su.geocaching.android.controller.Controller;
 import su.geocaching.android.model.datatype.GeoCache;
 import su.geocaching.android.model.datatype.GeoCacheType;
-import su.geocaching.android.view.geocachemap.GeoCacheItemizedOverlay;
-import su.geocaching.android.view.geocachemap.GeoCacheMap;
+import su.geocaching.android.ui.geocachemap.GeoCacheItemizedOverlay;
+import su.geocaching.android.ui.geocachemap.GeoCacheMap;
 import su.geocaching.android.view.showgeocacheinfo.ShowGeoCacheInfo;
 import android.content.Intent;
 import android.graphics.drawable.Drawable;

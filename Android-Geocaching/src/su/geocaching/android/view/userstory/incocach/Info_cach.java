@@ -1,7 +1,7 @@
 package su.geocaching.android.view.userstory.incocach;
 
 import su.geocaching.android.ui.R;
-import su.geocaching.android.view.searchgeocache.SearchGeoCacheMap;
+import su.geocaching.android.ui.searchgeocache.SearchGeoCacheMap;
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
