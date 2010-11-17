@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string name="app_name">Geocaching.su Mobile Client</string>
-    <string name="select_geocache_button_text">Select GeoCache</string>
-    <string name="search_geocache_button_text">Search GeoCache</string>
+    
+    
     
     <string name="waiting_location_fix_message">Получение координат. Это может занять некоторое время.</string>
     <string name="waiting_location_fix_cancel">Назад</string>
@@ -21,7 +21,7 @@
 
     <string name="menu_quit">Exit</string>     
      
-     <string name="info_geocach_button_text">Подробная информация</string>
+     
       <string name="info_geocach_Go_button">Перейти к поиску</string>
       <string name="info_geocach_name_geocach">Название</string>
 
