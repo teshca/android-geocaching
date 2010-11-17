@@ -1,8 +1,8 @@
 package su.geocaching.android.model.datastorage;
 
-import su.geocaching.android.controller.filter.IFilter;
-
 import java.util.LinkedList;
+
+import su.geocaching.android.controller.filter.IFilter;
 
 /**
  * Author: Yuri Denison Date: 04.11.2010 23:24:10

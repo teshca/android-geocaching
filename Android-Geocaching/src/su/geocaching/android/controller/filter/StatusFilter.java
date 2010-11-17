@@ -1,9 +1,9 @@
 package su.geocaching.android.controller.filter;
 
+import java.util.LinkedList;
+
 import su.geocaching.android.model.datatype.GeoCache;
 import su.geocaching.android.model.datatype.GeoCacheStatus;
-
-import java.util.LinkedList;
 
 /**
  * Author: Yuri Denison Date: 05.11.2010 3:01:35

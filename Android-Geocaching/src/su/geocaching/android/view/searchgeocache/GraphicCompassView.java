@@ -1,7 +1,7 @@
 package su.geocaching.android.view.searchgeocache;
 
+import su.geocaching.android.ui.R;
 import su.geocaching.android.utils.Helper;
-
 import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
@@ -64,10 +64,10 @@ public class GraphicCompassView extends View {
 	int center = Math.min(canvasHeight, canvasWidth) / 2;
 
 	// Decoding resources
-	Bitmap arrow = BitmapFactory.decodeResource(getContext().getResources(), su.geocaching.android.view.R.drawable.arrow);
-	Bitmap geoCacheCircle = BitmapFactory.decodeResource(getContext().getResources(), su.geocaching.android.view.R.drawable.gccircle);
-	Bitmap rectangle = BitmapFactory.decodeResource(getContext().getResources(), su.geocaching.android.view.R.drawable.rectangle);
-	Bitmap windrose = BitmapFactory.decodeResource(getContext().getResources(), su.geocaching.android.view.R.drawable.northcircle);
+	Bitmap arrow = BitmapFactory.decodeResource(getContext().getResources(), R.drawable.arrow);
+	Bitmap geoCacheCircle = BitmapFactory.decodeResource(getContext().getResources(), R.drawable.gccircle);
+	Bitmap rectangle = BitmapFactory.decodeResource(getContext().getResources(), R.drawable.rectangle);
+	Bitmap windrose = BitmapFactory.decodeResource(getContext().getResources(), R.drawable.northcircle);
 
 	// Scaling bitmaps
 	Matrix gcRotateMatrix = new Matrix();

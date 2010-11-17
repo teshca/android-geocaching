@@ -1,7 +1,6 @@
 package su.geocaching.android.view.searchgeocache;
 
 import su.geocaching.android.utils.Helper;
-
 import android.content.Context;
 import android.graphics.Canvas;
 import android.graphics.Color;

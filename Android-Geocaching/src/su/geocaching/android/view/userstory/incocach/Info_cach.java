@@ -1,6 +1,6 @@
 package su.geocaching.android.view.userstory.incocach;
 
-import su.geocaching.android.view.R;
+import su.geocaching.android.ui.R;
 import su.geocaching.android.view.searchgeocache.SearchGeoCacheMap;
 import android.app.Activity;
 import android.content.Intent;
@@ -30,7 +30,7 @@ public class Info_cach extends Activity implements OnClickListener {
 	
 	wvWebrouse=(WebView)findViewById(R.id.info_web_brouse);
 	btGo=(Button)findViewById(R.id.info_geocach_Go_button);
-	ibAddDelCach=(ImageButton)findViewById(R.id.td);
+//	ibAddDelCach=(ImageButton)findViewById(R.id.td);
 	
 	tvNametext=(TextView)findViewById(R.id.info_text_name);
 	dsDis=((WindowManager)getSystemService(WINDOW_SERVICE)).getDefaultDisplay(); 

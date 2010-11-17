@@ -1,5 +1,14 @@
 package su.geocaching.android.view.selectgeocache;
 
+import java.util.HashMap;
+import java.util.LinkedList;
+
+import su.geocaching.android.controller.Controller;
+import su.geocaching.android.model.datatype.GeoCache;
+import su.geocaching.android.model.datatype.GeoCacheType;
+import su.geocaching.android.view.geocachemap.GeoCacheItemizedOverlay;
+import su.geocaching.android.view.geocachemap.GeoCacheMap;
+import su.geocaching.android.view.showgeocacheinfo.ShowGeoCacheInfo;
 import android.content.Intent;
 import android.graphics.drawable.Drawable;
 import android.location.Location;
@@ -8,15 +17,6 @@ import android.util.Log;
 
 import com.google.android.maps.GeoPoint;
 import com.google.android.maps.OverlayItem;
-import su.geocaching.android.controller.Controller;
-import su.geocaching.android.model.datatype.GeoCache;
-import su.geocaching.android.model.datatype.GeoCacheType;
-import su.geocaching.android.view.geocachemap.GeoCacheItemizedOverlay;
-import su.geocaching.android.view.geocachemap.GeoCacheMap;
-import su.geocaching.android.view.showgeocacheinfo.ShowGeoCacheInfo;
-
-import java.util.HashMap;
-import java.util.LinkedList;
 
 /**
  * Author: Yuri Denison Date: 04.11.2010 18:26:39

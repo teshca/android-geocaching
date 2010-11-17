@@ -1,16 +1,17 @@
 package su.geocaching.android.controller.apimanager;
 
-import android.util.Log;
+import java.util.LinkedList;
 
-import com.google.android.maps.GeoPoint;
 import org.xml.sax.Attributes;
 import org.xml.sax.SAXException;
 import org.xml.sax.helpers.DefaultHandler;
+
 import su.geocaching.android.model.datatype.GeoCache;
 import su.geocaching.android.model.datatype.GeoCacheStatus;
 import su.geocaching.android.model.datatype.GeoCacheType;
+import android.util.Log;
 
-import java.util.LinkedList;
+import com.google.android.maps.GeoPoint;
 
 /*
  * <c>

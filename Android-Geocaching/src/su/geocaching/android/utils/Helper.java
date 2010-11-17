@@ -2,9 +2,9 @@ package su.geocaching.android.utils;
 
 import java.text.DecimalFormat;
 
-import com.google.android.maps.GeoPoint;
-
 import android.location.Location;
+
+import com.google.android.maps.GeoPoint;
 
 /**
  * @author Grigory Kalabin. grigory.kalabin@gmail.com

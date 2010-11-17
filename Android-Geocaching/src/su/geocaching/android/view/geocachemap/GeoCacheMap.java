@@ -1,16 +1,17 @@
 package su.geocaching.android.view.geocachemap;
 
+import java.util.List;
+
+import su.geocaching.android.ui.R;
 import android.content.Intent;
 import android.location.Location;
 import android.location.LocationManager;
 import android.os.Bundle;
+
 import com.google.android.maps.MapActivity;
 import com.google.android.maps.MapController;
 import com.google.android.maps.MapView;
 import com.google.android.maps.Overlay;
-import su.geocaching.android.view.R;
-
-import java.util.List;
 
 /**
  * @author Android-Geocaching.su student project team
@@ -40,7 +41,7 @@ public abstract class GeoCacheMap extends MapActivity implements ILocationAware 
 
     @Override
     protected void onResume() {
-	super.onResume();	
+	super.onResume();
     }
 
     @Override
