@@ -90,7 +90,7 @@ public class SelectGeoCacheMap extends GeoCacheMap {
 
 	// TODO:
 	Drawable marker = controller.getMarker(new GeoCache(), this);
-	if (geoCacheList != null) {
+	if (geoCacheList != null && geoCacheList.size() >0) {
 	    marker = controller.getMarker(geoCacheList.get(0), this);
 	}
 	// -------------
