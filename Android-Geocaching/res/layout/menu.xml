@@ -6,7 +6,7 @@
 <ImageView style="@style/TitleBarSeparator"></ImageView><ImageButton android:id="@+id/title_button" style="@style/TitleBarAction"></ImageButton>
 
 </LinearLayout>
-<LinearLayout android:layout_height="wrap_content" android:orientation="vertical" android:padding="10dip" android:layout_width="fill_parent" android:layout_weight="1"><LinearLayout android:layout_height="wrap_content" android:layout_width="fill_parent" android:layout_weight="1" android:orientation="horizontal"><Button android:drawableTop="@drawable/search_icon" style="@style/MenuButton" android:text="@string/search_geocache" android:id="@+id/SearchButton"></Button>
+<LinearLayout android:layout_height="wrap_content" android:orientation="vertical" android:padding="10dip" android:layout_width="fill_parent" android:layout_weight="1"><LinearLayout android:layout_height="wrap_content" android:layout_width="fill_parent" android:layout_weight="1" android:orientation="horizontal"><Button style="@style/MenuButton" android:text="@string/search_geocache" android:id="@+id/SearchButton" android:drawableTop="@drawable/menu_search_icon"></Button>
 <Button android:id="@+id/SelectButton" style="@style/MenuButton" android:drawableTop="@drawable/select_icon" android:text="@string/select_geocache"></Button>
 </LinearLayout>
 <LinearLayout android:layout_height="wrap_content" android:layout_weight="1" android:layout_width="fill_parent" android:orientation="horizontal"><Button android:layout_width="wrap_content" android:layout_height="wrap_content" android:id="@+id/InfoButton" android:text="@string/info" style="@style/MenuButton" android:drawableTop="@drawable/cache_info_icon"></Button>

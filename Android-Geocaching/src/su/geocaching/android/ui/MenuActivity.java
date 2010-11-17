@@ -29,7 +29,7 @@ public class MenuActivity extends Activity implements OnClickListener {
     protected void onCreate(Bundle savedInstanceState) {
 	super.onCreate(savedInstanceState);
 	Log.d(TAG, "onCreate");
-	
+
 	setContentView(R.layout.menu);
 	initButtons();
     }
@@ -49,25 +49,14 @@ public class MenuActivity extends Activity implements OnClickListener {
     @Override
     public void onClick(View v) {
 	if (v.equals(searchButton)) {
-	    startSelectGeoCache();
-	} else if (v.equals(selectButton)) {
 	    startSearchGeoCache();
+	} else if (v.equals(selectButton)) {
+	    startSelectGeoCache();
 	} else if (v.equals(infoButton)) {
 	    startInfoGeoCache();
 	} else if (v.equals(favoritButton)) {
 	    startFavoritFolder();
 	}
-    }
-
-    /**
-     * Starting activity to select GeoCache
-     */
-    private void startSelectGeoCache() {
-	// TODO check internet
-	Intent intent = new Intent(this, SelectGeoCacheMap.class);
-	intent.putExtra("layout", R.layout.select_geocache_map);
-	intent.putExtra("mapID", R.id.selectGeocacheMap);
-	startActivity(intent);
     }
 
     /**
@@ -82,6 +71,17 @@ public class MenuActivity extends Activity implements OnClickListener {
 	startActivity(intent);
     }
 
+    /**
+     * Starting activity to select GeoCache
+     */
+    private void startSelectGeoCache() {
+	// TODO check internet
+	Intent intent = new Intent(this, SelectGeoCacheMap.class);
+	intent.putExtra("layout", R.layout.select_geocache_map);
+	intent.putExtra("mapID", R.id.selectGeocacheMap);
+	startActivity(intent);
+    }
+
     private void startInfoGeoCache() {
 	Intent intent = new Intent(this, Info_cach.class);
 	startActivity(intent);
@@ -91,8 +91,8 @@ public class MenuActivity extends Activity implements OnClickListener {
 	Intent intent = new Intent(this, FavoritFolder.class);
 	startActivity(intent);
     }
-    
-    //TODO Delete it
+
+    // TODO Delete it
     public static final String DEFAULT_GEOCACHE_ID_NAME = "GeoCache id";
 
 }
