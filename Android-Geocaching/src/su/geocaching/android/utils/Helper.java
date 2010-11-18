@@ -100,4 +100,12 @@ public class Helper {
 	}
 	return textDistance;
     }
+    
+    /**
+     * @param location - Location object
+     * @return location coverted to GeoPoint object
+     */
+    public static GeoPoint locationToGeoPoint(Location location) {
+	return new GeoPoint((int) (location.getLatitude() * 1E6), (int) (location.getLongitude() * 1E6));
+    }
 }

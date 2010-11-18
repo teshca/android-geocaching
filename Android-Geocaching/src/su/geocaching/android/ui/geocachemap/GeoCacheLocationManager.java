@@ -32,7 +32,7 @@ public class GeoCacheLocationManager implements LocationListener {
 	locationFixed = false;
 
     }
-
+    
     /**
      * Update location obtained from LocationManager
      */
@@ -108,5 +108,22 @@ public class GeoCacheLocationManager implements LocationListener {
 	}
 	locationFixed = true;
 	return true;
+    }
+
+    /**
+     * @return true if best provider enabled
+     */
+    public boolean isBestProviderEnabled() {
+        Criteria criteria = new Criteria();
+        criteria.setAccuracy(Criteria.ACCURACY_FINE);
+        String bestProv = locationManager.getBestProvider(criteria, false);
+        return locationManager.isProviderEnabled(bestProv);
+    }
+
+    public boolean isBestProviderGPS() {
+        Criteria criteria = new Criteria();
+        criteria.setAccuracy(Criteria.ACCURACY_FINE);
+        String bestProv = locationManager.getBestProvider(criteria, false);
+        return bestProv.equals(LocationManager.GPS_PROVIDER);
     }
 }
