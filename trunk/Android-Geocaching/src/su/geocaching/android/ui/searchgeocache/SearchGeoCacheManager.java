@@ -25,7 +25,7 @@ public class SearchGeoCacheManager implements ILocationAware {
     private GeoCacheLocationManager locationManager;
     private ISearchActivity activity;
     private GeoCache geoCache;
-    private GPSStatusListener gpsStatusListener;
+    private GpsStatusListener gpsStatusListener;
 
     /**
      * @param context - activity which used this manager
@@ -33,7 +33,7 @@ public class SearchGeoCacheManager implements ILocationAware {
     public SearchGeoCacheManager(ISearchActivity context) {
 	this.activity = context;
 	locationManager = new GeoCacheLocationManager(this, context.getLocationManager());
-	gpsStatusListener = new GPSStatusListener(activity);
+	gpsStatusListener = new GpsStatusListener(activity);
     }
 
     /**
@@ -51,10 +51,10 @@ public class SearchGeoCacheManager implements ILocationAware {
      */
     public void onResume() {
 	if (!locationManager.isBestProviderEnabled()) {
-	    if (!locationManager.isBestProviderGPS()) {
+	    if (!locationManager.isBestProviderGps()) {
 		Toast.makeText(activity.getContext(), activity.getContext().getString(R.string.device_without_gps_alert), Toast.LENGTH_LONG).show();
 	    }
-	    askTurnOnGPS();
+	    askTurnOnGps();
 	} else {
 	    activity.runLogic();
 	}
@@ -63,7 +63,7 @@ public class SearchGeoCacheManager implements ILocationAware {
     /**
      * Ask user turn on GPS, if this disabled
      */
-    private void askTurnOnGPS() {
+    private void askTurnOnGps() {
 	if (locationManager.isBestProviderEnabled()) {
 	    return;
 	}
@@ -82,8 +82,8 @@ public class SearchGeoCacheManager implements ILocationAware {
 			((Activity) activity.getContext()).finish();
 		    }
 		});
-	AlertDialog turnOnGPSAlert = builder.create();
-	turnOnGPSAlert.show();
+	AlertDialog turnOnGpsAlert = builder.create();
+	turnOnGpsAlert.show();
     }
 
     /**
@@ -150,7 +150,7 @@ public class SearchGeoCacheManager implements ILocationAware {
     @Override
     public void onProviderDisabled(String provider) {
 	if (!locationManager.isBestProviderEnabled()) {
-	    askTurnOnGPS();
+	    askTurnOnGps();
 	}
     }
 

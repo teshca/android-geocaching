@@ -8,13 +8,13 @@ import android.location.*;
  * @Nov 18, 2010
  * @description This class listen status of gps engine
  */
-public class GPSStatusListener implements GpsStatus.Listener {
+public class GpsStatusListener implements GpsStatus.Listener {
     private ISearchActivity activity;
     
     /**
      * @param activity - activity which used this listener
      */
-    public GPSStatusListener(ISearchActivity activity) {
+    public GpsStatusListener(ISearchActivity activity) {
 	this.activity = activity;
     }
     
