@@ -120,7 +120,7 @@ public class GeoCacheLocationManager implements LocationListener {
         return locationManager.isProviderEnabled(bestProv);
     }
 
-    public boolean isBestProviderGPS() {
+    public boolean isBestProviderGps() {
         Criteria criteria = new Criteria();
         criteria.setAccuracy(Criteria.ACCURACY_FINE);
         String bestProv = locationManager.getBestProvider(criteria, false);
