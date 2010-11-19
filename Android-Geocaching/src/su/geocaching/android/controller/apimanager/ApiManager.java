@@ -89,6 +89,7 @@ public class ApiManager implements IApiManager {
 	    }
 	}
 
+	Log.d(TAG, "Size of obtained listGeoCaches" + geoCaches.size());
 	return geoCaches;
     }
 
