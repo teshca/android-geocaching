@@ -8,6 +8,9 @@ import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.Button;
@@ -43,9 +46,31 @@ public class MenuActivity extends Activity implements OnClickListener {
 	searchButton.setOnClickListener(this);
 	selectButton.setOnClickListener(this);
 	infoButton.setOnClickListener(this);
-	favoritButton.setOnClickListener(this);
+	favoritButton.setOnClickListener(this);	
     }
 
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        MenuInflater inflater = getMenuInflater();
+        inflater.inflate(R.menu.home_option_menu, menu);
+        return true;
+    }
+    
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        // Handle item selection
+        switch (item.getItemId()) {
+        case R.id.enableGps:
+            startActivityForResult(new Intent(android.provider.Settings.ACTION_LOCATION_SOURCE_SETTINGS), 0);
+            return true;
+        case R.id.enableInternet:
+            startActivityForResult(new Intent(android.provider.Settings.ACTION_WIRELESS_SETTINGS), 0);
+            return true;
+        default:
+            return super.onOptionsItemSelected(item);
+        }
+    }
+    
     @Override
     public void onClick(View v) {
 	if (v.equals(searchButton)) {
