@@ -1,0 +1,32 @@
+<LinearLayout android:layout_width="fill_parent"
+	android:layout_height="fill_parent" xmlns:android="http://schemas.android.com/apk/res/android"
+	android:id="@+id/menu_root" android:background="@color/menu_background" android:orientation="vertical">
+	<LinearLayout style="@style/TitleBar" android:id="@+id/title_bar"
+		android:background="@drawable/geologo_background">
+		<ImageView android:src="@drawable/geologo" style="@style/TitleBarLogo"
+			android:id="@+id/title_logo"></ImageView>
+		<View style="@style/TitleBarSpring"></View>
+		<ImageView style="@style/TitleBarSeparator"></ImageView>
+		<ImageButton android:id="@+id/title_button" style="@style/TitleBarAction"></ImageButton>
+
+	</LinearLayout>
+	<LinearLayout android:layout_height="wrap_content"
+		android:padding="10dip"
+		android:layout_width="fill_parent" android:layout_weight="1" android:orientation="vertical">
+		<LinearLayout android:layout_height="wrap_content"
+			android:layout_width="fill_parent" android:layout_weight="1" android:orientation="horizontal">
+			<Button style="@style/MenuButton" android:text="@string/search_geocache"
+				android:id="@+id/SearchButton" android:drawableTop="@drawable/menu_search_icon"></Button>
+			
+		<Button android:id="@+id/InfoButton" android:text="@string/info" style="@style/MenuButton" android:drawableTop="@drawable/menu_infocache_icon"></Button><Button android:text="Кнопка" android:drawableTop="@drawable/menu_settings_icon" style="@style/MenuButton"></Button></LinearLayout>
+		<LinearLayout android:layout_height="wrap_content"
+			android:layout_weight="1" android:layout_width="fill_parent" android:orientation="horizontal"><Button android:id="@+id/SelectButton" style="@style/MenuButton" android:text="@string/select_geocache" android:drawableTop="@drawable/menu_select_icon"></Button>
+			
+			<Button android:drawableTop="@drawable/menu_favorites_icon"
+				style="@style/MenuButton" android:text="@string/favorites"
+				android:id="@+id/FavoritesButton"></Button>
+		<Button android:drawableTop="@drawable/menu_about_icon" style="@style/MenuButton" android:text="Кнопка 2"></Button></LinearLayout>
+	
+</LinearLayout>
+
+</LinearLayout>
