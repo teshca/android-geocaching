@@ -39,4 +39,5 @@
       <string name="favorit_folder_button_refresh_range">Обновить расстояния</string>
       <string name="favorit_folder_button_add_cache">Добавить тайник</string>
       
+<string name="distance_to_geocache">Расстояние до тайника:</string>
 </resources>
