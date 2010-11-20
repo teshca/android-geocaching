@@ -11,6 +11,7 @@ import android.graphics.Matrix;
 import android.graphics.Paint;
 import android.graphics.Rect;
 import android.util.AttributeSet;
+import android.util.Log;
 import android.view.View;
 
 /**
@@ -20,6 +21,9 @@ import android.view.View;
  *              geocache.
  */
 public class GraphicCompassView extends View {
+
+    private static final String TAG = GraphicCompassView.class.getCanonicalName();
+
     private static final int DEFAULT_PADDING = 15;
     private static final int DEFAULT_TEXT_SIZE = 20;
 
@@ -27,25 +31,32 @@ public class GraphicCompassView extends View {
     private float azimuthToCache; // in degrees
     private float distanceToGeoCache; // in meters
 
+    private Matrix windroseRotateMatrix;
+    private Bitmap compassBitmap;
+    private Paint paint;
+
     public GraphicCompassView(Context context) {
-	super(context);
-	azimuthToNorth = 0;
-	azimuthToCache = 0;
-	distanceToGeoCache = 0;
+	this(context, null, 0);
     }
 
     public GraphicCompassView(Context context, AttributeSet attrs) {
-	super(context, attrs);
-	azimuthToNorth = 0;
-	azimuthToCache = 0;
-	distanceToGeoCache = 0;
+	this(context, attrs, 0);
     }
 
     public GraphicCompassView(Context context, AttributeSet attrs, int defStyle) {
 	super(context, attrs, defStyle);
+	initParameters();
+    }
+
+    private void initParameters() {
 	azimuthToNorth = 0;
 	azimuthToCache = 0;
 	distanceToGeoCache = 0;
+
+	compassBitmap = BitmapFactory.decodeResource(getContext().getResources(), R.drawable.compass256);
+	windroseRotateMatrix = new Matrix();
+	paint = new Paint();
+	paint.setAntiAlias(true);
     }
 
     @Override
@@ -54,69 +65,38 @@ public class GraphicCompassView extends View {
 
 	// Convert angles relative mobile view direction
 	float azimuthNorthRel = azimuthToNorth;
-	float azimuthGCRel = azimuthToCache + azimuthToNorth;
+	// float azimuthGCRel = azimuthToCache + azimuthToNorth;
 
 	// Calculate radiuses of circles and their center
 	int canvasHeight = canvas.getHeight();
 	int canvasWidth = canvas.getWidth();
 	int bigRadius = Math.min(canvasHeight, canvasWidth) / 2 - DEFAULT_PADDING;
-	int smallRadius = bigRadius - 2 * DEFAULT_PADDING;
+	// int smallRadius = bigRadius - 2 * DEFAULT_PADDING;
 	int center = Math.min(canvasHeight, canvasWidth) / 2;
 
-	// Decoding resources
-	Bitmap arrow = BitmapFactory.decodeResource(getContext().getResources(), R.drawable.arrow);
-	Bitmap geoCacheCircle = BitmapFactory.decodeResource(getContext().getResources(), R.drawable.gccircle);
-	Bitmap rectangle = BitmapFactory.decodeResource(getContext().getResources(), R.drawable.rectangle);
-	Bitmap windrose = BitmapFactory.decodeResource(getContext().getResources(), R.drawable.northcircle);
+	float scaleWRPicX = (float) (2 * bigRadius) / compassBitmap.getWidth();
+	float scaleWRPicY = (float) (2 * bigRadius) / compassBitmap.getHeight();
 
-	// Scaling bitmaps
-	Matrix gcRotateMatrix = new Matrix();
-	Matrix windroseRotateMatrix = new Matrix();
-	Matrix arrowRotateMatrix = new Matrix();
-	Matrix rectRotateMatrix = new Matrix();
-	float scaleGCPicX = (float) (2 * bigRadius) / geoCacheCircle.getWidth();
-	float scaleGCPicY = (float) (2 * bigRadius) / geoCacheCircle.getHeight();
-	float scaleWRPicX = (float) (2 * smallRadius) / windrose.getWidth();
-	float scaleWRPicY = (float) (2 * smallRadius) / windrose.getHeight();
-	float scaleArrowPicX = 1;
-	float scaleArrowPicY = (float) smallRadius / arrow.getHeight();
-	float scaleRectPicX = (float) smallRadius / rectangle.getWidth();
-	float scaleRectPicY = (float) ((0.5 * smallRadius) / rectangle.getHeight());
-	gcRotateMatrix.setScale(scaleGCPicX, scaleGCPicY);
 	windroseRotateMatrix.setScale(scaleWRPicX, scaleWRPicY);
-	arrowRotateMatrix.setScale(scaleArrowPicX, scaleArrowPicY);
-	rectRotateMatrix.setScale(scaleRectPicX, scaleRectPicY);
-	geoCacheCircle = Bitmap.createBitmap(geoCacheCircle, 0, 0, geoCacheCircle.getWidth(), geoCacheCircle.getHeight(), gcRotateMatrix, false);
-	windrose = Bitmap.createBitmap(windrose, 0, 0, windrose.getWidth(), windrose.getHeight(), windroseRotateMatrix, false);
-	arrow = Bitmap.createBitmap(arrow, 0, 0, arrow.getWidth(), arrow.getHeight(), arrowRotateMatrix, false);
-	rectangle = Bitmap.createBitmap(rectangle, 0, 0, rectangle.getWidth(), rectangle.getHeight(), rectRotateMatrix, false);
+	windroseRotateMatrix.setRotate(-azimuthNorthRel);
 
-	// Rotate bitmaps
-	gcRotateMatrix = new Matrix();
-	windroseRotateMatrix = new Matrix();
-	gcRotateMatrix.postRotate(azimuthGCRel, bigRadius, bigRadius);
-	windroseRotateMatrix.setRotate(azimuthNorthRel);
-	geoCacheCircle = Bitmap.createBitmap(geoCacheCircle, 0, 0, geoCacheCircle.getWidth(), geoCacheCircle.getHeight(), gcRotateMatrix, false);
-	windrose = Bitmap.createBitmap(windrose, 0, 0, windrose.getWidth(), windrose.getHeight(), windroseRotateMatrix, false);
-
-	// Draw bitmaps
-	canvas.drawBitmap(windrose, center - windrose.getWidth() / 2, center - windrose.getHeight() / 2, null);
-	canvas.drawBitmap(geoCacheCircle, center - geoCacheCircle.getWidth() / 2, center - geoCacheCircle.getHeight() / 2, null);
-	canvas.drawBitmap(arrow, center - arrow.getWidth() / 2, center - smallRadius, null);
-	canvas.drawBitmap(rectangle, center - rectangle.getWidth() / 2, center + DEFAULT_PADDING, null);
+	Bitmap windrose = Bitmap.createBitmap(compassBitmap, 0, 0, compassBitmap.getWidth(), compassBitmap.getHeight(), windroseRotateMatrix, false);
+	canvas.drawBitmap(windrose, center - windrose.getWidth() / 2, center - windrose.getHeight() / 2, paint);
 
 	// Build string of distance
 	String textDistance = Helper.distanceToString(distanceToGeoCache);
 
 	// Draw text
-	Rect textBounds = new Rect();
-	Paint textPaint = new Paint();
-	textPaint.setAntiAlias(true);
-	textPaint.setColor(Color.RED);
-	textPaint.setFakeBoldText(true);
-	textPaint.setTextSize(DEFAULT_TEXT_SIZE);
-	textPaint.getTextBounds(textDistance, 0, textDistance.length(), textBounds);
-	canvas.drawText(textDistance, center - textBounds.centerX(), center + rectangle.getHeight() + DEFAULT_PADDING, textPaint);
+	// Rect textBounds = new Rect();
+	// Paint textPaint = new Paint();
+	// textPaint.setAntiAlias(true);
+	// textPaint.setColor(Color.RED);
+	// textPaint.setFakeBoldText(true);
+	// textPaint.setTextSize(DEFAULT_TEXT_SIZE);
+	// textPaint.getTextBounds(textDistance, 0, textDistance.length(),
+	// textBounds);
+	// canvas.drawText(textDistance, center - textBounds.centerX(), center +
+	// rectangle.getHeight() + DEFAULT_PADDING, textPaint);
 
 	invalidate();
     }
