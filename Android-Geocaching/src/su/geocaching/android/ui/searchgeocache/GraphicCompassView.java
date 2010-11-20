@@ -9,6 +9,8 @@ import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Matrix;
 import android.graphics.Paint;
+import android.graphics.Path;
+import android.graphics.Point;
 import android.graphics.Rect;
 import android.util.AttributeSet;
 import android.util.Log;
@@ -24,14 +26,16 @@ public class GraphicCompassView extends View {
 
     private static final String TAG = GraphicCompassView.class.getCanonicalName();
 
-    private static final int DEFAULT_PADDING = 15; 
+    private static final int DEFAULT_PADDING = 15;
 
-    private float azimuthToNorth; // in degrees
-    private float azimuthToCache; // in degrees 
+    private int azimuthToNorth; // in degrees
+    private int azimuthToCache; // in degrees
 
     private Matrix windroseRotateMatrix;
     private Bitmap compassBitmap;
-    private Paint paint;
+    private Paint paint, arrowPaint;
+    private Path arrowPath;
+  //  private Point center;
 
     public GraphicCompassView(Context context) {
 	this(context, null, 0);
@@ -48,39 +52,66 @@ public class GraphicCompassView extends View {
 
     private void initParameters() {
 	azimuthToNorth = 0;
-	azimuthToCache = 0;	
+	azimuthToCache = 0;
 
 	compassBitmap = BitmapFactory.decodeResource(getContext().getResources(), R.drawable.compass256);
 	windroseRotateMatrix = new Matrix();
 	paint = new Paint();
 	paint.setAntiAlias(true);
-	
-	Log.d(TAG, ""+this.getHeight());
+	arrowPaint = new Paint();
+	arrowPaint.setAntiAlias(true);
+	arrowPaint.setColor(Color.GREEN);
+	arrowPaint.setStyle(Paint.Style.FILL_AND_STROKE);
+	arrowPath = new Path();
     }
 
     @Override
     public void onDraw(Canvas canvas) {
 	super.onDraw(canvas);
-
 	// Convert angles relative mobile view direction
-	float azimuthNorthRel = azimuthToNorth;
-	// float azimuthGCRel = azimuthToCache + azimuthToNorth;
+	int azimuthNorthRel = azimuthToNorth;
+	int azimuthGCRel = azimuthToCache + azimuthToNorth;
 
-	// Calculate radiuses of circles and their center
-	int canvasHeight = canvas.getHeight();
-	int canvasWidth = canvas.getWidth();
-	int bigRadius = Math.min(canvasHeight, canvasWidth) / 2 - DEFAULT_PADDING;
-	// int smallRadius = bigRadius - 2 * DEFAULT_PADDING;
-	int center = Math.min(canvasHeight, canvasWidth) / 2;
+	int center = Math.min(getHeight(), getWidth()) / 2;
+	int compassRadius = center / 2 - DEFAULT_PADDING;
 
-	float scaleWRPicX = (float) (2 * bigRadius) / compassBitmap.getWidth();
-	float scaleWRPicY = (float) (2 * bigRadius) / compassBitmap.getHeight();
+	float scaleWRPicX = (float) (2 * compassRadius) / compassBitmap.getWidth();
+	float scaleWRPicY = (float) (2 * compassRadius) / compassBitmap.getHeight();
 
 	windroseRotateMatrix.setScale(scaleWRPicX, scaleWRPicY);
 	windroseRotateMatrix.setRotate(-azimuthNorthRel);
 
 	Bitmap windrose = Bitmap.createBitmap(compassBitmap, 0, 0, compassBitmap.getWidth(), compassBitmap.getHeight(), windroseRotateMatrix, false);
-	canvas.drawBitmap(windrose, center - windrose.getWidth() / 2, center - windrose.getHeight() / 2, paint);	
+	canvas.drawBitmap(windrose, center - windrose.getWidth() / 2, center - windrose.getHeight() / 2, paint);
+	drawArrow(canvas, (int)(compassRadius/scaleWRPicY));
+	drawGeoCache(canvas, (int)(compassRadius/scaleWRPicY), azimuthGCRel);
+    }
+
+    //TODO correct arrow
+    private void drawArrow(Canvas canvas, int radius) {
+	arrowPath.reset();
+	int x = getWidth()/2;
+	int y = getHeight()/2-radius;
+	arrowPath.moveTo(x, y);
+	x-=10;
+	y-=15;
+	arrowPath.lineTo(x, y);
+	x+=20;
+	arrowPath.lineTo(x, y);
+	x-=10;
+	y+=15;
+	arrowPath.lineTo(x, y);
+	canvas.drawPath(arrowPath, arrowPaint);
+	
+	Rect r = new Rect(x-5, 1, x+5, y-15);
+	canvas.drawRect(r, arrowPaint);
+    }
+    
+    //TODO correct gc point
+    private void drawGeoCache(Canvas canvas, int radius, int azimuthGC){
+	int cx =(int) (getWidth()/2 + Math.sin(azimuthGC*Math.PI/180)*radius);
+	int cy =(int) (getHeight()/2 + Math.cos(azimuthGC*Math.PI/180)*radius);
+	canvas.drawCircle(cx, cy, 5, arrowPaint);
     }
 
     /**
@@ -88,7 +119,7 @@ public class GraphicCompassView extends View {
      *            - user azimuth in degrees
      */
     public void setAzimuthToNorth(float angle) {
-	this.azimuthToNorth = angle;
+	this.azimuthToNorth = (int) angle;
 	invalidate();
     }
 
@@ -97,7 +128,7 @@ public class GraphicCompassView extends View {
      *            - azimuth to geocache in degrees
      */
     public void setAzimuthToGeoCache(float azimuthToGeoCache) {
-	this.azimuthToCache = azimuthToGeoCache;
+	this.azimuthToCache = (int) azimuthToGeoCache;
 	invalidate();
     }
 
@@ -106,6 +137,6 @@ public class GraphicCompassView extends View {
      *            - distance to geocache in meters
      */
     @Deprecated
-    public void setDistanceToGeoCache(float dist) {	
+    public void setDistanceToGeoCache(float dist) {
     }
 }
