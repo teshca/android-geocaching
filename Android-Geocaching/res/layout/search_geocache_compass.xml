@@ -1,11 +1,18 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-              android:orientation="vertical"
-              android:layout_width="fill_parent"
-              android:layout_height="fill_parent"
-        >
-    <su.geocaching.android.ui.searchgeocache.GraphicCompassView
-    		android:id = "@+id/compassView"
-            android:layout_width="fill_parent"
-            android:layout_height="fill_parent"/>
+	android:orientation="vertical" android:layout_width="fill_parent"
+	android:layout_height="fill_parent" android:background="@color/menu_background">
+	
+	<LinearLayout style="@style/TitleBar" android:id="@+id/title_bar"
+		android:background="@drawable/geologo_background">
+		<ImageView android:src="@drawable/geologo" style="@style/TitleBarLogo"
+			android:id="@+id/title_logo"></ImageView>
+		<View style="@style/TitleBarSpring"></View>
+		
+		
+	</LinearLayout>
+
+	<su.geocaching.android.ui.searchgeocache.GraphicCompassView
+		android:id="@+id/compassView" android:layout_width="fill_parent"
+		android:layout_height="fill_parent" />
 </LinearLayout>
