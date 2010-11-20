@@ -7,6 +7,7 @@ import su.geocaching.android.ui.geocachemap.ILocationAware;
 import su.geocaching.android.view.userstory.incocach.Info_cach;
 import android.app.Activity;
 import android.app.AlertDialog;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.location.Location;
@@ -70,19 +71,19 @@ public class SearchGeoCacheManager implements ILocationAware {
 	if (locationManager.isBestProviderEnabled()) {
 	    return;
 	}
-	AlertDialog.Builder builder = new AlertDialog.Builder(activity.getContext());
+	AlertDialog.Builder builder = new AlertDialog.Builder((Context) activity);
 	builder.setMessage(activity.getContext().getString(R.string.ask_enable_gps_text)).setCancelable(false)
 		.setPositiveButton(activity.getContext().getString(R.string.ask_enable_gps_yes), new DialogInterface.OnClickListener() {
 		    public void onClick(DialogInterface dialog, int id) {
 			Intent startGPS = new Intent(Settings.ACTION_SECURITY_SETTINGS);
-			activity.getContext().startActivity(startGPS);
+			((Activity) activity).startActivity(startGPS);
 			dialog.cancel();
 		    }
 		}).setNegativeButton(activity.getContext().getString(R.string.ask_enable_gps_no), new DialogInterface.OnClickListener() {
 		    public void onClick(DialogInterface dialog, int id) {
 			dialog.cancel();
 			// activity is MapActivity or Activity
-			((Activity) activity.getContext()).finish();
+			((Activity) activity).finish();
 		    }
 		});
 	AlertDialog turnOnGpsAlert = builder.create();

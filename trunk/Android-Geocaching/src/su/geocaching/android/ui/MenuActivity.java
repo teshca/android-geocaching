@@ -1,6 +1,6 @@
 package su.geocaching.android.ui;
 
-import su.geocaching.android.controller.Controller;
+import su.geocaching.android.application.ApplicationMain;
 import su.geocaching.android.model.datatype.GeoCache;
 import su.geocaching.android.ui.searchgeocache.SearchGeoCacheCompass;
 import su.geocaching.android.ui.searchgeocache.SearchGeoCacheMap;
@@ -17,6 +17,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.Button;
+import android.widget.Toast;
 import android.widget.ImageButton;
 
 /**
@@ -31,6 +32,7 @@ public class MenuActivity extends Activity implements OnClickListener {
     private Button selectButton;
     private Button infoButton;
     private Button favoritButton;
+    private ApplicationMain application;
     private ImageButton titleButton;
 
     @Override
@@ -53,6 +55,8 @@ public class MenuActivity extends Activity implements OnClickListener {
 	selectButton.setOnClickListener(this);
 	infoButton.setOnClickListener(this);
 	favoritButton.setOnClickListener(this);
+
+	application = (ApplicationMain) getApplication();
 	titleButton.setOnClickListener(this);
     }
 
@@ -100,13 +104,12 @@ public class MenuActivity extends Activity implements OnClickListener {
      * Starting activity to search GeoCache
      */
     private void startSearchGeoCache() {
-	// TODO: start search last searched(? or what) geocache. Or ask to
-	// choose geocache
+	if (application.getDesiredGeoCache() == null) {
+	    Toast.makeText(this.getBaseContext(), getString(R.string.search_geocache_start_without_geocache), Toast.LENGTH_SHORT).show();
+	    return;
+	}
 	Intent intent = new Intent(this, SearchGeoCacheMap.class);
-	// GeoCache gc = new GeoCache(8984);
-	// debug stub
-	GeoCache gc = Controller.getInstance().getGeoCacheByID(205);
-	intent.putExtra(GeoCache.class.getCanonicalName(), gc);
+	intent.putExtra(GeoCache.class.getCanonicalName(), application.getDesiredGeoCache());
 	startActivity(intent);
     }
 

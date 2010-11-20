@@ -11,6 +11,7 @@
     <string name="ask_enable_gps_no">Нет</string>
     
     <string name="search_geocache_error_no_geocache">Ошибка!\n\rНечего искать!</string>
+    <string name="search_geocache_start_without_geocache">Перед поиском выберите тайник</string>
         
     <string name="gps_status_started">GPS: Запущен</string>
     <string name="gps_status_stopped">GPS: Связь потеряна</string>
