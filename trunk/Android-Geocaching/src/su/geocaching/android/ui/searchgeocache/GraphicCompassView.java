@@ -24,12 +24,10 @@ public class GraphicCompassView extends View {
 
     private static final String TAG = GraphicCompassView.class.getCanonicalName();
 
-    private static final int DEFAULT_PADDING = 15;
-    private static final int DEFAULT_TEXT_SIZE = 20;
+    private static final int DEFAULT_PADDING = 15; 
 
     private float azimuthToNorth; // in degrees
-    private float azimuthToCache; // in degrees
-    private float distanceToGeoCache; // in meters
+    private float azimuthToCache; // in degrees 
 
     private Matrix windroseRotateMatrix;
     private Bitmap compassBitmap;
@@ -50,13 +48,14 @@ public class GraphicCompassView extends View {
 
     private void initParameters() {
 	azimuthToNorth = 0;
-	azimuthToCache = 0;
-	distanceToGeoCache = 0;
+	azimuthToCache = 0;	
 
 	compassBitmap = BitmapFactory.decodeResource(getContext().getResources(), R.drawable.compass256);
 	windroseRotateMatrix = new Matrix();
 	paint = new Paint();
 	paint.setAntiAlias(true);
+	
+	Log.d(TAG, ""+this.getHeight());
     }
 
     @Override
@@ -81,24 +80,7 @@ public class GraphicCompassView extends View {
 	windroseRotateMatrix.setRotate(-azimuthNorthRel);
 
 	Bitmap windrose = Bitmap.createBitmap(compassBitmap, 0, 0, compassBitmap.getWidth(), compassBitmap.getHeight(), windroseRotateMatrix, false);
-	canvas.drawBitmap(windrose, center - windrose.getWidth() / 2, center - windrose.getHeight() / 2, paint);
-
-	// Build string of distance
-	String textDistance = Helper.distanceToString(distanceToGeoCache);
-
-	// Draw text
-	// Rect textBounds = new Rect();
-	// Paint textPaint = new Paint();
-	// textPaint.setAntiAlias(true);
-	// textPaint.setColor(Color.RED);
-	// textPaint.setFakeBoldText(true);
-	// textPaint.setTextSize(DEFAULT_TEXT_SIZE);
-	// textPaint.getTextBounds(textDistance, 0, textDistance.length(),
-	// textBounds);
-	// canvas.drawText(textDistance, center - textBounds.centerX(), center +
-	// rectangle.getHeight() + DEFAULT_PADDING, textPaint);
-
-	invalidate();
+	canvas.drawBitmap(windrose, center - windrose.getWidth() / 2, center - windrose.getHeight() / 2, paint);	
     }
 
     /**
@@ -107,6 +89,7 @@ public class GraphicCompassView extends View {
      */
     public void setAzimuthToNorth(float angle) {
 	this.azimuthToNorth = angle;
+	invalidate();
     }
 
     /**
@@ -115,13 +98,14 @@ public class GraphicCompassView extends View {
      */
     public void setAzimuthToGeoCache(float azimuthToGeoCache) {
 	this.azimuthToCache = azimuthToGeoCache;
+	invalidate();
     }
 
     /**
      * @param dist
      *            - distance to geocache in meters
      */
-    public void setDistanceToGeoCache(float dist) {
-	this.distanceToGeoCache = dist;
+    @Deprecated
+    public void setDistanceToGeoCache(float dist) {	
     }
 }

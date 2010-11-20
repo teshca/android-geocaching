@@ -2,6 +2,7 @@ package su.geocaching.android.ui;
 
 import su.geocaching.android.controller.Controller;
 import su.geocaching.android.model.datatype.GeoCache;
+import su.geocaching.android.ui.searchgeocache.SearchGeoCacheCompass;
 import su.geocaching.android.ui.searchgeocache.SearchGeoCacheMap;
 import su.geocaching.android.ui.selectgeocache.SelectGeoCacheMap;
 import su.geocaching.android.view.userstory.favoritwork.FavoritFolder;
@@ -16,6 +17,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.Button;
+import android.widget.ImageButton;
 
 /**
  * @author Android-Geocaching.su student project team
@@ -29,6 +31,7 @@ public class MenuActivity extends Activity implements OnClickListener {
     private Button selectButton;
     private Button infoButton;
     private Button favoritButton;
+    private ImageButton titleButton;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -44,11 +47,13 @@ public class MenuActivity extends Activity implements OnClickListener {
 	selectButton = (Button) findViewById(R.id.SelectButton);
 	infoButton = (Button) findViewById(R.id.InfoButton);
 	favoritButton = (Button) findViewById(R.id.FavoritesButton);
+	titleButton = (ImageButton) findViewById(R.id.title_button);
 
 	searchButton.setOnClickListener(this);
 	selectButton.setOnClickListener(this);
 	infoButton.setOnClickListener(this);
 	favoritButton.setOnClickListener(this);
+	titleButton.setOnClickListener(this);
     }
 
     @Override
@@ -83,7 +88,12 @@ public class MenuActivity extends Activity implements OnClickListener {
 	    startInfoGeoCache();
 	} else if (v.equals(favoritButton)) {
 	    startFavoritFolder();
+	}else if (v.equals(titleButton)) {
+	    Intent intent = new Intent(this, SearchGeoCacheCompass.class);
+	    startActivity(intent);
 	}
+	
+	
     }
 
     /**
