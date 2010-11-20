@@ -69,7 +69,7 @@ public class ApiManager implements IApiManager {
 
 	    if (connection.getResponseCode() != HttpURLConnection.HTTP_OK) {
 		// TODO make real error message
-		Log.e(TAG, "Cann't connect ti internet");
+		Log.e(TAG, "Cann't connect to internet");
 	    }
 	    InputSource courseXml = new InputSource(new InputStreamReader(connection.getInputStream(), ENCODING));
 	    handler = new GeoCacheSaxHandler();
@@ -111,6 +111,9 @@ public class ApiManager implements IApiManager {
 
     @Override
     public GeoCache getGeoCacheByID(int id) {
+	if (geoCaches == null) {
+	    return null;
+	}
 	for (GeoCache geoCache : geoCaches) {
 	    if (geoCache.getId() == id) {
 		return geoCache;
