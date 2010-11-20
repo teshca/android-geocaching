@@ -20,7 +20,7 @@ public class Helper {
     private static final DecimalFormat SMALL_DISTANCE_NUMBER_FORMAT = new DecimalFormat("0");
     private static final String BIG_DISTANCE_VALUE_NAME = "км";
     private static final String SMALL_DISTANCE_VALUE_NAME = "м";
-    private static final float BIG_DISTANCE_COEFFICIENT = 1 / 1000;
+    private static final float BIG_DISTANCE_COEFFICIENT = (float) 0.001;
     private static final float SMALL_DISTANCE_COEFFICIENT = 1;
 
     /**

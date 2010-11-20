@@ -4,6 +4,7 @@ import su.geocaching.android.model.datatype.GeoCache;
 import su.geocaching.android.ui.R;
 import su.geocaching.android.ui.geocachemap.GeoCacheLocationManager;
 import su.geocaching.android.ui.geocachemap.ILocationAware;
+import su.geocaching.android.view.userstory.incocach.Info_cach;
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
@@ -18,7 +19,8 @@ import android.widget.Toast;
 /**
  * @author Grigory Kalabin. grigory.kalabin@gmail.com
  * @Nov 18, 2010
- * @description This manager handle many common situation of search geocache activities
+ * @description This manager handle many common situation of search geocache
+ *              activities
  */
 public class SearchGeoCacheManager implements ILocationAware {
     private boolean isLocationFixed;
@@ -28,7 +30,8 @@ public class SearchGeoCacheManager implements ILocationAware {
     private GpsStatusListener gpsStatusListener;
 
     /**
-     * @param context - activity which used this manager
+     * @param context
+     *            - activity which used this manager
      */
     public SearchGeoCacheManager(ISearchActivity context) {
 	this.activity = context;
@@ -90,18 +93,21 @@ public class SearchGeoCacheManager implements ILocationAware {
      * Show cancelable alert which tell user what location fixing
      */
     private void showWaitingLocationFix() {
-	Toast.makeText(activity.getContext(), activity.getContext().getString(R.string.waiting_location_fix_message), Toast.LENGTH_LONG).show();
 	activity.updateStatus(activity.getContext().getString(R.string.waiting_location_fix_message));
     }
 
-    /* (non-Javadoc)
-     * @see su.geocaching.android.ui.geocachemap.ILocationAware#updateLocation(android.location.Location)
+    /*
+     * (non-Javadoc)
+     * 
+     * @see
+     * su.geocaching.android.ui.geocachemap.ILocationAware#updateLocation(android
+     * .location.Location)
      */
     @Override
     public void updateLocation(Location location) {
 	if (locationManager.isLocationFixed()) {
 	    if (!isLocationFixed) {
-		activity.updateStatus("Location fixed");
+		// activity.updateStatus("Location fixed");
 	    }
 	    isLocationFixed = true;
 	} else {
@@ -114,8 +120,12 @@ public class SearchGeoCacheManager implements ILocationAware {
 	activity.updateLocation(location);
     }
 
-    /* (non-Javadoc)
-     * @see su.geocaching.android.ui.geocachemap.ILocationAware#onStatusChanged(java.lang.String, int, android.os.Bundle)
+    /*
+     * (non-Javadoc)
+     * 
+     * @see
+     * su.geocaching.android.ui.geocachemap.ILocationAware#onStatusChanged(java
+     * .lang.String, int, android.os.Bundle)
      */
     @Override
     public void onStatusChanged(String provider, int status, Bundle extras) {
@@ -144,8 +154,12 @@ public class SearchGeoCacheManager implements ILocationAware {
 
     }
 
-    /* (non-Javadoc)
-     * @see su.geocaching.android.ui.geocachemap.ILocationAware#onProviderDisabled(java.lang.String)
+    /*
+     * (non-Javadoc)
+     * 
+     * @see
+     * su.geocaching.android.ui.geocachemap.ILocationAware#onProviderDisabled
+     * (java.lang.String)
      */
     @Override
     public void onProviderDisabled(String provider) {
@@ -166,7 +180,12 @@ public class SearchGeoCacheManager implements ILocationAware {
      */
     public void runLogic() {
 	Intent intent = ((Activity) activity).getIntent();
-	geoCache = new GeoCache(intent.getIntExtra("GeoCache id", -1));
+	geoCache = intent.getParcelableExtra(GeoCache.class.getCanonicalName());
+	if (geoCache == null) {
+	    Toast.makeText(activity.getContext(), activity.getContext().getString(R.string.search_geocache_error_no_geocache), Toast.LENGTH_LONG).show();
+	    ((Activity) activity).finish();
+	    return;
+	}
 	isLocationFixed = intent.getBooleanExtra("location fixed", false);
 
 	if (!isLocationFixed()) {
@@ -188,5 +207,14 @@ public class SearchGeoCacheManager implements ILocationAware {
      */
     public Location getCurrentLocation() {
 	return locationManager.getCurrentLocation();
+    }
+
+    /**
+     * Open GeoCache info activity
+     */
+    public void showGeoCacheInfo() {
+	Intent intent = new Intent(activity.getContext(), Info_cach.class);
+	intent.putExtra(GeoCache.class.getCanonicalName(), geoCache);
+	activity.getContext().startActivity(intent);
     }
 }

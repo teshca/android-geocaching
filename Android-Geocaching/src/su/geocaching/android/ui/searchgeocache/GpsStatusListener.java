@@ -46,7 +46,7 @@ public class GpsStatusListener implements GpsStatus.Listener {
 	case GpsStatus.GPS_EVENT_FIRST_FIX:
 	    status = activity.getContext().getString(R.string.gps_status_first_fix);
 	case GpsStatus.GPS_EVENT_SATELLITE_STATUS:
-	    status = activity.getContext().getString(R.string.gps_status_satellite_status);
+	    status = activity.getContext().getString(R.string.gps_status_satellite_status)+" ";
 	    GpsStatus gpsStatus = activity.getLocationManager().getGpsStatus(null);
 	    int usedInFix = 0;
 	    for (GpsSatellite satellite: gpsStatus.getSatellites()) {
