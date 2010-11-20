@@ -2,6 +2,7 @@ package su.geocaching.android.ui.searchgeocache;
 
 import java.util.List;
 
+import su.geocaching.android.model.datatype.GeoCache;
 import su.geocaching.android.ui.R;
 import su.geocaching.android.ui.geocachemap.GeoCacheItemizedOverlay;
 import su.geocaching.android.utils.Helper;
@@ -20,7 +21,6 @@ import com.google.android.maps.GeoPoint;
 import com.google.android.maps.MapActivity;
 import com.google.android.maps.MapController;
 import com.google.android.maps.MapView;
-import com.google.android.maps.MyLocationOverlay;
 import com.google.android.maps.Overlay;
 import com.google.android.maps.OverlayItem;
 
@@ -33,14 +33,16 @@ public class SearchGeoCacheMap extends MapActivity implements ISearchActivity {
     private OverlayItem cacheOverlayItem;
     private GeoCacheItemizedOverlay cacheItemizedOverlay;
     private DistanceToGeoCacheOverlay distanceOverlay;
-    private MyLocationOverlay userOverlay;
+    private UserLocationOverlay userOverlay;
     private TextView statusTextView;
     private MapView map;
     private MapController mapController;
     private List<Overlay> mapOverlays;
     private SearchGeoCacheManager manager;
 
-    /* (non-Javadoc)
+    /*
+     * (non-Javadoc)
+     * 
      * @see com.google.android.maps.MapActivity#onCreate(android.os.Bundle)
      */
     @Override
@@ -51,11 +53,13 @@ public class SearchGeoCacheMap extends MapActivity implements ISearchActivity {
 	map = (MapView) findViewById(R.id.searchGeocacheMap);
 	mapOverlays = map.getOverlays();
 	mapController = map.getController();
-	userOverlay = new MyLocationOverlay(this, map);
+	userOverlay = new UserLocationOverlay(this, map);
 	manager = new SearchGeoCacheManager(this);
     }
 
-    /* (non-Javadoc)
+    /*
+     * (non-Javadoc)
+     * 
      * @see com.google.android.maps.MapActivity#onPause()
      */
     @Override
@@ -68,7 +72,9 @@ public class SearchGeoCacheMap extends MapActivity implements ISearchActivity {
 	}
     }
 
-    /* (non-Javadoc)
+    /*
+     * (non-Javadoc)
+     * 
      * @see com.google.android.maps.MapActivity#onResume()
      */
     @Override
@@ -82,18 +88,13 @@ public class SearchGeoCacheMap extends MapActivity implements ISearchActivity {
      */
     @Override
     public void runLogic() {
-	// from onCreate
-	// Controller controller = Controller.getInstance();
-
-	// not working yet
-	// geoCache = controller.getGeoCacheByID(intent.getIntExtra(
-	// MainMenu.DEFAULT_GEOCACHE_ID_NAME, -1));
-
 	manager.runLogic();
+	if (manager.getGeoCache()==null) {
+	    return;
+	}
 	userOverlay.enableCompass();
 	userOverlay.enableMyLocation();
 
-	// from onResume
 	Drawable cacheMarker = this.getResources().getDrawable(R.drawable.orangecache);
 	cacheMarker.setBounds(0, -cacheMarker.getMinimumHeight(), cacheMarker.getMinimumWidth(), 0);
 
@@ -101,6 +102,9 @@ public class SearchGeoCacheMap extends MapActivity implements ISearchActivity {
 	cacheOverlayItem = new OverlayItem(manager.getGeoCache().getLocationGeoPoint(), "", "");
 	cacheItemizedOverlay.addOverlayItem(cacheOverlayItem);
 	mapOverlays.add(cacheItemizedOverlay);
+	if (!manager.isLocationFixed()) {
+	    mapController.animateTo(manager.getGeoCache().getLocationGeoPoint());
+	}
 
 	map.invalidate();
     }
@@ -108,10 +112,14 @@ public class SearchGeoCacheMap extends MapActivity implements ISearchActivity {
     /**
      * Start SearchGeoCacheCompass activity
      */
-    private void startCompassView() {
+    public void startCompassView() {
 	Intent intent = new Intent(this, SearchGeoCacheCompass.class);
-	intent.putExtra("GeoCache id", manager.getGeoCache().getId());
-	intent.putExtra("location fixed", manager.isLocationFixed());
+	if ((manager != null) && (manager.getGeoCache() != null)) {
+	    intent.putExtra(GeoCache.class.getCanonicalName(), manager.getGeoCache());
+	}
+	if (manager != null) {
+	    intent.putExtra("location fixed", manager.isLocationFixed());
+	}
 	startActivity(intent);
 	this.finish();
     }
@@ -173,20 +181,29 @@ public class SearchGeoCacheMap extends MapActivity implements ISearchActivity {
 	case R.id.menuToggleShortestWay:
 	    distanceOverlay.toggleShorteshtWayVisible();
 	    return true;
+	case R.id.menuGeoCacheInfo:
+	    manager.showGeoCacheInfo();
+	    return true;	    
 	default:
 	    return super.onOptionsItemSelected(item);
 	}
     }
 
-    /* (non-Javadoc)
-     * @see su.geocaching.android.ui.searchgeocache.ISearchActivity#updateStatus(java.lang.String)
+    /*
+     * (non-Javadoc)
+     * 
+     * @see
+     * su.geocaching.android.ui.searchgeocache.ISearchActivity#updateStatus(
+     * java.lang.String)
      */
     @Override
     public void updateStatus(String status) {
 	statusTextView.setText(status);
     }
 
-    /* (non-Javadoc)
+    /*
+     * (non-Javadoc)
+     * 
      * @see com.google.android.maps.MapActivity#isRouteDisplayed()
      */
     @Override
@@ -194,19 +211,40 @@ public class SearchGeoCacheMap extends MapActivity implements ISearchActivity {
 	return false;
     }
 
-    /* (non-Javadoc)
-     * @see su.geocaching.android.ui.searchgeocache.ISearchActivity#getLocationManager()
+    /*
+     * (non-Javadoc)
+     * 
+     * @see
+     * su.geocaching.android.ui.searchgeocache.ISearchActivity#getLocationManager
+     * ()
      */
     @Override
     public LocationManager getLocationManager() {
 	return (LocationManager) getSystemService(LOCATION_SERVICE);
     }
 
-    /* (non-Javadoc)
+    /*
+     * (non-Javadoc)
+     * 
      * @see su.geocaching.android.ui.searchgeocache.ISearchActivity#getContext()
      */
     @Override
     public Context getContext() {
 	return getBaseContext();
+    }
+
+    /*
+     * (non-Javadoc)
+     * 
+     * @see
+     * su.geocaching.android.ui.searchgeocache.ISearchActivity#getLastKnownLocation
+     * ()
+     */
+    @Override
+    public Location getLastKnownLocation() {
+	if (!manager.isLocationFixed()) {
+	    return null;
+	}
+	return manager.getCurrentLocation();
     }
 }

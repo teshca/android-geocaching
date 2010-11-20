@@ -1,5 +1,6 @@
 package su.geocaching.android.ui.searchgeocache;
 
+import su.geocaching.android.model.datatype.GeoCache;
 import su.geocaching.android.ui.geocachemap.GeoCacheCompassManager;
 import su.geocaching.android.ui.geocachemap.ICompassAware;
 import su.geocaching.android.ui.R;
@@ -118,7 +119,7 @@ public class SearchGeoCacheCompass extends Activity implements ISearchActivity, 
      */
     private void startMapView() {
 	Intent intent = new Intent(this, SearchGeoCacheMap.class);
-	intent.putExtra("GeoCache id", manager.getGeoCache().getId());
+	intent.putExtra(GeoCache.class.getCanonicalName(), manager.getGeoCache());
 	intent.putExtra("location fixed", manager.isLocationFixed());
 	startActivity(intent);
 	this.finish();
@@ -144,5 +145,13 @@ public class SearchGeoCacheCompass extends Activity implements ISearchActivity, 
     public void updateStatus(String status) {
 	// TODO add status field
 
+    }
+    
+    /* (non-Javadoc)
+     * @see su.geocaching.android.ui.searchgeocache.ISearchActivity#getLastKnownLocation()
+     */
+    @Override
+    public Location getLastKnownLocation() {
+	return manager.getCurrentLocation();
     }
 }

@@ -32,8 +32,13 @@ public interface ISearchActivity {
     public void updateStatus(String status);
 
     /**
-     * @param location new user locaation
+     * @param location new user location
      * called when user location is changer
      */
     public void updateLocation(Location location);
+    
+    /**
+     * @return last location obtained from GPS
+     */
+    public Location getLastKnownLocation();
 }

@@ -1,5 +1,7 @@
 package su.geocaching.android.ui;
 
+import su.geocaching.android.controller.Controller;
+import su.geocaching.android.model.datatype.GeoCache;
 import su.geocaching.android.ui.searchgeocache.SearchGeoCacheMap;
 import su.geocaching.android.ui.selectgeocache.SelectGeoCacheMap;
 import su.geocaching.android.view.userstory.favoritwork.FavoritFolder;
@@ -46,31 +48,31 @@ public class MenuActivity extends Activity implements OnClickListener {
 	searchButton.setOnClickListener(this);
 	selectButton.setOnClickListener(this);
 	infoButton.setOnClickListener(this);
-	favoritButton.setOnClickListener(this);	
+	favoritButton.setOnClickListener(this);
     }
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-        MenuInflater inflater = getMenuInflater();
-        inflater.inflate(R.menu.home_option_menu, menu);
-        return true;
+	MenuInflater inflater = getMenuInflater();
+	inflater.inflate(R.menu.home_option_menu, menu);
+	return true;
     }
-    
+
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        // Handle item selection
-        switch (item.getItemId()) {
-        case R.id.enableGps:
-            startActivityForResult(new Intent(android.provider.Settings.ACTION_LOCATION_SOURCE_SETTINGS), 0);
-            return true;
-        case R.id.enableInternet:
-            startActivityForResult(new Intent(android.provider.Settings.ACTION_WIRELESS_SETTINGS), 0);
-            return true;
-        default:
-            return super.onOptionsItemSelected(item);
-        }
+	// Handle item selection
+	switch (item.getItemId()) {
+	case R.id.enableGps:
+	    startActivityForResult(new Intent(android.provider.Settings.ACTION_LOCATION_SOURCE_SETTINGS), 0);
+	    return true;
+	case R.id.enableInternet:
+	    startActivityForResult(new Intent(android.provider.Settings.ACTION_WIRELESS_SETTINGS), 0);
+	    return true;
+	default:
+	    return super.onOptionsItemSelected(item);
+	}
     }
-    
+
     @Override
     public void onClick(View v) {
 	if (v.equals(searchButton)) {
@@ -88,11 +90,13 @@ public class MenuActivity extends Activity implements OnClickListener {
      * Starting activity to search GeoCache
      */
     private void startSearchGeoCache() {
+	// TODO: start search last searched(? or what) geocache. Or ask to
+	// choose geocache
 	Intent intent = new Intent(this, SearchGeoCacheMap.class);
-	// TODO fix this
-	intent.putExtra("GeoCache id", 8984);
-	intent.putExtra("layout", R.layout.search_geocache_map);
-	intent.putExtra("mapID", R.id.searchGeocacheMap);
+	// GeoCache gc = new GeoCache(8984);
+	// debug stub
+	GeoCache gc = Controller.getInstance().getGeoCacheByID(205);
+	intent.putExtra(GeoCache.class.getCanonicalName(), gc);
 	startActivity(intent);
     }
 
@@ -116,8 +120,4 @@ public class MenuActivity extends Activity implements OnClickListener {
 	Intent intent = new Intent(this, FavoritFolder.class);
 	startActivity(intent);
     }
-
-    // TODO Delete it
-    public static final String DEFAULT_GEOCACHE_ID_NAME = "GeoCache id";
-
 }
