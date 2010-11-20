@@ -89,7 +89,7 @@ public class SearchGeoCacheMap extends MapActivity implements ISearchActivity {
     @Override
     public void runLogic() {
 	manager.runLogic();
-	if (manager.getGeoCache()==null) {
+	if (manager.getGeoCache() == null) {
 	    return;
 	}
 	userOverlay.enableCompass();
@@ -183,7 +183,7 @@ public class SearchGeoCacheMap extends MapActivity implements ISearchActivity {
 	    return true;
 	case R.id.menuGeoCacheInfo:
 	    manager.showGeoCacheInfo();
-	    return true;	    
+	    return true;
 	default:
 	    return super.onOptionsItemSelected(item);
 	}
@@ -230,7 +230,7 @@ public class SearchGeoCacheMap extends MapActivity implements ISearchActivity {
      */
     @Override
     public Context getContext() {
-	return getBaseContext();
+	return this.getBaseContext();
     }
 
     /*
