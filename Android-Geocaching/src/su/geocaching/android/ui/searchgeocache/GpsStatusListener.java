@@ -1,6 +1,7 @@
 package su.geocaching.android.ui.searchgeocache;
 
 import su.geocaching.android.ui.R;
+import android.app.Activity;
 import android.location.*;
 
 /**
@@ -10,26 +11,28 @@ import android.location.*;
  */
 public class GpsStatusListener implements GpsStatus.Listener {
     private ISearchActivity activity;
+    private LocationManager locationMaganer;
     
     /**
      * @param activity - activity which used this listener
      */
     public GpsStatusListener(ISearchActivity activity) {
 	this.activity = activity;
+	locationMaganer =  (LocationManager) ((Activity) activity).getSystemService(Activity.LOCATION_SERVICE);
     }
     
     /**
      * Called when activity resuming
      */
     public void resume() {
-	activity.getLocationManager().addGpsStatusListener(this);
+	locationMaganer.addGpsStatusListener(this);
     }
     
     /**
      * Called when activity pausing
      */
     public void pause() {
-	activity.getLocationManager().removeGpsStatusListener(this);
+	locationMaganer.removeGpsStatusListener(this);
     }
 
     /* (non-Javadoc)
@@ -47,7 +50,7 @@ public class GpsStatusListener implements GpsStatus.Listener {
 	    status = activity.getContext().getString(R.string.gps_status_first_fix);
 	case GpsStatus.GPS_EVENT_SATELLITE_STATUS:
 	    status = activity.getContext().getString(R.string.gps_status_satellite_status)+" ";
-	    GpsStatus gpsStatus = activity.getLocationManager().getGpsStatus(null);
+	    GpsStatus gpsStatus = locationMaganer.getGpsStatus(null);
 	    int usedInFix = 0;
 	    int count = 0;
 	    if (gpsStatus.getSatellites()==null) {

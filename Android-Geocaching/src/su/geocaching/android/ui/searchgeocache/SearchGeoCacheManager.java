@@ -2,13 +2,16 @@ package su.geocaching.android.ui.searchgeocache;
 
 import su.geocaching.android.model.datatype.GeoCache;
 import su.geocaching.android.ui.R;
+import su.geocaching.android.ui.geocachemap.GeoCacheCompassManager;
 import su.geocaching.android.ui.geocachemap.GeoCacheLocationManager;
+import su.geocaching.android.ui.geocachemap.ICompassAware;
 import su.geocaching.android.ui.geocachemap.ILocationAware;
 import su.geocaching.android.view.userstory.incocach.Info_cach;
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.hardware.SensorManager;
 import android.location.Location;
 import android.location.LocationManager;
 import android.location.LocationProvider;
@@ -22,9 +25,10 @@ import android.widget.Toast;
  * @description This manager handle many common situation of search geocache
  *              activities
  */
-public class SearchGeoCacheManager implements ILocationAware {
+public class SearchGeoCacheManager implements ILocationAware, ICompassAware {
     private boolean isLocationFixed;
     private GeoCacheLocationManager locationManager;
+    private GeoCacheCompassManager compass;
     private ISearchActivity activity;
     private GeoCache geoCache;
     private GpsStatusListener gpsStatusListener;
@@ -35,7 +39,8 @@ public class SearchGeoCacheManager implements ILocationAware {
      */
     public SearchGeoCacheManager(ISearchActivity context) {
 	this.activity = context;
-	locationManager = new GeoCacheLocationManager(this, context.getLocationManager());
+	locationManager = new GeoCacheLocationManager(this, (LocationManager) ((Activity) context).getSystemService(Activity.LOCATION_SERVICE));
+	compass = new GeoCacheCompassManager(this, (SensorManager) ((Activity) context).getSystemService(Activity.SENSOR_SERVICE));
 	gpsStatusListener = new GpsStatusListener(activity);
     }
 
@@ -45,6 +50,7 @@ public class SearchGeoCacheManager implements ILocationAware {
     public void onPause() {
 	if (isLocationFixed) {
 	    locationManager.pause();
+	    compass.pause();
 	    gpsStatusListener.pause();
 	}
     }
@@ -106,9 +112,6 @@ public class SearchGeoCacheManager implements ILocationAware {
     @Override
     public void updateLocation(Location location) {
 	if (locationManager.isLocationFixed()) {
-	    if (!isLocationFixed) {
-		// activity.updateStatus("Location fixed");
-	    }
 	    isLocationFixed = true;
 	} else {
 	    if (isLocationFixed) {
@@ -192,6 +195,7 @@ public class SearchGeoCacheManager implements ILocationAware {
 	    showWaitingLocationFix();
 	}
 	locationManager.resume();
+	compass.resume();
 	gpsStatusListener.resume();
     }
 
@@ -208,6 +212,10 @@ public class SearchGeoCacheManager implements ILocationAware {
     public Location getCurrentLocation() {
 	return locationManager.getCurrentLocation();
     }
+    
+    public int getCurrentBearing() {
+	return compass.getLastBearing();
+    }
 
     /**
      * Open GeoCache info activity
@@ -216,5 +224,21 @@ public class SearchGeoCacheManager implements ILocationAware {
 	Intent intent = new Intent(activity.getContext(), Info_cach.class);
 	intent.putExtra(GeoCache.class.getCanonicalName(), geoCache);
 	((Activity) activity).startActivity(intent);
+    }
+
+    /* (non-Javadoc)
+     * @see su.geocaching.android.ui.geocachemap.ICompassAware#updateAzimuth(float)
+     */
+    @Override
+    public void updateAzimuth(int azimuth) {
+	activity.updateAzimuth(azimuth);
+    }
+
+    /* (non-Javadoc)
+     * @see su.geocaching.android.ui.geocachemap.ICompassAware#isCompassAvailable()
+     */
+    @Override
+    public boolean isCompassAvailable() {
+	return compass.isCompassAvailable();
     }
 }

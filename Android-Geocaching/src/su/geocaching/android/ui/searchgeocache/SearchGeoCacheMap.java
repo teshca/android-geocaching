@@ -28,8 +28,8 @@ import su.geocaching.android.view.userstory.incocach.Info_cach;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.drawable.Drawable;
+import android.hardware.Sensor;
 import android.location.Location;
-import android.location.LocationManager;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.Menu;
@@ -144,6 +144,9 @@ public class SearchGeoCacheMap extends MapActivity implements ISearchActivity, I
 	this.finish();
     }
 
+    /* (non-Javadoc)
+     * @see su.geocaching.android.ui.searchgeocache.ISearchActivity#updateLocation(android.location.Location)
+     */
     @Override
     public void updateLocation(Location location) {
 	userOverlay.onLocationChanged(location);
@@ -162,8 +165,22 @@ public class SearchGeoCacheMap extends MapActivity implements ISearchActivity, I
 	    return;
 	}
 	distanceOverlay.setUserPoint(Helper.locationToGeoPoint(location));
-
+	
 	map.invalidate();
+    }
+
+    /*
+     * (non-Javadoc)
+     * 
+     * @see
+     * su.geocaching.android.ui.searchgeocache.ISearchActivity#updateAzimuth
+     * (float)
+     */
+    @Override
+    public void updateAzimuth(int bearing) {
+	float[] values = new float[1];
+	values[0] = bearing;
+	userOverlay.onSensorChanged(Sensor.TYPE_ORIENTATION, values);
     }
 
     /**
@@ -171,9 +188,8 @@ public class SearchGeoCacheMap extends MapActivity implements ISearchActivity, I
      */
     private void resetZoom() {
 	GeoPoint currentGeoPoint = Helper.locationToGeoPoint(manager.getCurrentLocation());
-	mapController.zoomToSpan(Math.abs(manager.getGeoCache().getLocationGeoPoint().getLatitudeE6() - currentGeoPoint.getLatitudeE6()), Math.abs(manager.getGeoCache().getLocationGeoPoint()
-		.getLongitudeE6()
-		- currentGeoPoint.getLongitudeE6()));
+	mapController.zoomToSpan(Math.abs(manager.getGeoCache().getLocationGeoPoint().getLatitudeE6() - currentGeoPoint.getLatitudeE6()),
+		Math.abs(manager.getGeoCache().getLocationGeoPoint().getLongitudeE6() - currentGeoPoint.getLongitudeE6()));
 
 	GeoPoint center = new GeoPoint((manager.getGeoCache().getLocationGeoPoint().getLatitudeE6() + currentGeoPoint.getLatitudeE6()) / 2, (manager.getGeoCache().getLocationGeoPoint()
 		.getLongitudeE6() + currentGeoPoint.getLongitudeE6()) / 2);
@@ -243,18 +259,6 @@ public class SearchGeoCacheMap extends MapActivity implements ISearchActivity, I
     /*
      * (non-Javadoc)
      * 
-     * @see
-     * su.geocaching.android.ui.searchgeocache.ISearchActivity#getLocationManager
-     * ()
-     */
-    @Override
-    public LocationManager getLocationManager() {
-	return (LocationManager) getSystemService(LOCATION_SERVICE);
-    }
-
-    /*
-     * (non-Javadoc)
-     * 
      * @see su.geocaching.android.ui.searchgeocache.ISearchActivity#getContext()
      */
     @Override
@@ -277,6 +281,13 @@ public class SearchGeoCacheMap extends MapActivity implements ISearchActivity, I
 	return manager.getCurrentLocation();
     }
 
+    /**
+     * @return last known bearing
+     */
+    public int getLastKnownBearing() {
+	return manager.getCurrentBearing();
+    }
+
     /*
      * (non-Javadoc)
      * 
@@ -290,46 +301,51 @@ public class SearchGeoCacheMap extends MapActivity implements ISearchActivity, I
 	intent.putExtra(GeoCache.class.getCanonicalName(), manager.getGeoCache());
 	this.startActivity(intent);
     }
-/**creates the path according to the received points
- *  **/
-    
- 
+
+    /**
+     * creates the path according to the received points
+     * **/
+
     private void getDirectionPath(GeoPoint userPoint, GeoPoint cachePoint) {
 	String origin = Double.toString((double) userPoint.getLatitudeE6() / 1.0E6) + "," + Double.toString((double) userPoint.getLongitudeE6() / 1.0E6);
 	String end = Double.toString((double) cachePoint.getLatitudeE6() / 1.0E6) + "," + Double.toString((double) cachePoint.getLongitudeE6() / 1.0E6);
 	String pairs[] = getDirectionData(origin, end);
-	
-	if(pairs!=null){
-	String[] lngLat = pairs[0].split(",");
 
-	// STARTING POINT
-	GeoPoint startGP = new GeoPoint((int) (Double.parseDouble(lngLat[1]) * 1E6), (int) (Double.parseDouble(lngLat[0]) * 1E6));
+	if (pairs != null) {
+	    String[] lngLat = pairs[0].split(",");
 
-	userPoint = startGP;
-	// mapController.setCenter(userPoint);
-	// mapController.setZoom(15);
-	map.getOverlays().add(new DirectionPathOverlay(startGP, startGP));
+	    // STARTING POINT
+	    GeoPoint startGP = new GeoPoint((int) (Double.parseDouble(lngLat[1]) * 1E6), (int) (Double.parseDouble(lngLat[0]) * 1E6));
 
-	// NAVIGATE THE PATH
-	GeoPoint gp1;
-	GeoPoint gp2 = startGP;
+	    userPoint = startGP;
+	    // mapController.setCenter(userPoint);
+	    // mapController.setZoom(15);
+	    map.getOverlays().add(new DirectionPathOverlay(startGP, startGP));
 
-	for (int i = 1; i < pairs.length; i++) {
-	    lngLat = pairs[i].split(",");
-	    gp1 = gp2;
-	    // watch out! For GeoPoint, first:latitude, second:longitude
-	    gp2 = new GeoPoint((int) (Double.parseDouble(lngLat[1]) * 1E6), (int) (Double.parseDouble(lngLat[0]) * 1E6));
-	    map.getOverlays().add(new DirectionPathOverlay(gp1, gp2));
+	    // NAVIGATE THE PATH
+	    GeoPoint gp1;
+	    GeoPoint gp2 = startGP;
 
-	}
+	    for (int i = 1; i < pairs.length; i++) {
+		lngLat = pairs[i].split(",");
+		gp1 = gp2;
+		// watch out! For GeoPoint, first:latitude, second:longitude
+		gp2 = new GeoPoint((int) (Double.parseDouble(lngLat[1]) * 1E6), (int) (Double.parseDouble(lngLat[0]) * 1E6));
+		map.getOverlays().add(new DirectionPathOverlay(gp1, gp2));
 
-	// END POINT
-	map.getOverlays().add(new DirectionPathOverlay(gp2, gp2));
-	// map.getController().animateTo(startGP);
+	    }
+
+	    // END POINT
+	    map.getOverlays().add(new DirectionPathOverlay(gp2, gp2));
+	    // map.getController().animateTo(startGP);
 	}
     }
-/**sent a specified message to Google service,and receive a *.kml file ,which contains  points for path realization,which were encoded ,
- * and decodes them**/
+
+    /**
+     * sent a specified message to Google service,and receive a *.kml file
+     * ,which contains points for path realization,which were encoded , and
+     * decodes them
+     **/
     private String[] getDirectionData(String srcPlace, String destPlace) {
 
 	String urlString = "http://maps.google.com/maps?f=d&hl=en&saddr=" + srcPlace + "&daddr=" + destPlace + "&ie=UTF8&0&om=0&output=kml";
@@ -348,7 +364,7 @@ public class SearchGeoCacheMap extends MapActivity implements ISearchActivity, I
 				urlConnection = (HttpURLConnection) url.openConnection();
 				urlConnection.setRequestMethod("GET");
 				urlConnection.setDoOutput(true);
-				
+
 				urlConnection.setDoInput(true);
 				urlConnection.connect();
 				DocumentBuilderFactory dbf = DocumentBuilderFactory.newInstance();
@@ -356,7 +372,7 @@ public class SearchGeoCacheMap extends MapActivity implements ISearchActivity, I
 				doc = db.parse(urlConnection.getInputStream());
 				Log.d("Document", "is created");
 			    } catch (ParserConfigurationException e) {
-                             Log.d("ParserConfigurationException", "problem in doc.builderfactory"); 
+				Log.d("ParserConfigurationException", "problem in doc.builderfactory");
 			    }
 			} catch (SAXException e) {
 			    Log.d("SAXException", "problem in doc.builder");
@@ -386,16 +402,16 @@ public class SearchGeoCacheMap extends MapActivity implements ISearchActivity, I
 		pathConent = path.item(0).getNodeValue();
 	    }
 	}
-	 String[] tempContent = null;
-	try{
-	  try{
-	      tempContent= pathConent.split(" ");
-		      
-	  }catch(NullPointerException e){
-	      Log.d("NullPointerException", "split's arg is null ");
-	  }
-	  
-	}catch(PatternSyntaxException e){
+	String[] tempContent = null;
+	try {
+	    try {
+		tempContent = pathConent.split(" ");
+
+	    } catch (NullPointerException e) {
+		Log.d("NullPointerException", "split's arg is null ");
+	    }
+
+	} catch (PatternSyntaxException e) {
 	    Log.d("PatternSyntaxException", "split's arg expresion isb't valid ");
 	}
 	return tempContent;
