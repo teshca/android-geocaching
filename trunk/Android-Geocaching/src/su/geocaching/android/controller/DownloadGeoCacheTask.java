@@ -8,6 +8,10 @@ import su.geocaching.android.model.datatype.GeoCache;
 import su.geocaching.android.ui.selectgeocache.SelectGeoCacheMap;
 import android.os.AsyncTask;
 
+/**
+ * @author Nikita Bumakov
+ * <p> Class downloads List of GeoCahes and adds them to SelectGeoCacheMap </p>
+ */
 class DownloadGeoCacheTask extends AsyncTask<Double, Integer, LinkedList<GeoCache>> {
 
     @Override
