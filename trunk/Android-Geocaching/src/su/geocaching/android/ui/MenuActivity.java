@@ -92,12 +92,11 @@ public class MenuActivity extends Activity implements OnClickListener {
 	    startInfoGeoCache();
 	} else if (v.equals(favoritButton)) {
 	    startFavoritFolder();
-	}else if (v.equals(titleButton)) {
+	} else if (v.equals(titleButton)) {
 	    Intent intent = new Intent(this, SearchGeoCacheCompass.class);
 	    startActivity(intent);
 	}
-	
-	
+
     }
 
     /**

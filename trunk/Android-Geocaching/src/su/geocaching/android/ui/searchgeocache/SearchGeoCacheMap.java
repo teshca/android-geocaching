@@ -5,7 +5,10 @@ import java.util.List;
 import su.geocaching.android.model.datatype.GeoCache;
 import su.geocaching.android.ui.R;
 import su.geocaching.android.ui.geocachemap.GeoCacheItemizedOverlay;
+import su.geocaching.android.ui.geocachemap.GeoCacheOverlayItem;
+import su.geocaching.android.ui.geocachemap.IMapAware;
 import su.geocaching.android.utils.Helper;
+import su.geocaching.android.view.userstory.incocach.Info_cach;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.drawable.Drawable;
@@ -22,15 +25,14 @@ import com.google.android.maps.MapActivity;
 import com.google.android.maps.MapController;
 import com.google.android.maps.MapView;
 import com.google.android.maps.Overlay;
-import com.google.android.maps.OverlayItem;
 
 /**
  * @author Android-Geocaching.su student project team
  * @description Search GeoCache with the map.
  * @since October 2010
  */
-public class SearchGeoCacheMap extends MapActivity implements ISearchActivity {
-    private OverlayItem cacheOverlayItem;
+public class SearchGeoCacheMap extends MapActivity implements ISearchActivity, IMapAware {
+    private GeoCacheOverlayItem cacheOverlayItem;
     private GeoCacheItemizedOverlay cacheItemizedOverlay;
     private DistanceToGeoCacheOverlay distanceOverlay;
     private UserLocationOverlay userOverlay;
@@ -98,8 +100,8 @@ public class SearchGeoCacheMap extends MapActivity implements ISearchActivity {
 	Drawable cacheMarker = this.getResources().getDrawable(R.drawable.orangecache);
 	cacheMarker.setBounds(0, -cacheMarker.getMinimumHeight(), cacheMarker.getMinimumWidth(), 0);
 
-	cacheItemizedOverlay = new GeoCacheItemizedOverlay(cacheMarker);
-	cacheOverlayItem = new OverlayItem(manager.getGeoCache().getLocationGeoPoint(), "", "");
+	cacheItemizedOverlay = new GeoCacheItemizedOverlay(cacheMarker, this);
+	cacheOverlayItem = new GeoCacheOverlayItem(manager.getGeoCache(), "", "");
 	cacheItemizedOverlay.addOverlayItem(cacheOverlayItem);
 	mapOverlays.add(cacheItemizedOverlay);
 	if (!manager.isLocationFixed()) {
@@ -246,5 +248,19 @@ public class SearchGeoCacheMap extends MapActivity implements ISearchActivity {
 	    return null;
 	}
 	return manager.getCurrentLocation();
+    }
+
+    /*
+     * (non-Javadoc)
+     * 
+     * @see
+     * su.geocaching.android.ui.geocachemap.IMapAware#onGeoCacheItemTaped(su
+     * .geocaching.android.ui.geocachemap.GeoCacheOverlayItem)
+     */
+    @Override
+    public void onGeoCacheItemTaped(GeoCacheOverlayItem item) {
+	Intent intent = new Intent(this, Info_cach.class);
+	intent.putExtra(GeoCache.class.getCanonicalName(), manager.getGeoCache());
+	this.startActivity(intent);
     }
 }
