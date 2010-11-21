@@ -8,6 +8,8 @@ import su.geocaching.android.model.datatype.GeoCache;
 import su.geocaching.android.model.datatype.GeoCacheType;
 import su.geocaching.android.ui.geocachemap.GeoCacheItemizedOverlay;
 import su.geocaching.android.ui.geocachemap.GeoCacheMap;
+import su.geocaching.android.ui.geocachemap.GeoCacheOverlayItem;
+import su.geocaching.android.ui.geocachemap.IMapAware;
 import su.geocaching.android.view.showgeocacheinfo.ShowGeoCacheInfo;
 import android.content.Intent;
 import android.graphics.drawable.Drawable;
@@ -21,7 +23,7 @@ import com.google.android.maps.OverlayItem;
 /**
  * Author: Yuri Denison Date: 04.11.2010 18:26:39
  */
-public class SelectGeoCacheMap extends GeoCacheMap {
+public class SelectGeoCacheMap extends GeoCacheMap implements IMapAware {
 
     private static final String TAG = SelectGeoCacheMap.class.getCanonicalName();
 
@@ -90,7 +92,7 @@ public class SelectGeoCacheMap extends GeoCacheMap {
 
 	// TODO:
 	Drawable marker = controller.getMarker(new GeoCache(), this);
-	if (geoCacheList != null && geoCacheList.size() >0) {
+	if (geoCacheList != null && geoCacheList.size() > 0) {
 	    marker = controller.getMarker(geoCacheList.get(0), this);
 	}
 	// -------------
@@ -105,10 +107,10 @@ public class SelectGeoCacheMap extends GeoCacheMap {
 	    // }
 
 	    if (cacheItemizedOverlays.get(geoCache.getType()) == null) {
-		cacheItemizedOverlays.put(geoCache.getType(), new GeoCacheItemizedOverlay(marker));
+		cacheItemizedOverlays.put(geoCache.getType(), new GeoCacheItemizedOverlay(marker, this));
 		// TODO: make markers on map clickable
 	    }
-	    cacheItemizedOverlays.get(geoCache.getType()).addOverlayItem(new OverlayItem(geoCache.getLocationGeoPoint(), "", ""));
+	    cacheItemizedOverlays.get(geoCache.getType()).addOverlayItem(new GeoCacheOverlayItem(geoCache, "", ""));
 	}
 	for (GeoCacheItemizedOverlay overlay : cacheItemizedOverlays.values()) {
 	    mapOverlays.add(overlay);
@@ -147,6 +149,12 @@ public class SelectGeoCacheMap extends GeoCacheMap {
 
     @Override
     public void onProviderDisabled(String provider) {
+	// TODO Auto-generated method stub
+
+    }
+
+    @Override
+    public void onGeoCacheItemTaped(GeoCacheOverlayItem item) {
 	// TODO Auto-generated method stub
 
     }

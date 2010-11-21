@@ -27,7 +27,9 @@ public class SearchGeoCacheCompass extends Activity implements ISearchActivity, 
     private GeoCacheCompassManager compass;
     private SearchGeoCacheManager manager;
 
-    /* (non-Javadoc)
+    /*
+     * (non-Javadoc)
+     * 
      * @see android.app.Activity#onCreate(android.os.Bundle)
      */
     @Override
@@ -39,7 +41,9 @@ public class SearchGeoCacheCompass extends Activity implements ISearchActivity, 
 	compass = new GeoCacheCompassManager(this, (SensorManager) this.getSystemService(SENSOR_SERVICE));
     }
 
-    /* (non-Javadoc)
+    /*
+     * (non-Javadoc)
+     * 
      * @see android.app.Activity#onResume()
      */
     @Override
@@ -48,7 +52,9 @@ public class SearchGeoCacheCompass extends Activity implements ISearchActivity, 
 	manager.onResume();
     }
 
-    /* (non-Javadoc)
+    /*
+     * (non-Javadoc)
+     * 
      * @see android.app.Activity#onPause()
      */
     @Override
@@ -70,16 +76,23 @@ public class SearchGeoCacheCompass extends Activity implements ISearchActivity, 
 	compass.resume();
     }
 
-    /* (non-Javadoc)
-     * @see su.geocaching.android.ui.geocachemap.ICompassAware#updateAzimuth(float)
+    /*
+     * (non-Javadoc)
+     * 
+     * @see
+     * su.geocaching.android.ui.geocachemap.ICompassAware#updateAzimuth(float)
      */
     @Override
     public void updateAzimuth(float azimuth) {
 	compassView.setAzimuthToNorth(azimuth);
     }
 
-    /* (non-Javadoc)
-     * @see su.geocaching.android.ui.searchgeocache.ISearchActivity#updateLocation(android.location.Location)
+    /*
+     * (non-Javadoc)
+     * 
+     * @see
+     * su.geocaching.android.ui.searchgeocache.ISearchActivity#updateLocation
+     * (android.location.Location)
      */
     @Override
     public void updateLocation(Location location) {
@@ -111,7 +124,7 @@ public class SearchGeoCacheCompass extends Activity implements ISearchActivity, 
 	    return true;
 	case R.id.menuGeoCacheInfo:
 	    manager.showGeoCacheInfo();
-	    return true;	    
+	    return true;
 	default:
 	    return super.onOptionsItemSelected(item);
 	}
@@ -128,15 +141,21 @@ public class SearchGeoCacheCompass extends Activity implements ISearchActivity, 
 	this.finish();
     }
 
-    /* (non-Javadoc)
-     * @see su.geocaching.android.ui.searchgeocache.ISearchActivity#getLocationManager()
+    /*
+     * (non-Javadoc)
+     * 
+     * @see
+     * su.geocaching.android.ui.searchgeocache.ISearchActivity#getLocationManager
+     * ()
      */
     @Override
     public LocationManager getLocationManager() {
 	return (LocationManager) getSystemService(LOCATION_SERVICE);
     }
 
-    /* (non-Javadoc)
+    /*
+     * (non-Javadoc)
+     * 
      * @see su.geocaching.android.ui.searchgeocache.ISearchActivity#getContext()
      */
     @Override
@@ -149,9 +168,13 @@ public class SearchGeoCacheCompass extends Activity implements ISearchActivity, 
 	// TODO add status field
 
     }
-    
-    /* (non-Javadoc)
-     * @see su.geocaching.android.ui.searchgeocache.ISearchActivity#getLastKnownLocation()
+
+    /*
+     * (non-Javadoc)
+     * 
+     * @see
+     * su.geocaching.android.ui.searchgeocache.ISearchActivity#getLastKnownLocation
+     * ()
      */
     @Override
     public Location getLastKnownLocation() {
