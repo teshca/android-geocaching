@@ -21,6 +21,7 @@ public class ApplicationMain extends Application {
     @Override
     public void onCreate() {
 	super.onCreate();
+	desiredGeoCache = new GeoCache(1);
     }
 
     /**

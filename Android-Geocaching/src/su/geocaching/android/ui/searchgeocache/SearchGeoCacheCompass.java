@@ -109,6 +109,9 @@ public class SearchGeoCacheCompass extends Activity implements ISearchActivity, 
 	case R.id.menuStartMap:
 	    this.startMapView();
 	    return true;
+	case R.id.menuGeoCacheInfo:
+	    manager.showGeoCacheInfo();
+	    return true;	    
 	default:
 	    return super.onOptionsItemSelected(item);
 	}
