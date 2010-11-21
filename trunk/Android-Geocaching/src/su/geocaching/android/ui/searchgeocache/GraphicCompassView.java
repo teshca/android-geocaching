@@ -32,9 +32,10 @@ public class GraphicCompassView extends View {
     private int azimuthToCache; // in degrees
 
     private Matrix windroseRotateMatrix;
-    private Bitmap compassBitmap;
+    private Bitmap compassBitmap, cacheBitmap;
     private Paint paint, arrowPaint;
     private Path arrowPath;
+
   //  private Point center;
 
     public GraphicCompassView(Context context) {
@@ -55,6 +56,7 @@ public class GraphicCompassView extends View {
 	azimuthToCache = 0;
 
 	compassBitmap = BitmapFactory.decodeResource(getContext().getResources(), R.drawable.compass256);
+	cacheBitmap = BitmapFactory.decodeResource(getContext().getResources(), R.drawable.cache);
 	windroseRotateMatrix = new Matrix();
 	paint = new Paint();
 	paint.setAntiAlias(true);
@@ -107,11 +109,10 @@ public class GraphicCompassView extends View {
 	canvas.drawRect(r, arrowPaint);
     }
     
-    //TODO correct gc point
     private void drawGeoCache(Canvas canvas, int radius, int azimuthGC){
-	int cx =(int) (getWidth()/2 + Math.sin(azimuthGC*Math.PI/180)*radius);
-	int cy =(int) (getHeight()/2 + Math.cos(azimuthGC*Math.PI/180)*radius);
-	canvas.drawCircle(cx, cy, 5, arrowPaint);
+	int cx =(int) (getWidth()/2 + Math.sin(azimuthGC*Math.PI/180)*radius)-cacheBitmap.getWidth()/2;
+	int cy =(int) (getHeight()/2 + Math.cos(azimuthGC*Math.PI/180)*radius)-cacheBitmap.getHeight()/2;
+	canvas.drawBitmap(cacheBitmap, cx, cy, arrowPaint);
     }
 
     /**

@@ -74,7 +74,7 @@ public class SearchGeoCacheManager implements ILocationAware {
 	builder.setMessage(activity.getContext().getString(R.string.ask_enable_gps_text)).setCancelable(false)
 		.setPositiveButton(activity.getContext().getString(R.string.ask_enable_gps_yes), new DialogInterface.OnClickListener() {
 		    public void onClick(DialogInterface dialog, int id) {
-			Intent startGPS = new Intent(Settings.ACTION_SECURITY_SETTINGS);
+			Intent startGPS = new Intent(Settings.ACTION_LOCATION_SOURCE_SETTINGS);
 			((Activity) activity).startActivity(startGPS);
 			dialog.cancel();
 		    }
