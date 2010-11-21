@@ -28,9 +28,10 @@ import com.google.android.maps.GeoPoint;
 
 /**
  * @author Nikita
- * 
+ *         <p>
  *         Class for parsing data from geocaching.su and put it in the List of
  *         GeoCach. This class extends DefaultHandler
+ *         </p>
  */
 public class GeoCacheSaxHandler extends DefaultHandler {
 
@@ -39,7 +40,7 @@ public class GeoCacheSaxHandler extends DefaultHandler {
     private final static String C = "c";
     private final static String ID = "id";
     private final static String CN = "cn";
-    private final static String A = "a";
+    private final static String AREA = "a";
     private final static String NAME = "n";
     private final static String LATITUDE = "la";
     private final static String LONGITUDE = "ln";
@@ -77,9 +78,10 @@ public class GeoCacheSaxHandler extends DefaultHandler {
     public void endElement(String uri, String localName, String qName) throws SAXException {
 
 	if (localName.equalsIgnoreCase(ID)) {
-	    geoCache.setId(Integer.parseInt(text));
+	    setId();
 	} else if (localName.equalsIgnoreCase(CN)) {
-	} else if (localName.equalsIgnoreCase(A)) {
+	    // TODO What is CN?
+	} else if (localName.equalsIgnoreCase(AREA)) {
 	} else if (localName.equalsIgnoreCase(NAME)) {
 	    geoCache.setName(text);
 	} else if (localName.equalsIgnoreCase(LATITUDE)) {
@@ -98,6 +100,15 @@ public class GeoCacheSaxHandler extends DefaultHandler {
 	}
 
 	super.endElement(uri, localName, qName);
+    }
+
+    private void setId() {
+	try {
+	    geoCache.setId(Integer.parseInt(text));
+	} catch (NumberFormatException e) {
+	    Log.e(TAG, "parseID: Invalid numeric format", e);
+	    geoCache.setId(0);
+	}
     }
 
     private static int parseCoordinate(String coordinate) {
@@ -159,6 +170,9 @@ public class GeoCacheSaxHandler extends DefaultHandler {
 	super.endDocument();
     }
 
+    /**
+     * @return LinkedList obtained geocaches
+     */
     public LinkedList<GeoCache> getGeoCaches() {
 	return geoCacheList;
     }
