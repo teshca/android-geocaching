@@ -61,12 +61,11 @@ public class Controller {
      *            - coordinate of the visible area
      * @param minLongitude
      *            - coordinate of the visible area
-     * @param filterList
-     *            - list of filters (if null - no filter)
      * @return
      */
-    public LinkedList<GeoCache> getGeoCacheList(double maxLatitude, double minLatitude, double maxLongitude, double minLongitude, LinkedList<IFilter> filterList) {
-	if (filterList == null) {
+    public LinkedList<GeoCache> getGeoCacheList(double maxLatitude, double minLatitude, double maxLongitude, double minLongitude) {
+	LinkedList<IFilter> filterList = getFilterList();
+        if (filterList == null) {
 	    return apiManager.getGeoCashList(maxLatitude, minLatitude, maxLongitude, minLongitude);
 	} else {
 	    LinkedList<GeoCache> list = apiManager.getGeoCashList(maxLatitude, minLatitude, maxLongitude, minLongitude);
