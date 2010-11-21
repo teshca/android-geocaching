@@ -71,7 +71,7 @@ public class SearchGeoCacheManager implements ILocationAware {
 	if (locationManager.isBestProviderEnabled()) {
 	    return;
 	}
-	AlertDialog.Builder builder = new AlertDialog.Builder((Context) activity);
+	AlertDialog.Builder builder = new AlertDialog.Builder((Activity) activity);
 	builder.setMessage(activity.getContext().getString(R.string.ask_enable_gps_text)).setCancelable(false)
 		.setPositiveButton(activity.getContext().getString(R.string.ask_enable_gps_yes), new DialogInterface.OnClickListener() {
 		    public void onClick(DialogInterface dialog, int id) {
@@ -216,6 +216,6 @@ public class SearchGeoCacheManager implements ILocationAware {
     public void showGeoCacheInfo() {
 	Intent intent = new Intent(activity.getContext(), Info_cach.class);
 	intent.putExtra(GeoCache.class.getCanonicalName(), geoCache);
-	activity.getContext().startActivity(intent);
+	((Activity) activity).startActivity(intent);
     }
 }

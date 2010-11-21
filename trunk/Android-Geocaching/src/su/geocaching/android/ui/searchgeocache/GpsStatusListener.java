@@ -49,12 +49,18 @@ public class GpsStatusListener implements GpsStatus.Listener {
 	    status = activity.getContext().getString(R.string.gps_status_satellite_status)+" ";
 	    GpsStatus gpsStatus = activity.getLocationManager().getGpsStatus(null);
 	    int usedInFix = 0;
+	    int count = 0;
+	    if (gpsStatus.getSatellites()==null) {
+		status = "GPS: unknown";
+		break;
+	    }
 	    for (GpsSatellite satellite: gpsStatus.getSatellites()) {
+		count++;
 		if (satellite.usedInFix()) {
 		    usedInFix++;
 		}
 	    }
-	    status+=usedInFix+"/"+gpsStatus.getMaxSatellites();
+	    status+=usedInFix+"/"+count;
 	}
 	activity.updateStatus(status);
     }
