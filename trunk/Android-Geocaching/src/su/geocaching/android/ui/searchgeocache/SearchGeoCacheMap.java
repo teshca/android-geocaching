@@ -8,6 +8,7 @@ import java.net.URL;
 import java.util.List;
 import java.util.regex.PatternSyntaxException;
 
+import su.geocaching.android.direction.DirectionPathOverlay;
 import su.geocaching.android.model.datatype.GeoCache;
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
@@ -18,7 +19,6 @@ import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 import org.xml.sax.SAXException;
 
-import su.geocaching.android.path.DirectionPathOverlay;
 import su.geocaching.android.ui.R;
 import su.geocaching.android.ui.geocachemap.GeoCacheItemizedOverlay;
 import su.geocaching.android.ui.geocachemap.GeoCacheOverlayItem;
