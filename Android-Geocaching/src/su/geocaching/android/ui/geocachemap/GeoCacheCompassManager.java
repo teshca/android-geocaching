@@ -51,7 +51,7 @@ public class GeoCacheCompassManager implements SensorEventListener {
      */
     public void resume() {
 	Sensor sensor = sensorManager.getDefaultSensor(Sensor.TYPE_ORIENTATION);
-	sensorManager.registerListener(this, sensor, SensorManager.SENSOR_DELAY_NORMAL);
+	sensorManager.registerListener(this, sensor, SensorManager.SENSOR_DELAY_UI);
     }
 
     /**
