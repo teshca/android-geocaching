@@ -66,7 +66,7 @@ public class Controller {
     public void updateSelectedGeoCaches(double maxLatitude, double minLatitude, double maxLongitude, double minLongitude) {
 	Double[] d = { maxLatitude, minLatitude, maxLongitude, minLongitude };
 	// LinkedList<IFilter> filterList = getFilterList();
-	new DownloadAndParseGeoCaches().execute(d);
+	new DownloadGeoCacheTask().execute(d);
 	// if (filterList == null) {
 	// return apiManager.getGeoCashList(maxLatitude, minLatitude,
 	// maxLongitude, minLongitude);
