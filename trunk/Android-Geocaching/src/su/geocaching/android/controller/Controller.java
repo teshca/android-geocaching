@@ -60,8 +60,7 @@ public class Controller {
      * @param maxLongitude
      *            - coordinate of the visible area
      * @param minLongitude
-     *            - coordinate of the visible area
-     * @return
+     *            - coordinate of the visible area    
      */
     public void updateSelectedGeoCaches(double maxLatitude, double minLatitude, double maxLongitude, double minLongitude) {
 	Double[] d = { maxLatitude, minLatitude, maxLongitude, minLongitude };	
