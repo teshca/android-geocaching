@@ -20,9 +20,10 @@ import android.util.Log;
 
 /**
  * @author Nikita Bumakov
- * 
+ *         <p>
  *         Class for getting data from Geocaching.su. This class implements
  *         IApiManager
+ *         </p>
  */
 public class ApiManager implements IApiManager {
 
@@ -34,6 +35,9 @@ public class ApiManager implements IApiManager {
     private ApiManager() {
     }
 
+    /**
+     * @return an instance of this class
+     */
     public static ApiManager getInstance() {
 	if (instance == null) {
 	    synchronized (Controller.class) {
@@ -52,7 +56,6 @@ public class ApiManager implements IApiManager {
      * su.geocaching.android.controller.apimanager.IApiManager#getGeoCashList
      * (double, double, double, double)
      */
-
     @Override
     public LinkedList<GeoCache> getGeoCashList(double maxLatitude, double minLatitude, double maxLongitude, double minLongitude) {
 	Log.d(TAG, "getGeoCashList");
@@ -66,11 +69,12 @@ public class ApiManager implements IApiManager {
 	    SAXParser parser = factory.newSAXParser();
 	    URL url = generateUrl(maxLatitude, minLatitude, maxLongitude, minLongitude);
 	    connection = (HttpURLConnection) url.openConnection();
-
+	    
 	    if (connection.getResponseCode() != HttpURLConnection.HTTP_OK) {
 		// TODO make real error message
 		Log.e(TAG, "Cann't connect to internet");
 	    }
+	    
 	    InputSource courseXml = new InputSource(new InputStreamReader(connection.getInputStream(), ENCODING));
 	    handler = new GeoCacheSaxHandler();
 	    parser.parse(courseXml, handler);
@@ -89,12 +93,13 @@ public class ApiManager implements IApiManager {
 	    }
 	}
 
-	Log.d(TAG, "Size of obtained listGeoCaches" + geoCaches.size());
+	Log.d(TAG, "Size of obtained listGeoCaches " + geoCaches.size());
 	return geoCaches;
     }
 
     private URL generateUrl(double maxLatitude, double minLatitude, double maxLongitude, double minLongitude) throws MalformedURLException {
-	String GEOCACHING_PARAM = "abc"; // I don't know what it is....
+	String GEOCACHING_PARAM = "abc"; // I don't know what it is.... but it's
+					 // work
 	int id = (int) (Math.random() * 1E6);
 	String request = String.format("%s%s%f%s%f%s%f%s%f%s%d%s%s", URL, "?lngmax=", maxLongitude, "&lngmin=", minLongitude, "&latmax=", maxLatitude, "&latmin=", minLatitude, "&id=", id,
 		"&geocaching=", GEOCACHING_PARAM);
@@ -108,7 +113,6 @@ public class ApiManager implements IApiManager {
      * su.geocaching.android.controller.apimanager.IApiManager#getGeoCacheByID
      * (int)
      */
-
     @Override
     public GeoCache getGeoCacheByID(int id) {
 	if (geoCaches == null) {
