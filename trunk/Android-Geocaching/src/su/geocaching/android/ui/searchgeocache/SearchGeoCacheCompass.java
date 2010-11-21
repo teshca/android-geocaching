@@ -1,16 +1,12 @@
 package su.geocaching.android.ui.searchgeocache;
 
 import su.geocaching.android.model.datatype.GeoCache;
-import su.geocaching.android.ui.geocachemap.GeoCacheCompassManager;
-import su.geocaching.android.ui.geocachemap.ICompassAware;
 import su.geocaching.android.ui.R;
 import su.geocaching.android.utils.Helper;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
-import android.hardware.SensorManager;
 import android.location.Location;
-import android.location.LocationManager;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -21,10 +17,9 @@ import android.view.MenuItem;
  * @since October 2010
  * @description Search GeoCache with the compass.
  */
-public class SearchGeoCacheCompass extends Activity implements ISearchActivity, ICompassAware {
+public class SearchGeoCacheCompass extends Activity implements ISearchActivity {
 
     private GraphicCompassView compassView;
-    private GeoCacheCompassManager compass;
     private SearchGeoCacheManager manager;
 
     /*
@@ -38,7 +33,6 @@ public class SearchGeoCacheCompass extends Activity implements ISearchActivity, 
 	setContentView(R.layout.search_geocache_compass);
 	compassView = (GraphicCompassView) findViewById(R.id.compassView);
 	manager = new SearchGeoCacheManager(this);
-	compass = new GeoCacheCompassManager(this, (SensorManager) this.getSystemService(SENSOR_SERVICE));
     }
 
     /*
@@ -61,10 +55,6 @@ public class SearchGeoCacheCompass extends Activity implements ISearchActivity, 
     protected void onPause() {
 	super.onPause();
 	manager.onPause();
-
-	if (manager.isLocationFixed()) {
-	    compass.pause();
-	}
     }
 
     /**
@@ -73,17 +63,12 @@ public class SearchGeoCacheCompass extends Activity implements ISearchActivity, 
     @Override
     public void runLogic() {
 	manager.runLogic();
-	compass.resume();
     }
 
-    /*
-     * (non-Javadoc)
-     * 
-     * @see
-     * su.geocaching.android.ui.geocachemap.ICompassAware#updateAzimuth(float)
+    /* (non-Javadoc)
+     * @see su.geocaching.android.ui.searchgeocache.ISearchActivity#updateAzimuth(int)
      */
-    @Override
-    public void updateAzimuth(float azimuth) {
+    public void updateAzimuth(int azimuth) {
 	compassView.setAzimuthToNorth(azimuth);
     }
 
@@ -100,7 +85,6 @@ public class SearchGeoCacheCompass extends Activity implements ISearchActivity, 
 	    return;
 	}
 	compassView.setAzimuthToGeoCache(Helper.getBearingBetween(location, manager.getGeoCache().getLocationGeoPoint()));
-	compassView.setDistanceToGeoCache(Helper.getDistanceBetween(location, manager.getGeoCache().getLocationGeoPoint()));
     }
 
     /**
@@ -139,18 +123,6 @@ public class SearchGeoCacheCompass extends Activity implements ISearchActivity, 
 	intent.putExtra("location fixed", manager.isLocationFixed());
 	startActivity(intent);
 	this.finish();
-    }
-
-    /*
-     * (non-Javadoc)
-     * 
-     * @see
-     * su.geocaching.android.ui.searchgeocache.ISearchActivity#getLocationManager
-     * ()
-     */
-    @Override
-    public LocationManager getLocationManager() {
-	return (LocationManager) getSystemService(LOCATION_SERVICE);
     }
 
     /*

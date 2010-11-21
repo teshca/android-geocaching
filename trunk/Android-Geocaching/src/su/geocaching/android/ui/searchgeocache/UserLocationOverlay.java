@@ -58,7 +58,7 @@ public class UserLocationOverlay extends MyLocationOverlay {
      * .Canvas, float)
      */
     protected void drawCompass(Canvas canvas, float bearing) {
-	super.drawCompass(canvas, bearing);
+	super.drawCompass(canvas, context.getLastKnownBearing());
     }
 
     @Override

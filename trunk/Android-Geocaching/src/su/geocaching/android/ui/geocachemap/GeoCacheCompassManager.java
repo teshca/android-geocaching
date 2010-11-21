@@ -15,6 +15,7 @@ public class GeoCacheCompassManager implements SensorEventListener {
     private SensorManager sensorManager;
     private ICompassAware context;
     private int lastAzimuth;
+    private boolean isCompassAvailable;
 
     /**
      * @param context
@@ -25,6 +26,8 @@ public class GeoCacheCompassManager implements SensorEventListener {
     public GeoCacheCompassManager(ICompassAware context, SensorManager sensorManager) {
 	this.context = context;
 	this.sensorManager = sensorManager;
+	isCompassAvailable = sensorManager == null;
+
     }
 
     @Override
@@ -35,7 +38,7 @@ public class GeoCacheCompassManager implements SensorEventListener {
     public void onSensorChanged(SensorEvent event) {
 	int type = event.sensor.getType();
 	int azimuth = 0;
-	
+
 	if (type == Sensor.TYPE_ORIENTATION) {
 	    azimuth = (int) event.values[0];
 
@@ -50,7 +53,14 @@ public class GeoCacheCompassManager implements SensorEventListener {
      * Starting sensor
      */
     public void resume() {
+	if (!isCompassAvailable) {
+	    return;
+	}
 	Sensor sensor = sensorManager.getDefaultSensor(Sensor.TYPE_ORIENTATION);
+	if (sensor == null) {
+	    isCompassAvailable = false;
+	    return;
+	}
 	sensorManager.registerListener(this, sensor, SensorManager.SENSOR_DELAY_UI);
     }
 
@@ -58,13 +68,20 @@ public class GeoCacheCompassManager implements SensorEventListener {
      * Stop sensor work
      */
     public void pause() {
+	if (!isCompassAvailable) {
+	    return;
+	}
 	sensorManager.unregisterListener(this);
     }
 
     /**
      * @return last known azimuth
      */
-    public int getLastAzimuth() {
+    public int getLastBearing() {
 	return lastAzimuth;
+    }
+
+    public boolean isCompassAvailable() {
+	return isCompassAvailable;
     }
 }

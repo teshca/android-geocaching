@@ -32,7 +32,7 @@ public class GeoCacheLocationManager implements LocationListener {
 	locationFixed = false;
 
     }
-    
+
     /**
      * Update location obtained from LocationManager
      */
@@ -40,6 +40,9 @@ public class GeoCacheLocationManager implements LocationListener {
     public void onLocationChanged(Location location) {
 	lastLocation = location;
 	locationFixed = true;
+	if ((context instanceof ICompassAware) && (!((ICompassAware) context).isCompassAvailable())) {
+	    ((ICompassAware) context).updateAzimuth((int) location.getBearing());
+	}
 	updateLocation();
     }
 
@@ -114,16 +117,16 @@ public class GeoCacheLocationManager implements LocationListener {
      * @return true if best provider enabled
      */
     public boolean isBestProviderEnabled() {
-        Criteria criteria = new Criteria();
-        criteria.setAccuracy(Criteria.ACCURACY_FINE);
-        String bestProv = locationManager.getBestProvider(criteria, false);
-        return locationManager.isProviderEnabled(bestProv);
+	Criteria criteria = new Criteria();
+	criteria.setAccuracy(Criteria.ACCURACY_FINE);
+	String bestProv = locationManager.getBestProvider(criteria, false);
+	return locationManager.isProviderEnabled(bestProv);
     }
 
     public boolean isBestProviderGps() {
-        Criteria criteria = new Criteria();
-        criteria.setAccuracy(Criteria.ACCURACY_FINE);
-        String bestProv = locationManager.getBestProvider(criteria, false);
-        return bestProv.equals(LocationManager.GPS_PROVIDER);
+	Criteria criteria = new Criteria();
+	criteria.setAccuracy(Criteria.ACCURACY_FINE);
+	String bestProv = locationManager.getBestProvider(criteria, false);
+	return bestProv.equals(LocationManager.GPS_PROVIDER);
     }
 }

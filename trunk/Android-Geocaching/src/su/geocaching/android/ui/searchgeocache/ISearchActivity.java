@@ -2,7 +2,6 @@ package su.geocaching.android.ui.searchgeocache;
 
 import android.content.Context;
 import android.location.Location;
-import android.location.LocationManager;
 
 /**
  * @author Grigory Kalabin. grigory.kalabin@gmail.com
@@ -10,11 +9,6 @@ import android.location.LocationManager;
  * @Description Activity which search geocache
  */
 public interface ISearchActivity {
-
-    /**
-     * @return LocationManager object from activity
-     */
-    public LocationManager getLocationManager();
 
     /**
      * @return context from activity
@@ -36,6 +30,12 @@ public interface ISearchActivity {
      * called when user location is changer
      */
     public void updateLocation(Location location);
+    
+    /**
+     * @param new user bearing
+     * called when user bearing is changer
+     */
+    public void updateAzimuth(int bearing);
     
     /**
      * @return last location obtained from GPS
