@@ -64,20 +64,8 @@ public class Controller {
      * @return
      */
     public void updateSelectedGeoCaches(double maxLatitude, double minLatitude, double maxLongitude, double minLongitude) {
-	Double[] d = { maxLatitude, minLatitude, maxLongitude, minLongitude };
-	// LinkedList<IFilter> filterList = getFilterList();
-	new DownloadGeoCacheTask().execute(d);
-	// if (filterList == null) {
-	// return apiManager.getGeoCashList(maxLatitude, minLatitude,
-	// maxLongitude, minLongitude);
-	// } else {
-	// LinkedList<GeoCache> list = apiManager.getGeoCashList(maxLatitude,
-	// minLatitude, maxLongitude, minLongitude);
-	// for (IFilter filter : filterList) {
-	// list = filter.filter(list);
-	// }
-	// return list;
-	// }
+	Double[] d = { maxLatitude, minLatitude, maxLongitude, minLongitude };	
+	new DownloadGeoCacheTask().execute(d);	
     }
 
     /**
