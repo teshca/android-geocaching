@@ -63,22 +63,26 @@ public class Controller {
      *            - coordinate of the visible area
      * @return
      */
-    public LinkedList<GeoCache> getGeoCacheList(double maxLatitude, double minLatitude, double maxLongitude, double minLongitude) {
-	LinkedList<IFilter> filterList = getFilterList();
-        if (filterList == null) {
-	    return apiManager.getGeoCashList(maxLatitude, minLatitude, maxLongitude, minLongitude);
-	} else {
-	    LinkedList<GeoCache> list = apiManager.getGeoCashList(maxLatitude, minLatitude, maxLongitude, minLongitude);
-	    for (IFilter filter : filterList) {
-		list = filter.filter(list);
-	    }
-	    return list;
-	}
+    public void updateSelectedGeoCaches(double maxLatitude, double minLatitude, double maxLongitude, double minLongitude) {
+	Double[] d = { maxLatitude, minLatitude, maxLongitude, minLongitude };
+	// LinkedList<IFilter> filterList = getFilterList();
+	new DownloadAndParseGeoCaches().execute(d);
+	// if (filterList == null) {
+	// return apiManager.getGeoCashList(maxLatitude, minLatitude,
+	// maxLongitude, minLongitude);
+	// } else {
+	// LinkedList<GeoCache> list = apiManager.getGeoCashList(maxLatitude,
+	// minLatitude, maxLongitude, minLongitude);
+	// for (IFilter filter : filterList) {
+	// list = filter.filter(list);
+	// }
+	// return list;
+	// }
     }
 
     /**
      * Get favorite GeoCaches filtered with chosen filters
-     *
+     * 
      * @param filterList
      *            - list of filters (if null - no filter)
      * @return LinkedList<GeoCache>
