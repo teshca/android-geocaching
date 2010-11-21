@@ -10,8 +10,8 @@ import su.geocaching.android.model.datastorage.GeoCacheStorage;
 import su.geocaching.android.model.datastorage.SettingsStorage;
 import su.geocaching.android.model.datatype.GeoCache;
 import su.geocaching.android.ui.R;
-import su.geocaching.android.ui.geocachemap.GeoCacheMap;
 import android.graphics.drawable.Drawable;
+import su.geocaching.android.ui.selectgeocache.SelectGeoCacheMap;
 
 /**
  * Author: Yuri Denison Date: 04.11.2010 21:06:02
@@ -79,7 +79,7 @@ public class Controller {
 
     /**
      * Get favorite GeoCaches filtered with chosen filters
-     * 
+     *
      * @param filterList
      *            - list of filters (if null - no filter)
      * @return LinkedList<GeoCache>
@@ -117,7 +117,7 @@ public class Controller {
      *            -
      * @return Drawable for this geoCache depends on it's parameters
      */
-    public Drawable getMarker(GeoCache geoCache, GeoCacheMap map) {
+    public Drawable getMarker(GeoCache geoCache, SelectGeoCacheMap map) {
 	// TODO: add different icons for different types of geoCache
 	switch (geoCache.getStatus()) {
 	case VALID:
@@ -166,7 +166,7 @@ public class Controller {
 	return null;
     }
 
-    private Drawable getMarker(int resource, GeoCacheMap map) {
+    private Drawable getMarker(int resource, SelectGeoCacheMap map) {
 	Drawable cacheMarker = map.getResources().getDrawable(resource);
 	cacheMarker.setBounds(0, -cacheMarker.getMinimumHeight(), cacheMarker.getMinimumWidth(), 0);
 	return cacheMarker;
