@@ -22,6 +22,7 @@ import java.util.List;
  * Author: Yuri Denison Date: 04.11.2010 18:26:39
  */
 public class SelectGeoCacheMap extends MapActivity implements IMapAware {
+    private static SelectGeoCacheMap instance;
     private static final String TAG = SelectGeoCacheMap.class.getCanonicalName();
     private final static int DEFAULT_ZOOM_VALUE = 13;
 
@@ -31,6 +32,10 @@ public class SelectGeoCacheMap extends MapActivity implements IMapAware {
     private MapView map;
     private MapController mapController;
     private List<Overlay> mapOverlays;
+
+    public static SelectGeoCacheMap getInstance(){
+        return instance;
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -54,6 +59,8 @@ public class SelectGeoCacheMap extends MapActivity implements IMapAware {
         mapController = map.getController();
         map.getOverlays().clear();
         map.getOverlays().add(userOverlay);
+
+        instance = this;
     }
 
     @Override
@@ -89,7 +96,7 @@ public class SelectGeoCacheMap extends MapActivity implements IMapAware {
         double maxLongitude = (double) lowerRightCorner.getLongitudeE6() / 1e6;
         double minLongitude = (double) upperLeftCorner.getLongitudeE6() / 1e6;
         List<GeoCache> geoCacheList = controller.getGeoCacheList(maxLatitude, minLatitude,
-                maxLongitude, minLongitude, controller.getFilterList());
+                maxLongitude, minLongitude);
 
         addGeoCacheList(geoCacheList);
     }
@@ -102,8 +109,8 @@ public class SelectGeoCacheMap extends MapActivity implements IMapAware {
 
     @Override
     public void onGeoCacheItemTaped(GeoCacheOverlayItem item) {
-        Toast.makeText(this, "Активити с информацией", Toast.LENGTH_SHORT).show();
-        // startGeoCacheInfoView(item.getGeoCache());
+        // Toast.makeText(this, "Активити с информацией", Toast.LENGTH_SHORT).show();
+        startGeoCacheInfoView(item.getGeoCache());
     }
 
     public void addGeoCacheList(List<GeoCache> geoCacheList) {
@@ -118,9 +125,5 @@ public class SelectGeoCacheMap extends MapActivity implements IMapAware {
             mapOverlays.add(overlay);
         }
         map.invalidate();
-    }
-
-    public Context getContext() {
-        return this.getBaseContext();
     }
 }
