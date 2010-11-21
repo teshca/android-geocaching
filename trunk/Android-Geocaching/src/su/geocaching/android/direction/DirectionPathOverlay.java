@@ -1,4 +1,4 @@
-package su.geocaching.android.path;
+package su.geocaching.android.direction;
 
 import android.graphics.Canvas;
 import android.graphics.Color;
