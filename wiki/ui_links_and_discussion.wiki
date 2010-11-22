@@ -1,0 +1,31 @@
+#summary Ссылки на ресурсы откуда взяты картинки для приложения
+#labels Phase-Implementation
+
+= Introduction =
+
+Add your content here.
+
+
+= Details =
+
+http://commons.wikimedia.org/wiki/Compass
+
+Иконки клада
+http://commons.wikimedia.org/wiki/Category:Chest_icons
+
+Флаги
+http://commons.wikimedia.org/wiki/Category:Flag_icons
+
+Возможно ещё что-то из этого пригодится
+http://commons.wikimedia.org/wiki/Category:Map_icons
+
+http://www.geocaching.su/?pn=15_1#ctypes
+
+Location
+http://developer.android.com/guide/practices/ui_guidelines/icon_design.html
+
+Вот тут ещё набор из 50 иконок:
+http://www.androidicons.com/
+
+Тут ещё один набор бесплатных иконок
+http://glyphish.com/
