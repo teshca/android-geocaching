@@ -1,3 +1,4 @@
+#summary Как подключть Google maps api key к проекту
 #labels Phase-Implementation
 = Google maps api key =
   # Каждый разработчик использует свой собственный api key - полученный им самостоятельно
