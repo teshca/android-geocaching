@@ -1,4 +1,4 @@
-#labels Phase-Implementation,Project-Settings
+#labels Phase-Implementation
 = Google maps api key =
   # Каждый разработчик использует свой собственный api key - полученный им самостоятельно
   # Для того чтобы код проекта выложенного в svn у вас работал, вам необходимо создать файл dev.xml в папке res/values со следующи содержимым
