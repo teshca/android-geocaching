@@ -3,8 +3,8 @@
 
 = Introduction =
 
-Add your content here.
-
+Редактор для создания иконок
+http://android-ui-utils.googlecode.com/hg/asset-studio/dist/index.html
 
 = Details =
 
