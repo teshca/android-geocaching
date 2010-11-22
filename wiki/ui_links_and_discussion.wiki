@@ -21,8 +21,8 @@ http://commons.wikimedia.org/wiki/Category:Map_icons
 
 http://www.geocaching.su/?pn=15_1#ctypes
 
-Location
-http://developer.android.com/guide/practices/ui_guidelines/icon_design.html
+Стандартные иконки Андроида:
+http://developer.android.com/guide/practices/ui_guidelines/icon_design.html#menuapx
 
 Вот тут ещё набор из 50 иконок:
 http://www.androidicons.com/
