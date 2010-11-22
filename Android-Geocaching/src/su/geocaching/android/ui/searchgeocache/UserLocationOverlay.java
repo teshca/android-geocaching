@@ -61,6 +61,13 @@ public class UserLocationOverlay extends MyLocationOverlay {
 	super.drawCompass(canvas, context.getLastKnownBearing());
     }
 
+    /*
+     * (non-Javadoc)
+     * 
+     * @see
+     * com.google.android.maps.MyLocationOverlay#onTap(com.google.android.maps
+     * .GeoPoint, com.google.android.maps.MapView)
+     */
     @Override
     public boolean onTap(GeoPoint p, MapView map) {
 	if ((context.getLastKnownLocation() == null) || (!this.isCompassEnabled())) {
@@ -72,7 +79,8 @@ public class UserLocationOverlay extends MyLocationOverlay {
 	proj.toPixels(p, tapPoint);
 	if ((Math.abs(compassPoint.x - tapPoint.x) < FINGER_WIDTH) && (Math.abs(compassPoint.y - tapPoint.y) < FINGER_HEIGHT)) {
 	    context.startCompassView();
+	    return true;
 	}
-	return true;
+	return false;
     }
 }

@@ -26,7 +26,7 @@ public class GeoCacheCompassManager implements SensorEventListener {
     public GeoCacheCompassManager(ICompassAware context, SensorManager sensorManager) {
 	this.context = context;
 	this.sensorManager = sensorManager;
-	isCompassAvailable = sensorManager == null;
+	isCompassAvailable = sensorManager != null;
 
     }
 

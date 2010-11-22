@@ -2,7 +2,6 @@ package su.geocaching.android.ui.geocachemap;
 
 import su.geocaching.android.model.datatype.GeoCache;
 
-import com.google.android.maps.GeoPoint;
 import com.google.android.maps.OverlayItem;
 
 /**

@@ -12,7 +12,11 @@
     
     <string name="search_geocache_error_no_geocache">Ошибка!\n\rНечего искать!</string>
     <string name="search_geocache_start_without_geocache">Перед поиском выберите тайник</string>
-        
+    
+    <string name="search_geocache_internet_lost">Подключение к интернету отсутствует. Могут возникнуть проблемы с обновлением карты</string>
+    <string name="search_geocache_status_without_internet">Интернет: нет</string>
+    <string name="search_geocache_status_with_internet">Интернет: есть</string>
+           
     <string name="gps_status_started">GPS: Запущен</string>
     <string name="gps_status_stopped">GPS: Связь потеряна</string>
     <string name="gps_status_first_fix">GPS: Координаты получены</string>

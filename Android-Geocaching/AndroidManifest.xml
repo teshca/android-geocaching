@@ -11,6 +11,14 @@
 	<application android:icon="@drawable/icon" android:label="@string/app_name"
 		android:name="su.geocaching.android.application.ApplicationMain"
 		android:debuggable="true">
+
+		<receiver android:name=".geocachemap.ConnectionStateReciever"
+			android:label="NetworkConnection">
+			<intent-filter>
+				<action android:name="android.net.conn.CONNECTIVITY_CHANGE" />
+			</intent-filter>
+		</receiver>
+
 		<activity android:name=".MenuActivity" android:label="@string/app_name"
 			android:theme="@android:style/Theme.NoTitleBar">
 			<intent-filter>
@@ -32,7 +40,8 @@
 		</activity>
 
 		<activity android:name=".searchgeocache.SearchGeoCacheCompass"
-			android:label="@string/app_name" android:theme="@android:style/Theme.NoTitleBar" android:screenOrientation="portrait">
+			android:label="@string/app_name" android:theme="@android:style/Theme.NoTitleBar"
+			android:screenOrientation="portrait">
 			<intent-filter>
 				<action android:name="android.intent.action.RUN" />
 				<category android:name="android.intent.category.DEFAULT" />

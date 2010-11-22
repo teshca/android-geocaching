@@ -1,17 +1,10 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
-    <item android:id="@+id/menuGeoCacheInfo"
-          android:title="@string/menu_geocache_info" />
-	<item android:id="@+id/menuDefaultZoom"
-          android:title="@string/menu_default_zoom" />
-    <item android:id="@+id/menuStartCompass"
-          android:title="@string/menu_start_compass" />
-    <item android:id="@+id/menuToggleShortestWay"
-          android:title="@string/menu_toggle_shortest_way" />          
-    <item android:id="@+id/menuMainMenu"
-          android:title="@string/menu_main_menu" />
-    <item android:id="@+id/DrawDirectionPath"
-          android:title="@string/menu_directive_way" />
-    <item android:id="@+id/menuQuit"
-          android:title="@string/menu_quit" />
-                      
+	<item android:id="@+id/menuGeoCacheInfo" android:icon="@drawable/ic_menu_info_details"
+		android:title="@string/menu_geocache_info" />
+	<item android:id="@+id/menuDefaultZoom" android:title="@string/menu_default_zoom" />
+	<item android:id="@+id/menuStartCompass" android:icon="@drawable/ic_menu_compass"
+		android:title="@string/menu_start_compass" />
+	<item android:id="@+id/menuToggleShortestWay" android:title="@string/menu_toggle_shortest_way" />
+	<item android:id="@+id/DrawDirectionPath" android:icon="@drawable/ic_menu_directions"
+		android:title="@string/menu_directive_way" />
 </menu>

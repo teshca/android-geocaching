@@ -12,22 +12,23 @@ import android.location.*;
 public class GpsStatusListener implements GpsStatus.Listener {
     private ISearchActivity activity;
     private LocationManager locationMaganer;
-    
+
     /**
-     * @param activity - activity which used this listener
+     * @param activity
+     *            - activity which used this listener
      */
     public GpsStatusListener(ISearchActivity activity) {
 	this.activity = activity;
-	locationMaganer =  (LocationManager) ((Activity) activity).getSystemService(Activity.LOCATION_SERVICE);
+	locationMaganer = (LocationManager) ((Activity) activity).getSystemService(Activity.LOCATION_SERVICE);
     }
-    
+
     /**
      * Called when activity resuming
      */
     public void resume() {
 	locationMaganer.addGpsStatusListener(this);
     }
-    
+
     /**
      * Called when activity pausing
      */
@@ -35,7 +36,9 @@ public class GpsStatusListener implements GpsStatus.Listener {
 	locationMaganer.removeGpsStatusListener(this);
     }
 
-    /* (non-Javadoc)
+    /*
+     * (non-Javadoc)
+     * 
      * @see android.location.GpsStatus.Listener#onGpsStatusChanged(int)
      */
     @Override
@@ -49,23 +52,23 @@ public class GpsStatusListener implements GpsStatus.Listener {
 	case GpsStatus.GPS_EVENT_FIRST_FIX:
 	    status = activity.getContext().getString(R.string.gps_status_first_fix);
 	case GpsStatus.GPS_EVENT_SATELLITE_STATUS:
-	    status = activity.getContext().getString(R.string.gps_status_satellite_status)+" ";
+	    status = activity.getContext().getString(R.string.gps_status_satellite_status) + " ";
 	    GpsStatus gpsStatus = locationMaganer.getGpsStatus(null);
 	    int usedInFix = 0;
 	    int count = 0;
-	    if (gpsStatus.getSatellites()==null) {
+	    if (gpsStatus.getSatellites() == null) {
 		status = "GPS: unknown";
 		break;
 	    }
-	    for (GpsSatellite satellite: gpsStatus.getSatellites()) {
+	    for (GpsSatellite satellite : gpsStatus.getSatellites()) {
 		count++;
 		if (satellite.usedInFix()) {
 		    usedInFix++;
 		}
 	    }
-	    status+=usedInFix+"/"+count;
+	    status += usedInFix + "/" + count;
 	}
-	activity.updateStatus(status);
+	activity.updateStatus(status, ISearchActivity.STATUS_TYPE_GPS);
     }
 
 }
