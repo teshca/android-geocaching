@@ -65,8 +65,12 @@ public class SearchGeoCacheCompass extends Activity implements ISearchActivity {
 	manager.runLogic();
     }
 
-    /* (non-Javadoc)
-     * @see su.geocaching.android.ui.searchgeocache.ISearchActivity#updateAzimuth(int)
+    /*
+     * (non-Javadoc)
+     * 
+     * @see
+     * su.geocaching.android.ui.searchgeocache.ISearchActivity#updateAzimuth
+     * (int)
      */
     public void updateAzimuth(int azimuth) {
 	compassView.setAzimuthToNorth(azimuth);
@@ -135,8 +139,15 @@ public class SearchGeoCacheCompass extends Activity implements ISearchActivity {
 	return getBaseContext();
     }
 
+    /*
+     * (non-Javadoc)
+     * 
+     * @see
+     * su.geocaching.android.ui.searchgeocache.ISearchActivity#updateStatus(
+     * java.lang.String, int)
+     */
     @Override
-    public void updateStatus(String status) {
+    public void updateStatus(String status, int type) {
 	// TODO add status field
 
     }

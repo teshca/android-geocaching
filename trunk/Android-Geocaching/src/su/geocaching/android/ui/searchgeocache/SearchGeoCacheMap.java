@@ -20,8 +20,10 @@ import org.w3c.dom.NodeList;
 import org.xml.sax.SAXException;
 
 import su.geocaching.android.ui.R;
+import su.geocaching.android.ui.geocachemap.ConnectionStateReciever;
 import su.geocaching.android.ui.geocachemap.GeoCacheItemizedOverlay;
 import su.geocaching.android.ui.geocachemap.GeoCacheOverlayItem;
+import su.geocaching.android.ui.geocachemap.IInternetAware;
 import su.geocaching.android.ui.geocachemap.IMapAware;
 import su.geocaching.android.utils.Helper;
 import su.geocaching.android.view.userstory.incocach.Info_cach;
@@ -36,6 +38,7 @@ import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.google.android.maps.GeoPoint;
 import com.google.android.maps.MapActivity;
@@ -48,17 +51,19 @@ import com.google.android.maps.Overlay;
  * @description Search GeoCache with the map.
  * @since October 2010
  */
-public class SearchGeoCacheMap extends MapActivity implements ISearchActivity, IMapAware {
+public class SearchGeoCacheMap extends MapActivity implements ISearchActivity, IMapAware, IInternetAware {
     private GeoCacheOverlayItem cacheOverlayItem;
     private GeoCacheItemizedOverlay cacheItemizedOverlay;
     private DistanceToGeoCacheOverlay distanceOverlay;
     private UserLocationOverlay userOverlay;
-    private TextView statusTextView;
+    private TextView gpsStatusTextView;
+    private TextView internetStatusTextView;
     private MapView map;
     private MapController mapController;
     private List<Overlay> mapOverlays;
     private SearchGeoCacheManager manager;
     private boolean visibilityOfDirectionWay;
+    private ConnectionStateReciever internetManager;
 
     /*
      * (non-Javadoc)
@@ -69,12 +74,14 @@ public class SearchGeoCacheMap extends MapActivity implements ISearchActivity, I
     protected void onCreate(Bundle savedInstanceState) {
 	super.onCreate(savedInstanceState);
 	setContentView(R.layout.search_geocache_map);
-	statusTextView = (TextView) findViewById(R.id.statusTextView);
+	gpsStatusTextView = (TextView) findViewById(R.id.gpsStatusTextView);
+	internetStatusTextView = (TextView) findViewById(R.id.internetStatusTextView);
 	map = (MapView) findViewById(R.id.searchGeocacheMap);
 	mapOverlays = map.getOverlays();
 	mapController = map.getController();
 	userOverlay = new UserLocationOverlay(this, map);
 	manager = new SearchGeoCacheManager(this);
+	internetManager = new ConnectionStateReciever(this);
     }
 
     /*
@@ -101,6 +108,12 @@ public class SearchGeoCacheMap extends MapActivity implements ISearchActivity, I
     protected void onResume() {
 	super.onResume();
 	manager.onResume();
+
+	if (!internetManager.isInternetConnected()) {
+	    onInternetLost();
+	} else {
+	    onInternetFound();
+	}
     }
 
     /**
@@ -144,8 +157,12 @@ public class SearchGeoCacheMap extends MapActivity implements ISearchActivity, I
 	this.finish();
     }
 
-    /* (non-Javadoc)
-     * @see su.geocaching.android.ui.searchgeocache.ISearchActivity#updateLocation(android.location.Location)
+    /*
+     * (non-Javadoc)
+     * 
+     * @see
+     * su.geocaching.android.ui.searchgeocache.ISearchActivity#updateLocation
+     * (android.location.Location)
      */
     @Override
     public void updateLocation(Location location) {
@@ -165,7 +182,7 @@ public class SearchGeoCacheMap extends MapActivity implements ISearchActivity, I
 	    return;
 	}
 	distanceOverlay.setUserPoint(Helper.locationToGeoPoint(location));
-	
+
 	map.invalidate();
     }
 
@@ -242,8 +259,17 @@ public class SearchGeoCacheMap extends MapActivity implements ISearchActivity, I
      * java.lang.String)
      */
     @Override
-    public void updateStatus(String status) {
-	statusTextView.setText(status);
+    public void updateStatus(String status, int type) {
+	switch (type) {
+	case ISearchActivity.STATUS_TYPE_GPS:
+	    gpsStatusTextView.setText(status);
+	    break;
+	case ISearchActivity.STATUS_TYPE_INTERNET:
+	    internetStatusTextView.setText(status);
+	    break;
+	default:
+	    Toast.makeText(this, status, Toast.LENGTH_LONG);
+	}
     }
 
     /*
@@ -300,6 +326,28 @@ public class SearchGeoCacheMap extends MapActivity implements ISearchActivity, I
 	Intent intent = new Intent(this, Info_cach.class);
 	intent.putExtra(GeoCache.class.getCanonicalName(), manager.getGeoCache());
 	this.startActivity(intent);
+    }
+
+    /*
+     * (non-Javadoc)
+     * 
+     * @see su.geocaching.android.ui.geocachemap.IInternetAware#onInternetLost()
+     */
+    @Override
+    public void onInternetLost() {
+	Toast.makeText(this, getString(R.string.search_geocache_internet_lost), Toast.LENGTH_LONG).show();
+	updateStatus(getString(R.string.search_geocache_status_without_internet), ISearchActivity.STATUS_TYPE_INTERNET);
+    }
+
+    /*
+     * (non-Javadoc)
+     * 
+     * @see
+     * su.geocaching.android.ui.geocachemap.IInternetAware#onInternetFound()
+     */
+    @Override
+    public void onInternetFound() {
+	updateStatus(getString(R.string.search_geocache_status_with_internet), ISearchActivity.STATUS_TYPE_INTERNET);
     }
 
     /**

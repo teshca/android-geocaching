@@ -9,6 +9,8 @@ import android.location.Location;
  * @Description Activity which search geocache
  */
 public interface ISearchActivity {
+    public final static int STATUS_TYPE_GPS = 0;
+    public final static int STATUS_TYPE_INTERNET = 1;
 
     /**
      * @return context from activity
@@ -21,22 +23,22 @@ public interface ISearchActivity {
     public void runLogic();
 
     /**
-     * @param status - show status to user
+     * @param status
+     *            - show status to user
      */
-    public void updateStatus(String status);
+    public void updateStatus(String status, int type);
 
     /**
-     * @param location new user location
-     * called when user location is changer
+     * @param location
+     *            new user location called when user location is changer
      */
     public void updateLocation(Location location);
-    
+
     /**
-     * @param new user bearing
-     * called when user bearing is changer
+     * @param new user bearing called when user bearing is changer
      */
     public void updateAzimuth(int bearing);
-    
+
     /**
      * @return last location obtained from GPS
      */

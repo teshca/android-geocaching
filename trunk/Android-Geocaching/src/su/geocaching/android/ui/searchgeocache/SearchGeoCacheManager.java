@@ -99,7 +99,7 @@ public class SearchGeoCacheManager implements ILocationAware, ICompassAware {
      * Show cancelable alert which tell user what location fixing
      */
     private void showWaitingLocationFix() {
-	activity.updateStatus(activity.getContext().getString(R.string.waiting_location_fix_message));
+	activity.updateStatus(activity.getContext().getString(R.string.waiting_location_fix_message), ISearchActivity.STATUS_TYPE_GPS);
     }
 
     /*
@@ -148,7 +148,7 @@ public class SearchGeoCacheManager implements ILocationAware, ICompassAware {
 	if (provider.equals(LocationManager.GPS_PROVIDER)) {
 	    statusString += "\n\t" + "Satellites: " + extras.getString("satellites");
 	}
-	activity.updateStatus(statusString);
+	activity.updateStatus(statusString, ISearchActivity.STATUS_TYPE_GPS);
     }
 
     @Override
@@ -212,7 +212,10 @@ public class SearchGeoCacheManager implements ILocationAware, ICompassAware {
     public Location getCurrentLocation() {
 	return locationManager.getCurrentLocation();
     }
-    
+
+    /**
+     * @return current bearing known to compass
+     */
     public int getCurrentBearing() {
 	return compass.getLastBearing();
     }
@@ -226,16 +229,22 @@ public class SearchGeoCacheManager implements ILocationAware, ICompassAware {
 	((Activity) activity).startActivity(intent);
     }
 
-    /* (non-Javadoc)
-     * @see su.geocaching.android.ui.geocachemap.ICompassAware#updateAzimuth(float)
+    /*
+     * (non-Javadoc)
+     * 
+     * @see
+     * su.geocaching.android.ui.geocachemap.ICompassAware#updateAzimuth(float)
      */
     @Override
     public void updateAzimuth(int azimuth) {
 	activity.updateAzimuth(azimuth);
     }
 
-    /* (non-Javadoc)
-     * @see su.geocaching.android.ui.geocachemap.ICompassAware#isCompassAvailable()
+    /*
+     * (non-Javadoc)
+     * 
+     * @see
+     * su.geocaching.android.ui.geocachemap.ICompassAware#isCompassAvailable()
      */
     @Override
     public boolean isCompassAvailable() {
