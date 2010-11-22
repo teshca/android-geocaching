@@ -31,8 +31,11 @@ public class ApiManager implements IApiManager {
     private static ApiManager instance;
 
     private LinkedList<GeoCache> geoCaches;
+    private static int id;
 
     private ApiManager() {
+	id = (int) (Math.random() * 1E6);
+	Log.d(TAG, "new ApiManager Created");
     }
 
     /**
@@ -69,12 +72,12 @@ public class ApiManager implements IApiManager {
 	    SAXParser parser = factory.newSAXParser();
 	    URL url = generateUrl(maxLatitude, minLatitude, maxLongitude, minLongitude);
 	    connection = (HttpURLConnection) url.openConnection();
-	    
+
 	    if (connection.getResponseCode() != HttpURLConnection.HTTP_OK) {
 		// TODO make real error message
 		Log.e(TAG, "Cann't connect to internet");
 	    }
-	    
+
 	    InputSource courseXml = new InputSource(new InputStreamReader(connection.getInputStream(), ENCODING));
 	    handler = new GeoCacheSaxHandler();
 	    parser.parse(courseXml, handler);
@@ -100,9 +103,9 @@ public class ApiManager implements IApiManager {
     private URL generateUrl(double maxLatitude, double minLatitude, double maxLongitude, double minLongitude) throws MalformedURLException {
 	String GEOCACHING_PARAM = "abc"; // I don't know what it is.... but it's
 					 // work
-	int id = (int) (Math.random() * 1E6);
 	String request = String.format("%s%s%f%s%f%s%f%s%f%s%d%s%s", URL, "?lngmax=", maxLongitude, "&lngmin=", minLongitude, "&latmax=", maxLatitude, "&latmin=", minLatitude, "&id=", id,
 		"&geocaching=", GEOCACHING_PARAM);
+	Log.d(TAG, "generated Url: "+request);
 	return new URL(request);
     }
 
