@@ -116,7 +116,7 @@ public class MenuActivity extends Activity implements OnClickListener, IInternet
 	    Intent intent = new Intent(this, SelectGeoCacheMap.class);
 	    startActivity(intent);
 	} else {
-	    startFavoriteFolder();
+	    Toast.makeText(this.getBaseContext(), "Сеть не найдена. Попробуйте позже", Toast.LENGTH_SHORT).show();
 	}
     }
 

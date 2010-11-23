@@ -22,7 +22,6 @@ import java.util.List;
  * Author: Yuri Denison Date: 04.11.2010 18:26:39
  */
 public class SelectGeoCacheMap extends MapActivity implements IMapAware {
-    private static SelectGeoCacheMap instance;
     private static final String TAG = SelectGeoCacheMap.class.getCanonicalName();
     private final static int DEFAULT_ZOOM_VALUE = 13;
 
@@ -32,10 +31,6 @@ public class SelectGeoCacheMap extends MapActivity implements IMapAware {
     private MapView map;
     private MapController mapController;
     private List<Overlay> mapOverlays;
-
-    public static SelectGeoCacheMap getInstance() {
-	return instance;
-    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -59,8 +54,6 @@ public class SelectGeoCacheMap extends MapActivity implements IMapAware {
 	mapController = map.getController();
 	map.getOverlays().clear();
 	map.getOverlays().add(userOverlay);
-
-	instance = this;
     }
 
     @Override
@@ -96,7 +89,7 @@ public class SelectGeoCacheMap extends MapActivity implements IMapAware {
 	double maxLongitude = (double) lowerRightCorner.getLongitudeE6() / 1e6;
 	double minLongitude = (double) upperLeftCorner.getLongitudeE6() / 1e6;
 
-        controller.updateSelectedGeoCaches(maxLatitude, minLatitude, maxLongitude, minLongitude);
+        controller.updateSelectedGeoCaches(this ,maxLatitude, minLatitude, maxLongitude, minLongitude);
     }
 
     private void startGeoCacheInfoView(GeoCache geoCache) {
@@ -107,7 +100,6 @@ public class SelectGeoCacheMap extends MapActivity implements IMapAware {
 
     @Override
     public void onGeoCacheItemTaped(GeoCacheOverlayItem item) {
-	// Toast.makeText(this, "�������� � �����������", Toast.LENGTH_SHORT).show();
 	startGeoCacheInfoView(item.getGeoCache());
     }
 

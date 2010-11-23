@@ -1,6 +1,7 @@
 package su.geocaching.android.controller.apimanager;
 
 import java.util.LinkedList;
+import java.util.List;
 
 import su.geocaching.android.model.datatype.GeoCache;
 
@@ -10,8 +11,9 @@ import su.geocaching.android.model.datatype.GeoCache;
 public interface IApiManager {
 
     /**
-     * Get list of GeoCach in search area a
+     * Get list of GeoCache in search area a
      * 
+     *
      * @param maxLatitude
      *            - coordinate of visible area
      * @param minLatitude
@@ -22,13 +24,5 @@ public interface IApiManager {
      *            - coordinate of visible area
      * @return List of geoCash in visible area
      */
-    public abstract LinkedList<GeoCache> getGeoCashList(double maxLatitude, double minLatitude, double maxLongitude, double minLongitude);
-
-    /**
-     * @param id
-     *            GeoCash id from geocaching.su
-     * @return
-     */
-    public abstract GeoCache getGeoCacheByID(int id);
-
+    public List<GeoCache> getGeoCacheList(double maxLatitude, double minLatitude, double maxLongitude, double minLongitude);
 }

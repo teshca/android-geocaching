@@ -1,6 +1,6 @@
 package su.geocaching.android.controller.filter;
 
-import java.util.LinkedList;
+import java.util.List;
 
 import su.geocaching.android.model.datatype.GeoCache;
 
@@ -25,7 +25,7 @@ public class NoFilter implements IFilter {
     }
 
     @Override
-    public LinkedList<GeoCache> filter(LinkedList<GeoCache> list) {
+    public List<GeoCache> filter(List<GeoCache> list) {
 	return list;
     }
 }
