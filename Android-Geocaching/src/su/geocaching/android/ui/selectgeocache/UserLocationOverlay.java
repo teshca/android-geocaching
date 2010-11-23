@@ -1,6 +1,5 @@
 package su.geocaching.android.ui.selectgeocache;
 
-import android.content.Context;
 import android.graphics.Canvas;
 import android.location.Location;
 import com.google.android.maps.GeoPoint;
@@ -37,7 +36,6 @@ public class UserLocationOverlay extends MyLocationOverlay {
 
     @Override
     protected void drawMyLocation(Canvas canvas, MapView mapView, Location lastFix, GeoPoint myLocation, long when) {
-        super.drawMyLocation(canvas, map, getLastFix(),
-                Helper.locationToGeoPoint(getLastFix()), when);
+        super.drawMyLocation(canvas, mapView, lastFix, myLocation, when);
     }
 }

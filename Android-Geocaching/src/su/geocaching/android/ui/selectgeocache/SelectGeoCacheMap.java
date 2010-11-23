@@ -95,9 +95,8 @@ public class SelectGeoCacheMap extends MapActivity implements IMapAware {
 	double minLatitude = (double) lowerRightCorner.getLatitudeE6() / 1e6;
 	double maxLongitude = (double) lowerRightCorner.getLongitudeE6() / 1e6;
 	double minLongitude = (double) upperLeftCorner.getLongitudeE6() / 1e6;
-	controller.updateSelectedGeoCaches(maxLatitude, minLatitude, maxLongitude, minLongitude);
 
-	// addGeoCacheList(geoCacheList);
+        controller.updateSelectedGeoCaches(maxLatitude, minLatitude, maxLongitude, minLongitude);
     }
 
     private void startGeoCacheInfoView(GeoCache geoCache) {
@@ -108,8 +107,7 @@ public class SelectGeoCacheMap extends MapActivity implements IMapAware {
 
     @Override
     public void onGeoCacheItemTaped(GeoCacheOverlayItem item) {
-	// Toast.makeText(this, "Активити с информацией",
-	// Toast.LENGTH_SHORT).show();
+	// Toast.makeText(this, "Активити с информацией", Toast.LENGTH_SHORT).show();
 	startGeoCacheInfoView(item.getGeoCache());
     }
 
