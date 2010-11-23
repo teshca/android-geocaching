@@ -5,11 +5,53 @@
   android:layout_height="fill_parent"
   android:orientation="vertical"
   >
+  <LinearLayout 
+  xmlns:android="http://schemas.android.com/apk/res/android"
+  android:layout_width="fill_parent"
+  android:layout_height="wrap_content"
+  android:orientation="horizontal"
+  android:gravity="right"
+  android:layout_marginTop="10dip"
+  android:layout_marginBottom="10dip"
+  >
+  <Button 
+  	android:layout_width="wrap_content"
+  	android:layout_height="wrap_content"
+  	android:text="add cach  for test"
+  	android:gravity="left"
+  	android:layout_marginRight="100dip"
+  	android:id="@+id/addBut"
+  />
+  <ImageView
+  	android:layout_width="wrap_content"
+  	android:layout_height="fill_parent"
+  	android:src="@drawable/icon_search"
+  	android:paddingRight="10dip"
+  	android:paddingTop="10dip"
+  	android:paddingBottom="10dip"
+  	android:id="@+id/favorit_list_search_cache"
+   />
+  <ImageView
+  	android:layout_width="wrap_content"
+  	android:layout_height="fill_parent"
+  	android:src="@drawable/icon_favorit_folder_delete"
+  	android:id="@+id/favorit_list_delete_cache"
+  	android:layout_marginRight="15dip"
+  	android:paddingTop="10dip"
+  	android:paddingLeft="10dip"
+  	android:paddingBottom="10dip"
+   />
+  
+  </LinearLayout>
+  
+  
   <TextView
   	android:gravity="center_horizontal"
   	android:layout_width="fill_parent"
   	android:layout_height="wrap_content"
   	android:text="@string/favorit_folder_title_text"
+  	android:textStyle="bold"
+  	android:id="@+id/favorit_foldet_title_text"
    />
   
   <ListView 
