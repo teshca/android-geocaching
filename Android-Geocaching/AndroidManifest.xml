@@ -12,7 +12,7 @@
 		android:name="su.geocaching.android.application.ApplicationMain"
 		android:debuggable="true">
 
-		<receiver android:name=".geocachemap.ConnectionStateReceiver"
+		<receiver android:name=".geocachemap.ConnectionStateReciever"
 			android:label="NetworkConnection">
 			<intent-filter>
 				<action android:name="android.net.conn.CONNECTIVITY_CHANGE" />
@@ -64,7 +64,7 @@
 			</intent-filter>
 		</activity>
 
-		<activity android:name="su.geocaching.android.view.userstory.incocach.Info_cach">
+		<activity android:name="su.geocaching.android.view.showgeocacheinfo.Info_cache">
 			<intent-filter>
 				<action android:name="android.intent.action.RUN" />
 				<category android:name="android.intent.category.DEFAULT" />
@@ -72,7 +72,7 @@
 		</activity>
 
 		<activity
-			android:name="su.geocaching.android.view.userstory.favoritwork.FavoritFolder">
+			android:name="su.geocaching.android.view.favoritwork.FavoritFolder">
 			<intent-filter>
 				<action android:name="android.intent.action.RUN" />
 				<category android:name="android.intent.category.DEFAULT" />
@@ -81,6 +81,6 @@
 
 		<uses-library android:name="com.google.android.maps" />
 
-	</application>
+</application>
 
 </manifest>
