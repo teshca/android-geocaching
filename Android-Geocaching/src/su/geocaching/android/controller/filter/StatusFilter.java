@@ -1,6 +1,7 @@
 package su.geocaching.android.controller.filter;
 
 import java.util.LinkedList;
+import java.util.List;
 
 import su.geocaching.android.model.datatype.GeoCache;
 import su.geocaching.android.model.datatype.GeoCacheStatus;
@@ -16,8 +17,8 @@ public class StatusFilter implements IFilter {
     }
 
     @Override
-    public LinkedList<GeoCache> filter(LinkedList<GeoCache> list) {
-	LinkedList<GeoCache> res = new LinkedList<GeoCache>();
+    public List<GeoCache> filter(List<GeoCache> list) {
+	List<GeoCache> res = new LinkedList<GeoCache>();
 	for (GeoCache geoCache : list) {
 	    if (geoCache.getStatus() == param) {
 		res.add(geoCache);

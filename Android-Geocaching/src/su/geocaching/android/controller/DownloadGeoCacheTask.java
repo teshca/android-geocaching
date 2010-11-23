@@ -1,8 +1,10 @@
 package su.geocaching.android.controller;
 
 import java.util.LinkedList;
+import java.util.List;
 
 import su.geocaching.android.controller.apimanager.ApiManager;
+import su.geocaching.android.controller.apimanager.IApiManager;
 import su.geocaching.android.controller.filter.IFilter;
 import su.geocaching.android.model.datatype.GeoCache;
 import su.geocaching.android.ui.selectgeocache.SelectGeoCacheMap;
@@ -12,17 +14,22 @@ import android.os.AsyncTask;
  * @author Nikita Bumakov
  * <p> Class downloads List of GeoCahes and adds them to SelectGeoCacheMap </p>
  */
-class DownloadGeoCacheTask extends AsyncTask<Double, Integer, LinkedList<GeoCache>> {
+class DownloadGeoCacheTask extends AsyncTask<Double, Integer, List<GeoCache>> {
+    private SelectGeoCacheMap map;
+
+    public DownloadGeoCacheTask(SelectGeoCacheMap map) {
+        this.map = map;
+    }
 
     @Override
-    protected LinkedList<GeoCache> doInBackground(Double... params) {
-	ApiManager apiManager = ApiManager.getInstance();
-	LinkedList<GeoCache> gkList = apiManager.getGeoCashList(params[0], params[1], params[2], params[3]);
+    protected List<GeoCache> doInBackground(Double... params) {
+	IApiManager apiManager = ApiManager.getInstance();
+	List<GeoCache> gkList = apiManager.getGeoCacheList(params[0], params[1], params[2], params[3]);
 	return gkList;
     }
 
     @Override
-    protected void onPostExecute(LinkedList<GeoCache> gcList) {
+    protected void onPostExecute(List<GeoCache> gcList) {
 	LinkedList<IFilter> filterList = Controller.getInstance().getFilterList();
 
 	if (filterList != null) {
@@ -30,6 +37,6 @@ class DownloadGeoCacheTask extends AsyncTask<Double, Integer, LinkedList<GeoCach
 		gcList = filter.filter(gcList);
 	    }
 	}
-	SelectGeoCacheMap.getInstance().addGeoCacheList(gcList);
+	map.addGeoCacheList(gcList);
     }
 }

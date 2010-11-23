@@ -1,7 +1,9 @@
 package su.geocaching.android.controller;
 
 import java.util.LinkedList;
+import java.util.List;
 
+import android.content.Context;
 import su.geocaching.android.controller.apimanager.ApiManager;
 import su.geocaching.android.controller.apimanager.IApiManager;
 import su.geocaching.android.controller.filter.IFilter;
@@ -41,30 +43,17 @@ public class Controller {
     }
 
     /**
-     * @param id
-     *            - id of necessary GeoCache
-     * @return GeoCache, from favorites if contains or if not, from server.
-     */
-    public GeoCache getGeoCacheByID(int id) {
-	if (favoriteGeoCacheStorage.getGeoCacheByID(id) != null) {
-	    return favoriteGeoCacheStorage.getGeoCacheByID(id);
-	}
-	return apiManager.getGeoCacheByID(id);
-    }
-
-    /**
      * @param maxLatitude
      *            - coordinate of the visible area
      * @param minLatitude
-     *            - coordinate of the visible area
+ *            - coordinate of the visible area
      * @param maxLongitude
-     *            - coordinate of the visible area
+*            - coordinate of the visible area
      * @param minLongitude
-     *            - coordinate of the visible area    
      */
-    public void updateSelectedGeoCaches(double maxLatitude, double minLatitude, double maxLongitude, double minLongitude) {
+    public void updateSelectedGeoCaches(SelectGeoCacheMap map, double maxLatitude, double minLatitude, double maxLongitude, double minLongitude) {
 	Double[] d = { maxLatitude, minLatitude, maxLongitude, minLongitude };	
-	new DownloadGeoCacheTask().execute(d);	
+	new DownloadGeoCacheTask(map).execute(d);
     }
 
     /**
@@ -74,11 +63,11 @@ public class Controller {
      *            - list of filters (if null - no filter)
      * @return LinkedList<GeoCache>
      */
-    public LinkedList<GeoCache> getFavoriteGeoCaches(LinkedList<IFilter> filterList) {
+    public List<GeoCache> getFavoriteGeoCaches(List<IFilter> filterList) {
 	if (filterList == null) {
 	    return favoriteGeoCacheStorage.getGeoCacheList();
 	} else {
-	    LinkedList<GeoCache> list = favoriteGeoCacheStorage.getGeoCacheList();
+	    List<GeoCache> list = favoriteGeoCacheStorage.getGeoCacheList();
 	    for (IFilter filter : filterList) {
 		list = filter.filter(list);
 	    }
@@ -107,7 +96,7 @@ public class Controller {
      *            -
      * @return Drawable for this geoCache depends on it's parameters
      */
-    public Drawable getMarker(GeoCache geoCache, SelectGeoCacheMap map) {
+    public Drawable getMarker(GeoCache geoCache, Context map) {
 	// TODO: add different icons for different types of geoCache
 	switch (geoCache.getStatus()) {
 	case VALID:
@@ -156,7 +145,7 @@ public class Controller {
 	return null;
     }
 
-    private Drawable getMarker(int resource, SelectGeoCacheMap map) {
+    private Drawable getMarker(int resource, Context map) {
 	Drawable cacheMarker = map.getResources().getDrawable(resource);
 	cacheMarker.setBounds(0, -cacheMarker.getMinimumHeight(), cacheMarker.getMinimumWidth(), 0);
 	return cacheMarker;
