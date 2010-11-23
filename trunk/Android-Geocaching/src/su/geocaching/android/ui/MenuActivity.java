@@ -7,8 +7,7 @@ import su.geocaching.android.ui.geocachemap.IInternetAware;
 import su.geocaching.android.ui.searchgeocache.SearchGeoCacheCompass;
 import su.geocaching.android.ui.searchgeocache.SearchGeoCacheMap;
 import su.geocaching.android.ui.selectgeocache.SelectGeoCacheMap;
-import su.geocaching.android.view.userstory.favoritwork.FavoritFolder;
-import su.geocaching.android.view.userstory.incocach.Info_cach;
+import su.geocaching.android.view.showgeocacheinfo.Info_cache;
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
@@ -130,12 +129,12 @@ public class MenuActivity extends Activity implements OnClickListener, IInternet
     }
 
     private void startInfoGeoCache() {
-	Intent intent = new Intent(this, Info_cach.class);
+	Intent intent = new Intent(this, Info_cache.class);
 	startActivity(intent);
     }
 
     private void startFavoriteFolder() {
-	Intent intent = new Intent(this, FavoritFolder.class);
+	Intent intent = new Intent(this, su.geocaching.android.view.favoritwork.FavoritFolder.class);
 	startActivity(intent);
     }
 

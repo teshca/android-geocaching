@@ -23,7 +23,7 @@ import su.geocaching.android.ui.R;
 import su.geocaching.android.ui.geocachemap.*;
 import su.geocaching.android.ui.geocachemap.ConnectionStateReceiver;
 import su.geocaching.android.utils.Helper;
-import su.geocaching.android.view.userstory.incocach.Info_cach;
+import su.geocaching.android.view.showgeocacheinfo.Info_cache;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.drawable.Drawable;
@@ -320,7 +320,7 @@ public class SearchGeoCacheMap extends MapActivity implements ISearchActivity, I
      */
     @Override
     public void onGeoCacheItemTaped(GeoCacheOverlayItem item) {
-	Intent intent = new Intent(this, Info_cach.class);
+	Intent intent = new Intent(this, Info_cache.class);
 	intent.putExtra(GeoCache.class.getCanonicalName(), manager.getGeoCache());
 	this.startActivity(intent);
     }
