@@ -35,10 +35,8 @@ public class MenuActivity extends Activity implements OnClickListener, IInternet
 
     private Button searchButton;
     private Button selectButton;
-    private Button infoButton;
     private Button favoritButton;
     private ApplicationMain application;
-    private ImageButton titleButton;
 
     private ConnectionStateReceiver internetManager;
 
@@ -47,25 +45,21 @@ public class MenuActivity extends Activity implements OnClickListener, IInternet
 	super.onCreate(savedInstanceState);
 	Log.d(TAG, "onCreate");
 
-	setContentView(R.layout.menu);
-        internetManager = new ConnectionStateReceiver(this);
+	setContentView(R.layout.dashboard_menu);
+	internetManager = new ConnectionStateReceiver(this);
 	initButtons();
     }
 
     private void initButtons() {
 	searchButton = (Button) findViewById(R.id.SearchButton);
 	selectButton = (Button) findViewById(R.id.SelectButton);
-	infoButton = (Button) findViewById(R.id.InfoButton);
 	favoritButton = (Button) findViewById(R.id.FavoritesButton);
-	titleButton = (ImageButton) findViewById(R.id.title_button);
 
 	searchButton.setOnClickListener(this);
 	selectButton.setOnClickListener(this);
-	infoButton.setOnClickListener(this);
 	favoritButton.setOnClickListener(this);
 
 	application = (ApplicationMain) getApplication();
-	titleButton.setOnClickListener(this);
     }
 
     @Override
@@ -96,15 +90,9 @@ public class MenuActivity extends Activity implements OnClickListener, IInternet
 	    startSearchGeoCache();
 	} else if (v.equals(selectButton)) {
 	    startSelectGeoCache();
-	} else if (v.equals(infoButton)) {
-	    startInfoGeoCache();
 	} else if (v.equals(favoritButton)) {
 	    startFavoriteFolder();
-	} else if (v.equals(titleButton)) {
-	    Intent intent = new Intent(this, SearchGeoCacheCompass.class);
-	    startActivity(intent);
 	}
-
     }
 
     /**
@@ -127,22 +115,9 @@ public class MenuActivity extends Activity implements OnClickListener, IInternet
 	if (internetManager.isInternetConnected()) {
 	    Intent intent = new Intent(this, SelectGeoCacheMap.class);
 	    startActivity(intent);
-        } else {
-             startFavoriteFolder();
-        }
-    }
-
-    private void startInfoGeoCache() {
-	Intent intent = new Intent(this, Info_cache.class);
-
-	GeoCache pd = new GeoCache(142);
-	pd.setName("Default Cache");
-	pd.setLocationGeoPoint(new GeoPoint(5644417,  -377123));
-	pd.setStatus(GeoCacheStatus.NOT_VALID);
-	pd.setType(GeoCacheType.STEP_BY_STEP);
-	
-	intent.putExtra(GeoCache.class.getCanonicalName(), pd);
-	startActivity(intent);
+	} else {
+	    startFavoriteFolder();
+	}
     }
 
     private void startFavoriteFolder() {
@@ -152,11 +127,11 @@ public class MenuActivity extends Activity implements OnClickListener, IInternet
 
     @Override
     public void onInternetLost() {
-        // TODO update internet icon to "offline"
+	// TODO update internet icon to "offline"
     }
 
     @Override
     public void onInternetFound() {
-        // TODO update internet icon to "online"
+	// TODO update internet icon to "online"
     }
 }

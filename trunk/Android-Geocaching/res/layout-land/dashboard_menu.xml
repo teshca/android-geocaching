@@ -18,21 +18,18 @@
 			android:layout_width="fill_parent" android:layout_weight="1"
 			android:orientation="horizontal">
 			<Button style="@style/MenuButton" android:text="@string/search_geocache"
-				android:id="@+id/SearchButton" android:drawableTop="@drawable/menu_search_icon" android:background="@color/menu_background"></Button>
+				android:id="@+id/SearchButton" android:drawableTop="@drawable/menu_search_icon"></Button>
 			<Button android:id="@+id/SelectButton" style="@style/MenuButton"
 				android:text="@string/select_geocache" android:drawableTop="@drawable/menu_select_icon"></Button>
 		</LinearLayout>
 		<LinearLayout android:layout_height="wrap_content"
 			android:layout_weight="1" android:layout_width="fill_parent"
 			android:orientation="horizontal">
-			<Button android:id="@+id/InfoButton"
-				android:text="@string/info" style="@style/MenuButton" android:drawableTop="@drawable/menu_infocache_icon"></Button>
+			
 			<Button android:drawableTop="@drawable/menu_favorites_icon"
 				style="@style/MenuButton" android:text="@string/favorites"
 				android:id="@+id/FavoritesButton"></Button>
-		</LinearLayout>
-	<LinearLayout android:layout_height="wrap_content" android:layout_weight="1" android:layout_width="fill_parent" android:orientation="horizontal"><Button android:text="Кнопка" android:drawableTop="@drawable/menu_settings_icon" style="@style/MenuButton"></Button>
-<Button android:drawableTop="@drawable/menu_about_icon" style="@style/MenuButton" android:text="Кнопка 2"></Button>
-</LinearLayout></LinearLayout>
+		<Button android:drawableTop="@drawable/menu_about_icon" style="@style/MenuButton" android:text="Кнопка 2"></Button></LinearLayout>
+	</LinearLayout>
 
 </LinearLayout>
