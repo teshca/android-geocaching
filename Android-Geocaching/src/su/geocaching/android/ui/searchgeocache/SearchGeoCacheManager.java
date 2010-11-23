@@ -6,7 +6,7 @@ import su.geocaching.android.ui.geocachemap.GeoCacheCompassManager;
 import su.geocaching.android.ui.geocachemap.GeoCacheLocationManager;
 import su.geocaching.android.ui.geocachemap.ICompassAware;
 import su.geocaching.android.ui.geocachemap.ILocationAware;
-import su.geocaching.android.view.userstory.incocach.Info_cach;
+import su.geocaching.android.view.showgeocacheinfo.Info_cache;
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
@@ -224,7 +224,7 @@ public class SearchGeoCacheManager implements ILocationAware, ICompassAware {
      * Open GeoCache info activity
      */
     public void showGeoCacheInfo() {
-	Intent intent = new Intent(activity.getContext(), Info_cach.class);
+	Intent intent = new Intent(activity.getContext(), Info_cache.class);
 	intent.putExtra(GeoCache.class.getCanonicalName(), geoCache);
 	((Activity) activity).startActivity(intent);
     }

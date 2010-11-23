@@ -13,7 +13,7 @@ import su.geocaching.android.ui.R;
 import su.geocaching.android.ui.geocachemap.GeoCacheItemizedOverlay;
 import su.geocaching.android.ui.geocachemap.GeoCacheOverlayItem;
 import su.geocaching.android.ui.geocachemap.IMapAware;
-import su.geocaching.android.view.userstory.incocach.Info_cach;
+import su.geocaching.android.view.showgeocacheinfo.Info_cache;
 
 import java.util.HashMap;
 import java.util.List;
@@ -100,14 +100,14 @@ public class SelectGeoCacheMap extends MapActivity implements IMapAware {
     }
 
     private void startGeoCacheInfoView(GeoCache geoCache) {
-	Intent intent = new Intent(this, Info_cach.class);
+	Intent intent = new Intent(this, Info_cache.class);
 	intent.putExtra(GeoCache.class.getCanonicalName(), geoCache);
 	startActivity(intent);
     }
 
     @Override
     public void onGeoCacheItemTaped(GeoCacheOverlayItem item) {
-	// Toast.makeText(this, "Активити с информацией", Toast.LENGTH_SHORT).show();
+	// Toast.makeText(this, "пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ", Toast.LENGTH_SHORT).show();
 	startGeoCacheInfoView(item.getGeoCache());
     }
 
