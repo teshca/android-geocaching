@@ -6,6 +6,14 @@
 Редактор для создания иконок
 http://android-ui-utils.googlecode.com/hg/asset-studio/dist/index.html
 
+
+Варианты бесплатных компасов
+
+http://all-free-download.com/free-icon/vista-icon/compass_4228.html
+http://images.all-free-download.com/images/graphiclarge/compass_4228.jpg
+-нет проблем с локализацией
+- кэш может двигаться по ободку
+
 = Details =
 
 http://commons.wikimedia.org/wiki/Compass
