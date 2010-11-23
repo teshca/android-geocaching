@@ -1,7 +1,11 @@
 package su.geocaching.android.ui;
 
+import com.google.android.maps.GeoPoint;
+
 import su.geocaching.android.application.ApplicationMain;
 import su.geocaching.android.model.datatype.GeoCache;
+import su.geocaching.android.model.datatype.GeoCacheStatus;
+import su.geocaching.android.model.datatype.GeoCacheType;
 import su.geocaching.android.ui.geocachemap.ConnectionStateReceiver;
 import su.geocaching.android.ui.geocachemap.IInternetAware;
 import su.geocaching.android.ui.searchgeocache.SearchGeoCacheCompass;
@@ -130,6 +134,14 @@ public class MenuActivity extends Activity implements OnClickListener, IInternet
 
     private void startInfoGeoCache() {
 	Intent intent = new Intent(this, Info_cache.class);
+
+	GeoCache pd = new GeoCache(142);
+	pd.setName("Default Cache");
+	pd.setLocationGeoPoint(new GeoPoint(5644417,  -377123));
+	pd.setStatus(GeoCacheStatus.NOT_VALID);
+	pd.setType(GeoCacheType.STEP_BY_STEP);
+	
+	intent.putExtra(GeoCache.class.getCanonicalName(), pd);
 	startActivity(intent);
     }
 
