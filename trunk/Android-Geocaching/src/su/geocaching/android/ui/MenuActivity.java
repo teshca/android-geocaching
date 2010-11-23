@@ -2,6 +2,8 @@ package su.geocaching.android.ui;
 
 import su.geocaching.android.application.ApplicationMain;
 import su.geocaching.android.model.datatype.GeoCache;
+import su.geocaching.android.ui.geocachemap.ConnectionStateReceiver;
+import su.geocaching.android.ui.geocachemap.IInternetAware;
 import su.geocaching.android.ui.searchgeocache.SearchGeoCacheCompass;
 import su.geocaching.android.ui.searchgeocache.SearchGeoCacheMap;
 import su.geocaching.android.ui.selectgeocache.SelectGeoCacheMap;
@@ -24,7 +26,7 @@ import android.widget.ImageButton;
  * @author Android-Geocaching.su student project team
  * @since October 2010 Main menu activity stub
  */
-public class MenuActivity extends Activity implements OnClickListener {
+public class MenuActivity extends Activity implements OnClickListener, IInternetAware {
 
     private static final String TAG = MenuActivity.class.getCanonicalName();
 
@@ -35,12 +37,15 @@ public class MenuActivity extends Activity implements OnClickListener {
     private ApplicationMain application;
     private ImageButton titleButton;
 
+    private ConnectionStateReceiver internetManager;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
 	super.onCreate(savedInstanceState);
 	Log.d(TAG, "onCreate");
 
 	setContentView(R.layout.menu);
+        internetManager = new ConnectionStateReceiver(this);
 	initButtons();
     }
 
@@ -91,7 +96,7 @@ public class MenuActivity extends Activity implements OnClickListener {
 	} else if (v.equals(infoButton)) {
 	    startInfoGeoCache();
 	} else if (v.equals(favoritButton)) {
-	    startFavoritFolder();
+	    startFavoriteFolder();
 	} else if (v.equals(titleButton)) {
 	    Intent intent = new Intent(this, SearchGeoCacheCompass.class);
 	    startActivity(intent);
@@ -116,11 +121,12 @@ public class MenuActivity extends Activity implements OnClickListener {
      * Starting activity to select GeoCache
      */
     private void startSelectGeoCache() {
-	// TODO check internet
-	Intent intent = new Intent(this, SelectGeoCacheMap.class);
-	intent.putExtra("layout", R.layout.select_geocache_map);
-	intent.putExtra("mapID", R.id.selectGeocacheMap);
-	startActivity(intent);
+	if (internetManager.isInternetConnected()) {
+	    Intent intent = new Intent(this, SelectGeoCacheMap.class);
+	    startActivity(intent);
+        } else {
+             startFavoriteFolder();
+        }
     }
 
     private void startInfoGeoCache() {
@@ -128,8 +134,18 @@ public class MenuActivity extends Activity implements OnClickListener {
 	startActivity(intent);
     }
 
-    private void startFavoritFolder() {
+    private void startFavoriteFolder() {
 	Intent intent = new Intent(this, FavoritFolder.class);
 	startActivity(intent);
+    }
+
+    @Override
+    public void onInternetLost() {
+        // TODO update internet icon to "offline"
+    }
+
+    @Override
+    public void onInternetFound() {
+        // TODO update internet icon to "online"
     }
 }

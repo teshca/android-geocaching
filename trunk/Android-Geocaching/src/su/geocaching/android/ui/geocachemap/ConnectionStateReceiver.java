@@ -12,14 +12,14 @@ import android.net.NetworkInfo;
  * @Description used for listen broadcast messages for activities which uses
  *              internet
  */
-public class ConnectionStateReciever extends BroadcastReceiver {
+public class ConnectionStateReceiver extends BroadcastReceiver {
     private IInternetAware context;
 
     /**
      * @param context
      *            activity which use internet
      */
-    public ConnectionStateReciever(IInternetAware context) {
+    public ConnectionStateReceiver(IInternetAware context) {
 	this.context = context;
     }
 
@@ -44,9 +44,6 @@ public class ConnectionStateReciever extends BroadcastReceiver {
     public boolean isInternetConnected() {
 	ConnectivityManager connectivityManager = (ConnectivityManager) ((Context) context).getSystemService(Context.CONNECTIVITY_SERVICE);
 	NetworkInfo activeNetInfo = connectivityManager.getActiveNetworkInfo();
-	if (activeNetInfo == null) {
-	    return false;
-	}
-	return activeNetInfo.isConnected();
+        return activeNetInfo != null && activeNetInfo.isConnected();
     }
 }

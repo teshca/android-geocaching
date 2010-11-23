@@ -20,11 +20,8 @@ import org.w3c.dom.NodeList;
 import org.xml.sax.SAXException;
 
 import su.geocaching.android.ui.R;
-import su.geocaching.android.ui.geocachemap.ConnectionStateReciever;
-import su.geocaching.android.ui.geocachemap.GeoCacheItemizedOverlay;
-import su.geocaching.android.ui.geocachemap.GeoCacheOverlayItem;
-import su.geocaching.android.ui.geocachemap.IInternetAware;
-import su.geocaching.android.ui.geocachemap.IMapAware;
+import su.geocaching.android.ui.geocachemap.*;
+import su.geocaching.android.ui.geocachemap.ConnectionStateReceiver;
 import su.geocaching.android.utils.Helper;
 import su.geocaching.android.view.userstory.incocach.Info_cach;
 import android.content.Context;
@@ -63,7 +60,7 @@ public class SearchGeoCacheMap extends MapActivity implements ISearchActivity, I
     private List<Overlay> mapOverlays;
     private SearchGeoCacheManager manager;
     private boolean visibilityOfDirectionWay;
-    private ConnectionStateReciever internetManager;
+    private ConnectionStateReceiver internetManager;
 
     /*
      * (non-Javadoc)
@@ -81,7 +78,7 @@ public class SearchGeoCacheMap extends MapActivity implements ISearchActivity, I
 	mapController = map.getController();
 	userOverlay = new UserLocationOverlay(this, map);
 	manager = new SearchGeoCacheManager(this);
-	internetManager = new ConnectionStateReciever(this);
+	internetManager = new ConnectionStateReceiver(this);
     }
 
     /*
