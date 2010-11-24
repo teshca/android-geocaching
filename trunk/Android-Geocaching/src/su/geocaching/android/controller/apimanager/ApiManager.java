@@ -31,7 +31,7 @@ public class ApiManager implements IApiManager {
     private static final String URL = "http://www.geocaching.su/pages/1031.ajax.php";
     private static final String ENCODING = "windows-1251";
 
-    private LinkedList<GeoCache> geoCaches;
+    private List<GeoCache> geoCaches;
     private static int id;
 
     public ApiManager() {
@@ -49,7 +49,7 @@ public class ApiManager implements IApiManager {
      */
     @Override
     public List<GeoCache> getGeoCacheList(double maxLatitude, double minLatitude, double maxLongitude, double minLongitude) {
-	Log.d(TAG, "getGeoCacheList");	
+	Log.d(TAG, "getGeoCacheList");
 
 	GeoCacheSaxHandler handler = null;
 	HttpURLConnection connection = null;

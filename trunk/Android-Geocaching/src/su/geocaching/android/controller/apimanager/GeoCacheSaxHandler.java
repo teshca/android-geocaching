@@ -1,6 +1,7 @@
 package su.geocaching.android.controller.apimanager;
 
 import java.util.LinkedList;
+import java.util.List;
 
 import org.xml.sax.Attributes;
 import org.xml.sax.SAXException;
@@ -14,24 +15,30 @@ import android.util.Log;
 import com.google.android.maps.GeoPoint;
 
 /*
- * <c>
- * <id>8901</id>
- * <cn>10</cn>
- * <a>47</a>
- * <n>Geocache name</n>
- * <la>59.6952333333</la>
- * <ln>29.3968666667</ln>
- * <ct>3</ct>
- * <st>1</st>
- * </c>
+
  */
 
 /**
  * @author Nikita
  *         <p>
  *         Class for parsing data from geocaching.su and put it in the List of
- *         GeoCach. This class extends DefaultHandler
+ *         GeoCache. Parse XML file is as follows:
  *         </p>
+ * 
+ *         <pre>
+ *         {@code
+ *         <c> 
+ *             <id>8901</id> 
+ *             <cn>10</cn>
+ *             <a>47</a> 
+ *             <n>Geocache name</n>
+ *             <la>59.6952333333</la> 
+ *             <ln>29.3968666667</ln> 
+ *             <ct>3</ct> 
+ *             <st>1</st>
+ *         </c>
+ *         }
+ * </pre>
  */
 public class GeoCacheSaxHandler extends DefaultHandler {
 
@@ -54,7 +61,7 @@ public class GeoCacheSaxHandler extends DefaultHandler {
 
     @Override
     public void characters(char[] ch, int start, int length) throws SAXException {
-	text += new String(ch, start, length).trim();
+	text += new String(ch, start, length);
 	super.characters(ch, start, length);
     }
 
@@ -76,9 +83,12 @@ public class GeoCacheSaxHandler extends DefaultHandler {
 
     @Override
     public void endElement(String uri, String localName, String qName) throws SAXException {
+	if (text != null)
+	    text.trim();
 
 	if (localName.equalsIgnoreCase(ID)) {
-	    setId();
+	    int id = parseInt(text, 0);
+	    geoCache.setId(id);
 	} else if (localName.equalsIgnoreCase(CN)) {
 	    // TODO What is CN?
 	} else if (localName.equalsIgnoreCase(AREA)) {
@@ -102,15 +112,6 @@ public class GeoCacheSaxHandler extends DefaultHandler {
 	super.endElement(uri, localName, qName);
     }
 
-    private void setId() {
-	try {
-	    geoCache.setId(Integer.parseInt(text));
-	} catch (NumberFormatException e) {
-	    Log.e(TAG, "parseID: Invalid numeric format", e);
-	    geoCache.setId(0);
-	}
-    }
-
     private static int parseCoordinate(String coordinate) {
 	int result = 0;
 	try {
@@ -121,14 +122,17 @@ public class GeoCacheSaxHandler extends DefaultHandler {
 	return result;
     }
 
-    private static int parseCacheParameter(String parametr) {
-	int result = 1;
+    private static int parseCacheParameter(String parameter) {
+	return parseInt(parameter, 1);
+    }
+
+    private static int parseInt(String number, int defaultValue) {
 	try {
-	    result = Integer.parseInt(parametr);
+	    defaultValue = Integer.parseInt(number);
 	} catch (NumberFormatException e) {
-	    Log.e(TAG, "parseCacheParametr: Invalid numeric format", e);
+	    Log.e(TAG, "parseInt: Invalid numeric format", e);
 	}
-	return result;
+	return defaultValue;
     }
 
     private void setGeoCacheType(int type) {
@@ -173,7 +177,7 @@ public class GeoCacheSaxHandler extends DefaultHandler {
     /**
      * @return LinkedList obtained geocaches
      */
-    public LinkedList<GeoCache> getGeoCaches() {
+    public List<GeoCache> getGeoCaches() {
 	return geoCacheList;
     }
 }

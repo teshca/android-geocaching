@@ -46,13 +46,13 @@ public class Controller {
      * @param maxLatitude
      *            - coordinate of the visible area
      * @param minLatitude
- *            - coordinate of the visible area
+     *            - coordinate of the visible area
      * @param maxLongitude
-*            - coordinate of the visible area
+     *            - coordinate of the visible area
      * @param minLongitude
      */
     public void updateSelectedGeoCaches(SelectGeoCacheMap map, double maxLatitude, double minLatitude, double maxLongitude, double minLongitude) {
-	Double[] d = { maxLatitude, minLatitude, maxLongitude, minLongitude };	
+	Double[] d = { maxLatitude, minLatitude, maxLongitude, minLongitude };
 	new DownloadGeoCacheTask(apiManager, map).execute(d);
     }
 
