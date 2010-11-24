@@ -8,6 +8,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.location.Location;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
@@ -20,6 +21,7 @@ import android.view.MenuItem;
  *        </p>
  */
 public class SearchGeoCacheCompass extends Activity implements ISearchActivity {
+    private static final String TAG = SearchGeoCacheCompass.class.getCanonicalName();
 
     private GraphicCompassView compassView;
     private SearchGeoCacheManager manager;
@@ -35,6 +37,7 @@ public class SearchGeoCacheCompass extends Activity implements ISearchActivity {
 	setContentView(R.layout.search_geocache_compass);
 	compassView = (GraphicCompassView) findViewById(R.id.compassView);
 	manager = new SearchGeoCacheManager(this);
+	Log.d(TAG, "on create");
     }
 
     /*
@@ -46,6 +49,7 @@ public class SearchGeoCacheCompass extends Activity implements ISearchActivity {
     protected void onResume() {
 	super.onResume();
 	manager.onResume();
+	Log.d(TAG, "on resume");
     }
 
     /*
@@ -57,6 +61,13 @@ public class SearchGeoCacheCompass extends Activity implements ISearchActivity {
     protected void onPause() {
 	super.onPause();
 	manager.onPause();
+	Log.d(TAG, "on pause");
+    }
+    
+    @Override
+    protected void onDestroy() {
+	super.onDestroy();
+	manager.onDestroy();
     }
 
     /**
@@ -126,7 +137,6 @@ public class SearchGeoCacheCompass extends Activity implements ISearchActivity {
     private void startMapView() {
 	Intent intent = new Intent(this, SearchGeoCacheMap.class);
 	intent.putExtra(GeoCache.class.getCanonicalName(), manager.getGeoCache());
-	intent.putExtra("location fixed", manager.isLocationFixed());
 	startActivity(intent);
     }
 

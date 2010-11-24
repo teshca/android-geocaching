@@ -43,7 +43,9 @@ public class GeoCacheLocationManager implements LocationListener {
 	if (subsribers.size() == 0) {
 	    addUpdates();
 	}
-	subsribers.add(subsriber);
+	if (!subsribers.contains(subsriber)) {
+	    subsribers.add(subsriber);
+	}
     }
 
     /**
@@ -59,8 +61,12 @@ public class GeoCacheLocationManager implements LocationListener {
 	return res;
     }
 
-    /* (non-Javadoc)
-     * @see android.location.LocationListener#onLocationChanged(android.location.Location)
+    /*
+     * (non-Javadoc)
+     * 
+     * @see
+     * android.location.LocationListener#onLocationChanged(android.location.
+     * Location)
      */
     @Override
     public void onLocationChanged(Location location) {
@@ -73,24 +79,33 @@ public class GeoCacheLocationManager implements LocationListener {
 	}
     }
 
-    /* (non-Javadoc)
-     * @see android.location.LocationListener#onProviderDisabled(java.lang.String)
+    /*
+     * (non-Javadoc)
+     * 
+     * @see
+     * android.location.LocationListener#onProviderDisabled(java.lang.String)
      */
     @Override
     public void onProviderDisabled(String provider) {
 	// TODO: implement onProviderDisabled
     }
 
-    /* (non-Javadoc)
-     * @see android.location.LocationListener#onProviderEnabled(java.lang.String)
+    /*
+     * (non-Javadoc)
+     * 
+     * @see
+     * android.location.LocationListener#onProviderEnabled(java.lang.String)
      */
     @Override
     public void onProviderEnabled(String provider) {
 	// TODO: implement onProviderEnabled
     }
 
-    /* (non-Javadoc)
-     * @see android.location.LocationListener#onStatusChanged(java.lang.String, int, android.os.Bundle)
+    /*
+     * (non-Javadoc)
+     * 
+     * @see android.location.LocationListener#onStatusChanged(java.lang.String,
+     * int, android.os.Bundle)
      */
     @Override
     public void onStatusChanged(String provider, int status, Bundle extras) {
@@ -112,7 +127,6 @@ public class GeoCacheLocationManager implements LocationListener {
 	criteria.setAccuracy(Criteria.ACCURACY_FINE);
 	provider = locationManager.getBestProvider(criteria, true);
 	locationManager.requestLocationUpdates(provider, MIN_TIME, MIN_DISTANCE, this);
-	lastLocation = this.locationManager.getLastKnownLocation(provider);
 	if (lastLocation != null) {
 	    onLocationChanged(lastLocation);
 	}
