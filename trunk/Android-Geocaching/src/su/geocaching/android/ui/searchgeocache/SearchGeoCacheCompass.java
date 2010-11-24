@@ -15,7 +15,9 @@ import android.view.MenuItem;
 /**
  * @author Android-Geocaching.su student project team
  * @since October 2010
- * @description Search GeoCache with the compass.
+ *        <p>
+ *        Search GeoCache with the compass.
+ *        </p>
  */
 public class SearchGeoCacheCompass extends Activity implements ISearchActivity {
 
@@ -126,7 +128,6 @@ public class SearchGeoCacheCompass extends Activity implements ISearchActivity {
 	intent.putExtra(GeoCache.class.getCanonicalName(), manager.getGeoCache());
 	intent.putExtra("location fixed", manager.isLocationFixed());
 	startActivity(intent);
-	this.finish();
     }
 
     /*

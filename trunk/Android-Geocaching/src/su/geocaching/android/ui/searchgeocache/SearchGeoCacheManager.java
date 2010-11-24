@@ -22,8 +22,9 @@ import android.widget.Toast;
 /**
  * @author Grigory Kalabin. grigory.kalabin@gmail.com
  * @Nov 18, 2010
- * @description This manager handle many common situation of search geocache
- *              activities
+ *      <p>
+ *      This manager handle many common situation of search geocache activities
+ *      </p>
  */
 public class SearchGeoCacheManager implements ILocationAware, ICompassAware {
     private boolean isLocationFixed;
