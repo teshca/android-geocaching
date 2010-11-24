@@ -3,7 +3,6 @@ package su.geocaching.android.controller;
 import java.util.LinkedList;
 import java.util.List;
 
-import su.geocaching.android.controller.apimanager.ApiManager;
 import su.geocaching.android.controller.apimanager.IApiManager;
 import su.geocaching.android.controller.filter.IFilter;
 import su.geocaching.android.model.datatype.GeoCache;
@@ -16,16 +15,17 @@ import android.os.AsyncTask;
  */
 class DownloadGeoCacheTask extends AsyncTask<Double, Integer, List<GeoCache>> {
     private SelectGeoCacheMap map;
+    private IApiManager apiManager;
 
-    public DownloadGeoCacheTask(SelectGeoCacheMap map) {
-        this.map = map;
+    public DownloadGeoCacheTask(IApiManager apiManager, SelectGeoCacheMap map) {
+        this.apiManager = apiManager;
+	this.map = map;        
     }
 
     @Override
-    protected List<GeoCache> doInBackground(Double... params) {
-	IApiManager apiManager = ApiManager.getInstance();
-	List<GeoCache> gkList = apiManager.getGeoCacheList(params[0], params[1], params[2], params[3]);
-	return gkList;
+    protected List<GeoCache> doInBackground(Double... params) {	
+	List<GeoCache> gcList = apiManager.getGeoCacheList(params[0], params[1], params[2], params[3]);
+	return gcList;
     }
 
     @Override

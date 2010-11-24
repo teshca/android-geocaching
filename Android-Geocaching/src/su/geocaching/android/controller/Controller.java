@@ -16,7 +16,7 @@ import android.graphics.drawable.Drawable;
 import su.geocaching.android.ui.selectgeocache.SelectGeoCacheMap;
 
 /**
- * Author: Yuri Denison Date: 04.11.2010 21:06:02
+ * @author: Yuri Denison Date: 04.11.2010
  */
 public class Controller {
     private static Controller instance;
@@ -26,7 +26,7 @@ public class Controller {
     private SettingsStorage settingsStorage;
 
     private Controller() {
-	apiManager = ApiManager.getInstance();
+	apiManager = new ApiManager();
 	favoriteGeoCacheStorage = GeoCacheStorage.getInstance();
 	settingsStorage = SettingsStorage.getInstance();
     }
@@ -53,7 +53,7 @@ public class Controller {
      */
     public void updateSelectedGeoCaches(SelectGeoCacheMap map, double maxLatitude, double minLatitude, double maxLongitude, double minLongitude) {
 	Double[] d = { maxLatitude, minLatitude, maxLongitude, minLongitude };	
-	new DownloadGeoCacheTask(map).execute(d);
+	new DownloadGeoCacheTask(apiManager, map).execute(d);
     }
 
     /**
