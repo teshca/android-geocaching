@@ -1,4 +1,4 @@
-package su.geocaching.android.ui.geocachemap;
+package su.geocaching.android.ui.searchgeocache;
 
 import android.location.Location;
 import android.os.Bundle;

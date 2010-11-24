@@ -1,4 +1,4 @@
-package su.geocaching.android.ui.geocachemap;
+package su.geocaching.android.ui.searchgeocache;
 
 /**
  * @author Grigory Kalabin. grigory.kalabin@gmail.com
@@ -10,7 +10,7 @@ public interface ICompassAware {
      * @param azimuth
      *            - new azimuth
      */
-    public void updateAzimuth(int azimuth);
+    public void updateBearing(int azimuth);
 
     /**
      * @return true if available orientation sensor

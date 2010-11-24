@@ -1,4 +1,7 @@
-package su.geocaching.android.ui.geocachemap;
+package su.geocaching.android.ui.searchgeocache;
+
+import java.util.ArrayList;
+import java.util.List;
 
 import android.hardware.Sensor;
 import android.hardware.SensorEvent;
@@ -8,7 +11,9 @@ import android.hardware.SensorManager;
 /**
  * @author Grigory Kalabin. grigory.kalabin@gmail.com
  * @since Nov 10, 2010
- * @description Sensor manager which calculate azimuth of user
+ *        <p>
+ *        Sensor manager which calculate azimuth of user
+ *        </p>
  */
 public class GeoCacheCompassManager implements SensorEventListener {
 
@@ -19,20 +24,42 @@ public class GeoCacheCompassManager implements SensorEventListener {
     private float[] afRotation = new float[16];
     private float[] afInclination = new float[16];
     private float[] afOrientation = new float[3];
-    private ICompassAware context;
-    private int lastAzimuth;
+    private int lastBearing;
     private boolean isCompassAvailable;
+    private List<ICompassAware> subsribers;
 
     /**
-     * @param context
-     *            - Activity which use this sensor
      * @param sensorManager
-     *            - sensor manager of context
+     *            manager which can add or remove updates of sensors
      */
-    public GeoCacheCompassManager(ICompassAware context, SensorManager sensorManager) {
-	this.context = context;
+    public GeoCacheCompassManager(SensorManager sensorManager) {
 	this.sensorManager = sensorManager;
 	isCompassAvailable = sensorManager != null;
+	subsribers = new ArrayList<ICompassAware>();
+    }
+
+    /**
+     * @param subsriber
+     *            activity which will be listen location updates
+     */
+    public void addSubscriber(ICompassAware subsriber) {
+	if (subsribers.size() == 0) {
+	    addUpdates();
+	}
+	subsribers.add(subsriber);
+    }
+
+    /**
+     * @param subsriber
+     *            activity which no need to listen location updates
+     * @return true if activity was subsribed on location updates
+     */
+    public boolean removeSubsriber(ICompassAware subsriber) {
+	boolean res = subsribers.remove(subsriber);
+	if (subsribers.size() == 0) {
+	    removeUpdates();
+	}
+	return res;
     }
 
     @Override
@@ -40,7 +67,11 @@ public class GeoCacheCompassManager implements SensorEventListener {
     }
 
     /*
-     * Calculate new azimuth using ACCELEROMETER and MAGNETIC_FIELD
+     * (non-Javadoc)
+     * 
+     * @see
+     * android.hardware.SensorEventListener#onSensorChanged(android.hardware
+     * .SensorEvent)
      */
     @Override
     public void onSensorChanged(SensorEvent event) {
@@ -61,16 +92,26 @@ public class GeoCacheCompassManager implements SensorEventListener {
 	SensorManager.getRotationMatrix(afRotation, afInclination, afGravity, afGeomagnetic);
 	SensorManager.getOrientation(afRotation, afOrientation);
 	int loclastAzimuth = (int) (afOrientation[0] * RAD2DEG);
-	if (loclastAzimuth != lastAzimuth) {
-	    lastAzimuth = loclastAzimuth;
-	    context.updateAzimuth(lastAzimuth);
+	if (loclastAzimuth != lastBearing) {
+	    lastBearing = loclastAzimuth;
+	    updateAzimuth(lastBearing);
 	}
     }
 
     /**
-     * Starting sensor
+     * @param lastBearing
+     *            current bearing known to this listener
      */
-    public void resume() {
+    private void updateAzimuth(int lastBearing) {
+	for (ICompassAware subscriber : subsribers) {
+	    subscriber.updateBearing(lastBearing);
+	}
+    }
+
+    /**
+     * Add updates of sensors
+     */
+    private void addUpdates() {
 	if (!isCompassAvailable) {
 	    return;
 	}
@@ -85,9 +126,9 @@ public class GeoCacheCompassManager implements SensorEventListener {
     }
 
     /**
-     * Stop sensor work
+     * Remove updates of sensors
      */
-    public void pause() {
+    private void removeUpdates() {
 	if (!isCompassAvailable) {
 	    return;
 	}
@@ -95,12 +136,15 @@ public class GeoCacheCompassManager implements SensorEventListener {
     }
 
     /**
-     * @return last known azimuth
+     * @return last known bearing
      */
     public int getLastBearing() {
-	return lastAzimuth;
+	return lastBearing;
     }
 
+    /**
+     * @return true if we can calculate azimuth using hardware
+     */
     public boolean isCompassAvailable() {
 	return isCompassAvailable;
     }

@@ -1,17 +1,25 @@
 package su.geocaching.android.application;
 
 import su.geocaching.android.model.datatype.GeoCache;
+import su.geocaching.android.ui.searchgeocache.GeoCacheCompassManager;
+import su.geocaching.android.ui.searchgeocache.GeoCacheLocationManager;
 import android.app.Application;
+import android.hardware.SensorManager;
+import android.location.LocationManager;
 
 /**
  * @author Grigory Kalabin. grigory.kalabin@gmail.com
  * @Nov 20, 2010
- * @description Class which represent application. It can save common data of
- *              different activities
+ *      <p>
+ *      Class which represent application. It can save common data of different
+ *      activities
+ *      </p>
  */
 public class ApplicationMain extends Application {
 
     private GeoCache desiredGeoCache;
+    private GeoCacheLocationManager locationManager;
+    private GeoCacheCompassManager compassManager;
 
     /*
      * (non-Javadoc)
@@ -21,7 +29,12 @@ public class ApplicationMain extends Application {
     @Override
     public void onCreate() {
 	super.onCreate();
+	
+	// debug stub
 	desiredGeoCache = new GeoCache(1);
+	
+	locationManager = new GeoCacheLocationManager((LocationManager) getSystemService(LOCATION_SERVICE));
+	compassManager = new GeoCacheCompassManager((SensorManager) getSystemService(SENSOR_SERVICE));
     }
 
     /**
@@ -31,6 +44,7 @@ public class ApplicationMain extends Application {
      */
     public void setDesiredGeoCache(GeoCache desired) {
 	desiredGeoCache = desired;
+
     }
 
     /**
@@ -38,5 +52,21 @@ public class ApplicationMain extends Application {
      */
     public GeoCache getDesiredGeoCache() {
 	return desiredGeoCache;
+    }
+
+    /**
+     * @return location manager which can send to ILocationAware location
+     *         updates
+     */
+    public GeoCacheLocationManager getLocationManager() {
+	return locationManager;
+    }
+
+    /**
+     * @return compass manager which can send to ICompassAware updates of
+     *         bearing
+     */
+    public GeoCacheCompassManager getCompassManager() {
+	return compassManager;
     }
 }
