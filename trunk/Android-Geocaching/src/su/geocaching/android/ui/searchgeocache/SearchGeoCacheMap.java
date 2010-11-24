@@ -15,6 +15,7 @@ import android.hardware.Sensor;
 import android.location.Location;
 import android.os.Bundle;
 
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
@@ -36,6 +37,8 @@ import com.google.android.maps.Overlay;
  *        </p>
  */
 public class SearchGeoCacheMap extends MapActivity implements ISearchActivity, IMapAware, IInternetAware {
+    private final static String TAG = SearchGeoCacheMap.class.getCanonicalName();
+    
     private GeoCacheOverlayItem cacheOverlayItem;
     private GeoCacheItemizedOverlay cacheItemizedOverlay;
     private DistanceToGeoCacheOverlay distanceOverlay;
@@ -79,6 +82,7 @@ public class SearchGeoCacheMap extends MapActivity implements ISearchActivity, I
 	    userOverlay.disableCompass();
 	    userOverlay.disableMyLocation();
 	}
+	Log.d(TAG, "on pause");
     }
 
     /*
@@ -94,6 +98,19 @@ public class SearchGeoCacheMap extends MapActivity implements ISearchActivity, I
 	if (!internetManager.isInternetConnected()) {
 	    onInternetLost();
 	}
+    }
+    
+    @Override
+    protected void onStop() {
+	super.onStop();
+	Log.d(TAG, "on stop");
+    }
+    
+    @Override
+    protected void onDestroy() {
+	super.onDestroy();
+	manager.onDestroy();
+	Log.d(TAG, "on destroy");
     }
 
     /**
@@ -131,9 +148,6 @@ public class SearchGeoCacheMap extends MapActivity implements ISearchActivity, I
 	if ((manager != null) && (manager.getGeoCache() != null)) {
 	    intent.putExtra(GeoCache.class.getCanonicalName(), manager.getGeoCache());
 	}
-	if (manager != null) {
-	    intent.putExtra("location fixed", manager.isLocationFixed());
-	}
 	startActivity(intent);
     }
 
@@ -158,8 +172,8 @@ public class SearchGeoCacheMap extends MapActivity implements ISearchActivity, I
 	    mapOverlays.add(userOverlay);
 
 	    // FIXME: if falls with null pointer exception
-	    directionControlller = new DirectionController(Helper.locationToGeoPoint(location), manager.getGeoCache().getLocationGeoPoint(), map);
-	    directionControlller.getDirectionPath(Helper.locationToGeoPoint(location), manager.getGeoCache().getLocationGeoPoint(), 1);
+	    //directionControlller = new DirectionController(Helper.locationToGeoPoint(location), manager.getGeoCache().getLocationGeoPoint(), map);
+	    //directionControlller.getDirectionPath(Helper.locationToGeoPoint(location), manager.getGeoCache().getLocationGeoPoint(), 1);
 
 	    return;
 	}

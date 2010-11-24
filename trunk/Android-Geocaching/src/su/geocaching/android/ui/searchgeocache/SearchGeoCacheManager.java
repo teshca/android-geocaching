@@ -23,7 +23,6 @@ import android.widget.Toast;
  *      </p>
  */
 public class SearchGeoCacheManager implements ILocationAware, ICompassAware {
-    private boolean isLocationFixed;
     private GeoCacheCompassManager compass;
     private GeoCacheLocationManager locationManager;
     private ISearchActivity activity;
@@ -45,11 +44,18 @@ public class SearchGeoCacheManager implements ILocationAware, ICompassAware {
      * Called when activity pausing
      */
     public void onPause() {
-	if (isLocationFixed) {
+	if (locationManager.isLocationFixed()) {
 	    locationManager.removeSubsriber(this);
-	    compass.removeSubsriber(this);
-	    gpsStatusListener.pause();
 	}
+	compass.removeSubsriber(this);
+	gpsStatusListener.pause();
+    }
+    
+    /**
+     * Call this then activity destroying
+     */
+    public void onDestroy() {
+	locationManager.removeSubsriber(this);
     }
 
     /**
@@ -108,7 +114,6 @@ public class SearchGeoCacheManager implements ILocationAware, ICompassAware {
      */
     @Override
     public void updateLocation(Location location) {
-	isLocationFixed = locationManager.isLocationFixed();
 	activity.updateLocation(location);
     }
 
@@ -164,7 +169,7 @@ public class SearchGeoCacheManager implements ILocationAware, ICompassAware {
      * @return true if user location has been fixed
      */
     public boolean isLocationFixed() {
-	return isLocationFixed;
+	return locationManager.isLocationFixed();
     }
 
     /**
@@ -178,10 +183,11 @@ public class SearchGeoCacheManager implements ILocationAware, ICompassAware {
 	    ((Activity) activity).finish();
 	    return;
 	}
-	isLocationFixed = intent.getBooleanExtra("location fixed", false);
 
 	if (!isLocationFixed()) {
 	    showWaitingLocationFix();
+	}else{
+	    updateLocation(getCurrentLocation());
 	}
 	locationManager.addSubscriber(this);
 	compass.addSubscriber(this);
