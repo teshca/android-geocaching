@@ -9,8 +9,9 @@ import android.os.Bundle;
 /**
  * @author Grigory Kalabin. grigory.kalabin@gmail.com
  * @since fall, 2010
- * @description Location manager which get updates of location by GPS or
- *              GSM/Wi-Fi
+ *        <p>
+ *        Location manager which get updates of location by GPS or GSM/Wi-Fi
+ *        </p>
  */
 public class GeoCacheLocationManager implements LocationListener {
 

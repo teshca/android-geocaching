@@ -6,7 +6,6 @@ import su.geocaching.android.direction.DirectionController;
 import su.geocaching.android.model.datatype.GeoCache;
 import su.geocaching.android.ui.R;
 import su.geocaching.android.ui.geocachemap.*;
-import su.geocaching.android.ui.geocachemap.ConnectionStateReceiver;
 import su.geocaching.android.utils.Helper;
 import su.geocaching.android.view.showgeocacheinfo.Info_cache;
 import android.content.Context;
@@ -19,6 +18,7 @@ import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
+import android.view.View;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -30,16 +30,17 @@ import com.google.android.maps.Overlay;
 
 /**
  * @author Android-Geocaching.su student project team
- * @description Search GeoCache with the map.
  * @since October 2010
+ *        <p>
+ *        Search GeoCache with the map
+ *        </p>
  */
 public class SearchGeoCacheMap extends MapActivity implements ISearchActivity, IMapAware, IInternetAware {
     private GeoCacheOverlayItem cacheOverlayItem;
     private GeoCacheItemizedOverlay cacheItemizedOverlay;
     private DistanceToGeoCacheOverlay distanceOverlay;
     private UserLocationOverlay userOverlay;
-    private TextView gpsStatusTextView;
-    private TextView internetStatusTextView;
+    private TextView waitingLocationFixTextView;
     private MapView map;
     private MapController mapController;
     private List<Overlay> mapOverlays;
@@ -56,8 +57,7 @@ public class SearchGeoCacheMap extends MapActivity implements ISearchActivity, I
     protected void onCreate(Bundle savedInstanceState) {
 	super.onCreate(savedInstanceState);
 	setContentView(R.layout.search_geocache_map);
-	gpsStatusTextView = (TextView) findViewById(R.id.gpsStatusTextView);
-	internetStatusTextView = (TextView) findViewById(R.id.internetStatusTextView);
+	waitingLocationFixTextView = (TextView) findViewById(R.id.waitingLocationFixTextView);
 	map = (MapView) findViewById(R.id.searchGeocacheMap);
 	mapOverlays = map.getOverlays();
 	mapController = map.getController();
@@ -93,8 +93,6 @@ public class SearchGeoCacheMap extends MapActivity implements ISearchActivity, I
 
 	if (!internetManager.isInternetConnected()) {
 	    onInternetLost();
-	} else {
-	    onInternetFound();
 	}
     }
 
@@ -119,6 +117,7 @@ public class SearchGeoCacheMap extends MapActivity implements ISearchActivity, I
 	mapOverlays.add(cacheItemizedOverlay);
 	if (!manager.isLocationFixed()) {
 	    mapController.animateTo(manager.getGeoCache().getLocationGeoPoint());
+	    waitingLocationFixTextView.setVisibility(View.VISIBLE);
 	}
 
 	map.invalidate();
@@ -136,7 +135,6 @@ public class SearchGeoCacheMap extends MapActivity implements ISearchActivity, I
 	    intent.putExtra("location fixed", manager.isLocationFixed());
 	}
 	startActivity(intent);
-	this.finish();
     }
 
     /*
@@ -153,6 +151,7 @@ public class SearchGeoCacheMap extends MapActivity implements ISearchActivity, I
 	if (distanceOverlay == null) {
 	    // It's really first run of update location
 	    resetZoom();
+	    waitingLocationFixTextView.setVisibility(View.GONE);
 	    distanceOverlay = new DistanceToGeoCacheOverlay(Helper.locationToGeoPoint(location), manager.getGeoCache().getLocationGeoPoint());
 	    distanceOverlay.setCachePoint(manager.getGeoCache().getLocationGeoPoint());
 	    mapOverlays.add(distanceOverlay);
@@ -180,6 +179,7 @@ public class SearchGeoCacheMap extends MapActivity implements ISearchActivity, I
     public void updateAzimuth(int bearing) {
 	float[] values = new float[1];
 	values[0] = bearing;
+	// FIXME: using deprecated constant
 	userOverlay.onSensorChanged(Sensor.TYPE_ORIENTATION, values);
     }
 
@@ -243,15 +243,8 @@ public class SearchGeoCacheMap extends MapActivity implements ISearchActivity, I
      */
     @Override
     public void updateStatus(String status, int type) {
-	switch (type) {
-	case ISearchActivity.STATUS_TYPE_GPS:
-	    gpsStatusTextView.setText(status);
-	    break;
-	case ISearchActivity.STATUS_TYPE_INTERNET:
-	    internetStatusTextView.setText(status);
-	    break;
-	default:
-	    Toast.makeText(this, status, Toast.LENGTH_LONG);
+	if (type == ISearchActivity.STATUS_TYPE_GPS) {
+	    waitingLocationFixTextView.setText(status);
 	}
     }
 
@@ -319,7 +312,6 @@ public class SearchGeoCacheMap extends MapActivity implements ISearchActivity, I
     @Override
     public void onInternetLost() {
 	Toast.makeText(this, getString(R.string.search_geocache_internet_lost), Toast.LENGTH_LONG).show();
-	updateStatus(getString(R.string.search_geocache_status_without_internet), ISearchActivity.STATUS_TYPE_INTERNET);
     }
 
     /*
@@ -330,7 +322,7 @@ public class SearchGeoCacheMap extends MapActivity implements ISearchActivity, I
      */
     @Override
     public void onInternetFound() {
-	updateStatus(getString(R.string.search_geocache_status_with_internet), ISearchActivity.STATUS_TYPE_INTERNET);
+	// TODO: do smthng?
     }
 
     /**
