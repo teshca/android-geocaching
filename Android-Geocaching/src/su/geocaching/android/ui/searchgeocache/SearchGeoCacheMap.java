@@ -1,24 +1,9 @@
 package su.geocaching.android.ui.searchgeocache;
 
-import java.io.IOException;
-import java.net.HttpURLConnection;
-import java.net.MalformedURLException;
-import java.net.ProtocolException;
-import java.net.URL;
 import java.util.List;
-import java.util.regex.PatternSyntaxException;
 
-import su.geocaching.android.direction.DirectionPathOverlay;
+import su.geocaching.android.direction.DirectionController;
 import su.geocaching.android.model.datatype.GeoCache;
-import javax.xml.parsers.DocumentBuilder;
-import javax.xml.parsers.DocumentBuilderFactory;
-import javax.xml.parsers.ParserConfigurationException;
-
-import org.w3c.dom.Document;
-import org.w3c.dom.Node;
-import org.w3c.dom.NodeList;
-import org.xml.sax.SAXException;
-
 import su.geocaching.android.ui.R;
 import su.geocaching.android.ui.geocachemap.*;
 import su.geocaching.android.ui.geocachemap.ConnectionStateReceiver;
@@ -30,7 +15,7 @@ import android.graphics.drawable.Drawable;
 import android.hardware.Sensor;
 import android.location.Location;
 import android.os.Bundle;
-import android.util.Log;
+
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
@@ -59,7 +44,7 @@ public class SearchGeoCacheMap extends MapActivity implements ISearchActivity, I
     private MapController mapController;
     private List<Overlay> mapOverlays;
     private SearchGeoCacheManager manager;
-    private boolean visibilityOfDirectionWay;
+    private DirectionController directionControlller;
     private ConnectionStateReceiver internetManager;
 
     /*
@@ -164,11 +149,7 @@ public class SearchGeoCacheMap extends MapActivity implements ISearchActivity, I
     @Override
     public void updateLocation(Location location) {
 	userOverlay.onLocationChanged(location);
-
-	if (visibilityOfDirectionWay) {
-	    getDirectionPath(Helper.locationToGeoPoint(location), manager.getGeoCache().getLocationGeoPoint());
-	}
-
+        
 	if (distanceOverlay == null) {
 	    // It's really first run of update location
 	    resetZoom();
@@ -176,6 +157,11 @@ public class SearchGeoCacheMap extends MapActivity implements ISearchActivity, I
 	    distanceOverlay.setCachePoint(manager.getGeoCache().getLocationGeoPoint());
 	    mapOverlays.add(distanceOverlay);
 	    mapOverlays.add(userOverlay);
+	    
+	    directionControlller= new DirectionController(Helper.locationToGeoPoint(location), manager.getGeoCache().getLocationGeoPoint(), map);
+	    directionControlller.getDirectionPath(Helper.locationToGeoPoint(location),  manager.getGeoCache().getLocationGeoPoint(),1);
+	    
+	    
 	    return;
 	}
 	distanceOverlay.setUserPoint(Helper.locationToGeoPoint(location));
@@ -202,8 +188,9 @@ public class SearchGeoCacheMap extends MapActivity implements ISearchActivity, I
      */
     private void resetZoom() {
 	GeoPoint currentGeoPoint = Helper.locationToGeoPoint(manager.getCurrentLocation());
-	mapController.zoomToSpan(Math.abs(manager.getGeoCache().getLocationGeoPoint().getLatitudeE6() - currentGeoPoint.getLatitudeE6()),
-		Math.abs(manager.getGeoCache().getLocationGeoPoint().getLongitudeE6() - currentGeoPoint.getLongitudeE6()));
+	mapController.zoomToSpan(Math.abs(manager.getGeoCache().getLocationGeoPoint().getLatitudeE6() - currentGeoPoint.getLatitudeE6()), Math.abs(manager.getGeoCache().getLocationGeoPoint()
+		.getLongitudeE6()
+		- currentGeoPoint.getLongitudeE6()));
 
 	GeoPoint center = new GeoPoint((manager.getGeoCache().getLocationGeoPoint().getLatitudeE6() + currentGeoPoint.getLatitudeE6()) / 2, (manager.getGeoCache().getLocationGeoPoint()
 		.getLongitudeE6() + currentGeoPoint.getLongitudeE6()) / 2);
@@ -241,8 +228,7 @@ public class SearchGeoCacheMap extends MapActivity implements ISearchActivity, I
 	    manager.showGeoCacheInfo();
 	    return true;
 	case R.id.DrawDirectionPath:
-	    visibilityOfDirectionWay = !visibilityOfDirectionWay;
-
+             directionControlller.setVisibleWay();
 	default:
 	    return super.onOptionsItemSelected(item);
 	}
