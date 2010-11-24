@@ -28,24 +28,16 @@ import android.util.Log;
 public class ApiManager implements IApiManager {
 
     private static final String TAG = ApiManager.class.getCanonicalName();
-    private static ApiManager instance;
+    private static final String URL = "http://www.geocaching.su/pages/1031.ajax.php";
+    private static final String ENCODING = "windows-1251";
 
     private LinkedList<GeoCache> geoCaches;
     private static int id;
 
-    private ApiManager() {
+    public ApiManager() {
 	id = (int) (Math.random() * 1E6);
+	geoCaches = new LinkedList<GeoCache>();
 	Log.d(TAG, "new ApiManager Created");
-    }
-
-    /**
-     * @return an instance of this class
-     */
-    public synchronized static IApiManager getInstance() {
-	if (instance == null) {
-            instance = new ApiManager();
-        }
-        return instance;
     }
 
     /*
@@ -57,9 +49,7 @@ public class ApiManager implements IApiManager {
      */
     @Override
     public List<GeoCache> getGeoCacheList(double maxLatitude, double minLatitude, double maxLongitude, double minLongitude) {
-	Log.d(TAG, "getGeoCacheList");
-
-	geoCaches = new LinkedList<GeoCache>();
+	Log.d(TAG, "getGeoCacheList");	
 
 	GeoCacheSaxHandler handler = null;
 	HttpURLConnection connection = null;
@@ -70,13 +60,12 @@ public class ApiManager implements IApiManager {
 	    connection = (HttpURLConnection) url.openConnection();
 
 	    if (connection.getResponseCode() != HttpURLConnection.HTTP_OK) {
-		// TODO make real error message
-		Log.e(TAG, "Can't connect to internet");
+		Log.e(TAG, "Can't connect to geocaching.su. Response: " + connection.getResponseCode());
 	    }
 
-	    InputSource courseXml = new InputSource(new InputStreamReader(connection.getInputStream(), ENCODING));
+	    InputSource geoCacheXml = new InputSource(new InputStreamReader(connection.getInputStream(), ENCODING));
 	    handler = new GeoCacheSaxHandler();
-	    parser.parse(courseXml, handler);
+	    parser.parse(geoCacheXml, handler);
 	    geoCaches = handler.getGeoCaches();
 	} catch (MalformedURLException e) {
 	    Log.e(TAG, e.getMessage(), e);
@@ -92,20 +81,14 @@ public class ApiManager implements IApiManager {
 	    }
 	}
 
-	Log.d(TAG, "Size of obtained listGeoCaches " + geoCaches.size());
+	Log.d(TAG, "Size of obtained listGeoCaches: " + geoCaches.size());
 	return geoCaches;
     }
 
     private URL generateUrl(double maxLatitude, double minLatitude, double maxLongitude, double minLongitude) throws MalformedURLException {
-        // TODO: understand what it is
-	String GEOCACHING_PARAM = "abc"; // I don't know what it is.... but it's
-					 // work
-	String request = String.format("%s%s%f%s%f%s%f%s%f%s%d%s%s", URL, "?lngmax=", maxLongitude, "&lngmin=", minLongitude, "&latmax=", maxLatitude, "&latmin=", minLatitude, "&id=", id,
-		"&geocaching=", GEOCACHING_PARAM);
-	Log.d(TAG, "generated Url: "+request);
+	String request = String.format(URL + "?lngmax=%f&lngmin=%f&latmax=%f&latmin=%f&id=%d", maxLongitude, minLongitude, maxLatitude, minLatitude, id);
+	Log.d(TAG, "generated Url: " + request);
 	return new URL(request);
     }
 
-    private String URL = "http://www.geocaching.su/pages/1031.ajax.php";
-    private static final String ENCODING = "windows-1251";
 }
