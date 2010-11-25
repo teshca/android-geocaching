@@ -37,7 +37,7 @@ import com.google.android.maps.Overlay;
  */
 public class SearchGeoCacheMap extends MapActivity implements ISearchActivity, IMapAware, IInternetAware {
     private final static String TAG = SearchGeoCacheMap.class.getCanonicalName();
-    
+
     private GeoCacheOverlayItem cacheOverlayItem;
     private GeoCacheItemizedOverlay cacheItemizedOverlay;
     private DistanceToGeoCacheOverlay distanceOverlay;
@@ -66,6 +66,7 @@ public class SearchGeoCacheMap extends MapActivity implements ISearchActivity, I
 	userOverlay = new UserLocationOverlay(this, map);
 	manager = new SearchGeoCacheManager(this);
 	internetManager = new ConnectionStateReceiver(this);
+	map.setBuiltInZoomControls(true);
     }
 
     /*
@@ -80,9 +81,9 @@ public class SearchGeoCacheMap extends MapActivity implements ISearchActivity, I
 	manager.onPause();
 	if (manager.isLocationFixed()) {
 	    Log.d(TAG, "on pause: location fixed. Remove updates from userOverlay");
-	    userOverlay.disableCompass();
-	    userOverlay.disableMyLocation();
 	}
+	userOverlay.disableCompass();
+	userOverlay.disableMyLocation();
     }
 
     /*
@@ -100,8 +101,10 @@ public class SearchGeoCacheMap extends MapActivity implements ISearchActivity, I
 	    Log.w(TAG, "internet not connected");
 	}
     }
-    
-    /* (non-Javadoc)
+
+    /*
+     * (non-Javadoc)
+     * 
      * @see com.google.android.maps.MapActivity#onDestroy()
      */
     @Override
@@ -175,8 +178,11 @@ public class SearchGeoCacheMap extends MapActivity implements ISearchActivity, I
 	    mapOverlays.add(userOverlay);
 
 	    // FIXME: if falls with null pointer exception
-	    //directionControlller = new DirectionController(Helper.locationToGeoPoint(location), manager.getGeoCache().getLocationGeoPoint(), map);
-	    //directionControlller.getDirectionPath(Helper.locationToGeoPoint(location), manager.getGeoCache().getLocationGeoPoint(), 1);
+	    // directionControlller = new
+	    // DirectionController(Helper.locationToGeoPoint(location),
+	    // manager.getGeoCache().getLocationGeoPoint(), map);
+	    // directionControlller.getDirectionPath(Helper.locationToGeoPoint(location),
+	    // manager.getGeoCache().getLocationGeoPoint(), 1);
 
 	    return;
 	}
@@ -185,14 +191,18 @@ public class SearchGeoCacheMap extends MapActivity implements ISearchActivity, I
 	map.invalidate();
     }
 
-    /* (non-Javadoc)
-     * @see su.geocaching.android.ui.searchgeocache.ISearchActivity#updateBearing(int)
+    /*
+     * (non-Javadoc)
+     * 
+     * @see
+     * su.geocaching.android.ui.searchgeocache.ISearchActivity#updateBearing
+     * (int)
      */
     @Override
     public void updateBearing(int bearing) {
 	float[] values = new float[1];
 	values[0] = bearing;
-	Log.d(TAG, "update bearing. New bearing="+Integer.toString(bearing));
+	Log.d(TAG, "update bearing. New bearing=" + Integer.toString(bearing));
 	// FIXME: using deprecated constant
 	userOverlay.onSensorChanged(Sensor.TYPE_ORIENTATION, values);
     }
