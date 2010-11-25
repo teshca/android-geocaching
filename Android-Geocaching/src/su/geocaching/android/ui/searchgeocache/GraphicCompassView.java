@@ -23,7 +23,7 @@ import android.view.View;
  */
 public class GraphicCompassView extends View {
 
-    private static final int DEFAULT_PADDING = 15;
+    private static final int DEFAULT_PADDING = 0;
 
     private int bearingToNorth; // in degrees
     private int bearingToCache; // in degrees
@@ -107,7 +107,7 @@ public class GraphicCompassView extends View {
     private void drawGeoCache(Canvas canvas, int radius, int bearingGC) {
 	int cx = (int) (getWidth() / 2 + Math.sin(bearingGC * Math.PI / 180) * radius) - cacheBitmap.getWidth() / 2;
 	int cy = (int) (getHeight() / 2 - Math.cos(bearingGC * Math.PI / 180) * radius) - cacheBitmap.getHeight() / 2;
-	canvas.drawBitmap(cacheBitmap, cx, cy, arrowPaint);
+	canvas.drawBitmap(cacheBitmap, cx, cy, arrowPaint);	
     }
 
     /**
