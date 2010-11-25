@@ -20,22 +20,22 @@ public class State {
         this.gcMap = gcMap;
     }
 
-    public void setTouchedTrue() {
+    public synchronized void setTouchedTrue() {
         wasTouched = true;
         sendRequest();
     }
 
-    public void setScrolledOrZoomedTrue() {
+    public synchronized void setScrolledOrZoomedTrue() {
         wasScrolledOrZoomed = true;
         sendRequest();
     }
 
-    public void setRequestSentTrue() {
+    public synchronized void setRequestSentTrue() {
         requestSent = true;
         sendRequest();
     }
 
-    private void sendRequest() {
+    private synchronized void sendRequest() {
         if(requestSent && wasScrolledOrZoomed && wasTouched) {
             gcMap.updateCacheOverlay();
 
