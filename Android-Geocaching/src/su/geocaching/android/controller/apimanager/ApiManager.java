@@ -21,11 +21,9 @@ import su.geocaching.android.model.datatype.GeoCache;
 import android.util.Log;
 
 /**
+ * Class for getting data from Geocaching.su. This class implements IApiManager
+ * 
  * @author Nikita Bumakov
- *         <p>
- *         Class for getting data from Geocaching.su. This class implements
- *         IApiManager
- *         </p>
  */
 public class ApiManager implements IApiManager {
 
@@ -94,17 +92,17 @@ public class ApiManager implements IApiManager {
 	Log.d(TAG, "generated Url: " + request);
 	return new URL(request);
     }
-    
-    private List<GeoCache> filterGeoCaches(double maxLatitude, double minLatitude, double maxLongitude, double minLongitude){
+
+    private List<GeoCache> filterGeoCaches(double maxLatitude, double minLatitude, double maxLongitude, double minLongitude) {
 	filteredGeoCaches.clear();
 	GeoPoint gp;
-	for(GeoCache gc: geoCaches){
-	    gp = gc.getLocationGeoPoint();	  
-	    if (gp.getLatitudeE6()<maxLatitude*1E6 && gp.getLatitudeE6()>minLatitude*1E6 && gp.getLongitudeE6()<maxLongitude*1e6 && gp.getLongitudeE6()>minLongitude*1e6){
+	for (GeoCache gc : geoCaches) {
+	    gp = gc.getLocationGeoPoint();
+	    if (gp.getLatitudeE6() < maxLatitude * 1E6 && gp.getLatitudeE6() > minLatitude * 1E6 && gp.getLongitudeE6() < maxLongitude * 1e6 && gp.getLongitudeE6() > minLongitude * 1e6) {
 		filteredGeoCaches.add(gc);
 	    }
 	}
-	Log.d(TAG, "filterGeoCaches: "+filteredGeoCaches.size());
+	Log.d(TAG, "filterGeoCaches: " + filteredGeoCaches.size());
 	return filteredGeoCaches;
     }
 

@@ -1,11 +1,10 @@
 package su.geocaching.android.ui.searchgeocache;
 
 /**
+ * Interface of activities uses compass sensor
+ * 
  * @author Grigory Kalabin. grigory.kalabin@gmail.com
  * @since Nov 10, 2010
- *        <p>
- *        Interface of activities uses compass sensor
- *        </p>
  */
 public interface ICompassAware {
     /**

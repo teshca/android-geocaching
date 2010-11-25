@@ -13,11 +13,10 @@ import com.google.android.maps.MapView;
 import com.google.android.maps.Projection;
 
 /**
+ * Draw segments according to the points.
+ * 
  * @author Android-Geocaching.su student project team
- * @since November 2010
- *        <p>
- *        Draw segments according to the points.
- *        </p>
+ * @since November 2010a
  */
 public class DirectionPathOverlay extends com.google.android.maps.Overlay {
     private static final int WIDTH = 2;

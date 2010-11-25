@@ -1,11 +1,10 @@
 package su.geocaching.android.ui.searchgeocache;
 
 /**
+ * Interface of activity which need to get updates of gps status
+ * 
  * @author Grigory Kalabin. grigory.kalabin@gmail.com
- * @Nov 25, 2010
- *      <p>
- *      Interface of activity which need to get updates of gps status
- *      </p>
+ * @since Nov 25, 2010
  */
 public interface IGpsStatusAware {
     /**

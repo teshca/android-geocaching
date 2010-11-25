@@ -13,11 +13,10 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 
 /**
+ * Search GeoCache with the compass.
+ * 
  * @author Android-Geocaching.su student project team
  * @since October 2010
- *        <p>
- *        Search GeoCache with the compass.
- *        </p>
  */
 public class SearchGeoCacheCompass extends Activity implements ISearchActivity {
     private static final String TAG = SearchGeoCacheCompass.class.getCanonicalName();
