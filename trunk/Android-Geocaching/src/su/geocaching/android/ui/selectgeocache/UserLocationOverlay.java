@@ -8,8 +8,8 @@ import com.google.android.maps.MyLocationOverlay;
 import su.geocaching.android.utils.Helper;
 
 /**
- * Author: Yuri Denison
- * Date: 20.11.10 22:46
+ * @Author: Yuri Denison
+ * @Date: 20.11.10
  */
 public class UserLocationOverlay extends MyLocationOverlay {
     private SelectGeoCacheMap context;
@@ -21,9 +21,6 @@ public class UserLocationOverlay extends MyLocationOverlay {
             return;
         }
 
-        map.getController().animateTo(Helper.locationToGeoPoint(location));
-        map.getController().setCenter(Helper.locationToGeoPoint(location));
-
         context.updateCacheOverlay(map.getProjection().fromPixels(0, 0),
                 map.getProjection().fromPixels(map.getWidth(), map.getHeight()));
     }
@@ -32,10 +29,5 @@ public class UserLocationOverlay extends MyLocationOverlay {
         super(arg0, arg1);
         context = arg0;
         map = arg1;
-    }
-
-    @Override
-    protected void drawMyLocation(Canvas canvas, MapView mapView, Location lastFix, GeoPoint myLocation, long when) {
-        super.drawMyLocation(canvas, mapView, lastFix, myLocation, when);
     }
 }

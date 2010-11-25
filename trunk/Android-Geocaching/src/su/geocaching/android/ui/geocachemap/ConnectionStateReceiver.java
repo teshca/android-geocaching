@@ -23,8 +23,6 @@ public class ConnectionStateReceiver extends BroadcastReceiver {
 	this.context = context;
     }
 
-    public ConnectionStateReceiver(){}
-
     /*
      * (non-Javadoc)
      * 

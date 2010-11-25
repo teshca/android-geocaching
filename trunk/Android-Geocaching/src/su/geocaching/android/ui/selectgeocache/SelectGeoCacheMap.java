@@ -1,118 +1,118 @@
 package su.geocaching.android.ui.selectgeocache;
 
-import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
-import android.widget.Toast;
 import com.google.android.maps.*;
 import su.geocaching.android.controller.Controller;
 import su.geocaching.android.model.datatype.GeoCache;
-import su.geocaching.android.model.datatype.GeoCacheType;
 import su.geocaching.android.ui.R;
 import su.geocaching.android.ui.geocachemap.GeoCacheItemizedOverlay;
 import su.geocaching.android.ui.geocachemap.GeoCacheOverlayItem;
 import su.geocaching.android.ui.geocachemap.IMapAware;
+import su.geocaching.android.utils.Helper;
 import su.geocaching.android.view.showgeocacheinfo.ShowGeoCacheInfo;
 
-import java.util.HashMap;
 import java.util.List;
 
 /**
- * Author: Yuri Denison Date: 04.11.2010 18:26:39
+ * @Author: Yuri Denison
+ * @Date: 04.11.2010
  */
 public class SelectGeoCacheMap extends MapActivity implements IMapAware {
     private static final String TAG = SelectGeoCacheMap.class.getCanonicalName();
     private final static int DEFAULT_ZOOM_VALUE = 13;
 
     private Controller controller;
-    private HashMap<GeoCacheType, GeoCacheItemizedOverlay> cacheItemizedOverlays;
     private UserLocationOverlay userOverlay;
     private MapView map;
-    private MapController mapController;
     private List<Overlay> mapOverlays;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-	super.onCreate(savedInstanceState);
-	setContentView(R.layout.select_geocache_map);
-	map = (MapView) findViewById(R.id.selectGeocacheMap);
-	mapController = map.getController();
-	mapOverlays = map.getOverlays();
-	cacheItemizedOverlays = new HashMap<GeoCacheType, GeoCacheItemizedOverlay>();
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.select_geocache_map);
+        map = (MapView) findViewById(R.id.selectGeocacheMap);
+        mapOverlays = map.getOverlays();
 
-	userOverlay = new UserLocationOverlay(this, map);
-	userOverlay.runOnFirstFix(new Runnable() {
-	    public void run() {
-		userOverlay.onLocationChanged(userOverlay.getLastFix());
-	    }
-	});
+        userOverlay = new UserLocationOverlay(this, map);
+        userOverlay.runOnFirstFix(new Runnable() {
+            public void run() {
+                map.getController().animateTo(Helper.locationToGeoPoint(userOverlay.getLastFix()));
+                map.getController().setCenter(Helper.locationToGeoPoint(userOverlay.getLastFix()));
+                userOverlay.onLocationChanged(userOverlay.getLastFix());
+            }
+        });
 
-	controller = Controller.getInstance();
+        controller = Controller.getInstance();
 
-	map.setBuiltInZoomControls(true);
-	mapController = map.getController();
-	map.getOverlays().clear();
-	map.getOverlays().add(userOverlay);
+        map.setBuiltInZoomControls(true);
+        map.getOverlays().clear();
+        map.getOverlays().add(userOverlay);
+    }
+
+    @Override
+    protected void onSaveInstanceState(Bundle savedInstanceState) {
+        super.onSaveInstanceState(savedInstanceState);
+        savedInstanceState.putInt("zoom", map.getZoomLevel());
+    }
+
+    @Override
+    protected void onRestoreInstanceState(Bundle savedInstanceState) {
+        super.onRestoreInstanceState(savedInstanceState);
+        map.getController().setZoom(savedInstanceState.getInt("zoom"));
     }
 
     @Override
     protected void onResume() {
-	super.onResume();
-	userOverlay.enableMyLocation();
-	// TODO default zoom to 10km
-	mapController.setZoom(DEFAULT_ZOOM_VALUE);
-	GeoPoint center = userOverlay.getMyLocation();
-	if (center != null) {
-	    mapController.animateTo(center);
-	}
+        super.onResume();
+        userOverlay.enableMyLocation();
+        // TODO default zoom to 10km
+        map.getController().setZoom(DEFAULT_ZOOM_VALUE);
     }
 
     @Override
     protected void onPause() {
-	userOverlay.disableMyLocation();
-	super.onPause();
+        userOverlay.disableMyLocation();
+        super.onPause();
     }
 
     @Override
     protected boolean isRouteDisplayed() {
-	return false;
+        return false;
     }
 
     /* Handles item selections */
 
     public void updateCacheOverlay(GeoPoint upperLeftCorner, GeoPoint lowerRightCorner) {
-	Log.d(TAG, "updateCacheOverlay");
-	// TODO add real visible area bounds
-	double maxLatitude = (double) upperLeftCorner.getLatitudeE6() / 1e6;
-	double minLatitude = (double) lowerRightCorner.getLatitudeE6() / 1e6;
-	double maxLongitude = (double) lowerRightCorner.getLongitudeE6() / 1e6;
-	double minLongitude = (double) upperLeftCorner.getLongitudeE6() / 1e6;
+        Log.d(TAG, "updateCacheOverlay");
+        // TODO add real visible area bounds
+        double maxLatitude = (double) upperLeftCorner.getLatitudeE6() / 1e6;
+        double minLatitude = (double) lowerRightCorner.getLatitudeE6() / 1e6;
+        double maxLongitude = (double) lowerRightCorner.getLongitudeE6() / 1e6;
+        double minLongitude = (double) upperLeftCorner.getLongitudeE6() / 1e6;
 
-        controller.updateSelectedGeoCaches(this ,maxLatitude, minLatitude, maxLongitude, minLongitude);
+        controller.updateSelectedGeoCaches(this, maxLatitude, minLatitude, maxLongitude, minLongitude);
     }
 
     private void startGeoCacheInfoView(GeoCache geoCache) {
-	Intent intent = new Intent(this, ShowGeoCacheInfo.class);
-	intent.putExtra(GeoCache.class.getCanonicalName(), geoCache);
-	startActivity(intent);
+        Intent intent = new Intent(this, ShowGeoCacheInfo.class);
+        intent.putExtra(GeoCache.class.getCanonicalName(), geoCache);
+        startActivity(intent);
     }
 
     @Override
     public void onGeoCacheItemTaped(GeoCacheOverlayItem item) {
-	startGeoCacheInfoView(item.getGeoCache());
+        startGeoCacheInfoView(item.getGeoCache());
     }
 
     public void addGeoCacheList(List<GeoCache> geoCacheList) {
-	for (GeoCache geoCache : geoCacheList) {
-	    if (cacheItemizedOverlays.get(geoCache.getType()) == null) {
-		cacheItemizedOverlays.put(geoCache.getType(), new GeoCacheItemizedOverlay(Controller.getInstance().getMarker(geoCache, this), this));
-	    }
-	    cacheItemizedOverlays.get(geoCache.getType()).addOverlayItem(new GeoCacheOverlayItem(geoCache, "", ""));
-	}
-	for (GeoCacheItemizedOverlay overlay : cacheItemizedOverlays.values()) {
-	    mapOverlays.add(overlay);
-	}
-	map.invalidate();
+        GeoCacheItemizedOverlay gOverlay = new GeoCacheItemizedOverlay(
+                controller.getMarker(geoCacheList.get(0), this), this);
+        for (GeoCache geoCache : geoCacheList) {
+            gOverlay.addOverlayItem(new GeoCacheOverlayItem(geoCache, "", "", this));
+        }
+        mapOverlays.add(gOverlay);
+        map.invalidate();
     }
 }
