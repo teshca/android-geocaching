@@ -2,10 +2,11 @@ package su.geocaching.android.ui.searchgeocache;
 
 import java.util.List;
 
-import su.geocaching.android.direction.DirectionController;
 import su.geocaching.android.model.datatype.GeoCache;
 import su.geocaching.android.ui.R;
 import su.geocaching.android.ui.geocachemap.*;
+import su.geocaching.android.ui.searchgeocache.DrivingDirections.IDirectionsListener;
+import su.geocaching.android.ui.searchgeocache.DrivingDirections.Mode;
 import su.geocaching.android.utils.Helper;
 import su.geocaching.android.view.showgeocacheinfo.ShowGeoCacheInfo;
 import android.content.Intent;
@@ -34,7 +35,7 @@ import com.google.android.maps.Overlay;
  * @author Android-Geocaching.su student project team
  * @since October 2010
  */
-public class SearchGeoCacheMap extends MapActivity implements ISearchActivity, IMapAware, IInternetAware {
+public class SearchGeoCacheMap extends MapActivity implements ISearchActivity, IMapAware, IInternetAware, IDirectionsListener {
     private final static String TAG = SearchGeoCacheMap.class.getCanonicalName();
 
     private GeoCacheOverlayItem cacheOverlayItem;
@@ -46,7 +47,6 @@ public class SearchGeoCacheMap extends MapActivity implements ISearchActivity, I
     private MapController mapController;
     private List<Overlay> mapOverlays;
     private SearchGeoCacheManager manager;
-    private DirectionController directionControlller;
     private ConnectionStateReceiver internetManager;
 
     /*
@@ -176,12 +176,9 @@ public class SearchGeoCacheMap extends MapActivity implements ISearchActivity, I
 	    mapOverlays.add(distanceOverlay);
 	    mapOverlays.add(userOverlay);
 
-	    // FIXME: if falls with null pointer exception
-	    // directionControlller = new
-	    // DirectionController(Helper.locationToGeoPoint(location),
-	    // manager.getGeoCache().getLocationGeoPoint(), map);
-	    // directionControlller.getDirectionPath(Helper.locationToGeoPoint(location),
-	    // manager.getGeoCache().getLocationGeoPoint(), 1);
+//	    DrivingDirections.Mode mode = Mode.WALKING; 
+//	    DrivingDirections directions = DrivingDirectionsFactory.createDrivingDirections();
+//	    directions.driveTo(Helper.locationToGeoPoint(location),manager.getGeoCache().getLocationGeoPoint() , mode, this);
 
 	    return;
 	}
@@ -211,8 +208,9 @@ public class SearchGeoCacheMap extends MapActivity implements ISearchActivity, I
      */
     private void resetZoom() {
 	GeoPoint currentGeoPoint = Helper.locationToGeoPoint(manager.getCurrentLocation());
-	mapController.zoomToSpan(Math.abs(manager.getGeoCache().getLocationGeoPoint().getLatitudeE6() - currentGeoPoint.getLatitudeE6()),
-		Math.abs(manager.getGeoCache().getLocationGeoPoint().getLongitudeE6() - currentGeoPoint.getLongitudeE6()));
+	mapController.zoomToSpan(Math.abs(manager.getGeoCache().getLocationGeoPoint().getLatitudeE6() - currentGeoPoint.getLatitudeE6()), Math.abs(manager.getGeoCache().getLocationGeoPoint()
+		.getLongitudeE6()
+		- currentGeoPoint.getLongitudeE6()));
 
 	GeoPoint center = new GeoPoint((manager.getGeoCache().getLocationGeoPoint().getLatitudeE6() + currentGeoPoint.getLatitudeE6()) / 2, (manager.getGeoCache().getLocationGeoPoint()
 		.getLongitudeE6() + currentGeoPoint.getLongitudeE6()) / 2);
@@ -250,7 +248,7 @@ public class SearchGeoCacheMap extends MapActivity implements ISearchActivity, I
 	    manager.showGeoCacheInfo();
 	    return true;
 	case R.id.DrawDirectionPath:
-	    directionControlller.setVisibleWay();
+	    // directionControlller.setVisibleWay();
 	default:
 	    return super.onOptionsItemSelected(item);
 	}
@@ -337,135 +335,20 @@ public class SearchGeoCacheMap extends MapActivity implements ISearchActivity, I
 	// TODO: do smthng?
     }
 
-    /**
-     * creates the path according to the received points
-     * **/
-
-    private void getDirectionPath(GeoPoint userPoint, GeoPoint cachePoint) {
-	// String origin = Double.toString((double) userPoint.getLatitudeE6() /
-	// 1.0E6) + "," + Double.toString((double) userPoint.getLongitudeE6() /
-	// 1.0E6);
-	// String end = Double.toString((double) cachePoint.getLatitudeE6() /
-	// 1.0E6) + "," + Double.toString((double) cachePoint.getLongitudeE6() /
-	// 1.0E6);
-	// String pairs[] = getDirectionData(origin, end);
-	//
-	// if (pairs != null) {
-	// String[] lngLat = pairs[0].split(",");
-	//
-	// // STARTING POINT
-	// GeoPoint startGP = new GeoPoint((int) (Double.parseDouble(lngLat[1])
-	// * 1E6), (int) (Double.parseDouble(lngLat[0]) * 1E6));
-	//
-	// userPoint = startGP;
-	// // mapController.setCenter(userPoint);
-	// // mapController.setZoom(15);
-	// map.getOverlays().add(new DirectionPathOverlay(startGP, startGP));
-	//
-	// // NAVIGATE THE PATH
-	// GeoPoint gp1;
-	// GeoPoint gp2 = startGP;
-	//
-	// for (int i = 1; i < pairs.length; i++) {
-	// lngLat = pairs[i].split(",");
-	// gp1 = gp2;
-	// // watch out! For GeoPoint, first:latitude, second:longitude
-	// gp2 = new GeoPoint((int) (Double.parseDouble(lngLat[1]) * 1E6), (int)
-	// (Double.parseDouble(lngLat[0]) * 1E6));
-	// map.getOverlays().add(new DirectionPathOverlay(gp1, gp2));
-	//
-	// }
-	//
-	// // END POINT
-	// map.getOverlays().add(new DirectionPathOverlay(gp2, gp2));
-	// // map.getController().animateTo(startGP);
-	// }
-    }
-
-    /**
-     * sent a specified message to Google service,and receive a *.kml file
-     * ,which contains points for path realization,which were encoded , and
-     * decodes them
-     **/
-    private String[] getDirectionData(String srcPlace, String destPlace) {
-
-	// String urlString = "http://maps.google.com/maps?f=d&hl=en&saddr=" +
-	// srcPlace + "&daddr=" + destPlace + "&ie=UTF8&0&om=0&output=kml";
-	// Log.d("URL", urlString);
-	// Document doc = null;
-	// HttpURLConnection urlConnection = null;
-	// URL url = null;
-	// String pathConent = "";
-	// try {
-	// try {
-	// try {
-	// try {
-	// try {
-	// try {
-	// url = new URL(urlString.toString());
-	// urlConnection = (HttpURLConnection) url.openConnection();
-	// urlConnection.setRequestMethod("GET");
-	// urlConnection.setDoOutput(true);
-	//
-	// urlConnection.setDoInput(true);
-	// urlConnection.connect();
-	// DocumentBuilderFactory dbf = DocumentBuilderFactory.newInstance();
-	// DocumentBuilder db = dbf.newDocumentBuilder();
-	// doc = db.parse(urlConnection.getInputStream());
-	// Log.d("Document", "is created");
-	// } catch (ParserConfigurationException e) {
-	// Log.d("ParserConfigurationException",
-	// "problem in doc.builderfactory");
-	// }
-	// } catch (SAXException e) {
-	// Log.d("SAXException", "problem in doc.builder");
-	// }
-	// } catch (IllegalAccessError e) {
-	// Log.d("IllegalAccessError",
-	// "setDoInput of urlConnecttion works wrong");
-	// }
-	//
-	// } catch (MalformedURLException e) {
-	// Log.d("MalformedURLException", "problem in doc.builder");
-	// }
-	// } catch (ProtocolException e) {
-	// Log.d("ProtocolException",
-	// "setRequestMethod of urlConnecttion works wrong");
-	// }
-	//
-	// } catch (IOException e) {
-	// Log.d("IOException", "problem in input or output stream");
-	// }
-	//
-	// NodeList nl = doc.getElementsByTagName("LineString");
-	// for (int s = 0; s < nl.getLength(); s++) {
-	// Node rootNode = nl.item(s);
-	// NodeList configItems = rootNode.getChildNodes();
-	// for (int x = 0; x < configItems.getLength(); x++) {
-	// Node lineStringNode = configItems.item(x);
-	// NodeList path = lineStringNode.getChildNodes();
-	// pathConent = path.item(0).getNodeValue();
-	// }
-	// }
-	// String[] tempContent = null;
-	// try {
-	// try {
-	// tempContent = pathConent.split(" ");
-	//
-	// } catch (NullPointerException e) {
-	// Log.d("NullPointerException", "split's arg is null ");
-	// }
-	//
-	// } catch (PatternSyntaxException e) {
-	// Log.d("PatternSyntaxException",
-	// "split's arg expresion isb't valid ");
-	// }
-	// return tempContent;
-	return null;
-    }
-
     @Override
     public void onBestProviderUnavailable() {
 	Toast.makeText(this, getString(R.string.search_geocache_best_provider_lost), Toast.LENGTH_LONG).show();
+    }
+
+    @Override
+    public void onDirectionsAvailable(IRoute route, Mode mode) {
+	// TODO Auto-generated method stub
+	
+    }
+
+    @Override
+    public void onDirectionsNotAvailable() {
+	// TODO Auto-generated method stub
+	
     }
 }
