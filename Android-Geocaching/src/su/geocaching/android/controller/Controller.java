@@ -16,7 +16,8 @@ import android.graphics.drawable.Drawable;
 import su.geocaching.android.ui.selectgeocache.SelectGeoCacheMap;
 
 /**
- * @author: Yuri Denison Date: 04.11.2010
+ * @Author: Yuri Denison
+ * @Date: 04.11.2010
  */
 public class Controller {
     private static Controller instance;

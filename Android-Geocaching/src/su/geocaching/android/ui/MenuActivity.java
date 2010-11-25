@@ -116,7 +116,7 @@ public class MenuActivity extends Activity implements OnClickListener, IInternet
 	    Intent intent = new Intent(this, SelectGeoCacheMap.class);
 	    startActivity(intent);
 	} else {
-	    Toast.makeText(this.getBaseContext(), "Сеть не найдена. Попробуйте позже", Toast.LENGTH_SHORT).show();
+	    Toast.makeText(this.getBaseContext(), getString(R.string.select_geocache_status_without_internet), Toast.LENGTH_SHORT).show();
 	}
     }
 

@@ -16,6 +16,8 @@
     <string name="search_geocache_internet_lost">Подключение к интернету отсутствует. Могут возникнуть проблемы с обновлением карты</string>
     <string name="search_geocache_status_without_internet">Интернет: нет</string>
     <string name="search_geocache_status_with_internet">Интернет: есть</string>
+
+    <string name="select_geocache_status_without_internet">Сеть не найдена. Попробуйте позже</string>
            
     <string name="gps_status_started">GPS: Запущен</string>
     <string name="gps_status_stopped">GPS: Связь потеряна</string>
