@@ -38,7 +38,8 @@
 
 
       
-    <string name="favorit_folder_title_text">Список добавленных тайников\nВ разработке</string>
+    <string name="favorit_folder_title_text">Список добавленных тайников</string>
+    <string name="favorit_folder_In_DB_not_cache">В базе нет ни одного тайника</string>
     <string name="favorit_folder_userstory_text">Папка Favorit</string>
       <string name="favorit_folder_button_do_search">Перейти к поиску</string>
       <string name="favorit_folder_button_delete">Удалить тайник из базы</string>
