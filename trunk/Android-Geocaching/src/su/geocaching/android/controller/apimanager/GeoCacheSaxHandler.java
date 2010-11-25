@@ -14,10 +14,6 @@ import android.util.Log;
 
 import com.google.android.maps.GeoPoint;
 
-/*
-
- */
-
 /**
  * @author Nikita
  *         <p>
