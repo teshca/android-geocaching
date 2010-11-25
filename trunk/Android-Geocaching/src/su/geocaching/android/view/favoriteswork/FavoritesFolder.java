@@ -14,6 +14,9 @@ import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.AdapterView;
@@ -83,12 +86,27 @@ public class FavoritesFolder extends Activity implements OnClickListener, OnItem
 	    lvListShowCach.setOnItemClickListener(this);
 	} else {
 	    tvTitle.setText(tvTitle.getText()+"\n"+getString(R.string.favorit_folder_In_DB_not_cache) );
-
 	    Log.d("FavoritFolder", "DB empty");
 	}
 
     }
 
+    
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+	MenuInflater inflater = getMenuInflater();
+	inflater.inflate(R.menu.favorites_folder_menu, menu);
+        return true;
+    }
+    
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+	if(item.getItemId()==R.id.favorit_folder_Add_Cache_Button){
+	    addRandomCache();
+	    return true;
+	}
+        return super.onOptionsItemSelected(item);
+    }
     @Override
     public void onClick(View v) {
 	if ((v.equals(ivSearch))&&(lvNowSelect != null)) {
@@ -114,33 +132,7 @@ public class FavoritesFolder extends Activity implements OnClickListener, OnItem
 		lvListShowCach.setAdapter(baForListView);
 		lvNowSelect=null;
 	    }
-	if(v.equals(addBut)){
-		 dbm.insert2_for_testing(234, "Name1", 1, 2,  5442387, -2030774, "My Web text-1");
-		 dbm.insert2_for_testing(239, "Name2", 2, 2, 5626802, -3454912, "My Web text-2");
-		 dbm.insert2_for_testing(232, "Name3", 1, 2,  556918, -3738894, "My Web text 3");
-		 dbm.insert2_for_testing(223, "Name4", 1, 2, 5745883, -2933664, "My Web text 4");
-		 dbm.insert2_for_testing(124, "Name5", 3, 2, 4850787,-4336517, "My Web text 5");
-		 dbm.insert2_for_testing(322, "Name6", 1, 2, 5531899, -3659884, "My Web text 6");
-		 dbm.insert2_for_testing(17, "Name7", 4, 2, 5619838, -3757061, "My Web text 7");
-		 dbm.insert2_for_testing(43, "Name8", 2, 2, 573722, -2854325, "My Web text 8");
-		 dbm.insert2_for_testing(412, "Name9", 2, 2, 4425389, -3355556, "My Web text 9");
-		 dbm.insert2_for_testing(430, "Name10", 2, 2, 5716796, -3647061, "My Web text 10");
-		 dbm.insert2_for_testing(432, "Name11", 3, 2, 5434437, -8321288, "My Web text 11");
-		 dbm.insert2_for_testing(439, "Name12", 1, 2, 5524446, -3353614, "My Web text 12");
-	    
-		 mass = dbm.getArrayGeoCache();
-		 massNameCache = new String[mass.size()];
-		    massTypeCache = new int[mass.size()];
-		    for (int i = 0; i < mass.size(); i++) {
-			massNameCache[i] = mass.get(i).getName();
-			massTypeCache[i] = mass.get(i).getType().ordinal();
-		    }
-
-		    baForListView = new Efficient(massTypeCache, massNameCache, this);
-		    lvListShowCach.setAdapter(baForListView);
-		    lvListShowCach.setOnItemClickListener(this);
-		    addBut.setEnabled(false);
-	}
+	
     }
 
     @Override
@@ -159,4 +151,32 @@ public class FavoritesFolder extends Activity implements OnClickListener, OnItem
 	numClickItem = arg2;
     }
 
+    
+    private void addRandomCache(){
+	dbm.insert2_for_testing(234, "Name1", 1, 2,  5442387, -2030774, "My Web text-1");
+	 dbm.insert2_for_testing(239, "Name2", 2, 2, 5626802, -3454912, "My Web text-2");
+	 dbm.insert2_for_testing(232, "Name3", 1, 2,  556918, -3738894, "My Web text 3");
+	 dbm.insert2_for_testing(223, "Name4", 1, 2, 5745883, -2933664, "My Web text 4");
+	 dbm.insert2_for_testing(124, "Name5", 3, 2, 4850787,-4336517, "My Web text 5");
+	 dbm.insert2_for_testing(322, "Name6", 1, 2, 5531899, -3659884, "My Web text 6");
+	 dbm.insert2_for_testing(17, "Name7", 4, 2, 5619838, -3757061, "My Web text 7");
+	 dbm.insert2_for_testing(43, "Name8", 2, 2, 573722, -2854325, "My Web text 8");
+	 dbm.insert2_for_testing(412, "Name9", 2, 2, 4425389, -3355556, "My Web text 9");
+	 dbm.insert2_for_testing(430, "Name10", 2, 2, 5716796, -3647061, "My Web text 10");
+	 dbm.insert2_for_testing(432, "Name11", 3, 2, 5434437, -8321288, "My Web text 11");
+	 dbm.insert2_for_testing(439, "Name12", 1, 2, 5524446, -3353614, "My Web text 12");
+   
+	 mass = dbm.getArrayGeoCache();
+	 massNameCache = new String[mass.size()];
+	    massTypeCache = new int[mass.size()];
+	    for (int i = 0; i < mass.size(); i++) {
+		massNameCache[i] = mass.get(i).getName();
+		massTypeCache[i] = mass.get(i).getType().ordinal();
+	    }
+
+	    baForListView = new Efficient(massTypeCache, massNameCache, this);
+	    lvListShowCach.setAdapter(baForListView);
+	    lvListShowCach.setOnItemClickListener(this);
+
+    }
 }
