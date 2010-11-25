@@ -77,8 +77,12 @@ public class SearchGeoCacheCompass extends Activity implements ISearchActivity {
 	manager.runLogic();
     }
 
-    /* (non-Javadoc)
-     * @see su.geocaching.android.ui.searchgeocache.ISearchActivity#updateBearing(int)
+    /*
+     * (non-Javadoc)
+     * 
+     * @see
+     * su.geocaching.android.ui.searchgeocache.ISearchActivity#updateBearing
+     * (int)
      */
     public void updateBearing(int bearing) {
 	compassView.setBearingToNorth(bearing);
@@ -158,5 +162,10 @@ public class SearchGeoCacheCompass extends Activity implements ISearchActivity {
     @Override
     public Location getLastKnownLocation() {
 	return manager.getCurrentLocation();
+    }
+
+    @Override
+    public void onBestProviderUnavailable() {
+	// TODO tell user about this
     }
 }

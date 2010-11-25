@@ -464,4 +464,9 @@ public class SearchGeoCacheMap extends MapActivity implements ISearchActivity, I
 	// return tempContent;
 	return null;
     }
+
+    @Override
+    public void onBestProviderUnavailable() {
+	Toast.makeText(this, getString(R.string.search_geocache_best_provider_lost), Toast.LENGTH_LONG).show();
+    }
 }

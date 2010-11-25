@@ -65,6 +65,9 @@ public class SearchGeoCacheManager implements ILocationAware, ICompassAware, IGp
      */
     public void onDestroy() {
 	locationManager.removeSubsriber(this);
+	if (geoCache != null) {
+	    ((ApplicationMain) context.getApplication()).setDesiredGeoCache(geoCache);
+	}
 	Log.d(TAG, "destroy: remove updates of location");
     }
 
@@ -150,10 +153,12 @@ public class SearchGeoCacheManager implements ILocationAware, ICompassAware, IGp
 	switch (status) {
 	case LocationProvider.OUT_OF_SERVICE:
 	    statusString += "Status: out of service. ";
+	    activity.onBestProviderUnavailable();
 	    Log.d(TAG, "     Status: out of service.");
 	    break;
 	case LocationProvider.TEMPORARILY_UNAVAILABLE:
 	    statusString += "Status: temporarily unavailable. ";
+	    activity.onBestProviderUnavailable();
 	    Log.d(TAG, "     Status: temporarily unavailable.");
 	    break;
 	case LocationProvider.AVAILABLE:
@@ -217,6 +222,7 @@ public class SearchGeoCacheManager implements ILocationAware, ICompassAware, IGp
 	    Log.d(TAG, "runLogic: location fixed. Update location with last known location");
 	}
 	locationManager.addSubscriber(this);
+	locationManager.enableBestProviderUpdates();
 	compass.addSubscriber(this);
 	gpsStatusListener.addSubscriber(this);
     }
@@ -252,12 +258,15 @@ public class SearchGeoCacheManager implements ILocationAware, ICompassAware, IGp
 	context.startActivity(intent);
     }
 
-    /* (non-Javadoc)
-     * @see su.geocaching.android.ui.searchgeocache.ICompassAware#updateBearing(int)
+    /*
+     * (non-Javadoc)
+     * 
+     * @see
+     * su.geocaching.android.ui.searchgeocache.ICompassAware#updateBearing(int)
      */
     @Override
     public void updateBearing(int bearing) {
-	Log.d(TAG, "updateBearing: new bearing" + Integer.toString(bearing));
+	Log.d(TAG, "updateBearing: new bearing " + Integer.toString(bearing));
 	activity.updateBearing(bearing);
     }
 
@@ -279,6 +288,9 @@ public class SearchGeoCacheManager implements ILocationAware, ICompassAware, IGp
 	gpsStatusListener.removeSubsriber(this);
     }
 
+    /* (non-Javadoc)
+     * @see su.geocaching.android.ui.searchgeocache.IGpsStatusAware#updateStatus(java.lang.String, int)
+     */
     @Override
     public void updateStatus(String status, int type) {
 	activity.updateStatus(status, type);
