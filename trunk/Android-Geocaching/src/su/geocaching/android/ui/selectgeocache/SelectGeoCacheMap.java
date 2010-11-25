@@ -3,6 +3,7 @@ package su.geocaching.android.ui.selectgeocache;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.MotionEvent;
 import com.google.android.maps.*;
 import su.geocaching.android.controller.Controller;
 import su.geocaching.android.model.datatype.GeoCache;
@@ -10,6 +11,7 @@ import su.geocaching.android.ui.R;
 import su.geocaching.android.ui.geocachemap.GeoCacheItemizedOverlay;
 import su.geocaching.android.ui.geocachemap.GeoCacheOverlayItem;
 import su.geocaching.android.ui.geocachemap.IMapAware;
+import su.geocaching.android.ui.selectgeocache.timer.MapUpdateTimer;
 import su.geocaching.android.utils.Helper;
 import su.geocaching.android.view.showgeocacheinfo.ShowGeoCacheInfo;
 
@@ -24,9 +26,12 @@ public class SelectGeoCacheMap extends MapActivity implements IMapAware {
     private final static int DEFAULT_ZOOM_VALUE = 13;
 
     private Controller controller;
-    private UserLocationOverlay userOverlay;
+    private MyLocationOverlay userOverlay;
     private MapView map;
     private List<Overlay> mapOverlays;
+    private boolean touchHappened;
+    private MapUpdateTimer mapTimer;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -35,7 +40,13 @@ public class SelectGeoCacheMap extends MapActivity implements IMapAware {
         map = (MapView) findViewById(R.id.selectGeocacheMap);
         mapOverlays = map.getOverlays();
 
-        userOverlay = new UserLocationOverlay(this, map);
+        userOverlay = new MyLocationOverlay(this, map) {
+            @Override
+            public boolean onTouchEvent(MotionEvent event, MapView mapView) {
+                touchHappened = true;
+                return false;
+            }
+        };
         userOverlay.runOnFirstFix(new Runnable() {
             public void run() {
                 map.getController().animateTo(Helper.locationToGeoPoint(userOverlay.getLastFix()));
@@ -49,6 +60,9 @@ public class SelectGeoCacheMap extends MapActivity implements IMapAware {
         map.setBuiltInZoomControls(true);
         map.getOverlays().clear();
         map.getOverlays().add(userOverlay);
+
+        // TODO default zoom to 10km
+        map.getController().setZoom(DEFAULT_ZOOM_VALUE);
     }
 
     @Override
@@ -67,13 +81,16 @@ public class SelectGeoCacheMap extends MapActivity implements IMapAware {
     protected void onResume() {
         super.onResume();
         userOverlay.enableMyLocation();
-        // TODO default zoom to 10km
-        map.getController().setZoom(DEFAULT_ZOOM_VALUE);
+
+        touchHappened = false;
+        mapTimer = new MapUpdateTimer(this);
+        updateCacheOverlay();
     }
 
     @Override
     protected void onPause() {
         userOverlay.disableMyLocation();
+        mapTimer.cancel();
         super.onPause();
     }
 
@@ -84,9 +101,11 @@ public class SelectGeoCacheMap extends MapActivity implements IMapAware {
 
     /* Handles item selections */
 
-    public void updateCacheOverlay(GeoPoint upperLeftCorner, GeoPoint lowerRightCorner) {
+    public void updateCacheOverlay() {
         Log.d(TAG, "updateCacheOverlay");
-        // TODO add real visible area bounds
+        GeoPoint upperLeftCorner = map.getProjection().fromPixels(0, 0);
+        GeoPoint lowerRightCorner = map.getProjection().fromPixels(map.getWidth(), map.getHeight());
+
         double maxLatitude = (double) upperLeftCorner.getLatitudeE6() / 1e6;
         double minLatitude = (double) lowerRightCorner.getLatitudeE6() / 1e6;
         double maxLongitude = (double) lowerRightCorner.getLongitudeE6() / 1e6;
@@ -107,6 +126,11 @@ public class SelectGeoCacheMap extends MapActivity implements IMapAware {
     }
 
     public void addGeoCacheList(List<GeoCache> geoCacheList) {
+        if (geoCacheList == null || geoCacheList.size() == 0) {
+            Log.d("GEOCACHE", "fuck null or len = 0");
+            return;
+        }
+        Log.d("GEOCACHE", "len = " + geoCacheList.size());
         GeoCacheItemizedOverlay gOverlay = new GeoCacheItemizedOverlay(
                 controller.getMarker(geoCacheList.get(0), this), this);
         for (GeoCache geoCache : geoCacheList) {
@@ -114,5 +138,21 @@ public class SelectGeoCacheMap extends MapActivity implements IMapAware {
         }
         mapOverlays.add(gOverlay);
         map.invalidate();
+    }
+
+    public int getZoom() {
+        return map.getZoomLevel();
+    }
+
+    public GeoPoint getCenter() {
+        return map.getMapCenter();
+    }
+
+    public boolean touchHappened() {
+        return touchHappened;
+    }
+
+    public void setTouchHappened(boolean touchHappened) {
+        this.touchHappened = touchHappened;
     }
 }
