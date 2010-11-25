@@ -57,22 +57,17 @@
 		</activity>
 
 		<activity
-			android:name="su.geocaching.android.view.showgeocacheinfo.ShowGeoCacheInfo">
+			android:name="su.geocaching.android.view.showgeocacheinfo.ShowGeoCacheInfo" android:theme="@android:style/Theme.NoTitleBar">
 			<intent-filter>
 				<action android:name="android.intent.action.RUN" />
 				<category android:name="android.intent.category.DEFAULT" />
 			</intent-filter>
 		</activity>
 
-		<activity android:name="su.geocaching.android.view.showgeocacheinfo.ShowGeoCacheInfo">
-			<intent-filter>
-				<action android:name="android.intent.action.RUN" />
-				<category android:name="android.intent.category.DEFAULT" />
-			</intent-filter>
-		</activity>
+		
 
 		<activity
-			android:name="su.geocaching.android.view.favoriteswork.FavoritesFolder">
+			android:name="su.geocaching.android.view.favoriteswork.FavoritesFolder" android:theme="@android:style/Theme.NoTitleBar">
 			<intent-filter>
 				<action android:name="android.intent.action.RUN" />
 				<category android:name="android.intent.category.DEFAULT" />
