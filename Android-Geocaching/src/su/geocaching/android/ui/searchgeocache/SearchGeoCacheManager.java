@@ -252,11 +252,8 @@ public class SearchGeoCacheManager implements ILocationAware, ICompassAware {
 	context.startActivity(intent);
     }
 
-    /*
-     * (non-Javadoc)
-     * 
-     * @see
-     * su.geocaching.android.ui.geocachemap.ICompassAware#updateAzimuth(float)
+    /* (non-Javadoc)
+     * @see su.geocaching.android.ui.searchgeocache.ICompassAware#updateBearing(int)
      */
     @Override
     public void updateBearing(int bearing) {

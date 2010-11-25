@@ -16,15 +16,17 @@ import android.view.View;
 /**
  * @author Android-Geocaching.su student project team
  * @since October 2010
- * @description View which displays compass contains of bitmaps for searching
- *              geocache.
+ *        <p>
+ *        View which displays compass contains of bitmaps for searching
+ *        geocache.
+ *        </p>
  */
 public class GraphicCompassView extends View {
 
     private static final int DEFAULT_PADDING = 15;
 
-    private int azimuthToNorth; // in degrees
-    private int azimuthToCache; // in degrees
+    private int bearingToNorth; // in degrees
+    private int bearingToCache; // in degrees
 
     private Matrix windroseRotateMatrix;
     private Bitmap compassBitmap, cacheBitmap;
@@ -45,8 +47,8 @@ public class GraphicCompassView extends View {
     }
 
     private void initParameters() {
-	azimuthToNorth = 0;
-	azimuthToCache = 0;
+	bearingToNorth = 0;
+	bearingToCache = 0;
 
 	compassBitmap = BitmapFactory.decodeResource(getContext().getResources(), R.drawable.compass256);
 	cacheBitmap = BitmapFactory.decodeResource(getContext().getResources(), R.drawable.cache);
@@ -64,8 +66,8 @@ public class GraphicCompassView extends View {
     public void onDraw(Canvas canvas) {
 	super.onDraw(canvas);
 	// Convert angles relative mobile view direction
-	int azimuthNorthRel = azimuthToNorth;
-	int azimuthGCRel = azimuthToCache - azimuthToNorth;
+	int bearingNorthRel = bearingToNorth;
+	int bearingGCRel = bearingToCache - bearingToNorth;
 
 	int center = Math.min(getHeight(), getWidth()) / 2;
 	int compassRadius = center / 2 - DEFAULT_PADDING;
@@ -74,12 +76,12 @@ public class GraphicCompassView extends View {
 	float scaleWRPicY = (float) (2 * compassRadius) / compassBitmap.getHeight();
 
 	windroseRotateMatrix.setScale(scaleWRPicX, scaleWRPicY);
-	windroseRotateMatrix.setRotate(-azimuthNorthRel);
+	windroseRotateMatrix.setRotate(-bearingNorthRel);
 
 	Bitmap windrose = Bitmap.createBitmap(compassBitmap, 0, 0, compassBitmap.getWidth(), compassBitmap.getHeight(), windroseRotateMatrix, false);
 	canvas.drawBitmap(windrose, center - windrose.getWidth() / 2, center - windrose.getHeight() / 2, paint);
 	drawArrow(canvas, (int) (compassRadius / scaleWRPicY));
-	drawGeoCache(canvas, (int) (compassRadius / scaleWRPicY), azimuthGCRel);
+	drawGeoCache(canvas, (int) (compassRadius / scaleWRPicY), bearingGCRel);
     }
 
     // TODO correct arrow
@@ -102,27 +104,27 @@ public class GraphicCompassView extends View {
 	canvas.drawRect(r, arrowPaint);
     }
 
-    private void drawGeoCache(Canvas canvas, int radius, int azimuthGC) {
-	int cx = (int) (getWidth() / 2 + Math.sin(azimuthGC * Math.PI / 180) * radius) - cacheBitmap.getWidth() / 2;
-	int cy = (int) (getHeight() / 2 - Math.cos(azimuthGC * Math.PI / 180) * radius) - cacheBitmap.getHeight() / 2;
+    private void drawGeoCache(Canvas canvas, int radius, int bearingGC) {
+	int cx = (int) (getWidth() / 2 + Math.sin(bearingGC * Math.PI / 180) * radius) - cacheBitmap.getWidth() / 2;
+	int cy = (int) (getHeight() / 2 - Math.cos(bearingGC * Math.PI / 180) * radius) - cacheBitmap.getHeight() / 2;
 	canvas.drawBitmap(cacheBitmap, cx, cy, arrowPaint);
     }
 
     /**
      * @param angle
-     *            - user azimuth in degrees
+     *            - user bearing in degrees
      */
-    public void setAzimuthToNorth(float angle) {
-	this.azimuthToNorth = (int) angle;
+    public void setBearingToNorth(float angle) {
+	this.bearingToNorth = (int) angle;
 	invalidate();
     }
 
     /**
-     * @param azimuthToGeoCache
-     *            - azimuth to geocache in degrees
+     * @param bearingToGeoCache
+     *            - bearing to geocache in degrees
      */
-    public void setAzimuthToGeoCache(float azimuthToGeoCache) {
-	this.azimuthToCache = (int) azimuthToGeoCache;
+    public void setBearingToGeoCache(float bearingToGeoCache) {
+	this.bearingToCache = (int) bearingToGeoCache;
 	invalidate();
     }
 }

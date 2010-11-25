@@ -3,8 +3,9 @@ package su.geocaching.android.ui.geocachemap;
 /**
  * @author Grigory Kalabin. grigory.kalabin@gmail.com
  * @Nov 20, 2010
- * @Description Describes methods which must have been overridden in activities
- *              uses map
+ *      <p>
+ *      Describes methods which must have been overridden in activities uses map
+ *      </p>
  */
 public interface IMapAware {
     /**

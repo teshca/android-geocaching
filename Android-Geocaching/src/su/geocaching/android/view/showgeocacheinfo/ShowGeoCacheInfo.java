@@ -105,7 +105,7 @@ public class ShowGeoCacheInfo extends Activity implements OnCheckedChangeListene
 		    dbm.addGeoCache(cache, "");
 	    	btGo.setEnabled(true);
 	} else {
-	    dbm.deleteCachById(cache.getId());
+	    dbm.deleteCacheById(cache.getId());
 	    btGo.setEnabled(false);
 	}
 	

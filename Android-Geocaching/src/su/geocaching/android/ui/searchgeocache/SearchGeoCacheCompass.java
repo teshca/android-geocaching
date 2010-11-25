@@ -62,7 +62,7 @@ public class SearchGeoCacheCompass extends Activity implements ISearchActivity {
 	manager.onPause();
 	Log.d(TAG, "on pause");
     }
-    
+
     @Override
     protected void onDestroy() {
 	super.onDestroy();
@@ -77,15 +77,11 @@ public class SearchGeoCacheCompass extends Activity implements ISearchActivity {
 	manager.runLogic();
     }
 
-    /*
-     * (non-Javadoc)
-     * 
-     * @see
-     * su.geocaching.android.ui.searchgeocache.ISearchActivity#updateAzimuth
-     * (int)
+    /* (non-Javadoc)
+     * @see su.geocaching.android.ui.searchgeocache.ISearchActivity#updateBearing(int)
      */
-    public void updateBearing(int azimuth) {
-	compassView.setAzimuthToNorth(azimuth);
+    public void updateBearing(int bearing) {
+	compassView.setBearingToNorth(bearing);
     }
 
     /*
@@ -100,7 +96,7 @@ public class SearchGeoCacheCompass extends Activity implements ISearchActivity {
 	if (!manager.isLocationFixed()) {
 	    return;
 	}
-	compassView.setAzimuthToGeoCache(Helper.getBearingBetween(location, manager.getGeoCache().getLocationGeoPoint()));
+	compassView.setBearingToGeoCache(Helper.getBearingBetween(location, manager.getGeoCache().getLocationGeoPoint()));
     }
 
     /**

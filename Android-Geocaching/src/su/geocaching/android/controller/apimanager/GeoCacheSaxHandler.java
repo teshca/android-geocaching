@@ -47,7 +47,7 @@ public class GeoCacheSaxHandler extends DefaultHandler {
     private final static String NAME = "n";
     private final static String LATITUDE = "la";
     private final static String LONGITUDE = "ln";
-    private final static String CACH_TYPE = "ct";
+    private final static String CACHE_TYPE = "ct";
     private final static String STATUS = "st";
 
     private GeoCache geoCache;
@@ -94,7 +94,7 @@ public class GeoCacheSaxHandler extends DefaultHandler {
 	    latitude = parseCoordinate(text);
 	} else if (localName.equalsIgnoreCase(LONGITUDE)) {
 	    longitude = parseCoordinate(text);
-	} else if (localName.equalsIgnoreCase(CACH_TYPE)) {
+	} else if (localName.equalsIgnoreCase(CACHE_TYPE)) {
 	    int type = parseCacheParameter(text);
 	    setGeoCacheType(type);
 	} else if (localName.equalsIgnoreCase(STATUS)) {

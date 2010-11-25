@@ -3,7 +3,9 @@ package su.geocaching.android.ui.geocachemap;
 /**
  * @author Grigory Kalabin. grigory.kalabin@gmail.com
  * @Nov 22, 2010
- * @Description describes something what use internet connection
+ *      <p>
+ *      describes something what use internet connection
+ *      </p>
  */
 public interface IInternetAware {
 

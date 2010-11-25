@@ -6,7 +6,9 @@ import android.os.Bundle;
 /**
  * @author Grigory Kalabin. grigory.kalabin@gmail.com
  * @since Nov 10, 2010
- * @description Interface of activities uses location updates
+ *        <p>
+ *        Interface of activities uses location updates
+ *        </p>
  */
 public interface ILocationAware {
     /**

@@ -9,7 +9,9 @@ import com.google.android.maps.OverlayItem;
 /**
  * @author Grigory Kalabin. grigory.kalabin@gmail.com
  * @Nov 20, 2010
- * @Description describes overlay item which contains GeoCache object
+ *      <p>
+ *      Describes overlay item which contains GeoCache object
+ *      </p>
  */
 public class GeoCacheOverlayItem extends OverlayItem {
 
@@ -30,8 +32,8 @@ public class GeoCacheOverlayItem extends OverlayItem {
 
     public GeoCacheOverlayItem(GeoCache geoCache, String title, String snippet, Context map) {
 	super(geoCache.getLocationGeoPoint(), title, snippet);
-        this.setMarker(Controller.getInstance().getMarker(geoCache, map));
-        mData = geoCache;
+	this.setMarker(Controller.getInstance().getMarker(geoCache, map));
+	mData = geoCache;
     }
 
     /**

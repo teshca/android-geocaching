@@ -12,7 +12,7 @@ import android.hardware.SensorManager;
  * @author Grigory Kalabin. grigory.kalabin@gmail.com
  * @since Nov 10, 2010
  *        <p>
- *        Sensor manager which calculate azimuth of user
+ *        Sensor manager which calculate bearing of user
  *        </p>
  */
 public class GeoCacheCompassManager implements SensorEventListener {
@@ -91,10 +91,10 @@ public class GeoCacheCompassManager implements SensorEventListener {
 
 	SensorManager.getRotationMatrix(afRotation, afInclination, afGravity, afGeomagnetic);
 	SensorManager.getOrientation(afRotation, afOrientation);
-	int loclastAzimuth = (int) (afOrientation[0] * RAD2DEG);
-	if (loclastAzimuth != lastBearing) {
-	    lastBearing = loclastAzimuth;
-	    updateAzimuth(lastBearing);
+	int lastBearingLocal = (int) (afOrientation[0] * RAD2DEG);
+	if (lastBearingLocal != lastBearing) {
+	    lastBearing = lastBearingLocal;
+	    updateBearing(lastBearing);
 	}
     }
 
@@ -102,7 +102,7 @@ public class GeoCacheCompassManager implements SensorEventListener {
      * @param lastBearing
      *            current bearing known to this listener
      */
-    private void updateAzimuth(int lastBearing) {
+    private void updateBearing(int lastBearing) {
 	for (ICompassAware subscriber : subsribers) {
 	    subscriber.updateBearing(lastBearing);
 	}
