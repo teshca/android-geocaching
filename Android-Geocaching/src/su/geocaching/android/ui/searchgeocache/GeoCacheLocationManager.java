@@ -8,6 +8,7 @@ import android.location.Location;
 import android.location.LocationListener;
 import android.location.LocationManager;
 import android.os.Bundle;
+import android.util.Log;
 
 /**
  * @author Grigory Kalabin. grigory.kalabin@gmail.com
@@ -19,6 +20,7 @@ import android.os.Bundle;
 public class GeoCacheLocationManager implements LocationListener {
     private static final int MIN_DISTANCE = 1; // in meters
     private static final int MIN_TIME = 1000; // in milliseconds
+    private static final String TAG = GeoCacheLocationManager.class.getCanonicalName();
 
     private LocationManager locationManager;
     private Location lastLocation;
@@ -33,6 +35,7 @@ public class GeoCacheLocationManager implements LocationListener {
 	this.locationManager = locationManager;
 	subsribers = new ArrayList<ILocationAware>();
 	provider = "none";
+	Log.d(TAG, "Init");
     }
 
     /**
@@ -46,6 +49,7 @@ public class GeoCacheLocationManager implements LocationListener {
 	if (!subsribers.contains(subsriber)) {
 	    subsribers.add(subsriber);
 	}
+	Log.d(TAG, "add subsriber. Count of subsribers became " + Integer.toString(subsribers.size()));
     }
 
     /**
@@ -58,6 +62,7 @@ public class GeoCacheLocationManager implements LocationListener {
 	if (subsribers.size() == 0) {
 	    removeUpdates();
 	}
+	Log.d(TAG, "remove subsriber. Count of subsribers became" + Integer.toString(subsribers.size()));
 	return res;
     }
 
@@ -71,9 +76,11 @@ public class GeoCacheLocationManager implements LocationListener {
     @Override
     public void onLocationChanged(Location location) {
 	lastLocation = location;
+	Log.d(TAG, "Location changed: send msg to " + Integer.toString(subsribers.size()) + " activity(es)");
 	for (ILocationAware subsriber : subsribers) {
 	    if ((subsriber instanceof ICompassAware) && (!((ICompassAware) subsriber).isCompassAvailable())) {
 		((ICompassAware) subsriber).updateBearing((int) location.getBearing());
+		Log.d(TAG, "update location: send bearing to " + subsriber.getClass().getCanonicalName());
 	    }
 	    subsriber.updateLocation(location);
 	}
@@ -87,7 +94,10 @@ public class GeoCacheLocationManager implements LocationListener {
      */
     @Override
     public void onProviderDisabled(String provider) {
-	// TODO: implement onProviderDisabled
+	Log.d(TAG, "Provider (" + provider + ") disabled: send msg to " + Integer.toString(subsribers.size()) + " activity(es)");
+	for (ILocationAware subsriber : subsribers) {
+	    subsriber.onProviderDisabled(provider);
+	}
     }
 
     /*
@@ -98,7 +108,10 @@ public class GeoCacheLocationManager implements LocationListener {
      */
     @Override
     public void onProviderEnabled(String provider) {
-	// TODO: implement onProviderEnabled
+	Log.d(TAG, "Provider (" + provider + ") enabled: send msg to " + Integer.toString(subsribers.size()) + " activity(es)");
+	for (ILocationAware subsriber : subsribers) {
+	    subsriber.onProviderEnabled(provider);
+	}
     }
 
     /*
@@ -109,14 +122,19 @@ public class GeoCacheLocationManager implements LocationListener {
      */
     @Override
     public void onStatusChanged(String provider, int status, Bundle extras) {
-	// TODO: implement onStatusChanged
+	Log.d(TAG, "Provider (" + provider + ") status changed (new status is " + Integer.toString(status) + "): send msg to " + Integer.toString(subsribers.size()) + " activity(es)");
+	for (ILocationAware subsriber : subsribers) {
+	    subsriber.onStatusChanged(provider, status, extras);
+	}
     }
 
     /**
      * Remove updates of location
      */
     private void removeUpdates() {
+	Log.d(TAG, "remove updates");
 	locationManager.removeUpdates(this);
+	provider = "none";
     }
 
     /**
@@ -127,9 +145,7 @@ public class GeoCacheLocationManager implements LocationListener {
 	criteria.setAccuracy(Criteria.ACCURACY_FINE);
 	provider = locationManager.getBestProvider(criteria, true);
 	locationManager.requestLocationUpdates(provider, MIN_TIME, MIN_DISTANCE, this);
-	if (lastLocation != null) {
-	    onLocationChanged(lastLocation);
-	}
+	Log.d(TAG, "add updates. Provider is " + provider);
     }
 
     /**
@@ -147,7 +163,7 @@ public class GeoCacheLocationManager implements LocationListener {
     }
 
     /**
-     * @return true if best provider enabled
+     * @return true if best provider by accuracy enabled
      */
     public boolean isBestProviderEnabled() {
 	Criteria criteria = new Criteria();
@@ -157,12 +173,44 @@ public class GeoCacheLocationManager implements LocationListener {
     }
 
     /**
-     * @return true if best provider is gps
+     * @return true if best provider by accuracy is gps
      */
     public boolean isBestProviderGps() {
 	Criteria criteria = new Criteria();
 	criteria.setAccuracy(Criteria.ACCURACY_FINE);
 	String bestProv = locationManager.getBestProvider(criteria, false);
 	return bestProv.equals(LocationManager.GPS_PROVIDER);
+    }
+
+    /**
+     * @return true if now Manager will be request updates from best provider by
+     *         accuracy
+     */
+    public boolean enableBestProviderUpdates() {
+	if (!isBestProviderEnabled()) {
+	    return false;
+	}
+	removeUpdates();
+	Criteria criteria = new Criteria();
+	criteria.setAccuracy(Criteria.ACCURACY_FINE);
+	provider = locationManager.getBestProvider(criteria, true);
+	locationManager.requestLocationUpdates(provider, MIN_TIME, MIN_DISTANCE, this);
+	return true;
+    }
+
+    /**
+     * @return name of the best provider by accuracy on device
+     */
+    public String getBestProvider() {
+	Criteria criteria = new Criteria();
+	criteria.setAccuracy(Criteria.ACCURACY_FINE);
+	return locationManager.getBestProvider(criteria, false);
+    }
+
+    /**
+     * @return name of current location provider
+     */
+    public String getCurrentProvider() {
+	return provider;
     }
 }
