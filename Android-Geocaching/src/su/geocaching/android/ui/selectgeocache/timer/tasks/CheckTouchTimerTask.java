@@ -22,9 +22,7 @@ public class CheckTouchTimerTask extends TimerTask{
 
     @Override
     public void run() {
-        Log.d("TASK", "touch start");
         if(map.touchHappened()) {
-            Log.d("TASK", "touch detect");
             state.setTrue(3);
             map.setTouchHappened(false);
         }
