@@ -23,7 +23,7 @@ import android.widget.Toast;
  *      This manager handle many common situation of search geocache activities
  *      </p>
  */
-public class SearchGeoCacheManager implements ILocationAware, ICompassAware {
+public class SearchGeoCacheManager implements ILocationAware, ICompassAware, IGpsStatusAware {
     private static final String TAG = SearchGeoCacheManager.class.getCanonicalName();
 
     private GeoCacheCompassManager compass;
@@ -43,7 +43,7 @@ public class SearchGeoCacheManager implements ILocationAware, ICompassAware {
 	this.context = (Activity) activity;
 	locationManager = ((ApplicationMain) context.getApplication()).getLocationManager();
 	compass = ((ApplicationMain) context.getApplication()).getCompassManager();
-	gpsStatusListener = new GpsStatusListener(activity);
+	gpsStatusListener = ((ApplicationMain) context.getApplication()).getGpsStatusListener();
 	Log.d(TAG, "Init");
     }
 
@@ -56,7 +56,7 @@ public class SearchGeoCacheManager implements ILocationAware, ICompassAware {
 	    Log.d(TAG, "pause: remove updates of location");
 	}
 	compass.removeSubsriber(this);
-	gpsStatusListener.pause();
+	gpsStatusListener.removeSubsriber(this);
 	Log.d(TAG, "pause: remove updates of compass and GPS status");
     }
 
@@ -218,7 +218,7 @@ public class SearchGeoCacheManager implements ILocationAware, ICompassAware {
 	}
 	locationManager.addSubscriber(this);
 	compass.addSubscriber(this);
-	gpsStatusListener.resume();
+	gpsStatusListener.addSubscriber(this);
     }
 
     /**
@@ -276,6 +276,11 @@ public class SearchGeoCacheManager implements ILocationAware, ICompassAware {
      * Turn off updates from gps status listener
      */
     public void turnOffGpsStatusListener() {
-	gpsStatusListener.pause();
+	gpsStatusListener.removeSubsriber(this);
+    }
+
+    @Override
+    public void updateStatus(String status, int type) {
+	activity.updateStatus(status, type);
     }
 }

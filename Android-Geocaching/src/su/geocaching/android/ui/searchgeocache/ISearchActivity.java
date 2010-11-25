@@ -9,7 +9,7 @@ import android.location.Location;
  *      Activity which search geocache
  *      </p>
  */
-public interface ISearchActivity {
+public interface ISearchActivity  {
     public final static int STATUS_TYPE_GPS = 0;
     public final static int STATUS_TYPE_INTERNET = 1;
 
