@@ -15,13 +15,10 @@ import android.util.Log;
 import com.google.android.maps.GeoPoint;
 
 /**
- * @author Nikita
- *         <p>
- *         Class for parsing data from geocaching.su and put it in the List of
- *         GeoCache. Parse XML file is as follows:
- *         </p>
+ * Class for parsing data from geocaching.su and put it in the List of GeoCache.
+ * Parse XML file is as follows:
  * 
- *         <pre>
+ * <pre>
  *         {@code
  *         <c> 
  *             <id>8901</id> 
@@ -35,6 +32,8 @@ import com.google.android.maps.GeoPoint;
  *         </c>
  *         }
  * </pre>
+ * 
+ * @author Nikita Bumakov
  */
 public class GeoCacheSaxHandler extends DefaultHandler {
 

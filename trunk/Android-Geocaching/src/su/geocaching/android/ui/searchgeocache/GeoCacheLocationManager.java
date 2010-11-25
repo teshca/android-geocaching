@@ -11,11 +11,10 @@ import android.os.Bundle;
 import android.util.Log;
 
 /**
+ * Location manager which get updates of location by GPS or GSM/Wi-Fi
+ * 
  * @author Grigory Kalabin. grigory.kalabin@gmail.com
  * @since fall, 2010
- *        <p>
- *        Location manager which get updates of location by GPS or GSM/Wi-Fi
- *        </p>
  */
 public class GeoCacheLocationManager implements LocationListener {
     private static final int MIN_DISTANCE = 1; // in meters

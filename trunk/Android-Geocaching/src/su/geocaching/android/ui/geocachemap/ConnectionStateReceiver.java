@@ -7,11 +7,10 @@ import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 
 /**
+ * used for listen broadcast messages for activities which uses internet
+ * 
  * @author Grigory Kalabin. grigory.kalabin@gmail.com
- * @Nov 22, 2010
- *      <p>
- *      used for listen broadcast messages for activities which uses internet
- *      </p>
+ * @since Nov 22, 2010
  */
 public class ConnectionStateReceiver extends BroadcastReceiver {
     private IInternetAware context;

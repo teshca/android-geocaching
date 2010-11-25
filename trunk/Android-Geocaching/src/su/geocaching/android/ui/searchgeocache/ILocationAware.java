@@ -4,11 +4,10 @@ import android.location.Location;
 import android.os.Bundle;
 
 /**
+ * Interface of activities uses location updates
+ * 
  * @author Grigory Kalabin. grigory.kalabin@gmail.com
  * @since Nov 10, 2010
- *        <p>
- *        Interface of activities uses location updates
- *        </p>
  */
 public interface ILocationAware {
     /**

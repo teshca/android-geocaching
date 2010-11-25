@@ -9,12 +9,11 @@ import android.hardware.SensorManager;
 import android.location.LocationManager;
 
 /**
+ * Class which represent application. It can save common data of different
+ * activities
+ * 
  * @author Grigory Kalabin. grigory.kalabin@gmail.com
  * @Nov 20, 2010
- *      <p>
- *      Class which represent application. It can save common data of different
- *      activities
- *      </p>
  */
 public class ApplicationMain extends Application {
 
@@ -31,10 +30,10 @@ public class ApplicationMain extends Application {
     @Override
     public void onCreate() {
 	super.onCreate();
-	
+
 	// debug stub
 	desiredGeoCache = new GeoCache(1);
-	
+
 	locationManager = new GeoCacheLocationManager((LocationManager) getSystemService(LOCATION_SERVICE));
 	compassManager = new GeoCacheCompassManager((SensorManager) getSystemService(SENSOR_SERVICE));
 	gpsStatusManager = new GpsStatusListener((LocationManager) getSystemService(LOCATION_SERVICE), getApplicationContext());
@@ -72,7 +71,7 @@ public class ApplicationMain extends Application {
     public GeoCacheCompassManager getCompassManager() {
 	return compassManager;
     }
-    
+
     public GpsStatusListener getGpsStatusListener() {
 	return gpsStatusManager;
     }

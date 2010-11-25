@@ -17,11 +17,10 @@ import android.util.Log;
 import android.widget.Toast;
 
 /**
+ * This manager handle many common situation of search geocache activities
+ * 
  * @author Grigory Kalabin. grigory.kalabin@gmail.com
- * @Nov 18, 2010
- *      <p>
- *      This manager handle many common situation of search geocache activities
- *      </p>
+ * @since Nov 18, 2010
  */
 public class SearchGeoCacheManager implements ILocationAware, ICompassAware, IGpsStatusAware {
     private static final String TAG = SearchGeoCacheManager.class.getCanonicalName();
@@ -288,8 +287,12 @@ public class SearchGeoCacheManager implements ILocationAware, ICompassAware, IGp
 	gpsStatusListener.removeSubsriber(this);
     }
 
-    /* (non-Javadoc)
-     * @see su.geocaching.android.ui.searchgeocache.IGpsStatusAware#updateStatus(java.lang.String, int)
+    /*
+     * (non-Javadoc)
+     * 
+     * @see
+     * su.geocaching.android.ui.searchgeocache.IGpsStatusAware#updateStatus(
+     * java.lang.String, int)
      */
     @Override
     public void updateStatus(String status, int type) {

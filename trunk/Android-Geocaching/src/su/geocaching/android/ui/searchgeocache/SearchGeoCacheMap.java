@@ -29,11 +29,10 @@ import com.google.android.maps.MapView;
 import com.google.android.maps.Overlay;
 
 /**
+ * Search GeoCache with the map
+ * 
  * @author Android-Geocaching.su student project team
  * @since October 2010
- *        <p>
- *        Search GeoCache with the map
- *        </p>
  */
 public class SearchGeoCacheMap extends MapActivity implements ISearchActivity, IMapAware, IInternetAware {
     private final static String TAG = SearchGeoCacheMap.class.getCanonicalName();

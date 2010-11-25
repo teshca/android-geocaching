@@ -6,6 +6,8 @@ import android.os.Parcelable;
 import com.google.android.maps.GeoPoint;
 
 /**
+ * Class for storing information about the cache
+ * 
  * @author Nikita Bumakov
  * @since October 2010 GeoCache - central concept of geocaching game.
  */

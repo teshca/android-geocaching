@@ -7,11 +7,10 @@ import android.location.Location;
 import com.google.android.maps.GeoPoint;
 
 /**
+ * This class is subset of common method, which we often use
+ * 
  * @author Grigory Kalabin. grigory.kalabin@gmail.com
  * @Nov 12, 2010
- *      <p>
- *      This class is subset of common method, which we often use
- *      </p>
  */
 public class Helper {
     // if distance(m)

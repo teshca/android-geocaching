@@ -9,11 +9,10 @@ import android.location.*;
 import android.util.Log;
 
 /**
+ * This class listen status of gps engine
+ * 
  * @author Grigory Kalabin. grigory.kalabin@gmail.com
- * @Nov 18, 2010
- *      <p>
- *      This class listen status of gps engine
- *      </p>
+ * @since Nov 18, 2010
  */
 public class GpsStatusListener implements GpsStatus.Listener {
     private final static String TAG = GpsStatusListener.class.getCanonicalName();

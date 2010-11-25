@@ -21,6 +21,8 @@ import android.widget.Toast;
 import android.widget.ImageButton;
 
 /**
+ * Main activity in application 
+ * 
  * @author Android-Geocaching.su student project team
  * @since October 2010 Main menu activity stub
  */

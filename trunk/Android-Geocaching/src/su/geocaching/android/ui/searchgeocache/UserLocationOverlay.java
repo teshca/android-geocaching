@@ -13,8 +13,7 @@ import com.google.android.maps.Projection;
 
 /**
  * @author Grigory Kalabin. grigory.kalabin@gmail.com
- * @Nov 20, 2010
- * 
+ * @since Nov 20, 2010F
  */
 public class UserLocationOverlay extends MyLocationOverlay {
     private static final int COMPASS_POINT_X = 50;

@@ -7,11 +7,10 @@ import su.geocaching.android.model.datatype.GeoCache;
 import com.google.android.maps.OverlayItem;
 
 /**
+ * Describes overlay item which contains GeoCache object
+ * 
  * @author Grigory Kalabin. grigory.kalabin@gmail.com
- * @Nov 20, 2010
- *      <p>
- *      Describes overlay item which contains GeoCache object
- *      </p>
+ * @since Nov 20, 2010
  */
 public class GeoCacheOverlayItem extends OverlayItem {
 
