@@ -18,7 +18,6 @@ public class CheckRequestTimerTask extends TimerTask {
 
     @Override
     public void run() {
-        Log.d("TASK", "request was");
         state.setTrue(1);
     }
 }

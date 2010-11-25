@@ -37,13 +37,11 @@ public class State {
         }
 
         if(request && map && touch) {
-            Log.d("TASK", "BUGAGA");
             gcMap.updateCacheOverlay();
 
             touch = false;
             map = false;
             request = false;
-            Log.d("TASK", "BUGAGA");
         }
     }
 }

@@ -127,10 +127,8 @@ public class SelectGeoCacheMap extends MapActivity implements IMapAware {
 
     public void addGeoCacheList(List<GeoCache> geoCacheList) {
         if (geoCacheList == null || geoCacheList.size() == 0) {
-            Log.d("GEOCACHE", "fuck null or len = 0");
             return;
         }
-        Log.d("GEOCACHE", "len = " + geoCacheList.size());
         GeoCacheItemizedOverlay gOverlay = new GeoCacheItemizedOverlay(
                 controller.getMarker(geoCacheList.get(0), this), this);
         for (GeoCache geoCache : geoCacheList) {
