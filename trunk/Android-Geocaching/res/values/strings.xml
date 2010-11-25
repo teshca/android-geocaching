@@ -14,6 +14,7 @@
     <string name="search_geocache_start_without_geocache">Перед поиском выберите тайник</string>
     
     <string name="search_geocache_internet_lost">Подключение к интернету отсутствует. Могут возникнуть проблемы с обновлением карты</string>
+    <string name="search_geocache_best_provider_lost">Обновление координат в данный момент недоступно</string>
     <string name="search_geocache_status_without_internet">Интернет: нет</string>
     <string name="search_geocache_status_with_internet">Интернет: есть</string>
 
