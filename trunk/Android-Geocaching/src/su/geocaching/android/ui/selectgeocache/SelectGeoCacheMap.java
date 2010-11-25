@@ -16,8 +16,8 @@ import su.geocaching.android.view.showgeocacheinfo.ShowGeoCacheInfo;
 import java.util.List;
 
 /**
- * @author: Yuri Denison
- * @date: 04.11.2010
+ * @author Yuri Denison
+ * @date 04.11.2010
  */
 public class SelectGeoCacheMap extends MapActivity implements IMapAware {
     private static final String TAG = SelectGeoCacheMap.class.getCanonicalName();
