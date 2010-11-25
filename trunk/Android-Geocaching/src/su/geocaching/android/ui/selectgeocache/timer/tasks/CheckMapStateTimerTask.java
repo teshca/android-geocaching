@@ -28,7 +28,7 @@ public class CheckMapStateTimerTask extends TimerTask{
         int currentZoom = map.getZoom();
         GeoPoint currentCenter = map.getCenter();
         if(lastZoom != currentZoom || !lastCenter.equals(currentCenter)) {
-            state.setTrue(2);
+            state.setScrolledOrZoomedTrue();
         }
         lastZoom = currentZoom;
         lastCenter = currentCenter;
