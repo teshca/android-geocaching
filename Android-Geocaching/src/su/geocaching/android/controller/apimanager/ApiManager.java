@@ -15,6 +15,8 @@ import javax.xml.parsers.SAXParserFactory;
 import org.xml.sax.InputSource;
 import org.xml.sax.SAXException;
 
+import com.google.android.maps.GeoPoint;
+
 import su.geocaching.android.model.datatype.GeoCache;
 import android.util.Log;
 
@@ -32,11 +34,13 @@ public class ApiManager implements IApiManager {
     private static final String ENCODING = "windows-1251";
 
     private List<GeoCache> geoCaches;
+    private List<GeoCache> filteredGeoCaches;
     private static int id;
 
     public ApiManager() {
 	id = (int) (Math.random() * 1E6);
 	geoCaches = new LinkedList<GeoCache>();
+	filteredGeoCaches = new LinkedList<GeoCache>();
 	Log.d(TAG, "new ApiManager Created");
     }
 
@@ -66,7 +70,7 @@ public class ApiManager implements IApiManager {
 	    InputSource geoCacheXml = new InputSource(new InputStreamReader(connection.getInputStream(), ENCODING));
 	    handler = new GeoCacheSaxHandler();
 	    parser.parse(geoCacheXml, handler);
-	    geoCaches = handler.getGeoCaches();
+	    geoCaches.addAll(handler.getGeoCaches());
 	} catch (MalformedURLException e) {
 	    Log.e(TAG, e.getMessage(), e);
 	} catch (IOException e) {
@@ -82,13 +86,26 @@ public class ApiManager implements IApiManager {
 	}
 
 	Log.d(TAG, "Size of obtained listGeoCaches: " + geoCaches.size());
-	return geoCaches;
+	return filterGeoCaches(maxLatitude, minLatitude, maxLongitude, minLongitude);
     }
 
     private URL generateUrl(double maxLatitude, double minLatitude, double maxLongitude, double minLongitude) throws MalformedURLException {
 	String request = String.format(URL + "?lngmax=%f&lngmin=%f&latmax=%f&latmin=%f&id=%d", maxLongitude, minLongitude, maxLatitude, minLatitude, id);
 	Log.d(TAG, "generated Url: " + request);
 	return new URL(request);
+    }
+    
+    private List<GeoCache> filterGeoCaches(double maxLatitude, double minLatitude, double maxLongitude, double minLongitude){
+	filteredGeoCaches.clear();
+	GeoPoint gp;
+	for(GeoCache gc: geoCaches){
+	    gp = gc.getLocationGeoPoint();	  
+	    if (gp.getLatitudeE6()<maxLatitude*1E6 && gp.getLatitudeE6()>minLatitude*1E6 && gp.getLongitudeE6()<maxLongitude*1e6 && gp.getLongitudeE6()>minLongitude*1e6){
+		filteredGeoCaches.add(gc);
+	    }
+	}
+	Log.d(TAG, "filterGeoCaches: "+filteredGeoCaches.size());
+	return filteredGeoCaches;
     }
 
 }
