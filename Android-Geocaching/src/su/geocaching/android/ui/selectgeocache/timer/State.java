@@ -1,6 +1,5 @@
 package su.geocaching.android.ui.selectgeocache.timer;
 
-import android.util.Log;
 import su.geocaching.android.ui.selectgeocache.SelectGeoCacheMap;
 
 /**
@@ -8,40 +7,41 @@ import su.geocaching.android.ui.selectgeocache.SelectGeoCacheMap;
  * @date 25.11.10 21:01
  */
 public class State {
-    private boolean touch;
-    private boolean map;
-    private boolean request;
+    private boolean wasTouched;
+    private boolean wasScrolledOrZoomed;
+    private boolean requestSent;
     private SelectGeoCacheMap gcMap;
 
 
     public State(SelectGeoCacheMap gcMap) {
-        this.touch = false;
-        this.map = false;
-        this.request = false;
+        this.wasTouched = false;
+        this.wasScrolledOrZoomed = false;
+        this.requestSent = false;
         this.gcMap = gcMap;
     }
 
-    /**
-     *
-     * @param type
-     *          1 - request, 2 - map, 3 - touch
-     */
-    public void setTrue(int type) {
-        switch (type) {
-            case 1:
-                request = true; break;
-            case 2:
-                map = true; break;
-            case 3:
-                touch = true; break;
-        }
+    public void setTouchedTrue() {
+        wasTouched = true;
+        sendRequest();
+    }
 
-        if(request && map && touch) {
+    public void setScrolledOrZoomedTrue() {
+        wasScrolledOrZoomed = true;
+        sendRequest();
+    }
+
+    public void setRequestSentTrue() {
+        requestSent = true;
+        sendRequest();
+    }
+
+    private void sendRequest() {
+        if(requestSent && wasScrolledOrZoomed && wasTouched) {
             gcMap.updateCacheOverlay();
 
-            touch = false;
-            map = false;
-            request = false;
+            wasTouched = false;
+            wasScrolledOrZoomed = false;
+            requestSent = false;
         }
     }
 }

@@ -32,13 +32,11 @@ public class ApiManager implements IApiManager {
     private static final String ENCODING = "windows-1251";
 
     private List<GeoCache> geoCaches;
-    private List<GeoCache> filteredGeoCaches;
     private static int id;
 
     public ApiManager() {
 	id = (int) (Math.random() * 1E6);
 	geoCaches = new LinkedList<GeoCache>();
-	filteredGeoCaches = new LinkedList<GeoCache>();
 	Log.d(TAG, "new ApiManager Created");
     }
 
@@ -94,7 +92,7 @@ public class ApiManager implements IApiManager {
     }
 
     private List<GeoCache> filterGeoCaches(double maxLatitude, double minLatitude, double maxLongitude, double minLongitude) {
-	filteredGeoCaches.clear();
+        List<GeoCache> filteredGeoCaches = new LinkedList<GeoCache>();
 	GeoPoint gp;
 	for (GeoCache gc : geoCaches) {
 	    gp = gc.getLocationGeoPoint();

@@ -18,6 +18,6 @@ public class CheckRequestTimerTask extends TimerTask {
 
     @Override
     public void run() {
-        state.setTrue(1);
+        state.setRequestSentTrue();
     }
 }

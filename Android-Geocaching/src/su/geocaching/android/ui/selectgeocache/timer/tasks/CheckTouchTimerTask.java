@@ -23,7 +23,7 @@ public class CheckTouchTimerTask extends TimerTask{
     @Override
     public void run() {
         if(map.touchHappened()) {
-            state.setTrue(3);
+            state.setTouchedTrue();
             map.setTouchHappened(false);
         }
     }
