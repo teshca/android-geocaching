@@ -3,7 +3,7 @@ package su.geocaching.android.ui.searchgeocache;
 import su.geocaching.android.application.ApplicationMain;
 import su.geocaching.android.model.datatype.GeoCache;
 import su.geocaching.android.ui.R;
-import su.geocaching.android.view.showgeocacheinfo.Info_cache;
+import su.geocaching.android.view.showgeocacheinfo.ShowGeoCacheInfo;
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
@@ -219,7 +219,7 @@ public class SearchGeoCacheManager implements ILocationAware, ICompassAware {
      * Open GeoCache info activity
      */
     public void showGeoCacheInfo() {
-	Intent intent = new Intent(activity.getContext(), Info_cache.class);
+	Intent intent = new Intent(activity.getContext(), ShowGeoCacheInfo.class);
 	intent.putExtra(GeoCache.class.getCanonicalName(), geoCache);
 	((Activity) activity).startActivity(intent);
     }
