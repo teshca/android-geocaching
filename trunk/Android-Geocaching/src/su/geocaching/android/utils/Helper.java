@@ -8,7 +8,10 @@ import com.google.android.maps.GeoPoint;
 
 /**
  * @author Grigory Kalabin. grigory.kalabin@gmail.com
- * @Nov 12, 2010 This class is subset of common method, which we often use
+ * @Nov 12, 2010
+ *      <p>
+ *      This class is subset of common method, which we often use
+ *      </p>
  */
 public class Helper {
     // if distance(m)
@@ -100,9 +103,10 @@ public class Helper {
 	}
 	return textDistance;
     }
-    
+
     /**
-     * @param location - Location object
+     * @param location
+     *            - Location object
      * @return location coverted to GeoPoint object
      */
     public static GeoPoint locationToGeoPoint(Location location) {

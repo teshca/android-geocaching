@@ -4,7 +4,6 @@ import su.geocaching.android.model.datatype.GeoCache;
 import su.geocaching.android.ui.R;
 import su.geocaching.android.utils.Helper;
 import android.app.Activity;
-import android.content.Context;
 import android.content.Intent;
 import android.location.Location;
 import android.os.Bundle;
@@ -85,7 +84,7 @@ public class SearchGeoCacheCompass extends Activity implements ISearchActivity {
      * su.geocaching.android.ui.searchgeocache.ISearchActivity#updateAzimuth
      * (int)
      */
-    public void updateAzimuth(int azimuth) {
+    public void updateBearing(int azimuth) {
 	compassView.setAzimuthToNorth(azimuth);
     }
 
@@ -138,16 +137,6 @@ public class SearchGeoCacheCompass extends Activity implements ISearchActivity {
 	Intent intent = new Intent(this, SearchGeoCacheMap.class);
 	intent.putExtra(GeoCache.class.getCanonicalName(), manager.getGeoCache());
 	startActivity(intent);
-    }
-
-    /*
-     * (non-Javadoc)
-     * 
-     * @see su.geocaching.android.ui.searchgeocache.ISearchActivity#getContext()
-     */
-    @Override
-    public Context getContext() {
-	return getBaseContext();
     }
 
     /*

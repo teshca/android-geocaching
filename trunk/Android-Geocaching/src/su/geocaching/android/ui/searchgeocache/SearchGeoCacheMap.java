@@ -8,7 +8,6 @@ import su.geocaching.android.ui.R;
 import su.geocaching.android.ui.geocachemap.*;
 import su.geocaching.android.utils.Helper;
 import su.geocaching.android.view.showgeocacheinfo.ShowGeoCacheInfo;
-import android.content.Context;
 import android.content.Intent;
 import android.graphics.drawable.Drawable;
 import android.hardware.Sensor;
@@ -77,12 +76,13 @@ public class SearchGeoCacheMap extends MapActivity implements ISearchActivity, I
     @Override
     protected void onPause() {
 	super.onPause();
+	Log.d(TAG, "on pause");
 	manager.onPause();
 	if (manager.isLocationFixed()) {
+	    Log.d(TAG, "on pause: location fixed. Remove updates from userOverlay");
 	    userOverlay.disableCompass();
 	    userOverlay.disableMyLocation();
 	}
-	Log.d(TAG, "on pause");
     }
 
     /*
@@ -94,18 +94,16 @@ public class SearchGeoCacheMap extends MapActivity implements ISearchActivity, I
     protected void onResume() {
 	super.onResume();
 	manager.onResume();
-
+	Log.d(TAG, "on pause");
 	if (!internetManager.isInternetConnected()) {
 	    onInternetLost();
+	    Log.w(TAG, "internet not connected");
 	}
     }
     
-    @Override
-    protected void onStop() {
-	super.onStop();
-	Log.d(TAG, "on stop");
-    }
-    
+    /* (non-Javadoc)
+     * @see com.google.android.maps.MapActivity#onDestroy()
+     */
     @Override
     protected void onDestroy() {
 	super.onDestroy();
@@ -118,6 +116,7 @@ public class SearchGeoCacheMap extends MapActivity implements ISearchActivity, I
      */
     @Override
     public void runLogic() {
+	Log.d(TAG, "run logic");
 	manager.runLogic();
 	if (manager.getGeoCache() == null) {
 	    return;
@@ -133,6 +132,7 @@ public class SearchGeoCacheMap extends MapActivity implements ISearchActivity, I
 	cacheItemizedOverlay.addOverlayItem(cacheOverlayItem);
 	mapOverlays.add(cacheItemizedOverlay);
 	if (!manager.isLocationFixed()) {
+	    Log.d(TAG, "run logic: location not fixed. Show gps status");
 	    mapController.animateTo(manager.getGeoCache().getLocationGeoPoint());
 	    waitingLocationFixTextView.setVisibility(View.VISIBLE);
 	}
@@ -144,6 +144,7 @@ public class SearchGeoCacheMap extends MapActivity implements ISearchActivity, I
      * Start SearchGeoCacheCompass activity
      */
     public void startCompassView() {
+	Log.d(TAG, "start compass activity");
 	Intent intent = new Intent(this, SearchGeoCacheCompass.class);
 	if ((manager != null) && (manager.getGeoCache() != null)) {
 	    intent.putExtra(GeoCache.class.getCanonicalName(), manager.getGeoCache());
@@ -161,11 +162,13 @@ public class SearchGeoCacheMap extends MapActivity implements ISearchActivity, I
     @Override
     public void updateLocation(Location location) {
 	userOverlay.onLocationChanged(location);
-
+	Log.d(TAG, "update location");
 	if (distanceOverlay == null) {
 	    // It's really first run of update location
+	    Log.d(TAG, "update location: first run of this activity");
 	    resetZoom();
 	    waitingLocationFixTextView.setVisibility(View.GONE);
+	    manager.turnOffGpsStatusListener();
 	    distanceOverlay = new DistanceToGeoCacheOverlay(Helper.locationToGeoPoint(location), manager.getGeoCache().getLocationGeoPoint());
 	    distanceOverlay.setCachePoint(manager.getGeoCache().getLocationGeoPoint());
 	    mapOverlays.add(distanceOverlay);
@@ -190,9 +193,10 @@ public class SearchGeoCacheMap extends MapActivity implements ISearchActivity, I
      * (float)
      */
     @Override
-    public void updateAzimuth(int bearing) {
+    public void updateBearing(int bearing) {
 	float[] values = new float[1];
 	values[0] = bearing;
+	Log.d(TAG, "update bearing. New bearing="+Integer.toString(bearing));
 	// FIXME: using deprecated constant
 	userOverlay.onSensorChanged(Sensor.TYPE_ORIENTATION, values);
     }
@@ -269,16 +273,6 @@ public class SearchGeoCacheMap extends MapActivity implements ISearchActivity, I
     @Override
     protected boolean isRouteDisplayed() {
 	return false;
-    }
-
-    /*
-     * (non-Javadoc)
-     * 
-     * @see su.geocaching.android.ui.searchgeocache.ISearchActivity#getContext()
-     */
-    @Override
-    public Context getContext() {
-	return this.getBaseContext();
     }
 
     /*

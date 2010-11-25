@@ -13,11 +13,6 @@ public interface ISearchActivity {
     public final static int STATUS_TYPE_INTERNET = 1;
 
     /**
-     * @return context from activity
-     */
-    public Context getContext();
-
-    /**
      * Init and run all search logic
      */
     public void runLogic();
@@ -37,7 +32,7 @@ public interface ISearchActivity {
     /**
      * @param new user bearing called when user bearing is changer
      */
-    public void updateAzimuth(int bearing);
+    public void updateBearing(int bearing);
 
     /**
      * @return last location obtained from GPS

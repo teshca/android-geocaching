@@ -7,19 +7,23 @@ import android.location.*;
 /**
  * @author Grigory Kalabin. grigory.kalabin@gmail.com
  * @Nov 18, 2010
- * @description This class listen status of gps engine
+ *      <p>
+ *      This class listen status of gps engine
+ *      </p>
  */
 public class GpsStatusListener implements GpsStatus.Listener {
     private ISearchActivity activity;
+    private Activity context;
     private LocationManager locationMaganer;
 
     /**
      * @param activity
-     *            - activity which used this listener
+     *            activity which used this listener
      */
     public GpsStatusListener(ISearchActivity activity) {
 	this.activity = activity;
-	locationMaganer = (LocationManager) ((Activity) activity).getSystemService(Activity.LOCATION_SERVICE);
+	context = (Activity) activity;
+	locationMaganer = (LocationManager) context.getSystemService(Activity.LOCATION_SERVICE);
     }
 
     /**
@@ -46,13 +50,13 @@ public class GpsStatusListener implements GpsStatus.Listener {
 	String status = "";
 	switch (arg0) {
 	case GpsStatus.GPS_EVENT_STARTED:
-	    status = activity.getContext().getString(R.string.gps_status_started);
+	    status = context.getString(R.string.gps_status_started);
 	case GpsStatus.GPS_EVENT_STOPPED:
-	    status = activity.getContext().getString(R.string.gps_status_stopped);
+	    status = context.getString(R.string.gps_status_stopped);
 	case GpsStatus.GPS_EVENT_FIRST_FIX:
-	    status = activity.getContext().getString(R.string.gps_status_first_fix);
+	    status = context.getString(R.string.gps_status_first_fix);
 	case GpsStatus.GPS_EVENT_SATELLITE_STATUS:
-	    status = activity.getContext().getString(R.string.gps_status_satellite_status) + " ";
+	    status = context.getString(R.string.gps_status_satellite_status) + " ";
 	    GpsStatus gpsStatus = locationMaganer.getGpsStatus(null);
 	    int usedInFix = 0;
 	    int count = 0;
