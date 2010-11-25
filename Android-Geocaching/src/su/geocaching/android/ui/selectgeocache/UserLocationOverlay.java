@@ -8,8 +8,8 @@ import com.google.android.maps.MyLocationOverlay;
 import su.geocaching.android.utils.Helper;
 
 /**
- * @Author: Yuri Denison
- * @Date: 20.11.10
+ * @author Yuri Denison
+ * @date 20.11.10
  */
 public class UserLocationOverlay extends MyLocationOverlay {
     private SelectGeoCacheMap context;
