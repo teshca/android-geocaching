@@ -1,12 +1,13 @@
 package su.geocaching.android.ui.searchgeocache;
 
-import android.content.Context;
 import android.location.Location;
 
 /**
  * @author Grigory Kalabin. grigory.kalabin@gmail.com
  * @Nov 18, 2010
- * @Description Activity which search geocache
+ *      <p>
+ *      Activity which search geocache
+ *      </p>
  */
 public interface ISearchActivity {
     public final static int STATUS_TYPE_GPS = 0;

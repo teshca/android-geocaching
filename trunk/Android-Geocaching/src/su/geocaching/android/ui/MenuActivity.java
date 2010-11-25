@@ -1,17 +1,12 @@
 package su.geocaching.android.ui;
 
-import com.google.android.maps.GeoPoint;
 
 import su.geocaching.android.application.ApplicationMain;
 import su.geocaching.android.model.datatype.GeoCache;
-import su.geocaching.android.model.datatype.GeoCacheStatus;
-import su.geocaching.android.model.datatype.GeoCacheType;
 import su.geocaching.android.ui.geocachemap.ConnectionStateReceiver;
 import su.geocaching.android.ui.geocachemap.IInternetAware;
-import su.geocaching.android.ui.searchgeocache.SearchGeoCacheCompass;
 import su.geocaching.android.ui.searchgeocache.SearchGeoCacheMap;
 import su.geocaching.android.ui.selectgeocache.SelectGeoCacheMap;
-import su.geocaching.android.view.showgeocacheinfo.ShowGeoCacheInfo;
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;

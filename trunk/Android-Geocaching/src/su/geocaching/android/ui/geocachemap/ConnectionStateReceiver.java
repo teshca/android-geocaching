@@ -9,8 +9,9 @@ import android.net.NetworkInfo;
 /**
  * @author Grigory Kalabin. grigory.kalabin@gmail.com
  * @Nov 22, 2010
- * @Description used for listen broadcast messages for activities which uses
- *              internet
+ *      <p>
+ *      used for listen broadcast messages for activities which uses internet
+ *      </p>
  */
 public class ConnectionStateReceiver extends BroadcastReceiver {
     private IInternetAware context;
@@ -44,6 +45,6 @@ public class ConnectionStateReceiver extends BroadcastReceiver {
     public boolean isInternetConnected() {
 	ConnectivityManager connectivityManager = (ConnectivityManager) ((Context) context).getSystemService(Context.CONNECTIVITY_SERVICE);
 	NetworkInfo activeNetInfo = connectivityManager.getActiveNetworkInfo();
-        return activeNetInfo != null && activeNetInfo.isConnected();
+	return activeNetInfo != null && activeNetInfo.isConnected();
     }
 }

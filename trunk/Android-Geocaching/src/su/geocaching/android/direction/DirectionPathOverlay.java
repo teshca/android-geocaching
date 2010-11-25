@@ -14,8 +14,10 @@ import com.google.android.maps.Projection;
 
 /**
  * @author Android-Geocaching.su student project team
- * @description Draw segments according to the points.
  * @since November 2010
+ *        <p>
+ *        Draw segments according to the points.
+ *        </p>
  */
 public class DirectionPathOverlay extends com.google.android.maps.Overlay {
     private static final int WIDTH = 2;
@@ -28,12 +30,12 @@ public class DirectionPathOverlay extends com.google.android.maps.Overlay {
     private String text = "";
     private Bitmap img = null;
 
-    public DirectionPathOverlay(GeoPoint gp1, GeoPoint gp2,int mode) {
+    public DirectionPathOverlay(GeoPoint gp1, GeoPoint gp2, int mode) {
 	this.gp1 = gp1;
 	this.gp2 = gp2;
 	this.mode = mode;
 	this.defaultColor = 999;
-	visible=true;
+	visible = true;
     }
 
     public void setText(String t) {
@@ -99,7 +101,8 @@ public class DirectionPathOverlay extends com.google.android.maps.Overlay {
 	}
 	return super.draw(canvas, mapView, shadow, when);
     }
-public void setVisibleWay() {
-    this.visible = !visible;
-}
+
+    public void setVisibleWay() {
+	this.visible = !visible;
+    }
 }

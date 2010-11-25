@@ -30,7 +30,7 @@ public class FavoritesFolder extends Activity implements OnClickListener, OnItem
 
     private Efficient baForListView;
     private ArrayList<GeoCache> mass = new ArrayList<GeoCache>();
-    private ListView lvListShowCach;
+    private ListView lvListShowCache;
     private ImageView ivSearch;
     private ImageView ivDelete;
     private DbManager dbm = null;
@@ -48,7 +48,7 @@ public class FavoritesFolder extends Activity implements OnClickListener, OnItem
 
 	setContentView(R.layout.favorit_list);
 
-	lvListShowCach = (ListView) findViewById(R.id.favorit_folder_listCach);
+	lvListShowCache = (ListView) findViewById(R.id.favorit_folder_listCach);
 	ivSearch = (ImageView) findViewById(R.id.favorits_list_search_cache);
 	ivDelete = (ImageView) findViewById(R.id.favorits_list_delete_cache);
 	tvTitle = (TextView) findViewById(R.id.favorit_foldet_title_text);
@@ -81,9 +81,9 @@ public class FavoritesFolder extends Activity implements OnClickListener, OnItem
 	    }
 
 	    baForListView = new Efficient(massTypeCache, massNameCache, this);
-	    lvListShowCach.setAdapter(baForListView);
+	    lvListShowCache.setAdapter(baForListView);
 
-	    lvListShowCach.setOnItemClickListener(this);
+	    lvListShowCache.setOnItemClickListener(this);
 	} else {
 	    tvTitle.setText(tvTitle.getText()+"\n"+getString(R.string.favorit_folder_In_DB_not_cache) );
 	    Log.d("FavoritFolder", "DB empty");
@@ -118,7 +118,7 @@ public class FavoritesFolder extends Activity implements OnClickListener, OnItem
 	if ((v.equals(ivDelete))&&(lvNowSelect != null)) {
 	    // TODO: Very very bad code. write better.
 	    
-		dbm.deleteCachById(mass.get(numClickItem).getId());
+		dbm.deleteCacheById(mass.get(numClickItem).getId());
 		mass.remove(numClickItem);
 		
 		massNameCache = new String[mass.size()];
@@ -129,7 +129,7 @@ public class FavoritesFolder extends Activity implements OnClickListener, OnItem
 		    massTypeCache[i] = mass.get(i).getType().ordinal();
 		}
 		 baForListView = new Efficient(massTypeCache, massNameCache, this);
-		lvListShowCach.setAdapter(baForListView);
+		lvListShowCache.setAdapter(baForListView);
 		lvNowSelect=null;
 	    }
 	
@@ -175,8 +175,8 @@ public class FavoritesFolder extends Activity implements OnClickListener, OnItem
 	    }
 
 	    baForListView = new Efficient(massTypeCache, massNameCache, this);
-	    lvListShowCach.setAdapter(baForListView);
-	    lvListShowCach.setOnItemClickListener(this);
+	    lvListShowCache.setAdapter(baForListView);
+	    lvListShowCache.setOnItemClickListener(this);
 
     }
 }

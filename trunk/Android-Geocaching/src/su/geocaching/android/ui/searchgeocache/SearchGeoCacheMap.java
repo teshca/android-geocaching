@@ -185,12 +185,8 @@ public class SearchGeoCacheMap extends MapActivity implements ISearchActivity, I
 	map.invalidate();
     }
 
-    /*
-     * (non-Javadoc)
-     * 
-     * @see
-     * su.geocaching.android.ui.searchgeocache.ISearchActivity#updateAzimuth
-     * (float)
+    /* (non-Javadoc)
+     * @see su.geocaching.android.ui.searchgeocache.ISearchActivity#updateBearing(int)
      */
     @Override
     public void updateBearing(int bearing) {

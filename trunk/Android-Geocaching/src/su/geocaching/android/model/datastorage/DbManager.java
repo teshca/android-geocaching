@@ -129,21 +129,21 @@ public class DbManager extends SQLiteOpenHelper {
     /**
      * 
      */
-    public void addGeoCache(GeoCache cach, String web) {
+    public void addGeoCache(GeoCache cache, String web) {
 	ContentValues values = new ContentValues();
-	values.put(COLUMN_ID, cach.getId());
-	values.put(COLUMN_NAME, cach.getName());
-	values.put(COLUMN_STATUS, cach.getStatus().ordinal());
-	values.put(COLUMN_TYPE, cach.getType().ordinal());
-	values.put(COLUMN_LANT, cach.getLocationGeoPoint().getLatitudeE6());
-	values.put(COLUMN_LONG, cach.getLocationGeoPoint().getLongitudeE6());
+	values.put(COLUMN_ID, cache.getId());
+	values.put(COLUMN_NAME, cache.getName());
+	values.put(COLUMN_STATUS, cache.getStatus().ordinal());
+	values.put(COLUMN_TYPE, cache.getType().ordinal());
+	values.put(COLUMN_LANT, cache.getLocationGeoPoint().getLatitudeE6());
+	values.put(COLUMN_LONG, cache.getLocationGeoPoint().getLongitudeE6());
 	values.put(COLUMN_WEB_TEXT, web);
 	db.insert(DATABASE_NAME_TABLE, null, values);
     }
     /**
      * 
      */
-    public void deleteCachById(int id){
+    public void deleteCacheById(int id){
 	this.db.execSQL(String.format("delete from %s where %s=%s;", DATABASE_NAME_TABLE, COLUMN_ID, id + ""));
     }
     
