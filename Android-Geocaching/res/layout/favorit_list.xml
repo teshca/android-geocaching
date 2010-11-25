@@ -5,6 +5,7 @@
   android:layout_height="fill_parent"
   android:orientation="vertical"
   >
+  <!-- 
   <LinearLayout 
   xmlns:android="http://schemas.android.com/apk/res/android"
   android:layout_width="fill_parent"
@@ -43,7 +44,18 @@
    />
   
   </LinearLayout>
-  
+   -->
+   
+   	<LinearLayout style="@style/TitleBar" android:id="@+id/title_bar"
+		android:background="@drawable/geologo_background">
+		<ImageView android:src="@drawable/geologo" style="@style/TitleBarLogo"
+			android:id="@+id/title_logo"></ImageView>
+		<View style="@style/TitleBarSpring"></View>
+		<ImageView style="@style/TitleBarSeparator"></ImageView>
+		<ImageButton android:id="@+id/favorits_list_delete_cache" style="@style/FavoritDeleteAction"></ImageButton>
+		<ImageButton android:id="@+id/favorits_list_search_cache" style="@style/TitleBarAction"></ImageButton>
+
+	</LinearLayout>
   
   <TextView
   	android:gravity="center_horizontal"
