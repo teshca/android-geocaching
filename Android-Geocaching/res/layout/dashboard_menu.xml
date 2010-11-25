@@ -2,8 +2,7 @@
 	android:layout_height="fill_parent" xmlns:android="http://schemas.android.com/apk/res/android"
 	android:id="@+id/menu_root" android:orientation="vertical"
 	android:background="@color/menu_background">
-	<LinearLayout style="@style/TitleBar" android:id="@+id/title_bar"
-		android:background="@drawable/geologo_background">
+	<LinearLayout style="@style/TitleBar" android:id="@+id/title_bar">
 		<ImageView android:src="@drawable/geologo" style="@style/TitleBarLogo"
 			android:id="@+id/title_logo"></ImageView>
 		<View style="@style/TitleBarSpring"></View>
