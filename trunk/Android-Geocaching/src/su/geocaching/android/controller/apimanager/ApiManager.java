@@ -51,6 +51,11 @@ public class ApiManager implements IApiManager {
     public synchronized List<GeoCache> getGeoCacheList(double maxLatitude, double minLatitude, double maxLongitude, double minLongitude) {
 	Log.d(TAG, "getGeoCacheList");
 
+	if (maxLatitude == minLatitude && maxLongitude == minLongitude) {
+	    Log.d(TAG, "Size of obtained listGeoCaches: " + 0);
+	    return filterGeoCaches(maxLatitude, minLatitude, maxLongitude, minLongitude);
+	}
+
 	GeoCacheSaxHandler handler = null;
 	HttpURLConnection connection = null;
 	try {
@@ -86,13 +91,13 @@ public class ApiManager implements IApiManager {
     }
 
     private URL generateUrl(double maxLatitude, double minLatitude, double maxLongitude, double minLongitude) throws MalformedURLException {
-	String request = String.format(URL + "?lngmax=%f&lngmin=%f&latmax=%f&latmin=%f&id=%d", maxLongitude, minLongitude, maxLatitude, minLatitude, id);
+	String request = String.format(URL + "?lngmax=%f&lngmin=%f&latmax=%f&latmin=%f&id=%d&geocaching=5767e405a17c4b0e1cbaecffdb93475d", maxLongitude, minLongitude, maxLatitude, minLatitude, id);
 	Log.d(TAG, "generated Url: " + request);
 	return new URL(request);
     }
 
     private List<GeoCache> filterGeoCaches(double maxLatitude, double minLatitude, double maxLongitude, double minLongitude) {
-        List<GeoCache> filteredGeoCaches = new LinkedList<GeoCache>();
+	List<GeoCache> filteredGeoCaches = new LinkedList<GeoCache>();
 	GeoPoint gp;
 	for (GeoCache gc : geoCaches) {
 	    gp = gc.getLocationGeoPoint();
