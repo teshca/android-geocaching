@@ -36,4 +36,5 @@
 	<string name="favorit_folder_title_text">Список добавленных тайников</string>
 	<string name="favorit_folder_In_DB_not_cache">В базе нет ни одного тайника</string>
 	<string name="favorit_folder_addRandomCache">Добавить слуачйных тайников</string>
+<string name="menu_keep_screen">Не выключать экран</string>
 </resources>
