@@ -1,6 +1,5 @@
 package su.geocaching.android.controller.apimanager;
 
-import java.util.LinkedList;
 import java.util.List;
 
 import su.geocaching.android.model.datatype.GeoCache;

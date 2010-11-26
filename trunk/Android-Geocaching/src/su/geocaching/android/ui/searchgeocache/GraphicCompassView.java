@@ -25,6 +25,7 @@ public class GraphicCompassView extends View {
 
     private int bearingToNorth; // in degrees
     private int bearingToCache; // in degrees
+    private boolean isLocationFixed = false;
 
     private Matrix windroseRotateMatrix;
     private Bitmap compassBitmap, cacheBitmap;
@@ -79,7 +80,8 @@ public class GraphicCompassView extends View {
 	Bitmap windrose = Bitmap.createBitmap(compassBitmap, 0, 0, compassBitmap.getWidth(), compassBitmap.getHeight(), windroseRotateMatrix, false);
 	canvas.drawBitmap(windrose, center - windrose.getWidth() / 2, center - windrose.getHeight() / 2, paint);
 	drawArrow(canvas, (int) (compassRadius / scaleWRPicY));
-	drawGeoCache(canvas, (int) (compassRadius / scaleWRPicY), bearingGCRel);
+	if (isLocationFixed)
+	    drawGeoCache(canvas, (int) (compassRadius / scaleWRPicY), bearingGCRel);
     }
 
     // TODO correct arrow
@@ -124,5 +126,9 @@ public class GraphicCompassView extends View {
     public void setBearingToGeoCache(float bearingToGeoCache) {
 	this.bearingToCache = (int) bearingToGeoCache;
 	invalidate();
+    }
+
+    public void setLocationFix(boolean isLocationFix) {
+	this.isLocationFixed = isLocationFix;
     }
 }
