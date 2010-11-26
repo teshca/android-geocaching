@@ -1,6 +1,5 @@
 package su.geocaching.android.ui.selectgeocache.timer.tasks;
 
-import android.util.Log;
 import su.geocaching.android.ui.selectgeocache.timer.State;
 
 import java.util.TimerTask;

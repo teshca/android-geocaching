@@ -48,7 +48,7 @@ public class ApiManager implements IApiManager {
      * (double, double, double, double)
      */
     @Override
-    public List<GeoCache> getGeoCacheList(double maxLatitude, double minLatitude, double maxLongitude, double minLongitude) {
+    public synchronized List<GeoCache> getGeoCacheList(double maxLatitude, double minLatitude, double maxLongitude, double minLongitude) {
 	Log.d(TAG, "getGeoCacheList");
 
 	GeoCacheSaxHandler handler = null;
