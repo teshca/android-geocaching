@@ -44,11 +44,7 @@ public class FavoritesFolder extends Activity implements OnItemClickListener {
 	setContentView(R.layout.favorit_list);
 	lvListShowCache = (ListView) findViewById(R.id.favorit_folder_listCach);
 	tvTitle = (TextView) findViewById(R.id.favorit_foldet_title_text);
-	
 	dbm = new DbManager(getBaseContext());
-	
-
-
     }
 
 
@@ -61,11 +57,26 @@ public class FavoritesFolder extends Activity implements OnItemClickListener {
 	    Map<String, Object> map = new HashMap<String, Object>();
 	    type[i] = t.get(i).getType().ordinal();
 	    name[i] = t.get(i).getName();
-	    if (type[i] == 1) {
+	    
+	    switch (type[i]){
+	    case 1:
 		map.put("type", R.drawable.icon_favorit_folder_traditional_cach);
-	    } else {
+		break;
+	    case 2:
+		map.put("type", R.drawable.icon_favorit_folder_virtual_cach);
+		break;
+	    case 3:
+		map.put("type", R.drawable.icon_favorit_folder_step_by_step_cach);
+		break;
+	    case 4:
 		map.put("type", R.drawable.icon_favorit_folder_extrime_cach);
+		break;
+	    case 5:
+		map.put("type", R.drawable.icon_favorites_folser_event);
+		break;
 	    }
+	    
+	    
 	    map.put("name", name[i]);
 	    te.add(map);
 	}
