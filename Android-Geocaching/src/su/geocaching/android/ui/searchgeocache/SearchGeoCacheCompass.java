@@ -80,6 +80,13 @@ public class SearchGeoCacheCompass extends Activity implements ISearchActivity {
     protected void onDestroy() {
 	super.onDestroy();
 	manager.onDestroy();
+	Log.d(TAG, "on destroy");
+    }
+
+    @Override
+    protected void onRestart() {
+	super.onRestart();
+
     }
 
     /**
@@ -138,6 +145,15 @@ public class SearchGeoCacheCompass extends Activity implements ISearchActivity {
 	    return true;
 	case R.id.menuGeoCacheInfo:
 	    manager.showGeoCacheInfo();
+	    return true;
+	case R.id.menuKeepScreen:
+	    if (compassView.getKeepScreenOn()) {
+		compassView.setKeepScreenOn(false);
+		item.setIcon(R.drawable.ic_menu_screen_off);
+	    } else {
+		compassView.setKeepScreenOn(true);
+		item.setIcon(R.drawable.ic_menu_screen_on);
+	    }
 	    return true;
 	default:
 	    return super.onOptionsItemSelected(item);
