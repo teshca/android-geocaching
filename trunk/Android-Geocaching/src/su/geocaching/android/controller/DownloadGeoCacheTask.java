@@ -24,13 +24,13 @@ class DownloadGeoCacheTask extends AsyncTask<Double, Integer, List<GeoCache>> {
     }
 
     @Override
-    protected synchronized List<GeoCache> doInBackground(Double... params) {
+    protected List<GeoCache> doInBackground(Double... params) {
 	List<GeoCache> gcList = apiManager.getGeoCacheList(params[0], params[1], params[2], params[3]);
 	return gcList;
     }
 
     @Override
-    protected synchronized void onPostExecute(List<GeoCache> gcList) {
+    protected void onPostExecute(List<GeoCache> gcList) {
 	LinkedList<IFilter> filterList = Controller.getInstance().getFilterList();
 
 	if (filterList != null) {

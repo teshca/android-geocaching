@@ -1,7 +1,5 @@
 package su.geocaching.android.ui.selectgeocache.timer.tasks;
 
-import android.util.Log;
-import com.google.android.maps.GeoPoint;
 import su.geocaching.android.ui.selectgeocache.SelectGeoCacheMap;
 import su.geocaching.android.ui.selectgeocache.timer.State;
 
@@ -11,7 +9,7 @@ import java.util.TimerTask;
  * @author Yuri Denison
  * @date 25.11.10 19:45
  */
-public class CheckTouchTimerTask extends TimerTask{
+public class CheckTouchTimerTask extends TimerTask {
     private SelectGeoCacheMap map;
     private State state;
 
@@ -22,8 +20,9 @@ public class CheckTouchTimerTask extends TimerTask{
 
     @Override
     public void run() {
-        if(map.touchHappened()) {
+        if (!map.touchHappened()) {
             state.setTouchedTrue();
+        } else {
             map.setTouchHappened(false);
         }
     }

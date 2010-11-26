@@ -8,14 +8,14 @@ import su.geocaching.android.ui.selectgeocache.SelectGeoCacheMap;
  */
 public class State {
     private boolean wasTouched;
-    private boolean wasScrolledOrZoomed;
+    private boolean mapUpdated;
     private boolean requestSent;
     private SelectGeoCacheMap gcMap;
 
 
     public State(SelectGeoCacheMap gcMap) {
         this.wasTouched = false;
-        this.wasScrolledOrZoomed = false;
+        this.mapUpdated = false;
         this.requestSent = false;
         this.gcMap = gcMap;
     }
@@ -25,8 +25,8 @@ public class State {
         sendRequest();
     }
 
-    public synchronized void setScrolledOrZoomedTrue() {
-        wasScrolledOrZoomed = true;
+    public synchronized void setMapUpdatedTrue() {
+        mapUpdated = true;
         sendRequest();
     }
 
@@ -36,11 +36,11 @@ public class State {
     }
 
     private synchronized void sendRequest() {
-        if(requestSent && wasScrolledOrZoomed && wasTouched) {
+        if(requestSent && mapUpdated && wasTouched) {
             gcMap.updateCacheOverlay();
 
             wasTouched = false;
-            wasScrolledOrZoomed = false;
+            mapUpdated = false;
             requestSent = false;
         }
     }

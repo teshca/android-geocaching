@@ -4,7 +4,6 @@ import com.google.android.maps.GeoPoint;
 import su.geocaching.android.ui.selectgeocache.SelectGeoCacheMap;
 import su.geocaching.android.ui.selectgeocache.timer.State;
 import java.util.TimerTask;
-import android.util.Log;
 
 /**
  * @author Yuri Denison
@@ -28,7 +27,7 @@ public class CheckMapStateTimerTask extends TimerTask{
         int currentZoom = map.getZoom();
         GeoPoint currentCenter = map.getCenter();
         if(lastZoom != currentZoom || !lastCenter.equals(currentCenter)) {
-            state.setScrolledOrZoomedTrue();
+            state.setMapUpdatedTrue();
         }
         lastZoom = currentZoom;
         lastCenter = currentCenter;
