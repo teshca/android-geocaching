@@ -5,46 +5,6 @@
   android:layout_height="fill_parent"
   android:orientation="vertical"
   >
-  <!-- 
-  <LinearLayout 
-  xmlns:android="http://schemas.android.com/apk/res/android"
-  android:layout_width="fill_parent"
-  android:layout_height="wrap_content"
-  android:orientation="horizontal"
-  android:gravity="right"
-  android:layout_marginTop="10dip"
-  android:layout_marginBottom="10dip"
-  >
-  <Button 
-  	android:layout_width="wrap_content"
-  	android:layout_height="wrap_content"
-  	android:text="add cach  for test"
-  	android:gravity="left"
-  	android:layout_marginRight="100dip"
-  	android:id="@+id/addBut"
-  />
-  <ImageView
-  	android:layout_width="wrap_content"
-  	android:layout_height="fill_parent"
-  	android:src="@drawable/icon_search"
-  	android:paddingRight="10dip"
-  	android:paddingTop="10dip"
-  	android:paddingBottom="10dip"
-  	android:id="@+id/favorit_list_search_cache"
-   />
-  <ImageView
-  	android:layout_width="wrap_content"
-  	android:layout_height="fill_parent"
-  	android:src="@drawable/icon_favorit_folder_delete"
-  	android:id="@+id/favorit_list_delete_cache"
-  	android:layout_marginRight="15dip"
-  	android:paddingTop="10dip"
-  	android:paddingLeft="10dip"
-  	android:paddingBottom="10dip"
-   />
-  
-  </LinearLayout>
-   -->
    
    	<LinearLayout style="@style/TitleBar" android:id="@+id/title_bar"
 		android:background="@drawable/geologo_background">
@@ -52,9 +12,6 @@
 			android:id="@+id/title_logo"></ImageView>
 		<View style="@style/TitleBarSpring"></View>
 		<ImageView style="@style/TitleBarSeparator"></ImageView>
-		<ImageButton android:id="@+id/favorits_list_delete_cache" style="@style/FavoritDeleteAction"></ImageButton>
-		<ImageButton android:id="@+id/favorits_list_search_cache" style="@style/TitleBarAction"></ImageButton>
-
 	</LinearLayout>
   
   <TextView
