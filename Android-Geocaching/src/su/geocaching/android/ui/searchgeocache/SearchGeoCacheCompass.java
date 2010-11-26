@@ -11,6 +11,8 @@ import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
+import android.widget.TextView;
+import android.widget.Toast;
 
 /**
  * Search GeoCache with the compass.
@@ -23,6 +25,7 @@ public class SearchGeoCacheCompass extends Activity implements ISearchActivity {
 
     private GraphicCompassView compassView;
     private SearchGeoCacheManager manager;
+    private TextView distanceToCache;
 
     /*
      * (non-Javadoc)
@@ -32,10 +35,21 @@ public class SearchGeoCacheCompass extends Activity implements ISearchActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
 	super.onCreate(savedInstanceState);
+	Log.d(TAG, "on create");
 	setContentView(R.layout.search_geocache_compass);
 	compassView = (GraphicCompassView) findViewById(R.id.compassView);
 	manager = new SearchGeoCacheManager(this);
-	Log.d(TAG, "on create");
+	distanceToCache = (TextView) findViewById(R.id.DistanceValue);
+	setDistance(0);
+    }
+
+    private void setDistance(float distance) {
+	if (!manager.isLocationFixed()) {
+	    distanceToCache.setText(R.string.distance_unknown);
+	    Toast.makeText(this, R.string.search_geocache_best_provider_lost, Toast.LENGTH_LONG).show();
+	} else {
+	    distanceToCache.setText(Helper.distanceToString(distance));
+	}
     }
 
     /*
@@ -100,6 +114,7 @@ public class SearchGeoCacheCompass extends Activity implements ISearchActivity {
 	    return;
 	}
 	compassView.setBearingToGeoCache(Helper.getBearingBetween(location, manager.getGeoCache().getLocationGeoPoint()));
+	setDistance(Helper.getDistanceBetween(location, manager.getGeoCache().getLocationGeoPoint()));
     }
 
     /**
@@ -147,8 +162,8 @@ public class SearchGeoCacheCompass extends Activity implements ISearchActivity {
      */
     @Override
     public void updateStatus(String status, int type) {
+	compassView.setLocationFix(manager.isLocationFixed());
 	// TODO add status field
-
     }
 
     /*

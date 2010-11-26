@@ -9,11 +9,10 @@ import android.hardware.SensorEventListener;
 import android.hardware.SensorManager;
 
 /**
+ * Sensor manager which calculate bearing of user
+ * 
  * @author Grigory Kalabin. grigory.kalabin@gmail.com
  * @since Nov 10, 2010
- *        <p>
- *        Sensor manager which calculate bearing of user
- *        </p>
  */
 public class GeoCacheCompassManager implements SensorEventListener {
 
