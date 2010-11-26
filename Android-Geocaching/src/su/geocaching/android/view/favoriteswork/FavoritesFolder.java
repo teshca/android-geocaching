@@ -72,7 +72,7 @@ public class FavoritesFolder extends Activity implements OnItemClickListener {
 		map.put("type", R.drawable.icon_favorit_folder_extrime_cach);
 		break;
 	    case 5:
-		map.put("type", R.drawable.icon_favorites_folser_event);
+		map.put("type", R.drawable.icon_favorites_folder_event);
 		break;
 	    }
 	    
