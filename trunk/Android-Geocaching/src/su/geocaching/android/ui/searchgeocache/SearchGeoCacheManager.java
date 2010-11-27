@@ -52,7 +52,7 @@ public class SearchGeoCacheManager implements ILocationAware, ICompassAware, IGp
     public void onPause() {
 	if (locationManager.isLocationFixed()) {
 	    locationManager.removeSubsriber(this);
-	    Log.d(TAG, "pause: remove updates of location");
+	    Log.d(TAG, "pause: location fixed => remove updates of location");
 	}
 	compass.removeSubsriber(this);
 	gpsStatusListener.removeSubsriber(this);
@@ -63,8 +63,12 @@ public class SearchGeoCacheManager implements ILocationAware, ICompassAware, IGp
      * Call this then activity destroying
      */
     public void onDestroy() {
+	// remove updates of location. updates of bearing and gps status already
+	// removed.
 	locationManager.removeSubsriber(this);
+
 	if (geoCache != null) {
+	    // Save last searched geocache
 	    ((ApplicationMain) context.getApplication()).setDesiredGeoCache(geoCache);
 	    Log.d(TAG, "destroy: save last searched geocache");
 	}
@@ -266,7 +270,7 @@ public class SearchGeoCacheManager implements ILocationAware, ICompassAware, IGp
      */
     @Override
     public void updateBearing(int bearing) {
-	Log.d(TAG, "updateBearing: new bearing " + Integer.toString(bearing));
+	//Log.d(TAG, "updateBearing: new bearing " + Integer.toString(bearing));
 	activity.updateBearing(bearing);
     }
 
