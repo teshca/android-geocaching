@@ -10,6 +10,8 @@ import su.geocaching.android.ui.searchgeocache.DrivingDirections.Mode;
 import su.geocaching.android.utils.Helper;
 import su.geocaching.android.view.showgeocacheinfo.ShowGeoCacheInfo;
 import android.content.Intent;
+import android.graphics.Point;
+import android.graphics.Rect;
 import android.graphics.drawable.Drawable;
 import android.hardware.Sensor;
 import android.location.Location;
@@ -28,6 +30,7 @@ import com.google.android.maps.MapActivity;
 import com.google.android.maps.MapController;
 import com.google.android.maps.MapView;
 import com.google.android.maps.Overlay;
+import com.google.android.maps.Projection;
 
 /**
  * Search GeoCache with the map
@@ -40,6 +43,7 @@ public class SearchGeoCacheMap extends MapActivity implements ISearchActivity, I
 
     private GeoCacheOverlayItem cacheOverlayItem;
     private GeoCacheItemizedOverlay cacheItemizedOverlay;
+    private Drawable cacheMarker;
     private DistanceToGeoCacheOverlay distanceOverlay;
     private UserLocationOverlay userOverlay;
     private TextView waitingLocationFixTextView;
@@ -66,6 +70,9 @@ public class SearchGeoCacheMap extends MapActivity implements ISearchActivity, I
 	manager = new SearchGeoCacheManager(this);
 	internetManager = new ConnectionStateReceiver(this);
 	map.setBuiltInZoomControls(true);
+
+	cacheMarker = this.getResources().getDrawable(R.drawable.orangecache);
+	cacheMarker.setBounds(0, -cacheMarker.getMinimumHeight(), cacheMarker.getMinimumWidth(), 0);
     }
 
     /*
@@ -126,9 +133,6 @@ public class SearchGeoCacheMap extends MapActivity implements ISearchActivity, I
 	userOverlay.enableCompass();
 	userOverlay.enableMyLocation();
 
-	Drawable cacheMarker = this.getResources().getDrawable(R.drawable.orangecache);
-	cacheMarker.setBounds(0, -cacheMarker.getMinimumHeight(), cacheMarker.getMinimumWidth(), 0);
-
 	cacheItemizedOverlay = new GeoCacheItemizedOverlay(cacheMarker, this);
 	cacheOverlayItem = new GeoCacheOverlayItem(manager.getGeoCache(), "", "");
 	cacheItemizedOverlay.addOverlayItem(cacheOverlayItem);
@@ -176,9 +180,11 @@ public class SearchGeoCacheMap extends MapActivity implements ISearchActivity, I
 	    mapOverlays.add(distanceOverlay);
 	    mapOverlays.add(userOverlay);
 
-//	    DrivingDirections.Mode mode = Mode.WALKING; 
-//	    DrivingDirections directions = DrivingDirectionsFactory.createDrivingDirections();
-//	    directions.driveTo(Helper.locationToGeoPoint(location),manager.getGeoCache().getLocationGeoPoint() , mode, this);
+	    // DrivingDirections.Mode mode = Mode.WALKING;
+	    // DrivingDirections directions =
+	    // DrivingDirectionsFactory.createDrivingDirections();
+	    // directions.driveTo(Helper.locationToGeoPoint(location),manager.getGeoCache().getLocationGeoPoint()
+	    // , mode, this);
 
 	    return;
 	}
@@ -198,7 +204,7 @@ public class SearchGeoCacheMap extends MapActivity implements ISearchActivity, I
     public void updateBearing(int bearing) {
 	float[] values = new float[1];
 	values[0] = bearing;
-	Log.d(TAG, "update bearing. New bearing=" + Integer.toString(bearing));
+	//Log.d(TAG, "update bearing. New bearing=" + Integer.toString(bearing));
 	// FIXME: using deprecated constant
 	userOverlay.onSensorChanged(Sensor.TYPE_ORIENTATION, values);
     }
@@ -208,12 +214,43 @@ public class SearchGeoCacheMap extends MapActivity implements ISearchActivity, I
      */
     private void resetZoom() {
 	GeoPoint currentGeoPoint = Helper.locationToGeoPoint(manager.getCurrentLocation());
-	mapController.zoomToSpan(Math.abs(manager.getGeoCache().getLocationGeoPoint().getLatitudeE6() - currentGeoPoint.getLatitudeE6()), Math.abs(manager.getGeoCache().getLocationGeoPoint()
-		.getLongitudeE6()
-		- currentGeoPoint.getLongitudeE6()));
+	// Calculating max and min lat and lon
+	int minLat = Math.min(manager.getGeoCache().getLocationGeoPoint().getLatitudeE6(), currentGeoPoint.getLatitudeE6());
+	int maxLat = Math.max(manager.getGeoCache().getLocationGeoPoint().getLatitudeE6(), currentGeoPoint.getLatitudeE6());
+	int minLon = Math.min(manager.getGeoCache().getLocationGeoPoint().getLongitudeE6(), currentGeoPoint.getLongitudeE6());
+	int maxLon = Math.max(manager.getGeoCache().getLocationGeoPoint().getLongitudeE6(), currentGeoPoint.getLongitudeE6());
 
+	// Calculate span
+	int latSpan = maxLat - minLat;
+	int lonSpan = maxLon - minLon;
+
+	// Set zoom
+	mapController.zoomToSpan(latSpan, lonSpan);
+
+	Projection proj = map.getProjection();
+	// calculate padding
+	int userPadding = (int) proj.metersToEquatorPixels(manager.getCurrentLocation().getAccuracy());
+	Rect cacheBounds = cacheMarker.getBounds();
+	// Get points of user and cache on screen
+	Point userPoint = new Point();
+	Point cachePoint = new Point();
+	proj.toPixels(currentGeoPoint, userPoint);
+	proj.toPixels(manager.getGeoCache().getLocationGeoPoint(), cachePoint);
+
+	// if markers are not visible then zoomOut
+	if ((cachePoint.x - cacheBounds.left < 0) || (cachePoint.x + cacheBounds.right > getWindowManager().getDefaultDisplay().getWidth()) || (cachePoint.y - cacheBounds.top < 0)
+		|| (cachePoint.y + cacheBounds.bottom > getWindowManager().getDefaultDisplay().getHeight()) || (userPoint.x - userPadding < 0)
+		|| (userPoint.x + userPadding > getWindowManager().getDefaultDisplay().getWidth()) || (userPoint.y - userPadding < 0)
+		|| (userPoint.y + userPadding > getWindowManager().getDefaultDisplay().getHeight())) {
+	    Log.d(TAG, "markers not in the visible part of map. Zoom out.");
+	    mapController.zoomOut();
+	}
+
+	// Calculate new center of map
 	GeoPoint center = new GeoPoint((manager.getGeoCache().getLocationGeoPoint().getLatitudeE6() + currentGeoPoint.getLatitudeE6()) / 2, (manager.getGeoCache().getLocationGeoPoint()
 		.getLongitudeE6() + currentGeoPoint.getLongitudeE6()) / 2);
+
+	// Set new center of map
 	mapController.animateTo(center);
     }
 
@@ -242,7 +279,9 @@ public class SearchGeoCacheMap extends MapActivity implements ISearchActivity, I
 	    this.startCompassView();
 	    return true;
 	case R.id.menuToggleShortestWay:
-	    distanceOverlay.toggleShorteshtWayVisible();
+	    if (distanceOverlay != null) {
+		distanceOverlay.toggleShorteshtWayVisible();
+	    }
 	    return true;
 	case R.id.menuGeoCacheInfo:
 	    manager.showGeoCacheInfo();
@@ -343,12 +382,12 @@ public class SearchGeoCacheMap extends MapActivity implements ISearchActivity, I
     @Override
     public void onDirectionsAvailable(IRoute route, Mode mode) {
 	// TODO Auto-generated method stub
-	
+
     }
 
     @Override
     public void onDirectionsNotAvailable() {
 	// TODO Auto-generated method stub
-	
+
     }
 }
