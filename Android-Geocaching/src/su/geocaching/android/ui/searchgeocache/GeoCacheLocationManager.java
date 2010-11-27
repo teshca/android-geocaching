@@ -61,7 +61,7 @@ public class GeoCacheLocationManager implements LocationListener {
 	if (subsribers.size() == 0) {
 	    removeUpdates();
 	}
-	Log.d(TAG, "remove subsriber. Count of subsribers became" + Integer.toString(subsribers.size()));
+	Log.d(TAG, "remove subsriber. Count of subsribers became " + Integer.toString(subsribers.size()));
 	return res;
     }
 

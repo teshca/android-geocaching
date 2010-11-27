@@ -66,6 +66,7 @@ public class SearchGeoCacheManager implements ILocationAware, ICompassAware, IGp
 	locationManager.removeSubsriber(this);
 	if (geoCache != null) {
 	    ((ApplicationMain) context.getApplication()).setDesiredGeoCache(geoCache);
+	    Log.d(TAG, "destroy: save last searched geocache");
 	}
 	Log.d(TAG, "destroy: remove updates of location");
     }
