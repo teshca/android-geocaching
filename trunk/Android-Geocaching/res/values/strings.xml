@@ -36,6 +36,6 @@
 	<string name="favorit_folder_title_text">Список добавленных тайников</string>
 	<string name="favorit_folder_In_DB_not_cache">В базе нет ни одного тайника</string>
 	<string name="favorit_folder_addRandomCache">Добавить слуачйных тайников</string>
-	<string name="info_geocach_not_internet_and_not_in_DB">Невозмоно показать информацию о тайнике, поскольку тайника нету в локальной базе, а так же отсутствует соединение с интернетов</string>
+	<string name="info_geocach_not_internet_and_not_in_DB">Невозмоно показать информацию о тайнике, поскольку тайника нету в локальной базе, а так же отсутствует соединение с интернетом</string>
 <string name="menu_keep_screen">Не выключать экран</string>
 </resources>
