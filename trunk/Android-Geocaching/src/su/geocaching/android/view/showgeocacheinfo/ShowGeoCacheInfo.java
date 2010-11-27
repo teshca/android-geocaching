@@ -44,14 +44,16 @@ public class ShowGeoCacheInfo extends Activity implements OnCheckedChangeListene
     private DbManager dbm = null;
     private NetworkInfo wifi;
     private GeoCache cache;
-
+    private String htmlTextGeoCache="default text";
+    
+    @Override
     protected void onCreate(Bundle savedInstanceState) {
 	super.onCreate(savedInstanceState);
 	setContentView(R.layout.info_geocach_activity);
 
 	initialize();
+	
 	dbm.openDB();
-
 	cbAddDelCache.setOnCheckedChangeListener(this);
 	btGo.setOnClickListener(this);
 	btGo.setEnabled(false);
@@ -60,30 +62,44 @@ public class ShowGeoCacheInfo extends Activity implements OnCheckedChangeListene
 	cache = getIntent().getParcelableExtra(GeoCache.class.getCanonicalName());
 
 	if (dbm.getCacheByID(cache.getId()) != null) {
+	    Log.d("ShowGeoCacheInfo","Cache in BD");
 	    cbAddDelCache.setChecked(true);
+	    htmlTextGeoCache=dbm.getWebTextById(cache.getId());
+	    Log.d("Cache in BD html text:", htmlTextGeoCache);
+	}else{
+	    Log.d("ShowGeoCacheInfo","Cache NOT BD");
+	    try {
+		htmlTextGeoCache=getWebText(cache.getId());
+	    } catch (ClientProtocolException e) {
+		Log.d("getWebText", "ClientProtocolEx:"+e.toString());
+		e.printStackTrace();
+	    } catch (IOException e) {
+		Log.d("getWebText", "IOExeption :"+e.toString());
+		e.printStackTrace();
+	    }
 	}
+	
+	
 	tvNametext.setText(cache.getName());
 
 	if (!wifi.isAvailable()) {
 	    if (dbm.getCacheByID(cache.getId()) == null) {
 		Log.d("Info Cache", "Internet - NOT + BD NOT have cache");
 		wvWebrouse.loadData("<?xml version='1.0' encoding='UTF-8' ?><center>"
-			+ "<p>Невозможно показать информацию по тайнику.</p><p>Тайника нет в базе.</p><p>Соединение с интернетом отсутствует.</p></center>", "text/html", "UTF-8");
+			+getString(R.string.info_geocach_not_internet_and_not_in_DB)+ "</center>", "text/html", "utf-8");
 	    } else {
 		Log.d("Info Cache", "Internet - NOT + BD HAVE cache");
-		wvWebrouse.loadData("<?xml version='1.0' encoding='UTF-8' ?>" + dbm.getWebTextById(cache.getId()), "html/text", "UTF-8");
+		wvWebrouse.loadData("<?xml version='1.0' encoding='utf-8' ?>" + htmlTextGeoCache, "text/html", "utf-8");
 	    }
 
 	} else {
 	    if (dbm.getCacheByID(cache.getId()) == null) {
 		Log.d("Info Cache", "Internet - YES + BD NOT have cache");
-		wvWebrouse.loadUrl("http://pda.geocaching.su/cache.php?cid=" + cache.getId());
+		wvWebrouse.loadData(htmlTextGeoCache, "html/text", "utf-8");
 	   
 	    } else {
-		//TODO: Case if Cache in BD
 		Log.d("Info Cache", "Internet - YES + BD HAVE cache");
-		//wvWebrouse.loadData("<?xml version='1.0' encoding='windows-1251' ?>" + dbm.getWebTextById(cache.getId()), "html/text", "windows-1251");
-		wvWebrouse.loadUrl("http://pda.geocaching.su/cache.php?cid=" + cache.getId());
+		wvWebrouse.loadData(htmlTextGeoCache, "text/html", "utf-8");
 	    }
 
 	}
@@ -102,7 +118,7 @@ public class ShowGeoCacheInfo extends Activity implements OnCheckedChangeListene
 	if (isChecked) {
 	    if (dbm.getCacheByID(cache.getId()) == null)
 		//TODO: record html in BD
-		    dbm.addGeoCache(cache, "");
+		dbm.addGeoCache(cache, htmlTextGeoCache);
 	    	btGo.setEnabled(true);
 	} else {
 	    dbm.deleteCacheById(cache.getId());
@@ -136,11 +152,11 @@ public class ShowGeoCacheInfo extends Activity implements OnCheckedChangeListene
 
 	tvNametext = (TextView) findViewById(R.id.info_text_name);
 	dsDis = ((WindowManager) getSystemService(WINDOW_SERVICE)).getDefaultDisplay();
-	wvWebrouse.setLayoutParams(new LayoutParams(dsDis.getWidth(), dsDis.getHeight() - dsDis.getHeight() / 3));
+	wvWebrouse.setLayoutParams(new LayoutParams(dsDis.getWidth(), dsDis.getHeight()));
     }
     
     private String getWebText(int id) throws ClientProtocolException, IOException{
-	//TODO: Поправить кодировки
+	try{
 	HttpClient client = new DefaultHttpClient();
 	HttpGet request = new HttpGet("http://pda.geocaching.su/cache.php?cid="+id);
 	HttpResponse response = client.execute(request);
@@ -157,5 +173,15 @@ public class ShowGeoCacheInfo extends Activity implements OnCheckedChangeListene
 	in.close();
 	html = str.toString();
 	return html;
+	}
+	catch(ClientProtocolException e){
+	    Log.d("getWebText", "ClientProtocolEx: : "+e.toString());
+	    return null;
+	}
+	catch (IOException e) {
+	    Log.d("getWebText", "IOException: "+e.toString());
+	    return null;
+	}
+	
     }
 }

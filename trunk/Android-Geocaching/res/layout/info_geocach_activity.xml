@@ -4,55 +4,60 @@
   android:layout_width="fill_parent"
   android:layout_height="fill_parent"
   android:orientation="vertical"
-  android:padding="5dip">
+>
+  
+  <LinearLayout style="@style/TitleBar" android:id="@+id/title_bar"
+		android:background="@drawable/geologo_background">
+		<ImageView android:src="@drawable/geologo" style="@style/TitleBarLogo"
+			android:id="@+id/title_logo"></ImageView>
+		<View style="@style/TitleBarSpring"></View>
+		<ImageView style="@style/TitleBarSeparator"></ImageView>
+		
+		<CheckBox 
+  		android:id="@+id/info_geocache_add_del"
+  		android:layout_width="wrap_content"
+  		android:layout_height="fill_parent"
+  		style="?android:attr/starStyle"
+  		android:gravity="center_vertical"
+  		android:layout_marginRight="15dip"
+  		></CheckBox>
+		
+		
+		<ImageButton android:id="@+id/info_geocach_Go_button" style="@style/TitleBarAction"></ImageButton>
+
+	</LinearLayout>
+  
+  
   	<LinearLayout 
   	xmlns:android="http://schemas.android.com/apk/res/android"
   	android:layout_width="fill_parent"
   	android:layout_height="wrap_content"
   	android:orientation="horizontal"
-  	android:layout_marginTop="8dip"
-  	android:layout_marginBottom="8dip"
   	android:gravity="left"
+  	android:layout_marginBottom="20dip"
   	>
   	
   	
-  	<CheckBox 
-  		android:id="@+id/info_geocache_add_del"
-  		android:layout_width="wrap_content"
-  		android:layout_height="wrap_content"
-  		style="?android:attr/starStyle"
-  		android:gravity="center_vertical"
-  		android:paddingLeft="10dip"
-  		android:paddingTop="10dip"
-  		android:paddingBottom="10dip"
-  android:layout_marginLeft="10dip"
-  	/>
+  	
+  	
   <TextView
   	android:layout_width="wrap_content"
   	android:layout_height="wrap_content"
   	android:id="@+id/info_text_name"
   	android:text="@string/info_geocach_name_geocach"
   	android:textStyle="bold"
-  	android:layout_marginLeft="20dip"
+  	android:gravity="left"
   	 />
   	
   	
   	
   	  
-  	 </LinearLayout>
+  </LinearLayout>
+  	 
   <WebView
   android:id="@+id/info_web_brouse"
-  	android:layout_width="fill_parent"
-  	android:layout_height="wrap_content"
+  android:layout_width="fill_parent"
+  android:layout_height="wrap_content"
   />
   
-  <ImageButton
-  	android:layout_width="wrap_content"
-  	android:layout_height="wrap_content"
-  	android:text="@string/info_geocach_Go_button"
-  	android:id="@+id/info_geocach_Go_button"
-  	android:src="@drawable/icon_search"
-  	android:paddingLeft="40dip"
-  	android:paddingRight="40dip"
-   />
 </LinearLayout>
