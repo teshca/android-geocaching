@@ -12,16 +12,14 @@
 			android:id="@+id/title_logo"></ImageView>
 		<View style="@style/TitleBarSpring"></View>
 		<ImageView style="@style/TitleBarSeparator"></ImageView>
-		
 		<CheckBox 
   		android:id="@+id/info_geocache_add_del"
   		android:layout_width="wrap_content"
   		android:layout_height="fill_parent"
   		style="?android:attr/starStyle"
+  		android:layout_marginRight="10dip"
   		android:gravity="center_vertical"
-  		android:layout_marginRight="15dip"
   		></CheckBox>
-		
 		
 		<ImageButton android:id="@+id/info_geocach_Go_button" style="@style/TitleBarAction"></ImageButton>
 
