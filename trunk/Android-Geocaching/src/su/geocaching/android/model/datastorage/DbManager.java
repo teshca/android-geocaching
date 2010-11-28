@@ -16,8 +16,8 @@ import com.google.android.maps.GeoPoint;
 public class DbManager extends SQLiteOpenHelper {
 
     // Name, version and name table
-    public static final String DATABASE_NAME_BASE = "CachBase.db";
-    private static final String DATABASE_NAME_TABLE = "cach";
+    public static final String DATABASE_NAME_BASE = "CacheBase.db";
+    private static final String DATABASE_NAME_TABLE = "cache";
     private static final int DATABASE_VERSION = 1;
     // Name column database
     private static final String COLUMN_ID = "cid";
@@ -62,7 +62,7 @@ public class DbManager extends SQLiteOpenHelper {
 
 	ArrayList<GeoCache> exitCollection = new ArrayList<GeoCache>();
 
-	Cursor cur = db.rawQuery(String.format("select %s,%s,%s,%s,%s,%s from %s ;", COLUMN_ID, COLUMN_NAME, COLUMN_TYPE, COLUMN_STATUS, COLUMN_LANT, COLUMN_LONG, DATABASE_NAME_TABLE), null);
+	Cursor cur = db.rawQuery(String.format("select %s,%s,%s,%s,%s,%s from %s", COLUMN_ID, COLUMN_NAME, COLUMN_TYPE, COLUMN_STATUS, COLUMN_LANT, COLUMN_LONG, DATABASE_NAME_TABLE), null);
 //	Log.d("getArrayGeoCache", "Cursor good.+" + cur.getCount());
 
 	if (cur.getCount() == 0) {
@@ -123,7 +123,9 @@ public class DbManager extends SQLiteOpenHelper {
     }
 
     public void closeDB() {
+	Log.d("CloseDB", "Begin");
 	db.close();
+	Log.d("CloseDB", "End");
     }
 
     /**
@@ -165,7 +167,7 @@ public class DbManager extends SQLiteOpenHelper {
      */
     public String getWebTextById(int id) {
 	String exitString = "";
-	Cursor c = db.rawQuery(String.format("select %s from %s where %s=%s ;", COLUMN_WEB_TEXT, DATABASE_NAME_TABLE, COLUMN_ID, id + ""), null);
+	Cursor c = db.rawQuery(String.format("select %s from %s where %s=%s", COLUMN_WEB_TEXT, DATABASE_NAME_TABLE, COLUMN_ID, id + ""), null);
 	if(c.getCount()==0){
 	    c.close();
 	    return null;
@@ -181,7 +183,7 @@ public class DbManager extends SQLiteOpenHelper {
      */
     public GeoCache getCacheByID(int id) {
 	//Log.d("getCacheById", "Begin");
-	Cursor c = db.rawQuery(String.format("select %s,%s,%s,%s,%s from %s where %s=%s;", COLUMN_NAME, COLUMN_TYPE, COLUMN_STATUS, COLUMN_LANT, COLUMN_LONG, DATABASE_NAME_TABLE, COLUMN_ID, id + ""),
+	Cursor c = db.rawQuery(String.format("select %s,%s,%s,%s,%s from %s where %s=%s", COLUMN_NAME, COLUMN_TYPE, COLUMN_STATUS, COLUMN_LANT, COLUMN_LONG, DATABASE_NAME_TABLE, COLUMN_ID, id + ""),
 		null);
 
 //	Log.d("getCacheById", "Cursor exelent");
@@ -213,15 +215,11 @@ public class DbManager extends SQLiteOpenHelper {
 	case 3:
 	    exitCache.setStatus(GeoCacheStatus.NOT_CONFIRMED);
 	    break;
+	 default:
+	     exitCache.setStatus(GeoCacheStatus.NOT_VALID);
+	     break;
 	}
-	/*
-	 * if (c.getInt(2)==1) exitCache.setStatus(GeoCacheStatus.VALID); if
-	 * (c.getInt(2)==2) exitCache.setStatus(GeoCacheStatus.NOT_VALID); if
-	 * (c.getInt(2)==3) exitCache.setStatus(GeoCacheStatus.NOT_CONFIRMED);
-	 */
 
-	
-	//Log.d("getCacheById", "Set Type");
 	switch (c.getInt(c.getColumnIndex(COLUMN_TYPE))) {
 	case 1:
 	    exitCache.setType(GeoCacheType.TRADITIONAL);
@@ -238,15 +236,11 @@ public class DbManager extends SQLiteOpenHelper {
 	case 5:
 	    exitCache.setType(GeoCacheType.EVENT);
 	    break;
+	default:
+	    exitCache.setType(GeoCacheType.TRADITIONAL);
+	    break;
 	}
-	/*
-	 * if (c.getInt(1) == 1) exitCache.setType(GeoCacheType.TRADITIONAL); if
-	 * (c.getInt(1) == 2) exitCache.setType(GeoCacheType.VIRTUAL); if
-	 * (c.getInt(1) == 3) exitCache.setType(GeoCacheType.STEP_BY_STEP); if
-	 * (c.getInt(1) == 4) exitCache.setType(GeoCacheType.EXTREME); if
-	 * (c.getInt(1) == 5) exitCache.setType(GeoCacheType.EVENT);
-	 */
-	//Log.d("getCacheById", "Cursor close");
+	
 	c.close();
 	return exitCache;
     }
