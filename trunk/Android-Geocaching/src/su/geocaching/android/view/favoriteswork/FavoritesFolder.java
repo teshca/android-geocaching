@@ -45,20 +45,20 @@ public class FavoritesFolder extends Activity implements OnItemClickListener {
 	lvListShowCache = (ListView) findViewById(R.id.favorit_folder_listCach);
 	tvTitle = (TextView) findViewById(R.id.favorit_foldet_title_text);
 	dbm = new DbManager(getBaseContext());
+	dbm.openDB();
     }
 
-
-    private List<? extends Map<String, ?>> createGeoCacheList(ArrayList<GeoCache> t) {
+    private List<Map<String, ?>> createGeoCacheList(ArrayList<GeoCache> t) {
 	int type[] = new int[t.size()];
 	String name[] = new String[t.size()];
-	List<Map<String, ?>> te = new ArrayList<Map<String, ?>>();
+	List<Map<String, ?>> ExitList = new ArrayList<Map<String, ?>>();
 
 	for (int i = 0; i < t.size(); i++) {
 	    Map<String, Object> map = new HashMap<String, Object>();
 	    type[i] = t.get(i).getType().ordinal();
 	    name[i] = t.get(i).getName();
-	    
-	    switch (type[i]){
+
+	    switch (type[i]) {
 	    case 1:
 		map.put("type", R.drawable.icon_favorit_folder_traditional_cach);
 		break;
@@ -74,14 +74,16 @@ public class FavoritesFolder extends Activity implements OnItemClickListener {
 	    case 5:
 		map.put("type", R.drawable.icon_favorites_folder_event);
 		break;
+	    default:
+		map.put("type", R.drawable.icon_favorit_folder_traditional_cach);
+		break;
 	    }
-	    
-	    
+
 	    map.put("name", name[i]);
-	    te.add(map);
+	    ExitList.add(map);
 	}
 
-	return te;
+	return ExitList;
     }
 
     @Override
@@ -102,27 +104,34 @@ public class FavoritesFolder extends Activity implements OnItemClickListener {
 
     @Override
     protected void onStop() {
-       dbm.closeDB();
-        super.onStop();
+	dbm.closeDB();
+	super.onStop();
     }
-    
+
     @Override
     protected void onStart() {
-	dbm.openDB();
+	
 	mass = dbm.getArrayGeoCache();
+	
 	if (mass != null) {
 	    SimpleAdapter ap = new SimpleAdapter(this, createGeoCacheList(mass), R.layout.row_in_favorit_rolder, new String[] { "type", "name" }, new int[] { R.id.favorit_list_imagebutton_type,
-		    R.id.favorit_list_textview_name });
-	   lvListShowCache.setAdapter(ap);
+		R.id.favorit_list_textview_name });
+	    lvListShowCache.setAdapter(ap);
 	    lvListShowCache.setOnItemClickListener(this);
 	} else {
+	    lvListShowCache.setAdapter(null);
 	    tvTitle.setText(tvTitle.getText() + "\n" + getString(R.string.favorit_folder_In_DB_not_cache));
 	    Log.d("FavoritFolder", "DB empty");
 	}
-
 	super.onStart();
     }
 
+    @Override
+    protected void onRestart() {
+	dbm.openDB();
+        super.onRestart();
+    }
+    
     @Override
     public void onItemClick(AdapterView<?> arg0, View arg1, int arg2, long arg3) {
 	Intent intent = new Intent(this, ShowGeoCacheInfo.class);
