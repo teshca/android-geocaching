@@ -28,7 +28,7 @@
 			<Button android:drawableTop="@drawable/menu_favorites_icon"
 				style="@style/MenuButton" android:text="@string/favorites"
 				android:id="@+id/FavoritesButton"></Button>
-		<Button android:drawableTop="@drawable/menu_about_icon" style="@style/MenuButton" android:text="Кнопка 2"></Button></LinearLayout>
+		<Button android:drawableTop="@drawable/menu_about_icon" style="@style/MenuButton" android:id="@+id/AboutButton" android:text="@string/about"></Button></LinearLayout>
 	</LinearLayout>
 
 </LinearLayout>

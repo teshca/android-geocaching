@@ -32,6 +32,7 @@ public class MenuActivity extends Activity implements OnClickListener, IInternet
     private Button searchButton;
     private Button selectButton;
     private Button favoritButton;
+    private Button aboutButton;
     private ApplicationMain application;
 
     private ConnectionStateReceiver internetManager;
@@ -50,10 +51,12 @@ public class MenuActivity extends Activity implements OnClickListener, IInternet
 	searchButton = (Button) findViewById(R.id.SearchButton);
 	selectButton = (Button) findViewById(R.id.SelectButton);
 	favoritButton = (Button) findViewById(R.id.FavoritesButton);
+	aboutButton = (Button) findViewById(R.id.AboutButton);
 
 	searchButton.setOnClickListener(this);
 	selectButton.setOnClickListener(this);
 	favoritButton.setOnClickListener(this);
+	aboutButton.setOnClickListener(this);
 
 	application = (ApplicationMain) getApplication();
     }
@@ -88,6 +91,8 @@ public class MenuActivity extends Activity implements OnClickListener, IInternet
 	    startSelectGeoCache();
 	} else if (v.equals(favoritButton)) {
 	    startFavoriteFolder();
+	} else if (v.equals(aboutButton)) {
+	    startAboutActivity();
 	}
     }
 
@@ -116,6 +121,11 @@ public class MenuActivity extends Activity implements OnClickListener, IInternet
 	}
     }
 
+    private void startAboutActivity() {
+	Intent intent = new Intent(this, su.geocaching.android.ui.aboutprogramm.AboutActivity.class);
+	startActivity(intent);
+    }
+    
     private void startFavoriteFolder() {
 	Intent intent = new Intent(this, su.geocaching.android.view.favoriteswork.FavoritesFolder.class);
 	startActivity(intent);
