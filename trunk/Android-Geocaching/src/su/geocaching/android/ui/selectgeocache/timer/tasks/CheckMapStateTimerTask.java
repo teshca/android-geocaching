@@ -15,9 +15,12 @@ public class CheckMapStateTimerTask extends TimerTask{
     private SelectGeoCacheMap map;
     private State state;
 
+    private boolean mapUpdateRunning;
+
     public CheckMapStateTimerTask(State state, SelectGeoCacheMap map, GeoPoint center, int zoom) {
         lastZoom = zoom;
         lastCenter = center;
+        mapUpdateRunning = false;
         this.map = map;
         this.state = state;
     }
@@ -27,7 +30,12 @@ public class CheckMapStateTimerTask extends TimerTask{
         int currentZoom = map.getZoom();
         GeoPoint currentCenter = map.getCenter();
         if(lastZoom != currentZoom || !lastCenter.equals(currentCenter)) {
-            state.setMapUpdatedTrue();
+            mapUpdateRunning = true;
+        } else {
+            if(!mapUpdateRunning) {
+                state.setMapUpdatedTrue();
+            }
+            mapUpdateRunning = false;
         }
         lastZoom = currentZoom;
         lastCenter = currentCenter;

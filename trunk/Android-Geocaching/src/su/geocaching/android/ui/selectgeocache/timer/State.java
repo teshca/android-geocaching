@@ -7,22 +7,15 @@ import su.geocaching.android.ui.selectgeocache.SelectGeoCacheMap;
  * @date 25.11.10 21:01
  */
 public class State {
-    private boolean wasTouched;
     private boolean mapUpdated;
     private boolean requestSent;
     private SelectGeoCacheMap gcMap;
 
 
     public State(SelectGeoCacheMap gcMap) {
-        this.wasTouched = false;
         this.mapUpdated = false;
         this.requestSent = false;
         this.gcMap = gcMap;
-    }
-
-    public synchronized void setTouchedTrue() {
-        wasTouched = true;
-        sendRequest();
     }
 
     public synchronized void setMapUpdatedTrue() {
@@ -36,10 +29,9 @@ public class State {
     }
 
     private synchronized void sendRequest() {
-        if(requestSent && mapUpdated && wasTouched) {
+        if(requestSent && mapUpdated) {
             gcMap.updateCacheOverlay();
 
-            wasTouched = false;
             mapUpdated = false;
             requestSent = false;
         }
