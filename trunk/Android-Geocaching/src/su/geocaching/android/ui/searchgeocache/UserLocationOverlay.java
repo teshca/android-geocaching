@@ -46,7 +46,9 @@ public class UserLocationOverlay extends MyLocationOverlay {
      */
     @Override
     protected void drawMyLocation(Canvas canvas, MapView mapView, Location lastFix, GeoPoint myLocation, long when) {
-	super.drawMyLocation(canvas, map, context.getLastKnownLocation(), Helper.locationToGeoPoint(context.getLastKnownLocation()), when);
+	if (context.getLastKnownLocation() != null) {
+	    super.drawMyLocation(canvas, map, context.getLastKnownLocation(), Helper.locationToGeoPoint(context.getLastKnownLocation()), when);
+	}
     }
 
     /*
