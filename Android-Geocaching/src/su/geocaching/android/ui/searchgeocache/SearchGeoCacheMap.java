@@ -100,6 +100,8 @@ public class SearchGeoCacheMap extends MapActivity implements ISearchActivity, I
     @Override
     protected void onResume() {
 	super.onResume();
+	userOverlay.enableCompass();
+	userOverlay.enableMyLocation();
 	manager.onResume();
 	Log.d(TAG, "on pause");
 	if (!internetManager.isInternetConnected()) {
@@ -130,9 +132,6 @@ public class SearchGeoCacheMap extends MapActivity implements ISearchActivity, I
 	if (manager.getGeoCache() == null) {
 	    return;
 	}
-	userOverlay.enableCompass();
-	userOverlay.enableMyLocation();
-
 	cacheItemizedOverlay = new GeoCacheItemizedOverlay(cacheMarker, this);
 	cacheOverlayItem = new GeoCacheOverlayItem(manager.getGeoCache(), "", "");
 	cacheItemizedOverlay.addOverlayItem(cacheOverlayItem);
@@ -172,13 +171,13 @@ public class SearchGeoCacheMap extends MapActivity implements ISearchActivity, I
 	if (distanceOverlay == null) {
 	    // It's really first run of update location
 	    Log.d(TAG, "update location: first run of this activity");
-	    resetZoom();
 	    waitingLocationFixTextView.setVisibility(View.GONE);
 	    manager.turnOffGpsStatusListener();
 	    distanceOverlay = new DistanceToGeoCacheOverlay(Helper.locationToGeoPoint(location), manager.getGeoCache().getLocationGeoPoint());
 	    distanceOverlay.setCachePoint(manager.getGeoCache().getLocationGeoPoint());
 	    mapOverlays.add(distanceOverlay);
 	    mapOverlays.add(userOverlay);
+	    resetZoom();
 
 	    // DrivingDirections.Mode mode = Mode.WALKING;
 	    // DrivingDirections directions =
@@ -204,7 +203,8 @@ public class SearchGeoCacheMap extends MapActivity implements ISearchActivity, I
     public void updateBearing(int bearing) {
 	float[] values = new float[1];
 	values[0] = bearing;
-	//Log.d(TAG, "update bearing. New bearing=" + Integer.toString(bearing));
+	// Log.d(TAG, "update bearing. New bearing=" +
+	// Integer.toString(bearing));
 	// FIXME: using deprecated constant
 	userOverlay.onSensorChanged(Sensor.TYPE_ORIENTATION, values);
     }
@@ -227,6 +227,14 @@ public class SearchGeoCacheMap extends MapActivity implements ISearchActivity, I
 	// Set zoom
 	mapController.zoomToSpan(latSpan, lonSpan);
 
+	// Calculate new center of map
+	GeoPoint center = new GeoPoint((manager.getGeoCache().getLocationGeoPoint().getLatitudeE6() + currentGeoPoint.getLatitudeE6()) / 2, (manager.getGeoCache().getLocationGeoPoint()
+		.getLongitudeE6() + currentGeoPoint.getLongitudeE6()) / 2);
+
+	// Set new center of map
+	//mapController.animateTo(center);
+	mapController.setCenter(center);
+	map.invalidate();
 	Projection proj = map.getProjection();
 	// calculate padding
 	int userPadding = (int) proj.metersToEquatorPixels(manager.getCurrentLocation().getAccuracy());
@@ -236,22 +244,22 @@ public class SearchGeoCacheMap extends MapActivity implements ISearchActivity, I
 	Point cachePoint = new Point();
 	proj.toPixels(currentGeoPoint, userPoint);
 	proj.toPixels(manager.getGeoCache().getLocationGeoPoint(), cachePoint);
-
+	
+	int mapRight = map.getRight();
+	int mapBottom = map.getBottom();
+	int mapLeft = map.getLeft();
+	int mapTop = map.getTop();
+	
+	boolean isCacheMarkerNotInMapX = (cachePoint.x + cacheBounds.left < mapLeft) || (cachePoint.x + cacheBounds.right > mapRight);
+	boolean isCacheMarkerNotInMapY = (cachePoint.y + cacheBounds.top < mapTop) || (cachePoint.y + cacheBounds.bottom > mapBottom);
+	boolean isUserMarkerNotInMapX = (userPoint.x - userPadding < mapLeft) || (userPoint.x + userPadding > mapRight);
+	boolean isUserMarkerNotInMapY = (userPoint.y - userPadding < mapTop) || (userPoint.y + userPadding > mapBottom);
+	boolean isMapDimensionsZeroes = mapRight==0 && mapLeft==0 && mapTop==0 && mapBottom==0;
 	// if markers are not visible then zoomOut
-	if ((cachePoint.x - cacheBounds.left < 0) || (cachePoint.x + cacheBounds.right > getWindowManager().getDefaultDisplay().getWidth()) || (cachePoint.y - cacheBounds.top < 0)
-		|| (cachePoint.y + cacheBounds.bottom > getWindowManager().getDefaultDisplay().getHeight()) || (userPoint.x - userPadding < 0)
-		|| (userPoint.x + userPadding > getWindowManager().getDefaultDisplay().getWidth()) || (userPoint.y - userPadding < 0)
-		|| (userPoint.y + userPadding > getWindowManager().getDefaultDisplay().getHeight())) {
+	if ((isCacheMarkerNotInMapX || isCacheMarkerNotInMapY || isUserMarkerNotInMapX || isUserMarkerNotInMapY)&&(!isMapDimensionsZeroes)) {
 	    Log.d(TAG, "markers not in the visible part of map. Zoom out.");
 	    mapController.zoomOut();
 	}
-
-	// Calculate new center of map
-	GeoPoint center = new GeoPoint((manager.getGeoCache().getLocationGeoPoint().getLatitudeE6() + currentGeoPoint.getLatitudeE6()) / 2, (manager.getGeoCache().getLocationGeoPoint()
-		.getLongitudeE6() + currentGeoPoint.getLongitudeE6()) / 2);
-
-	// Set new center of map
-	mapController.animateTo(center);
     }
 
     /**
