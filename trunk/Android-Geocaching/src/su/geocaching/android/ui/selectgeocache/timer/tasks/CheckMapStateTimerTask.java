@@ -32,7 +32,7 @@ public class CheckMapStateTimerTask extends TimerTask{
         if(lastZoom != currentZoom || !lastCenter.equals(currentCenter)) {
             mapUpdateRunning = true;
         } else {
-            if(!mapUpdateRunning) {
+            if(mapUpdateRunning) {
                 state.setMapUpdatedTrue();
             }
             mapUpdateRunning = false;
