@@ -93,9 +93,6 @@ public class SearchGeoCacheMap extends MapActivity implements ISearchActivity, I
 	super.onPause();
 	Log.d(TAG, "on pause");
 	manager.onPause();
-	if (manager.isLocationFixed()) {
-	    Log.d(TAG, "on pause: location fixed. Remove updates from userOverlay");
-	}
 	userOverlay.disableCompass();
 	userOverlay.disableMyLocation();
     }
@@ -116,18 +113,6 @@ public class SearchGeoCacheMap extends MapActivity implements ISearchActivity, I
 	    onInternetLost();
 	    Log.w(TAG, "internet not connected");
 	}
-    }
-
-    /*
-     * (non-Javadoc)
-     * 
-     * @see com.google.android.maps.MapActivity#onDestroy()
-     */
-    @Override
-    protected void onDestroy() {
-	super.onDestroy();
-	manager.onDestroy();
-	Log.d(TAG, "on destroy");
     }
 
     /**

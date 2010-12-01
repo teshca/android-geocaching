@@ -77,13 +77,6 @@ public class SearchGeoCacheCompass extends Activity implements ISearchActivity {
     }
 
     @Override
-    protected void onDestroy() {
-	super.onDestroy();
-	manager.onDestroy();
-	Log.d(TAG, "on destroy");
-    }
-
-    @Override
     protected void onRestart() {
 	super.onRestart();
 

@@ -50,29 +50,10 @@ public class SearchGeoCacheManager implements ILocationAware, ICompassAware, IGp
      * Called when activity pausing
      */
     public void onPause() {
-	if (locationManager.isLocationFixed()) {
-	    locationManager.removeSubsriber(this);
-	    Log.d(TAG, "pause: location fixed => remove updates of location");
-	}
+	locationManager.removeSubsriber(this);
 	compass.removeSubsriber(this);
 	gpsStatusListener.removeSubsriber(this);
-	Log.d(TAG, "pause: remove updates of compass and GPS status");
-    }
-
-    /**
-     * Call this then activity destroying
-     */
-    public void onDestroy() {
-	// remove updates of location. updates of bearing and gps status already
-	// removed.
-	locationManager.removeSubsriber(this);
-
-	if (geoCache != null) {
-	    // Save last searched geocache
-	    ((ApplicationMain) context.getApplication()).setDesiredGeoCache(geoCache);
-	    Log.d(TAG, "destroy: save last searched geocache");
-	}
-	Log.d(TAG, "destroy: remove updates of location");
+	Log.d(TAG, "pause: remove updates of location, compass and GPS status");
     }
 
     /**
@@ -218,6 +199,9 @@ public class SearchGeoCacheManager implements ILocationAware, ICompassAware, IGp
 	    return;
 	}
 
+	// Save last searched geocache
+	((ApplicationMain) context.getApplication()).setDesiredGeoCache(geoCache);
+
 	if (!isLocationFixed()) {
 	    showWaitingLocationFix();
 	    Log.d(TAG, "runLogic: location not fixed. Send msg.");
@@ -270,7 +254,8 @@ public class SearchGeoCacheManager implements ILocationAware, ICompassAware, IGp
      */
     @Override
     public void updateBearing(int bearing) {
-	//Log.d(TAG, "updateBearing: new bearing " + Integer.toString(bearing));
+	// Log.d(TAG, "updateBearing: new bearing " +
+	// Integer.toString(bearing));
 	activity.updateBearing(bearing);
     }
 
