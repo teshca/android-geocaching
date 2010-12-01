@@ -150,7 +150,10 @@ public class GeoCacheLocationManager implements LocationListener {
     /**
      * Remove updates of location
      */
-    private void removeUpdates() {
+    private synchronized void removeUpdates() {
+	if (!isUpdating) {
+	    Log.w(TAG, "updates already removed");
+	}
 	Log.d(TAG, "remove location updates at " + Long.toString(System.currentTimeMillis()));
 	locationManager.removeUpdates(this);
 	provider = "none";
@@ -264,6 +267,7 @@ public class GeoCacheLocationManager implements LocationListener {
 	 * @see java.util.TimerTask#run()
 	 */
 	public void run() {
+
 	    parent.removeUpdates();
 	}
     }
