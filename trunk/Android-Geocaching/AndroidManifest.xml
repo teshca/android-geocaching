@@ -8,12 +8,11 @@
 	<uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
 	<uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
 
-	<application android:icon="@drawable/launcher_icon" android:label="@string/app_name"
-		android:name="su.geocaching.android.application.ApplicationMain"
+	<application android:icon="@drawable/launcher_icon"
+		android:label="@string/app_name" android:name="su.geocaching.android.application.ApplicationMain"
 		android:debuggable="true">
 
-		<receiver android:name=".geocachemap.ConnectionStateReceiver"
-			android:label="NetworkConnection">
+		<receiver android:name=".geocachemap.ConnectionStateReceiver">
 			<intent-filter>
 				<action android:name="android.net.conn.CONNECTIVITY_CHANGE" />
 			</intent-filter>
@@ -57,21 +56,21 @@
 		</activity>
 
 		<activity
-			android:name="su.geocaching.android.view.showgeocacheinfo.ShowGeoCacheInfo" android:theme="@android:style/Theme.NoTitleBar">
+			android:name="su.geocaching.android.view.showgeocacheinfo.ShowGeoCacheInfo"
+			android:theme="@android:style/Theme.NoTitleBar">
 			<intent-filter>
 				<action android:name="android.intent.action.RUN" />
 				<category android:name="android.intent.category.DEFAULT" />
 			</intent-filter>
 		</activity>
 
-		
-		<activity android:name="su.geocaching.android.ui.aboutprogramm.AboutActivity"
-              android:label="@string/about_title"
-              android:theme="@android:style/Theme.Dialog">
-              </activity>
 
-		<activity
-			android:name="su.geocaching.android.view.favoriteswork.FavoritesFolder" android:theme="@android:style/Theme.NoTitleBar">
+		<activity android:name="su.geocaching.android.ui.aboutprogramm.AboutActivity"
+			android:label="@string/about_title" android:theme="@android:style/Theme.Dialog">
+		</activity>
+
+		<activity android:name="su.geocaching.android.view.favoriteswork.FavoritesFolder"
+			android:theme="@android:style/Theme.NoTitleBar">
 			<intent-filter>
 				<action android:name="android.intent.action.RUN" />
 				<category android:name="android.intent.category.DEFAULT" />
@@ -80,6 +79,6 @@
 
 		<uses-library android:name="com.google.android.maps" />
 
-</application>
+	</application>
 
 </manifest>
