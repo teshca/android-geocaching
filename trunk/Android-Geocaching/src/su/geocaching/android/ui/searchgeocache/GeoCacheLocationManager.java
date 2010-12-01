@@ -30,6 +30,8 @@ public class GeoCacheLocationManager implements LocationListener {
     private String provider;
     private List<ILocationAware> subsribers;
     private Timer removeUpdatesTimer;
+    private RemoveUpdatesTask removeUpdatesTask;
+    private boolean isUpdating;
 
     /**
      * @param locationManager
@@ -39,7 +41,9 @@ public class GeoCacheLocationManager implements LocationListener {
 	this.locationManager = locationManager;
 	subsribers = new ArrayList<ILocationAware>();
 	provider = "none";
+	isUpdating = false;
 	removeUpdatesTimer = new Timer(TIMER_NAME);
+	removeUpdatesTask = new RemoveUpdatesTask(this);
 	Log.d(TAG, "Init");
     }
 
@@ -48,14 +52,17 @@ public class GeoCacheLocationManager implements LocationListener {
      *            activity which will be listen location updates
      */
     public void addSubscriber(ILocationAware subsriber) {
-	removeUpdatesTimer.cancel();
-	if (subsribers.size() == 0) {
+	removeUpdatesTask.cancel();
+
+	Log.d(TAG, "addSubscriber: remove task cancelled;\n	isUpdating=" + Boolean.toString(isUpdating) + ";\n	subscribers=" + Integer.toString(subsribers.size()));
+
+	if ((subsribers.size() == 0) && (!isUpdating)) {
 	    addUpdates();
 	}
 	if (!subsribers.contains(subsriber)) {
 	    subsribers.add(subsriber);
 	}
-	Log.d(TAG, "add subsriber. Count of subsribers became " + Integer.toString(subsribers.size()));
+	Log.d(TAG, "	Count of subsribers became " + Integer.toString(subsribers.size()));
     }
 
     /**
@@ -66,8 +73,8 @@ public class GeoCacheLocationManager implements LocationListener {
     public boolean removeSubsriber(ILocationAware subsriber) {
 	boolean res = subsribers.remove(subsriber);
 	if (subsribers.size() == 0) {
-	    removeUpdatesTimer = new Timer(TIMER_NAME);
-	    removeUpdatesTimer.schedule(new UpdateTimeTask(this), REMOVE_UPDATES_DELAY);
+	    removeUpdatesTask = new RemoveUpdatesTask(this);
+	    removeUpdatesTimer.schedule(removeUpdatesTask, REMOVE_UPDATES_DELAY);
 	    Log.d(TAG, "none subscribers. wait " + Long.toString(REMOVE_UPDATES_DELAY / 1000) + " s from " + Long.toString(System.currentTimeMillis()));
 	}
 	Log.d(TAG, "remove subsriber. Count of subsribers became " + Integer.toString(subsribers.size()));
@@ -140,9 +147,10 @@ public class GeoCacheLocationManager implements LocationListener {
      * Remove updates of location
      */
     private void removeUpdates() {
-	Log.d(TAG, "remove updates");
+	Log.d(TAG, "remove location updates at " + Long.toString(System.currentTimeMillis()));
 	locationManager.removeUpdates(this);
 	provider = "none";
+	isUpdating = false;
     }
 
     /**
@@ -153,6 +161,7 @@ public class GeoCacheLocationManager implements LocationListener {
 	criteria.setAccuracy(Criteria.ACCURACY_FINE);
 	provider = locationManager.getBestProvider(criteria, true);
 	locationManager.requestLocationUpdates(provider, MIN_TIME, MIN_DISTANCE, this);
+	isUpdating = true;
 	Log.d(TAG, "add updates. Provider is " + provider);
     }
 
@@ -199,12 +208,17 @@ public class GeoCacheLocationManager implements LocationListener {
 	    return false;
 	}
 	Log.d(TAG, "request for enable best provider");
-	removeUpdates();
 	Criteria criteria = new Criteria();
 	criteria.setAccuracy(Criteria.ACCURACY_FINE);
+	if (provider.equals(locationManager.getBestProvider(criteria, true))) {
+	    Log.d(TAG, "	best provider (" + provider + ") already running");
+	    return true;
+	}
 	provider = locationManager.getBestProvider(criteria, true);
+	removeUpdates();
 	locationManager.requestLocationUpdates(provider, MIN_TIME, MIN_DISTANCE, this);
 	Log.d(TAG, "request for enable best provider: enabled");
+	isUpdating = true;
 	return true;
     }
 
@@ -224,17 +238,29 @@ public class GeoCacheLocationManager implements LocationListener {
 	return provider;
     }
 
-    private class UpdateTimeTask extends TimerTask {
+    /**
+     * task which remove updates from LocationManager
+     * 
+     * @author Grigory Kalabin. grigory.kalabin@gmail.com
+     */
+    private class RemoveUpdatesTask extends TimerTask {
 	private GeoCacheLocationManager parent;
 
-	public UpdateTimeTask(GeoCacheLocationManager parent) {
+	/**
+	 * @param parent
+	 *            listener which want remove updates
+	 */
+	public RemoveUpdatesTask(GeoCacheLocationManager parent) {
 	    this.parent = parent;
 	}
 
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see java.util.TimerTask#run()
+	 */
 	public void run() {
-	    Log.d(TAG, "remove location updates at " + Long.toString(System.currentTimeMillis()));
-	    locationManager.removeUpdates(parent);
-	    provider = "none";
+	    parent.removeUpdates();
 	}
     }
 }
