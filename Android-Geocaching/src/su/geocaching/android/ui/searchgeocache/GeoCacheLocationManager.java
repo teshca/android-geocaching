@@ -72,7 +72,11 @@ public class GeoCacheLocationManager implements LocationListener {
      */
     public boolean removeSubsriber(ILocationAware subsriber) {
 	boolean res = subsribers.remove(subsriber);
+	if (!res) {
+	    return res;
+	}
 	if (subsribers.size() == 0) {
+	    removeUpdatesTask.cancel();
 	    removeUpdatesTask = new RemoveUpdatesTask(this);
 	    removeUpdatesTimer.schedule(removeUpdatesTask, REMOVE_UPDATES_DELAY);
 	    Log.d(TAG, "none subscribers. wait " + Long.toString(REMOVE_UPDATES_DELAY / 1000) + " s from " + Long.toString(System.currentTimeMillis()));

@@ -51,6 +51,9 @@ public class ApplicationMain extends Application {
 	Log.d(TAG, "onCreate");
     }
 
+    /* (non-Javadoc)
+     * @see android.app.Application#onTerminate()
+     */
     @Override
     public void onTerminate() {
 	super.onTerminate();
