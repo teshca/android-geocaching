@@ -1,10 +1,10 @@
 package su.geocaching.android.ui.geocachemap;
 
+import su.geocaching.android.application.ApplicationMain;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
-import android.net.ConnectivityManager;
-import android.net.NetworkInfo;
+import android.util.Log;
 
 /**
  * used for listen broadcast messages for activities which uses internet
@@ -13,15 +13,7 @@ import android.net.NetworkInfo;
  * @since Nov 22, 2010
  */
 public class ConnectionStateReceiver extends BroadcastReceiver {
-    private IInternetAware context;
-
-    /**
-     * @param context
-     *            activity which use internet
-     */
-    public ConnectionStateReceiver(IInternetAware context) {
-	this.context = context;
-    }
+    private static final String TAG = ConnectionStateReceiver.class.getCanonicalName();
 
     /*
      * (non-Javadoc)
@@ -31,19 +23,12 @@ public class ConnectionStateReceiver extends BroadcastReceiver {
      */
     @Override
     public void onReceive(Context context, Intent intent) {
-	if (isInternetConnected()) {
-	    this.context.onInternetFound();
+	Log.d(TAG, "Recieved message about internet status");
+	ConnectionManager connManager = ((ApplicationMain) context.getApplicationContext()).getConnectionManager();
+	if (connManager.isInternetConnected()) {
+	    connManager.onInternetFound();
 	} else {
-	    this.context.onInternetLost();
+	    connManager.onInternetLost();
 	}
-    }
-
-    /**
-     * @return true if internet connected
-     */
-    public boolean isInternetConnected() {
-	ConnectivityManager connectivityManager = (ConnectivityManager) ((Context) context).getSystemService(Context.CONNECTIVITY_SERVICE);
-	NetworkInfo activeNetInfo = connectivityManager.getActiveNetworkInfo();
-	return activeNetInfo != null && activeNetInfo.isConnected();
     }
 }

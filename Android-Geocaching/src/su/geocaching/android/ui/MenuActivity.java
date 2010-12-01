@@ -1,9 +1,8 @@
 package su.geocaching.android.ui;
 
-
 import su.geocaching.android.application.ApplicationMain;
 import su.geocaching.android.model.datatype.GeoCache;
-import su.geocaching.android.ui.geocachemap.ConnectionStateReceiver;
+import su.geocaching.android.ui.geocachemap.ConnectionManager;
 import su.geocaching.android.ui.geocachemap.IInternetAware;
 import su.geocaching.android.ui.searchgeocache.SearchGeoCacheMap;
 import su.geocaching.android.ui.selectgeocache.SelectGeoCacheMap;
@@ -20,7 +19,7 @@ import android.widget.Button;
 import android.widget.Toast;
 
 /**
- * Main activity in application 
+ * Main activity in application
  * 
  * @author Android-Geocaching.su student project team
  * @since October 2010 Main menu activity stub
@@ -34,8 +33,7 @@ public class MenuActivity extends Activity implements OnClickListener, IInternet
     private Button favoritButton;
     private Button aboutButton;
     private ApplicationMain application;
-
-    private ConnectionStateReceiver internetManager;
+    private ConnectionManager internetManager;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -43,8 +41,10 @@ public class MenuActivity extends Activity implements OnClickListener, IInternet
 	Log.d(TAG, "onCreate");
 
 	setContentView(R.layout.dashboard_menu);
-	internetManager = new ConnectionStateReceiver(this);
 	initButtons();
+	application = (ApplicationMain) getApplication();
+	internetManager = application.getConnectionManager();
+	internetManager.addSubscriber(this);
     }
 
     private void initButtons() {
@@ -57,8 +57,6 @@ public class MenuActivity extends Activity implements OnClickListener, IInternet
 	selectButton.setOnClickListener(this);
 	favoritButton.setOnClickListener(this);
 	aboutButton.setOnClickListener(this);
-
-	application = (ApplicationMain) getApplication();
     }
 
     @Override
@@ -125,7 +123,7 @@ public class MenuActivity extends Activity implements OnClickListener, IInternet
 	Intent intent = new Intent(this, su.geocaching.android.ui.aboutprogramm.AboutActivity.class);
 	startActivity(intent);
     }
-    
+
     private void startFavoriteFolder() {
 	Intent intent = new Intent(this, su.geocaching.android.view.favoriteswork.FavoritesFolder.class);
 	startActivity(intent);

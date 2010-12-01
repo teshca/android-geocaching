@@ -2,6 +2,7 @@ package su.geocaching.android.ui.searchgeocache;
 
 import java.util.List;
 
+import su.geocaching.android.application.ApplicationMain;
 import su.geocaching.android.model.datatype.GeoCache;
 import su.geocaching.android.ui.R;
 import su.geocaching.android.ui.geocachemap.*;
@@ -56,7 +57,7 @@ public class SearchGeoCacheMap extends MapActivity implements ISearchActivity, I
     private MapController mapController;
     private List<Overlay> mapOverlays;
     private SearchGeoCacheManager manager;
-    private ConnectionStateReceiver internetManager;
+    private ConnectionManager internetManager;
     private ImageView progressCircle;
 
     /*
@@ -76,8 +77,9 @@ public class SearchGeoCacheMap extends MapActivity implements ISearchActivity, I
 	mapController = map.getController();
 	userOverlay = new UserLocationOverlay(this, map);
 	manager = new SearchGeoCacheManager(this);
-	internetManager = new ConnectionStateReceiver(this);
 	map.setBuiltInZoomControls(true);
+	internetManager = ((ApplicationMain) this.getApplication()).getConnectionManager();
+	internetManager.addSubscriber(this);
 
 	cacheMarker = this.getResources().getDrawable(R.drawable.orangecache);
 	cacheMarker.setBounds(0, -cacheMarker.getMinimumHeight(), cacheMarker.getMinimumWidth(), 0);
@@ -95,6 +97,7 @@ public class SearchGeoCacheMap extends MapActivity implements ISearchActivity, I
 	manager.onPause();
 	userOverlay.disableCompass();
 	userOverlay.disableMyLocation();
+	internetManager.removeSubscriber(this);
     }
 
     /*

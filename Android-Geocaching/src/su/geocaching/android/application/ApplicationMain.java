@@ -2,6 +2,7 @@ package su.geocaching.android.application;
 
 import su.geocaching.android.model.datastorage.DbManager;
 import su.geocaching.android.model.datatype.GeoCache;
+import su.geocaching.android.ui.geocachemap.ConnectionManager;
 import su.geocaching.android.ui.searchgeocache.GeoCacheCompassManager;
 import su.geocaching.android.ui.searchgeocache.GeoCacheLocationManager;
 import su.geocaching.android.ui.searchgeocache.GpsStatusListener;
@@ -9,6 +10,7 @@ import android.app.Application;
 import android.content.SharedPreferences;
 import android.hardware.SensorManager;
 import android.location.LocationManager;
+import android.net.ConnectivityManager;
 import android.util.Log;
 
 /**
@@ -27,6 +29,7 @@ public class ApplicationMain extends Application {
     private GeoCacheLocationManager locationManager;
     private GeoCacheCompassManager compassManager;
     private GpsStatusListener gpsStatusManager;
+    private ConnectionManager connectionManager;
 
     /*
      * (non-Javadoc)
@@ -48,10 +51,13 @@ public class ApplicationMain extends Application {
 	locationManager = new GeoCacheLocationManager((LocationManager) getSystemService(LOCATION_SERVICE));
 	compassManager = new GeoCacheCompassManager((SensorManager) getSystemService(SENSOR_SERVICE));
 	gpsStatusManager = new GpsStatusListener((LocationManager) getSystemService(LOCATION_SERVICE), getApplicationContext());
+	connectionManager = new ConnectionManager((ConnectivityManager) getSystemService(CONNECTIVITY_SERVICE));
 	Log.d(TAG, "onCreate");
     }
 
-    /* (non-Javadoc)
+    /*
+     * (non-Javadoc)
+     * 
      * @see android.app.Application#onTerminate()
      */
     @Override
@@ -114,5 +120,13 @@ public class ApplicationMain extends Application {
      */
     public GpsStatusListener getGpsStatusListener() {
 	return gpsStatusManager;
+    }
+
+    /**
+     * @return connection manager which can send to IInternetAware updates of
+     *         internet connection status
+     */
+    public ConnectionManager getConnectionManager() {
+	return connectionManager;
     }
 }
