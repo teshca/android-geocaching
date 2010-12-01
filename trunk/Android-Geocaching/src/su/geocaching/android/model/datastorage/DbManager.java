@@ -23,14 +23,14 @@ public class DbManager extends SQLiteOpenHelper {
     private static final String COLUMN_ID = "cid";
     private static final String COLUMN_TYPE = "type";
     private static final String COLUMN_WEB_TEXT = "text";
-    private static final String COLUMN_LONG = "longtitude";
-    private static final String COLUMN_LANT = "lantitude";
+    private static final String COLUMN_LON = "longtitude";
+    private static final String COLUMN_LAT = "lantitude";
     private static final String COLUMN_NAME = "name";
     private static final String COLUMN_STATUS = "status";
     private SQLiteDatabase db = null;
 
     private static final String SQL_CREATE_DATABASE_TABLE = String.format("create table %s (%s integer, %s string, %s integer,%s integer, %s integer, %s integer, %s string);", DATABASE_NAME_TABLE,
-	    COLUMN_ID, COLUMN_NAME, COLUMN_TYPE, COLUMN_STATUS, COLUMN_LANT, COLUMN_LONG, COLUMN_WEB_TEXT);
+	    COLUMN_ID, COLUMN_NAME, COLUMN_TYPE, COLUMN_STATUS, COLUMN_LAT, COLUMN_LON, COLUMN_WEB_TEXT);
 
     public DbManager(Context context) {
 	super(context, DATABASE_NAME_BASE, null, DATABASE_VERSION);
@@ -62,7 +62,7 @@ public class DbManager extends SQLiteOpenHelper {
 
 	ArrayList<GeoCache> exitCollection = new ArrayList<GeoCache>();
 
-	Cursor cur = db.rawQuery(String.format("select %s,%s,%s,%s,%s,%s from %s", COLUMN_ID, COLUMN_NAME, COLUMN_TYPE, COLUMN_STATUS, COLUMN_LANT, COLUMN_LONG, DATABASE_NAME_TABLE), null);
+	Cursor cur = db.rawQuery(String.format("select %s,%s,%s,%s,%s,%s from %s", COLUMN_ID, COLUMN_NAME, COLUMN_TYPE, COLUMN_STATUS, COLUMN_LAT, COLUMN_LON, DATABASE_NAME_TABLE), null);
 //	Log.d("getArrayGeoCache", "Cursor good.+" + cur.getCount());
 
 	if (cur.getCount() == 0) {
@@ -93,7 +93,7 @@ public class DbManager extends SQLiteOpenHelper {
 		break;
 	    }
 //	    Log.d("getArrayGeoCache " + i, "setLocation");
-	    geocache.setLocationGeoPoint(new GeoPoint(cur.getInt(cur.getColumnIndex(COLUMN_LANT)), cur.getInt(cur.getColumnIndex(COLUMN_LONG))));
+	    geocache.setLocationGeoPoint(new GeoPoint(cur.getInt(cur.getColumnIndex(COLUMN_LAT)), cur.getInt(cur.getColumnIndex(COLUMN_LON))));
 //	    Log.d("getArrayGeoCache " + i, "setTYPE");
 	    switch (cur.getInt(cur.getColumnIndex(COLUMN_TYPE))) {
 	    case 0:
@@ -137,8 +137,8 @@ public class DbManager extends SQLiteOpenHelper {
 	values.put(COLUMN_NAME, cache.getName());
 	values.put(COLUMN_STATUS, cache.getStatus().ordinal());
 	values.put(COLUMN_TYPE, cache.getType().ordinal());
-	values.put(COLUMN_LANT, cache.getLocationGeoPoint().getLatitudeE6());
-	values.put(COLUMN_LONG, cache.getLocationGeoPoint().getLongitudeE6());
+	values.put(COLUMN_LAT, cache.getLocationGeoPoint().getLatitudeE6());
+	values.put(COLUMN_LON, cache.getLocationGeoPoint().getLongitudeE6());
 	values.put(COLUMN_WEB_TEXT, web);
 	db.insert(DATABASE_NAME_TABLE, null, values);
     }
@@ -155,8 +155,8 @@ public class DbManager extends SQLiteOpenHelper {
 	values.put(COLUMN_NAME, name);
 	values.put(COLUMN_STATUS, st);
 	values.put(COLUMN_TYPE, type);
-	values.put(COLUMN_LANT, lant);
-	values.put(COLUMN_LONG, lon);
+	values.put(COLUMN_LAT, lant);
+	values.put(COLUMN_LON, lon);
 	values.put(COLUMN_WEB_TEXT, web);
 	db.insert(DATABASE_NAME_TABLE, null, values);
     }
@@ -183,7 +183,7 @@ public class DbManager extends SQLiteOpenHelper {
      */
     public GeoCache getCacheByID(int id) {
 	//Log.d("getCacheById", "Begin");
-	Cursor c = db.rawQuery(String.format("select %s,%s,%s,%s,%s from %s where %s=%s", COLUMN_NAME, COLUMN_TYPE, COLUMN_STATUS, COLUMN_LANT, COLUMN_LONG, DATABASE_NAME_TABLE, COLUMN_ID, id + ""),
+	Cursor c = db.rawQuery(String.format("select %s,%s,%s,%s,%s from %s where %s=%s", COLUMN_NAME, COLUMN_TYPE, COLUMN_STATUS, COLUMN_LAT, COLUMN_LON, DATABASE_NAME_TABLE, COLUMN_ID, id + ""),
 		null);
 
 //	Log.d("getCacheById", "Cursor exelent");
@@ -195,12 +195,13 @@ public class DbManager extends SQLiteOpenHelper {
 //	Log.d("getCacheById", "Move cursor");
 	c.moveToFirst();
 	//Log.d("getCacheById", "Create Cache");
-	GeoCache exitCache = new GeoCache(id);
+	GeoCache exitCache = new GeoCache();
+	exitCache.setId(id);
 
 	//Log.d("getCacheById", "setName Cache");
 	exitCache.setName(c.getString(0));
 	//Log.d("getCacheById", "Set Lant_Lont");
-	exitCache.setLocationGeoPoint(new GeoPoint(c.getColumnIndex(COLUMN_LANT), c.getColumnIndex(COLUMN_LONG)));
+	exitCache.setLocationGeoPoint(new GeoPoint(c.getColumnIndex(COLUMN_LAT), c.getColumnIndex(COLUMN_LON)));
 
 //	Log.d("getCacheById", "Set status");
 	switch (c.getInt(c.getColumnIndex(COLUMN_STATUS))) {

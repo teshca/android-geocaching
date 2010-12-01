@@ -25,14 +25,6 @@ public class GeoCache implements Parcelable {
 	status = GeoCacheStatus.VALID;
     }
 
-    @Deprecated
-    public GeoCache(int id) {
-	this.id = id;
-	locationGeoPoint = new GeoPoint(59879936, 29828610);
-	type = GeoCacheType.TRADITIONAL;
-	status = GeoCacheStatus.VALID;
-    }
-
     public GeoPoint getLocationGeoPoint() {
 	return locationGeoPoint;
     }
