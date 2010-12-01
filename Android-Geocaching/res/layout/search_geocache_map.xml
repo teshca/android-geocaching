@@ -2,8 +2,21 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
 	android:orientation="vertical" android:layout_width="fill_parent"
 	android:layout_height="fill_parent">
-		<TextView android:id="@+id/waitingLocationFixTextView" android:visibility="gone"
-			android:layout_width="fill_parent" android:layout_height="wrap_content" />
+
+	<LinearLayout style="@style/TitleBar" android:id="@+id/waitingLocationFixBar"
+		android:visibility="gone" android:gravity="clip_horizontal">
+		<ImageView android:layout_weight="0" android:src="@drawable/geologo"
+			style="@style/TitleBarLogo" android:id="@+id/title_logo" />
+		<ImageView android:layout_weight="0" style="@style/TitleBarSeparator" />
+		<TextView android:layout_weight="1" android:id="@+id/waitingLocationFixText"
+			android:layout_width="wrap_content" android:layout_height="fill_parent"
+			android:textColor="#ffffffff" android:padding="3px"
+			android:textSize="@dimen/text_size_medium" />
+		<ImageView android:layout_weight="1" android:src="@drawable/progress_circle"
+			android:layout_width="@dimen/title_height" android:layout_height="@dimen/title_height"
+			android:id="@+id/progressCircle" />
+	</LinearLayout>
+
 	<com.google.android.maps.MapView
 		xmlns:android="http://schemas.android.com/apk/res/android" android:id="@+id/searchGeocacheMap"
 		android:layout_width="fill_parent" android:layout_height="wrap_content"

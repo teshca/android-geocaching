@@ -66,8 +66,4 @@ public class DistanceToGeoCacheOverlay extends com.google.android.maps.Overlay {
     protected void setShorteshtWayVisible(boolean with) {
 	withShortestWay=with;
     }
-    
-    protected void toggleShorteshtWayVisible() {
-	withShortestWay=!withShortestWay;
-    }    
 }

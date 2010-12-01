@@ -22,6 +22,10 @@ import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.animation.Animation;
+import android.view.animation.AnimationUtils;
+import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -46,12 +50,14 @@ public class SearchGeoCacheMap extends MapActivity implements ISearchActivity, I
     private Drawable cacheMarker;
     private DistanceToGeoCacheOverlay distanceOverlay;
     private UserLocationOverlay userOverlay;
-    private TextView waitingLocationFixTextView;
+    private LinearLayout waitingLocationFixBar;
+    private TextView waitingLocationFixText;
     private MapView map;
     private MapController mapController;
     private List<Overlay> mapOverlays;
     private SearchGeoCacheManager manager;
     private ConnectionStateReceiver internetManager;
+    private ImageView progressCircle;
 
     /*
      * (non-Javadoc)
@@ -62,7 +68,9 @@ public class SearchGeoCacheMap extends MapActivity implements ISearchActivity, I
     protected void onCreate(Bundle savedInstanceState) {
 	super.onCreate(savedInstanceState);
 	setContentView(R.layout.search_geocache_map);
-	waitingLocationFixTextView = (TextView) findViewById(R.id.waitingLocationFixTextView);
+	waitingLocationFixBar = (LinearLayout) findViewById(R.id.waitingLocationFixBar);
+	waitingLocationFixText = (TextView) findViewById(R.id.waitingLocationFixText);
+	progressCircle = (ImageView) findViewById(R.id.progressCircle);
 	map = (MapView) findViewById(R.id.searchGeocacheMap);
 	mapOverlays = map.getOverlays();
 	mapController = map.getController();
@@ -139,7 +147,9 @@ public class SearchGeoCacheMap extends MapActivity implements ISearchActivity, I
 	if (!manager.isLocationFixed()) {
 	    Log.d(TAG, "run logic: location not fixed. Show gps status");
 	    mapController.animateTo(manager.getGeoCache().getLocationGeoPoint());
-	    waitingLocationFixTextView.setVisibility(View.VISIBLE);
+	    waitingLocationFixBar.setVisibility(View.VISIBLE);
+	    Animation progressCircleAnim = AnimationUtils.loadAnimation(this, R.anim.progress_circle);
+	    progressCircle.startAnimation(progressCircleAnim);
 	}
 
 	map.invalidate();
@@ -171,7 +181,7 @@ public class SearchGeoCacheMap extends MapActivity implements ISearchActivity, I
 	if (distanceOverlay == null) {
 	    // It's really first run of update location
 	    Log.d(TAG, "update location: first run of this activity");
-	    waitingLocationFixTextView.setVisibility(View.GONE);
+	    waitingLocationFixBar.setVisibility(View.GONE);
 	    manager.turnOffGpsStatusListener();
 	    distanceOverlay = new DistanceToGeoCacheOverlay(Helper.locationToGeoPoint(location), manager.getGeoCache().getLocationGeoPoint());
 	    distanceOverlay.setCachePoint(manager.getGeoCache().getLocationGeoPoint());
@@ -232,7 +242,6 @@ public class SearchGeoCacheMap extends MapActivity implements ISearchActivity, I
 		.getLongitudeE6() + currentGeoPoint.getLongitudeE6()) / 2);
 
 	// Set new center of map
-	//mapController.animateTo(center);
 	mapController.setCenter(center);
 	map.invalidate();
 	Projection proj = map.getProjection();
@@ -244,19 +253,19 @@ public class SearchGeoCacheMap extends MapActivity implements ISearchActivity, I
 	Point cachePoint = new Point();
 	proj.toPixels(currentGeoPoint, userPoint);
 	proj.toPixels(manager.getGeoCache().getLocationGeoPoint(), cachePoint);
-	
+	// Get map boundaries
 	int mapRight = map.getRight();
 	int mapBottom = map.getBottom();
 	int mapLeft = map.getLeft();
 	int mapTop = map.getTop();
-	
+	// Check contains markers in visible part of map
 	boolean isCacheMarkerNotInMapX = (cachePoint.x + cacheBounds.left < mapLeft) || (cachePoint.x + cacheBounds.right > mapRight);
 	boolean isCacheMarkerNotInMapY = (cachePoint.y + cacheBounds.top < mapTop) || (cachePoint.y + cacheBounds.bottom > mapBottom);
 	boolean isUserMarkerNotInMapX = (userPoint.x - userPadding < mapLeft) || (userPoint.x + userPadding > mapRight);
 	boolean isUserMarkerNotInMapY = (userPoint.y - userPadding < mapTop) || (userPoint.y + userPadding > mapBottom);
-	boolean isMapDimensionsZeroes = mapRight==0 && mapLeft==0 && mapTop==0 && mapBottom==0;
+	boolean isMapDimensionsZeroes = mapRight == 0 && mapLeft == 0 && mapTop == 0 && mapBottom == 0;
 	// if markers are not visible then zoomOut
-	if ((isCacheMarkerNotInMapX || isCacheMarkerNotInMapY || isUserMarkerNotInMapX || isUserMarkerNotInMapY)&&(!isMapDimensionsZeroes)) {
+	if ((isCacheMarkerNotInMapX || isCacheMarkerNotInMapY || isUserMarkerNotInMapX || isUserMarkerNotInMapY) && (!isMapDimensionsZeroes)) {
 	    Log.d(TAG, "markers not in the visible part of map. Zoom out.");
 	    mapController.zoomOut();
 	}
@@ -286,11 +295,6 @@ public class SearchGeoCacheMap extends MapActivity implements ISearchActivity, I
 	case R.id.menuStartCompass:
 	    this.startCompassView();
 	    return true;
-	case R.id.menuToggleShortestWay:
-	    if (distanceOverlay != null) {
-		distanceOverlay.toggleShorteshtWayVisible();
-	    }
-	    return true;
 	case R.id.menuGeoCacheInfo:
 	    manager.showGeoCacheInfo();
 	    return true;
@@ -311,7 +315,7 @@ public class SearchGeoCacheMap extends MapActivity implements ISearchActivity, I
     @Override
     public void updateStatus(String status, int type) {
 	if (type == ISearchActivity.STATUS_TYPE_GPS) {
-	    waitingLocationFixTextView.setText(status);
+	    waitingLocationFixText.setText(status);
 	}
     }
 
