@@ -2,8 +2,7 @@
 <resources>
 	<string name="app_name">Геокэшинг</string>
 
-	<string name="waiting_location_fix_message">Получение координат. Это может занять некоторое
-		время.</string>
+	<string name="waiting_location_fix_message">Инициализация</string>
 	<string name="device_without_gps_alert">Внимание!\n\r На Вашем устройстве отстутствует
 		GPS.\n\rВаше положение может определяться не точно.</string>
 	<string name="ask_enable_gps_text">Для дальнейшей работы необходим GPS. Включить?
@@ -16,14 +15,12 @@
 		возникнуть проблемы с обновлением карты</string>
 	<string name="search_geocache_best_provider_lost">Обновление координат в данный момент недоступно
 	</string>
-	<string name="search_geocache_status_without_internet">Интернет: нет</string>
-	<string name="search_geocache_status_with_internet">Интернет: есть</string>
 	<string name="select_geocache_status_without_internet">Сеть не найдена. Попробуйте позже</string>
 	<string name="gps_status_started">GPS: Запущен</string>
 	<string name="gps_status_stopped">GPS: Связь потеряна</string>
 	<string name="gps_status_first_fix">GPS: Координаты получены</string>
 	<string name="gps_status_satellite_status">GPS: Спутники </string>
-	<string name="menu_default_zoom">Reset zoom</string>
+	<string name="menu_default_zoom">Вместить всё</string>
 	<string name="menu_toggle_shortest_way">Убрать/поставить путь</string>
 	<string name="menu_start_compass">Компас</string>
 	<string name="menu_start_map">Карта</string>

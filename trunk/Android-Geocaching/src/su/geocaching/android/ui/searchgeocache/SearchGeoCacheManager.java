@@ -122,7 +122,7 @@ public class SearchGeoCacheManager implements ILocationAware, ICompassAware, IGp
     }
 
     /**
-     * Show cancelable alert which tell user what location fixing
+     * Update status when location not fixed
      */
     private void showWaitingLocationFix() {
 	activity.updateStatus(context.getString(R.string.waiting_location_fix_message), ISearchActivity.STATUS_TYPE_GPS);
