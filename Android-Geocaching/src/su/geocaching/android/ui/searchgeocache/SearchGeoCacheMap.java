@@ -3,6 +3,7 @@ package su.geocaching.android.ui.searchgeocache;
 import java.util.List;
 
 import su.geocaching.android.application.ApplicationMain;
+import su.geocaching.android.controller.Controller;
 import su.geocaching.android.model.datatype.GeoCache;
 import su.geocaching.android.ui.R;
 import su.geocaching.android.ui.geocachemap.*;
@@ -81,8 +82,10 @@ public class SearchGeoCacheMap extends MapActivity implements ISearchActivity, I
 	internetManager = ((ApplicationMain) this.getApplication()).getConnectionManager();
 	internetManager.addSubscriber(this);
 
-	cacheMarker = this.getResources().getDrawable(R.drawable.orangecache);
-	cacheMarker.setBounds(0, -cacheMarker.getMinimumHeight(), cacheMarker.getMinimumWidth(), 0);
+	// cacheMarker =
+	// this.getResources().getDrawable(R.drawable.orangecache);
+	// cacheMarker.setBounds(0, -cacheMarker.getMinimumHeight(),
+	// cacheMarker.getMinimumWidth(), 0);
     }
 
     /*
@@ -128,6 +131,7 @@ public class SearchGeoCacheMap extends MapActivity implements ISearchActivity, I
 	if (manager.getGeoCache() == null) {
 	    return;
 	}
+	cacheMarker = Controller.getInstance().getMarker(manager.getGeoCache(), this);
 	cacheItemizedOverlay = new GeoCacheItemizedOverlay(cacheMarker, this);
 	cacheOverlayItem = new GeoCacheOverlayItem(manager.getGeoCache(), "", "");
 	cacheItemizedOverlay.addOverlayItem(cacheOverlayItem);
