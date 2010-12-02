@@ -7,7 +7,8 @@ import android.content.Intent;
 import android.util.Log;
 
 /**
- * used for listen broadcast messages for activities which uses internet
+ * Used for listen broadcast messages for activities which uses internet. It
+ * shouldn't be instantiate.
  * 
  * @author Grigory Kalabin. grigory.kalabin@gmail.com
  * @since Nov 22, 2010
