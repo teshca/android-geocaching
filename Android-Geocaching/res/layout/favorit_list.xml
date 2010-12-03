@@ -4,6 +4,7 @@
   android:layout_width="fill_parent"
   android:layout_height="fill_parent"
   android:orientation="vertical"
+  android:background="@color/menu_background"
   >
    
    	<LinearLayout style="@style/TitleBar" android:id="@+id/title_bar"
@@ -18,8 +19,8 @@
   	android:gravity="center_horizontal"
   	android:layout_width="fill_parent"
   	android:layout_height="wrap_content"
-  	android:text="@string/favorit_folder_title_text"
-  	android:textStyle="bold"
+  	android:text=""
+  	style="@style/FavoritesFolderTitle"
   	android:id="@+id/favorit_foldet_title_text"
    />
   

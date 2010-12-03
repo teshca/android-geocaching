@@ -14,14 +14,8 @@
   android:layout_gravity="center_vertical"
   />
   <TextView 
-  android:layout_marginTop="5dip"
-  android:layout_marginBottom="25dip"
-  android:layout_width="fill_parent"
-  android:layout_height="fill_parent"
   android:id="@+id/favorit_list_textview_name"
-  android:layout_marginLeft="10dip"
-
-  android:gravity="center_vertical"
+  style="@style/FavoritesFolderRowStyle"
   />
   
   
