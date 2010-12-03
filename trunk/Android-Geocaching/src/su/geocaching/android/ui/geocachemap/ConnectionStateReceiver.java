@@ -1,6 +1,6 @@
 package su.geocaching.android.ui.geocachemap;
 
-import su.geocaching.android.application.ApplicationMain;
+import su.geocaching.android.controller.Controller;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
@@ -25,7 +25,7 @@ public class ConnectionStateReceiver extends BroadcastReceiver {
     @Override
     public void onReceive(Context context, Intent intent) {
 	Log.d(TAG, "Recieved message about internet status");
-	ConnectionManager connManager = ((ApplicationMain) context.getApplicationContext()).getConnectionManager();
+	ConnectionManager connManager = Controller.getInstance().getConnectionManager(context);
 	if (connManager.isInternetConnected()) {
 	    connManager.onInternetFound();
 	} else {

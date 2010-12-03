@@ -1,6 +1,6 @@
 package su.geocaching.android.ui.searchgeocache;
 
-import su.geocaching.android.application.ApplicationMain;
+import su.geocaching.android.controller.Controller;
 import su.geocaching.android.model.datatype.GeoCache;
 import su.geocaching.android.ui.R;
 import su.geocaching.android.view.showgeocacheinfo.ShowGeoCacheInfo;
@@ -40,9 +40,9 @@ public class SearchGeoCacheManager implements ILocationAware, ICompassAware, IGp
     public SearchGeoCacheManager(ISearchActivity activity) {
 	this.activity = activity;
 	this.context = (Activity) activity;
-	locationManager = ((ApplicationMain) context.getApplication()).getLocationManager();
-	compass = ((ApplicationMain) context.getApplication()).getCompassManager();
-	gpsStatusListener = ((ApplicationMain) context.getApplication()).getGpsStatusListener();
+	locationManager = Controller.getInstance().getLocationManager(context);
+	compass = Controller.getInstance().getCompassManager(context);
+	gpsStatusListener = Controller.getInstance().getGpsStatusListener(context);
 	Log.d(TAG, "Init");
     }
 
@@ -200,7 +200,7 @@ public class SearchGeoCacheManager implements ILocationAware, ICompassAware, IGp
 	}
 
 	// Save last searched geocache
-	((ApplicationMain) context.getApplication()).setDesiredGeoCache(geoCache);
+	Controller.getInstance().setLastSearchedGeoCache(geoCache, context);
 
 	if (!isLocationFixed()) {
 	    showWaitingLocationFix();

@@ -2,7 +2,6 @@ package su.geocaching.android.ui.searchgeocache;
 
 import java.util.List;
 
-import su.geocaching.android.application.ApplicationMain;
 import su.geocaching.android.controller.Controller;
 import su.geocaching.android.model.datatype.GeoCache;
 import su.geocaching.android.ui.R;
@@ -79,7 +78,7 @@ public class SearchGeoCacheMap extends MapActivity implements ISearchActivity, I
 	userOverlay = new UserLocationOverlay(this, map);
 	manager = new SearchGeoCacheManager(this);
 	map.setBuiltInZoomControls(true);
-	internetManager = ((ApplicationMain) this.getApplication()).getConnectionManager();
+	internetManager = Controller.getInstance().getConnectionManager(this);
 	internetManager.addSubscriber(this);
 
 	// cacheMarker =
