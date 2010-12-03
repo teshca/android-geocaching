@@ -66,7 +66,7 @@
         <item name="android:textSize">@dimen/text_size_medium</item>
         <item name="android:textStyle">bold</item>
         <item name="android:textColor">@color/menu_text_color</item>
-        <item name="android:background">@color/menu_background</item>
+        <item name="android:background">@null</item>
         <item name="android:layout_marginBottom">25dip</item>
         <item name="android:layout_marginLeft">10dip</item>
          <item name="android:layout_marginTop">5dip</item>
