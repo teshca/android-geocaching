@@ -3,7 +3,6 @@ package su.geocaching.android.ui.selectgeocache.timer;
 import su.geocaching.android.ui.selectgeocache.SelectGeoCacheMap;
 import su.geocaching.android.ui.selectgeocache.timer.tasks.CheckMapStateTimerTask;
 import su.geocaching.android.ui.selectgeocache.timer.tasks.CheckRequestTimerTask;
-import su.geocaching.android.ui.selectgeocache.timer.tasks.CheckTouchTimerTask;
 
 import java.util.Timer;
 

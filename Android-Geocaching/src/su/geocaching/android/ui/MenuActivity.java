@@ -1,6 +1,6 @@
 package su.geocaching.android.ui;
 
-import su.geocaching.android.application.ApplicationMain;
+import su.geocaching.android.controller.Controller;
 import su.geocaching.android.model.datatype.GeoCache;
 import su.geocaching.android.ui.geocachemap.ConnectionManager;
 import su.geocaching.android.ui.geocachemap.IInternetAware;
@@ -32,7 +32,6 @@ public class MenuActivity extends Activity implements OnClickListener, IInternet
     private Button selectButton;
     private Button favoritButton;
     private Button aboutButton;
-    private ApplicationMain application;
     private ConnectionManager internetManager;
 
     @Override
@@ -42,8 +41,7 @@ public class MenuActivity extends Activity implements OnClickListener, IInternet
 
 	setContentView(R.layout.dashboard_menu);
 	initButtons();
-	application = (ApplicationMain) getApplication();
-	internetManager = application.getConnectionManager();
+	internetManager = Controller.getInstance().getConnectionManager(this);
 	internetManager.addSubscriber(this);
     }
 
@@ -98,12 +96,12 @@ public class MenuActivity extends Activity implements OnClickListener, IInternet
      * Starting activity to search GeoCache
      */
     private void startSearchGeoCache() {
-	if (application.getDesiredGeoCache() == null) {
+	if (Controller.getInstance().getLastSearchedGeoCache(this) == null) {
 	    Toast.makeText(this.getBaseContext(), getString(R.string.search_geocache_start_without_geocache), Toast.LENGTH_SHORT).show();
 	    return;
 	}
 	Intent intent = new Intent(this, SearchGeoCacheMap.class);
-	intent.putExtra(GeoCache.class.getCanonicalName(), application.getDesiredGeoCache());
+	intent.putExtra(GeoCache.class.getCanonicalName(), Controller.getInstance().getLastSearchedGeoCache(this));
 	startActivity(intent);
     }
 
