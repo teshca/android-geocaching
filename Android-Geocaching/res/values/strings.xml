@@ -28,13 +28,21 @@
 	<string name="menu_geocache_info">Инфо</string>
 	<string name="menu_directive_way">Путь с направлением</string>
 	<string name="menu_quit">Exit</string>
-	<string name="info_geocach_Go_button">Перейти к поиску</string>
-	<string name="info_geocach_name_geocach">Название</string>
-	<string name="favorit_folder_title_text">Список добавленных тайников</string>
+	<string name="type_geocache_traditional">Традиционный</string>
+	<string name="type_geocache_virtua">Виртуальный</string>
+	<string name="type_geocache_step_by_step">Пошаговый</string>
+	<string name="type_geocache_event">Встреча</string>
+	<string name="type_geocache_extreme">Экстримальный</string>
+	
+	<string name="status_geocache_valid">Доступнен</string>
+	<string name="status_geocache_no_valid">Не доступен</string>
+	<string name="status_geocache_no_confirmed">Не подтвержден</string>
+	
+	
 	<string name="favorit_folder_In_DB_not_cache">В базе нет ни одного тайника</string>
-	<string name="favorit_folder_addRandomCache">Добавить слуачйных тайников</string>
 	<string name="info_geocach_not_internet_and_not_in_DB">Невозмоно показать информацию о тайнике, поскольку тайника нету в локальной базе, а так же отсутствует соединение с интернетом</string>
 <string name="menu_keep_screen">Не выключать экран</string>
-<string name="about">Об авторах</string><string name="about_title">Об авторах</string>
+<string name="about">Об авторах</string>
+<string name="about_title">Об авторах</string>
 <string name="about_text"> Мобильный клиент для работы с порталом\nhttp://geocaching.su\n\nАвторы:\nНиколай Артамонов\nДмитрий Кичинский\nНикита Бумаков\nГригорий Калабин\nЮрий Денисон\nВладимир Алексеенко\nВладислав Сергеев\nНятин Анатолий\n\nВсе вопросы и предложения присылайте на наш email\nandroid.geocaching.su@gmail.com </string>
 </resources>
