@@ -1,16 +1,20 @@
 package su.geocaching.android.ui.selectgeocache;
 
+import android.app.Activity;
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
+import android.provider.Settings;
 import android.util.Log;
+import android.location.Location;
 import android.view.MotionEvent;
+import android.widget.Toast;
 import com.google.android.maps.*;
 import su.geocaching.android.controller.Controller;
 import su.geocaching.android.model.datatype.GeoCache;
 import su.geocaching.android.ui.R;
-import su.geocaching.android.ui.geocachemap.GeoCacheItemizedOverlay;
-import su.geocaching.android.ui.geocachemap.GeoCacheOverlayItem;
-import su.geocaching.android.ui.geocachemap.IMapAware;
+import su.geocaching.android.ui.geocachemap.*;
 import su.geocaching.android.ui.selectgeocache.timer.MapUpdateTimer;
 import su.geocaching.android.utils.Helper;
 import su.geocaching.android.view.showgeocacheinfo.ShowGeoCacheInfo;
@@ -21,9 +25,8 @@ import java.util.List;
  * @author Yuri Denison
  * @since 04.11.2010
  */
-public class SelectGeoCacheMap extends MapActivity implements IMapAware {
+public class SelectGeoCacheMap extends MapActivity implements IMapAware, IInternetAware {
     private static final String TAG = SelectGeoCacheMap.class.getCanonicalName();
-    private final static int DEFAULT_ZOOM_VALUE = 13;
 
     private Controller controller;
     private MyLocationOverlay userOverlay;
@@ -31,6 +34,9 @@ public class SelectGeoCacheMap extends MapActivity implements IMapAware {
     private List<Overlay> mapOverlays;
     private boolean touchHappened;
     private MapUpdateTimer mapTimer;
+    private ConnectionManager internetManager;
+    private Activity context;
+
 
 
     @Override
@@ -39,8 +45,15 @@ public class SelectGeoCacheMap extends MapActivity implements IMapAware {
         setContentView(R.layout.select_geocache_map);
         map = (MapView) findViewById(R.id.selectGeocacheMap);
         mapOverlays = map.getOverlays();
+        internetManager = Controller.getInstance().getConnectionManager(this);
+	internetManager.addSubscriber(this);
 
+        context = this;
+        askTurnOnInternet();
         userOverlay = new MyLocationOverlay(this, map) {
+            @Override
+            public void onLocationChanged(Location location){}
+
             @Override
             public boolean onTouchEvent(MotionEvent event, MapView mapView) {
                 touchHappened = true;
@@ -61,8 +74,15 @@ public class SelectGeoCacheMap extends MapActivity implements IMapAware {
         map.getOverlays().clear();
         map.getOverlays().add(userOverlay);
 
-        // TODO default zoom to 10km
-        map.getController().setZoom(DEFAULT_ZOOM_VALUE);
+        updateMapInfoFromSettings();
+    }
+
+    private void updateMapInfoFromSettings() {
+        int[] lastMapInfo = this.getIntent().getExtras().getIntArray("map_info");
+        GeoPoint lastCenter = new GeoPoint(lastMapInfo[0], lastMapInfo[1]);
+        map.getController().setCenter(lastCenter);
+        map.getController().animateTo(lastCenter);
+        map.getController().setZoom(lastMapInfo[2]);
     }
 
     @Override
@@ -91,6 +111,8 @@ public class SelectGeoCacheMap extends MapActivity implements IMapAware {
     protected void onPause() {
         userOverlay.disableMyLocation();
         mapTimer.cancel();
+        internetManager.removeSubscriber(this);
+        controller.setLastMapInfo(map.getMapCenter(), map.getZoomLevel(), this);
         super.onPause();
     }
 
@@ -152,5 +174,42 @@ public class SelectGeoCacheMap extends MapActivity implements IMapAware {
 
     public void setTouchHappened(boolean touchHappened) {
         this.touchHappened = touchHappened;
+    }
+
+    @Override
+    public void onInternetLost() {
+	Toast.makeText(this, getString(R.string.search_geocache_internet_lost), Toast.LENGTH_LONG).show();
+    }
+
+    @Override
+    public void onInternetFound() {
+        // TODO: do smth?
+    }
+
+    /**
+     * Ask user turn on Internet, if this disabled
+     */
+    private void askTurnOnInternet() {
+	if (internetManager.isInternetConnected()) {
+	    Log.w(TAG, "Internet connected");
+	    return;
+	}
+	AlertDialog.Builder builder = new AlertDialog.Builder(context);
+	builder.setMessage(context.getString(R.string.ask_enable_internet_text)).setCancelable(false)
+		.setPositiveButton(context.getString(R.string.ask_enable_gps_yes), new DialogInterface.OnClickListener() {
+		    public void onClick(DialogInterface dialog, int id) {
+			Intent startGPS = new Intent(Settings.ACTION_WIRELESS_SETTINGS);
+			context.startActivity(startGPS);
+			dialog.cancel();
+		    }
+		}).setNegativeButton(context.getString(R.string.ask_enable_gps_no), new DialogInterface.OnClickListener() {
+            public void onClick(DialogInterface dialog, int id) {
+                dialog.cancel();
+                // activity is MapActivity or Activity
+                context.finish();
+            }
+        });
+	AlertDialog turnOnGpsAlert = builder.create();
+	turnOnGpsAlert.show();
     }
 }

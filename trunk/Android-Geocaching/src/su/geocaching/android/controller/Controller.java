@@ -5,6 +5,7 @@ import java.util.List;
 
 import android.content.Context;
 import android.content.SharedPreferences;
+import com.google.android.maps.GeoPoint;
 import su.geocaching.android.controller.apimanager.ApiManager;
 import su.geocaching.android.controller.apimanager.IApiManager;
 import su.geocaching.android.controller.filter.IFilter;
@@ -39,11 +40,15 @@ public class Controller {
     private GeoCacheStorage favoriteGeoCacheStorage;
     private SettingsStorage settingsStorage;
 
+    private GeoPoint lastCenter;
     private GeoCache lastSearchedGeoCache;
     private GeoCacheLocationManager locationManager;
     private GeoCacheCompassManager compassManager;
     private GpsStatusListener gpsStatusManager;
     private ConnectionManager connectionManager;
+    private static final int DEFAULT_CENTER_LONGITUDE = 59879904;
+    private static final int DEFAULT_CENTER_LATITUDE = 29828674;
+    private static final int DEFAULT_ZOOM = 13;
 
     private Controller() {
 	apiManager = new ApiManager();
@@ -255,5 +260,33 @@ public class Controller {
 	    editor.commit();
 	}
 	this.lastSearchedGeoCache = lastSearchedGeoCache;
+    }
+
+    public synchronized void setLastMapInfo(GeoPoint center, int zoom, Context context) {
+	if (lastCenter != null) {
+	    Log.d(TAG, "Save last map center (" + center.getLatitudeE6() + ", " + center.getLongitudeE6() + ") in settings");
+	    SharedPreferences settings = context.getSharedPreferences(PREFS_NAME, 0);
+	    SharedPreferences.Editor editor = settings.edit();
+	    editor.putInt("center_x", center.getLatitudeE6());
+            editor.putInt("center_y", center.getLongitudeE6());
+            editor.putInt("zoom", zoom);
+	    // Commit the edits!
+	    editor.commit();
+	}
+	this.lastCenter = center;
+    }
+
+    /**
+     * 
+     * @return  [0] - last center latitude
+     *          [1] - last center longitude
+     *          [2] - last zoom
+     */
+    public synchronized int[] getLastMapInfo(Context context) {
+        SharedPreferences settings = context.getSharedPreferences(PREFS_NAME, 0);
+        int center_x = settings.getInt("center_x", DEFAULT_CENTER_LATITUDE);
+        int center_y = settings.getInt("center_y", DEFAULT_CENTER_LONGITUDE);
+        int zoom = settings.getInt("zoom", DEFAULT_ZOOM);
+        return new int[]{center_x, center_y, zoom};
     }
 }
