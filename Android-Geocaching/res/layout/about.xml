@@ -1,14 +1,32 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
-    android:orientation="vertical"
-    android:layout_width="fill_parent"
-    android:layout_height="fill_parent"
-    >
-   <TextView
-      android:id="@+id/about_content"
-      android:layout_width="wrap_content"
-      android:layout_height="wrap_content"
-      android:autoLink="web"
-      android:gravity="center"
-      android:text="@string/about_text" />
+<ScrollView
+   xmlns:android="http://schemas.android.com/apk/res/android"
+   android:layout_width="fill_parent"
+   android:layout_height="fill_parent"
+   android:padding="10dip">
+   <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+  	  android:orientation="vertical"
+   	  android:layout_width="wrap_content"
+  	  android:layout_height="wrap_content">
+  	  <TextView
+     	 android:id="@+id/about_content"
+     	 android:layout_width="wrap_content"
+     	 android:layout_height="wrap_content"
+    	 android:autoLink="web"
+     	 android:gravity="center"
+      	 android:text="@string/about_programm_text"/>
+      <TextView
+     	 android:id="@+id/about_autors"
+     	 android:layout_width="wrap_content"
+     	 android:layout_height="wrap_content"
+      	 android:gravity="left"
+     	 android:text="@string/about_autors_text"/>
+      <TextView
+  	  	 android:id="@+id/about_email"
+     	 android:layout_width="wrap_content"
+     	 android:layout_height="wrap_content"
+     	 android:autoLink="email"
+      	 android:text="@string/about_email_text"
+      	 android:gravity="center"/>
+	</LinearLayout>
 </ScrollView>
