@@ -1,9 +1,8 @@
 package su.geocaching.android.ui;
 
+import com.google.android.maps.GeoPoint;
 import su.geocaching.android.controller.Controller;
 import su.geocaching.android.model.datatype.GeoCache;
-import su.geocaching.android.ui.geocachemap.ConnectionManager;
-import su.geocaching.android.ui.geocachemap.IInternetAware;
 import su.geocaching.android.ui.searchgeocache.SearchGeoCacheMap;
 import su.geocaching.android.ui.selectgeocache.SelectGeoCacheMap;
 import android.app.Activity;
@@ -24,15 +23,14 @@ import android.widget.Toast;
  * @author Android-Geocaching.su student project team
  * @since October 2010 Main menu activity stub
  */
-public class MenuActivity extends Activity implements OnClickListener, IInternetAware {
+public class MenuActivity extends Activity implements OnClickListener {
 
     private static final String TAG = MenuActivity.class.getCanonicalName();
 
     private Button searchButton;
     private Button selectButton;
-    private Button favoritButton;
+    private Button favoriteButton;
     private Button aboutButton;
-    private ConnectionManager internetManager;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -41,19 +39,17 @@ public class MenuActivity extends Activity implements OnClickListener, IInternet
 
 	setContentView(R.layout.dashboard_menu);
 	initButtons();
-	internetManager = Controller.getInstance().getConnectionManager(this);
-	internetManager.addSubscriber(this);
     }
 
     private void initButtons() {
 	searchButton = (Button) findViewById(R.id.SearchButton);
 	selectButton = (Button) findViewById(R.id.SelectButton);
-	favoritButton = (Button) findViewById(R.id.FavoritesButton);
+	favoriteButton = (Button) findViewById(R.id.FavoritesButton);
 	aboutButton = (Button) findViewById(R.id.AboutButton);
 
 	searchButton.setOnClickListener(this);
 	selectButton.setOnClickListener(this);
-	favoritButton.setOnClickListener(this);
+	favoriteButton.setOnClickListener(this);
 	aboutButton.setOnClickListener(this);
     }
 
@@ -85,7 +81,7 @@ public class MenuActivity extends Activity implements OnClickListener, IInternet
 	    startSearchGeoCache();
 	} else if (v.equals(selectButton)) {
 	    startSelectGeoCache();
-	} else if (v.equals(favoritButton)) {
+	} else if (v.equals(favoriteButton)) {
 	    startFavoriteFolder();
 	} else if (v.equals(aboutButton)) {
 	    startAboutActivity();
@@ -109,12 +105,9 @@ public class MenuActivity extends Activity implements OnClickListener, IInternet
      * Starting activity to select GeoCache
      */
     private void startSelectGeoCache() {
-	if (internetManager.isInternetConnected()) {
-	    Intent intent = new Intent(this, SelectGeoCacheMap.class);
-	    startActivity(intent);
-	} else {
-	    Toast.makeText(this.getBaseContext(), getString(R.string.select_geocache_status_without_internet), Toast.LENGTH_SHORT).show();
-	}
+	Intent intent = new Intent(this, SelectGeoCacheMap.class);
+        intent.putExtra("map_info", Controller.getInstance().getLastMapInfo(this));
+	startActivity(intent);
     }
 
     private void startAboutActivity() {
@@ -125,15 +118,5 @@ public class MenuActivity extends Activity implements OnClickListener, IInternet
     private void startFavoriteFolder() {
 	Intent intent = new Intent(this, su.geocaching.android.view.favoriteswork.FavoritesFolder.class);
 	startActivity(intent);
-    }
-
-    @Override
-    public void onInternetLost() {
-	// TODO update internet icon to "offline"
-    }
-
-    @Override
-    public void onInternetFound() {
-	// TODO update internet icon to "online"
     }
 }
