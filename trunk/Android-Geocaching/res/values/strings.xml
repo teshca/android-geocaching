@@ -4,9 +4,9 @@
 
 	<string name="waiting_location_fix_message">Инициализация</string>
 	<string name="device_without_gps_alert">Внимание!\n\r На Вашем устройстве отстутствует
-		GPS.\n\rВаше положение может определяться не точно.</string>
-	<string name="ask_enable_gps_text">Для дальнейшей работы необходим GPS. Включить?
-	</string>
+		GPS.\n\rВаше положение может определяться не точно</string>
+    <string name="ask_enable_internet_text">Для дальнейшей работы необходим Интернет. Включить?</string>
+	<string name="ask_enable_gps_text">Для дальнейшей работы необходим GPS. Включить?</string>
 	<string name="ask_enable_gps_yes">Да</string>
 	<string name="ask_enable_gps_no">Нет</string>
 	<string name="search_geocache_error_no_geocache">Ошибка!\n\rНечего искать!</string>
@@ -21,7 +21,7 @@
 	<string name="gps_status_first_fix">GPS: Координаты получены</string>
 	<string name="gps_status_satellite_status">GPS: Спутники </string>
 	<string name="menu_default_zoom">Вместить всё</string>
-	<string name="menu_toggle_shortest_way">Убрать/поставить путь</string>
+	<string name="menu_toggle_shortest_way">Убрать/показать путь</string>
 	<string name="menu_start_compass">Компас</string>
 	<string name="menu_start_map">Карта</string>
 	<string name="menu_main_menu">Главное меню</string>
@@ -35,14 +35,14 @@
 	<string name="type_geocache_extreme">Экстримальный</string>
 	
 	<string name="status_geocache_valid">Доступнен</string>
-	<string name="status_geocache_no_valid">Не доступен</string>
-	<string name="status_geocache_no_confirmed">Не подтвержден</string>
+	<string name="status_geocache_no_valid">Недоступен</string>
+	<string name="status_geocache_no_confirmed">Возможно недоступен</string>
 	
 	
 	<string name="favorit_folder_In_DB_not_cache">В базе нет ни одного тайника</string>
-	<string name="info_geocach_not_internet_and_not_in_DB">Невозмоно показать информацию о тайнике, поскольку тайника нету в локальной базе, а так же отсутствует соединение с интернетом</string>
+	<string name="info_geocach_not_internet_and_not_in_DB">Невозможно показать информацию о тайнике, поскольку тайника нет в локальной базе, а так же отсутствует соединение с интернетом</string>
 <string name="menu_keep_screen">Не выключать экран</string>
 <string name="about">Об авторах</string>
 <string name="about_title">Об авторах</string>
-<string name="about_text"> Мобильный клиент для работы с порталом\nhttp://geocaching.su\n\nАвторы:\nНиколай Артамонов\nДмитрий Кичинский\nНикита Бумаков\nГригорий Калабин\nЮрий Денисон\nВладимир Алексеенко\nВладислав Сергеев\nНятин Анатолий\n\nВсе вопросы и предложения присылайте на наш email\nandroid.geocaching.su@gmail.com </string>
+<string name="about_text"> Мобильный клиент для работы с порталом\nhttp://geocaching.su\n\nАвторы:\nНиколай Артамонов\nДмитрий Кичинский\nНикита Бумаков\nГригорий Калабин\nЮрий Денисон\nВладимир Алексеенко\nВладислав Сергеев\nАнатолий Нятин\n\nВсе вопросы и предложения присылайте на наш email\nandroid.geocaching.su@gmail.com </string>
 </resources>
