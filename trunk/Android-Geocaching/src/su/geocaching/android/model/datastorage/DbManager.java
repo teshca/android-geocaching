@@ -149,19 +149,6 @@ public class DbManager extends SQLiteOpenHelper {
 	this.db.execSQL(String.format("delete from %s where %s=%s;", DATABASE_NAME_TABLE, COLUMN_ID, id + ""));
     }
     
-    public void insert2_for_testing(int id, String name, int type,int st,int lant, int lon, String web) {
-	ContentValues values = new ContentValues();
-	values.put(COLUMN_ID, id);
-	values.put(COLUMN_NAME, name);
-	values.put(COLUMN_STATUS, st);
-	values.put(COLUMN_TYPE, type);
-	values.put(COLUMN_LAT, lant);
-	values.put(COLUMN_LON, lon);
-	values.put(COLUMN_WEB_TEXT, web);
-	db.insert(DATABASE_NAME_TABLE, null, values);
-    }
-
-    
     /**
      * if id not in BD - return null
      */
@@ -201,7 +188,7 @@ public class DbManager extends SQLiteOpenHelper {
 	//Log.d("getCacheById", "setName Cache");
 	exitCache.setName(c.getString(0));
 	//Log.d("getCacheById", "Set Lant_Lont");
-	exitCache.setLocationGeoPoint(new GeoPoint(c.getColumnIndex(COLUMN_LAT), c.getColumnIndex(COLUMN_LON)));
+	exitCache.setLocationGeoPoint(new GeoPoint(c.getInt(c.getColumnIndex(COLUMN_LAT)), c.getInt(c.getColumnIndex(COLUMN_LON))));
 
 //	Log.d("getCacheById", "Set status");
 	switch (c.getInt(c.getColumnIndex(COLUMN_STATUS))) {
