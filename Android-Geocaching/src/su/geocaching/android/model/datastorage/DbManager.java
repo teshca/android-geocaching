@@ -13,6 +13,12 @@ import android.util.Log;
 
 import com.google.android.maps.GeoPoint;
 
+/**
+ * This class contains method for working with database. 
+ * 
+ * @author Alekseenko Vladimir
+ *
+ */
 public class DbManager extends SQLiteOpenHelper {
 
     // Name, version and name table
@@ -29,12 +35,14 @@ public class DbManager extends SQLiteOpenHelper {
     private static final String COLUMN_STATUS = "status";
     private SQLiteDatabase db = null;
 
+    
     private static final String SQL_CREATE_DATABASE_TABLE = String.format("create table %s (%s integer, %s string, %s integer,%s integer, %s integer, %s integer, %s string);", DATABASE_NAME_TABLE,
 	    COLUMN_ID, COLUMN_NAME, COLUMN_TYPE, COLUMN_STATUS, COLUMN_LAT, COLUMN_LON, COLUMN_WEB_TEXT);
-
+    /**
+     * @param context this activivty
+     */
     public DbManager(Context context) {
 	super(context, DATABASE_NAME_BASE, null, DATABASE_VERSION);
-
     }
 
     @Override
@@ -44,26 +52,25 @@ public class DbManager extends SQLiteOpenHelper {
 
     @Override
     public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
-	// TODO Auto-generated method stub
 
-    }
-
-    public void openDB() {
-	Log.d("openDB", "Begin");
-	db = this.getWritableDatabase();
-	Log.d("openDB", "End");
     }
 
     /**
-     * if table empty - return null
+     * Method for open database
+     */
+    public void openDB() {
+	Log.d("DataBase", "Open");
+	db = this.getWritableDatabase();
+    }
+
+    /**
+     * @return 
+     * 		ArrayList GeoCaches in database.
+     * 		Null if in database haven't GeoCache 
      */
     public ArrayList<GeoCache> getArrayGeoCache() {
-//	Log.d("getArrayGeoCache", "createArray");
-
 	ArrayList<GeoCache> exitCollection = new ArrayList<GeoCache>();
-
 	Cursor cur = db.rawQuery(String.format("select %s,%s,%s,%s,%s,%s from %s", COLUMN_ID, COLUMN_NAME, COLUMN_TYPE, COLUMN_STATUS, COLUMN_LAT, COLUMN_LON, DATABASE_NAME_TABLE), null);
-//	Log.d("getArrayGeoCache", "Cursor good.+" + cur.getCount());
 
 	if (cur.getCount() == 0) {
 	    cur.close();
@@ -71,16 +78,13 @@ public class DbManager extends SQLiteOpenHelper {
 	}
 
 	cur.moveToFirst();
-//	Log.d("getArrayGeoCache", "cursor move to fist");
 
 	for (int i = 0; i < cur.getCount(); i++) {
 
 	    GeoCache geocache = new GeoCache();
-//	    Log.d("getArrayGeoCache " + i, "set ID");
 	    geocache.setId(cur.getInt(cur.getColumnIndex(COLUMN_ID)));
-//	    Log.d("getArrayGeoCache " + i, "set NAME");
 	    geocache.setName(cur.getString(cur.getColumnIndex(COLUMN_NAME)));
-//	    Log.d("getArrayGeoCache " + i, "set Status");
+	    
 	    switch (cur.getInt(cur.getColumnIndex(COLUMN_STATUS))) {
 	    case 0:
 		geocache.setStatus(GeoCacheStatus.VALID);
@@ -92,9 +96,9 @@ public class DbManager extends SQLiteOpenHelper {
 		geocache.setStatus(GeoCacheStatus.NOT_CONFIRMED);
 		break;
 	    }
-//	    Log.d("getArrayGeoCache " + i, "setLocation");
+
 	    geocache.setLocationGeoPoint(new GeoPoint(cur.getInt(cur.getColumnIndex(COLUMN_LAT)), cur.getInt(cur.getColumnIndex(COLUMN_LON))));
-//	    Log.d("getArrayGeoCache " + i, "setTYPE");
+	    
 	    switch (cur.getInt(cur.getColumnIndex(COLUMN_TYPE))) {
 	    case 0:
 		geocache.setType(GeoCacheType.TRADITIONAL);
@@ -112,45 +116,51 @@ public class DbManager extends SQLiteOpenHelper {
 		geocache.setType(GeoCacheType.EVENT);
 		break;
 	    }
-//	    Log.d("getArrayGeoCache " + i, "addCache");
 	    exitCollection.add(geocache);
-//	    Log.d("move cursor " + i, "next" + cur.getCount());
 	    cur.moveToNext();
 	}
 	
 	cur.close();
 	return exitCollection;
     }
-
+    /**
+     * Method for close database
+     */
     public void closeDB() {
-	Log.d("CloseDB", "Begin");
+	Log.d("Database", "close");
 	db.close();
-	Log.d("CloseDB", "End");
     }
 
     /**
-     * 
+     * @param geoCacheForAdd
+     * 		GeoCache for add in database
+     * @param webText
+     * 		html text for description GeoCache
      */
-    public void addGeoCache(GeoCache cache, String web) {
+    public void addGeoCache(GeoCache geoCacheForAdd, String webText) {
 	ContentValues values = new ContentValues();
-	values.put(COLUMN_ID, cache.getId());
-	values.put(COLUMN_NAME, cache.getName());
-	values.put(COLUMN_STATUS, cache.getStatus().ordinal());
-	values.put(COLUMN_TYPE, cache.getType().ordinal());
-	values.put(COLUMN_LAT, cache.getLocationGeoPoint().getLatitudeE6());
-	values.put(COLUMN_LON, cache.getLocationGeoPoint().getLongitudeE6());
-	values.put(COLUMN_WEB_TEXT, web);
+	values.put(COLUMN_ID, geoCacheForAdd.getId());
+	values.put(COLUMN_NAME, geoCacheForAdd.getName());
+	values.put(COLUMN_STATUS, geoCacheForAdd.getStatus().ordinal());
+	values.put(COLUMN_TYPE, geoCacheForAdd.getType().ordinal());
+	values.put(COLUMN_LAT, geoCacheForAdd.getLocationGeoPoint().getLatitudeE6());
+	values.put(COLUMN_LON, geoCacheForAdd.getLocationGeoPoint().getLongitudeE6());
+	values.put(COLUMN_WEB_TEXT, webText);
 	db.insert(DATABASE_NAME_TABLE, null, values);
     }
     /**
-     * 
+     * @param id
+     * 		ID geocache for delete from database
      */
     public void deleteCacheById(int id){
 	this.db.execSQL(String.format("delete from %s where %s=%s;", DATABASE_NAME_TABLE, COLUMN_ID, id + ""));
     }
     
     /**
-     * if id not in BD - return null
+     *@param id
+     *			ID GeoCache for taking his html description
+     *@return String if GeoCache in database.
+     *			Empty string  if in database haven't GeoCache 
      */
     public String getWebTextById(int id) {
 	String exitString = "";
@@ -166,31 +176,23 @@ public class DbManager extends SQLiteOpenHelper {
     }
 
     /**
-     * if Cache not in BD - return null
+     *@param id ID GeoCache for taking from database
+     *@return GeoCache if database have GeoCache. Null if database haven't GeoCache
      */
     public GeoCache getCacheByID(int id) {
-	//Log.d("getCacheById", "Begin");
 	Cursor c = db.rawQuery(String.format("select %s,%s,%s,%s,%s from %s where %s=%s", COLUMN_NAME, COLUMN_TYPE, COLUMN_STATUS, COLUMN_LAT, COLUMN_LON, DATABASE_NAME_TABLE, COLUMN_ID, id + ""),
 		null);
-
-//	Log.d("getCacheById", "Cursor exelent");
 	if (c.getCount() == 0) {
-	//    Log.d("getCacheById", "Cursor = null");
 	    c.close();
 	    return null;
 	}
-//	Log.d("getCacheById", "Move cursor");
 	c.moveToFirst();
-	//Log.d("getCacheById", "Create Cache");
 	GeoCache exitCache = new GeoCache();
 	exitCache.setId(id);
 
-	//Log.d("getCacheById", "setName Cache");
 	exitCache.setName(c.getString(0));
-	//Log.d("getCacheById", "Set Lant_Lont");
 	exitCache.setLocationGeoPoint(new GeoPoint(c.getInt(c.getColumnIndex(COLUMN_LAT)), c.getInt(c.getColumnIndex(COLUMN_LON))));
 
-//	Log.d("getCacheById", "Set status");
 	switch (c.getInt(c.getColumnIndex(COLUMN_STATUS))) {
 	case 1:
 	    exitCache.setStatus(GeoCacheStatus.VALID);
