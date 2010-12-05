@@ -11,6 +11,10 @@ import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
+import android.view.View;
+import android.view.animation.Animation;
+import android.view.animation.AnimationUtils;
+import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -26,6 +30,8 @@ public class SearchGeoCacheCompass extends Activity implements ISearchActivity {
     private GraphicCompassView compassView;
     private SearchGeoCacheManager manager;
     private TextView distanceToCache;
+    private ImageView progressCircle;
+    private TextView statusText;
 
     /*
      * (non-Javadoc)
@@ -41,6 +47,8 @@ public class SearchGeoCacheCompass extends Activity implements ISearchActivity {
 	manager = new SearchGeoCacheManager(this);
 	distanceToCache = (TextView) findViewById(R.id.DistanceValue);
 	setDistance(0);
+	progressCircle = (ImageView) findViewById(R.id.progressCircle);
+	statusText = (TextView) findViewById(R.id.waitingLocationFixText);
     }
 
     private void setDistance(float distance) {
@@ -88,6 +96,17 @@ public class SearchGeoCacheCompass extends Activity implements ISearchActivity {
     @Override
     public void runLogic() {
 	manager.runLogic();
+	if (manager.getGeoCache() == null) {
+	    return;
+	}
+	if (!manager.isLocationFixed()) {
+	    Log.d(TAG, "run logic: location not fixed. Show gps status");
+	    progressCircle.setVisibility(View.VISIBLE);
+	    Animation progressCircleAnim = AnimationUtils.loadAnimation(this, R.anim.progress_circle);
+	    progressCircle.startAnimation(progressCircleAnim);
+	} else {
+	    progressCircle.setVisibility(View.GONE);
+	}
     }
 
     /*
@@ -113,6 +132,8 @@ public class SearchGeoCacheCompass extends Activity implements ISearchActivity {
 	if (!manager.isLocationFixed()) {
 	    return;
 	}
+	progressCircle.clearAnimation();
+	progressCircle.setVisibility(View.GONE);
 	compassView.setBearingToGeoCache(Helper.getBearingBetween(location, manager.getGeoCache().getLocationGeoPoint()));
 	setDistance(Helper.getDistanceBetween(location, manager.getGeoCache().getLocationGeoPoint()));
     }
@@ -173,6 +194,9 @@ public class SearchGeoCacheCompass extends Activity implements ISearchActivity {
     public void updateStatus(String status, int type) {
 	compassView.setLocationFix(manager.isLocationFixed());
 	// TODO add status field
+	if (type == ISearchActivity.STATUS_TYPE_GPS) {
+	    statusText.setText(status);
+	}
     }
 
     /*

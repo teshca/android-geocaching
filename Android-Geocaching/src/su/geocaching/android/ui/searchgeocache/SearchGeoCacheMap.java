@@ -80,11 +80,13 @@ public class SearchGeoCacheMap extends MapActivity implements ISearchActivity, I
 	map.setBuiltInZoomControls(true);
 	internetManager = Controller.getInstance().getConnectionManager(this);
 	internetManager.addSubscriber(this);
-
-	// cacheMarker =
-	// this.getResources().getDrawable(R.drawable.orangecache);
-	// cacheMarker.setBounds(0, -cacheMarker.getMinimumHeight(),
-	// cacheMarker.getMinimumWidth(), 0);
+	if (manager.getGeoCache() != null) {
+	    cacheMarker = Controller.getInstance().getMarker(manager.getGeoCache(), this);
+	    cacheItemizedOverlay = new GeoCacheItemizedOverlay(cacheMarker, this);
+	    cacheOverlayItem = new GeoCacheOverlayItem(manager.getGeoCache(), "", "");
+	    cacheItemizedOverlay.addOverlayItem(cacheOverlayItem);
+	    mapOverlays.add(cacheItemizedOverlay);
+	}
     }
 
     /*
@@ -130,11 +132,6 @@ public class SearchGeoCacheMap extends MapActivity implements ISearchActivity, I
 	if (manager.getGeoCache() == null) {
 	    return;
 	}
-	cacheMarker = Controller.getInstance().getMarker(manager.getGeoCache(), this);
-	cacheItemizedOverlay = new GeoCacheItemizedOverlay(cacheMarker, this);
-	cacheOverlayItem = new GeoCacheOverlayItem(manager.getGeoCache(), "", "");
-	cacheItemizedOverlay.addOverlayItem(cacheOverlayItem);
-	mapOverlays.add(cacheItemizedOverlay);
 	if (!manager.isLocationFixed()) {
 	    Log.d(TAG, "run logic: location not fixed. Show gps status");
 	    mapController.animateTo(manager.getGeoCache().getLocationGeoPoint());

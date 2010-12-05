@@ -43,6 +43,8 @@ public class SearchGeoCacheManager implements ILocationAware, ICompassAware, IGp
 	locationManager = Controller.getInstance().getLocationManager(context);
 	compass = Controller.getInstance().getCompassManager(context);
 	gpsStatusListener = Controller.getInstance().getGpsStatusListener(context);
+	Intent intent = ((Activity) activity).getIntent();
+	geoCache = intent.getParcelableExtra(GeoCache.class.getCanonicalName());
 	Log.d(TAG, "Init");
     }
 
@@ -190,8 +192,6 @@ public class SearchGeoCacheManager implements ILocationAware, ICompassAware, IGp
      * Common part of init and run search geocache activities
      */
     public void runLogic() {
-	Intent intent = ((Activity) activity).getIntent();
-	geoCache = intent.getParcelableExtra(GeoCache.class.getCanonicalName());
 	if (geoCache == null) {
 	    Log.e(TAG, "runLogic: null geocache. Finishing.");
 	    Toast.makeText(context, context.getString(R.string.search_geocache_error_no_geocache), Toast.LENGTH_LONG).show();
