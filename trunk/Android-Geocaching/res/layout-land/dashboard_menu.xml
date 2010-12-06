@@ -7,8 +7,8 @@
 		<ImageView android:src="@drawable/geologo" style="@style/TitleBarLogo"
 			android:id="@+id/title_logo"></ImageView>
 		<View style="@style/TitleBarSpring"></View>
-		<ImageView style="@style/TitleBarSeparator"></ImageView>
-		<ImageButton android:id="@+id/title_button" style="@style/TitleBarAction"></ImageButton>
+		
+		
 
 	</LinearLayout>
 	<LinearLayout android:layout_height="wrap_content"
