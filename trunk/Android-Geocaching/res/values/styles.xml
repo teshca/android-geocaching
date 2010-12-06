@@ -28,7 +28,7 @@
     <style name="TitleBarAction">
         <item name="android:layout_width">@dimen/title_height</item>
         <item name="android:layout_height">fill_parent</item>
-        <item name="android:background">@drawable/title_button</item>
+       
     </style>
     
     <style name="FavoritDeleteAction">
