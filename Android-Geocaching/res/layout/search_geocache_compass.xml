@@ -10,7 +10,7 @@
 		<TextView android:layout_weight="1" android:id="@+id/waitingLocationFixText"
 			android:layout_width="wrap_content" android:layout_height="fill_parent"
 			android:textColor="#ffffffff" android:padding="3px"
-			android:textSize="@dimen/text_size_medium" />
+			android:textSize="@dimen/text_size_small" />
 		<ImageView android:layout_weight="1" android:src="@drawable/progress_circle"
 			android:layout_width="@dimen/title_height" android:visibility="gone"
 			android:layout_height="@dimen/title_height" android:id="@+id/progressCircle" />
