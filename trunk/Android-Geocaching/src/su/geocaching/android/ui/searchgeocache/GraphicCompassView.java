@@ -77,7 +77,7 @@ public class GraphicCompassView extends View {
 	windroseRotateMatrix.setScale(scaleWRPicX, scaleWRPicY);
 	windroseRotateMatrix.setRotate(-bearingNorthRel);
 
-	Bitmap windrose = Bitmap.createBitmap(compassBitmap, 0, 0, compassBitmap.getWidth(), compassBitmap.getHeight(), windroseRotateMatrix, false);
+	Bitmap windrose = Bitmap.createBitmap(compassBitmap, 0, 0, compassBitmap.getWidth(), compassBitmap.getHeight(), windroseRotateMatrix, true);
 	canvas.drawBitmap(windrose, center - windrose.getWidth() / 2, center - windrose.getHeight() / 2, paint);
 	drawArrow(canvas, (int) (compassRadius / scaleWRPicY));
 	if (isLocationFixed)
