@@ -91,7 +91,7 @@ public class ApiManager implements IApiManager {
     }
 
     private URL generateUrl(double maxLatitude, double minLatitude, double maxLongitude, double minLongitude) throws MalformedURLException {
-	String request = String.format(URL + "?lngmax=%f&lngmin=%f&latmax=%f&latmin=%f&id=%d&geocaching=5767e405a17c4b0e1cbaecffdb93475d", maxLongitude, minLongitude, maxLatitude, minLatitude, id);
+	String request = String.format("%s?lngmax=%f&lngmin=%f&latmax=%f&latmin=%f&id=%d&geocaching=5767e405a17c4b0e1cbaecffdb93475d", URL, maxLongitude, minLongitude, maxLatitude, minLatitude, id);
 	Log.d(TAG, "generated Url: " + request);
 	return new URL(request);
     }
