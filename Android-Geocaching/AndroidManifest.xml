@@ -65,8 +65,7 @@
 
 
 		<activity android:name="su.geocaching.android.ui.aboutprogramm.AboutActivity"
-			android:label="@string/about_title"
-			android:screenOrientation="portrait"
+			android:label="@string/about_title" android:screenOrientation="portrait"
 			android:theme="@android:style/Theme.Dialog">
 			<intent-filter>
 				<action android:name="android.intent.action.RUN" />
@@ -86,4 +85,5 @@
 
 	</application>
 
+	<uses-sdk android:minSdkVersion="3"></uses-sdk>
 </manifest>
