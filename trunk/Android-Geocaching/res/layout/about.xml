@@ -1,10 +1,14 @@
 <?xml version="1.0" encoding="UTF-8"?>
+
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+android:orientation="vertical"
+android:layout_width="fill_parent"
+android:layout_height="wrap_content"> 
 <ScrollView
-   xmlns:android="http://schemas.android.com/apk/res/android"
-   android:layout_width="fill_parent"
-   android:layout_height="fill_parent"
+   android:layout_width="wrap_content"
+   android:layout_height="wrap_content"
    android:padding="10dip">
-   <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+   <LinearLayout
   	  android:orientation="vertical"
    	  android:layout_width="wrap_content"
   	  android:layout_height="wrap_content">
@@ -13,20 +17,66 @@
      	 android:layout_width="wrap_content"
      	 android:layout_height="wrap_content"
     	 android:autoLink="web"
-     	 android:gravity="center"
-      	 android:text="@string/about_programm_text"/>
+		 android:textStyle="bold"
+		 android:textSize="15dip"
+     	 android:gravity="center" 
+     	 android:text="@string/about_programm_text"/>
+  	  <TextView
+     	 android:id="@+id/about_content"
+     	 android:layout_width="wrap_content"
+     	 android:layout_height="wrap_content"
+     	 android:layout_marginLeft="5dip"
+		 android:textStyle="bold"
+     	 android:text="Руководители проекта:"/>
       <TextView
      	 android:id="@+id/about_autors"
      	 android:layout_width="wrap_content"
      	 android:layout_height="wrap_content"
-      	 android:gravity="left"
-     	 android:text="@string/about_autors_text"/>
+     	 android:layout_marginLeft="15dip"
+      	 android:gravity="left" android:text="@string/about_leaders_text"/>
+  	  <TextView
+     	 android:id="@+id/about_content"
+     	 android:layout_width="wrap_content"
+     	 android:layout_height="wrap_content"
+     	 android:layout_marginLeft="5dip"
+		 android:textStyle="bold"
+     	 android:text="Разработчики приложения:"/>
+      <TextView
+     	 android:id="@+id/about_autors"
+     	 android:layout_width="wrap_content"
+     	 android:layout_height="wrap_content"
+     	 android:layout_marginLeft="15dip"
+      	 android:gravity="left" android:text="@string/about_developers_text"/>
       <TextView
   	  	 android:id="@+id/about_email"
      	 android:layout_width="wrap_content"
      	 android:layout_height="wrap_content"
      	 android:autoLink="email"
-      	 android:text="@string/about_email_text"
-      	 android:gravity="center"/>
-	</LinearLayout>
+		 android:textStyle="bold"
+		 android:textSize="15dip"
+      	 android:gravity="center" 
+      	 android:text="@string/about_email_text"/>
+  	  <TextView
+     	 android:id="@+id/about_content"
+     	 android:layout_width="wrap_content"
+     	 android:layout_height="wrap_content"
+		 android:textStyle="bold"
+     	 android:text="История проекта"/>
+  	  <TextView
+     	 android:id="@+id/about_content"
+     	 android:layout_width="wrap_content"
+     	 android:layout_height="wrap_content"
+     	 android:text="версия 0.0.1b\n*Релиз Программы"/>
+      <Button
+         android:id="@+id/about_exit_button"
+         android:layout_width="100dip"
+         android:layout_height="40dip"
+         android:clickable="true"
+         android:layout_marginTop="20dip"
+         android:layout_marginBottom="5dip"
+         android:text="@string/about_exit_button_text"
+         android:layout_marginLeft="80dip"
+          android:gravity="center"/>
+	</LinearLayout> 
 </ScrollView>
+</LinearLayout>
