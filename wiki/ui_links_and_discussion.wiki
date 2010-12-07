@@ -3,11 +3,20 @@
 
 = Introduction =
 
-Редактор для создания иконок
+===Редактор для создания иконок===
 http://android-ui-utils.googlecode.com/hg/asset-studio/dist/index.html
 
+===Варианты маркеров для карты===
+http://www.benjaminkeen.com/?p=105
 
-Варианты бесплатных компасов
+http://www.benjaminkeen.com/images/googlemaps_markers.jpg
+
+http://code.google.com/p/google-maps-icons/
+
+Генератор маркеров
+http://gmaps-utility-library-dev.googlecode.com/svn/tags/mapiconmaker/1.1/examples/markericonoptions-wizard.html
+
+===Варианты бесплатных компасов===
 
 http://all-free-download.com/free-icon/vista-icon/compass_4228.html
 http://images.all-free-download.com/images/graphiclarge/compass_4228.jpg
