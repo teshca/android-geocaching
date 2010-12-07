@@ -6,6 +6,9 @@
 ===Редактор для создания иконок===
 http://android-ui-utils.googlecode.com/hg/asset-studio/dist/index.html
 
+===Preloaders generator(та самая крутящаяся штука в хеадере)==
+http://preloaders.net/
+
 ===Варианты маркеров для карты===
 http://www.benjaminkeen.com/?p=105
 
