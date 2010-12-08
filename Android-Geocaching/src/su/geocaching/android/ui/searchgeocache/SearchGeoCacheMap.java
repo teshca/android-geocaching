@@ -6,8 +6,9 @@ import su.geocaching.android.controller.Controller;
 import su.geocaching.android.model.datatype.GeoCache;
 import su.geocaching.android.ui.R;
 import su.geocaching.android.ui.geocachemap.*;
-import su.geocaching.android.ui.searchgeocache.DrivingDirections.IDirectionsListener;
-import su.geocaching.android.ui.searchgeocache.DrivingDirections.Mode;
+import su.geocaching.android.ui.searchgeocache.drivingDirections.IRoute;
+import su.geocaching.android.ui.searchgeocache.drivingDirections.DrivingDirections.IDirectionsListener;
+import su.geocaching.android.ui.searchgeocache.drivingDirections.DrivingDirections.Mode;
 import su.geocaching.android.utils.Helper;
 import su.geocaching.android.view.showgeocacheinfo.ShowGeoCacheInfo;
 import android.content.Intent;
@@ -69,6 +70,8 @@ public class SearchGeoCacheMap extends MapActivity implements ISearchActivity, I
     protected void onCreate(Bundle savedInstanceState) {
 	super.onCreate(savedInstanceState);
 	setContentView(R.layout.search_geocache_map);
+	
+	
 	waitingLocationFixBar = (LinearLayout) findViewById(R.id.waitingLocationFixBar);
 	waitingLocationFixText = (TextView) findViewById(R.id.waitingLocationFixText);
 	progressCircle = (ImageView) findViewById(R.id.progressCircle);
@@ -177,11 +180,12 @@ public class SearchGeoCacheMap extends MapActivity implements ISearchActivity, I
 	    mapOverlays.add(userOverlay);
 	    resetZoom();
 
-	    // DrivingDirections.Mode mode = Mode.WALKING;
-	    // DrivingDirections directions =
-	    // DrivingDirectionsFactory.createDrivingDirections();
-	    // directions.driveTo(Helper.locationToGeoPoint(location),manager.getGeoCache().getLocationGeoPoint()
-	    // , mode, this);
+//	     DrivingDirections.Mode mode = Mode.WALKING;
+//	     DrivingDirections directions =
+//	     DrivingDirectionsFactory.createDrivingDirections();
+//	     directions.driveTo(Helper.locationToGeoPoint(location)
+//		     ,manager.getGeoCache().getLocationGeoPoint()
+//	     , mode, this);
 
 	    return;
 	}
@@ -286,7 +290,7 @@ public class SearchGeoCacheMap extends MapActivity implements ISearchActivity, I
 	case R.id.menuGeoCacheInfo:
 	    manager.showGeoCacheInfo();
 	    return true;
-	case R.id.DrawDirectionPath:
+	//case R.id.DrawDirectionPath:
 	    // directionControlller.setVisibleWay();
 	default:
 	    return super.onOptionsItemSelected(item);
@@ -390,4 +394,6 @@ public class SearchGeoCacheMap extends MapActivity implements ISearchActivity, I
 	// TODO Auto-generated method stub
 
     }
+
+   
 }

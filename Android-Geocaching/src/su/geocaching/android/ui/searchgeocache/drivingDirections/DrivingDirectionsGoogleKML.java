@@ -1,7 +1,10 @@
-package su.geocaching.android.ui.searchgeocache;
+package su.geocaching.android.ui.searchgeocache.drivingDirections;
 
+import java.io.BufferedReader;
+import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
+import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.util.ArrayList;
@@ -11,6 +14,7 @@ import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.parsers.ParserConfigurationException;
 
+import org.apache.http.ProtocolException;
 import org.w3c.dom.Document;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
@@ -42,7 +46,7 @@ public abstract class DrivingDirectionsGoogleKML extends DrivingDirections {
 		private static final String ELEMENT_POINT = "Point";
 		private static final String ELEMENT_ROUTE = "Route";
 		private static final String ELEMENT_GEOM = "GeometryCollection";
-
+                private  StringBuilder urlString;
 		private GeoPoint startPoint;
 		private GeoPoint endPoint;
 
@@ -57,49 +61,56 @@ public abstract class DrivingDirectionsGoogleKML extends DrivingDirections {
 			// string
 			// containing the directions from one point to another.
 			//
-			StringBuilder urlString = new StringBuilder();
+			urlString = new StringBuilder();
 			urlString.append(BASE_URL).append("&saddr=").append(
-					startPoint.getLatitudeE6() / 1E6).append(",").append(
-					startPoint.getLongitudeE6() / 1E6).append("&daddr=")
-					.append(endPoint.getLatitudeE6() / 1E6).append(",").append(
-							endPoint.getLongitudeE6() / 1E6).append(
+					startPoint.getLatitudeE6()).append(",").append(
+					startPoint.getLongitudeE6() ).append("&geocode=").append("_ilhE_qd_C_c`|@~b`|@")
+					.append(
 							"&ie=UTF8&0&om=0&output=kml");
-
-			if (params[0] == Mode.WALKING) {
-				urlString.append("&dirflg=w");
-			}
+String s= "http://maps.googleapis.com/maps/api/directions/json?origin="+startPoint.getLatitudeE6()+","+startPoint.getLongitudeE6()+"&destination="+endPoint.getLatitudeE6()+","+endPoint;
+//			if (params[0] == Mode.WALKING) {
+//				urlString.append("&dirflg=w");
+//			}
 
 			RouteImpl route = null;
 			try {
-				URL url = new URL(urlString.toString());
-				HttpURLConnection connection = (HttpURLConnection) url
-						.openConnection();
+				URL url = new URL(s);
+				HttpURLConnection connection = (HttpURLConnection) url.openConnection();
 				connection.setRequestMethod("GET");
 				connection.setDoOutput(true);
 				connection.setDoInput(true);
 				connection.connect();
-
-			route = parseResponse(connection.getInputStream());
+				 Log.d("Inputstream",convertinputStreamToString(connection.getInputStream()) );
+			
+				 route = parseResponse(connection.getInputStream());
 			} catch (IOException e) {
 				// Don't handle the exception but set the Route to null.
 				//
+			    Log.d("IOException", "problem is at 77 -83 line");
 				route = null;
 			} 
+			catch (IllegalAccessError e) {
+			    Log.d("IlligalaccessEror", "problem on *.setDoInOrOutput");
+			}
 			return route;
 		}
 
-		private RouteImpl parseResponse(InputStream inputStream) {
+		private RouteImpl parseResponse(InputStream inputstream) {
 			// Parse the KML file returned by the Google Maps web service
 			// using the default XML DOM parser.
 			//
 			try {
-				DocumentBuilderFactory factory = DocumentBuilderFactory
-						.newInstance();
+			    
+			       Log.d("Inputstream",convertinputStreamToString(inputstream) );
+			        
+			        
+				DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
 				DocumentBuilder builder = factory.newDocumentBuilder();
 
-				Document document = builder.parse(inputStream);
-				NodeList placemarkList = document
-						.getElementsByTagName(ELEMENT_PLACEMARK);
+				
+				Document document = builder.parse(inputstream);
+			
+				NodeList placemarkList = document.getElementsByTagName(ELEMENT_PLACEMARK);
 				
 				// Get the list of placemarks to plot along the route.
 				//
@@ -119,11 +130,17 @@ public abstract class DrivingDirectionsGoogleKML extends DrivingDirections {
 
 				return route;
 			} catch (ParserConfigurationException e) {
-				return null;
+			    Log.d("ParserConfigurationException", "problem on DocumentBuilder ");
+			    return null;
 			} catch (IOException e) {
-				return null;
+			    Log.d("IOException", "problem from 105-111 ");
+			    return null;
 			} catch (SAXException e) {
-				return null;
+			    Log.d("SAXException", "problem on *.parse(inputstream))");
+			 
+			    
+			    e.printStackTrace();
+			    return null;
 			}
 
 		}
@@ -200,7 +217,26 @@ public abstract class DrivingDirectionsGoogleKML extends DrivingDirections {
 
 			return route;
 		}
-
+		public String convertinputStreamToString(InputStream ists) throws IOException {
+		       
+		        if (ists != null) {
+		            StringBuilder sb = new StringBuilder();
+		            String line;
+		 
+		            try {
+		                BufferedReader r1 = new BufferedReader(new InputStreamReader(ists, "UTF-8"));
+		                
+		                while ((line = r1.readLine()) != null) {
+		                    sb.append(line).append("\n");
+		                }
+		            } finally {
+		                ists.close();
+		            }
+		            return sb.toString().substring(0, 40);
+		        } else {       
+		            return "";
+		        }
+		    }
 		private RouteImpl parseRoute(Node item) {
 			RouteImpl route = new RouteImpl();
 

@@ -1,4 +1,4 @@
-package su.geocaching.android.ui.searchgeocache;
+package su.geocaching.android.ui.searchgeocache.drivingDirections;
 
 import java.util.List;
 
