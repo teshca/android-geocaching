@@ -175,7 +175,9 @@ public class ShowGeoCacheInfo extends Activity implements OnCheckedChangeListene
     @Override
     public void onClick(View v) {
 	if(!isCacheStoredInDataBase){
+	    dbm.openDB();
 	    dbm.addGeoCache(GeoCacheForShowInfo, htmlTextGeoCache);
+	    dbm.closeDB();
 	}
 	Intent intent = new Intent(this, SearchGeoCacheMap.class);
 	intent.putExtra(GeoCache.class.getCanonicalName(), GeoCacheForShowInfo);
