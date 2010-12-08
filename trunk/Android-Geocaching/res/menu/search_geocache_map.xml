@@ -5,6 +5,5 @@
 		android:title="@string/menu_default_zoom" />
 	<item android:id="@+id/menuStartCompass" android:icon="@drawable/ic_menu_compass"
 		android:title="@string/menu_start_compass" />
-	<item android:id="@+id/DrawDirectionPath" android:icon="@drawable/ic_menu_directions"
-		android:title="@string/menu_directive_way" />
+
 </menu>
