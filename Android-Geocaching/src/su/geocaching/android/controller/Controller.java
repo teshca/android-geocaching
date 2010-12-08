@@ -1,10 +1,12 @@
 package su.geocaching.android.controller;
 
-import java.util.LinkedList;
-import java.util.List;
-
 import android.content.Context;
 import android.content.SharedPreferences;
+import android.graphics.drawable.Drawable;
+import android.hardware.SensorManager;
+import android.location.LocationManager;
+import android.net.ConnectivityManager;
+import android.util.Log;
 import com.google.android.maps.GeoPoint;
 import su.geocaching.android.controller.apimanager.ApiManager;
 import su.geocaching.android.controller.apimanager.IApiManager;
@@ -15,16 +17,14 @@ import su.geocaching.android.model.datastorage.GeoCacheStorage;
 import su.geocaching.android.model.datastorage.SettingsStorage;
 import su.geocaching.android.model.datatype.GeoCache;
 import su.geocaching.android.ui.R;
-import android.graphics.drawable.Drawable;
-import android.hardware.SensorManager;
-import android.location.LocationManager;
-import android.net.ConnectivityManager;
-import android.util.Log;
 import su.geocaching.android.ui.geocachemap.ConnectionManager;
 import su.geocaching.android.ui.searchgeocache.GeoCacheCompassManager;
 import su.geocaching.android.ui.searchgeocache.GeoCacheLocationManager;
 import su.geocaching.android.ui.searchgeocache.GpsStatusListener;
 import su.geocaching.android.ui.selectgeocache.SelectGeoCacheMap;
+
+import java.util.LinkedList;
+import java.util.List;
 
 /**
  * @author Yuri Denison
@@ -46,8 +46,8 @@ public class Controller {
     private GeoCacheCompassManager compassManager;
     private GpsStatusListener gpsStatusManager;
     private ConnectionManager connectionManager;
-    private static final int DEFAULT_CENTER_LONGITUDE = 59879904;
-    private static final int DEFAULT_CENTER_LATITUDE = 29828674;
+    private static final int DEFAULT_CENTER_LONGITUDE = 29828674;
+    private static final int DEFAULT_CENTER_LATITUDE = 59879904;
     private static final int DEFAULT_ZOOM = 13;
 
     private Controller() {
@@ -127,43 +127,43 @@ public class Controller {
 	case VALID:
 	    switch (geoCache.getType()) {
 	    case TRADITIONAL:
-		return getMarker(R.drawable.orangecache, map);
+		return getMarker(R.drawable.traditional_cache, map);
 	    case VIRTUAL:
-		return getMarker(R.drawable.orangecache, map);
+		return getMarker(R.drawable.virtual_cache, map);
 	    case STEP_BY_STEP:
-		return getMarker(R.drawable.orangecache, map);
+		return getMarker(R.drawable.step_by_step_cache, map);
 	    case EXTREME:
-		return getMarker(R.drawable.orangecache, map);
+		return getMarker(R.drawable.extreme_cache, map);
 	    case EVENT:
-		return getMarker(R.drawable.orangecache, map);
+		return getMarker(R.drawable.meet_cache, map);
 	    }
 	    break;
 	case NOT_VALID:
 	    switch (geoCache.getType()) {
 	    case TRADITIONAL:
-		return getMarker(R.drawable.orangecache, map);
+		return getMarker(R.drawable.traditional_cache, map);
 	    case VIRTUAL:
-		return getMarker(R.drawable.orangecache, map);
+		return getMarker(R.drawable.virtual_cache, map);
 	    case STEP_BY_STEP:
-		return getMarker(R.drawable.orangecache, map);
+		return getMarker(R.drawable.step_by_step_cache, map);
 	    case EXTREME:
-		return getMarker(R.drawable.orangecache, map);
+		return getMarker(R.drawable.extreme_cache, map);
 	    case EVENT:
-		return getMarker(R.drawable.orangecache, map);
+		return getMarker(R.drawable.meet_cache, map);
 	    }
 	    break;
 	case NOT_CONFIRMED:
 	    switch (geoCache.getType()) {
 	    case TRADITIONAL:
-		return getMarker(R.drawable.orangecache, map);
+		return getMarker(R.drawable.traditional_cache, map);
 	    case VIRTUAL:
-		return getMarker(R.drawable.orangecache, map);
+		return getMarker(R.drawable.virtual_cache, map);
 	    case STEP_BY_STEP:
-		return getMarker(R.drawable.orangecache, map);
+		return getMarker(R.drawable.step_by_step_cache, map);
 	    case EXTREME:
-		return getMarker(R.drawable.orangecache, map);
+		return getMarker(R.drawable.extreme_cache, map);
 	    case EVENT:
-		return getMarker(R.drawable.orangecache, map);
+		return getMarker(R.drawable.meet_cache, map);
 	    }
 	    break;
 	}
