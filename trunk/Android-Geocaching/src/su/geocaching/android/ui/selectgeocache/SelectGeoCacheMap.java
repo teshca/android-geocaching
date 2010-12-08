@@ -7,7 +7,6 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.provider.Settings;
 import android.util.Log;
-import android.location.Location;
 import android.view.MotionEvent;
 import android.widget.Toast;
 import com.google.android.maps.*;
@@ -16,7 +15,6 @@ import su.geocaching.android.model.datatype.GeoCache;
 import su.geocaching.android.ui.R;
 import su.geocaching.android.ui.geocachemap.*;
 import su.geocaching.android.ui.selectgeocache.timer.MapUpdateTimer;
-import su.geocaching.android.utils.Helper;
 import su.geocaching.android.view.showgeocacheinfo.ShowGeoCacheInfo;
 
 import java.util.List;
@@ -52,9 +50,6 @@ public class SelectGeoCacheMap extends MapActivity implements IMapAware, IIntern
         askTurnOnInternet();
         userOverlay = new MyLocationOverlay(this, map) {
             @Override
-            public void onLocationChanged(Location location){}
-
-            @Override
             public boolean onTouchEvent(MotionEvent event, MapView mapView) {
                 touchHappened = true;
                 return false;
@@ -62,9 +57,8 @@ public class SelectGeoCacheMap extends MapActivity implements IMapAware, IIntern
         };
         userOverlay.runOnFirstFix(new Runnable() {
             public void run() {
-                map.getController().animateTo(Helper.locationToGeoPoint(userOverlay.getLastFix()));
-                map.getController().setCenter(Helper.locationToGeoPoint(userOverlay.getLastFix()));
-                userOverlay.onLocationChanged(userOverlay.getLastFix());
+                updateMapInfoFromSettings();
+                updateCacheOverlay();
             }
         });
 
@@ -73,8 +67,6 @@ public class SelectGeoCacheMap extends MapActivity implements IMapAware, IIntern
         map.setBuiltInZoomControls(true);
         map.getOverlays().clear();
         map.getOverlays().add(userOverlay);
-
-        updateMapInfoFromSettings();
     }
 
     private void updateMapInfoFromSettings() {
@@ -178,7 +170,7 @@ public class SelectGeoCacheMap extends MapActivity implements IMapAware, IIntern
 
     @Override
     public void onInternetLost() {
-	Toast.makeText(this, getString(R.string.search_geocache_internet_lost), Toast.LENGTH_LONG).show();
+    	Toast.makeText(this, getString(R.string.search_geocache_internet_lost), Toast.LENGTH_LONG).show();
     }
 
     @Override
@@ -196,20 +188,19 @@ public class SelectGeoCacheMap extends MapActivity implements IMapAware, IIntern
 	}
 	AlertDialog.Builder builder = new AlertDialog.Builder(context);
 	builder.setMessage(context.getString(R.string.ask_enable_internet_text)).setCancelable(false)
-		.setPositiveButton(context.getString(R.string.ask_enable_gps_yes), new DialogInterface.OnClickListener() {
+		.setPositiveButton(context.getString(R.string.ask_enable_internet_yes), new DialogInterface.OnClickListener() {
 		    public void onClick(DialogInterface dialog, int id) {
 			Intent startGPS = new Intent(Settings.ACTION_WIRELESS_SETTINGS);
 			context.startActivity(startGPS);
 			dialog.cancel();
 		    }
-		}).setNegativeButton(context.getString(R.string.ask_enable_gps_no), new DialogInterface.OnClickListener() {
+		}).setNegativeButton(context.getString(R.string.ask_enable_internet_no), new DialogInterface.OnClickListener() {
             public void onClick(DialogInterface dialog, int id) {
                 dialog.cancel();
-                // activity is MapActivity or Activity
                 context.finish();
             }
         });
-	AlertDialog turnOnGpsAlert = builder.create();
-	turnOnGpsAlert.show();
+	AlertDialog turnOnInternetAlert = builder.create();
+	turnOnInternetAlert.show();
     }
 }
