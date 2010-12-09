@@ -18,6 +18,8 @@
 	<string name="search_geocache_best_provider_lost">Обновление координат в данный момент недоступно
 	</string>
 	<string name="select_geocache_status_without_internet">Сеть не найдена. Попробуйте позже</string>
+    <string name="revert_center_to_location">Показать текущее местоположение</string>
+    <string name="status_null_last_location">Местоположение не определено</string>
 	<string name="gps_status_started">GPS: Запущен</string>
 	<string name="gps_status_stopped">GPS: Связь потеряна</string>
 	<string name="gps_status_first_fix">GPS: Координаты получены</string>
@@ -35,12 +37,12 @@
 	<string name="type_geocache_step_by_step">Пошаговый</string>
 	<string name="type_geocache_event">Встреча</string>
 	<string name="type_geocache_extreme">Экстримальный</string>
-	
+
 	<string name="status_geocache_valid">Доступнен</string>
 	<string name="status_geocache_no_valid">Недоступен</string>
 	<string name="status_geocache_no_confirmed">Возможно недоступен</string>
-	
-	
+
+
 	<string name="favorit_folder_In_DB_not_cache">В базе нет ни одного тайника</string>
 	<string name="info_geocach_not_internet_and_not_in_DB">Невозможно показать информацию о тайнике, поскольку тайника нет в локальной базе, а так же отсутствует соединение с интернетом</string>
 <string name="menu_keep_screen">Не выключать экран</string>
@@ -54,4 +56,5 @@
 
 <string name="about_programm_version">версия beta 0.01</string>
 <string name="about_exit_button_text">Закрыть</string>
+
 </resources>

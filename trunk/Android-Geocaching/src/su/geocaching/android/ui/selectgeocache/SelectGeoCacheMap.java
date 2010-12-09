@@ -4,10 +4,14 @@ import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.location.Location;
 import android.os.Bundle;
 import android.provider.Settings;
 import android.util.Log;
-import android.view.MotionEvent;
+import android.view.*;
+import android.view.animation.Animation;
+import android.view.animation.AnimationUtils;
+import android.widget.ImageView;
 import android.widget.Toast;
 import com.google.android.maps.*;
 import su.geocaching.android.controller.Controller;
@@ -15,6 +19,7 @@ import su.geocaching.android.model.datatype.GeoCache;
 import su.geocaching.android.ui.R;
 import su.geocaching.android.ui.geocachemap.*;
 import su.geocaching.android.ui.selectgeocache.timer.MapUpdateTimer;
+import su.geocaching.android.utils.Helper;
 import su.geocaching.android.view.showgeocacheinfo.ShowGeoCacheInfo;
 
 import java.util.List;
@@ -34,7 +39,8 @@ public class SelectGeoCacheMap extends MapActivity implements IMapAware, IIntern
     private MapUpdateTimer mapTimer;
     private ConnectionManager internetManager;
     private Activity context;
-
+    private ImageView progressCircle;
+    private Location currentLocation;
 
 
     @Override
@@ -42,13 +48,20 @@ public class SelectGeoCacheMap extends MapActivity implements IMapAware, IIntern
         super.onCreate(savedInstanceState);
         setContentView(R.layout.select_geocache_map);
         map = (MapView) findViewById(R.id.selectGeocacheMap);
+        progressCircle = (ImageView) findViewById(R.id.progressCircle);
         mapOverlays = map.getOverlays();
         internetManager = Controller.getInstance().getConnectionManager(this);
-	internetManager.addSubscriber(this);
+        internetManager.addSubscriber(this);
 
         context = this;
         askTurnOnInternet();
         userOverlay = new MyLocationOverlay(this, map) {
+            @Override
+            public void onLocationChanged(Location location) {
+                super.onLocationChanged(location);
+                currentLocation = location;
+            }
+
             @Override
             public boolean onTouchEvent(MotionEvent event, MapView mapView) {
                 touchHappened = true;
@@ -67,6 +80,23 @@ public class SelectGeoCacheMap extends MapActivity implements IMapAware, IIntern
         map.setBuiltInZoomControls(true);
         map.getOverlays().clear();
         map.getOverlays().add(userOverlay);
+        // initProgressCircle();
+        map.invalidate();
+    }
+
+    private void initProgressCircle() {
+        Animation progressCircleAnim = AnimationUtils.loadAnimation(this, R.anim.progress_circle);
+        progressCircle.startAnimation(progressCircleAnim);
+    }
+
+
+
+    private void showProgressCircle() {
+        progressCircle.setVisibility(View.VISIBLE);
+    }
+
+    private void stopProgressCircle() {
+        progressCircle.setVisibility(View.GONE);
     }
 
     private void updateMapInfoFromSettings() {
@@ -113,6 +143,36 @@ public class SelectGeoCacheMap extends MapActivity implements IMapAware, IIntern
         return false;
     }
 
+    /**
+     * Creating menu object
+     */
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        MenuInflater inflater = getMenuInflater();
+        inflater.inflate(R.menu.select_geocache_map, menu);
+        return true;
+    }
+
+    /**
+     * Called when menu element selected
+     */
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case R.id.revertCenterToLocation:
+                if (currentLocation != null) {
+                    GeoPoint center = Helper.locationToGeoPoint(currentLocation);
+                    map.getController().animateTo(center);
+                    map.getController().setCenter(center);
+                } else {
+                    Toast.makeText(getBaseContext(), R.string.status_null_last_location, Toast.LENGTH_SHORT).show();
+                }
+                return true;
+            default:
+                return super.onOptionsItemSelected(item);
+        }
+    }
+
     /* Handles item selections */
 
     public void updateCacheOverlay() {
@@ -126,6 +186,7 @@ public class SelectGeoCacheMap extends MapActivity implements IMapAware, IIntern
         double minLongitude = (double) upperLeftCorner.getLongitudeE6() / 1e6;
 
         controller.updateSelectedGeoCaches(this, maxLatitude, minLatitude, maxLongitude, minLongitude);
+        // showProgressCircle();
     }
 
     private void startGeoCacheInfoView(GeoCache geoCache) {
@@ -149,6 +210,7 @@ public class SelectGeoCacheMap extends MapActivity implements IMapAware, IIntern
             gOverlay.addOverlayItem(new GeoCacheOverlayItem(geoCache, "", "", this));
         }
         mapOverlays.add(gOverlay);
+        // stopProgressCircle();
         map.invalidate();
     }
 
@@ -170,7 +232,7 @@ public class SelectGeoCacheMap extends MapActivity implements IMapAware, IIntern
 
     @Override
     public void onInternetLost() {
-    	Toast.makeText(this, getString(R.string.search_geocache_internet_lost), Toast.LENGTH_LONG).show();
+        Toast.makeText(this, getString(R.string.search_geocache_internet_lost), Toast.LENGTH_LONG).show();
     }
 
     @Override
@@ -182,25 +244,25 @@ public class SelectGeoCacheMap extends MapActivity implements IMapAware, IIntern
      * Ask user turn on Internet, if this disabled
      */
     private void askTurnOnInternet() {
-	if (internetManager.isInternetConnected()) {
-	    Log.w(TAG, "Internet connected");
-	    return;
-	}
-	AlertDialog.Builder builder = new AlertDialog.Builder(context);
-	builder.setMessage(context.getString(R.string.ask_enable_internet_text)).setCancelable(false)
-		.setPositiveButton(context.getString(R.string.ask_enable_internet_yes), new DialogInterface.OnClickListener() {
-		    public void onClick(DialogInterface dialog, int id) {
-			Intent startGPS = new Intent(Settings.ACTION_WIRELESS_SETTINGS);
-			context.startActivity(startGPS);
-			dialog.cancel();
-		    }
-		}).setNegativeButton(context.getString(R.string.ask_enable_internet_no), new DialogInterface.OnClickListener() {
+        if (internetManager.isInternetConnected()) {
+            Log.w(TAG, "Internet connected");
+            return;
+        }
+        AlertDialog.Builder builder = new AlertDialog.Builder(context);
+        builder.setMessage(context.getString(R.string.ask_enable_internet_text)).setCancelable(false)
+                .setPositiveButton(context.getString(R.string.ask_enable_internet_yes), new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int id) {
+                        Intent startGPS = new Intent(Settings.ACTION_WIRELESS_SETTINGS);
+                        context.startActivity(startGPS);
+                        dialog.cancel();
+                    }
+                }).setNegativeButton(context.getString(R.string.ask_enable_internet_no), new DialogInterface.OnClickListener() {
             public void onClick(DialogInterface dialog, int id) {
                 dialog.cancel();
                 context.finish();
             }
         });
-	AlertDialog turnOnInternetAlert = builder.create();
-	turnOnInternetAlert.show();
+        AlertDialog turnOnInternetAlert = builder.create();
+        turnOnInternetAlert.show();
     }
 }

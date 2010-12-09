@@ -78,7 +78,7 @@ public class Controller {
      */
     public void updateSelectedGeoCaches(SelectGeoCacheMap map, double maxLatitude, double minLatitude, double maxLongitude, double minLongitude) {
 	Double[] d = { maxLatitude, minLatitude, maxLongitude, minLongitude };
-	new DownloadGeoCacheTask(apiManager, map).execute(d);
+        new DownloadGeoCacheTask(apiManager, map).execute(d);
     }
 
     /**
@@ -127,43 +127,43 @@ public class Controller {
 	case VALID:
 	    switch (geoCache.getType()) {
 	    case TRADITIONAL:
-		return getMarker(R.drawable.traditional_cache, map);
+		return getMarker(R.drawable.ic_cache_traditional_valid, map);
 	    case VIRTUAL:
-		return getMarker(R.drawable.virtual_cache, map);
+		return getMarker(R.drawable.ic_cache_virtual_valid, map);
 	    case STEP_BY_STEP:
-		return getMarker(R.drawable.step_by_step_cache, map);
+		return getMarker(R.drawable.ic_cache_stepbystep_valid, map);
 	    case EXTREME:
-		return getMarker(R.drawable.extreme_cache, map);
+		return getMarker(R.drawable.ic_cache_extreme_valid, map);
 	    case EVENT:
-		return getMarker(R.drawable.meet_cache, map);
+		return getMarker(R.drawable.ic_cache_event_valid, map);
 	    }
 	    break;
 	case NOT_VALID:
 	    switch (geoCache.getType()) {
 	    case TRADITIONAL:
-		return getMarker(R.drawable.traditional_cache, map);
+		return getMarker(R.drawable.ic_cache_traditional_not_valid, map);
 	    case VIRTUAL:
-		return getMarker(R.drawable.virtual_cache, map);
+		return getMarker(R.drawable.ic_cache_virtual_not_valid, map);
 	    case STEP_BY_STEP:
-		return getMarker(R.drawable.step_by_step_cache, map);
+		return getMarker(R.drawable.ic_cache_stepbystep_not_valid, map);
 	    case EXTREME:
-		return getMarker(R.drawable.extreme_cache, map);
+		return getMarker(R.drawable.ic_cache_extreme_not_valid, map);
 	    case EVENT:
-		return getMarker(R.drawable.meet_cache, map);
+		return getMarker(R.drawable.ic_cache_event_not_valid, map);
 	    }
 	    break;
 	case NOT_CONFIRMED:
 	    switch (geoCache.getType()) {
 	    case TRADITIONAL:
-		return getMarker(R.drawable.traditional_cache, map);
+		return getMarker(R.drawable.ic_cache_traditional_not_confirmed, map);
 	    case VIRTUAL:
-		return getMarker(R.drawable.virtual_cache, map);
+		return getMarker(R.drawable.ic_cache_virtual_not_confirmed, map);
 	    case STEP_BY_STEP:
-		return getMarker(R.drawable.step_by_step_cache, map);
+		return getMarker(R.drawable.ic_cache_stepbystep_not_confirmed, map);
 	    case EXTREME:
-		return getMarker(R.drawable.extreme_cache, map);
+		return getMarker(R.drawable.ic_cache_extreme_not_confirmed, map);
 	    case EVENT:
-		return getMarker(R.drawable.meet_cache, map);
+		return getMarker(R.drawable.ic_cache_event_not_confirmed, map);
 	    }
 	    break;
 	}
