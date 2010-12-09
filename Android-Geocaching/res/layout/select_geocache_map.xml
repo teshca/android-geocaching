@@ -4,7 +4,10 @@
     android:layout_width="fill_parent"
     android:layout_height="fill_parent"
     >
-	<com.google.android.maps.MapView
+	<ImageView android:layout_weight="1" android:src="@drawable/progress_circle"
+			android:layout_width="@dimen/title_height" android:layout_height="@dimen/title_height"
+			android:id="@+id/progressCircle" android:visibility="gone"/>
+    <com.google.android.maps.MapView
 	    xmlns:android="http://schemas.android.com/apk/res/android"
 	    android:id="@+id/selectGeocacheMap"
 	    android:layout_width="fill_parent"
