@@ -42,6 +42,10 @@ http://commons.wikimedia.org/wiki/Compass
 
 Иконки клада
 http://commons.wikimedia.org/wiki/Category:Chest_icons
+http://www.openclipart.org/detail/99205
+
+http://www.openclipart.org/image/250px/svg_to_png/bau_guardar_2.png
+http://www.openclipart.org/detail/99205
 
 Флаги
 http://commons.wikimedia.org/wiki/Category:Flag_icons
