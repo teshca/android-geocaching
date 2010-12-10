@@ -21,10 +21,20 @@ http://gmaps-utility-library-dev.googlecode.com/svn/tags/mapiconmaker/1.1/exampl
 
 ===Варианты бесплатных компасов===
 
-http://all-free-download.com/free-icon/vista-icon/compass_4228.html
 http://images.all-free-download.com/images/graphiclarge/compass_4228.jpg
--нет проблем с локализацией
-- кэш может двигаться по ободку
+http://all-free-download.com/free-icon/vista-icon/compass_4228.html
+
+http://www.openclipart.org/image/250px/svg_to_png/RobA_Modern_Compass_Rose.png
+http://www.openclipart.org/detail/9550
+
+http://www.openclipart.org/image/250px/svg_to_png/ipurush_Compass.png
+http://www.openclipart.org/detail/16283
+
+
+=== Карты ===
+
+http://www.openclipart.org/image/250px/svg_to_png/midkiffaries_Ruffled_Map.png
+http://www.openclipart.org/detail/3325
 
 = Details =
 
