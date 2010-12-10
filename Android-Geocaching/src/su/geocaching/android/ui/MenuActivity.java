@@ -111,7 +111,7 @@ public class MenuActivity extends Activity implements OnClickListener {
     }
 
     private void startAboutActivity() {
-	Intent intent = new Intent(this, su.geocaching.android.ui.aboutprogramm.AboutActivity.class);
+	Intent intent = new Intent(this, su.geocaching.android.ui.AboutActivity.class);
 	startActivity(intent);
     }
 

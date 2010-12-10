@@ -1,4 +1,4 @@
-package su.geocaching.android.ui.aboutprogramm;
+package su.geocaching.android.ui;
 
 import su.geocaching.android.ui.R;
 import android.app.Activity;
