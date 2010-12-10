@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<TableLayout xmlns:android="http://schemas.android.com/apk/res/android"
+	android:orientation="vertical" android:layout_width="fill_parent"
+	android:layout_height="fill_parent" android:stretchColumns="1">
+	<TableRow>
+		<ScrollView android:layout_width="wrap_content"
+			android:layout_height="170dip" android:padding="10dip">
+			<TableLayout android:orientation="vertical"
+				android:layout_width="fill_parent" android:layout_height="fill_parent"
+				android:stretchColumns="1">
+				<TableRow>
+					<TextView android:layout_column="0" android:autoLink="web"
+						android:layout_width="250dip" android:layout_height="wrap_content"
+						android:textStyle="bold" android:textSize="14dip"
+						android:layout_gravity="left" android:gravity="center"
+						android:text="@string/about_google_code" />
+					<TableLayout android:orientation="vertical"
+						android:layout_width="wrap_content" android:layout_height="wrap_content"
+						android:stretchColumns="1">
+						<TextView android:id="@+id/about_content"
+							android:layout_width="wrap_content" android:layout_height="wrap_content"
+							android:layout_marginLeft="5dip" android:textStyle="bold"
+							android:text="Руководители проекта:" />
+						<TextView android:id="@+id/about_autors"
+							android:layout_width="wrap_content" android:layout_height="wrap_content"
+							android:layout_marginLeft="10dip" android:gravity="left"
+							android:text="@string/about_leaders_text" />
+					</TableLayout>
+				</TableRow>
+				<TableRow>
+					<TableLayout android:orientation="vertical"
+						android:layout_width="wrap_content" android:layout_height="wrap_content"
+						android:stretchColumns="1">
+						<TableRow>
+							<TextView android:layout_column="0" android:autoLink="web"
+								android:layout_width="250dip" android:layout_height="wrap_content"
+								android:textStyle="bold" android:textSize="14dip"
+								android:layout_gravity="left" android:gravity="center"
+								android:text="@string/about_programm_text" />
+						</TableRow>
+						<TableRow>
+							<TextView android:layout_column="0" android:autoLink="email"
+								android:layout_width="250dip" android:layout_height="wrap_content"
+								android:textStyle="bold" android:textSize="14dip"
+								android:layout_gravity="left" android:gravity="center"
+								android:text="@string/about_email_text" />
+						</TableRow>
+					</TableLayout>
+					<TableLayout android:orientation="vertical"
+						android:layout_width="wrap_content" android:layout_height="wrap_content"
+						android:stretchColumns="1">
+						<TextView android:id="@+id/about_content"
+							android:layout_width="wrap_content" android:layout_height="wrap_content"
+							android:layout_marginLeft="5dip" android:textStyle="bold"
+							android:text="Разработчики проекта:" />
+						<TextView android:id="@+id/about_autors"
+							android:layout_width="wrap_content" android:layout_height="wrap_content"
+							android:layout_marginLeft="15dip" android:gravity="left"
+							android:text="@string/about_developers_text" />
+					</TableLayout>
+				</TableRow>
+			</TableLayout>
+		</ScrollView>
+	</TableRow>
+	<TableRow>
+		<Button android:id="@+id/about_exit_button"
+			android:layout_width="150dip" android:layout_height="40dip"
+			android:clickable="true" android:layout_gravity="center"
+			android:text="@string/about_exit_button_text" android:gravity="center" />
+	</TableRow>
+</TableLayout>
