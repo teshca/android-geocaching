@@ -39,12 +39,11 @@ https://android-geocaching.googlecode.com/svn/trunk/files/wiki/images/select_wit
  * Экстремальный - красный
 
 В меню экрана доступна только одна опция: "мое местоположение".
-
 Нажатие на тайник открывает экран с информацией о нем.
 
 https://android-geocaching.googlecode.com/svn/trunk/files/wiki/images/info_about_the_cache.png
 
-Здесь также можно добавить тайник в избранные и начать искать его.
+Здесь можно добавить тайник в избранные и начать искать его.
 
 
 ====2.Искать тайник====
