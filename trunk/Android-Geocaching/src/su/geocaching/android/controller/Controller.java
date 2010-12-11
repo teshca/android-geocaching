@@ -9,6 +9,7 @@ import android.net.ConnectivityManager;
 import android.util.Log;
 import com.google.android.maps.GeoPoint;
 import su.geocaching.android.controller.apimanager.ApiManager;
+import su.geocaching.android.controller.apimanager.DownloadGeoCacheTask;
 import su.geocaching.android.controller.apimanager.IApiManager;
 import su.geocaching.android.controller.filter.IFilter;
 import su.geocaching.android.controller.filter.NoFilter;

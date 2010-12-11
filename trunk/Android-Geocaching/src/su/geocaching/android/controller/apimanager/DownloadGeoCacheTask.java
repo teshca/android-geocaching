@@ -1,8 +1,9 @@
-package su.geocaching.android.controller;
+package su.geocaching.android.controller.apimanager;
 
 import java.util.LinkedList;
 import java.util.List;
 
+import su.geocaching.android.controller.Controller;
 import su.geocaching.android.controller.apimanager.IApiManager;
 import su.geocaching.android.controller.filter.IFilter;
 import su.geocaching.android.model.datatype.GeoCache;
@@ -14,7 +15,7 @@ import android.os.AsyncTask;
  * 
  * @author Nikita Bumakov
  */
-class DownloadGeoCacheTask extends AsyncTask<Double, Integer, List<GeoCache>> {
+public class DownloadGeoCacheTask extends AsyncTask<Double, Integer, List<GeoCache>> {
     private SelectGeoCacheMap map;
     private IApiManager apiManager;
 
