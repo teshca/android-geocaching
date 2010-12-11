@@ -67,11 +67,12 @@
   		android:layout_marginRight="35dip"
   		android:layout_marginBottom="5dip"
   		style="@style/FavoritesFolderRowStyle"
-  	/>
+  	/>    
   	</LinearLayout>
-  	
-  	
-  	  
+  	<View
+  		android:layout_width="fill_parent"
+        android:layout_height="2dip"
+        android:background="@color/menu_text_color"/>
   </LinearLayout>
   	 
   <WebView
