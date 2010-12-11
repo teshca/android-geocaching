@@ -28,7 +28,7 @@ https://android-geocaching.googlecode.com/svn/trunk/files/wiki/images/main_windo
 
 ====1.Выбрать тайник.====
 
-https://android-geocaching.googlecode.com/svn/trunk/files/wiki/images/select_with_menu.png
+https://android-geocaching.googlecode.com/svn/trunk/files/wiki/images/select_with_menu.png https://android-geocaching.googlecode.com/svn/trunk/files/wiki/images/info_about_the_cache.png
 
 В этом режиме откроется карта с тайниками.
 Каждый тайник имеет свои цвет:
@@ -39,36 +39,33 @@ https://android-geocaching.googlecode.com/svn/trunk/files/wiki/images/select_wit
  * Экстремальный - красный
 
 В меню экрана доступна только одна опция: "мое местоположение".
-Нажатие на тайник открывает экран с информацией о нем.
 
-https://android-geocaching.googlecode.com/svn/trunk/files/wiki/images/info_about_the_cache.png
-
-Здесь можно добавить тайник в избранные и начать искать его.
+Нажатие на тайник открывает экран с информацией о нем, где можно добавить тайник в избранное и начать искать его.
 
 
 ====2.Искать тайник====
 
 В этом режиме откроется карта с тайником.
 
-https://android-geocaching.googlecode.com/svn/trunk/files/wiki/images/search_cache_with_menu.png
+https://android-geocaching.googlecode.com/svn/trunk/files/wiki/images/search_cache_with_menu.png https://android-geocaching.googlecode.com/svn/trunk/files/wiki/images/compass_with_menu.png
 
 Нажатие на тайник откроет экран с информацией о нем.
-В меню доступны три опции:
+
+В меню карты доступны три опции:
  # Инфо - информация о тайнике, который вы ищете.
  # Вместить все - размещает карту так, чтобы пользователь и тайник отображались на экране.
  # Компас - открывает экран с компасом.
-На компас можно также перейти нажав на иконку компаса в левом верхнем углу экрана.
 
-====3.Компас====
-Меню:
- # Инфо - информация о тайнике, который вы ищете.
+На компас можно также перейти нажав на иконку компаса в левом верхнем углу экрана.
+Чтобы точно по компасу идти в сторону тайника, необходимо совместить иконку тайника со стрелкой.
+
+В меню компаса также доступны три опции:
+ # Инфо 
  # Карта - перейти обратно на карту с поиском
  # Не выключать экран
 
-https://android-geocaching.googlecode.com/svn/trunk/files/wiki/images/compass_with_menu.png
 
-
-====4.Избранное====
+====3.Избранное====
 
 Нажатие в главном меню на "избранное" откроет экран со списком понравившихся вам тайников. Вы сможете вновь посмотреть информацию о тайнике и начать искать его.
 
