@@ -1,0 +1,15 @@
+#summary Описание класса ApiManager.
+
+ApiManager - класс, отвечающий за получение тайников с сайта (geocaching.su) 
+
+== Устройство ==
+
+ApiManager получает набор тайников с сайта и, если получены тайники из не запрашиваемой области - фильтрует их. ApiManager хранит в себе полученные ранее тайники.
+
+
+== Методы ==
+
+{{{
+List<GeoCache> getGeoCacheList(double maxLatitude, double minLatitude, double maxLongitude, double minLongitude)
+}}}
+Возвращает лист тайников в заданной местности
