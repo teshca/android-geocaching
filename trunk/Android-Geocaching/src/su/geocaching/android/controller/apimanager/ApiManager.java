@@ -7,6 +7,7 @@ import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Locale;
 
 import javax.xml.parsers.ParserConfigurationException;
 import javax.xml.parsers.SAXParser;
@@ -32,11 +33,14 @@ public class ApiManager implements IApiManager {
     private static final String ENCODING = "windows-1251";
 
     private List<GeoCache> geoCaches;
-    private static int id;
+    private Locale rusLocale;
+    private int id;
+    
 
     public ApiManager() {
 	id = (int) (Math.random() * 1E6);
 	geoCaches = new LinkedList<GeoCache>();
+	rusLocale = new Locale("ru");
 	Log.d(TAG, "new ApiManager Created");
     }
 
@@ -91,7 +95,7 @@ public class ApiManager implements IApiManager {
     }
 
     private URL generateUrl(double maxLatitude, double minLatitude, double maxLongitude, double minLongitude) throws MalformedURLException {
-	String request = String.format("%s?lngmax=%f&lngmin=%f&latmax=%f&latmin=%f&id=%d&geocaching=5767e405a17c4b0e1cbaecffdb93475d", URL, maxLongitude, minLongitude, maxLatitude, minLatitude, id);
+	String request = String.format(rusLocale, "%s?lngmax=%f&lngmin=%f&latmax=%f&latmin=%f&id=%d&geocaching=5767e405a17c4b0e1cbaecffdb93475d", URL, maxLongitude, minLongitude, maxLatitude, minLatitude, id);
 	Log.d(TAG, "generated Url: " + request);
 	return new URL(request);
     }
