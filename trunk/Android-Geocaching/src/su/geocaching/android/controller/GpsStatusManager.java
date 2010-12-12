@@ -1,4 +1,4 @@
-package su.geocaching.android.ui.searchgeocache;
+package su.geocaching.android.controller;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -14,8 +14,8 @@ import android.util.Log;
  * @author Grigory Kalabin. grigory.kalabin@gmail.com
  * @since Nov 18, 2010
  */
-public class GpsStatusListener implements GpsStatus.Listener {
-    private final static String TAG = GpsStatusListener.class.getCanonicalName();
+public class GpsStatusManager implements GpsStatus.Listener {
+    private final static String TAG = GpsStatusManager.class.getCanonicalName();
 
     private List<IGpsStatusAware> subsribers;
     private LocationManager locationMaganer;
@@ -27,7 +27,7 @@ public class GpsStatusListener implements GpsStatus.Listener {
      * @param context
      *            which can get strings from application resources
      */
-    public GpsStatusListener(LocationManager locationManager, Context context) {
+    public GpsStatusManager(LocationManager locationManager, Context context) {
 	this.locationMaganer = locationManager;
 	subsribers = new ArrayList<IGpsStatusAware>();
 	this.context = context;
@@ -121,7 +121,7 @@ public class GpsStatusListener implements GpsStatus.Listener {
 
 	}
 	for (IGpsStatusAware subsriber : subsribers) {
-	    subsriber.updateStatus(status, ISearchActivity.STATUS_TYPE_GPS);
+	    subsriber.updateStatus(status);
 	}
     }
 

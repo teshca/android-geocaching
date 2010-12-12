@@ -19,9 +19,6 @@ import su.geocaching.android.model.datastorage.SettingsStorage;
 import su.geocaching.android.model.datatype.GeoCache;
 import su.geocaching.android.ui.R;
 import su.geocaching.android.ui.geocachemap.ConnectionManager;
-import su.geocaching.android.ui.searchgeocache.GeoCacheCompassManager;
-import su.geocaching.android.ui.searchgeocache.GeoCacheLocationManager;
-import su.geocaching.android.ui.searchgeocache.GpsStatusListener;
 import su.geocaching.android.ui.selectgeocache.SelectGeoCacheMap;
 
 import java.util.LinkedList;
@@ -45,7 +42,7 @@ public class Controller {
     private GeoCache lastSearchedGeoCache;
     private GeoCacheLocationManager locationManager;
     private GeoCacheCompassManager compassManager;
-    private GpsStatusListener gpsStatusManager;
+    private GpsStatusManager gpsStatusManager;
     private ConnectionManager connectionManager;
     private static final int DEFAULT_CENTER_LONGITUDE = 29828674;
     private static final int DEFAULT_CENTER_LATITUDE = 59879904;
@@ -79,7 +76,7 @@ public class Controller {
      */
     public void updateSelectedGeoCaches(SelectGeoCacheMap map, double maxLatitude, double minLatitude, double maxLongitude, double minLongitude) {
 	Double[] d = { maxLatitude, minLatitude, maxLongitude, minLongitude };
-        new DownloadGeoCacheTask(apiManager, map).execute(d);
+	new DownloadGeoCacheTask(apiManager, map).execute(d);
     }
 
     /**
@@ -173,7 +170,7 @@ public class Controller {
 
     private Drawable getMarker(int resource, Context map) {
 	Drawable cacheMarker = map.getResources().getDrawable(resource);
-	cacheMarker.setBounds(0, -cacheMarker.getMinimumHeight(), cacheMarker.getMinimumWidth(), 0);
+	cacheMarker.setBounds(-cacheMarker.getMinimumWidth() / 2, -cacheMarker.getMinimumHeight(), cacheMarker.getMinimumWidth() / 2, 0);
 	return cacheMarker;
     }
 
@@ -205,9 +202,9 @@ public class Controller {
      * @return gps status manager which can send to IGpsStatusAware updates of
      *         status gps engine
      */
-    public synchronized GpsStatusListener getGpsStatusListener(Context context) {
+    public synchronized GpsStatusManager getGpsStatusManager(Context context) {
 	if (gpsStatusManager == null) {
-	    gpsStatusManager = new GpsStatusListener((LocationManager) context.getSystemService(Context.LOCATION_SERVICE), context);
+	    gpsStatusManager = new GpsStatusManager((LocationManager) context.getSystemService(Context.LOCATION_SERVICE), context);
 	    Log.d(TAG, "gps status manager wasn't init yet. Create it");
 	}
 	return gpsStatusManager;
@@ -269,8 +266,8 @@ public class Controller {
 	    SharedPreferences settings = context.getSharedPreferences(PREFS_NAME, 0);
 	    SharedPreferences.Editor editor = settings.edit();
 	    editor.putInt("center_x", center.getLatitudeE6());
-            editor.putInt("center_y", center.getLongitudeE6());
-            editor.putInt("zoom", zoom);
+	    editor.putInt("center_y", center.getLongitudeE6());
+	    editor.putInt("zoom", zoom);
 	    // Commit the edits!
 	    editor.commit();
 	}
@@ -279,15 +276,14 @@ public class Controller {
 
     /**
      * 
-     * @return  [0] - last center latitude
-     *          [1] - last center longitude
-     *          [2] - last zoom
+     * @return [0] - last center latitude [1] - last center longitude [2] - last
+     *         zoom
      */
     public synchronized int[] getLastMapInfo(Context context) {
-        SharedPreferences settings = context.getSharedPreferences(PREFS_NAME, 0);
-        int center_x = settings.getInt("center_x", DEFAULT_CENTER_LATITUDE);
-        int center_y = settings.getInt("center_y", DEFAULT_CENTER_LONGITUDE);
-        int zoom = settings.getInt("zoom", DEFAULT_ZOOM);
-        return new int[]{center_x, center_y, zoom};
+	SharedPreferences settings = context.getSharedPreferences(PREFS_NAME, 0);
+	int center_x = settings.getInt("center_x", DEFAULT_CENTER_LATITUDE);
+	int center_y = settings.getInt("center_y", DEFAULT_CENTER_LONGITUDE);
+	int zoom = settings.getInt("zoom", DEFAULT_ZOOM);
+	return new int[] { center_x, center_y, zoom };
     }
 }

@@ -3,17 +3,19 @@
 	android:orientation="vertical" android:layout_width="fill_parent"
 	android:layout_height="fill_parent" android:background="@color/menu_background">
 	<LinearLayout style="@style/TitleBar" android:id="@+id/waitingLocationFixBar"
-		android:visibility="visible" android:gravity="clip_horizontal">
-		<ImageView android:layout_weight="0" android:src="@drawable/geologo"
-			style="@style/TitleBarLogo" android:id="@+id/title_logo" />
-		<ImageView android:layout_weight="0" style="@style/TitleBarSeparator" />
-		<TextView android:layout_weight="1" android:id="@+id/waitingLocationFixText"
+		android:visibility="visible">
+		<ImageView android:src="@drawable/geologo" style="@style/TitleBarLogo"
+			android:id="@+id/title_logo" />
+		<ImageView style="@style/TitleBarSeparator" />
+		<TextView android:id="@+id/waitingLocationFixText"
 			android:layout_width="wrap_content" android:layout_height="fill_parent"
 			android:textColor="#ffffffff" android:padding="3px"
 			android:textSize="@dimen/text_size_small" />
-		<ImageView android:layout_weight="1" android:src="@drawable/progress_circle"
-			android:layout_width="@dimen/title_height" android:visibility="gone"
-			android:layout_height="@dimen/title_height" android:id="@+id/progressCircle" />
+		<View style="@style/TitleBarSpring"></View>
+		<ImageView android:layout_width="@dimen/header_progress_bar_size"
+			android:layout_height="@dimen/header_progress_bar_size"
+			android:layout_gravity="center_vertical" android:paddingRight="3px"
+			android:id="@+id/progressCircle" />
 	</LinearLayout>
 
 	<su.geocaching.android.ui.searchgeocache.GraphicCompassView

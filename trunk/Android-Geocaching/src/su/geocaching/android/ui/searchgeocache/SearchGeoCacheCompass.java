@@ -5,6 +5,7 @@ import su.geocaching.android.ui.R;
 import su.geocaching.android.utils.Helper;
 import android.app.Activity;
 import android.content.Intent;
+import android.graphics.drawable.AnimationDrawable;
 import android.location.Location;
 import android.os.Bundle;
 import android.util.Log;
@@ -12,8 +13,6 @@ import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
-import android.view.animation.Animation;
-import android.view.animation.AnimationUtils;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -30,8 +29,9 @@ public class SearchGeoCacheCompass extends Activity implements ISearchActivity {
     private GraphicCompassView compassView;
     private SearchGeoCacheManager manager;
     private TextView distanceToCache;
-    private ImageView progressCircle;
     private TextView statusText;
+    private ImageView progressBarView;
+    private AnimationDrawable progressBarAnim;
 
     /*
      * (non-Javadoc)
@@ -47,7 +47,9 @@ public class SearchGeoCacheCompass extends Activity implements ISearchActivity {
 	manager = new SearchGeoCacheManager(this);
 	distanceToCache = (TextView) findViewById(R.id.DistanceValue);
 	setDistance(0);
-	progressCircle = (ImageView) findViewById(R.id.progressCircle);
+	progressBarView = (ImageView) findViewById(R.id.progressCircle);
+	progressBarView.setBackgroundResource(R.anim.earth_anim);
+	progressBarAnim = (AnimationDrawable) progressBarView.getBackground();
 	statusText = (TextView) findViewById(R.id.waitingLocationFixText);
     }
 
@@ -101,11 +103,9 @@ public class SearchGeoCacheCompass extends Activity implements ISearchActivity {
 	}
 	if (!manager.isLocationFixed()) {
 	    Log.d(TAG, "run logic: location not fixed. Show gps status");
-	    progressCircle.setVisibility(View.VISIBLE);
-	    Animation progressCircleAnim = AnimationUtils.loadAnimation(this, R.anim.progress_circle);
-	    progressCircle.startAnimation(progressCircleAnim);
+	    progressBarView.setVisibility(View.VISIBLE);
 	} else {
-	    progressCircle.setVisibility(View.GONE);
+	    progressBarView.setVisibility(View.GONE);
 	}
     }
 
@@ -132,8 +132,9 @@ public class SearchGeoCacheCompass extends Activity implements ISearchActivity {
 	if (!manager.isLocationFixed()) {
 	    return;
 	}
-	progressCircle.clearAnimation();
-	progressCircle.setVisibility(View.GONE);
+	if (progressBarView.getVisibility() == View.VISIBLE) {
+	    progressBarView.setVisibility(View.GONE);
+	}
 	compassView.setBearingToGeoCache(Helper.getBearingBetween(location, manager.getGeoCache().getLocationGeoPoint()));
 	setDistance(Helper.getDistanceBetween(location, manager.getGeoCache().getLocationGeoPoint()));
     }
@@ -188,13 +189,13 @@ public class SearchGeoCacheCompass extends Activity implements ISearchActivity {
      * 
      * @see
      * su.geocaching.android.ui.searchgeocache.ISearchActivity#updateStatus(
-     * java.lang.String, int)
+     * java.lang.String, su.geocaching.android.ui.searchgeocache.StatusType)
      */
     @Override
-    public void updateStatus(String status, int type) {
+    public void updateStatus(String status, StatusType type) {
 	compassView.setLocationFix(manager.isLocationFixed());
 	// TODO add status field
-	if (type == ISearchActivity.STATUS_TYPE_GPS) {
+	if (type == StatusType.GPS) {
 	    statusText.setText(status);
 	}
     }
@@ -211,8 +212,28 @@ public class SearchGeoCacheCompass extends Activity implements ISearchActivity {
 	return manager.getCurrentLocation();
     }
 
+    /*
+     * (non-Javadoc)
+     * 
+     * @see su.geocaching.android.ui.searchgeocache.ISearchActivity#
+     * onBestProviderUnavailable()
+     */
     @Override
     public void onBestProviderUnavailable() {
-	// TODO tell user about this
+	if (progressBarView.getVisibility() == View.GONE) {
+	    progressBarView.setVisibility(View.VISIBLE);
+	}
+	updateStatus(getString(R.string.waiting_location_fix_message), StatusType.GPS);
+	Toast.makeText(this, getString(R.string.search_geocache_best_provider_lost), Toast.LENGTH_LONG).show();
+    }
+
+    /*
+     * (non-Javadoc)
+     * 
+     * @see android.app.Activity#onWindowFocusChanged(boolean)
+     */
+    public void onWindowFocusChanged(boolean hasFocus) {
+	super.onWindowFocusChanged(hasFocus);
+	progressBarAnim.start();
     }
 }

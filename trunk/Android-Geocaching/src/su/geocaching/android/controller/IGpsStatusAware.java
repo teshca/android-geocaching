@@ -1,4 +1,4 @@
-package su.geocaching.android.ui.searchgeocache;
+package su.geocaching.android.controller;
 
 /**
  * Interface of activity which need to get updates of gps status
@@ -11,5 +11,5 @@ public interface IGpsStatusAware {
      * @param status
      *            - show status to user
      */
-    public void updateStatus(String status, int type);
+    public void updateStatus(String status);
 }
