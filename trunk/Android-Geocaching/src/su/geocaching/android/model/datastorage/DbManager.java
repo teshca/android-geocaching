@@ -190,46 +190,49 @@ public class DbManager extends SQLiteOpenHelper {
 	GeoCache exitCache = new GeoCache();
 	exitCache.setId(id);
 
-	exitCache.setName(c.getString(0));
+	exitCache.setName(c.getString(c.getColumnIndex(COLUMN_NAME)));
 	exitCache.setLocationGeoPoint(new GeoPoint(c.getInt(c.getColumnIndex(COLUMN_LAT)), c.getInt(c.getColumnIndex(COLUMN_LON))));
+	
+	exitCache.setStatus(GeoCacheStatus.values()[c.getInt(c.getColumnIndex(COLUMN_STATUS))]);
+//	switch (c.getInt(c.getColumnIndex(COLUMN_STATUS))) {
+//	case 1:
+//	    exitCache.setStatus(GeoCacheStatus.VALID);
+//	    break;
+//
+//	case 2:
+//	    exitCache.setStatus(GeoCacheStatus.NOT_VALID);
+//	    break;
+//
+//	case 3:
+//	    exitCache.setStatus(GeoCacheStatus.NOT_CONFIRMED);
+//	    break;
+//	 default:
+//	     exitCache.setStatus(GeoCacheStatus.NOT_VALID);
+//	     break;
+//	}
 
-	switch (c.getInt(c.getColumnIndex(COLUMN_STATUS))) {
-	case 1:
-	    exitCache.setStatus(GeoCacheStatus.VALID);
-	    break;
-
-	case 2:
-	    exitCache.setStatus(GeoCacheStatus.NOT_VALID);
-	    break;
-
-	case 3:
-	    exitCache.setStatus(GeoCacheStatus.NOT_CONFIRMED);
-	    break;
-	 default:
-	     exitCache.setStatus(GeoCacheStatus.NOT_VALID);
-	     break;
-	}
-
-	switch (c.getInt(c.getColumnIndex(COLUMN_TYPE))) {
-	case 1:
-	    exitCache.setType(GeoCacheType.TRADITIONAL);
-	    break;
-	case 2:
-	    exitCache.setType(GeoCacheType.VIRTUAL);
-	    break;
-	case 3:
-	    exitCache.setType(GeoCacheType.STEP_BY_STEP);
-	    break;
-	case 4:
-	    exitCache.setType(GeoCacheType.EXTREME);
-	    break;
-	case 5:
-	    exitCache.setType(GeoCacheType.EVENT);
-	    break;
-	default:
-	    exitCache.setType(GeoCacheType.TRADITIONAL);
-	    break;
-	}
+	exitCache.setType(GeoCacheType.values()[c.getInt(c.getColumnIndex(COLUMN_TYPE))]);
+//	
+//	switch (c.getInt(c.getColumnIndex(COLUMN_TYPE))) {
+//	case 1:
+//	    exitCache.setType(GeoCacheType.TRADITIONAL);
+//	    break;
+//	case 2:
+//	    exitCache.setType(GeoCacheType.VIRTUAL);
+//	    break;
+//	case 3:
+//	    exitCache.setType(GeoCacheType.STEP_BY_STEP);
+//	    break;
+//	case 4:
+//	    exitCache.setType(GeoCacheType.EXTREME);
+//	    break;
+//	case 5:
+//	    exitCache.setType(GeoCacheType.EVENT);
+//	    break;
+//	default:
+//	    exitCache.setType(GeoCacheType.TRADITIONAL);
+//	    break;
+//	}
 	
 	c.close();
 	return exitCache;
