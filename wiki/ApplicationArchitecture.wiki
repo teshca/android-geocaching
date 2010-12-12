@@ -18,7 +18,7 @@
  * Database manager
  * Location manager
  * Compass manager
- * API manager
+ * [ApiManager API manager]
  * Internet status manager
 
 ===GPS status manager===
@@ -33,7 +33,7 @@
 ===Compass manager===
 Определяет азимут пользователя и сообщает об его изменении.
 
-===API manager===
+===[ApiManager API manager]===
 Отвечает за взаимодействие приложения с сервисом geocaching.su
 
 ===Internet status manager===
@@ -43,7 +43,7 @@
 ==View==
 Содержит в себе логику пользовательского интерфейса. Состоит из набора Activity, представляющих тот или иной функционал приложения. На данном этапе есть 5 типов Activity:
  * *Select activity* - отвечает за выбор тайника
- * *GeoCache info activity* - предоставляет информацию о тайнике для пользователя
+ * *[User_story_ShowGeoCacheInfo GeoCache info activity]* - предоставляет информацию о тайнике для пользователя
  * *Favorites activity* - представляет список избранных тайников
  * *Search activity* - выполняют функцию поиска тайника
  * *About activity* - информация о программе, а также обратная связь
