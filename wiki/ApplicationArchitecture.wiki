@@ -14,36 +14,36 @@
 
 ==Controller==
 Сюда относятся 2 сущности - класс *Controller* и набор различных *менеджеров*. Класс Controller предоставляет доступ компонента _View_ к менеджерам, а также выполняет некоторые функции интепретации полученных данных. *Менеджеры* отвечают за обработку различных данных, полученных извне. На данном этапе разработки имеются 6 различных менеджеров:
- * GPS status manager
- * Database manager
- * Location manager
- * Compass manager
+ * [GpsStatusManager GPS status manager]
+ * [DbManager Database manager]
+ * [LocationManager Location manager]
+ * [CompassManager Compass manager]
  * [ApiManager API manager]
- * Internet status manager
+ * [InternetStatusManager Internet status manager]
 
-===GPS status manager===
+===[GpsStatusManager GPS status manager]===
 Получает данные о статусе соединения с GPS: доступность GPS; количество спутников, от которых получен сигнал; количество спутников, учавствовавших в определении текущего положения. При изменении статуса сообщает об этом всем желающим сущностям.
 
-===Database manager===
+===[DbManager Database manager]===
 Отвечает за соединение с базой данных и запись и чтение тайников.
 
-===Location manager===
+===[LocationManager Location manager]===
 Хранит последнее известное местоположение пользователя, полученное с помощью GPS, GSM/Wi-Fi и других провайдеров. Сообщает об изменении положения, а также, в ситуации, когда на устройстве недоступны устройства, позволяющие определить азимут пользователя, может выступать в роли неточного компаса.
 
-===Compass manager===
+===[CompassManager Compass manager]===
 Определяет азимут пользователя и сообщает об его изменении.
 
 ===[ApiManager API manager]===
 Отвечает за взаимодействие приложения с сервисом geocaching.su
 
-===Internet status manager===
+===[InternetStatusManager Internet status manager]===
 Следит за состоянием соединения с internet и оповещает, когда он исчез или появился.
 
 
 ==View==
 Содержит в себе логику пользовательского интерфейса. Состоит из набора Activity, представляющих тот или иной функционал приложения. На данном этапе есть 5 типов Activity:
- * *Select activity* - отвечает за выбор тайника
- * *[User_story_ShowGeoCacheInfo GeoCache info activity]* - предоставляет информацию о тайнике для пользователя
- * *Favorites activity* - представляет список избранных тайников
- * *Search activity* - выполняют функцию поиска тайника
+ * *[FavoritesFolder Select activity]* - отвечает за выбор тайника
+ * *[ShowGeoCacheInfo GeoCache info activity]* - предоставляет информацию о тайнике для пользователя
+ * *[FavoritesFolder Favorites activity]* - представляет список избранных тайников
+ * *[FavoritesFolder Search activity]* - выполняют функцию поиска тайника
  * *About activity* - информация о программе, а также обратная связь
