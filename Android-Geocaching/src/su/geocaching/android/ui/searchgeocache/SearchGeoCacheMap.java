@@ -14,6 +14,7 @@ import su.geocaching.android.view.showgeocacheinfo.ShowGeoCacheInfo;
 import android.content.Intent;
 import android.graphics.Point;
 import android.graphics.Rect;
+import android.graphics.drawable.AnimationDrawable;
 import android.graphics.drawable.Drawable;
 import android.hardware.Sensor;
 import android.location.Location;
@@ -24,10 +25,7 @@ import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
-import android.view.animation.Animation;
-import android.view.animation.AnimationUtils;
 import android.widget.ImageView;
-import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -52,14 +50,14 @@ public class SearchGeoCacheMap extends MapActivity implements ISearchActivity, I
     private Drawable cacheMarker;
     private DistanceToGeoCacheOverlay distanceOverlay;
     private UserLocationOverlay userOverlay;
-    private LinearLayout waitingLocationFixBar;
     private TextView waitingLocationFixText;
     private MapView map;
     private MapController mapController;
     private List<Overlay> mapOverlays;
     private SearchGeoCacheManager manager;
     private ConnectionManager internetManager;
-    private ImageView progressCircle;
+    private ImageView progressBarView;
+    private AnimationDrawable progressBarAnim;
 
     /*
      * (non-Javadoc)
@@ -70,11 +68,10 @@ public class SearchGeoCacheMap extends MapActivity implements ISearchActivity, I
     protected void onCreate(Bundle savedInstanceState) {
 	super.onCreate(savedInstanceState);
 	setContentView(R.layout.search_geocache_map);
-	
-	
-	waitingLocationFixBar = (LinearLayout) findViewById(R.id.waitingLocationFixBar);
 	waitingLocationFixText = (TextView) findViewById(R.id.waitingLocationFixText);
-	progressCircle = (ImageView) findViewById(R.id.progressCircle);
+	progressBarView = (ImageView) findViewById(R.id.progressCircle);
+	progressBarView.setBackgroundResource(R.anim.earth_anim);
+	progressBarAnim = (AnimationDrawable) progressBarView.getBackground();
 	map = (MapView) findViewById(R.id.searchGeocacheMap);
 	mapOverlays = map.getOverlays();
 	mapController = map.getController();
@@ -138,9 +135,11 @@ public class SearchGeoCacheMap extends MapActivity implements ISearchActivity, I
 	if (!manager.isLocationFixed()) {
 	    Log.d(TAG, "run logic: location not fixed. Show gps status");
 	    mapController.animateTo(manager.getGeoCache().getLocationGeoPoint());
-	    waitingLocationFixBar.setVisibility(View.VISIBLE);
-	    Animation progressCircleAnim = AnimationUtils.loadAnimation(this, R.anim.progress_circle);
-	    progressCircle.startAnimation(progressCircleAnim);
+	    // we need to run progress bar, but it will be done in
+	    // onFocusChanged
+	    progressBarView.setVisibility(View.VISIBLE);
+	} else {
+	    progressBarView.setVisibility(View.GONE);
 	}
 
 	map.invalidate();
@@ -169,23 +168,23 @@ public class SearchGeoCacheMap extends MapActivity implements ISearchActivity, I
     public void updateLocation(Location location) {
 	userOverlay.onLocationChanged(location);
 	Log.d(TAG, "update location");
+	if (progressBarView.getVisibility() == View.VISIBLE) {
+	    progressBarView.setVisibility(View.GONE);
+	}
 	if (distanceOverlay == null) {
 	    // It's really first run of update location
 	    Log.d(TAG, "update location: first run of this activity");
-	    waitingLocationFixBar.setVisibility(View.GONE);
-	    manager.turnOffGpsStatusListener();
 	    distanceOverlay = new DistanceToGeoCacheOverlay(Helper.locationToGeoPoint(location), manager.getGeoCache().getLocationGeoPoint());
 	    distanceOverlay.setCachePoint(manager.getGeoCache().getLocationGeoPoint());
 	    mapOverlays.add(distanceOverlay);
 	    mapOverlays.add(userOverlay);
 	    resetZoom();
 
-//	     DrivingDirections.Mode mode = Mode.WALKING;
-//	     DrivingDirections directions =
-//	     DrivingDirectionsFactory.createDrivingDirections();
-//	     directions.driveTo(Helper.locationToGeoPoint(location)
-//		     ,manager.getGeoCache().getLocationGeoPoint()
-//	     , mode, this);
+	    // DrivingDirections.Mode mode = Mode.WALKING;
+	    // DrivingDirections directions =
+	    // DrivingDirectionsFactory.createDrivingDirections();
+	    // directions.driveTo(Helper.locationToGeoPoint(location),manager.getGeoCache().getLocationGeoPoint()
+	    // , mode, this);
 
 	    return;
 	}
@@ -290,23 +289,19 @@ public class SearchGeoCacheMap extends MapActivity implements ISearchActivity, I
 	case R.id.menuGeoCacheInfo:
 	    manager.showGeoCacheInfo();
 	    return true;
-	//case R.id.DrawDirectionPath:
+	    // case R.id.DrawDirectionPath:
 	    // directionControlller.setVisibleWay();
 	default:
 	    return super.onOptionsItemSelected(item);
 	}
     }
 
-    /*
-     * (non-Javadoc)
-     * 
-     * @see
-     * su.geocaching.android.ui.searchgeocache.ISearchActivity#updateStatus(
-     * java.lang.String)
+    /* (non-Javadoc)
+     * @see su.geocaching.android.ui.searchgeocache.ISearchActivity#updateStatus(java.lang.String, su.geocaching.android.ui.searchgeocache.StatusType)
      */
     @Override
-    public void updateStatus(String status, int type) {
-	if (type == ISearchActivity.STATUS_TYPE_GPS) {
+    public void updateStatus(String status, StatusType type) {
+	if (type == StatusType.GPS) {
 	    waitingLocationFixText.setText(status);
 	}
     }
@@ -378,9 +373,27 @@ public class SearchGeoCacheMap extends MapActivity implements ISearchActivity, I
 	// TODO: do smthng?
     }
 
+    /*
+     * (non-Javadoc)
+     * 
+     * @see su.geocaching.android.ui.searchgeocache.ISearchActivity#
+     * onBestProviderUnavailable()
+     */
     @Override
     public void onBestProviderUnavailable() {
+	if (progressBarView.getVisibility() == View.GONE) {
+	    progressBarView.setVisibility(View.VISIBLE);
+	}
+	updateStatus(getString(R.string.waiting_location_fix_message), StatusType.GPS);
 	Toast.makeText(this, getString(R.string.search_geocache_best_provider_lost), Toast.LENGTH_LONG).show();
+    }
+
+    /* (non-Javadoc)
+     * @see android.app.Activity#onWindowFocusChanged(boolean)
+     */
+    public void onWindowFocusChanged(boolean hasFocus) {
+	super.onWindowFocusChanged(hasFocus);
+	progressBarAnim.start();
     }
 
     @Override
@@ -394,6 +407,4 @@ public class SearchGeoCacheMap extends MapActivity implements ISearchActivity, I
 	// TODO Auto-generated method stub
 
     }
-
-   
 }

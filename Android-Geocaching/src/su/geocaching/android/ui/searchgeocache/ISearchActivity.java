@@ -20,8 +20,10 @@ public interface ISearchActivity {
     /**
      * @param status
      *            - show status to user
+     * @param type
+     *            of engine which status has been changed
      */
-    public void updateStatus(String status, int type);
+    public void updateStatus(String status, StatusType type);
 
     /**
      * @param location

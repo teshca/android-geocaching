@@ -1,6 +1,12 @@
 package su.geocaching.android.ui.searchgeocache;
 
 import su.geocaching.android.controller.Controller;
+import su.geocaching.android.controller.GeoCacheCompassManager;
+import su.geocaching.android.controller.GeoCacheLocationManager;
+import su.geocaching.android.controller.GpsStatusManager;
+import su.geocaching.android.controller.ICompassAware;
+import su.geocaching.android.controller.IGpsStatusAware;
+import su.geocaching.android.controller.ILocationAware;
 import su.geocaching.android.model.datatype.GeoCache;
 import su.geocaching.android.ui.R;
 import su.geocaching.android.view.showgeocacheinfo.ShowGeoCacheInfo;
@@ -31,7 +37,7 @@ public class SearchGeoCacheManager implements ILocationAware, ICompassAware, IGp
     private Activity context; // it's activity casted to Activity. Cast is
 			      // bad...
     private GeoCache geoCache;
-    private GpsStatusListener gpsStatusListener;
+    private GpsStatusManager gpsStatusManager;
 
     /**
      * @param context
@@ -42,7 +48,7 @@ public class SearchGeoCacheManager implements ILocationAware, ICompassAware, IGp
 	this.context = (Activity) activity;
 	locationManager = Controller.getInstance().getLocationManager(context);
 	compass = Controller.getInstance().getCompassManager(context);
-	gpsStatusListener = Controller.getInstance().getGpsStatusListener(context);
+	gpsStatusManager = Controller.getInstance().getGpsStatusManager(context);
 	Intent intent = ((Activity) activity).getIntent();
 	geoCache = intent.getParcelableExtra(GeoCache.class.getCanonicalName());
 	Log.d(TAG, "Init");
@@ -54,7 +60,7 @@ public class SearchGeoCacheManager implements ILocationAware, ICompassAware, IGp
     public void onPause() {
 	locationManager.removeSubsriber(this);
 	compass.removeSubsriber(this);
-	gpsStatusListener.removeSubsriber(this);
+	gpsStatusManager.removeSubsriber(this);
 	Log.d(TAG, "pause: remove updates of location, compass and GPS status");
     }
 
@@ -102,13 +108,6 @@ public class SearchGeoCacheManager implements ILocationAware, ICompassAware, IGp
 		});
 	AlertDialog turnOnGpsAlert = builder.create();
 	turnOnGpsAlert.show();
-    }
-
-    /**
-     * Update status when location not fixed
-     */
-    private void showWaitingLocationFix() {
-	activity.updateStatus(context.getString(R.string.waiting_location_fix_message), ISearchActivity.STATUS_TYPE_GPS);
     }
 
     /*
@@ -177,6 +176,7 @@ public class SearchGeoCacheManager implements ILocationAware, ICompassAware, IGp
 	Log.d(TAG, "onProviderDisabled");
 	if (!locationManager.isBestProviderEnabled()) {
 	    Log.d(TAG, "onStatusChanged: best provider (" + locationManager.getBestProvider() + ") disabled. Ask turn on.");
+	    activity.onBestProviderUnavailable();
 	    askTurnOnGps();
 	}
     }
@@ -185,7 +185,7 @@ public class SearchGeoCacheManager implements ILocationAware, ICompassAware, IGp
      * @return true if user location has been fixed
      */
     public boolean isLocationFixed() {
-	return locationManager.isLocationFixed();
+	return locationManager.hasLocation();
     }
 
     /**
@@ -203,7 +203,7 @@ public class SearchGeoCacheManager implements ILocationAware, ICompassAware, IGp
 	Controller.getInstance().setLastSearchedGeoCache(geoCache, context);
 
 	if (!isLocationFixed()) {
-	    showWaitingLocationFix();
+	    activity.onBestProviderUnavailable();
 	    Log.d(TAG, "runLogic: location not fixed. Send msg.");
 	} else {
 	    updateLocation(getCurrentLocation());
@@ -212,7 +212,7 @@ public class SearchGeoCacheManager implements ILocationAware, ICompassAware, IGp
 	locationManager.addSubscriber(this);
 	locationManager.enableBestProviderUpdates();
 	compass.addSubscriber(this);
-	gpsStatusListener.addSubscriber(this);
+	gpsStatusManager.addSubscriber(this);
     }
 
     /**
@@ -270,22 +270,15 @@ public class SearchGeoCacheManager implements ILocationAware, ICompassAware, IGp
 	return compass.isCompassAvailable();
     }
 
-    /**
-     * Turn off updates from gps status listener
-     */
-    public void turnOffGpsStatusListener() {
-	gpsStatusListener.removeSubsriber(this);
-    }
-
     /*
      * (non-Javadoc)
      * 
      * @see
      * su.geocaching.android.ui.searchgeocache.IGpsStatusAware#updateStatus(
-     * java.lang.String, int)
+     * java.lang.String)
      */
     @Override
-    public void updateStatus(String status, int type) {
-	activity.updateStatus(status, type);
+    public void updateStatus(String status) {
+	activity.updateStatus(status, StatusType.GPS);
     }
 }

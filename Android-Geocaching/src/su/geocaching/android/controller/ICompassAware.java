@@ -1,4 +1,4 @@
-package su.geocaching.android.ui.searchgeocache;
+package su.geocaching.android.controller;
 
 /**
  * Interface of activities uses compass sensor

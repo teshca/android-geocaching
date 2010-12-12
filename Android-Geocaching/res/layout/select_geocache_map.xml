@@ -1,18 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:orientation="vertical"
-    android:layout_width="fill_parent"
-    android:layout_height="fill_parent"
-    >
-	<ImageView android:layout_weight="1" android:src="@drawable/progress_circle"
-			android:layout_width="@dimen/title_height" android:layout_height="@dimen/title_height"
-			android:id="@+id/progressCircle" android:visibility="gone"/>
-    <com.google.android.maps.MapView
-	    xmlns:android="http://schemas.android.com/apk/res/android"
-	    android:id="@+id/selectGeocacheMap"
-	    android:layout_width="fill_parent"
-	    android:layout_height="fill_parent"
-	    android:clickable="true"
-	    android:apiKey="@string/google_map_api_key"
-	/>
+	android:orientation="vertical" android:layout_width="fill_parent"
+	android:layout_height="fill_parent">
+	<ImageView android:layout_width="@dimen/header_progress_bar_size"
+		android:layout_height="@dimen/header_progress_bar_size"
+		android:paddingRight="3px" android:id="@+id/progressCircle" />
+	<com.google.android.maps.MapView
+		xmlns:android="http://schemas.android.com/apk/res/android" android:id="@+id/selectGeocacheMap"
+		android:layout_width="fill_parent" android:layout_height="fill_parent"
+		android:clickable="true" android:apiKey="@string/google_map_api_key" />
 </LinearLayout>

@@ -1,4 +1,4 @@
-package su.geocaching.android.ui.searchgeocache;
+package su.geocaching.android.controller;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -182,7 +182,7 @@ public class GeoCacheLocationManager implements LocationListener {
     /**
      * @return true if last known location not null
      */
-    public boolean isLocationFixed() {
+    public boolean hasLocation() {
 	return lastLocation != null;
     }
 
