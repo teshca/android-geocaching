@@ -42,68 +42,155 @@ public class FavoritesFolder extends Activity implements OnItemClickListener {
 	lvListShowCache = (ListView) findViewById(R.id.favorit_folder_listCach);
 	tvTitle = (TextView) findViewById(R.id.favorit_foldet_title_text);
 	dbm = new DbManager(getBaseContext());
-	
+
     }
 
     private List<Map<String, ?>> createGeoCacheList(ArrayList<GeoCache> t) {
-	int type[] = new int[t.size()];
-	String name[] = new String[t.size()];
+	GeoCache localGeoCache = new GeoCache();
 	List<Map<String, ?>> ExitList = new ArrayList<Map<String, ?>>();
 
 	for (int i = 0; i < t.size(); i++) {
 	    Map<String, Object> map = new HashMap<String, Object>();
-	    type[i] = t.get(i).getType().ordinal();
-	    name[i] = t.get(i).getName();
+	    localGeoCache = t.get(i);
 
-	    switch (t.get(i).getStatus().ordinal()){
-	    case 0:
+	    switch (localGeoCache.getStatus()) {
+	    case VALID:
 		map.put("statusText", getString(R.string.status_geocache_valid));
 		break;
-	    case 1:
+	    case NOT_VALID:
 		map.put("statusText", getString(R.string.status_geocache_no_valid));
 		break;
-	    case 2:
-		map.put("statusText",getString(R.string.status_geocache_no_confirmed));
+	    case NOT_CONFIRMED:
+		map.put("statusText", getString(R.string.status_geocache_no_confirmed));
 		break;
-	   default:
-	       map.put("statusText", "???");
-	       break;
+	    default:
+		map.put("statusText", "???");
+		break;
 	    }
-	    
-	    switch (type[i]) {
-	    case 0:
+
+	    switch (localGeoCache.getType()) {
+	    case TRADITIONAL:
 		map.put("typeText", getString(R.string.type_geocache_traditional));
-		map.put("type", R.drawable.icon_favorit_folder_traditional_cach);
+
+		switch (localGeoCache.getStatus()) {
+		case VALID:
+		    map.put("type", R.drawable.ic_cache_traditional_valid);
+		    break;
+		case NOT_VALID:
+		    map.put("type", R.drawable.ic_cache_traditional_not_valid);
+		    break;
+		case NOT_CONFIRMED:
+		    map.put("type", R.drawable.ic_cache_traditional_not_confirmed);
+		    break;
+		default:
+		    map.put("type", R.drawable.ic_cache_traditional_not_confirmed);
+		    break;
+		}
+
 		break;
-	    case 1:
+	    case VIRTUAL:
 		map.put("typeText", getString(R.string.type_geocache_virtua));
-		map.put("type", R.drawable.icon_favorit_folder_virtual_cach);
+
+		switch (localGeoCache.getStatus()) {
+		case VALID:
+		    map.put("type", R.drawable.ic_cache_virtual_valid);
+		    break;
+		case NOT_VALID:
+		    map.put("type", R.drawable.ic_cache_virtual_not_valid);
+		    break;
+		case NOT_CONFIRMED:
+		    map.put("type", R.drawable.ic_cache_virtual_not_confirmed);
+		    break;
+		default:
+		    map.put("type", R.drawable.ic_cache_virtual_not_confirmed);
+		    break;
+		}
+		
 		break;
-	    case 2:
+	    case STEP_BY_STEP:
 		map.put("typeText", getString(R.string.type_geocache_step_by_step));
-		map.put("type", R.drawable.icon_favorit_folder_step_by_step_cach);
+
+		switch (localGeoCache.getStatus()) {
+		case VALID:
+		    map.put("type", R.drawable.ic_cache_stepbystep_valid);
+		    break;
+		case NOT_VALID:
+		    map.put("type", R.drawable.ic_cache_stepbystep_not_valid);
+		    break;
+		case NOT_CONFIRMED:
+		    map.put("type", R.drawable.ic_cache_stepbystep_not_confirmed);
+		    break;
+		default:
+		    map.put("type", R.drawable.ic_cache_stepbystep_not_confirmed);
+		    break;
+		}
+
 		break;
-	    case 3:
-		map.put("typeText",getString(R.string.type_geocache_event));
-		map.put("type", R.drawable.icon_favorit_folder_extrime_cach);
+	    case EVENT:
+		map.put("typeText", getString(R.string.type_geocache_event));
+
+		switch (localGeoCache.getStatus()) {
+		case VALID:
+		    map.put("type", R.drawable.ic_cache_event_valid);
+		    break;
+		case NOT_VALID:
+		    map.put("type", R.drawable.ic_cache_event_not_valid);
+		    break;
+		case NOT_CONFIRMED:
+		    map.put("type", R.drawable.ic_cache_event_not_confirmed);
+		    break;
+		default:
+		    map.put("type", R.drawable.ic_cache_event_not_confirmed);
+		    break;
+		}
+
 		break;
-	    case 4:
+	    case EXTREME:
 		map.put("typeText", getString(R.string.type_geocache_extreme));
-		map.put("type", R.drawable.icon_favorites_folder_event);
+
+		switch (localGeoCache.getStatus()) {
+		case VALID:
+		    map.put("type", R.drawable.ic_cache_extreme_valid);
+		    break;
+		case NOT_VALID:
+		    map.put("type", R.drawable.ic_cache_extreme_not_valid);
+		    break;
+		case NOT_CONFIRMED:
+		    map.put("type", R.drawable.ic_cache_extreme_not_confirmed);
+		    break;
+		default:
+		    map.put("type", R.drawable.ic_cache_extreme_not_confirmed);
+		    break;
+		}
+
 		break;
 	    default:
 		map.put("typeText", "???");
-		map.put("type", R.drawable.icon_favorit_folder_traditional_cach);
+
+		switch (localGeoCache.getStatus()) {
+		case VALID:
+		    map.put("type", R.drawable.ic_cache_traditional_valid);
+		    break;
+		case NOT_VALID:
+		    map.put("type", R.drawable.ic_cache_traditional_not_valid);
+		    break;
+		case NOT_CONFIRMED:
+		    map.put("type", R.drawable.ic_cache_traditional_not_confirmed);
+		    break;
+		default:
+		    map.put("type", R.drawable.ic_cache_traditional_not_confirmed);
+		    break;
+		}
+
 		break;
 	    }
 
-	    map.put("name", name[i]);
+	    map.put("name", localGeoCache.getName());
 	    ExitList.add(map);
 	}
 
 	return ExitList;
     }
-
 
     @Override
     protected void onStart() {
@@ -122,7 +209,6 @@ public class FavoritesFolder extends Activity implements OnItemClickListener {
 	}
 	super.onStart();
     }
-
 
     @Override
     public void onItemClick(AdapterView<?> arg0, View arg1, int arg2, long arg3) {
