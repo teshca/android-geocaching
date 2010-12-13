@@ -4,6 +4,7 @@ import java.util.List;
 
 import su.geocaching.android.controller.Controller;
 import su.geocaching.android.model.datatype.GeoCache;
+import su.geocaching.android.ui.MenuActivity;
 import su.geocaching.android.ui.R;
 import su.geocaching.android.ui.geocachemap.*;
 import su.geocaching.android.ui.searchgeocache.drivingDirections.IRoute;
@@ -25,6 +26,7 @@ import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.View.OnClickListener;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -42,7 +44,7 @@ import com.google.android.maps.Projection;
  * @author Android-Geocaching.su student project team
  * @since October 2010
  */
-public class SearchGeoCacheMap extends MapActivity implements ISearchActivity, IMapAware, IInternetAware, IDirectionsListener {
+public class SearchGeoCacheMap extends MapActivity implements ISearchActivity, IMapAware, IInternetAware, IDirectionsListener, OnClickListener {
     private final static String TAG = SearchGeoCacheMap.class.getCanonicalName();
 
     private GeoCacheOverlayItem cacheOverlayItem;
@@ -58,6 +60,7 @@ public class SearchGeoCacheMap extends MapActivity implements ISearchActivity, I
     private ConnectionManager internetManager;
     private ImageView progressBarView;
     private AnimationDrawable progressBarAnim;
+    private ImageView geologo;
 
     /*
      * (non-Javadoc)
@@ -68,6 +71,8 @@ public class SearchGeoCacheMap extends MapActivity implements ISearchActivity, I
     protected void onCreate(Bundle savedInstanceState) {
 	super.onCreate(savedInstanceState);
 	setContentView(R.layout.search_geocache_map);
+	geologo = (ImageView) findViewById(R.id.title_logo);
+	geologo.setOnClickListener(this);
 	waitingLocationFixText = (TextView) findViewById(R.id.waitingLocationFixText);
 	progressBarView = (ImageView) findViewById(R.id.progressCircle);
 	progressBarView.setBackgroundResource(R.anim.earth_anim);
@@ -154,6 +159,15 @@ public class SearchGeoCacheMap extends MapActivity implements ISearchActivity, I
 	if ((manager != null) && (manager.getGeoCache() != null)) {
 	    intent.putExtra(GeoCache.class.getCanonicalName(), manager.getGeoCache());
 	}
+	startActivity(intent);
+    }
+
+    /**
+     * Run main activity
+     */
+    public void startDashboard() {
+	Log.d(TAG, "start dashboard activity");
+	Intent intent = new Intent(this, MenuActivity.class);
 	startActivity(intent);
     }
 
@@ -281,6 +295,9 @@ public class SearchGeoCacheMap extends MapActivity implements ISearchActivity, I
 	case R.id.menuDefaultZoom:
 	    if (manager.isLocationFixed()) {
 		resetZoom();
+	    } else {
+		mapController.animateTo(manager.getGeoCache().getLocationGeoPoint());
+		Toast.makeText(getBaseContext(), R.string.status_null_last_location, Toast.LENGTH_SHORT).show();
 	    }
 	    return true;
 	case R.id.menuStartCompass:
@@ -296,8 +313,12 @@ public class SearchGeoCacheMap extends MapActivity implements ISearchActivity, I
 	}
     }
 
-    /* (non-Javadoc)
-     * @see su.geocaching.android.ui.searchgeocache.ISearchActivity#updateStatus(java.lang.String, su.geocaching.android.ui.searchgeocache.StatusType)
+    /*
+     * (non-Javadoc)
+     * 
+     * @see
+     * su.geocaching.android.ui.searchgeocache.ISearchActivity#updateStatus(
+     * java.lang.String, su.geocaching.android.ui.searchgeocache.StatusType)
      */
     @Override
     public void updateStatus(String status, StatusType type) {
@@ -388,7 +409,9 @@ public class SearchGeoCacheMap extends MapActivity implements ISearchActivity, I
 	Toast.makeText(this, getString(R.string.search_geocache_best_provider_lost), Toast.LENGTH_LONG).show();
     }
 
-    /* (non-Javadoc)
+    /*
+     * (non-Javadoc)
+     * 
      * @see android.app.Activity#onWindowFocusChanged(boolean)
      */
     public void onWindowFocusChanged(boolean hasFocus) {
@@ -406,5 +429,18 @@ public class SearchGeoCacheMap extends MapActivity implements ISearchActivity, I
     public void onDirectionsNotAvailable() {
 	// TODO Auto-generated method stub
 
+    }
+
+    /*
+     * (non-Javadoc)
+     * 
+     * @see android.view.View.OnClickListener#onClick(android.view.View)
+     */
+    @Override
+    public void onClick(View v) {
+	if (v.equals(geologo)) {
+	    Log.d(TAG, "Pressed logo: go to dashboard");
+	    startDashboard();
+	}
     }
 }

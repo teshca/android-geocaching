@@ -8,14 +8,13 @@ import android.hardware.SensorEvent;
 import android.hardware.SensorEventListener;
 import android.hardware.SensorManager;
 
-
 /**
  * Sensor manager which calculate bearing of user
  * 
  * @author Grigory Kalabin. grigory.kalabin@gmail.com
  * @since Nov 10, 2010
  */
-public class GeoCacheCompassManager implements SensorEventListener {
+public class CompassManager implements SensorEventListener {
 
     private static final float RAD2DEG = (float) (180 / Math.PI);
     private SensorManager sensorManager;
@@ -27,14 +26,12 @@ public class GeoCacheCompassManager implements SensorEventListener {
     private int lastBearing;
     private boolean isCompassAvailable;
     private List<ICompassAware> subsribers;
-    
-    private static final int DEFAULT_ACCURACY = 5; //default precision in degrees
 
     /**
      * @param sensorManager
      *            manager which can add or remove updates of sensors
      */
-    public GeoCacheCompassManager(SensorManager sensorManager) {
+    public CompassManager(SensorManager sensorManager) {
 	this.sensorManager = sensorManager;
 	isCompassAvailable = sensorManager != null;
 	subsribers = new ArrayList<ICompassAware>();
@@ -93,10 +90,9 @@ public class GeoCacheCompassManager implements SensorEventListener {
 
 	SensorManager.getRotationMatrix(afRotation, afInclination, afGravity, afGeomagnetic);
 	SensorManager.getOrientation(afRotation, afOrientation);
-	
-	int bearing = (int) (afOrientation[0] * RAD2DEG);
-	if ((bearing > lastBearing + DEFAULT_ACCURACY) || (bearing < lastBearing - DEFAULT_ACCURACY)) {
-	    lastBearing = bearing;
+	int lastBearingLocal = (int) (afOrientation[0] * RAD2DEG);
+	if (lastBearingLocal != lastBearing) {
+	    lastBearing = lastBearingLocal;
 	    updateBearing(lastBearing);
 	}
     }

@@ -1,6 +1,5 @@
 package su.geocaching.android.ui;
 
-import com.google.android.maps.GeoPoint;
 import su.geocaching.android.controller.Controller;
 import su.geocaching.android.model.datatype.GeoCache;
 import su.geocaching.android.ui.searchgeocache.SearchGeoCacheMap;
@@ -75,6 +74,9 @@ public class MenuActivity extends Activity implements OnClickListener {
 	}
     }
 
+    /* (non-Javadoc)
+     * @see android.view.View.OnClickListener#onClick(android.view.View)
+     */
     @Override
     public void onClick(View v) {
 	if (v.equals(searchButton)) {
