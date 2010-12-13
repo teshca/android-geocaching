@@ -22,7 +22,13 @@
   		android:gravity="center_vertical"
   		></CheckBox>
 		
-		<ImageButton android:id="@+id/info_geocach_Go_button" style="@style/TitleBarAction"></ImageButton>
+		<ImageView 
+		android:id="@+id/info_geocach_Go_button"
+		 android:src="@drawable/icon_search"
+		 android:layout_width="38dip"
+		 android:layout_height="38dip"
+		android:layout_marginTop="7dip"
+			/>
 
 	</LinearLayout>
   
@@ -34,7 +40,7 @@
   	android:orientation="vertical"
   	android:gravity="left"
   	>
-  	
+
   <TextView
   	android:id="@+id/info_text_name"
 	style="@style/FavoritesFolderRowStyle"
