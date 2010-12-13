@@ -41,7 +41,7 @@ public class Controller {
     private GeoPoint lastCenter;
     private GeoCache lastSearchedGeoCache;
     private GeoCacheLocationManager locationManager;
-    private GeoCacheCompassManager compassManager;
+    private CompassManager compassManager;
     private GpsStatusManager gpsStatusManager;
     private ConnectionManager connectionManager;
     private static final int DEFAULT_CENTER_LONGITUDE = 29828674;
@@ -190,9 +190,9 @@ public class Controller {
      * @return compass manager which can send to ICompassAware updates of
      *         bearing
      */
-    public synchronized GeoCacheCompassManager getCompassManager(Context context) {
+    public synchronized CompassManager getCompassManager(Context context) {
 	if (compassManager == null) {
-	    compassManager = new GeoCacheCompassManager((SensorManager) context.getSystemService(Context.SENSOR_SERVICE));
+	    compassManager = new CompassManager((SensorManager) context.getSystemService(Context.SENSOR_SERVICE));
 	    Log.d(TAG, "compass manager wasn't init yet. Create it");
 	}
 	return compassManager;

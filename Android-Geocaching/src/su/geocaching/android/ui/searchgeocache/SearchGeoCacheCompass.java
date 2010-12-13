@@ -1,6 +1,7 @@
 package su.geocaching.android.ui.searchgeocache;
 
 import su.geocaching.android.model.datatype.GeoCache;
+import su.geocaching.android.ui.MenuActivity;
 import su.geocaching.android.ui.R;
 import su.geocaching.android.utils.Helper;
 import android.app.Activity;
@@ -13,6 +14,7 @@ import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.View.OnClickListener;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -23,7 +25,7 @@ import android.widget.Toast;
  * @author Android-Geocaching.su student project team
  * @since October 2010
  */
-public class SearchGeoCacheCompass extends Activity implements ISearchActivity {
+public class SearchGeoCacheCompass extends Activity implements ISearchActivity, OnClickListener {
     private static final String TAG = SearchGeoCacheCompass.class.getCanonicalName();
 
     private GraphicCompassView compassView;
@@ -32,6 +34,7 @@ public class SearchGeoCacheCompass extends Activity implements ISearchActivity {
     private TextView statusText;
     private ImageView progressBarView;
     private AnimationDrawable progressBarAnim;
+    private ImageView geologo;
 
     /*
      * (non-Javadoc)
@@ -43,6 +46,8 @@ public class SearchGeoCacheCompass extends Activity implements ISearchActivity {
 	super.onCreate(savedInstanceState);
 	Log.d(TAG, "on create");
 	setContentView(R.layout.search_geocache_compass);
+	geologo = (ImageView) findViewById(R.id.title_logo);
+	geologo.setOnClickListener(this);
 	compassView = (GraphicCompassView) findViewById(R.id.compassView);
 	manager = new SearchGeoCacheManager(this);
 	distanceToCache = (TextView) findViewById(R.id.DistanceValue);
@@ -184,6 +189,15 @@ public class SearchGeoCacheCompass extends Activity implements ISearchActivity {
 	startActivity(intent);
     }
 
+    /**
+     * Run main activity
+     */
+    public void startDashboard() {
+	Log.d(TAG, "start dashboard activity");
+	Intent intent = new Intent(this, MenuActivity.class);
+	startActivity(intent);
+    }
+
     /*
      * (non-Javadoc)
      * 
@@ -235,5 +249,18 @@ public class SearchGeoCacheCompass extends Activity implements ISearchActivity {
     public void onWindowFocusChanged(boolean hasFocus) {
 	super.onWindowFocusChanged(hasFocus);
 	progressBarAnim.start();
+    }
+
+    /*
+     * (non-Javadoc)
+     * 
+     * @see android.view.View.OnClickListener#onClick(android.view.View)
+     */
+    @Override
+    public void onClick(View v) {
+	if (v.equals(geologo)) {
+	    Log.d(TAG, "Pressed logo: go to dashboard");
+	    startDashboard();
+	}
     }
 }

@@ -1,7 +1,7 @@
 package su.geocaching.android.ui.searchgeocache;
 
 import su.geocaching.android.controller.Controller;
-import su.geocaching.android.controller.GeoCacheCompassManager;
+import su.geocaching.android.controller.CompassManager;
 import su.geocaching.android.controller.GeoCacheLocationManager;
 import su.geocaching.android.controller.GpsStatusManager;
 import su.geocaching.android.controller.ICompassAware;
@@ -31,7 +31,7 @@ import android.widget.Toast;
 public class SearchGeoCacheManager implements ILocationAware, ICompassAware, IGpsStatusAware {
     private static final String TAG = SearchGeoCacheManager.class.getCanonicalName();
 
-    private GeoCacheCompassManager compass;
+    private CompassManager compass;
     private GeoCacheLocationManager locationManager;
     private ISearchActivity activity;
     private Activity context; // it's activity casted to Activity. Cast is
