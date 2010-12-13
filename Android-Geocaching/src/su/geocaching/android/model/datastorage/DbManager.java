@@ -84,38 +84,39 @@ public class DbManager extends SQLiteOpenHelper {
 	    GeoCache geocache = new GeoCache();
 	    geocache.setId(cur.getInt(cur.getColumnIndex(COLUMN_ID)));
 	    geocache.setName(cur.getString(cur.getColumnIndex(COLUMN_NAME)));
-	    
-	    switch (cur.getInt(cur.getColumnIndex(COLUMN_STATUS))) {
-	    case 0:
-		geocache.setStatus(GeoCacheStatus.VALID);
-		break;
-	    case 1:
-		geocache.setStatus(GeoCacheStatus.NOT_VALID);
-		break;
-	    case 2:
-		geocache.setStatus(GeoCacheStatus.NOT_CONFIRMED);
-		break;
-	    }
+	    geocache.setStatus(GeoCacheStatus.values()[cur.getInt(cur.getColumnIndex(COLUMN_STATUS))]);
+//	    switch (cur.getInt(cur.getColumnIndex(COLUMN_STATUS))) {
+//	    case 0:
+//		geocache.setStatus(GeoCacheStatus.VALID);
+//		break;
+//	    case 1:
+//		geocache.setStatus(GeoCacheStatus.NOT_VALID);
+//		break;
+//	    case 2:
+//		geocache.setStatus(GeoCacheStatus.NOT_CONFIRMED);
+//		break;
+//	    }
 
 	    geocache.setLocationGeoPoint(new GeoPoint(cur.getInt(cur.getColumnIndex(COLUMN_LAT)), cur.getInt(cur.getColumnIndex(COLUMN_LON))));
-	    
-	    switch (cur.getInt(cur.getColumnIndex(COLUMN_TYPE))) {
-	    case 0:
-		geocache.setType(GeoCacheType.TRADITIONAL);
-		break;
-	    case 1:
-		geocache.setType(GeoCacheType.VIRTUAL);
-		break;
-	    case 2:
-		geocache.setType(GeoCacheType.STEP_BY_STEP);
-		break;
-	    case 3:
-		geocache.setType(GeoCacheType.EXTREME);
-		break;
-	    case 4:
-		geocache.setType(GeoCacheType.EVENT);
-		break;
-	    }
+	
+	    geocache.setType(GeoCacheType.values()[cur.getInt(cur.getColumnIndex(COLUMN_TYPE))]);
+//	    switch (cur.getInt(cur.getColumnIndex(COLUMN_TYPE))) {
+//	    case 0:
+//		geocache.setType(GeoCacheType.TRADITIONAL);
+//		break;
+//	    case 1:
+//		geocache.setType(GeoCacheType.VIRTUAL);
+//		break;
+//	    case 2:
+//		geocache.setType(GeoCacheType.STEP_BY_STEP);
+//		break;
+//	    case 3:
+//		geocache.setType(GeoCacheType.EXTREME);
+//		break;
+//	    case 4:
+//		geocache.setType(GeoCacheType.EVENT);
+//		break;
+//	    }
 	    exitCollection.add(geocache);
 	    cur.moveToNext();
 	}
