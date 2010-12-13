@@ -10,6 +10,7 @@ import su.geocaching.android.ui.geocachemap.IInternetAware;
 import su.geocaching.android.controller.Controller;
 import su.geocaching.android.model.datastorage.DbManager;
 import su.geocaching.android.model.datatype.GeoCache;
+import su.geocaching.android.model.datatype.GeoCacheType;
 import su.geocaching.android.ui.R;
 import su.geocaching.android.ui.searchgeocache.SearchGeoCacheMap;
 import android.app.Activity;
@@ -22,6 +23,7 @@ import android.webkit.WebView;
 import android.webkit.WebViewClient;
 import android.widget.CheckBox;
 import android.widget.CompoundButton;
+import android.widget.ImageView;
 import android.widget.Toast;
 import android.widget.CompoundButton.OnCheckedChangeListener;
 import android.widget.ImageButton;
@@ -39,8 +41,9 @@ public class ShowGeoCacheInfo extends Activity implements OnCheckedChangeListene
     private TextView tvNameText;
     private TextView tvTypeGeoCacheText;
     private TextView tvStatusGeoCacheText;
-    private ImageButton btGoToSearchGeoCache;
+    private ImageView btGoToSearchGeoCache;
     private CheckBox cbAddDelCache;
+    private ImageView ivImageTypeGeoCache;
     private DbManager dbm = null;
     private GeoCache GeoCacheForShowInfo;
     private String htmlTextGeoCache;
@@ -57,7 +60,7 @@ public class ShowGeoCacheInfo extends Activity implements OnCheckedChangeListene
 	}
 
 	webView = (WebView) findViewById(R.id.info_web_brouse);
-	btGoToSearchGeoCache = (ImageButton) findViewById(R.id.info_geocach_Go_button);
+	btGoToSearchGeoCache = (ImageView) findViewById(R.id.info_geocach_Go_button);
 	cbAddDelCache = (CheckBox) findViewById(R.id.info_geocache_add_del);
 	tvNameText = (TextView) findViewById(R.id.info_text_name);
 	tvTypeGeoCacheText = (TextView) findViewById(R.id.info_GeoCache_type);
@@ -112,16 +115,18 @@ public class ShowGeoCacheInfo extends Activity implements OnCheckedChangeListene
 	    }
 	}
 
+	
+
 	tvNameText.setText(GeoCacheForShowInfo.getName());
 
-	switch (GeoCacheForShowInfo.getStatus().ordinal()) {
-	case 0:
+	switch (GeoCacheForShowInfo.getStatus()) {
+	case VALID:
 	    tvStatusGeoCacheText.setText(getString(R.string.status_geocache_valid));
 	    break;
-	case 1:
+	case NOT_VALID:
 	    tvStatusGeoCacheText.setText(getString(R.string.status_geocache_no_valid));
 	    break;
-	case 2:
+	case NOT_CONFIRMED:
 	    tvStatusGeoCacheText.setText(getString(R.string.status_geocache_no_confirmed));
 	    break;
 	default:
@@ -129,20 +134,22 @@ public class ShowGeoCacheInfo extends Activity implements OnCheckedChangeListene
 	    break;
 	}
 
-	switch (GeoCacheForShowInfo.getType().ordinal()) {
-	case 0:
+	
+	
+	switch (GeoCacheForShowInfo.getType()) {
+	case TRADITIONAL:
 	    tvTypeGeoCacheText.setText(getString(R.string.type_geocache_traditional));
 	    break;
-	case 1:
+	case VIRTUAL:
 	    tvTypeGeoCacheText.setText(getString(R.string.type_geocache_virtua));
 	    break;
-	case 2:
+	case STEP_BY_STEP:
 	    tvTypeGeoCacheText.setText(getString(R.string.type_geocache_step_by_step));
 	    break;
-	case 3:
+	case EVENT:
 	    tvTypeGeoCacheText.setText(getString(R.string.type_geocache_event));
 	    break;
-	case 4:
+	case EXTREME:
 	    tvTypeGeoCacheText.setText(getString(R.string.type_geocache_extreme));
 	    break;
 	default:
@@ -157,14 +164,20 @@ public class ShowGeoCacheInfo extends Activity implements OnCheckedChangeListene
 	    if (!isCacheStoredInDataBase) {
 		webView.loadData("<?xml version='1.0' encoding='utf-8'?>" + "<center>" + getString(R.string.info_geocach_not_internet_and_not_in_DB) + "</center>", "text/html", "utf-8");
 	    } else {
-		webView.loadDataWithBaseURL("http://pda.geocaching.su/", htmlTextGeoCache, "text/html", "utf-8","");//(htmlTextGeoCache, "text/html", "utf-8");
+		webView.loadDataWithBaseURL("http://pda.geocaching.su/", htmlTextGeoCache, "text/html", "utf-8", "");// (htmlTextGeoCache,
+														     // "text/html",
+														     // "utf-8");
 	    }
 
 	} else {
 	    if (!isCacheStoredInDataBase) {
-		webView.loadDataWithBaseURL("http://pda.geocaching.su/", htmlTextGeoCache, "text/html", "utf-8","");//loadData(htmlTextGeoCache, "text/html", "utf-8");
+		webView.loadDataWithBaseURL("http://pda.geocaching.su/", htmlTextGeoCache, "text/html", "utf-8", "");// loadData(htmlTextGeoCache,
+														     // "text/html",
+														     // "utf-8");
 	    } else {
-		webView.loadDataWithBaseURL("http://pda.geocaching.su/", htmlTextGeoCache, "text/html", "utf-8","");//loadData(htmlTextGeoCache, "text/html", "utf-8");
+		webView.loadDataWithBaseURL("http://pda.geocaching.su/", htmlTextGeoCache, "text/html", "utf-8", "");// loadData(htmlTextGeoCache,
+														     // "text/html",
+														     // "utf-8");
 	    }
 
 	}
@@ -174,7 +187,7 @@ public class ShowGeoCacheInfo extends Activity implements OnCheckedChangeListene
 
     @Override
     public void onClick(View v) {
-	if(!isCacheStoredInDataBase){
+	if (!isCacheStoredInDataBase) {
 	    cbAddDelCache.setChecked(true);
 	}
 	Intent intent = new Intent(this, SearchGeoCacheMap.class);
@@ -201,7 +214,7 @@ public class ShowGeoCacheInfo extends Activity implements OnCheckedChangeListene
     }
 
     /**
-     * This class need for 
+     * This class need for
      * 
      * 
      */
@@ -223,4 +236,5 @@ public class ShowGeoCacheInfo extends Activity implements OnCheckedChangeListene
     public void onInternetFound() {
 	btGoToSearchGeoCache.setOnClickListener(this);
     }
+    
 }
