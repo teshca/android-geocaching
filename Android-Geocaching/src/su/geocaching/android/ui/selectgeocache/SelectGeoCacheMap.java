@@ -33,6 +33,7 @@ import java.util.List;
  */
 public class SelectGeoCacheMap extends MapActivity implements IMapAware, IInternetAware {
     private static final String TAG = SelectGeoCacheMap.class.getCanonicalName();
+    private static final int MAX_CACHE_NUMBER = 100;
 
     private Controller controller;
     private MyLocationOverlay userOverlay;
@@ -216,8 +217,9 @@ public class SelectGeoCacheMap extends MapActivity implements IMapAware, IIntern
         if (geoCacheList == null) {
             return;
         }
-        if (geoCacheList.size() > 500) {
-            Toast.makeText(this.getBaseContext(), getString(R.string.too_small_zoom), Toast.LENGTH_LONG).show();
+        if (geoCacheList.size() > MAX_CACHE_NUMBER) {
+            Toast.makeText(this.getBaseContext(), getString(R.string.too_small_zoom) + " " + geoCacheList.size(), Toast.LENGTH_LONG).show();
+            geoCacheList = geoCacheList.subList(0, MAX_CACHE_NUMBER);
         }
         Log.d(TAG, "draw update cache overlay; count = " + countDownloadTask + "; size = " + geoCacheList.size());
         for (GeoCache geoCache : geoCacheList) {
@@ -242,7 +244,6 @@ public class SelectGeoCacheMap extends MapActivity implements IMapAware, IIntern
 
     @Override
     public void onInternetFound() {
-        // TODO: do smth?
     }
 
     /**
