@@ -1,11 +1,10 @@
 package su.geocaching.android.ui.geocachemap;
 
-import java.util.ArrayList;
-
 import android.graphics.drawable.Drawable;
-
 import com.google.android.maps.MapView;
 import com.google.android.maps.OverlayItem;
+
+import java.util.ArrayList;
 
 /**
  * @author Android-Geocaching.su student project team
@@ -19,6 +18,7 @@ public class GeoCacheItemizedOverlay extends com.google.android.maps.ItemizedOve
 	super(defaultMarker);
 	items = new ArrayList<GeoCacheOverlayItem>();
 	this.context = context;
+        populate();
     }
 
     public void addOverlayItem(GeoCacheOverlayItem overlay) {
@@ -40,6 +40,15 @@ public class GeoCacheItemizedOverlay extends com.google.android.maps.ItemizedOve
 	items.clear();
     }
 
+    /*public boolean contains(GeoCache item) {
+        for(GeoCacheOverlayItem i: items) {
+            if(i.getGeoCache().equals(item)) {
+                return true;
+            }
+        }
+        return false;
+    }
+     */
     @Override
     public void draw(android.graphics.Canvas canvas, MapView mapView, boolean shadow) {
 	super.draw(canvas, mapView, false);
