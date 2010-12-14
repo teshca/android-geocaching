@@ -11,10 +11,10 @@ import java.util.Timer;
  * @date 25.11.10 19:47
  */
 public class MapUpdateTimer extends Timer{
-    private static final int REQUEST_TIMER_DELAY = 100;
-    private static final int REQUEST_TIMER_PERIOD = 1000;
+    private static final int REQUEST_TIMER_DELAY = 50;
+    private static final int REQUEST_TIMER_PERIOD = 200;
     private static final int MAP_STATE_TIMER_DELAY = 0;
-    private static final int MAP_STATE_TIMER_PERIOD = 1000;
+    private static final int MAP_STATE_TIMER_PERIOD = 200;
 
     public MapUpdateTimer(SelectGeoCacheMap map) {
         State state = new State(map);

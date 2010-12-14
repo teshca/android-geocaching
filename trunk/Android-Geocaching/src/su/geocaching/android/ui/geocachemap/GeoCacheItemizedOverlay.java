@@ -3,6 +3,7 @@ package su.geocaching.android.ui.geocachemap;
 import android.graphics.drawable.Drawable;
 import com.google.android.maps.MapView;
 import com.google.android.maps.OverlayItem;
+import su.geocaching.android.model.datatype.GeoCache;
 
 import java.util.ArrayList;
 
@@ -40,7 +41,7 @@ public class GeoCacheItemizedOverlay extends com.google.android.maps.ItemizedOve
 	items.clear();
     }
 
-    /*public boolean contains(GeoCache item) {
+    public boolean contains(GeoCache item) {
         for(GeoCacheOverlayItem i: items) {
             if(i.getGeoCache().equals(item)) {
                 return true;
@@ -48,7 +49,7 @@ public class GeoCacheItemizedOverlay extends com.google.android.maps.ItemizedOve
         }
         return false;
     }
-     */
+
     @Override
     public void draw(android.graphics.Canvas canvas, MapView mapView, boolean shadow) {
 	super.draw(canvas, mapView, false);

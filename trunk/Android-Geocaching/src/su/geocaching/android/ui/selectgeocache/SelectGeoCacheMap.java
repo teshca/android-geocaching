@@ -226,9 +226,9 @@ public class SelectGeoCacheMap extends MapActivity implements IMapAware, IIntern
         }
         Log.d(TAG, "draw update cache overlay; count = " + countDownloadTask + "; size = " + geoCacheList.size());
         for (GeoCache geoCache : geoCacheList) {
-         //   if(!gOverlay.contains(geoCache)) {
+            if(!gOverlay.contains(geoCache)) {
                 gOverlay.addOverlayItem(new GeoCacheOverlayItem(geoCache, "", "", this));
-         //   }
+            }
 
         }
         updateProgressStop();
