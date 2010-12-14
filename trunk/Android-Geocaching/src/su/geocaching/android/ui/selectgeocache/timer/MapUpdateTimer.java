@@ -12,9 +12,9 @@ import java.util.Timer;
  */
 public class MapUpdateTimer extends Timer{
     private static final int REQUEST_TIMER_DELAY = 50;
-    private static final int REQUEST_TIMER_PERIOD = 200;
+    private static final int REQUEST_TIMER_PERIOD = 400;
     private static final int MAP_STATE_TIMER_DELAY = 0;
-    private static final int MAP_STATE_TIMER_PERIOD = 200;
+    private static final int MAP_STATE_TIMER_PERIOD = 400;
 
     public MapUpdateTimer(SelectGeoCacheMap map) {
         State state = new State(map);
