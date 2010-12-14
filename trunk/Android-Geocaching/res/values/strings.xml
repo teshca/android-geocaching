@@ -49,13 +49,13 @@
 <string name="about">О программе</string>
 <string name="about_title">Геокешинг  версия 0.0.1b</string>
 
-<string name="about_programm_text">Мобильный клиент для работы с порталом\nhttp://geocaching.su</string>
+<string name="about_programm_text">Геокешинг - это мобильный клиент для работы с порталом\nhttp://geocaching.su\n</string>
 <string name="about_leaders_text">Артамонов Николай\nКичинский Дмитрий</string>
 <string name="about_developers_text">Алексеенко Владимир\nБумаков Никита\nДенисон Юрий\nКалабин Григорий\nНятин Анатолий\nСергеев Владислав\nФилатов Владимир</string>
-<string name="about_email_text">Все вопросы и предложения присылайте на наш email\nandroid.geocaching.su@gmail.com</string>
+<string name="about_email_text">\nВсе вопросы и предложения присылайте на наш email\nandroid.geocaching.su@gmail.com</string>
 
-<string name="about_programm_version">версия beta 0.01</string>
+
 <string name="about_exit_button_text">Закрыть</string>
 
-<string name="about_google_code">Подробную информацию о проекте вы можете найти на сайте http://code.google.com/p/android-geocaching/</string>
+<string name="about_google_code">Подробную информацию о проекте вы можете найти на сайте http://code.google.com/p/android-geocaching/\n</string>
 </resources>
