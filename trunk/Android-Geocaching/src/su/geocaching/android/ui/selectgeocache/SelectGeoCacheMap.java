@@ -77,11 +77,6 @@ public class SelectGeoCacheMap extends MapActivity implements IMapAware, IIntern
                 super.onLocationChanged(location);
                 currentLocation = location;
             }
-
-            @Override
-            public boolean onTap(GeoPoint p, MapView map) {
-                return true;
-            }
         };
         userOverlay.runOnFirstFix(new Runnable() {
             public void run() {
@@ -221,15 +216,12 @@ public class SelectGeoCacheMap extends MapActivity implements IMapAware, IIntern
         if (geoCacheList == null) {
             return;
         }
-        if(geoCacheList.size() > 500) {
+        if (geoCacheList.size() > 500) {
             Toast.makeText(this.getBaseContext(), getString(R.string.too_small_zoom), Toast.LENGTH_LONG).show();
         }
         Log.d(TAG, "draw update cache overlay; count = " + countDownloadTask + "; size = " + geoCacheList.size());
         for (GeoCache geoCache : geoCacheList) {
-            if(!gOverlay.contains(geoCache)) {
-                gOverlay.addOverlayItem(new GeoCacheOverlayItem(geoCache, "", "", this));
-            }
-
+            gOverlay.addOverlayItem(new GeoCacheOverlayItem(geoCache, "", "", this));
         }
         updateProgressStop();
         map.invalidate();

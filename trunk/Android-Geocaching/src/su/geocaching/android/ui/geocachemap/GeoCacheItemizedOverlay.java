@@ -3,7 +3,6 @@ package su.geocaching.android.ui.geocachemap;
 import android.graphics.drawable.Drawable;
 import com.google.android.maps.MapView;
 import com.google.android.maps.OverlayItem;
-import su.geocaching.android.model.datatype.GeoCache;
 
 import java.util.ArrayList;
 
@@ -23,8 +22,10 @@ public class GeoCacheItemizedOverlay extends com.google.android.maps.ItemizedOve
     }
 
     public void addOverlayItem(GeoCacheOverlayItem overlay) {
-	items.add(overlay);
-	populate();
+	if(!items.contains(overlay)) {
+            items.add(overlay);
+            populate();
+        }
     }
 
     @Override
@@ -39,15 +40,6 @@ public class GeoCacheItemizedOverlay extends com.google.android.maps.ItemizedOve
 
     public void clear() {
 	items.clear();
-    }
-
-    public boolean contains(GeoCache item) {
-        for(GeoCacheOverlayItem i: items) {
-            if(i.getGeoCache().equals(item)) {
-                return true;
-            }
-        }
-        return false;
     }
 
     @Override
