@@ -20,7 +20,7 @@
 	<string name="select_geocache_status_without_internet">Сеть не найдена. Попробуйте позже</string>
     <string name="revert_center_to_location">Мое местоположение</string>
     <string name="status_null_last_location">Местоположение не определено</string>
-    <string name="too_small_zoom">Слишком маленький масштаб карты. Операция может занять немного времени</string>
+    <string name="too_small_zoom">Слишком маленький масштаб карты. Будут показаны 100 тайников из </string>
 	<string name="gps_status_started">GPS: Запущен</string>
 	<string name="gps_status_stopped">GPS: Связь потеряна</string>
 	<string name="gps_status_first_fix">GPS: Координаты получены</string>
