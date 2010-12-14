@@ -11,11 +11,11 @@
 				<TextView android:id="@+id/about_content"
 					android:layout_width="wrap_content" android:layout_height="wrap_content"
 					android:autoLink="web" android:textStyle="bold" android:textSize="15dip"
-					android:gravity="center" android:text="@string/about_google_code" />
+					android:gravity="left" android:text="@string/about_google_code" />
 				<TextView android:id="@+id/about_content"
 					android:layout_width="wrap_content" android:layout_height="wrap_content"
 					android:autoLink="web" android:textStyle="bold" android:textSize="15dip"
-					android:gravity="center" android:text="@string/about_programm_text" />
+					android:gravity="left" android:text="@string/about_programm_text" />
 				<TextView android:id="@+id/about_content"
 					android:layout_width="wrap_content" android:layout_height="wrap_content"
 					android:layout_marginLeft="5dip" android:textStyle="bold"
@@ -35,7 +35,7 @@
 				<TextView android:id="@+id/about_email"
 					android:layout_width="wrap_content" android:layout_height="wrap_content"
 					android:autoLink="email" android:textStyle="bold" android:textSize="15dip"
-					android:gravity="center" android:text="@string/about_email_text" />
+					android:gravity="left" android:text="@string/about_email_text" />
 			</LinearLayout>
 		</ScrollView>
 	</TableRow>
