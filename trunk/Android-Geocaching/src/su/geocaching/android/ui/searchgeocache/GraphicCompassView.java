@@ -5,11 +5,8 @@ import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
-import android.graphics.Color;
 import android.graphics.Matrix;
 import android.graphics.Paint;
-import android.graphics.Path;
-import android.graphics.Rect;
 import android.util.AttributeSet;
 import android.view.View;
 
@@ -20,17 +17,18 @@ import android.view.View;
  * @since October 2010
  */
 public class GraphicCompassView extends View {
-   
+
     private static final int DEFAULT_ARROW_ACCURENCY = 10;
+    //private static String TAG = GraphicCompassView.class.getCanonicalName();
 
     private int bearingToNorth; // in degrees
     private int bearingToCache; // in degrees
+    private int compassRadius;
     private boolean isLocationFixed = false;
 
     private Matrix windroseRotateMatrix;
     private Bitmap compassBitmap, cacheBitmap, blueArrowBitmap, greenArrowBitmap, arrowBitmap;;
     private Paint paint;
-   
 
     public GraphicCompassView(Context context) {
 	this(context, null, 0);
@@ -57,41 +55,37 @@ public class GraphicCompassView extends View {
 	windroseRotateMatrix = new Matrix();
 	paint = new Paint();
 	paint.setAntiAlias(true);
+	compassRadius = compassBitmap.getHeight() / 2;
     }
 
     @Override
     public void onDraw(Canvas canvas) {
 	super.onDraw(canvas);
-	// Convert angles relative mobile view direction
-	int bearingNorthRel = bearingToNorth;
-	int bearingGCRel = bearingToCache - bearingToNorth;
-
-	int center = Math.min(getHeight(), getWidth()) / 2;
-	int compassRadius = center / 2;
-
-	float scaleWRPicX = (float) (2 * compassRadius) / compassBitmap.getWidth();
-	float scaleWRPicY = (float) (2 * compassRadius) / compassBitmap.getHeight();
-
-	windroseRotateMatrix.setScale(scaleWRPicX, scaleWRPicY);
-	windroseRotateMatrix.setRotate(-bearingNorthRel);
+	windroseRotateMatrix.setRotate(bearingToNorth);
 
 	Bitmap windrose = Bitmap.createBitmap(compassBitmap, 0, 0, compassBitmap.getWidth(), compassBitmap.getHeight(), windroseRotateMatrix, true);
-	canvas.drawBitmap(windrose, center - windrose.getWidth() / 2, center - windrose.getHeight() / 2, paint);
-	drawArrow(canvas, (int) (compassRadius / scaleWRPicY));
-	if (isLocationFixed)
-	    drawGeoCache(canvas, (int) (compassRadius / scaleWRPicY), bearingGCRel);
+	canvas.drawBitmap(windrose, (getWidth() - windrose.getWidth()) / 2, (getHeight() - windrose.getHeight()) / 2, paint);
+	drawArrow(canvas);
+	if (isLocationFixed) {
+	    drawGeoCache(canvas);
+	}
     }
 
-    private void drawArrow(Canvas canvas, int radius) {
+    private void drawArrow(Canvas canvas) {
+	if (Math.abs(bearingToCache + bearingToNorth) < DEFAULT_ARROW_ACCURENCY) {
+	    arrowBitmap = greenArrowBitmap;
+	} else
+	    arrowBitmap = blueArrowBitmap;
+
 	int x = (getWidth() - blueArrowBitmap.getWidth()) / 2;
-	int y = getHeight() / 2 - radius-blueArrowBitmap.getHeight();
-	canvas.drawBitmap(blueArrowBitmap, x, y, paint);
+	int y = getHeight() / 2 - compassRadius - blueArrowBitmap.getHeight();
+	canvas.drawBitmap(arrowBitmap, x, y, paint);
     }
 
-    private void drawGeoCache(Canvas canvas, int radius, int bearingGC) {
-	double  bearingRad = (double) bearingGC * Math.PI / 180;
-	int cx = (int) (getWidth() / 2 + Math.sin(bearingRad) * radius) - cacheBitmap.getWidth() / 2;
-	int cy = (int) (getHeight() / 2 - Math.cos(bearingRad) * radius) - cacheBitmap.getHeight() / 2;
+    private void drawGeoCache(Canvas canvas) {
+	double bearingRad = (double) ((bearingToCache + bearingToNorth) * Math.PI) / 180;
+	int cx = (int) ((getWidth() - cacheBitmap.getWidth()) / 2 + Math.sin(bearingRad) * compassRadius * 0.9);
+	int cy = (int) ((getHeight() - cacheBitmap.getHeight()) / 2 - Math.cos(bearingRad) * compassRadius * 0.9);
 	canvas.drawBitmap(cacheBitmap, cx, cy, paint);
     }
 
@@ -99,8 +93,8 @@ public class GraphicCompassView extends View {
      * @param angle
      *            - user bearing in degrees
      */
-    public void setBearingToNorth(float angle) {
-	this.bearingToNorth = (int) angle;
+    public void setBearingToNorth(float angle) {	
+	bearingToNorth = (int) -angle;
 	invalidate();
     }
 
@@ -109,11 +103,7 @@ public class GraphicCompassView extends View {
      *            - bearing to geocache in degrees
      */
     public void setBearingToGeoCache(float bearingToGeoCache) {
-	this.bearingToCache = (int) bearingToGeoCache;
-	if (bearingToGeoCache < DEFAULT_ARROW_ACCURENCY){
-	    arrowBitmap = greenArrowBitmap;
-	}
-	else arrowBitmap = blueArrowBitmap;
+	this.bearingToCache = (int) bearingToGeoCache + bearingToNorth;
 	invalidate();
     }
 

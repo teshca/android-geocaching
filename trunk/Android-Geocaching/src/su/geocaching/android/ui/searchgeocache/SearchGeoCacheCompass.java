@@ -46,16 +46,18 @@ public class SearchGeoCacheCompass extends Activity implements ISearchActivity, 
 	super.onCreate(savedInstanceState);
 	Log.d(TAG, "on create");
 	setContentView(R.layout.search_geocache_compass);
+	
 	geologo = (ImageView) findViewById(R.id.title_logo);
 	geologo.setOnClickListener(this);
 	compassView = (GraphicCompassView) findViewById(R.id.compassView);
 	manager = new SearchGeoCacheManager(this);
-	distanceToCache = (TextView) findViewById(R.id.DistanceValue);
-	setDistance(0);
+	distanceToCache = (TextView) findViewById(R.id.DistanceValue);	
 	progressBarView = (ImageView) findViewById(R.id.progressCircle);
 	progressBarView.setBackgroundResource(R.anim.earth_anim);
 	progressBarAnim = (AnimationDrawable) progressBarView.getBackground();
 	statusText = (TextView) findViewById(R.id.waitingLocationFixText);
+	
+	setDistance(0);
     }
 
     private void setDistance(float distance) {
