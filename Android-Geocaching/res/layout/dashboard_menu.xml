@@ -7,7 +7,7 @@
 			android:id="@+id/title_logo"></ImageView>
 		<View style="@style/TitleBarSpring"></View>
 		<ImageView style="@style/TitleBarSeparator"></ImageView>
-	
+
 	</LinearLayout>
 	<LinearLayout android:layout_height="wrap_content"
 		android:orientation="vertical" android:padding="10dip"
@@ -15,19 +15,21 @@
 		<LinearLayout android:layout_height="wrap_content"
 			android:layout_width="fill_parent" android:layout_weight="1"
 			android:orientation="horizontal">
-			<Button style="@style/MenuButton" android:text="@string/search_geocache"
-				android:id="@+id/SearchButton" android:drawableTop="@drawable/ic_menu_search"></Button>
 			<Button android:id="@+id/SelectButton" style="@style/MenuButton"
 				android:text="@string/select_geocache" android:drawableTop="@drawable/ic_menu_select"></Button>
+			<Button style="@style/MenuButton" android:text="@string/search_geocache"
+				android:id="@+id/SearchButton" android:drawableTop="@drawable/ic_menu_search"></Button>
 		</LinearLayout>
 		<LinearLayout android:layout_height="wrap_content"
 			android:layout_weight="1" android:layout_width="fill_parent"
 			android:orientation="horizontal">
-			
+
 			<Button android:drawableTop="@drawable/ic_menu_favorites"
 				style="@style/MenuButton" android:text="@string/favorites"
 				android:id="@+id/FavoritesButton"></Button>
-		<Button android:drawableTop="@drawable/menu_about_icon" style="@style/MenuButton" android:id="@+id/AboutButton" android:text="@string/about"></Button></LinearLayout>
+			<Button android:drawableTop="@drawable/ic_menu_about" style="@style/MenuButton"
+				android:id="@+id/AboutButton" android:text="@string/about"></Button>
+		</LinearLayout>
 	</LinearLayout>
 
 </LinearLayout>
