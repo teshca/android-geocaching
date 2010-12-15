@@ -4,6 +4,7 @@ import su.geocaching.android.model.datatype.GeoCache;
 import su.geocaching.android.ui.MenuActivity;
 import su.geocaching.android.ui.R;
 import su.geocaching.android.utils.Helper;
+import su.geocaching.android.utils.UiUtils;
 import android.app.Activity;
 import android.content.Intent;
 import android.graphics.drawable.AnimationDrawable;
@@ -190,16 +191,7 @@ public class SearchGeoCacheCompass extends Activity implements ISearchActivity, 
 	intent.putExtra(GeoCache.class.getCanonicalName(), manager.getGeoCache());
 	startActivity(intent);
     }
-
-    /**
-     * Run main activity
-     */
-    public void startDashboard() {
-	Log.d(TAG, "start dashboard activity");
-	Intent intent = new Intent(this, MenuActivity.class);
-	startActivity(intent);
-    }
-
+    
     /*
      * (non-Javadoc)
      * 
@@ -262,7 +254,7 @@ public class SearchGeoCacheCompass extends Activity implements ISearchActivity, 
     public void onClick(View v) {
 	if (v.equals(geologo)) {
 	    Log.d(TAG, "Pressed logo: go to dashboard");
-	    startDashboard();
+	    UiUtils.goHome(this);
 	}
     }
 }

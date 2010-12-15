@@ -11,6 +11,7 @@ import su.geocaching.android.ui.searchgeocache.drivingDirections.IRoute;
 import su.geocaching.android.ui.searchgeocache.drivingDirections.DrivingDirections.IDirectionsListener;
 import su.geocaching.android.ui.searchgeocache.drivingDirections.DrivingDirections.Mode;
 import su.geocaching.android.utils.Helper;
+import su.geocaching.android.utils.UiUtils;
 import su.geocaching.android.view.showgeocacheinfo.ShowGeoCacheInfo;
 import android.content.Intent;
 import android.graphics.Point;
@@ -161,16 +162,7 @@ public class SearchGeoCacheMap extends MapActivity implements ISearchActivity, I
 	}
 	startActivity(intent);
     }
-
-    /**
-     * Run main activity
-     */
-    public void startDashboard() {
-	Log.d(TAG, "start dashboard activity");
-	Intent intent = new Intent(this, MenuActivity.class);
-	startActivity(intent);
-    }
-
+    
     /*
      * (non-Javadoc)
      * 
@@ -422,25 +414,18 @@ public class SearchGeoCacheMap extends MapActivity implements ISearchActivity, I
     @Override
     public void onDirectionsAvailable(IRoute route, Mode mode) {
 	// TODO Auto-generated method stub
-
     }
 
     @Override
     public void onDirectionsNotAvailable() {
 	// TODO Auto-generated method stub
-
     }
 
-    /*
-     * (non-Javadoc)
-     * 
-     * @see android.view.View.OnClickListener#onClick(android.view.View)
-     */
     @Override
     public void onClick(View v) {
 	if (v.equals(geologo)) {
 	    Log.d(TAG, "Pressed logo: go to dashboard");
-	    startDashboard();
+	    UiUtils.goHome(this);
 	}
     }
 }
