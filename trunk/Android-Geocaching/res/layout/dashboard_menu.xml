@@ -16,9 +16,9 @@
 			android:layout_width="fill_parent" android:layout_weight="1"
 			android:orientation="horizontal">
 			<Button android:id="@+id/SelectButton" style="@style/MenuButton"
-				android:text="@string/select_geocache" android:drawableTop="@drawable/ic_menu_select"></Button>
+				android:text="@string/select_geocache" android:drawableTop="@drawable/ic_menu_select" android:onClick="onSelectClick"></Button>
 			<Button style="@style/MenuButton" android:text="@string/search_geocache"
-				android:id="@+id/SearchButton" android:drawableTop="@drawable/ic_menu_search"></Button>
+				android:id="@+id/SearchButton" android:drawableTop="@drawable/ic_menu_search" android:onClick="onSearchClick"></Button>
 		</LinearLayout>
 		<LinearLayout android:layout_height="wrap_content"
 			android:layout_weight="1" android:layout_width="fill_parent"
@@ -26,9 +26,9 @@
 
 			<Button android:drawableTop="@drawable/ic_menu_favorites"
 				style="@style/MenuButton" android:text="@string/favorites"
-				android:id="@+id/FavoritesButton"></Button>
+				android:id="@+id/FavoritesButton" android:onClick="onFavoriteClick"></Button>
 			<Button android:drawableTop="@drawable/ic_menu_about" style="@style/MenuButton"
-				android:id="@+id/AboutButton" android:text="@string/about"></Button>
+				android:id="@+id/AboutButton" android:text="@string/about" android:onClick="onAboutClick"></Button>
 		</LinearLayout>
 	</LinearLayout>
 

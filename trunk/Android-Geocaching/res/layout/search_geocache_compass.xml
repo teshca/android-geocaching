@@ -5,7 +5,7 @@
 	<LinearLayout style="@style/TitleBar" android:id="@+id/waitingLocationFixBar"
 		android:visibility="visible">
 		<ImageView android:src="@drawable/geologo" style="@style/TitleBarLogo"
-			android:id="@+id/title_logo" />
+			android:id="@+id/title_logo" android:onClick="onHomeClick" />
 		<ImageView style="@style/TitleBarSeparator" />
 		<TextView android:id="@+id/waitingLocationFixText"
 			android:layout_width="wrap_content" android:layout_height="fill_parent"

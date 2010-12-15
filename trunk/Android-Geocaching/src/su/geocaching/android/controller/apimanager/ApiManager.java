@@ -56,7 +56,7 @@ public class ApiManager implements IApiManager {
 	Log.d(TAG, "getGeoCacheList");
 
 	if (maxLatitude == minLatitude && maxLongitude == minLongitude) {
-	    Log.d(TAG, "Size of obtained listGeoCaches: " + 0);
+	    Log.d(TAG, "Size of obtained listGeoCaches: 0");
 	    return filterGeoCaches(maxLatitude, minLatitude, maxLongitude, minLongitude);
 	}
 
