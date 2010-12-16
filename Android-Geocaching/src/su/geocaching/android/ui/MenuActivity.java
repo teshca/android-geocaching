@@ -57,7 +57,6 @@ public class MenuActivity extends Activity {
      */
     public void onSelectClick(View v) {
 	Intent intent = new Intent(this, SelectGeoCacheMap.class);
-	intent.putExtra("map_info", Controller.getInstance().getLastMapInfo(this));
 	startActivity(intent);
     }
 
