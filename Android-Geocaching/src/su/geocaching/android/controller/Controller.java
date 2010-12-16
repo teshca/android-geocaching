@@ -261,7 +261,7 @@ public class Controller {
     }
 
     public synchronized void setLastMapInfo(GeoPoint center, int zoom, Context context) {
-	if (lastCenter != null) {
+	if (center != null) {
 	    Log.d(TAG, "Save last map center (" + center.getLatitudeE6() + ", " + center.getLongitudeE6() + ") in settings");
 	    SharedPreferences settings = context.getSharedPreferences(PREFS_NAME, 0);
 	    SharedPreferences.Editor editor = settings.edit();
