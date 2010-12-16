@@ -284,6 +284,9 @@ public class Controller {
 	int center_x = settings.getInt("center_x", DEFAULT_CENTER_LATITUDE);
 	int center_y = settings.getInt("center_y", DEFAULT_CENTER_LONGITUDE);
 	int zoom = settings.getInt("zoom", DEFAULT_ZOOM);
-	return new int[] { center_x, center_y, zoom };
+	Log.d("lastMapInfo", "X = " + center_x + "; def = " + DEFAULT_CENTER_LATITUDE);
+        Log.d("lastMapInfo", "Y = " + center_y + "; def = " + DEFAULT_CENTER_LONGITUDE);
+        Log.d("lastMapInfo", "zoom = " + zoom + "; def = " + DEFAULT_ZOOM);
+        return new int[] { center_x, center_y, zoom };
     }
 }

@@ -35,7 +35,6 @@ public class SelectGeoCacheMap extends MapActivity implements IMapAware, IIntern
     private static final String TAG = SelectGeoCacheMap.class.getCanonicalName();
     private static final int MAX_CACHE_NUMBER = 100;
 
-    private Controller controller;
     private MyLocationOverlay userOverlay;
     private MapView map;
     private GeoCacheItemizedOverlay gOverlay;
@@ -61,10 +60,9 @@ public class SelectGeoCacheMap extends MapActivity implements IMapAware, IIntern
         progressBarAnimation = (AnimationDrawable) progressBarView.getBackground();
         progressBarView.setVisibility(View.GONE);
         countDownloadTask = 0;
-        controller = Controller.getInstance();
         mHandler = new Handler();
 
-        gOverlay = new GeoCacheItemizedOverlay(controller.getMarker(new GeoCache(), this), this);
+        gOverlay = new GeoCacheItemizedOverlay(Controller.getInstance().getMarker(new GeoCache(), this), this);
         map.getOverlays().add(gOverlay);
 
         internetManager = Controller.getInstance().getConnectionManager(this);
@@ -79,11 +77,6 @@ public class SelectGeoCacheMap extends MapActivity implements IMapAware, IIntern
                 currentLocation = location;
             }
         };
-        userOverlay.runOnFirstFix(new Runnable() {
-            public void run() {
-                updateMapInfoFromSettings();
-            }
-        });
 
         map.setBuiltInZoomControls(true);
         map.getOverlays().add(userOverlay);
@@ -114,11 +107,16 @@ public class SelectGeoCacheMap extends MapActivity implements IMapAware, IIntern
     }
 
     private void updateMapInfoFromSettings() {
-        int[] lastMapInfo = this.getIntent().getExtras().getIntArray("map_info");
+        int[] lastMapInfo = Controller.getInstance().getLastMapInfo(this);
         GeoPoint lastCenter = new GeoPoint(lastMapInfo[0], lastMapInfo[1]);
+        Log.d("mapInfo", "X = " + lastMapInfo[0]);
+        Log.d("mapInfo", "Y = " + lastMapInfo[1]);
+        Log.d("mapInfo", "zoom = " + lastMapInfo[2]);
+
         map.getController().setCenter(lastCenter);
         map.getController().animateTo(lastCenter);
         map.getController().setZoom(lastMapInfo[2]);
+        map.invalidate();
     }
 
     @Override
@@ -138,6 +136,7 @@ public class SelectGeoCacheMap extends MapActivity implements IMapAware, IIntern
         super.onResume();
         userOverlay.enableMyLocation();
 
+        updateMapInfoFromSettings();
         mapTimer = new MapUpdateTimer(this);
         updateCacheOverlay();
     }
@@ -147,7 +146,7 @@ public class SelectGeoCacheMap extends MapActivity implements IMapAware, IIntern
         userOverlay.disableMyLocation();
         mapTimer.cancel();
         internetManager.removeSubscriber(this);
-        controller.setLastMapInfo(map.getMapCenter(), map.getZoomLevel(), this);
+        Controller.getInstance().setLastMapInfo(map.getMapCenter(), map.getZoomLevel(), this);
         super.onPause();
     }
 
@@ -198,7 +197,7 @@ public class SelectGeoCacheMap extends MapActivity implements IMapAware, IIntern
         double maxLongitude = (double) lowerRightCorner.getLongitudeE6() / 1e6;
         double minLongitude = (double) upperLeftCorner.getLongitudeE6() / 1e6;
 
-        controller.updateSelectedGeoCaches(this, maxLatitude, minLatitude, maxLongitude, minLongitude);
+        Controller.getInstance().updateSelectedGeoCaches(this, maxLatitude, minLatitude, maxLongitude, minLongitude);
         updateProgressStart();
     }
 
