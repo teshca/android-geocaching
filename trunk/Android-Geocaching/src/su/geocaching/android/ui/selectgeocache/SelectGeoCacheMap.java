@@ -119,10 +119,14 @@ public class SelectGeoCacheMap extends MapActivity implements IMapAware, IIntern
         map.invalidate();
     }
 
+    private void saveMapInfoToSettings() {
+        Controller.getInstance().setLastMapInfo(map.getMapCenter(), map.getZoomLevel(), this);
+    }
+
     @Override
     protected void onSaveInstanceState(Bundle savedInstanceState) {
         super.onSaveInstanceState(savedInstanceState);
-        savedInstanceState.putInt("zoom", map.getZoomLevel());
+
     }
 
     @Override
@@ -139,6 +143,7 @@ public class SelectGeoCacheMap extends MapActivity implements IMapAware, IIntern
         updateMapInfoFromSettings();
         mapTimer = new MapUpdateTimer(this);
         updateCacheOverlay();
+        map.invalidate();
     }
 
     @Override
@@ -146,7 +151,8 @@ public class SelectGeoCacheMap extends MapActivity implements IMapAware, IIntern
         userOverlay.disableMyLocation();
         mapTimer.cancel();
         internetManager.removeSubscriber(this);
-        Controller.getInstance().setLastMapInfo(map.getMapCenter(), map.getZoomLevel(), this);
+        saveMapInfoToSettings();
+        Log.d("mapInfo", "fucking save on pause");
         super.onPause();
     }
 
