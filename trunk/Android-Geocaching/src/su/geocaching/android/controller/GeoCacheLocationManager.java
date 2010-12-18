@@ -5,6 +5,7 @@ import java.util.List;
 import java.util.Timer;
 import java.util.TimerTask;
 
+import android.content.Context;
 import android.location.Criteria;
 import android.location.Location;
 import android.location.LocationListener;
@@ -32,13 +33,15 @@ public class GeoCacheLocationManager implements LocationListener {
     private Timer removeUpdatesTimer;
     private RemoveUpdatesTask removeUpdatesTask;
     private boolean isUpdating;
+    private Context context;
 
     /**
      * @param locationManager
      *            manager which can add or remove updates of location services
      */
-    public GeoCacheLocationManager(LocationManager locationManager) {
-	this.locationManager = locationManager;
+    public GeoCacheLocationManager(Context context) {
+	this.context = context;
+	this.locationManager = (LocationManager) context.getSystemService(Context.LOCATION_SERVICE);
 	subsribers = new ArrayList<ILocationAware>();
 	provider = "none";
 	isUpdating = false;
@@ -96,8 +99,9 @@ public class GeoCacheLocationManager implements LocationListener {
     public void onLocationChanged(Location location) {
 	lastLocation = location;
 	Log.d(TAG, "Location changed: send msg to " + Integer.toString(subsribers.size()) + " activity(es)");
+	boolean isCompassAvailable = Controller.getInstance().getCompassManager(context).isCompassAvailable();
 	for (ILocationAware subsriber : subsribers) {
-	    if ((subsriber instanceof ICompassAware) && (!((ICompassAware) subsriber).isCompassAvailable())) {
+	    if ((subsriber instanceof ICompassAware) && (!isCompassAvailable)) {
 		((ICompassAware) subsriber).updateBearing((int) location.getBearing());
 		Log.d(TAG, "update location: send bearing to " + subsriber.getClass().getCanonicalName());
 	    }

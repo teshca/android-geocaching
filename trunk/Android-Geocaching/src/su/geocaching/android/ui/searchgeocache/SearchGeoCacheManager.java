@@ -263,17 +263,6 @@ public class SearchGeoCacheManager implements ILocationAware, ICompassAware, IGp
      * (non-Javadoc)
      * 
      * @see
-     * su.geocaching.android.ui.geocachemap.ICompassAware#isCompassAvailable()
-     */
-    @Override
-    public boolean isCompassAvailable() {
-	return compass.isCompassAvailable();
-    }
-
-    /*
-     * (non-Javadoc)
-     * 
-     * @see
      * su.geocaching.android.ui.searchgeocache.IGpsStatusAware#updateStatus(
      * java.lang.String)
      */
