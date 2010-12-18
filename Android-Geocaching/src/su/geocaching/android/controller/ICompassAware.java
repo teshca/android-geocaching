@@ -12,9 +12,4 @@ public interface ICompassAware {
      *            - new bearing in degrees
      */
     public void updateBearing(int bearing);
-
-    /**
-     * @return true if available orientation sensor
-     */
-    public boolean isCompassAvailable();
 }

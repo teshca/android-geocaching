@@ -180,7 +180,7 @@ public class Controller {
      */
     public synchronized GeoCacheLocationManager getLocationManager(Context context) {
 	if (locationManager == null) {
-	    locationManager = new GeoCacheLocationManager((LocationManager) context.getSystemService(Context.LOCATION_SERVICE));
+	    locationManager = new GeoCacheLocationManager(context);
 	    Log.d(TAG, "location manager wasn't init yet. Create it");
 	}
 	return locationManager;
@@ -285,8 +285,8 @@ public class Controller {
 	int center_y = settings.getInt("center_y", DEFAULT_CENTER_LONGITUDE);
 	int zoom = settings.getInt("zoom", DEFAULT_ZOOM);
 	Log.d("lastMapInfo", "X = " + center_x + "; def = " + DEFAULT_CENTER_LATITUDE);
-        Log.d("lastMapInfo", "Y = " + center_y + "; def = " + DEFAULT_CENTER_LONGITUDE);
-        Log.d("lastMapInfo", "zoom = " + zoom + "; def = " + DEFAULT_ZOOM);
-        return new int[] { center_x, center_y, zoom };
+	Log.d("lastMapInfo", "Y = " + center_y + "; def = " + DEFAULT_CENTER_LONGITUDE);
+	Log.d("lastMapInfo", "zoom = " + zoom + "; def = " + DEFAULT_ZOOM);
+	return new int[] { center_x, center_y, zoom };
     }
 }
