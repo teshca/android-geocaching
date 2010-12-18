@@ -1,0 +1,43 @@
+#summary Описание класса GpsStatusManager
+
+= Введение =
+!GpsStatusManager (`su.geocaching.android.controller.GpsStatusManager.java`) предназначен для получения информации о состоянии GPS. Когда изменяется статус GPS, все объекты, использующие GpsStatusManager уведомляются.
+
+= Как с этим работать =
+Для того, чтобы пользоваться !GpsStatusManager ваш класс должен реализовывать интерфейс [GpsStatusManager#IGpsStatusAware IGpsStatusAware]. Создавать объект !GpsStatusManager не нужно. Для того, чтобы получить !GpsStatusManager следует вызвать метод `Controller.getGpsStatusManager(Context context)`, где параметром передаётся контекст из которого можно получить [http://developer.android.com/reference/android/location/LocationManager.html LocationManager]. Пример получения !GpsStatusManager из Activity:
+
+{{{
+Controller mController = Controller.getInstance();
+GpsStatusManager mGpsStatusManager = mController.getGpsStatusManager(this);
+}}}
+
+Для того, чтобы сообщить !GpsStatusManager о том, что вы хотите (не) получать обновления положения есть 2 метода:
+
+{{{
+public void addSubscriber(ICompassAware subsriber)
+
+public boolean removeSubsriber(ICompassAware subsriber)
+}}}
+
+В тот момент, когда вам необходимо начать получать обновления нужно вызвать метод addSubscriber, где параметром передаётся сущность, которая будет уведомляться об обновлениях положения. Для того, чтобы больше не получать обновления следует вызвать метод removeSubscriber, где параметром передаётся тоже самое, что и выше.
+
+= IGpsStatusAware =
+{{{
+public interface IGpsStatusAware {
+
+    public void updateStatus(String status);
+
+}
+}}}
+
+IGpsStatusAware - интерфейс с которым работает !GpsStatusManager. В тот момент, когда случается то или иное событие вызывается соответствующий метод.
+
+==updateStatus==
+Вызывается в тот момент, когда меняется статус GPS. String status - статус, описывающий данное событие для вывода пользователю. Например, "Спутники: 7/12".
+
+=Подробнее о статусах=
+Поскольку всю необходимую нашему приложению информацию о состоянии GPS можно получить и из LocationManager (такую как доступен/недоступен, имя провайдера и т.д.), то `GpsStatusManager` является лишь средством получения информации, которая сразу отправляется на экран пользователю. Метод `updateStatus` возвращает уже готовую строку для вывода на экран. Какая может быть строка `status`:
+ * "GPS: Запущен" в случае, если GPS был включен ([http://developer.android.com/reference/android/location/GpsStatus.html#GPS_EVENT_STARTED GPS_EVENT_STARTED])
+ * "GPS: Связь потеряна" в случае, если GPS был выключен ([http://developer.android.com/reference/android/location/GpsStatus.html#GPS_EVENT_STOPPED GPS_EVENT_STOPPED])
+ * "GPS: Координаты получены" в случае, если были получены первые координаты ([http://developer.android.com/reference/android/location/GpsStatus.html#GPS_EVENT_FIRST_FIX GPS_EVENT_FIRST_FIX])
+ * "GPS: Спутники n/m" сообщает о количестве спутников, доступных GPS в данный момент - их m. Число n отображает количество спутников, использованных при получении последнего положения ([http://developer.android.com/reference/android/location/GpsStatus.html#GPS_EVENT_SATELLITE_STATUS GPS_EVENT_SATELLITE_STATUS])
