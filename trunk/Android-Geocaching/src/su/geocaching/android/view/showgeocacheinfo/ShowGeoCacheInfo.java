@@ -13,6 +13,7 @@ import su.geocaching.android.model.datatype.GeoCache;
 import su.geocaching.android.model.datatype.GeoCacheType;
 import su.geocaching.android.ui.R;
 import su.geocaching.android.ui.searchgeocache.SearchGeoCacheMap;
+import su.geocaching.android.utils.UiUtils;
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
@@ -212,6 +213,11 @@ public class ShowGeoCacheInfo extends Activity implements OnCheckedChangeListene
 	return html.toString();
 
     }
+    
+    public void onHomeClick(View v) {
+	UiUtils.goHome(this);
+    }
+    
 
     /**
      * This class need for

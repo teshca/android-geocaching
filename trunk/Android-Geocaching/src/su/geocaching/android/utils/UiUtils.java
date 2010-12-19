@@ -1,6 +1,3 @@
-/**
- * 
- */
 package su.geocaching.android.utils;
 
 import su.geocaching.android.ui.MenuActivity;
@@ -8,8 +5,7 @@ import android.content.Context;
 import android.content.Intent;
 
 /**
- * @author Nikita Bumakov
- * 
+ * @author Nikita Bumakov 
  */
 public class UiUtils {
 

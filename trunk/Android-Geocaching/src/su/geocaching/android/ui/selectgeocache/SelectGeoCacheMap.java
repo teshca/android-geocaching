@@ -23,6 +23,7 @@ import su.geocaching.android.ui.R;
 import su.geocaching.android.ui.geocachemap.*;
 import su.geocaching.android.ui.selectgeocache.timer.MapUpdateTimer;
 import su.geocaching.android.utils.Helper;
+import su.geocaching.android.utils.UiUtils;
 import su.geocaching.android.view.showgeocacheinfo.ShowGeoCacheInfo;
 
 import java.util.List;
@@ -223,7 +224,7 @@ public class SelectGeoCacheMap extends MapActivity implements IMapAware, IIntern
             return;
         }
         if (geoCacheList.size() > MAX_CACHE_NUMBER) {
-            Toast.makeText(this.getBaseContext(), getString(R.string.too_small_zoom) + " " + geoCacheList.size(), Toast.LENGTH_LONG).show();
+     //       Toast.makeText(this.getBaseContext(), getString(R.string.too_small_zoom) + " " + geoCacheList.size(), Toast.LENGTH_LONG).show();
             geoCacheList = geoCacheList.subList(0, MAX_CACHE_NUMBER);
         }
         Log.d(TAG, "draw update cache overlay; count = " + countDownloadTask + "; size = " + geoCacheList.size());
@@ -289,5 +290,9 @@ public class SelectGeoCacheMap extends MapActivity implements IMapAware, IIntern
             updateCacheOverlay();
         }
         progressBarAnimation.start();
+    }
+    
+    public void onHomeClick(View v) {
+	UiUtils.goHome(this);
     }
 }
