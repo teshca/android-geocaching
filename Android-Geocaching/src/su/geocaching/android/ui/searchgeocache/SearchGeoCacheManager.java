@@ -9,7 +9,7 @@ import su.geocaching.android.controller.IGpsStatusAware;
 import su.geocaching.android.controller.ILocationAware;
 import su.geocaching.android.model.datatype.GeoCache;
 import su.geocaching.android.ui.R;
-import su.geocaching.android.view.showgeocacheinfo.ShowGeoCacheInfo;
+import su.geocaching.android.ui.ShowGeoCacheInfo;
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.DialogInterface;

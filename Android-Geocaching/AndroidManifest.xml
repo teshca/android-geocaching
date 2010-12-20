@@ -55,7 +55,7 @@
 		</activity>
 
 		<activity
-			android:name="su.geocaching.android.view.showgeocacheinfo.ShowGeoCacheInfo"
+			android:name="su.geocaching.android.ui.ShowGeoCacheInfo"
 			android:theme="@android:style/Theme.NoTitleBar">
 			<intent-filter>
 				<action android:name="android.intent.action.RUN" />
@@ -72,7 +72,7 @@
 			</intent-filter>
 		</activity>
 
-		<activity android:name="su.geocaching.android.view.favoriteswork.FavoritesFolder"
+		<activity android:name="su.geocaching.android.ui.FavoritesFolder"
 			android:theme="@android:style/Theme.NoTitleBar">
 			<intent-filter>
 				<action android:name="android.intent.action.RUN" />
