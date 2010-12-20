@@ -1,4 +1,4 @@
-package su.geocaching.android.view.showgeocacheinfo;
+package su.geocaching.android.ui;
 
 import java.io.BufferedReader;
 import java.io.IOException;

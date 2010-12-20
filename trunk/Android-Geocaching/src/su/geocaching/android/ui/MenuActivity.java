@@ -85,7 +85,7 @@ public class MenuActivity extends Activity {
      * Starting activity with favorites geocaches
      */
     public void onFavoriteClick(View v) {
-	Intent intent = new Intent(this, su.geocaching.android.view.favoriteswork.FavoritesFolder.class);
+	Intent intent = new Intent(this, su.geocaching.android.ui.FavoritesFolder.class);
 	startActivity(intent);
     }
 }

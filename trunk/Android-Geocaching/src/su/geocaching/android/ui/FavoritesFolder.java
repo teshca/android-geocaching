@@ -1,4 +1,4 @@
-package su.geocaching.android.view.favoriteswork;
+package su.geocaching.android.ui;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -12,7 +12,6 @@ import su.geocaching.android.model.datatype.GeoCacheType;
 import su.geocaching.android.ui.R;
 import su.geocaching.android.utils.UiUtils;
 
-import su.geocaching.android.view.showgeocacheinfo.ShowGeoCacheInfo;
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
