@@ -1,4 +1,4 @@
-#summary description of the application
+#summary Описание приложения
 #labels Featured
 
 
