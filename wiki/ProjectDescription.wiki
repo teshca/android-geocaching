@@ -88,7 +88,7 @@
 
 ====4.Избранное====
 
-Нажатие в [http://code.google.com/p/android-geocaching/wiki/ProjectDescription#Запуск_ приложения главном меню] на "избранное" откроет экран со списком понравившихся вам тайников. Вы сможете вновь посмотреть [http://code.google.com/p/android-geocaching/wiki/ProjectDescription#2.Информация_о_тайнике информацию] о тайнике и начать искать его.
+Нажатие в [http://code.google.com/p/android-geocaching/wiki/ProjectDescription#Запуск_приложения главном меню] на "избранное" откроет экран со списком понравившихся вам тайников. Вы сможете вновь посмотреть [http://code.google.com/p/android-geocaching/wiki/ProjectDescription#2.Информация_о_тайнике информацию] о тайнике и начать искать его.
 
 После добавления тайника в "Избранное" тайник сохранится локально, и для просмотра [http://code.google.com/p/android-geocaching/wiki/ProjectDescription#2.Информация_о_тайнике информации] о нем, не нужен интернет. 
 
