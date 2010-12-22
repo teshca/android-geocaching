@@ -20,7 +20,7 @@
 
 ===Запуск приложения====
 После загрузки приложения открывается экран главного меню, в котором доступны четыре основные опции приложения 
- * [ProjectDescription# selectCache] 
+ * [ProjectDescription#selectCahe Выбрать тайник] 
  * Искать тайник
  * Избранное 
  * О программе
@@ -29,7 +29,7 @@
 
 == Описание основных функций приложения ==
 
-===selectCache===
+===1.[selectCache Выбрать тайник]===
 *Для данной функции необходим интернет!*
 
     http://android-geocaching.googlecode.com/svn/trunk/files/wiki/images/select_with_menu.png 
