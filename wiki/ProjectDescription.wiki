@@ -68,7 +68,7 @@
 В меню карты доступны три опции:
  # Инфо - [http://code.google.com/p/android-geocaching/wiki/ProjectDescription#2.Информация_о_тайнике информация] о тайнике, который вы ищете.
  # Вместить все - размещает карту так, чтобы пользователь и тайник отображались на экране.
- # [http://code.google.com/p/android-geocaching/wiki/ProjectDescription#2)Компас Компас)] - открывает экран с компасом.
+ # [http://code.google.com/p/android-geocaching/wiki/ProjectDescription#2)Компас Компас] - открывает экран с компасом.
 
 На компас можно также перейти нажав на иконку компаса в левом верхнем углу экрана.
 
