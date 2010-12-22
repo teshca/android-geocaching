@@ -13,26 +13,26 @@
 ==Системные требования==
 
  # Android os 1.6 и выше
- # Наличие Gps
+ # Наличие GPS
  # Наличие интернета
 
 == Описание работы с приложением ==
 
-===Запуск приложения ====
+===Запуск приложения====
 После загрузки приложения открывается экран главного меню, в котором доступны четыре основные опции приложения 
- * Выбрать тайник 
+ * [ProjectDescription# Выбрать тайник] 
  * Искать тайник
  * Избранное 
  * О программе
 
-  https://android-geocaching.googlecode.com/svn/trunk/files/wiki/images/main_window.png
+  http://android-geocaching.googlecode.com/svn/trunk/files/wiki/images/main_window.png
 
 == Описание основных функций приложения ==
 
-===Выбрать Тайник===
+===1.Выбрать Тайник===
 *Для данной функции необходим интернет!*
 
-    https://android-geocaching.googlecode.com/svn/trunk/files/wiki/images/select_with_menu.png 
+    http://android-geocaching.googlecode.com/svn/trunk/files/wiki/images/select_with_menu.png 
 
 В этом режиме откроется карта с тайниками.
 Каждый тип тайника имеет свои цвет:
@@ -50,7 +50,7 @@
 Нажатие на тайник открывает экран с информацией о нем.
 
 ===2.Информация о тайнике===
-    https://android-geocaching.googlecode.com/svn/trunk/files/wiki/images/info_about_the_cache.png
+    http://android-geocaching.googlecode.com/svn/trunk/files/wiki/images/info_about_the_cache.png
 
 На экране отображена информация о тайнике, которая взята с сайта, если тайник не сохранен в локальную базу. Здесь можно добавить тайник в избранное (нажав звезду) и начать искать его (нажав лупу).  
 
@@ -60,7 +60,7 @@
 
 В этом режиме откроется карта с тайником.
 
-    https://android-geocaching.googlecode.com/svn/trunk/files/wiki/images/search_cache_with_menu.png 
+    http://android-geocaching.googlecode.com/svn/trunk/files/wiki/images/search_cache_with_menu.png 
 
 Нажатие на тайник откроет экран с информацией о нем.
 
@@ -74,7 +74,7 @@
 
 ===2)Компас===
   
-    https://android-geocaching.googlecode.com/svn/trunk/files/wiki/images/compass_with_menu.png
+    http://android-geocaching.googlecode.com/svn/trunk/files/wiki/images/compass_with_menu.png
 
 В меню компаса также доступны три опции:
  # Инфо - описание тайника
@@ -91,4 +91,4 @@
 
 После добавления тайника в "Избранное" тайник сохранится локально, и для просмотра информации о нем, не нужен интернет. 
 
-    https://android-geocaching.googlecode.com/svn/trunk/files/wiki/images/Favorites.png
+    http://android-geocaching.googlecode.com/svn/trunk/files/wiki/images/Favorites.png
