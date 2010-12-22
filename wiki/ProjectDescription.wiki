@@ -21,7 +21,7 @@
 
 ===Запуск приложения====
 После загрузки приложения открывается экран главного меню, в котором доступны четыре основные опции приложения 
- * [http://code.google.com/p/android-geocaching/w/edit.do#1.Выбрать_тайник Выбрать тайник] 
+ * [http://code.google.com/p/android-geocaching/wiki/ProjectDescription#1.Выбрать_тайник Выбрать тайник] 
  * [http://code.google.com/p/android-geocaching/w/edit.do#3.Искать_тайник Искать тайник]
  * [http://code.google.com/p/android-geocaching/w/edit.do#4.Избранное Избранное] 
  * О программе
