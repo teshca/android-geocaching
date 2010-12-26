@@ -8,6 +8,7 @@ import android.graphics.Canvas;
 import android.graphics.Matrix;
 import android.graphics.Paint;
 import android.util.AttributeSet;
+import android.util.Log;
 import android.view.View;
 
 /**
@@ -19,7 +20,7 @@ import android.view.View;
 public class GraphicCompassView extends View {
 
     private static final int DEFAULT_ARROW_ACCURENCY = 10;
-    //private static String TAG = GraphicCompassView.class.getCanonicalName();
+    private static String TAG = GraphicCompassView.class.getCanonicalName();
 
     private int bearingToNorth; // in degrees
     private int bearingToCache; // in degrees
@@ -72,18 +73,18 @@ public class GraphicCompassView extends View {
     }
 
     private void drawArrow(Canvas canvas) {
-	if (Math.abs(bearingToCache + bearingToNorth) < DEFAULT_ARROW_ACCURENCY) {
+	if (isLocationFixed && Math.abs(bearingToCache) < DEFAULT_ARROW_ACCURENCY) {
 	    arrowBitmap = greenArrowBitmap;
-	} else
+	} else {
 	    arrowBitmap = blueArrowBitmap;
-
+	}
 	int x = (getWidth() - blueArrowBitmap.getWidth()) / 2;
 	int y = getHeight() / 2 - compassRadius - blueArrowBitmap.getHeight();
 	canvas.drawBitmap(arrowBitmap, x, y, paint);
     }
 
     private void drawGeoCache(Canvas canvas) {
-	double bearingRad = (double) ((bearingToCache + bearingToNorth) * Math.PI) / 180;
+	double bearingRad = (double) (bearingToCache * Math.PI) / 180;
 	int cx = (int) ((getWidth() - cacheBitmap.getWidth()) / 2 + Math.sin(bearingRad) * compassRadius * 0.9);
 	int cy = (int) ((getHeight() - cacheBitmap.getHeight()) / 2 - Math.cos(bearingRad) * compassRadius * 0.9);
 	canvas.drawBitmap(cacheBitmap, cx, cy, paint);
@@ -103,6 +104,7 @@ public class GraphicCompassView extends View {
      *            - bearing to geocache in degrees
      */
     public void setBearingToGeoCache(float bearingToGeoCache) {
+	Log.d(TAG, "bearingToGeoCache ="+bearingToGeoCache);
 	this.bearingToCache = (int) bearingToGeoCache + bearingToNorth;
 	invalidate();
     }
