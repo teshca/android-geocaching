@@ -85,8 +85,8 @@
  # Инфо - [http://code.google.com/p/android-geocaching/wiki/ProjectDescription#3.Информация_о_тайнике описание тайника]
  # [http://code.google.com/p/android-geocaching/wiki/ProjectDescription#1)Карта Карта] - перейти обратно на карту с поиском
  # Не выключать экран
-Чтобы точно по компасу идти в сторону тайника, необходимо совместить иконку тайника со стрелкой.
-
+Чтобы точно по компасу идти в сторону тайника, необходимо совместить иконку тайника с синей  стрелкой так, чтобы она стала зеленой.
+  http://android-geocaching.googlecode.com/svn/trunk/files/wiki/images/compass_with_cache1.png http://android-geocaching.googlecode.com/svn/trunk/files/wiki/images/compass_with_cache2.png
 
 Компас необходим для точного нахождения тайника, так как информация на карте может предоставлять некоторую погрешность. Но карта также необходима. Так как на пути к тайнику может оказаться озеро, и по ней можно определить, с какой стороны его лучше обходить.
 
