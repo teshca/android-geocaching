@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+	<color name="menu_background">#fffafafa</color>
+	<color name="title_separator">#40ffffff</color>
+	<color name="menu_text_color">#ff56905D</color>
+</resources>

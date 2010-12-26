@@ -1,0 +1,7 @@
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+	<item android:id="@+id/menuGeoCacheInfo" android:icon="@drawable/ic_menu_info_details"
+		android:title="@string/menu_geocache_info" />
+	<item android:id="@+id/menuStartMap" android:icon="@drawable/ic_menu_mapmode"
+		android:title="@string/menu_start_map" />
+	<item android:id="@+id/menuKeepScreen" android:title="@string/menu_keep_screen" android:icon="@drawable/ic_menu_screen_off"></item>
+</menu>

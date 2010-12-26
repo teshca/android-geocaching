@@ -1,0 +1,88 @@
+<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+	package="su.geocaching.android.ui" android:versionCode="1"
+	android:versionName="1.0">
+
+	<uses-permission android:name="android.permission.INTERNET" />
+	<uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
+	<uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
+	<uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+
+	<application android:icon="@drawable/launcher_icon"
+		android:label="@string/app_name" android:debuggable="true">
+
+		<receiver android:name=".geocachemap.ConnectionStateReceiver">
+			<intent-filter>
+				<action android:name="android.net.conn.CONNECTIVITY_CHANGE" />
+			</intent-filter>
+		</receiver>
+
+		<activity android:name=".MenuActivity" android:label="@string/app_name"
+			android:theme="@android:style/Theme.NoTitleBar">
+			<intent-filter>
+				<action android:name="android.intent.action.MAIN" />
+				<category android:name="android.intent.category.LAUNCHER" />
+			</intent-filter>
+			<intent-filter>
+				<action android:name="android.intent.action.RUN" />
+				<category android:name="android.intent.category.DEFAULT" />
+			</intent-filter>
+		</activity>
+
+		<activity android:name=".searchgeocache.SearchGeoCacheMap"
+			android:label="@string/app_name" android:theme="@android:style/Theme.NoTitleBar">
+			<intent-filter>
+				<action android:name="android.intent.action.RUN" />
+				<category android:name="android.intent.category.DEFAULT" />
+			</intent-filter>
+		</activity>
+
+		<activity android:name=".searchgeocache.SearchGeoCacheCompass"
+			android:label="@string/app_name" android:theme="@android:style/Theme.NoTitleBar"
+			android:screenOrientation="portrait">
+			<intent-filter>
+				<action android:name="android.intent.action.RUN" />
+				<category android:name="android.intent.category.DEFAULT" />
+			</intent-filter>
+		</activity>
+
+		<activity android:name=".selectgeocache.SelectGeoCacheMap"
+			android:theme="@android:style/Theme.NoTitleBar">
+			<intent-filter>
+				<action android:name="android.intent.action.RUN" />
+				<category android:name="android.intent.category.DEFAULT" />
+			</intent-filter>
+		</activity>
+
+		<activity
+			android:name="su.geocaching.android.ui.ShowGeoCacheInfo"
+			android:theme="@android:style/Theme.NoTitleBar">
+			<intent-filter>
+				<action android:name="android.intent.action.RUN" />
+				<category android:name="android.intent.category.DEFAULT" />
+			</intent-filter>
+		</activity>
+
+
+		<activity android:name="su.geocaching.android.ui.AboutActivity"
+			android:label="@string/about_title" android:theme="@android:style/Theme.Dialog">
+			<intent-filter>
+				<action android:name="android.intent.action.RUN" />
+				<category android:name="android.intent.category.DEFAULT" />
+			</intent-filter>
+		</activity>
+
+		<activity android:name="su.geocaching.android.ui.FavoritesFolder"
+			android:theme="@android:style/Theme.NoTitleBar">
+			<intent-filter>
+				<action android:name="android.intent.action.RUN" />
+				<category android:name="android.intent.category.DEFAULT" />
+			</intent-filter>
+		</activity>
+
+		<uses-library android:name="com.google.android.maps" />
+
+	</application>
+
+	<uses-sdk android:minSdkVersion="4"></uses-sdk>
+</manifest>
