@@ -8,7 +8,6 @@ import android.graphics.Canvas;
 import android.graphics.Matrix;
 import android.graphics.Paint;
 import android.util.AttributeSet;
-import android.util.Log;
 import android.view.View;
 
 /**
@@ -20,7 +19,7 @@ import android.view.View;
 public class GraphicCompassView extends View {
 
     private static final int DEFAULT_ARROW_ACCURENCY = 10;
-    private static String TAG = GraphicCompassView.class.getCanonicalName();
+   // private static String TAG = GraphicCompassView.class.getCanonicalName();
 
     private int bearingToNorth; // in degrees
     private int bearingToCache; // in degrees
@@ -103,8 +102,7 @@ public class GraphicCompassView extends View {
      * @param bearingToGeoCache
      *            - bearing to geocache in degrees
      */
-    public void setBearingToGeoCache(float bearingToGeoCache) {
-	Log.d(TAG, "bearingToGeoCache ="+bearingToGeoCache);
+    public void setBearingToGeoCache(float bearingToGeoCache) {	
 	this.bearingToCache = (int) bearingToGeoCache + bearingToNorth;
 	invalidate();
     }
