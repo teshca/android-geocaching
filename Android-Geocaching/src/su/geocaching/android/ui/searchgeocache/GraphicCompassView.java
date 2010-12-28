@@ -19,10 +19,10 @@ import android.view.View;
 public class GraphicCompassView extends View {
 
     private static final int DEFAULT_ARROW_ACCURENCY = 10;
-   // private static String TAG = GraphicCompassView.class.getCanonicalName();
+    // private static String TAG = GraphicCompassView.class.getCanonicalName();
 
     private int bearingToNorth; // in degrees
-    private int bearingToCache; // in degrees
+    private int absoluteBearingToCache, relativeBearingToCache; // in degrees
     private int compassRadius;
     private boolean isLocationFixed = false;
 
@@ -45,7 +45,7 @@ public class GraphicCompassView extends View {
 
     private void initParameters() {
 	bearingToNorth = 0;
-	bearingToCache = 0;
+	relativeBearingToCache = absoluteBearingToCache = 0;
 
 	compassBitmap = BitmapFactory.decodeResource(getContext().getResources(), R.drawable.compass256);
 	cacheBitmap = BitmapFactory.decodeResource(getContext().getResources(), R.drawable.cache);
@@ -72,7 +72,7 @@ public class GraphicCompassView extends View {
     }
 
     private void drawArrow(Canvas canvas) {
-	if (isLocationFixed && Math.abs(bearingToCache) < DEFAULT_ARROW_ACCURENCY) {
+	if (isLocationFixed && Math.abs(relativeBearingToCache) < DEFAULT_ARROW_ACCURENCY) {
 	    arrowBitmap = greenArrowBitmap;
 	} else {
 	    arrowBitmap = blueArrowBitmap;
@@ -83,7 +83,7 @@ public class GraphicCompassView extends View {
     }
 
     private void drawGeoCache(Canvas canvas) {
-	double bearingRad = (double) (bearingToCache * Math.PI) / 180;
+	double bearingRad = (double) (relativeBearingToCache * Math.PI) / 180;
 	int cx = (int) ((getWidth() - cacheBitmap.getWidth()) / 2 + Math.sin(bearingRad) * compassRadius * 0.9);
 	int cy = (int) ((getHeight() - cacheBitmap.getHeight()) / 2 - Math.cos(bearingRad) * compassRadius * 0.9);
 	canvas.drawBitmap(cacheBitmap, cx, cy, paint);
@@ -93,8 +93,9 @@ public class GraphicCompassView extends View {
      * @param angle
      *            - user bearing in degrees
      */
-    public void setBearingToNorth(float angle) {	
+    public void setBearingToNorth(float angle) {
 	bearingToNorth = (int) -angle;
+	relativeBearingToCache = absoluteBearingToCache + bearingToNorth;
 	invalidate();
     }
 
@@ -102,8 +103,9 @@ public class GraphicCompassView extends View {
      * @param bearingToGeoCache
      *            - bearing to geocache in degrees
      */
-    public void setBearingToGeoCache(float bearingToGeoCache) {	
-	this.bearingToCache = (int) bearingToGeoCache + bearingToNorth;
+    public void setBearingToGeoCache(float bearingToGeoCache) {
+	this.absoluteBearingToCache = (int) bearingToGeoCache;
+	relativeBearingToCache = absoluteBearingToCache + bearingToNorth;
 	invalidate();
     }
 
