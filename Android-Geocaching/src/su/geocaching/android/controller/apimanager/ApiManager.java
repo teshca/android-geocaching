@@ -19,7 +19,7 @@ import org.xml.sax.SAXException;
 import com.google.android.maps.GeoPoint;
 
 import su.geocaching.android.model.datatype.GeoCache;
-import android.util.Log;
+import su.geocaching.android.utils.log.LogUtils;
 
 /**
  * Class for getting data from Geocaching.su. This class implements IApiManager
@@ -35,13 +35,12 @@ public class ApiManager implements IApiManager {
     private List<GeoCache> geoCaches;
     private Locale rusLocale;
     private int id;
-    
 
     public ApiManager() {
 	id = (int) (Math.random() * 1E6);
 	geoCaches = new LinkedList<GeoCache>();
 	rusLocale = new Locale("ru");
-	Log.d(TAG, "new ApiManager Created");
+	LogUtils.d(TAG, "new ApiManager Created");
     }
 
     /*
@@ -53,10 +52,10 @@ public class ApiManager implements IApiManager {
      */
     @Override
     public synchronized List<GeoCache> getGeoCacheList(double maxLatitude, double minLatitude, double maxLongitude, double minLongitude) {
-	Log.d(TAG, "getGeoCacheList");
+	LogUtils.d(TAG, "getGeoCacheList");
 
 	if (maxLatitude == minLatitude && maxLongitude == minLongitude) {
-	    Log.d(TAG, "Size of obtained listGeoCaches: 0");
+	    LogUtils.d(TAG, "Size of obtained listGeoCaches: 0");
 	    return filterGeoCaches(maxLatitude, minLatitude, maxLongitude, minLongitude);
 	}
 
@@ -69,7 +68,7 @@ public class ApiManager implements IApiManager {
 	    connection = (HttpURLConnection) url.openConnection();
 
 	    if (connection.getResponseCode() != HttpURLConnection.HTTP_OK) {
-		Log.e(TAG, "Can't connect to geocaching.su. Response: " + connection.getResponseCode());
+		LogUtils.e(TAG, "Can't connect to geocaching.su. Response: " + connection.getResponseCode());
 	    }
 
 	    InputSource geoCacheXml = new InputSource(new InputStreamReader(connection.getInputStream(), ENCODING));
@@ -77,26 +76,27 @@ public class ApiManager implements IApiManager {
 	    parser.parse(geoCacheXml, handler);
 	    geoCaches.addAll(handler.getGeoCaches());
 	} catch (MalformedURLException e) {
-	    Log.e(TAG, e.getMessage(), e);
+	    LogUtils.e(TAG, e.getMessage(), e);
 	} catch (IOException e) {
-	    Log.e(TAG, e.getMessage(), e);
+	    LogUtils.e(TAG, e.getMessage(), e);
 	} catch (SAXException e) {
-	    Log.e(TAG, e.getMessage(), e);
+	    LogUtils.e(TAG, e.getMessage(), e);
 	} catch (ParserConfigurationException e) {
-	    Log.e(TAG, e.getMessage(), e);
+	    LogUtils.e(TAG, e.getMessage(), e);
 	} finally {
 	    if (connection != null) {
 		connection.disconnect();
 	    }
 	}
 
-	Log.d(TAG, "Size of obtained listGeoCaches: " + geoCaches.size());
+	LogUtils.d(TAG, "Size of obtained listGeoCaches: " + geoCaches.size());
 	return filterGeoCaches(maxLatitude, minLatitude, maxLongitude, minLongitude);
     }
 
     private URL generateUrl(double maxLatitude, double minLatitude, double maxLongitude, double minLongitude) throws MalformedURLException {
-	String request = String.format(rusLocale, "%s?lngmax=%f&lngmin=%f&latmax=%f&latmin=%f&id=%d&geocaching=5767e405a17c4b0e1cbaecffdb93475d", URL, maxLongitude, minLongitude, maxLatitude, minLatitude, id);
-	Log.d(TAG, "generated Url: " + request);
+	String request = String.format(rusLocale, "%s?lngmax=%f&lngmin=%f&latmax=%f&latmin=%f&id=%d&geocaching=5767e405a17c4b0e1cbaecffdb93475d", URL, maxLongitude, minLongitude, maxLatitude,
+		minLatitude, id);
+	LogUtils.d(TAG, "generated Url: " + request);
 	return new URL(request);
     }
 
@@ -109,7 +109,7 @@ public class ApiManager implements IApiManager {
 		filteredGeoCaches.add(gc);
 	    }
 	}
-	Log.d(TAG, "filterGeoCaches: " + filteredGeoCaches.size());
+	LogUtils.d(TAG, "filterGeoCaches: " + filteredGeoCaches.size());
 	return filteredGeoCaches;
     }
 
