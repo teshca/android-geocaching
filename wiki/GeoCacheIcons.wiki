@@ -1,0 +1,19 @@
+#summary Иконки тайников
+
+Данные иконки используются по всему приложению. Более подробно узнать о типах тайников можно на сайте [http://www.geocaching.su/?pn=15_1#2_1 геокешинга].
+|| Иконка || Название ||
+|| http://android-geocaching.googlecode.com/svn/trunk/Android-Geocaching/res/drawable/ic_cache_traditional_valid.png || Традиционный ||
+|| http://android-geocaching.googlecode.com/svn/trunk/Android-Geocaching/res/drawable/ic_cache_traditional_not_confirmed.png || Традиционный, не подтверждён ||
+|| http://android-geocaching.googlecode.com/svn/trunk/Android-Geocaching/res/drawable/ic_cache_traditional_not_valid.png || Традиционный, не доступен ||
+|| http://android-geocaching.googlecode.com/svn/trunk/Android-Geocaching/res/drawable/ic_cache_virtual_valid.png || Виртуальный ||
+|| http://android-geocaching.googlecode.com/svn/trunk/Android-Geocaching/res/drawable/ic_cache_virtual_not_confirmed.png || Виртуальный, не подтверждён ||
+|| http://android-geocaching.googlecode.com/svn/trunk/Android-Geocaching/res/drawable/ic_cache_virtual_not_valid.png || Виртуальный, не доступен ||
+|| http://android-geocaching.googlecode.com/svn/trunk/Android-Geocaching/res/drawable/ic_cache_stepbystep_valid.png || Пошаговый ||
+|| http://android-geocaching.googlecode.com/svn/trunk/Android-Geocaching/res/drawable/ic_cache_stepbystep_not_confirmed.png || Пошаговый, не подтверждён ||
+|| http://android-geocaching.googlecode.com/svn/trunk/Android-Geocaching/res/drawable/ic_cache_stepbystep_not_valid.png || Пошаговый, не доступен ||
+|| http://android-geocaching.googlecode.com/svn/trunk/Android-Geocaching/res/drawable/ic_cache_extreme_valid.png || Экстрим ||
+|| http://android-geocaching.googlecode.com/svn/trunk/Android-Geocaching/res/drawable/ic_cache_extreme_not_confirmed.png || Экстрим, не подтверждён ||
+|| http://android-geocaching.googlecode.com/svn/trunk/Android-Geocaching/res/drawable/ic_cache_extreme_not_valid.png || Экстрим, не доступен ||
+|| http://android-geocaching.googlecode.com/svn/trunk/Android-Geocaching/res/drawable/ic_cache_event_valid.png || Встреча ||
+|| http://android-geocaching.googlecode.com/svn/trunk/Android-Geocaching/res/drawable/ic_cache_event_not_confirmed.png || Встреча, не подтверждён ||
+|| http://android-geocaching.googlecode.com/svn/trunk/Android-Geocaching/res/drawable/ic_cache_event_not_valid.png || Встреча, не доступен ||
