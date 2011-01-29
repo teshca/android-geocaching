@@ -7,9 +7,9 @@ package su.geocaching.android.controller;
  * @since Nov 10, 2010
  */
 public interface ICompassAware {
-    /**
-     * @param bearing
-     *            - new bearing in degrees
-     */
-    public void updateBearing(int bearing);
+	/**
+	 * @param bearing
+	 *            - new bearing in degrees
+	 */
+	public void updateBearing(float bearing);
 }

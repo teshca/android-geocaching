@@ -10,7 +10,7 @@ import su.geocaching.android.model.datatype.GeoCache;
 import su.geocaching.android.model.datatype.GeoCacheStatus;
 import su.geocaching.android.model.datatype.GeoCacheType;
 import su.geocaching.android.ui.R;
-import su.geocaching.android.utils.UiUtils;
+import su.geocaching.android.utils.UiHelper;
 
 import android.app.Activity;
 import android.content.Intent;
@@ -218,6 +218,6 @@ public class FavoritesFolder extends Activity implements OnItemClickListener {
     }
     
     public void onHomeClick(View v) {
-	UiUtils.goHome(this);
+	UiHelper.goHome(this);
     }
 }

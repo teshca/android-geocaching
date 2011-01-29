@@ -34,7 +34,7 @@ public interface ISearchActivity {
     /**
      * @param new user bearing called when user bearing is changer
      */
-    public void updateBearing(int bearing);
+    public void updateBearing(float bearing);
 
     /**
      * @return last location obtained from GPS

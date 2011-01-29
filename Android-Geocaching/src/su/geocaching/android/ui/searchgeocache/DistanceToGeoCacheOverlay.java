@@ -1,6 +1,6 @@
 package su.geocaching.android.ui.searchgeocache;
 
-import su.geocaching.android.utils.Helper;
+import su.geocaching.android.utils.GpsHelper;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
@@ -49,8 +49,8 @@ public class DistanceToGeoCacheOverlay extends com.google.android.maps.Overlay {
 	    canvas.drawLine(from.x, from.y, to.x, to.y, paintLine);
 	}
 
-	float dist = Helper.getDistanceBetween(userPoint, cachePoint);
-	canvas.drawText(Helper.distanceToString(dist), DEFAULT_TEXT_X, DEFAULT_TEXT_Y, paintText);
+	float dist = GpsHelper.getDistanceBetween(userPoint, cachePoint);
+	canvas.drawText(GpsHelper.distanceToString(dist), DEFAULT_TEXT_X, DEFAULT_TEXT_Y, paintText);
 
 	return true;
     }
