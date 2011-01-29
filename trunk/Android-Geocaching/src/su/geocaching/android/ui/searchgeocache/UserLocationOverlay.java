@@ -1,6 +1,6 @@
 package su.geocaching.android.ui.searchgeocache;
 
-import su.geocaching.android.utils.Helper;
+import su.geocaching.android.utils.GpsHelper;
 import android.content.Context;
 import android.graphics.Canvas;
 import android.graphics.Point;
@@ -47,7 +47,7 @@ public class UserLocationOverlay extends MyLocationOverlay {
     @Override
     protected void drawMyLocation(Canvas canvas, MapView mapView, Location lastFix, GeoPoint myLocation, long when) {
 	if (context.getLastKnownLocation() != null) {
-	    super.drawMyLocation(canvas, map, context.getLastKnownLocation(), Helper.locationToGeoPoint(context.getLastKnownLocation()), when);
+	    super.drawMyLocation(canvas, map, context.getLastKnownLocation(), GpsHelper.locationToGeoPoint(context.getLastKnownLocation()), when);
 	}
     }
 

@@ -16,135 +16,135 @@ import android.hardware.SensorManager;
  */
 public class CompassManager implements SensorEventListener {
 
-    private static final float RAD2DEG = (float) (180 / Math.PI);
-    private SensorManager sensorManager;
-    private float[] afGravity = new float[3];
-    private float[] afGeomagnetic = new float[3];
-    private float[] afRotation = new float[16];
-    private float[] afInclination = new float[16];
-    private float[] afOrientation = new float[3];
-    private int lastBearing;
-    private boolean isCompassAvailable;
-    private List<ICompassAware> subsribers;
+	private static final float RAD2DEG = (float) (180 / Math.PI);
 
-    /**
-     * @param sensorManager
-     *            manager which can add or remove updates of sensors
-     */
-    public CompassManager(SensorManager sensorManager) {
-	this.sensorManager = sensorManager;
-	isCompassAvailable = sensorManager != null;
-	subsribers = new ArrayList<ICompassAware>();
-    }
+	private float[] afGravity = new float[3];
+	private float[] afGeomagnetic = new float[3];
+	private float[] afRotation = new float[16];
+	private float[] afInclination = new float[16];
+	private float[] afOrientation = new float[3];
 
-    /**
-     * @param subsriber
-     *            activity which will be listen location updates
-     */
-    public void addSubscriber(ICompassAware subsriber) {
-	if (subsribers.size() == 0) {
-	    addUpdates();
-	}
-	subsribers.add(subsriber);
-    }
+	private SensorManager sensorManager;
+	private int lastDirection;
+	private boolean isCompassAvailable;
+	private List<ICompassAware> observers;
 
-    /**
-     * @param subsriber
-     *            activity which no need to listen location updates
-     * @return true if activity was subsribed on location updates
-     */
-    public boolean removeSubsriber(ICompassAware subsriber) {
-	boolean res = subsribers.remove(subsriber);
-	if (subsribers.size() == 0) {
-	    removeUpdates();
-	}
-	return res;
-    }
-
-    @Override
-    public void onAccuracyChanged(Sensor sensor, int accuracy) {
-    }
-
-    /*
-     * (non-Javadoc)
-     * 
-     * @see
-     * android.hardware.SensorEventListener#onSensorChanged(android.hardware
-     * .SensorEvent)
-     */
-    @Override
-    public void onSensorChanged(SensorEvent event) {
-	int type = event.sensor.getType();
-	float[] data;
-	if (type == Sensor.TYPE_ACCELEROMETER) {
-	    data = afGravity;
-	} else if (type == Sensor.TYPE_MAGNETIC_FIELD) {
-	    data = afGeomagnetic;
-	} else {
-	    // we do not handle this sensor type
-	    return;
+	/**
+	 * @param sensorManager
+	 *            manager which can add or remove updates of sensors
+	 */
+	public CompassManager(SensorManager sensorManager) {
+		this.sensorManager = sensorManager;
+		isCompassAvailable = sensorManager != null;
+		observers = new ArrayList<ICompassAware>();
 	}
 
-	for (int i = 0; i < 3; i++)
-	    data[i] = event.values[i];
-
-	SensorManager.getRotationMatrix(afRotation, afInclination, afGravity, afGeomagnetic);
-	SensorManager.getOrientation(afRotation, afOrientation);
-	int lastBearingLocal = (int) (afOrientation[0] * RAD2DEG);
-	if (lastBearingLocal != lastBearing) {
-	    lastBearing = lastBearingLocal;
-	    updateBearing(lastBearing);
+	/**
+	 * @param observer
+	 *            activity which will be listen location updates
+	 */
+	public void addObserver(ICompassAware observer) {
+		if (observers.size() == 0) {
+			addUpdates();
+		}
+		observers.add(observer);
 	}
-    }
 
-    /**
-     * @param lastBearing
-     *            current bearing known to this listener
-     */
-    private void updateBearing(int lastBearing) {
-	for (ICompassAware subscriber : subsribers) {
-	    subscriber.updateBearing(lastBearing);
+	/**
+	 * @param observer
+	 *            activity which no need to listen location updates
+	 * @return true if activity was subsribed on location updates
+	 */
+	public boolean removeObserver(ICompassAware observer) {
+		boolean res = observers.remove(observer);
+		if (observers.size() == 0) {
+			removeUpdates();
+		}
+		return res;
 	}
-    }
 
-    /**
-     * Add updates of sensors
-     */
-    private void addUpdates() {
-	if (!isCompassAvailable) {
-	    return;
+	@Override
+	public void onAccuracyChanged(Sensor sensor, int accuracy) {
 	}
-	Sensor gravitySensor = sensorManager.getDefaultSensor(Sensor.TYPE_ACCELEROMETER);
-	Sensor magnitudeSensor = sensorManager.getDefaultSensor(Sensor.TYPE_MAGNETIC_FIELD);
-	if (gravitySensor == null || magnitudeSensor == null) {
-	    isCompassAvailable = false;
-	    return;
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see android.hardware.SensorEventListener#onSensorChanged(android.hardware .SensorEvent)
+	 */
+	@Override
+	public void onSensorChanged(SensorEvent event) {
+		int type = event.sensor.getType();
+		float[] data;
+		if (type == Sensor.TYPE_ACCELEROMETER) {
+			data = afGravity;
+		} else if (type == Sensor.TYPE_MAGNETIC_FIELD) {
+			data = afGeomagnetic;
+		} else {
+			// we do not handle this sensor type
+			return;
+		}
+
+		for (int i = 0; i < 3; i++)
+			data[i] = event.values[i];
+
+		SensorManager.getRotationMatrix(afRotation, afInclination, afGravity, afGeomagnetic);
+		SensorManager.getOrientation(afRotation, afOrientation);
+		int lastBearingLocal = (int) (afOrientation[0] * RAD2DEG);
+		if (lastBearingLocal != lastDirection) {
+			lastDirection = lastBearingLocal;
+			notifyObservers(lastDirection);
+		}
 	}
-	sensorManager.registerListener(this, gravitySensor, SensorManager.SENSOR_DELAY_UI);
-	sensorManager.registerListener(this, magnitudeSensor, SensorManager.SENSOR_DELAY_UI);
-    }
 
-    /**
-     * Remove updates of sensors
-     */
-    private void removeUpdates() {
-	if (!isCompassAvailable) {
-	    return;
+	/**
+	 * @param lastDirection
+	 *            current direction known to this listener
+	 */
+	private void notifyObservers(int lastDirection) {
+		for (ICompassAware observer : observers) {
+			observer.updateBearing(lastDirection);
+		}
 	}
-	sensorManager.unregisterListener(this);
-    }
 
-    /**
-     * @return last known bearing
-     */
-    public int getLastBearing() {
-	return lastBearing;
-    }
+	/**
+	 * Add updates of sensors
+	 */
+	private void addUpdates() {
+		if (!isCompassAvailable) {
+			return;
+		}
+		Sensor gravitySensor = sensorManager.getDefaultSensor(Sensor.TYPE_ACCELEROMETER);
+		Sensor magnitudeSensor = sensorManager.getDefaultSensor(Sensor.TYPE_MAGNETIC_FIELD);
+		if (gravitySensor == null || magnitudeSensor == null) {
+			isCompassAvailable = false;
+			return;
+		}
+		sensorManager.registerListener(this, gravitySensor, SensorManager.SENSOR_DELAY_UI);
+		sensorManager.registerListener(this, magnitudeSensor, SensorManager.SENSOR_DELAY_UI);
+	}
 
-    /**
-     * @return true if we can calculate azimuth using hardware
-     */
-    public boolean isCompassAvailable() {
-	return isCompassAvailable;
-    }
+	/**
+	 * Remove updates of sensors
+	 */
+	private void removeUpdates() {
+		if (!isCompassAvailable) {
+			return;
+		}
+		sensorManager.unregisterListener(this);
+	}
+
+	/**
+	 * @return last known direction
+	 */
+	public int getLastDirection() {
+		return lastDirection;
+	}
+
+	/**
+	 * @return true if we can calculate azimuth using hardware
+	 */
+	public boolean isCompassAvailable() {
+		return isCompassAvailable;
+	}
 }

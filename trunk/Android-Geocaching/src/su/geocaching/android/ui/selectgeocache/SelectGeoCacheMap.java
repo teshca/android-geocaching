@@ -23,8 +23,8 @@ import su.geocaching.android.ui.R;
 import su.geocaching.android.ui.ShowGeoCacheInfo;
 import su.geocaching.android.ui.geocachemap.*;
 import su.geocaching.android.ui.selectgeocache.timer.MapUpdateTimer;
-import su.geocaching.android.utils.Helper;
-import su.geocaching.android.utils.UiUtils;
+import su.geocaching.android.utils.GpsHelper;
+import su.geocaching.android.utils.UiHelper;
 
 import java.util.List;
 
@@ -180,7 +180,7 @@ public class SelectGeoCacheMap extends MapActivity implements IMapAware, IIntern
         switch (item.getItemId()) {
             case R.id.revertCenterToLocation:
                 if (currentLocation != null) {
-                    GeoPoint center = Helper.locationToGeoPoint(currentLocation);
+                    GeoPoint center = GpsHelper.locationToGeoPoint(currentLocation);
                     map.getController().animateTo(center);
                     map.getController().setCenter(center);
                 } else {
@@ -293,6 +293,6 @@ public class SelectGeoCacheMap extends MapActivity implements IMapAware, IIntern
     }
     
     public void onHomeClick(View v) {
-	UiUtils.goHome(this);
+	UiHelper.goHome(this);
     }
 }

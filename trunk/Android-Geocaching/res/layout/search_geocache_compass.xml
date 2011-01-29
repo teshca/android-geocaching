@@ -24,9 +24,10 @@
 		<View android:layout_width="3px" android:layout_height="fill_parent" />
 	</LinearLayout>
 
-	<su.geocaching.android.ui.searchgeocache.GraphicCompassView
+	<su.geocaching.android.ui.searchgeocache.CompassView
 		android:id="@+id/compassView" android:layout_width="fill_parent"
-		android:layout_height="320dip" android:layout_weight="1" />
+		android:layout_height="320dip" android:layout_weight="1" 
+		/>
 	<LinearLayout android:id="@+id/LinearLayout01"
 		android:layout_height="wrap_content" android:layout_width="fill_parent"
 		android:layout_weight="1">
