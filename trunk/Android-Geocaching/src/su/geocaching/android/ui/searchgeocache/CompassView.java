@@ -7,6 +7,7 @@ import su.geocaching.android.utils.log.LogHelper;
 import android.content.Context;
 import android.graphics.Canvas;
 import android.util.AttributeSet;
+import android.util.Log;
 import android.view.SurfaceHolder;
 import android.view.SurfaceView;
 
@@ -22,7 +23,7 @@ public class CompassView extends SurfaceView implements SurfaceHolder.Callback, 
 	private CompassDrawningHelper helper;
 	private float bearingToNorth; // in degrees
 	private float absoluteBearingToCache, relativeBearingToCache; // in degrees
-	private boolean ready = true; //TODO should be false
+	private boolean ready = false;
 	private boolean isLocationFixed = false;
 
 	public CompassView(Context context) {
@@ -37,6 +38,9 @@ public class CompassView extends SurfaceView implements SurfaceHolder.Callback, 
 
 	private void init() {
 		LogHelper.d(TAG, "new CompassView");
+		
+		setMinimumWidth(240);
+		setMinimumHeight(240);
 		bearingToNorth = relativeBearingToCache = absoluteBearingToCache = 0;
 	}
 
@@ -58,6 +62,7 @@ public class CompassView extends SurfaceView implements SurfaceHolder.Callback, 
 		super.onSizeChanged(w, h, oldw, oldh);
 		LogHelper.d(TAG, "onSizeChanged" + w + " " + h);
 		helper.onSizeChanged(w, h);
+		ready = true;
 	}
 	
 	// private void drawGeoCache(Canvas canvas) {
@@ -123,6 +128,9 @@ public class CompassView extends SurfaceView implements SurfaceHolder.Callback, 
 
 	@Override
 	public void surfaceChanged(SurfaceHolder holder, int format, int width, int height) {
+		Log.d(TAG, "CompassView - surfaceChanged");
+		// helper.onSizeChanged(width, height);
+		// ready = true;
 	}
 
 	@Override
