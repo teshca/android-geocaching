@@ -1,6 +1,6 @@
 package su.geocaching.android.ui.searchgeocache;
 
-import su.geocaching.android.controller.SmoothCompassThread;
+import su.geocaching.android.controller.compass.SmoothCompassThread;
 import su.geocaching.android.model.datatype.GeoCache;
 import su.geocaching.android.ui.R;
 import su.geocaching.android.utils.GpsHelper;
@@ -137,7 +137,7 @@ public class SearchGeoCacheCompass extends Activity implements ISearchActivity {
 		if (progressBarView.getVisibility() == View.VISIBLE) {
 			progressBarView.setVisibility(View.GONE);
 		}
-		compassView.setBearingToGeoCache(GpsHelper.getBearingBetween(location, manager.getGeoCache().getLocationGeoPoint()));
+		compassView.setDirectionToGeoCache(GpsHelper.getBearingBetween(location, manager.getGeoCache().getLocationGeoPoint()));
 		setDistance(GpsHelper.getDistanceBetween(location, manager.getGeoCache().getLocationGeoPoint()));
 	}
 

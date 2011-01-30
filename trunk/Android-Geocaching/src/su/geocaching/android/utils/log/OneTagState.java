@@ -3,6 +3,8 @@ package su.geocaching.android.utils.log;
 import android.util.Log;
 
 /**
+ * Logging with a single tag (Geocaching.su) for the application ;
+ * 
  * @author Nikita Bumakov
  */
 public class OneTagState extends State {
