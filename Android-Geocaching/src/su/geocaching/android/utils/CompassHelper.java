@@ -21,7 +21,7 @@ package su.geocaching.android.utils;
  */
 public class CompassHelper {
 
-	public static float calculateNormalDiff(float lastDirection, float curSetPoint) {
+	public static float calculateNormalDifference(float lastDirection, float curSetPoint) {
 		float diff = curSetPoint - lastDirection;
 		return CompassHelper.normalizeAngle(diff);
 	}

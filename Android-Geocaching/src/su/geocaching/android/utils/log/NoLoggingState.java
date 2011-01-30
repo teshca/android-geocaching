@@ -1,6 +1,8 @@
 package su.geocaching.android.utils.log;
 
 /**
+ * State of no logging
+ * 
  * @author Nikita Bumakov
  */
 public class NoLoggingState extends State {

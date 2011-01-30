@@ -1,6 +1,8 @@
 package su.geocaching.android.utils.log;
 
 /**
+ * Abstract class that implements the state of the logger
+ * 
  * @author Nikita Bumakov
  */
 abstract class State {

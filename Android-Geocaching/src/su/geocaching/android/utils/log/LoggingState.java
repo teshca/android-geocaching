@@ -3,6 +3,8 @@ package su.geocaching.android.utils.log;
 import android.util.Log;
 
 /**
+ * Logging state
+ * 
  * @author Nikita Bumakov
  */
 class LoggingState extends State {

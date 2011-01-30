@@ -73,15 +73,16 @@ public class CompassManager implements SensorEventListener {
 	 * @see android.hardware.SensorEventListener#onSensorChanged(android.hardware .SensorEvent)
 	 */
 	@Override
-	public void onSensorChanged(SensorEvent event) {
-		int type = event.sensor.getType();
+	public void onSensorChanged(SensorEvent event) {	
 		float[] data;
-		if (type == Sensor.TYPE_ACCELEROMETER) {
+		switch (event.sensor.getType()) {
+		case Sensor.TYPE_ACCELEROMETER:
 			data = afGravity;
-		} else if (type == Sensor.TYPE_MAGNETIC_FIELD) {
+			break;
+		case Sensor.TYPE_MAGNETIC_FIELD:
 			data = afGeomagnetic;
-		} else {
-			// we do not handle this sensor type
+			break;
+		default:
 			return;
 		}
 
