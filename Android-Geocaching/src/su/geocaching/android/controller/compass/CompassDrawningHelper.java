@@ -18,12 +18,9 @@ public abstract class CompassDrawningHelper {
 	protected int center;
 	protected int bgColor; // background color, taken from the xml
 	protected int needleWidth;
-	protected Paint paint;
 
-	public CompassDrawningHelper(Context context) {
-		paint = new Paint();
-		paint.setAntiAlias(true);
-		paint.setStyle(Paint.Style.FILL);
+
+	public CompassDrawningHelper(Context context) {	
 		bgColor = Color.parseColor(context.getResources().getString(R.color.menu_background));
 		needleWidth = DEFAULT_NEEDLE_WIDTH;
 	}
