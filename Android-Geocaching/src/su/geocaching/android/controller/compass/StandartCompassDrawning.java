@@ -20,12 +20,11 @@ public class StandartCompassDrawning extends CompassDrawningHelper {
 
 	private Paint bitmapPaint = new Paint();
 	private Paint textPaint = new Paint();
-	private Bitmap roseBitmap;
-	private Bitmap needleBitmap;
+	private Bitmap roseBitmap, needleBitmap, arrowBitmap;
 
 	public StandartCompassDrawning(Context context) {
 		super(context);
-		bitmapPaint.setAntiAlias(true); // It is not useful
+
 		roseBitmap = BitmapFactory.decodeResource(context.getResources(), R.drawable.compass);
 
 		textPaint.setColor(Color.parseColor(context.getString(R.color.menu_text_color)));
@@ -39,12 +38,15 @@ public class StandartCompassDrawning extends CompassDrawningHelper {
 		center = size / 2;
 		roseBitmap = Bitmap.createScaledBitmap(roseBitmap, size, size, true);
 		needleBitmap = createNeedle();
+		arrowBitmap = createCacheArrow();
 		textPaint.setTextSize(center * 0.2f);
+
 	}
 
-	public void draw(Canvas canvas, float northDirection, float cacheDirection) {
+	public void draw(Canvas canvas, float northDirection) {
 		canvas.drawColor(bgColor);
 		canvas.drawBitmap(roseBitmap, 0, 0, bitmapPaint);
+		canvas.translate(center, center); // !!!
 		drawNeedle(canvas, northDirection);
 		drawDirectionLabel(canvas, northDirection);
 	}
@@ -54,9 +56,14 @@ public class StandartCompassDrawning extends CompassDrawningHelper {
 	}
 
 	private void drawNeedle(Canvas canvas, float direction) {
-		canvas.translate(center, center);
 		canvas.rotate(direction);
 		canvas.drawBitmap(needleBitmap, -needleBitmap.getWidth() / 2, -needleBitmap.getHeight() / 2, bitmapPaint);
+		canvas.rotate(-direction);
+	}
+
+	public void drawCacheArrow(Canvas canvas, float direction) {
+		canvas.rotate(direction);
+		canvas.drawBitmap(arrowBitmap, -arrowBitmap.getWidth() / 2, -arrowBitmap.getHeight() / 2, bitmapPaint);
 		canvas.rotate(-direction);
 	}
 
@@ -77,13 +84,41 @@ public class StandartCompassDrawning extends CompassDrawningHelper {
 		needlePath.close();
 
 		paint.setColor(Color.BLUE);
+		paint.setAlpha(200);
 		canvas.drawPath(needlePath, paint);
 
 		canvas.rotate(180);
 		paint.setColor(Color.RED);
+		paint.setAlpha(200);
 		canvas.drawPath(needlePath, paint);
 
-		paint.setColor(Color.rgb(255, 230, 110));
+		paint.setColor(Color.argb(255, 255, 230, 110));
+		canvas.drawCircle(0, 0, needleWidth * 1.5f, paint);
+
+		return bitmap;
+	}
+
+	private Bitmap createCacheArrow() {
+		Bitmap bitmap = Bitmap.createBitmap(20, center * 2, Bitmap.Config.ARGB_8888);
+		Canvas canvas = new Canvas(bitmap);
+		Path arrowPath = new Path();
+		Paint paint = new Paint();
+		paint.setAntiAlias(true);
+		paint.setStyle(Style.FILL_AND_STROKE);
+		paint.setStrokeWidth(1);
+
+		float top = center * 0.85f;
+		canvas.translate(10, center);
+		arrowPath.moveTo(-10, 0);
+		arrowPath.lineTo(0, -top);
+		arrowPath.lineTo(10, 0);
+		arrowPath.close();
+
+		paint.setColor(Color.LTGRAY);
+		paint.setAlpha(200);
+		canvas.drawPath(arrowPath, paint);
+
+		paint.setColor(Color.argb(255, 255, 230, 110));
 		canvas.drawCircle(0, 0, needleWidth * 1.5f, paint);
 
 		return bitmap;

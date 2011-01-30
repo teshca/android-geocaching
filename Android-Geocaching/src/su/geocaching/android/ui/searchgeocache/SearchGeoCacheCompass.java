@@ -29,7 +29,6 @@ import android.widget.Toast;
 public class SearchGeoCacheCompass extends Activity implements ISearchActivity {
 	private static final String TAG = SearchGeoCacheCompass.class.getCanonicalName();
 
-
 	private SmoothCompassThread animThread;
 	private CompassView compassView;
 	private SearchGeoCacheManager manager;
@@ -37,7 +36,6 @@ public class SearchGeoCacheCompass extends Activity implements ISearchActivity {
 	private TextView statusText;
 	private ImageView progressBarView;
 	private AnimationDrawable progressBarAnim;
-
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -65,23 +63,22 @@ public class SearchGeoCacheCompass extends Activity implements ISearchActivity {
 		}
 	}
 
-
 	@Override
 	protected void onResume() {
 		Log.d(TAG, "onResume");
 		super.onResume();
 		manager.onResume();
-		startAnim();		
+		startAnim();
 	}
 
 	@Override
-	protected void onPause() {	
+	protected void onPause() {
 		Log.d(TAG, "onPause");
 		manager.onPause();
-		stopAnim();		
+		stopAnim();
 		super.onPause();
 	}
-	
+
 	private void startAnim() {
 		if (animThread == null) {
 			animThread = new SmoothCompassThread(compassView, this);
@@ -123,10 +120,9 @@ public class SearchGeoCacheCompass extends Activity implements ISearchActivity {
 		}
 	}
 
-
 	@Override
 	public void updateBearing(float bearing) {
-		//compassView.setBearingToNorth(bearing);
+		// compassView.setBearingToNorth(bearing);
 	}
 
 	@Override
@@ -185,7 +181,7 @@ public class SearchGeoCacheCompass extends Activity implements ISearchActivity {
 		intent.putExtra(GeoCache.class.getCanonicalName(), manager.getGeoCache());
 		startActivity(intent);
 	}
-	
+
 	@Override
 	public void updateStatus(String status, StatusType type) {
 		compassView.setLocationFix(manager.isLocationFixed());
@@ -217,6 +213,5 @@ public class SearchGeoCacheCompass extends Activity implements ISearchActivity {
 	public void onHomeClick(View v) {
 		UiHelper.goHome(this);
 	}
-
 
 }
