@@ -4,7 +4,6 @@ import su.geocaching.android.ui.R;
 import android.content.Context;
 import android.graphics.Canvas;
 import android.graphics.Color;
-import android.graphics.Paint;
 
 /**
  * Abstract class implements a strategy of drawing compass
@@ -17,25 +16,21 @@ public abstract class CompassDrawningHelper {
 
 	protected int center;
 	protected int bgColor; // background color, taken from the xml
-	protected int needleWidth;
+	protected int needleWidth = DEFAULT_NEEDLE_WIDTH;
 
-
-	public CompassDrawningHelper(Context context) {	
+	public CompassDrawningHelper(Context context) {
 		bgColor = Color.parseColor(context.getResources().getString(R.color.menu_background));
-		needleWidth = DEFAULT_NEEDLE_WIDTH;
 	}
 
 	/**
-	 * Draw a compass with a given direction of the arrow and the cache
+	 * Draw a compass with a given direction of the compass's needle
 	 * 
 	 * @param canvas
 	 *            - drawing canvas
 	 * @param northDirection
 	 *            - direction to the North relative to 0 degrees
-	 * @param cacheDirection
-	 *            - direction to the cache relative to 0 degrees
 	 */
-	public abstract void draw(Canvas canvas, float northDirection, float cacheDirection);
+	public abstract void draw(Canvas canvas, float northDirection);
 
 	/**
 	 * called when resize the view
@@ -46,4 +41,14 @@ public abstract class CompassDrawningHelper {
 	 *            - new height
 	 */
 	public abstract void onSizeChanged(int width, int height);
+
+	/**
+	 * Draw cache arrow
+	 * 
+	 * @param canvas
+	 *            - drawing canvas
+	 * @param cacheDirection
+	 *            - direction to the cache relative to 0 degrees
+	 */
+	public abstract void drawCacheArrow(Canvas canvas, float cacheDirection);
 }

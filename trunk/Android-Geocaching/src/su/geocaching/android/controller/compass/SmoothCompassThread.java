@@ -38,12 +38,15 @@ public class SmoothCompassThread extends Thread implements ICompassAware {
 
 	public void setRunning(boolean isRunning) {
 		this.isRunning = isRunning;
+		if (isRunning) {
+
+		}
 	}
 
 	public SmoothCompassThread(ICompassAnimation compassView, Context context) {
 		LogHelper.d(TAG, "new SmoothCompassThread");
 		CompassManager compassManager = Controller.getInstance().getCompassManager(context);
-		compassManager.addObserver(this);
+		compassManager.addObserver(this); // TODO remove when it don't need
 		this.compassView = compassView;
 	}
 

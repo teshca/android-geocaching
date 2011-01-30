@@ -21,8 +21,9 @@ public class CompassView extends SurfaceView implements SurfaceHolder.Callback, 
 	private static final String TAG = SurfaceView.class.getCanonicalName();
 
 	private CompassDrawningHelper helper;
-	private float bearingToNorth; // in degrees
-	private float absoluteBearingToCache, relativeBearingToCache; // in degrees
+	private float bearingToNorth = 0; // in degrees
+	private float absoluteBearingToCache = 0;
+	private float relativeBearingToCache = 0;
 	private boolean ready = false;
 	private boolean isLocationFixed = false;
 
@@ -38,19 +39,18 @@ public class CompassView extends SurfaceView implements SurfaceHolder.Callback, 
 
 	private void init() {
 		LogHelper.d(TAG, "new CompassView");
-		
+
 		setMinimumWidth(240);
 		setMinimumHeight(240);
-		bearingToNorth = relativeBearingToCache = absoluteBearingToCache = 0;
 	}
 
 	@Override
 	public void onDraw(Canvas canvas) {
 		if (ready) {
 			super.onDraw(canvas);
-			helper.draw(canvas, bearingToNorth, relativeBearingToCache);
+			helper.draw(canvas, bearingToNorth);
 			if (isLocationFixed) {
-				// drawGeoCache(canvas);
+				helper.drawCacheArrow(canvas, relativeBearingToCache);
 			}
 		} else {
 			LogHelper.w("draw", "not ready");
@@ -64,13 +64,6 @@ public class CompassView extends SurfaceView implements SurfaceHolder.Callback, 
 		helper.onSizeChanged(w, h);
 		ready = true;
 	}
-	
-	// private void drawGeoCache(Canvas canvas) {
-	// double bearingRad = (double) (relativeBearingToCache * Math.PI) / 180;
-	// int cx = (int) ((getWidth() - cacheBitmap.getWidth()) / 2 + Math.sin(bearingRad) * compassRadius * 0.9);
-	// int cy = (int) ((getHeight() - cacheBitmap.getHeight()) / 2 - Math.cos(bearingRad) * compassRadius * 0.9);
-	// canvas.drawBitmap(cacheBitmap, cx, cy, paint);
-	// }
 
 	@Override
 	public boolean setDirection(float direction) {
@@ -117,18 +110,21 @@ public class CompassView extends SurfaceView implements SurfaceHolder.Callback, 
 	 *            - direction to geocache in degrees
 	 */
 	public void setDirectionToGeoCache(float direction) {
+		LogHelper.d(TAG, "Compass View - setDirectionToGeoCache ");
 		this.absoluteBearingToCache = (int) direction;
 		relativeBearingToCache = absoluteBearingToCache + bearingToNorth;
-		// invalidate();
+		isLocationFixed = true;
+		doAnim();
 	}
 
 	public void setLocationFix(boolean isLocationFix) {
+		LogHelper.d(TAG, "Compass View - setLocationFix " + isLocationFix);
 		this.isLocationFixed = isLocationFix;
 	}
 
 	@Override
 	public void surfaceChanged(SurfaceHolder holder, int format, int width, int height) {
-		Log.d(TAG, "CompassView - surfaceChanged");
+		LogHelper.d(TAG, "CompassView - surfaceChanged");
 		// helper.onSizeChanged(width, height);
 		// ready = true;
 	}
