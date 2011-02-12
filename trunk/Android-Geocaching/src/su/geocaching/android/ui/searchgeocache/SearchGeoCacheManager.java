@@ -40,7 +40,7 @@ public class SearchGeoCacheManager implements ILocationAware, ICompassAware, IGp
 	private GpsStatusManager gpsStatusManager;
 
 	/**
-	 * @param context
+	 * @param activity
 	 *            activity which used this manager
 	 */
 	public SearchGeoCacheManager(ISearchActivity activity) {
