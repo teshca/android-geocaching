@@ -64,14 +64,10 @@ public class CompassManager implements SensorEventListener {
 	}
 
 	@Override
-	public void onAccuracyChanged(Sensor sensor, int accuracy) {
+	public void onAccuracyChanged(Sensor sensor, int accuracy) {		
 	}
-
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see android.hardware.SensorEventListener#onSensorChanged(android.hardware .SensorEvent)
-	 */
+	
+	long time;
 	@Override
 	public void onSensorChanged(SensorEvent event) {	
 		float[] data;
@@ -121,8 +117,8 @@ public class CompassManager implements SensorEventListener {
 			isCompassAvailable = false;
 			return;
 		}
-		sensorManager.registerListener(this, gravitySensor, SensorManager.SENSOR_DELAY_UI);
-		sensorManager.registerListener(this, magnitudeSensor, SensorManager.SENSOR_DELAY_UI);
+		sensorManager.registerListener(this, gravitySensor, SensorManager.SENSOR_DELAY_NORMAL);
+		sensorManager.registerListener(this, magnitudeSensor, SensorManager.SENSOR_DELAY_NORMAL);
 	}
 
 	/**

@@ -4,4 +4,5 @@
 	<item android:id="@+id/menuStartMap" android:icon="@drawable/ic_menu_mapmode"
 		android:title="@string/menu_start_map" />
 	<item android:id="@+id/menuKeepScreen" android:title="@string/menu_keep_screen" android:icon="@drawable/ic_menu_screen_off"></item>
+<item android:id="@+id/compassSettings" android:titleCondensed="@string/compass_settings"></item>
 </menu>

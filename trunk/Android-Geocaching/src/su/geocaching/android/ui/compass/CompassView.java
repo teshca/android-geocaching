@@ -1,4 +1,4 @@
-package su.geocaching.android.ui.searchgeocache;
+package su.geocaching.android.ui.compass;
 
 import su.geocaching.android.controller.compass.CompassDrawningHelper;
 import su.geocaching.android.controller.compass.ICompassAnimation;

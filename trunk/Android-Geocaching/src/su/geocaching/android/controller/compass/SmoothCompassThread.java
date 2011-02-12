@@ -17,11 +17,21 @@ public class SmoothCompassThread extends Thread implements ICompassAware {
 	private static final String TAG = SmoothCompassThread.class.getCanonicalName();
 
 	public static final int LONG_SLEEP = 100;
-	public static final int STANDART_SLEEP = 18;
+	public static final int STANDART_SLEEP = 20;
 
 	private static final float ARRIVED_EPS = 0.65f;
 	private static final float LEAVED_EPS = 2.5f;
 	private static final float SPEED_EPS = 0.55f;
+
+	private CompassSpeed speed;
+
+	// public CompassSpeed getSpeed() {
+	// return speed;
+	// }
+
+	public void setSpeed(CompassSpeed speed) {
+		this.speed = speed;
+	}
 
 	private ICompassAnimation compassView;
 	private CompassManager compassManager;
@@ -46,6 +56,7 @@ public class SmoothCompassThread extends Thread implements ICompassAware {
 		compassManager = Controller.getInstance().getCompassManager(context);
 		compassManager.addObserver(this);
 		this.compassView = compassView;
+		speed = CompassSpeed.NORMAL;
 	}
 
 	@Override
@@ -90,25 +101,43 @@ public class SmoothCompassThread extends Thread implements ICompassAware {
 	@Override
 	public void updateBearing(float bearing) {
 		float newDirection = bearing;
-		float diff = newDirection - averageDirection;
-		diff = CompassHelper.normalizeAngle(diff);
-		if (Math.abs(diff) < 5) {
-			newDirection = averageDirection + diff / 4;
-		} else {
-			// setSensorListenerState(SensorListenerState.ACTION);
-		}
+		float difference = newDirection - averageDirection;
+		difference = CompassHelper.normalizeAngle(difference);
+
+		newDirection = averageDirection + difference / 4;
+
 		newDirection = CompassHelper.normalizeAngle(newDirection);
 		averageDirection = newDirection;
 		goalDirection = averageDirection;
 	}
 
-	private static float calculateSpeed(float difference, float oldSpeed) {
-		oldSpeed = oldSpeed * 0.75f; // friction
-		oldSpeed += difference / 40.0f; // acceleration
+	private float calculateSpeed(float difference, float oldSpeed) {
+		switch (speed) {
+		case DIRET:
+			oldSpeed = oldSpeed * 0f;
+			oldSpeed += difference;
+			break;
+		case SLOW:
+			oldSpeed = oldSpeed * 0.75f;
+			oldSpeed += difference / 40.0f;
+			break;
+		case NORMAL:
+			oldSpeed = oldSpeed * 0.75f;
+			oldSpeed += difference / 40.0f;
+			break;
+		case FAST:
+			oldSpeed = oldSpeed * 0.75f;
+			oldSpeed += difference / 8.0f;
+			break;
+		case SWING:
+			oldSpeed = oldSpeed * 0.97f;
+			oldSpeed += difference / 10.0f;
+			break;
+		}
 		return oldSpeed;
 	}
 
-	private static boolean isNeedPainting(boolean isArrived, float speed, float needleDirection, float goalDirection) {
+	private boolean isNeedPainting(boolean isArrived, float speed, float needleDirection, float goalDirection) {
 		if (isArrived) {
 			if (Math.abs(needleDirection - goalDirection) > LEAVED_EPS) {
 				return true;

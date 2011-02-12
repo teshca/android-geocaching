@@ -1,8 +1,12 @@
-package su.geocaching.android.ui.searchgeocache;
+package su.geocaching.android.ui.compass;
 
 import su.geocaching.android.controller.compass.SmoothCompassThread;
 import su.geocaching.android.model.datatype.GeoCache;
 import su.geocaching.android.ui.R;
+import su.geocaching.android.ui.searchgeocache.ISearchActivity;
+import su.geocaching.android.ui.searchgeocache.SearchGeoCacheManager;
+import su.geocaching.android.ui.searchgeocache.SearchGeoCacheMap;
+import su.geocaching.android.ui.searchgeocache.StatusType;
 import su.geocaching.android.utils.GpsHelper;
 import su.geocaching.android.utils.UiHelper;
 import su.geocaching.android.utils.log.LogHelper;
@@ -96,11 +100,6 @@ public class SearchGeoCacheCompass extends Activity implements ISearchActivity {
 		}
 	}
 
-	@Override
-	protected void onRestart() {
-		super.onRestart();
-	}
-
 	/**
 	 * Run all activity logic
 	 */
@@ -166,8 +165,21 @@ public class SearchGeoCacheCompass extends Activity implements ISearchActivity {
 				item.setIcon(R.drawable.ic_menu_screen_on);
 			}
 			return true;
+		case R.id.compassSettings:
+			stopAnim();
+			Intent intent = new Intent(this, CompassPreference.class);
+			startActivityForResult(intent, 1);
+			return true;
 		default:
 			return super.onOptionsItemSelected(item);
+		}
+	}
+
+	@Override
+	protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+		super.onActivityResult(requestCode, resultCode, data);
+		if (requestCode == 1 && resultCode == Activity.RESULT_OK && data != null) {
+
 		}
 	}
 
