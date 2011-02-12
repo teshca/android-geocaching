@@ -23,14 +23,11 @@ public class SmoothCompassThread extends Thread implements ICompassAware {
 	private static final float LEAVED_EPS = 2.5f;
 	private static final float SPEED_EPS = 0.55f;
 
-	private float goalDirection = 0;
 	private ICompassAnimation compassView;
-	private boolean isRunning = false;
-	private boolean isFinished = false;
+	private CompassManager compassManager;
 
-	public boolean isFinished() {
-		return isFinished;
-	}
+	private float goalDirection = 0;
+	private boolean isRunning = false;
 
 	public boolean isRunning() {
 		return isRunning;
@@ -38,22 +35,22 @@ public class SmoothCompassThread extends Thread implements ICompassAware {
 
 	public void setRunning(boolean isRunning) {
 		this.isRunning = isRunning;
-		if (isRunning) {
-
+		if (!isRunning) {
+			LogHelper.d(TAG, "SmoothCompassThread - isRunning false");
+			compassManager.removeObserver(this);
 		}
 	}
 
 	public SmoothCompassThread(ICompassAnimation compassView, Context context) {
 		LogHelper.d(TAG, "new SmoothCompassThread");
-		CompassManager compassManager = Controller.getInstance().getCompassManager(context);
-		compassManager.addObserver(this); // TODO remove when it don't need
+		compassManager = Controller.getInstance().getCompassManager(context);
+		compassManager.addObserver(this);
 		this.compassView = compassView;
 	}
 
 	@Override
 	public void run() {
 		LogHelper.d(TAG, "SmoothCompassThread - run");
-		isFinished = false;
 		float speed = 0;
 		float needleDirection = 0;
 		boolean forcePaint = true;
@@ -105,13 +102,13 @@ public class SmoothCompassThread extends Thread implements ICompassAware {
 		goalDirection = averageDirection;
 	}
 
-	private float calculateSpeed(float difference, float oldSpeed) {
+	private static float calculateSpeed(float difference, float oldSpeed) {
 		oldSpeed = oldSpeed * 0.75f; // friction
 		oldSpeed += difference / 40.0f; // acceleration
 		return oldSpeed;
 	}
 
-	private boolean isNeedPainting(boolean isArrived, float speed, float needleDirection, float goalDirection) {
+	private static boolean isNeedPainting(boolean isArrived, float speed, float needleDirection, float goalDirection) {
 		if (isArrived) {
 			if (Math.abs(needleDirection - goalDirection) > LEAVED_EPS) {
 				return true;

@@ -83,13 +83,11 @@ public class StandartCompassDrawning extends CompassDrawningHelper {
 		needlePath.lineTo(needleWidth, 0);
 		needlePath.close();
 
-		paint.setColor(Color.BLUE);
-		paint.setAlpha(200);
+		paint.setARGB(200, 0, 0, 255);
 		canvas.drawPath(needlePath, paint);
 
 		canvas.rotate(180);
-		paint.setColor(Color.RED);
-		paint.setAlpha(200);
+		paint.setARGB(200, 255, 0, 0);
 		canvas.drawPath(needlePath, paint);
 
 		paint.setColor(Color.argb(255, 255, 230, 110));
