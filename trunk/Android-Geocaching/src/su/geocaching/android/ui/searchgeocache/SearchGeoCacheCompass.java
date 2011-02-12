@@ -11,7 +11,6 @@ import android.content.Intent;
 import android.graphics.drawable.AnimationDrawable;
 import android.location.Location;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
@@ -30,8 +29,9 @@ public class SearchGeoCacheCompass extends Activity implements ISearchActivity {
 	private static final String TAG = SearchGeoCacheCompass.class.getCanonicalName();
 
 	private SmoothCompassThread animThread;
+	private SearchGeoCacheManager searchManager;
+
 	private CompassView compassView;
-	private SearchGeoCacheManager manager;
 	private TextView distanceToCache;
 	private TextView statusText;
 	private ImageView progressBarView;
@@ -44,18 +44,16 @@ public class SearchGeoCacheCompass extends Activity implements ISearchActivity {
 		setContentView(R.layout.search_geocache_compass);
 
 		compassView = (CompassView) findViewById(R.id.compassView);
-		manager = new SearchGeoCacheManager(this);
+		searchManager = new SearchGeoCacheManager(this);
 		distanceToCache = (TextView) findViewById(R.id.DistanceValue);
 		progressBarView = (ImageView) findViewById(R.id.progressCircle);
 		progressBarView.setBackgroundResource(R.anim.earth_anim);
 		progressBarAnim = (AnimationDrawable) progressBarView.getBackground();
 		statusText = (TextView) findViewById(R.id.waitingLocationFixText);
-
-		setDistance(0);
 	}
 
 	private void setDistance(float distance) {
-		if (!manager.isLocationFixed()) {
+		if (!searchManager.isLocationFixed()) {
 			distanceToCache.setText(R.string.distance_unknown);
 			Toast.makeText(this, R.string.search_geocache_best_provider_lost, Toast.LENGTH_LONG).show();
 		} else {
@@ -65,16 +63,16 @@ public class SearchGeoCacheCompass extends Activity implements ISearchActivity {
 
 	@Override
 	protected void onResume() {
-		Log.d(TAG, "onResume");
+		LogHelper.d(TAG, "onResume");
 		super.onResume();
-		manager.onResume();
+		searchManager.onResume();
 		startAnim();
 	}
 
 	@Override
 	protected void onPause() {
-		Log.d(TAG, "onPause");
-		manager.onPause();
+		LogHelper.d(TAG, "onPause");
+		searchManager.onPause();
 		stopAnim();
 		super.onPause();
 	}
@@ -91,7 +89,7 @@ public class SearchGeoCacheCompass extends Activity implements ISearchActivity {
 		if (animThread != null) {
 			animThread.setRunning(false);
 			try {
-				animThread.join(100 * 2);
+				animThread.join(150); // TODO Is it need?
 			} catch (InterruptedException e) {
 			}
 			animThread = null;
@@ -108,12 +106,12 @@ public class SearchGeoCacheCompass extends Activity implements ISearchActivity {
 	 */
 	@Override
 	public void runLogic() {
-		manager.runLogic();
-		if (manager.getGeoCache() == null) {
+		searchManager.runLogic();
+		if (searchManager.getGeoCache() == null) {
 			return;
 		}
-		if (!manager.isLocationFixed()) {
-			Log.d(TAG, "run logic: location not fixed. Show gps status");
+		if (!searchManager.isLocationFixed()) {
+			LogHelper.d(TAG, "run logic: location not fixed. Show gps status");
 			progressBarView.setVisibility(View.VISIBLE);
 		} else {
 			progressBarView.setVisibility(View.GONE);
@@ -127,14 +125,14 @@ public class SearchGeoCacheCompass extends Activity implements ISearchActivity {
 
 	@Override
 	public void updateLocation(Location location) {
-		if (!manager.isLocationFixed()) {
+		if (!searchManager.isLocationFixed()) {
 			return;
 		}
 		if (progressBarView.getVisibility() == View.VISIBLE) {
 			progressBarView.setVisibility(View.GONE);
 		}
-		compassView.setDirectionToGeoCache(GpsHelper.getBearingBetween(location, manager.getGeoCache().getLocationGeoPoint()));
-		setDistance(GpsHelper.getDistanceBetween(location, manager.getGeoCache().getLocationGeoPoint()));
+		compassView.setCacheDirection(GpsHelper.getBearingBetween(location, searchManager.getGeoCache().getLocationGeoPoint()));
+		setDistance(GpsHelper.getDistanceBetween(location, searchManager.getGeoCache().getLocationGeoPoint()));
 	}
 
 	/**
@@ -154,10 +152,10 @@ public class SearchGeoCacheCompass extends Activity implements ISearchActivity {
 	public boolean onOptionsItemSelected(MenuItem item) {
 		switch (item.getItemId()) {
 		case R.id.menuStartMap:
-			this.startMapView();
+			startMapView();
 			return true;
 		case R.id.menuGeoCacheInfo:
-			manager.showGeoCacheInfo();
+			searchManager.showGeoCacheInfo();
 			return true;
 		case R.id.menuKeepScreen:
 			if (compassView.getKeepScreenOn()) {
@@ -178,13 +176,13 @@ public class SearchGeoCacheCompass extends Activity implements ISearchActivity {
 	 */
 	private void startMapView() {
 		Intent intent = new Intent(this, SearchGeoCacheMap.class);
-		intent.putExtra(GeoCache.class.getCanonicalName(), manager.getGeoCache());
+		intent.putExtra(GeoCache.class.getCanonicalName(), searchManager.getGeoCache());
 		startActivity(intent);
 	}
 
 	@Override
 	public void updateStatus(String status, StatusType type) {
-		compassView.setLocationFix(manager.isLocationFixed());
+		compassView.setLocationFix(searchManager.isLocationFixed());
 		// TODO add status field
 		if (type == StatusType.GPS) {
 			statusText.setText(status);
@@ -193,7 +191,7 @@ public class SearchGeoCacheCompass extends Activity implements ISearchActivity {
 
 	@Override
 	public Location getLastKnownLocation() {
-		return manager.getCurrentLocation();
+		return searchManager.getCurrentLocation();
 	}
 
 	@Override
@@ -213,5 +211,4 @@ public class SearchGeoCacheCompass extends Activity implements ISearchActivity {
 	public void onHomeClick(View v) {
 		UiHelper.goHome(this);
 	}
-
 }

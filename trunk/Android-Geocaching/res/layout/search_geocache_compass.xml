@@ -23,13 +23,13 @@
 
 		<!-- It view need for margin -->
 		<View android:layout_width="3px" android:layout_height="fill_parent" />
-	
-</LinearLayout>
 
-	
+	</LinearLayout>
+
+
 	<su.geocaching.android.ui.searchgeocache.CompassView
 		android:id="@+id/compassView" android:layout_width="fill_parent"
-		android:layout_height="320dip"/>
+		android:layout_height="320dip" />
 	<LinearLayout android:id="@+id/compassInfoLayout"
 		android:layout_height="wrap_content" android:layout_width="fill_parent"
 		android:layout_weight="1">
@@ -39,8 +39,8 @@
 			android:textStyle="bold" android:textColor="@color/menu_text_color"></TextView>
 		<TextView android:layout_width="wrap_content"
 			android:layout_height="wrap_content" android:id="@+id/DistanceValue"
-			android:text="0" android:layout_weight="1" android:gravity="left"
-			android:textStyle="bold" android:textColor="@color/menu_text_color"></TextView>
+			android:text="@string/distance_unknown" android:layout_weight="1"
+			android:gravity="left" android:textStyle="bold" android:textColor="@color/menu_text_color"></TextView>
 	</LinearLayout>
 
 
