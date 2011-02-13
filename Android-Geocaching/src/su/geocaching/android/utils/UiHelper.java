@@ -1,6 +1,6 @@
 package su.geocaching.android.utils;
 
-import su.geocaching.android.ui.MenuActivity;
+import su.geocaching.android.ui.DashboardActivity;
 import android.content.Context;
 import android.content.Intent;
 
@@ -13,7 +13,7 @@ public class UiHelper {
 	 * Invoke "home" action, returning to DashBoardActivity
 	 */
 	public static void goHome(Context context) {
-		final Intent intent = new Intent(context, MenuActivity.class);
+		final Intent intent = new Intent(context, DashboardActivity.class);
 		context.startActivity(intent);
 	}
 }
