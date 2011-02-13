@@ -20,8 +20,8 @@ import android.widget.Toast;
  * @author Android-Geocaching.su student project team
  * @since October 2010 Main menu activity stub
  */
-public class MenuActivity extends Activity {
-	private static final String TAG = MenuActivity.class.getCanonicalName();
+public class DashboardActivity extends Activity {
+	private static final String TAG = DashboardActivity.class.getCanonicalName();
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
