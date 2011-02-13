@@ -198,13 +198,7 @@ public class SelectGeoCacheMap extends MapActivity implements IMapAware, IIntern
         Log.d(TAG, "updateCacheOverlay; count = " + countDownloadTask);
         GeoPoint upperLeftCorner = map.getProjection().fromPixels(0, 0);
         GeoPoint lowerRightCorner = map.getProjection().fromPixels(map.getWidth(), map.getHeight());
-
-        double maxLatitude = (double) upperLeftCorner.getLatitudeE6() / 1e6;
-        double minLatitude = (double) lowerRightCorner.getLatitudeE6() / 1e6;
-        double maxLongitude = (double) lowerRightCorner.getLongitudeE6() / 1e6;
-        double minLongitude = (double) upperLeftCorner.getLongitudeE6() / 1e6;
-
-        Controller.getInstance().updateSelectedGeoCaches(this, maxLatitude, minLatitude, maxLongitude, minLongitude);
+        Controller.getInstance().updateSelectedGeoCaches(this, upperLeftCorner, lowerRightCorner);
         updateProgressStart();
     }
 
