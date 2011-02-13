@@ -112,7 +112,6 @@ public class CompassView extends SurfaceView implements SurfaceHolder.Callback, 
 	}
 
 	public void setLocationFix(boolean isLocationFix) {
-		LogHelper.d(TAG, "Compass View - setLocationFix " + isLocationFix);
 		this.isLocationFixed = isLocationFix;
 	}
 

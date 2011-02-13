@@ -1,5 +1,7 @@
 package su.geocaching.android.ui.compass;
 
+import su.geocaching.android.controller.compass.CompassPreferenceManager;
+import su.geocaching.android.controller.compass.CompassSpeed;
 import su.geocaching.android.controller.compass.SmoothCompassThread;
 import su.geocaching.android.model.datatype.GeoCache;
 import su.geocaching.android.ui.R;
@@ -85,6 +87,11 @@ public class SearchGeoCacheCompass extends Activity implements ISearchActivity {
 		if (animThread == null) {
 			animThread = new SmoothCompassThread(compassView, this);
 			animThread.setRunning(true);
+
+			CompassPreferenceManager preferManager = CompassPreferenceManager.getPreference(this);
+			String speed = preferManager.getString(CompassPreferenceManager.PREFS_COMPASS_SPEED_KEY, CompassSpeed.NORMAL.name());
+			animThread.setSpeed(CompassSpeed.valueOf(speed));
+
 			animThread.start();
 		}
 	}
@@ -167,7 +174,7 @@ public class SearchGeoCacheCompass extends Activity implements ISearchActivity {
 			return true;
 		case R.id.compassSettings:
 			stopAnim();
-			Intent intent = new Intent(this, CompassPreference.class);
+			Intent intent = new Intent(this, CompassPreferenceActivity.class);
 			startActivityForResult(intent, 1);
 			return true;
 		default:
@@ -175,13 +182,18 @@ public class SearchGeoCacheCompass extends Activity implements ISearchActivity {
 		}
 	}
 
-	@Override
-	protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-		super.onActivityResult(requestCode, resultCode, data);
-		if (requestCode == 1 && resultCode == Activity.RESULT_OK && data != null) {
-
-		}
-	}
+	// @Override
+	// protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+	// super.onActivityResult(requestCode, resultCode, data);
+	// LogHelper.d(TAG, "SearchGeoCacheCompass onActivityResult" + requestCode + " " + resultCode);
+	// if (requestCode == 1) {
+	// if (animThread != null) {
+	// CompassPreferenceManager preferManager = CompassPreferenceManager.getPreference(this);
+	// String speed = preferManager.getString(CompassPreferenceManager.PREFS_COMPASS_SPEED_KEY, CompassSpeed.NORMAL.name());
+	// animThread.setSpeed(CompassSpeed.valueOf(speed));
+	// }
+	// }
+	// }
 
 	/**
 	 * Starts SearchGeoCacheMap activity and finish this

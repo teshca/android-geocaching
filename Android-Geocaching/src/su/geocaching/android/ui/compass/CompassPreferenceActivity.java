@@ -5,12 +5,12 @@ import android.content.pm.ActivityInfo;
 import android.os.Bundle;
 import android.preference.PreferenceActivity;
 
-public class CompassPreference extends PreferenceActivity {
+public class CompassPreferenceActivity extends PreferenceActivity {
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		addPreferencesFromResource(R.xml.compass_preference);
-		setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT); // for portrait
+		setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
 	}
 }
