@@ -69,7 +69,7 @@ public class SelectGeoCacheMap extends MapActivity implements IMapAware, IIntern
         internetManager = Controller.getInstance().getConnectionManager(this);
         internetManager.addSubscriber(this);
 
-        context = this;
+        context = this;      
         askTurnOnInternet();
         userOverlay = new MyLocationOverlay(this, map) {
             @Override
@@ -271,7 +271,7 @@ public class SelectGeoCacheMap extends MapActivity implements IMapAware, IIntern
                 }).setNegativeButton(context.getString(R.string.ask_enable_internet_no), new DialogInterface.OnClickListener() {
             public void onClick(DialogInterface dialog, int id) {
                 dialog.cancel();
-                context.finish();
+                finish();
             }
         });
         AlertDialog turnOnInternetAlert = builder.create();

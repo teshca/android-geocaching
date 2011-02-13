@@ -64,12 +64,11 @@ public class SmoothCompassThread extends Thread implements ICompassAware {
 		LogHelper.d(TAG, "SmoothCompassThread - run");
 		float speed = 0;
 		float needleDirection = 0;
-		boolean forcePaint = true;
 		boolean isArrived = false; // The needle has not arrived the goalDirection
 
 		while (isRunning) {
 			float currentDirection = goalDirection;
-			boolean needPainting = isNeedPainting(isArrived, speed, needleDirection, currentDirection) || forcePaint;
+			boolean needPainting = isNeedPainting(isArrived, speed, needleDirection, currentDirection);
 
 			if (needPainting) {
 				isArrived = false;
@@ -77,10 +76,7 @@ public class SmoothCompassThread extends Thread implements ICompassAware {
 				speed = calculateSpeed(difference, speed);
 				currentDirection = needleDirection + speed;
 				needleDirection = currentDirection;
-
-				boolean successPaint = compassView.setDirection(needleDirection);
-				forcePaint = !successPaint;
-
+				compassView.setDirection(needleDirection);
 			} else {
 				isArrived = true;
 			}
@@ -104,7 +100,7 @@ public class SmoothCompassThread extends Thread implements ICompassAware {
 		float difference = newDirection - averageDirection;
 		difference = CompassHelper.normalizeAngle(difference);
 
-		newDirection = averageDirection + difference / 4;
+		newDirection = averageDirection + difference / 4; // TODO extract constant
 
 		newDirection = CompassHelper.normalizeAngle(newDirection);
 		averageDirection = newDirection;
