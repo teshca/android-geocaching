@@ -44,8 +44,13 @@ public class ApiManager implements IApiManager {
 	}
 
 	@Override
-	public synchronized List<GeoCache> getGeoCacheList(double maxLatitude, double minLatitude, double maxLongitude, double minLongitude) {
+	public synchronized List<GeoCache> getGeoCacheList(GeoPoint upperLeftCorner, GeoPoint lowerRightCorner) {
 		LogHelper.d(TAG, "getGeoCacheList");
+
+		double maxLatitude = (double) upperLeftCorner.getLatitudeE6() / 1E6;
+		double minLatitude = (double) lowerRightCorner.getLatitudeE6() / 1E6;
+		double maxLongitude = (double) lowerRightCorner.getLongitudeE6() / 1E6;
+		double minLongitude = (double) upperLeftCorner.getLongitudeE6() / 1E6;
 
 		if (maxLatitude == minLatitude && maxLongitude == minLongitude) {
 			LogHelper.d(TAG, "Size of obtained listGeoCaches: 0");

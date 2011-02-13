@@ -74,8 +74,8 @@ public class Controller {
 	 *            - coordinate of the visible area
 	 * @param minLongitude
 	 */
-	public void updateSelectedGeoCaches(SelectGeoCacheMap map, double maxLatitude, double minLatitude, double maxLongitude, double minLongitude) {
-		Double[] d = { maxLatitude, minLatitude, maxLongitude, minLongitude };
+	public void updateSelectedGeoCaches(SelectGeoCacheMap map, GeoPoint upperLeftCorner, GeoPoint lowerRightCorner) {
+		GeoPoint[] d = { upperLeftCorner, lowerRightCorner };
 		new DownloadGeoCacheTask(apiManager, map).execute(d);
 	}
 

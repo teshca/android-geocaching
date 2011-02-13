@@ -3,6 +3,8 @@ package su.geocaching.android.controller.apimanager;
 import java.util.LinkedList;
 import java.util.List;
 
+import com.google.android.maps.GeoPoint;
+
 import su.geocaching.android.controller.Controller;
 import su.geocaching.android.controller.apimanager.IApiManager;
 import su.geocaching.android.controller.filter.IFilter;
@@ -15,7 +17,7 @@ import android.os.AsyncTask;
  * 
  * @author Nikita Bumakov
  */
-public class DownloadGeoCacheTask extends AsyncTask<Double, Integer, List<GeoCache>> {
+public class DownloadGeoCacheTask extends AsyncTask<GeoPoint, Integer, List<GeoCache>> {
 	private SelectGeoCacheMap map;
 	private IApiManager apiManager;
 
@@ -25,8 +27,8 @@ public class DownloadGeoCacheTask extends AsyncTask<Double, Integer, List<GeoCac
 	}
 
 	@Override
-	protected List<GeoCache> doInBackground(Double... params) {
-		List<GeoCache> gcList = apiManager.getGeoCacheList(params[0], params[1], params[2], params[3]);
+	protected List<GeoCache> doInBackground(GeoPoint... params) {
+		List<GeoCache> gcList = apiManager.getGeoCacheList(params[0], params[1]);
 		return gcList;
 	}
 
