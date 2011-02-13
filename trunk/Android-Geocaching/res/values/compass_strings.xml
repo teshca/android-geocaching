@@ -2,24 +2,24 @@
 <resources>
 	<string name="distance_to_geocache">Расстояние до тайника:</string>
 	<string name="distance_unknown">неизвестно</string>
-<string name="compass_settings">Настройки</string>
-<string-array name="speed_preference_entries"><item>Непосредственная</item>
-<item>Медленная</item>
-<item>Нормальная</item>
-<item>Быстрая</item>
-<item>Колеблющаяся</item>
-
-</string-array>
-<string-array name="speed_preference_values"><item>0</item>
-<item>1</item>
-<item>2</item>
-<item>3</item>
-<item>4</item>
-
-</string-array>
-<string name="prefer_speed_dialog_title">Скорость</string>
-<string name="prefs_speed_key">compass.speed</string>
-<string name="prefer_speed_title">Скорость</string>
-<string name="prefer_speed_summary">Выберете скорость вращения стрелки компаса</string>
-<string name="prefer_speed_default_value">2</string>
+	<string name="compass_settings">Настройки</string>
+	<string-array name="speed_preference_entries">
+		<item>Непосредственная</item>
+		<item>Медленная</item>
+		<item>Нормальная</item>
+		<item>Быстрая</item>
+		<item>Колеблющаяся</item>
+	</string-array>
+	<string-array name="speed_preference_values">
+		<item>DIRET</item>
+		<item>SLOW</item>
+		<item>NORMAL</item>
+		<item>FAST</item>
+		<item>SWING</item>
+	</string-array>
+	<string name="prefer_speed_dialog_title">Скорость</string>
+	<string name="prefs_speed_key">compass.speed</string>
+	<string name="prefer_speed_title">Скорость</string>
+	<string name="prefer_speed_summary">Выберете скорость вращения стрелки компаса</string>
+	<string name="prefer_speed_default_value">NORMAL</string>	
 </resources>
