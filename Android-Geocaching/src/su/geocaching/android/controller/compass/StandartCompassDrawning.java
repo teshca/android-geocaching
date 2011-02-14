@@ -112,8 +112,7 @@ public class StandartCompassDrawning extends CompassDrawningHelper {
 		arrowPath.lineTo(10, 0);
 		arrowPath.close();
 
-		paint.setColor(Color.LTGRAY);
-		paint.setAlpha(200);
+		paint.setARGB(200, 60, 200, 90);
 		canvas.drawPath(arrowPath, paint);
 
 		paint.setColor(Color.argb(255, 255, 230, 110));
