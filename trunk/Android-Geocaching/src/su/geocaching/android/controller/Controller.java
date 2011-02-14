@@ -38,7 +38,7 @@ public class Controller {
 	private GeoCacheStorage favoriteGeoCacheStorage;
 	private SettingsStorage settingsStorage;
 
-	private GeoPoint lastCenter;
+	//private GeoPoint lastCenter;
 	private GeoCache lastSearchedGeoCache;
 	private GeoCacheLocationManager locationManager;
 	private CompassManager compassManager;
@@ -66,13 +66,14 @@ public class Controller {
 	}
 
 	/**
-	 * @param maxLatitude
-	 *            - coordinate of the visible area
-	 * @param minLatitude
-	 *            - coordinate of the visible area
-	 * @param maxLongitude
-	 *            - coordinate of the visible area
-	 * @param minLongitude
+	 * Request for caches in the visible region
+	 * 
+	 * @param map
+	 *            - links to maps, which will be added caches
+	 * @param upperLeftCorner
+	 *            - upper left corner of the visible area
+	 * @param lowerRightCorner
+	 *            - lower right corner of the visible area
 	 */
 	public void updateSelectedGeoCaches(SelectGeoCacheMap map, GeoPoint upperLeftCorner, GeoPoint lowerRightCorner) {
 		GeoPoint[] d = { upperLeftCorner, lowerRightCorner };
@@ -265,7 +266,7 @@ public class Controller {
 			// Commit the edits!
 			editor.commit();
 		}
-		this.lastCenter = center;
+		//this.lastCenter = center;
 	}
 
 	/**
