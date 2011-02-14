@@ -15,14 +15,13 @@ public class CompassHelper {
 		return normalizeAngle(difference);
 	}
 
-	public static float normalizeAngle(float difference) {
-		difference %= 360;
-		if (difference < -180) {
-			difference += 360;
+	public static float normalizeAngle(float angle) {
+		angle %= 360;
+		if (angle < -180) {
+			angle += 360;
 		}
-		if (difference > 180){
-			difference -= 360;}
-		return difference;
-	}
-	
+		if (angle > 180){
+			angle -= 360;}
+		return angle;
+	}	
 }
