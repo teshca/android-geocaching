@@ -34,7 +34,7 @@
 ==2.Выбрать тайник==
 *Для данной функции необходим интернет!*
 
-    http://android-geocaching.googlecode.com/svn/trunk/files/wiki/images/select_with_menu.png 
+    http://android-geocaching.googlecode.com/svn/trunk/files/wiki/images/select_cache_without_menu.png 
 
 В этом режиме откроется карта с тайниками. Посмотреть на значки тайников можно [GeoCacheIcons здесь].
 Каждый тип тайника имеет свои цвет:
