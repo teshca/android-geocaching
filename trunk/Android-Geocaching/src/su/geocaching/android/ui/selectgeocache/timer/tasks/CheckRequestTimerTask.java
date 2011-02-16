@@ -6,7 +6,7 @@ import java.util.TimerTask;
 
 /**
  * @author Yuri Denison
- * @date 25.11.10 19:45
+ * @since 25.11.10
  */
 public class CheckRequestTimerTask extends TimerTask {
     private State state;

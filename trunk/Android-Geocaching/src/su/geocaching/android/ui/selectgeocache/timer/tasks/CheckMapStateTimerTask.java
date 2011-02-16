@@ -3,13 +3,14 @@ package su.geocaching.android.ui.selectgeocache.timer.tasks;
 import com.google.android.maps.GeoPoint;
 import su.geocaching.android.ui.selectgeocache.SelectGeoCacheMap;
 import su.geocaching.android.ui.selectgeocache.timer.State;
+
 import java.util.TimerTask;
 
 /**
  * @author Yuri Denison
- * @date 25.11.10 19:45
+ * @since 25.11.10
  */
-public class CheckMapStateTimerTask extends TimerTask{
+public class CheckMapStateTimerTask extends TimerTask {
     private GeoPoint lastCenter;
     private int lastZoom;
     private SelectGeoCacheMap map;
@@ -29,10 +30,10 @@ public class CheckMapStateTimerTask extends TimerTask{
     public void run() {
         int currentZoom = map.getZoom();
         GeoPoint currentCenter = map.getCenter();
-        if(lastZoom != currentZoom || !lastCenter.equals(currentCenter)) {
+        if (lastZoom != currentZoom || !lastCenter.equals(currentCenter)) {
             mapUpdateRunning = true;
         } else {
-            if(mapUpdateRunning) {
+            if (mapUpdateRunning) {
                 state.setMapUpdatedTrue();
             }
             mapUpdateRunning = false;

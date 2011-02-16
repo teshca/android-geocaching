@@ -4,7 +4,7 @@ import su.geocaching.android.ui.selectgeocache.SelectGeoCacheMap;
 
 /**
  * @author Yuri Denison
- * @date 25.11.10 21:01
+ * @since 25.11.10
  */
 public class State {
     private boolean mapUpdated;
@@ -29,7 +29,7 @@ public class State {
     }
 
     private synchronized void sendRequest() {
-        if(requestSent && mapUpdated) {
+        if (requestSent && mapUpdated) {
             gcMap.updateCacheOverlay();
 
             mapUpdated = false;

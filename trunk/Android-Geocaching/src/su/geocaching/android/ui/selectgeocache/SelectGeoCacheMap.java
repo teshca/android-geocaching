@@ -69,7 +69,7 @@ public class SelectGeoCacheMap extends MapActivity implements IMapAware, IIntern
         internetManager = Controller.getInstance().getConnectionManager(this);
         internetManager.addSubscriber(this);
 
-        context = this;      
+        context = this;
         askTurnOnInternet();
         userOverlay = new MyLocationOverlay(this, map) {
             @Override
@@ -218,7 +218,6 @@ public class SelectGeoCacheMap extends MapActivity implements IMapAware, IIntern
             return;
         }
         if (geoCacheList.size() > MAX_CACHE_NUMBER) {
-     //       Toast.makeText(this.getBaseContext(), getString(R.string.too_small_zoom) + " " + geoCacheList.size(), Toast.LENGTH_LONG).show();
             geoCacheList = geoCacheList.subList(0, MAX_CACHE_NUMBER);
         }
         Log.d(TAG, "draw update cache overlay; count = " + countDownloadTask + "; size = " + geoCacheList.size());
@@ -285,8 +284,8 @@ public class SelectGeoCacheMap extends MapActivity implements IMapAware, IIntern
         }
         progressBarAnimation.start();
     }
-    
+
     public void onHomeClick(View v) {
-	UiHelper.goHome(this);
+        UiHelper.goHome(this);
     }
 }
