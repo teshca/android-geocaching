@@ -40,7 +40,7 @@ public class SelectGeoCacheMap extends MapActivity implements IMapAware, IIntern
     private MapView map;
     private GeoCacheItemizedOverlay gOverlay;
     private MapUpdateTimer mapTimer;
-    private ConnectionManager internetManager;
+    private ConnectionManager connectionManager;
     private Activity context;
     private Location currentLocation;
     private ImageView progressBarView;
@@ -66,8 +66,8 @@ public class SelectGeoCacheMap extends MapActivity implements IMapAware, IIntern
         gOverlay = new GeoCacheItemizedOverlay(Controller.getInstance().getMarker(new GeoCache(), this), this);
         map.getOverlays().add(gOverlay);
 
-        internetManager = Controller.getInstance().getConnectionManager(this);
-        internetManager.addSubscriber(this);
+        connectionManager = Controller.getInstance().getConnectionManager(this);
+        connectionManager.addSubscriber(this);
 
         context = this;
         askTurnOnInternet();
@@ -151,9 +151,9 @@ public class SelectGeoCacheMap extends MapActivity implements IMapAware, IIntern
     protected void onPause() {
         userOverlay.disableMyLocation();
         mapTimer.cancel();
-        internetManager.removeSubscriber(this);
+        connectionManager.removeSubscriber(this);
         saveMapInfoToSettings();
-        Log.d("mapInfo", "fucking save on pause");
+        Log.d("mapInfo", "save on pause");
         super.onPause();
     }
 
@@ -249,8 +249,8 @@ public class SelectGeoCacheMap extends MapActivity implements IMapAware, IIntern
      * Ask user turn on Internet, if this disabled
      */
     private void askTurnOnInternet() {
-        if (internetManager.isInternetConnected()) {
-            Log.w(TAG, "Internet connected");
+        if (connectionManager.isInternetConnected()) {
+            Log.d(TAG, "Internet connected");
             return;
         }
         AlertDialog.Builder builder = new AlertDialog.Builder(context);
