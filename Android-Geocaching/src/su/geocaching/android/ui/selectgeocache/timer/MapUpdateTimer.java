@@ -8,9 +8,9 @@ import java.util.Timer;
 
 /**
  * @author Yuri Denison
- * @date 25.11.10 19:47
+ * @since 25.11.10
  */
-public class MapUpdateTimer extends Timer{
+public class MapUpdateTimer extends Timer {
     private static final int REQUEST_TIMER_DELAY = 50;
     private static final int REQUEST_TIMER_PERIOD = 400;
     private static final int MAP_STATE_TIMER_DELAY = 0;
