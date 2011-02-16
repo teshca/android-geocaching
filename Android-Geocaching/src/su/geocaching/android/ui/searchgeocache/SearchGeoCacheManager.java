@@ -1,7 +1,7 @@
 package su.geocaching.android.ui.searchgeocache;
 
-import su.geocaching.android.controller.Controller;
 import su.geocaching.android.controller.CompassManager;
+import su.geocaching.android.controller.Controller;
 import su.geocaching.android.controller.GeoCacheLocationManager;
 import su.geocaching.android.controller.GpsStatusManager;
 import su.geocaching.android.controller.ICompassAware;
@@ -9,16 +9,13 @@ import su.geocaching.android.controller.IGpsStatusAware;
 import su.geocaching.android.controller.ILocationAware;
 import su.geocaching.android.model.datatype.GeoCache;
 import su.geocaching.android.ui.R;
-import su.geocaching.android.ui.ShowGeoCacheInfo;
+import su.geocaching.android.utils.UiHelper;
 import android.app.Activity;
-import android.app.AlertDialog;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.location.Location;
 import android.location.LocationManager;
 import android.location.LocationProvider;
 import android.os.Bundle;
-import android.provider.Settings;
 import android.util.Log;
 import android.widget.Toast;
 
@@ -59,7 +56,7 @@ public class SearchGeoCacheManager implements ILocationAware, ICompassAware, IGp
 	 */
 	public void onPause() {
 		locationManager.removeSubsriber(this);
-		compass.removeObserver(this);
+		compass.removeSubscriber(this);
 		gpsStatusManager.removeSubsriber(this);
 		Log.d(TAG, "pause: remove updates of location, compass and GPS status");
 	}
@@ -75,7 +72,7 @@ public class SearchGeoCacheManager implements ILocationAware, ICompassAware, IGp
 				// activity.getContext().getString(R.string.device_without_gps_alert),
 				// Toast.LENGTH_LONG).show();
 			}
-			askTurnOnGps();
+			UiHelper.askTurnOnGps(context);
 			Log.d(TAG, "resume: best provider (" + locationManager.getBestProvider() + ") disabled. Current provider is " + locationManager.getCurrentProvider());
 		} else {
 			activity.runLogic();
@@ -83,32 +80,32 @@ public class SearchGeoCacheManager implements ILocationAware, ICompassAware, IGp
 		}
 	}
 
-	/**
-	 * Ask user turn on GPS, if this disabled
-	 */
-	private void askTurnOnGps() {
-		if (locationManager.isBestProviderEnabled()) {
-			Log.w(TAG, "ask turn on best provider (" + locationManager.getBestProvider() + "): already done");
-			return;
-		}
-		AlertDialog.Builder builder = new AlertDialog.Builder(context);
-		builder.setMessage(context.getString(R.string.ask_enable_gps_text)).setCancelable(false)
-				.setPositiveButton(context.getString(R.string.ask_enable_gps_yes), new DialogInterface.OnClickListener() {
-					public void onClick(DialogInterface dialog, int id) {
-						Intent startGPS = new Intent(Settings.ACTION_LOCATION_SOURCE_SETTINGS);
-						context.startActivity(startGPS);
-						dialog.cancel();
-					}
-				}).setNegativeButton(context.getString(R.string.ask_enable_gps_no), new DialogInterface.OnClickListener() {
-					public void onClick(DialogInterface dialog, int id) {
-						dialog.cancel();
-						// activity is MapActivity or Activity
-						context.finish();
-					}
-				});
-		AlertDialog turnOnGpsAlert = builder.create();
-		turnOnGpsAlert.show();
-	}
+	// /**
+	// * Ask user turn on GPS, if this disabled
+	// */
+	// private void askTurnOnGps() {
+	// if (locationManager.isBestProviderEnabled()) {
+	// Log.w(TAG, "ask turn on best provider (" + locationManager.getBestProvider() + "): already done");
+	// return;
+	// }
+	// AlertDialog.Builder builder = new AlertDialog.Builder(context);
+	// builder.setMessage(context.getString(R.string.ask_enable_gps_text)).setCancelable(false)
+	// .setPositiveButton(context.getString(R.string.ask_enable_gps_yes), new DialogInterface.OnClickListener() {
+	// public void onClick(DialogInterface dialog, int id) {
+	// Intent startGPS = new Intent(Settings.ACTION_LOCATION_SOURCE_SETTINGS);
+	// context.startActivity(startGPS);
+	// dialog.cancel();
+	// }
+	// }).setNegativeButton(context.getString(R.string.ask_enable_gps_no), new DialogInterface.OnClickListener() {
+	// public void onClick(DialogInterface dialog, int id) {
+	// dialog.cancel();
+	// // activity is MapActivity or Activity
+	// context.finish();
+	// }
+	// });
+	// AlertDialog turnOnGpsAlert = builder.create();
+	// turnOnGpsAlert.show();
+	// }
 
 	/*
 	 * (non-Javadoc)
@@ -171,7 +168,7 @@ public class SearchGeoCacheManager implements ILocationAware, ICompassAware, IGp
 		if (!locationManager.isBestProviderEnabled()) {
 			Log.d(TAG, "onStatusChanged: best provider (" + locationManager.getBestProvider() + ") disabled. Ask turn on.");
 			activity.onBestProviderUnavailable();
-			askTurnOnGps();
+			UiHelper.askTurnOnGps(context);
 		}
 	}
 
@@ -205,7 +202,7 @@ public class SearchGeoCacheManager implements ILocationAware, ICompassAware, IGp
 		}
 		locationManager.addSubscriber(this);
 		locationManager.enableBestProviderUpdates();
-		compass.addObserver(this);
+		compass.addSubscriber(this);
 		gpsStatusManager.addSubscriber(this);
 	}
 
@@ -233,12 +230,12 @@ public class SearchGeoCacheManager implements ILocationAware, ICompassAware, IGp
 	/**
 	 * Open GeoCache info activity
 	 */
-	public void showGeoCacheInfo() {
-		Log.d(TAG, "Go to show geo cache activity");
-		Intent intent = new Intent(context, ShowGeoCacheInfo.class);
-		intent.putExtra(GeoCache.class.getCanonicalName(), geoCache);
-		context.startActivity(intent);
-	}
+	// public void showGeoCacheInfo() {
+	// Log.d(TAG, "Go to show geo cache activity");
+	// Intent intent = new Intent(context, ShowGeoCacheInfo.class);
+	// intent.putExtra(GeoCache.class.getCanonicalName(), geoCache);
+	// context.startActivity(intent);
+	// }
 
 	/*
 	 * (non-Javadoc)
