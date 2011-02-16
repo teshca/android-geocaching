@@ -13,10 +13,7 @@ import android.util.Log;
 import android.view.*;
 import android.widget.ImageView;
 import android.widget.Toast;
-import com.google.android.maps.GeoPoint;
-import com.google.android.maps.MapActivity;
-import com.google.android.maps.MapView;
-import com.google.android.maps.MyLocationOverlay;
+import com.google.android.maps.*;
 import su.geocaching.android.controller.Controller;
 import su.geocaching.android.model.datatype.GeoCache;
 import su.geocaching.android.ui.R;
@@ -38,6 +35,7 @@ public class SelectGeoCacheMap extends MapActivity implements IMapAware, IIntern
 
     private MyLocationOverlay userOverlay;
     private MapView map;
+    private MapController mapController;
     private GeoCacheItemizedOverlay gOverlay;
     private MapUpdateTimer mapTimer;
     private ConnectionManager connectionManager;
@@ -46,7 +44,7 @@ public class SelectGeoCacheMap extends MapActivity implements IMapAware, IIntern
     private ImageView progressBarView;
     private AnimationDrawable progressBarAnimation;
     private int countDownloadTask;
-    private Handler mHandler;
+    private Handler handler;
 
 
     @Override
@@ -55,13 +53,14 @@ public class SelectGeoCacheMap extends MapActivity implements IMapAware, IIntern
         setContentView(R.layout.select_geocache_map);
         map = (MapView) findViewById(R.id.selectGeocacheMap);
         map.getOverlays().clear();
+        mapController = map.getController();
 
         progressBarView = (ImageView) findViewById(R.id.progressCircle);
         progressBarView.setBackgroundResource(R.anim.earth_anim);
         progressBarAnimation = (AnimationDrawable) progressBarView.getBackground();
         progressBarView.setVisibility(View.GONE);
         countDownloadTask = 0;
-        mHandler = new Handler();
+        handler = new Handler();
 
         gOverlay = new GeoCacheItemizedOverlay(Controller.getInstance().getMarker(new GeoCache(), this), this);
         map.getOverlays().add(gOverlay);
@@ -86,7 +85,7 @@ public class SelectGeoCacheMap extends MapActivity implements IMapAware, IIntern
 
     private synchronized void updateProgressStart() {
         if (countDownloadTask == 0) {
-            mHandler.post(new Runnable() {
+            handler.post(new Runnable() {
                 public void run() {
                     progressBarView.setVisibility(View.VISIBLE);
                 }
@@ -99,7 +98,7 @@ public class SelectGeoCacheMap extends MapActivity implements IMapAware, IIntern
         countDownloadTask--;
         if (countDownloadTask == 0) {
             Log.d(TAG, "set visible gone for progress");
-            mHandler.post(new Runnable() {
+            handler.post(new Runnable() {
                 public void run() {
                     progressBarView.setVisibility(View.GONE);
                 }
@@ -114,9 +113,9 @@ public class SelectGeoCacheMap extends MapActivity implements IMapAware, IIntern
         Log.d("mapInfo", "Y = " + lastMapInfo[1]);
         Log.d("mapInfo", "zoom = " + lastMapInfo[2]);
 
-        map.getController().setCenter(lastCenter);
-        map.getController().animateTo(lastCenter);
-        map.getController().setZoom(lastMapInfo[2]);
+        mapController.setCenter(lastCenter);
+        mapController.animateTo(lastCenter);
+        mapController.setZoom(lastMapInfo[2]);
         map.invalidate();
     }
 
@@ -133,7 +132,7 @@ public class SelectGeoCacheMap extends MapActivity implements IMapAware, IIntern
     @Override
     protected void onRestoreInstanceState(Bundle savedInstanceState) {
         super.onRestoreInstanceState(savedInstanceState);
-        map.getController().setZoom(savedInstanceState.getInt("zoom"));
+        mapController.setZoom(savedInstanceState.getInt("zoom"));
     }
 
     @Override
@@ -181,8 +180,8 @@ public class SelectGeoCacheMap extends MapActivity implements IMapAware, IIntern
             case R.id.revertCenterToLocation:
                 if (currentLocation != null) {
                     GeoPoint center = GpsHelper.locationToGeoPoint(currentLocation);
-                    map.getController().animateTo(center);
-                    map.getController().setCenter(center);
+                    mapController.animateTo(center);
+                    mapController.setCenter(center);
                 } else {
                     Toast.makeText(getBaseContext(), R.string.status_null_last_location, Toast.LENGTH_SHORT).show();
                 }
