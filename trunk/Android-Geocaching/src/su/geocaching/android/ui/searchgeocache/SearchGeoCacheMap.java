@@ -289,7 +289,7 @@ public class SearchGeoCacheMap extends MapActivity implements ISearchActivity, I
 			this.startCompassView();
 			return true;
 		case R.id.menuGeoCacheInfo:
-			manager.showGeoCacheInfo();
+			UiHelper.showGeoCacheInfo(this, manager.getGeoCache());
 			return true;
 			// case R.id.DrawDirectionPath:
 			// directionControlller.setVisibleWay();
