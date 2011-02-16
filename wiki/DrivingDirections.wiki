@@ -1,6 +1,7 @@
 ==Запрос Google Map:==
 {{{
-http://maps.google.ru/maps?f=d&source=s_d&saddr=59.968096,+30.303894&daddr=59.97048,30.307971&geocode=&abauth=9b9a1b53:EL1rIvWygwh20UBkMw1SCKKS3gY&hl=ru&mra=ls&dirflg=w&vps=4&output=js&jsv=314b&sll=59.970085,30.306129&sspn=0.002218,0.016512
+http://maps.google.ru/maps?f=d&source=s_d&saddr=59.968096,+30.303894&daddr=59.97048,30.307971&geocode=&abauth=9b9a1b53:
+EL1rIvWygwh20UBkMw1SCKKS3gY&hl=ru&mra=ls&dirflg=w&vps=4&output=js&jsv=314b&sll=59.970085,30.306129&sspn=0.002218,0.016512
 }}}
 =Response File=
 {{{
@@ -53,11 +54,10 @@ drive:{trips:[{routes:[{steps:[{polyline:0,ppt:0,tooltipHtml:"1. ул. Орди�
 ==Запрос с моего компьютера==
 (сделал также,только добавил параметры ,которые исп. все источники ,которые я нашел,а также сменил формат присылаемого файла.):
 {{{
-http://maps.google.ru/maps?f=d&source=s_d&saddr=59.968096,+30.303894&daddr=59.97048,30.307971&geocode=&abauth=9b9a1b53:EL1rIvWygwh20UBkMw1SCKKS3gY&hl=ru&mra=ls&dirflg=w&vps=4&jsv=314b&sll=59.970085,30.306129&sspn=0.002218,0.016512&ie=UTF8&0&om=0&output=kml"
+http://maps.google.ru/maps?f=d&source=s_d&saddr=59.968096,
++30.303894&daddr=59.97048,30.307971&geocode=&abauth=9b9a1b53:EL1rIvWygwh20UBkMw1SCKKS3gY&hl=ru&mra=ls&dirflg=w&vps=4&jsv=314b&sll=59.970085,30.306129&sspn=0.002218,0.016512&ie=UTF8&0&om=0&output=kml"
 }}}
 ==Response file:==
 {{{
 
 }}}
-
-
