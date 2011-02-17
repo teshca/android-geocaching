@@ -19,6 +19,7 @@ import su.geocaching.android.model.datatype.GeoCache;
 import su.geocaching.android.ui.R;
 import su.geocaching.android.ui.ShowGeoCacheInfo;
 import su.geocaching.android.ui.geocachemap.*;
+import su.geocaching.android.ui.selectgeocache.geocachegroup.GeoCacheListAnalyzer;
 import su.geocaching.android.ui.selectgeocache.timer.MapUpdateTimer;
 import su.geocaching.android.utils.GpsHelper;
 import su.geocaching.android.utils.UiHelper;
@@ -219,9 +220,23 @@ public class SelectGeoCacheMap extends MapActivity implements IMapAware, IIntern
         if (geoCacheList.size() > MAX_CACHE_NUMBER) {
             geoCacheList = geoCacheList.subList(0, MAX_CACHE_NUMBER);
         }
+
         Log.d(TAG, "draw update cache overlay; count = " + countDownloadTask + "; size = " + geoCacheList.size());
         for (GeoCache geoCache : geoCacheList) {
             gOverlay.addOverlayItem(new GeoCacheOverlayItem(geoCache, "", "", this));
+        }
+        updateProgressStop();
+        map.invalidate();
+    }
+
+    public void testAddGeoCacheList(List<GeoCache> geoCacheList) {
+        if (geoCacheList == null) {
+            return;
+        }
+        Log.d(TAG, "draw update cache overlay; count = " + countDownloadTask + "; size = " + geoCacheList.size());
+        List<GeoCacheOverlayItem> overlayItemList = GeoCacheListAnalyzer.getInstance(map, geoCacheList).getList();
+        for (GeoCacheOverlayItem item : overlayItemList) {
+            gOverlay.addOverlayItem(item);
         }
         updateProgressStop();
         map.invalidate();
