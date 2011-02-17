@@ -13,4 +13,8 @@ public class Pair {
         this.x = x;
         this.y = y;
     }
+
+    public boolean equals(Pair pair) {
+        return x == pair.x && y == pair.y;
+    }
 }
