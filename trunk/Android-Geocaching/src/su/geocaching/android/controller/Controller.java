@@ -67,7 +67,7 @@ public class Controller {
 
 	/**
 	 * Request for caches in the visible region
-	 * 
+	 *
 	 * @param map
 	 *            - links to maps, which will be added caches
 	 * @param upperLeftCorner
@@ -82,7 +82,7 @@ public class Controller {
 
 	/**
 	 * Get favorite GeoCaches filtered with chosen filters
-	 * 
+	 *
 	 * @param filterList
 	 *            - list of filters (if null - no filter)
 	 * @return LinkedList<GeoCache>
@@ -120,51 +120,58 @@ public class Controller {
 	 * @return Drawable for this geoCache depends on it's parameters
 	 */
 	public Drawable getMarker(GeoCache geoCache, Context map) {
-		// TODO: add different icons for different types of geoCache
-		switch (geoCache.getStatus()) {
-		case VALID:
-			switch (geoCache.getType()) {
-			case TRADITIONAL:
-				return getMarker(R.drawable.ic_cache_traditional_valid, map);
-			case VIRTUAL:
-				return getMarker(R.drawable.ic_cache_virtual_valid, map);
-			case STEP_BY_STEP:
-				return getMarker(R.drawable.ic_cache_stepbystep_valid, map);
-			case EXTREME:
-				return getMarker(R.drawable.ic_cache_extreme_valid, map);
-			case EVENT:
-				return getMarker(R.drawable.ic_cache_event_valid, map);
-			}
-			break;
-		case NOT_VALID:
-			switch (geoCache.getType()) {
-			case TRADITIONAL:
-				return getMarker(R.drawable.ic_cache_traditional_not_valid, map);
-			case VIRTUAL:
-				return getMarker(R.drawable.ic_cache_virtual_not_valid, map);
-			case STEP_BY_STEP:
-				return getMarker(R.drawable.ic_cache_stepbystep_not_valid, map);
-			case EXTREME:
-				return getMarker(R.drawable.ic_cache_extreme_not_valid, map);
-			case EVENT:
-				return getMarker(R.drawable.ic_cache_event_not_valid, map);
-			}
-			break;
-		case NOT_CONFIRMED:
-			switch (geoCache.getType()) {
-			case TRADITIONAL:
-				return getMarker(R.drawable.ic_cache_traditional_not_confirmed, map);
-			case VIRTUAL:
-				return getMarker(R.drawable.ic_cache_virtual_not_confirmed, map);
-			case STEP_BY_STEP:
-				return getMarker(R.drawable.ic_cache_stepbystep_not_confirmed, map);
-			case EXTREME:
-				return getMarker(R.drawable.ic_cache_extreme_not_confirmed, map);
-			case EVENT:
-				return getMarker(R.drawable.ic_cache_event_not_confirmed, map);
-			}
-			break;
-		}
+		switch (geoCache.getType()) {
+            case TRADITIONAL:
+                switch (geoCache.getStatus()) {
+                    case VALID:
+                        return getMarker(R.drawable.ic_cache_traditional_valid, map);
+                    case NOT_VALID:
+                        return getMarker(R.drawable.ic_cache_traditional_not_valid, map);
+                    case NOT_CONFIRMED:
+                        return getMarker(R.drawable.ic_cache_traditional_not_confirmed, map);
+                }
+                break;
+            case VIRTUAL:
+                switch (geoCache.getStatus()) {
+                    case VALID:
+                        return getMarker(R.drawable.ic_cache_virtual_valid, map);
+                    case NOT_VALID:
+                        return getMarker(R.drawable.ic_cache_virtual_not_valid, map);
+                    case NOT_CONFIRMED:
+                        return getMarker(R.drawable.ic_cache_virtual_not_confirmed, map);
+                }
+                break;
+            case STEP_BY_STEP:
+                switch (geoCache.getStatus()) {
+                    case VALID:
+                        return getMarker(R.drawable.ic_cache_stepbystep_valid, map);
+                    case NOT_VALID:
+                        return getMarker(R.drawable.ic_cache_stepbystep_not_valid, map);
+                    case NOT_CONFIRMED:
+                        return getMarker(R.drawable.ic_cache_stepbystep_not_confirmed, map);
+                }
+                break;
+            case EXTREME:
+                switch (geoCache.getStatus()) {
+                    case VALID:
+                        return getMarker(R.drawable.ic_cache_extreme_valid, map);
+                    case NOT_VALID:
+                        return getMarker(R.drawable.ic_cache_extreme_not_valid, map);
+                    case NOT_CONFIRMED:
+                        return getMarker(R.drawable.ic_cache_extreme_not_confirmed, map);
+                }
+                break;
+            case EVENT:
+                switch (geoCache.getStatus()) {
+                    case VALID:
+                        return getMarker(R.drawable.ic_cache_event_valid, map);
+                    case NOT_VALID:
+                        return getMarker(R.drawable.ic_cache_event_not_valid, map);
+                    case NOT_CONFIRMED:
+                        return getMarker(R.drawable.ic_cache_event_not_confirmed, map);
+                }
+                break;
+        }
 		return null;
 	}
 
@@ -220,7 +227,7 @@ public class Controller {
 
 	/**
 	 * Get id of last searched geocache from preferences and get GeoCache object from database
-	 * 
+	 *
 	 * @param context
 	 *            Context for connection to db and loading preferences
 	 * @return last searched geocache by user saved in preferences
@@ -237,7 +244,7 @@ public class Controller {
 
 	/**
 	 * Save last searched geocache id in preferences
-	 * 
+	 *
 	 * @param lastSearchedGeoCache
 	 *            last searched geocache
 	 * @param context
@@ -270,7 +277,7 @@ public class Controller {
 	}
 
 	/**
-	 * 
+	 *
 	 * @return [0] - last center latitude [1] - last center longitude [2] - last zoom
 	 */
 	public synchronized int[] getLastMapInfo(Context context) {
