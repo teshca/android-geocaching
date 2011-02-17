@@ -1,11 +1,12 @@
 ==Источники :==
 
-(http://csie-tw.blogspot.com/2009/06/android-driving-direction-route-path.html)
-http://mobile.synyx.de/2010/06/routing-driving-directions-on-android-part-1-get-the-route/
-http://code.google.com/p/j2memaprouteprovider/source/browse/trunk/J2MEMapRouteBlackBerryEx/src/org/ci/geo/route/RoadProvider.java
-}}}
+Источник1 (http://csie-tw.blogspot.com/2009/06/android-driving-direction-route-path.html)
+Источник2(http://mobile.synyx.de/2010/06/routing-driving-directions-on-android-part-1-get-the-route/)
+Источник3(http://code.google.com/p/j2memaprouteprovider/source/browse/trunk/J2MEMapRouteBlackBerryEx/src/org/ci/geo/route/RoadProvider.java)
+Также было использована информация еще с двух сайтов,но ссылки на них я добавлю позже.(в них реализуется та функциональность ,которую я собираюсь привить нашему приложению)
+
 ==Сайт с параметрами Google map==
-{{{http://mapki.com/wiki/Google_Map_Parameters}}}
+Google Map Parameters(http://mapki.com/wiki/Google_Map_Parameters)
 ==Запрос Google Map:==
 {{{
 http://maps.google.ru/maps?f=d&source=s_d&saddr=59.968096,+30.303894&daddr=59.97048,30.307971&geocode=&abauth=9b9a1b53:EL1rIvWygwh20UBkMw1SCKKS3gY&hl=ru&mra=ls&dirflg=w&vps=4&output=js&jsv=314b&sll=59.970085,30.306129&sspn=0.002218,0.016512
