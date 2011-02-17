@@ -171,6 +171,8 @@ public class Controller {
                         return getMarker(R.drawable.ic_cache_event_not_confirmed, map);
                 }
                 break;
+            case GROUP:
+                return getMarker(R.drawable.ic_cache_group, map);
         }
 		return null;
 	}
