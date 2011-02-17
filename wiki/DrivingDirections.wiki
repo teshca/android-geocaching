@@ -1,12 +1,15 @@
 ==Источники :==
 
 1)http://csie-tw.blogspot.com/2009/06/android-driving-direction-route-path.html
+
 2)http://mobile.synyx.de/2010/06/routing-driving-directions-on-android-part-1-get-the-route/
+
 3)http://code.google.com/p/j2memaprouteprovider/source/browse/trunk/J2MEMapRouteBlackBerryEx/src/org/ci/geo/route/RoadProvider.java
+
 Также было использована информация еще с двух сайтов,но ссылки на них я добавлю позже.(в них реализуется та функциональность ,которую я собираюсь привить нашему приложению)
 
 ==Сайт с параметрами Google map==
-Google Map Parameters: http://mapki.com/wiki/Google_Map_Parameters
+http://mapki.com/wiki/Google_Map_Parameters
 ==Запрос Google Map:==
 {{{
 http://maps.google.ru/maps?f=d&source=s_d&saddr=59.968096,+30.303894&daddr=59.97048,30.307971&geocode=&abauth=9b9a1b53:EL1rIvWygwh20UBkMw1SCKKS3gY&hl=ru&mra=ls&dirflg=w&vps=4&output=js&jsv=314b&sll=59.970085,30.306129&sspn=0.002218,0.016512
@@ -439,3 +442,34 @@ http://maps.google.ru/maps?f=d&source=s_d&saddr=59.968096+30.303894&daddr=59.970
 </kml>
 
 }}}
+==Проблема==
+Рассмотрим файл (http://code.google.com/p/android-geocaching/source/browse/trunk/Android-Geocaching/src/su/geocaching/android/ui/searchgeocache/drivingDirections/DrivingDirectionsGoogleKML.java).В строке 83 я вывожу в лог входной поток данных,который при преобразовании в строку(используя StringBuilder) имеет вид ,как вышe.После чего я желаю парсить этот поток,используя DOM. Создаю DocumentBuilderFactory and DocumentBuilder после чего хочу создать ,непосредственно,сам документ.Вот тут и возникает ошибка(строка 111) в функции builder.parse(inputstream):
+ Document document = builder.parse(inputstream); 
+Ошибка вида:
+{{{
+11-27 14:28:05.953: WARN/System.err(260): org.xml.sax.SAXParseException: InputSource needs either stream or reader
+
+11-27 14:28:05.963: WARN/System.err(260):     at org.apache.harmony.xml.parsers.DocumentBuilderImpl.parse(DocumentBuilderImpl.java:124)
+
+11-27 14:28:05.963: WARN/System.err(260):     at javax.xml.parsers.DocumentBuilder.parse(DocumentBuilder.java:201)
+
+11-27 14:28:06.174: WARN/System.err(260):     at su.geocaching.android.ui.searchgeocache.DrivingDirectionsGoogleKML$LoadDirectionsTask.parseResponse(DrivingDirectionsGoogleKML.java:112)
+
+11-27 14:28:06.274: WARN/System.err(260):     at su.geocaching.android.ui.searchgeocache.DrivingDirectionsGoogleKML$LoadDirectionsTask.doInBackground(DrivingDirectionsGoogleKML.java:85)
+
+11-27 14:28:06.393: WARN/System.err(260):     at su.geocaching.android.ui.searchgeocache.DrivingDirectionsGoogleKML$LoadDirectionsTask.doInBackground(DrivingDirectionsGoogleKML.java:1)
+
+11-27 14:28:06.694: WARN/System.err(260):     at android.os.AsyncTask$2.call(AsyncTask.java:185)
+
+11-27 14:28:06.763: WARN/System.err(260):     at java.util.concurrent.FutureTask$Sync.innerRun(FutureTask.java:305)
+
+11-27 14:28:06.883: WARN/System.err(260):     at java.util.concurrent.FutureTask.run(FutureTask.java:137)
+
+11-27 14:28:06.953: WARN/System.err(260):     at java.util.concurrent.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1068)
+
+11-27 14:28:07.043: WARN/System.err(260):     at java.util.concurrent.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:561)
+
+11-27 14:28:07.163: WARN/System.err(260):     at java.lang.Thread.run(Thread.java:1096)}}}
+
+
+После чего программа приостанавливается,т.е. route = null.
