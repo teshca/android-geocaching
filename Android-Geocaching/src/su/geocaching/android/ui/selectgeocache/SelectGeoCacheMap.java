@@ -214,7 +214,7 @@ public class SelectGeoCacheMap extends MapActivity implements IMapAware, IIntern
     }
 
     public void addGeoCacheList(List<GeoCache> geoCacheList) {
-        if (geoCacheList == null) {
+        if (geoCacheList == null || geoCacheList.size() == 0) {
             return;
         }
         if (geoCacheList.size() > MAX_CACHE_NUMBER) {
@@ -230,10 +230,11 @@ public class SelectGeoCacheMap extends MapActivity implements IMapAware, IIntern
     }
 
     public void testAddGeoCacheList(List<GeoCache> geoCacheList) {
-        if (geoCacheList == null) {
+        if (geoCacheList == null || geoCacheList.size() == 0) {
             return;
         }
         Log.d(TAG, "draw update cache overlay; count = " + countDownloadTask + "; size = " + geoCacheList.size());
+        Log.d("Screen Size", "width = " + map.getWidth() + ", height = " + map.getHeight());
         List<GeoCacheOverlayItem> overlayItemList = GeoCacheListAnalyzer.getInstance(map, geoCacheList).getList();
         for (GeoCacheOverlayItem item : overlayItemList) {
             gOverlay.addOverlayItem(item);
