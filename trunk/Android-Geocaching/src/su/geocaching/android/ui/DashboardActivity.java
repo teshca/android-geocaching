@@ -13,6 +13,7 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Toast;
+import com.google.android.apps.analytics.GoogleAnalyticsTracker;
 
 /**
  * Main activity in application
@@ -22,12 +23,16 @@ import android.widget.Toast;
  */
 public class DashboardActivity extends Activity {
 	private static final String TAG = DashboardActivity.class.getCanonicalName();
-
+	private GoogleAnalyticsTracker tracker;
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		Log.d(TAG, "onCreate");
 		setContentView(R.layout.dashboard_menu);
+		
+		tracker = GoogleAnalyticsTracker.getInstance();
+		tracker.start("UA-20327116-1", this);
+		tracker.trackPageView("/mainWindow");
 	}
 
 	@Override
@@ -56,8 +61,15 @@ public class DashboardActivity extends Activity {
 	 * Starting activity to select GeoCache
 	 */
 	public void onSelectClick(View v) {
+		tracker.trackEvent(
+				"Cliks", 
+				"Button", 
+				"select", 
+				77);
+		tracker.trackPageView("/SelectActivity");
 		Intent intent = new Intent(this, SelectGeoCacheMap.class);
 		startActivity(intent);
+		
 	}
 
 	/**
@@ -68,24 +80,45 @@ public class DashboardActivity extends Activity {
 			Toast.makeText(this.getBaseContext(), getString(R.string.search_geocache_start_without_geocache), Toast.LENGTH_SHORT).show();
 			return;
 		}
+		tracker.trackEvent(
+				"Cliks", 
+				"Button", 
+				"search", 
+				71);
+		tracker.trackPageView("/SearchActivity");
 		Intent intent = new Intent(this, SearchGeoCacheMap.class);
 		intent.putExtra(GeoCache.class.getCanonicalName(), Controller.getInstance().getLastSearchedGeoCache(this));
 		startActivity(intent);
+		
 	}
 
 	/**
 	 * Starting about activity
 	 */
 	public void onAboutClick(View v) {
+		tracker.trackEvent(
+				"Cliks", 
+				"Button", 
+				"about", 
+				72);
+		tracker.trackPageView("/AboutActivity");
 		Intent intent = new Intent(this, su.geocaching.android.ui.AboutActivity.class);
 		startActivity(intent);
+		
 	}
 
 	/**
 	 * Starting activity with favorites geocaches
 	 */
 	public void onFavoriteClick(View v) {
+		tracker.trackEvent(
+				"Cliks", 
+				"Button", 
+				"favorites", 
+				73);
+		tracker.trackPageView("/FavoriteActivity");
 		Intent intent = new Intent(this, su.geocaching.android.ui.FavoritesFolder.class);
 		startActivity(intent);
+		
 	}
 }

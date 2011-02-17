@@ -4,5 +4,6 @@
 	<classpathentry kind="src" path="src"/>
 	<classpathentry kind="src" path="gen"/>
 	<classpathentry kind="con" path="org.eclipse.jdt.junit.JUNIT_CONTAINER/4"/>
+	<classpathentry exported="true" kind="lib" path="D:/android-geocaching/Android-Geocaching/libs/libGoogleAnalytics.jar"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>
