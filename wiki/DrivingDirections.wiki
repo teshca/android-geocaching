@@ -447,29 +447,34 @@ http://maps.google.ru/maps?f=d&source=s_d&saddr=59.968096+30.303894&daddr=59.970
  Document document = builder.parse(inputstream); 
 Ошибка вида:
 {{{
-11-27 14:28:05.953: WARN/System.err(260): org.xml.sax.SAXParseException: InputSource needs either stream or reader
+11-27 11:58:39.148: INFO/System.out(240): DrivingDirectionsGoogleKML.LoadDirectionsTask.parseResponse()
 
-11-27 14:28:05.963: WARN/System.err(260):     at org.apache.harmony.xml.parsers.DocumentBuilderImpl.parse(DocumentBuilderImpl.java:124)
+11-27 11:58:40.378: WARN/System.err(240): org.xml.sax.SAXParseException: Unexpected end of document
 
-11-27 14:28:05.963: WARN/System.err(260):     at javax.xml.parsers.DocumentBuilder.parse(DocumentBuilder.java:201)
+11-27 11:58:40.388: WARN/System.err(240):     at org.apache.harmony.xml.parsers.DocumentBuilderImpl.parse(DocumentBuilderImpl.java:129)
 
-11-27 14:28:06.174: WARN/System.err(260):     at su.geocaching.android.ui.searchgeocache.DrivingDirectionsGoogleKML$LoadDirectionsTask.parseResponse(DrivingDirectionsGoogleKML.java:112)
+11-27 11:58:40.538: WARN/System.err(240):     at javax.xml.parsers.DocumentBuilder.parse(DocumentBuilder.java:157)
 
-11-27 14:28:06.274: WARN/System.err(260):     at su.geocaching.android.ui.searchgeocache.DrivingDirectionsGoogleKML$LoadDirectionsTask.doInBackground(DrivingDirectionsGoogleKML.java:85)
+11-27 11:58:40.678: WARN/System.err(240):     at su.geocaching.android.ui.searchgeocache.DrivingDirectionsGoogleKML$LoadDirectionsTask.parseResponse(DrivingDirectionsGoogleKML.java:109)
 
-11-27 14:28:06.393: WARN/System.err(260):     at su.geocaching.android.ui.searchgeocache.DrivingDirectionsGoogleKML$LoadDirectionsTask.doInBackground(DrivingDirectionsGoogleKML.java:1)
+11-27 11:58:40.758: WARN/System.err(240):     at su.geocaching.android.ui.searchgeocache.DrivingDirectionsGoogleKML$LoadDirectionsTask.doInBackground(DrivingDirectionsGoogleKML.java:85)
 
-11-27 14:28:06.694: WARN/System.err(260):     at android.os.AsyncTask$2.call(AsyncTask.java:185)
+11-27 11:58:40.887: WARN/System.err(240):at su.geocaching.android.ui.searchgeocache.DrivingDirectionsGoogleKML$LoadDirectionsTask.doInBackground(DrivingDirectionsGoogleKML.java:1)
 
-11-27 14:28:06.763: WARN/System.err(260):     at java.util.concurrent.FutureTask$Sync.innerRun(FutureTask.java:305)
+11-27 11:58:40.898: WARN/System.err(240): at android.os.AsyncTask$2.call(AsyncTask.java:185)
 
-11-27 14:28:06.883: WARN/System.err(260):     at java.util.concurrent.FutureTask.run(FutureTask.java:137)
+11-27 11:58:40.908: WARN/System.err(240): at java.util.concurrent.FutureTask$Sync.innerRun(FutureTask.java:305)
 
-11-27 14:28:06.953: WARN/System.err(260):     at java.util.concurrent.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1068)
+11-27 11:58:40.918: WARN/System.err(240): at java.util.concurrent.FutureTask.run(FutureTask.java:137)
 
-11-27 14:28:07.043: WARN/System.err(260):     at java.util.concurrent.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:561)
+11-27 11:58:40.928: WARN/System.err(240):at java.util.concurrent.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1068)
 
-11-27 14:28:07.163: WARN/System.err(260):     at java.lang.Thread.run(Thread.java:1096)}}}
+11-27 11:58:40.928: WARN/System.err(240):at java.util.concurrent.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:561)
+
+11-27 11:58:40.948: WARN/System.err(240):at java.lang.Thread.run(Thread.java:1096)
+}}}
 
 
-После чего программа приостанавливается,т.е. route = null.
+После чего программа приостанавливается,следовательно route = null.
+Сразу же возникает у меня вопрос: 
+Почему при переводе потока входного в строку у меня получается увидеть удобоваримый файл,как выше,а при исп.функции parse Document  "неожиданно наступает на конец файла"? 
