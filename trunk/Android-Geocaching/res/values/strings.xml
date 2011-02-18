@@ -59,4 +59,5 @@
 <string name="about_exit_button_text">Закрыть</string>
 
 <string name="about_google_code">Подробную информацию о проекте вы можете найти на сайте http://code.google.com/p/android-geocaching/</string>
+<string name="id_Google_Analytics">UA-20327116-1</string> 
 </resources>

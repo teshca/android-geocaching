@@ -26,18 +26,22 @@ import android.widget.ListView;
 import android.widget.SimpleAdapter;
 import android.widget.TextView;
 
+import com.google.android.apps.analytics.GoogleAnalyticsTracker;
+
 public class FavoritesFolder extends Activity implements OnItemClickListener {
 
     private ArrayList<GeoCache> mass = new ArrayList<GeoCache>();
     private ListView lvListShowCache;
     private DbManager dbm = null;
     private TextView tvTitle;
-
+    private GoogleAnalyticsTracker tracker; 
     /** Called when the activity is first created. */
     @Override
     public void onCreate(Bundle savedInstanceState) {
 	super.onCreate(savedInstanceState);
-
+	tracker = GoogleAnalyticsTracker.getInstance();
+	tracker.start("UA-20327116-1", this);
+	tracker.trackPageView("/favoriteActivity");
 	setContentView(R.layout.favorit_list);
 	lvListShowCache = (ListView) findViewById(R.id.favorit_folder_listCach);
 	tvTitle = (TextView) findViewById(R.id.favorit_foldet_title_text);
@@ -197,6 +201,8 @@ public class FavoritesFolder extends Activity implements OnItemClickListener {
 	dbm.openDB();
 	mass = dbm.getArrayGeoCache();
 	dbm.closeDB();
+	tracker.start("UA-20327116-1", this);
+	tracker.trackPageView("/favoriteActivity");
 	if (mass != null) {
 	    SimpleAdapter ap = new SimpleAdapter(this, createGeoCacheList(mass), R.layout.row_in_favorit_rolder, new String[] { "type", "name", "typeText", "statusText" }, new int[] {
 		    R.id.favorit_list_imagebutton_type, R.id.favorit_list_textview_name, R.id.favorites_row_type_text, R.id.favorites_row_statys_text });

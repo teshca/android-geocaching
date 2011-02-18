@@ -28,7 +28,7 @@ import su.geocaching.android.utils.GpsHelper;
 import su.geocaching.android.utils.UiHelper;
 
 import java.util.List;
-
+import com.google.android.apps.analytics.GoogleAnalyticsTracker;
 /**
  * @author Yuri Denison
  * @since 04.11.2010
@@ -49,7 +49,7 @@ public class SelectGeoCacheMap extends MapActivity implements IMapAware, IIntern
     private AnimationDrawable progressBarAnimation;
     private int countDownloadTask;
     private Handler handler;
-
+    private GoogleAnalyticsTracker tracker;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -81,7 +81,11 @@ public class SelectGeoCacheMap extends MapActivity implements IMapAware, IIntern
                 currentLocation = location;
             }
         };
-
+        
+        tracker = GoogleAnalyticsTracker.getInstance();
+        tracker.start("UA-20327116-1", this);
+        tracker.trackPageView("/selectActivity");
+        
         map.setBuiltInZoomControls(true);
         map.getOverlays().add(userOverlay);
         map.invalidate();
@@ -145,8 +149,10 @@ public class SelectGeoCacheMap extends MapActivity implements IMapAware, IIntern
     @Override
     protected void onResume() {
         super.onResume();
+        tracker.start("UA-20327116-1", this);
+        tracker.trackPageView("/selectActivity");
+        
         userOverlay.enableMyLocation();
-
         updateMapInfoFromSettings();
         mapTimer = new MapUpdateTimer(this);
         updateCacheOverlay();
@@ -159,6 +165,7 @@ public class SelectGeoCacheMap extends MapActivity implements IMapAware, IIntern
         mapTimer.cancel();
         connectionManager.removeSubscriber(this);
         saveMapInfoToSettings();
+        tracker.stop();
         Log.d("mapInfo", "save on pause");
         super.onPause();
     }

@@ -37,7 +37,7 @@ import com.google.android.maps.MapController;
 import com.google.android.maps.MapView;
 import com.google.android.maps.Overlay;
 import com.google.android.maps.Projection;
-
+import com.google.android.apps.analytics.GoogleAnalyticsTracker;
 /**
  * Search GeoCache with the map
  * 
@@ -60,7 +60,7 @@ public class SearchGeoCacheMap extends MapActivity implements ISearchActivity, I
 	private ConnectionManager internetManager;
 	private ImageView progressBarView;
 	private AnimationDrawable progressBarAnim;
-
+	private GoogleAnalyticsTracker tracker; 
 	/*
 	 * (non-Javadoc)
 	 * 
@@ -70,7 +70,11 @@ public class SearchGeoCacheMap extends MapActivity implements ISearchActivity, I
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.search_geocache_map);
-
+		
+		tracker = GoogleAnalyticsTracker.getInstance();
+		tracker.start("UA-20327116-1", this);
+		tracker.trackPageView("/searchActivity");
+		
 		waitingLocationFixText = (TextView) findViewById(R.id.waitingLocationFixText);
 		progressBarView = (ImageView) findViewById(R.id.progressCircle);
 		progressBarView.setBackgroundResource(R.anim.earth_anim);
@@ -105,6 +109,7 @@ public class SearchGeoCacheMap extends MapActivity implements ISearchActivity, I
 		userOverlay.disableCompass();
 		userOverlay.disableMyLocation();
 		internetManager.removeSubscriber(this);
+		tracker.stop();
 	}
 
 	/*
@@ -123,6 +128,8 @@ public class SearchGeoCacheMap extends MapActivity implements ISearchActivity, I
 			onInternetLost();
 			Log.w(TAG, "internet not connected");
 		}
+		tracker.start("UA-20327116-1", this);
+		tracker.trackPageView("/searchActivity");
 	}
 
 	/**
@@ -153,10 +160,12 @@ public class SearchGeoCacheMap extends MapActivity implements ISearchActivity, I
 	 */
 	public void startCompassView() {
 		Log.d(TAG, "start compass activity");
+		
 		Intent intent = new Intent(this, SearchGeoCacheCompass.class);
 		if ((manager != null) && (manager.getGeoCache() != null)) {
 			intent.putExtra(GeoCache.class.getCanonicalName(), manager.getGeoCache());
 		}
+		tracker.trackPageView("/compassActivity");
 		startActivity(intent);
 	}
 

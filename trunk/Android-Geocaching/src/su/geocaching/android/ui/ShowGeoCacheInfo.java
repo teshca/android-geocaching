@@ -30,6 +30,7 @@ import android.widget.CompoundButton.OnCheckedChangeListener;
 import android.widget.ImageButton;
 import android.widget.TextView;
 
+import com.google.android.apps.analytics.GoogleAnalyticsTracker;
 /**
  * 
  * 
@@ -50,7 +51,7 @@ public class ShowGeoCacheInfo extends Activity implements OnCheckedChangeListene
     private String htmlTextGeoCache;
     private boolean isCacheStoredInDataBase;
     private ConnectionManager connectManag;
-
+    private GoogleAnalyticsTracker tracker;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
 	super.onCreate(savedInstanceState);
@@ -70,6 +71,9 @@ public class ShowGeoCacheInfo extends Activity implements OnCheckedChangeListene
 	webView.getSettings().setJavaScriptEnabled(true);
 	webView.setWebViewClient(new MyWebClient());
 
+    tracker = GoogleAnalyticsTracker.getInstance();
+    tracker.start("UA-20327116-1", this);
+    tracker.trackPageView("/showGeoGacheActivity");
     }
 
     @Override
@@ -89,6 +93,7 @@ public class ShowGeoCacheInfo extends Activity implements OnCheckedChangeListene
     @Override
     protected void onStop() {
 	connectManag.removeSubscriber(this);
+	tracker.stop();
 	super.onStop();
     }
 
@@ -103,6 +108,9 @@ public class ShowGeoCacheInfo extends Activity implements OnCheckedChangeListene
 	isCacheStoredInDataBase = (dbm.getCacheByID(GeoCacheForShowInfo.getId()) != null);
 	dbm.closeDB();
 
+	tracker.start("UA-20327116-1", this);
+	tracker.trackPageView("/ShowGeoCacheActivity");
+	
 	if (isCacheStoredInDataBase) {
 	    cbAddDelCache.setChecked(true);
 	    dbm.openDB();
@@ -114,6 +122,7 @@ public class ShowGeoCacheInfo extends Activity implements OnCheckedChangeListene
 	    } catch (IOException e) {
 		e.printStackTrace();
 	    }
+	    
 	}
 
 	
