@@ -2,7 +2,6 @@ package su.geocaching.android.ui.selectgeocache.geocachegroup;
 
 import android.graphics.Point;
 import android.util.Log;
-import com.google.android.maps.GeoPoint;
 import com.google.android.maps.MapView;
 import su.geocaching.android.model.datatype.GeoCache;
 import su.geocaching.android.ui.geocachemap.GeoCacheOverlayItem;
@@ -50,7 +49,7 @@ public class GeoCacheListAnalyzer {
                         overlayItemList.add(new GeoCacheOverlayItem(cache, "", "", map.getContext()));
                     }
                 } else {
-                    overlayItemList.add(new GeoCacheOverlayItem(new GeoPoint(centroid.x, centroid.y), cacheList, "Group", "", map.getContext()));
+                    overlayItemList.add(new GeoCacheOverlayItem(map.getProjection().fromPixels(centroid.x, centroid.y), cacheList, "Group", "", map.getContext()));
                 }
             }
         }
