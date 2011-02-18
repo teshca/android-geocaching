@@ -19,8 +19,7 @@ public class KMeans {
     private List<AdvancedPair> points;
     private boolean ready;
 
-    private static final String TAG = KMeans.class.getCanonicalName();
-    ;
+    private static final String TAG = "KMeans";
 
     public KMeans(Pair[] cacheCoordinates, Pair[] centroids) {
         this.points = convertPairArray(cacheCoordinates);

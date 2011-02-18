@@ -16,6 +16,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.Toast;
+import com.google.android.apps.analytics.GoogleAnalyticsTracker;
 import com.google.android.maps.*;
 import su.geocaching.android.controller.Controller;
 import su.geocaching.android.model.datatype.GeoCache;
@@ -28,7 +29,7 @@ import su.geocaching.android.utils.GpsHelper;
 import su.geocaching.android.utils.UiHelper;
 
 import java.util.List;
-import com.google.android.apps.analytics.GoogleAnalyticsTracker;
+
 /**
  * @author Yuri Denison
  * @since 04.11.2010
@@ -63,7 +64,7 @@ public class SelectGeoCacheMap extends MapActivity implements IMapAware, IIntern
         progressBarView.setBackgroundResource(R.anim.earth_anim);
         progressBarAnimation = (AnimationDrawable) progressBarView.getBackground();
         progressBarView.setVisibility(View.GONE);
-        countDownloadTask = -1;
+        countDownloadTask = 0;
         handler = new Handler();
 
         gOverlay = new GeoCacheItemizedOverlay(Controller.getInstance().getMarker(new GeoCache(), this), this);
@@ -81,11 +82,11 @@ public class SelectGeoCacheMap extends MapActivity implements IMapAware, IIntern
                 currentLocation = location;
             }
         };
-        
+
         tracker = GoogleAnalyticsTracker.getInstance();
         tracker.start("UA-20327116-1", this);
         tracker.trackPageView("/selectActivity");
-        
+
         map.setBuiltInZoomControls(true);
         map.getOverlays().add(userOverlay);
         map.invalidate();
@@ -151,7 +152,7 @@ public class SelectGeoCacheMap extends MapActivity implements IMapAware, IIntern
         super.onResume();
         tracker.start("UA-20327116-1", this);
         tracker.trackPageView("/selectActivity");
-        
+
         userOverlay.enableMyLocation();
         updateMapInfoFromSettings();
         mapTimer = new MapUpdateTimer(this);
@@ -209,7 +210,7 @@ public class SelectGeoCacheMap extends MapActivity implements IMapAware, IIntern
 
     public void updateCacheOverlay() {
         Log.d(TAG, "updateCacheOverlay; count = " + countDownloadTask);
-        gOverlay.removeGroupItems();
+        gOverlay.clear();
         map.invalidate();
         GeoPoint upperLeftCorner = map.getProjection().fromPixels(0, 0);
         GeoPoint lowerRightCorner = map.getProjection().fromPixels(map.getWidth(), map.getHeight());
@@ -240,6 +241,7 @@ public class SelectGeoCacheMap extends MapActivity implements IMapAware, IIntern
 
     public void addGeoCacheList(List<GeoCache> geoCacheList) {
         if (geoCacheList == null || geoCacheList.size() == 0) {
+            updateProgressStop();
             return;
         }
         if (geoCacheList.size() > MAX_CACHE_NUMBER) {
@@ -256,6 +258,7 @@ public class SelectGeoCacheMap extends MapActivity implements IMapAware, IIntern
 
     public void testAddGeoCacheList(List<GeoCache> geoCacheList) {
         if (geoCacheList == null || geoCacheList.size() == 0) {
+            updateProgressStop();
             return;
         }
         Log.d(TAG, "draw update cache overlay; count = " + countDownloadTask + "; size = " + geoCacheList.size());
