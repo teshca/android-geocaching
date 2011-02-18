@@ -40,8 +40,8 @@ public class GeoCacheOverlayItem extends OverlayItem {
         super(point, title, snippet);
         mData = new GeoCache();
         mData.setType(GeoCacheType.GROUP);
-        mData.setLocationGeoPoint(point);
         this.setMarker(Controller.getInstance().getMarker(mData, map));
+        mData.setLocationGeoPoint(point);
         this.geoCacheList = geoCacheList;
     }
 

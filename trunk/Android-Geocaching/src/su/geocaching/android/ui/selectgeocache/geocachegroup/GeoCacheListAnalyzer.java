@@ -23,8 +23,8 @@ public class GeoCacheListAnalyzer {
     private HashMap<Pair, GeoCache> cacheCoordinatesMap;
 
     private static final int MINIMUM_GROUP_SIZE_TO_CREATE_CLUSTER = 2;
-    private static final int FINGER_SIZE_X = 60;
-    private static final int FINGER_SIZE_Y = 80;
+    private static final int FINGER_SIZE_X = 40;
+    private static final int FINGER_SIZE_Y = 60;
 
     private static GeoCacheListAnalyzer instance;
 
@@ -76,7 +76,7 @@ public class GeoCacheListAnalyzer {
 
         for (int i = 0; i < size.x; i++) {
             for (int j = 0; j < size.y; j++) {
-                centroids[i * size.x + j] = new Pair(
+                centroids[j * size.x + i] = new Pair(
                     (int) ((i + 0.5) * FINGER_SIZE_X),
                     (int) ((j + 0.5) * FINGER_SIZE_Y)
                 );
