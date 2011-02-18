@@ -10,7 +10,10 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.provider.Settings;
 import android.util.Log;
-import android.view.*;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
+import android.view.View;
 import android.widget.ImageView;
 import android.widget.Toast;
 import com.google.android.maps.*;
@@ -60,7 +63,7 @@ public class SelectGeoCacheMap extends MapActivity implements IMapAware, IIntern
         progressBarView.setBackgroundResource(R.anim.earth_anim);
         progressBarAnimation = (AnimationDrawable) progressBarView.getBackground();
         progressBarView.setVisibility(View.GONE);
-        countDownloadTask = 0;
+        countDownloadTask = -1;
         handler = new Handler();
 
         gOverlay = new GeoCacheItemizedOverlay(Controller.getInstance().getMarker(new GeoCache(), this), this);
@@ -86,17 +89,20 @@ public class SelectGeoCacheMap extends MapActivity implements IMapAware, IIntern
 
     private synchronized void updateProgressStart() {
         if (countDownloadTask == 0) {
+            Log.d(TAG, "set visible Visible for progress");
             handler.post(new Runnable() {
                 public void run() {
                     progressBarView.setVisibility(View.VISIBLE);
                 }
             });
         }
+        Log.d(TAG, "count plus. count = " + countDownloadTask);
         countDownloadTask++;
     }
 
     private synchronized void updateProgressStop() {
         countDownloadTask--;
+        Log.d(TAG, "count minus. count = " + countDownloadTask);
         if (countDownloadTask == 0) {
             Log.d(TAG, "set visible gone for progress");
             handler.post(new Runnable() {
@@ -210,7 +216,16 @@ public class SelectGeoCacheMap extends MapActivity implements IMapAware, IIntern
 
     @Override
     public void onGeoCacheItemTaped(GeoCacheOverlayItem item) {
-        startGeoCacheInfoView(item.getGeoCache());
+        if (!item.getTitle().equals("Group")) {
+            startGeoCacheInfoView(item.getGeoCache());
+        } else {
+            gOverlay.clear();
+            mapController.setCenter(item.getGeoCache().getLocationGeoPoint());
+            mapController.animateTo(item.getGeoCache().getLocationGeoPoint());
+            mapController.zoomIn();
+            testAddGeoCacheList(item.getGeoCacheList());
+            map.invalidate();
+        }
     }
 
     public void addGeoCacheList(List<GeoCache> geoCacheList) {
@@ -234,12 +249,14 @@ public class SelectGeoCacheMap extends MapActivity implements IMapAware, IIntern
             return;
         }
         Log.d(TAG, "draw update cache overlay; count = " + countDownloadTask + "; size = " + geoCacheList.size());
-        Log.d("Screen Size", "width = " + map.getWidth() + ", height = " + map.getHeight());
         List<GeoCacheOverlayItem> overlayItemList = GeoCacheListAnalyzer.getInstance(map, geoCacheList).getList();
         for (GeoCacheOverlayItem item : overlayItemList) {
             gOverlay.addOverlayItem(item);
+            Log.d(TAG, "added overlay item. title = " + item.getTitle());
         }
+        Log.d(TAG, "Adding completed.");
         updateProgressStop();
+        Log.d(TAG, "progress stopped.");
         map.invalidate();
     }
 
@@ -270,13 +287,13 @@ public class SelectGeoCacheMap extends MapActivity implements IMapAware, IIntern
         }
         AlertDialog.Builder builder = new AlertDialog.Builder(context);
         builder.setMessage(context.getString(R.string.ask_enable_internet_text)).setCancelable(false)
-                .setPositiveButton(context.getString(R.string.ask_enable_internet_yes), new DialogInterface.OnClickListener() {
-                    public void onClick(DialogInterface dialog, int id) {
-                        Intent startGPS = new Intent(Settings.ACTION_WIRELESS_SETTINGS);
-                        context.startActivity(startGPS);
-                        dialog.cancel();
-                    }
-                }).setNegativeButton(context.getString(R.string.ask_enable_internet_no), new DialogInterface.OnClickListener() {
+            .setPositiveButton(context.getString(R.string.ask_enable_internet_yes), new DialogInterface.OnClickListener() {
+                public void onClick(DialogInterface dialog, int id) {
+                    Intent startGPS = new Intent(Settings.ACTION_WIRELESS_SETTINGS);
+                    context.startActivity(startGPS);
+                    dialog.cancel();
+                }
+            }).setNegativeButton(context.getString(R.string.ask_enable_internet_no), new DialogInterface.OnClickListener() {
             public void onClick(DialogInterface dialog, int id) {
                 dialog.cancel();
                 finish();

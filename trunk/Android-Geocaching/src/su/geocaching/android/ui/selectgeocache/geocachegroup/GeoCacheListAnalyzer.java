@@ -31,13 +31,6 @@ public class GeoCacheListAnalyzer {
     private GeoCacheListAnalyzer(MapView map, List<GeoCache> geoCacheList) {
         this.geoCacheList = geoCacheList;
         this.map = map;
-
-        overlayItemList = new LinkedList<GeoCacheOverlayItem>();
-
-        cacheCoordinatesMap = generateGeoCacheCoordinatesMap();
-        Pair[] centroids = generateCentroidsArray();
-        HashMap<Pair, List<Pair>> clusterPointMap = new KMeans(convertToPairArray(cacheCoordinatesMap.keySet().toArray()), centroids).getClusterMap();
-        fillOverlayItemList(clusterPointMap);
     }
 
     private Pair[] convertToPairArray(Object[] objects) {
@@ -57,7 +50,7 @@ public class GeoCacheListAnalyzer {
                         overlayItemList.add(new GeoCacheOverlayItem(cache, "", "", map.getContext()));
                     }
                 } else {
-                    overlayItemList.add(new GeoCacheOverlayItem(new GeoPoint(centroid.x, centroid.y), cacheList, "", "", map.getContext()));
+                    overlayItemList.add(new GeoCacheOverlayItem(new GeoPoint(centroid.x, centroid.y), cacheList, "Group", "", map.getContext()));
                 }
             }
         }
@@ -112,6 +105,12 @@ public class GeoCacheListAnalyzer {
 
 
     public List<GeoCacheOverlayItem> getList() {
+        overlayItemList = new LinkedList<GeoCacheOverlayItem>();
+
+        cacheCoordinatesMap = generateGeoCacheCoordinatesMap();
+        Pair[] centroids = generateCentroidsArray();
+        HashMap<Pair, List<Pair>> clusterPointMap = new KMeans(convertToPairArray(cacheCoordinatesMap.keySet().toArray()), centroids).getClusterMap();
+        fillOverlayItemList(clusterPointMap);
         return overlayItemList;
     }
 }
