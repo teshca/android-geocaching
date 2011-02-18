@@ -51,12 +51,14 @@ public class GeoCacheListAnalyzer {
     private void fillOverlayItemList(HashMap<Pair, List<Pair>> clusterPointMap) {
         for (Pair centroid : clusterPointMap.keySet()) {
             List<GeoCache> cacheList = convertPairArrayToGeoCacheList(clusterPointMap.get(centroid));
-            if (cacheList.size() < MINIMUM_GROUP_SIZE_TO_CREATE_CLUSTER) {
-                for (GeoCache cache : cacheList) {
-                    overlayItemList.add(new GeoCacheOverlayItem(cache, "", "", map.getContext()));
+            if (cacheList.size() != 0) {
+                if (cacheList.size() < MINIMUM_GROUP_SIZE_TO_CREATE_CLUSTER) {
+                    for (GeoCache cache : cacheList) {
+                        overlayItemList.add(new GeoCacheOverlayItem(cache, "", "", map.getContext()));
+                    }
+                } else {
+                    overlayItemList.add(new GeoCacheOverlayItem(new GeoPoint(centroid.x, centroid.y), cacheList, "", "", map.getContext()));
                 }
-            } else {
-                overlayItemList.add(new GeoCacheOverlayItem(new GeoPoint(centroid.x, centroid.y), cacheList, "", "", map.getContext()));
             }
         }
     }
@@ -64,7 +66,12 @@ public class GeoCacheListAnalyzer {
     private List<GeoCache> convertPairArrayToGeoCacheList(List<Pair> cacheCoordinates) {
         List<GeoCache> cacheList = new LinkedList<GeoCache>();
         for (Pair coordinates : cacheCoordinates) {
-            cacheList.add(cacheCoordinatesMap.get(coordinates));
+            for (Pair key : cacheCoordinatesMap.keySet()) {
+                if (coordinates.equals(key)) {
+                    cacheList.add(cacheCoordinatesMap.get(key));
+                    break;
+                }
+            }
         }
         return cacheList;
     }

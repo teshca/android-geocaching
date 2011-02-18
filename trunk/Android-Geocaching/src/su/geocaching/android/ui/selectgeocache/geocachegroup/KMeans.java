@@ -1,6 +1,8 @@
 package su.geocaching.android.ui.selectgeocache.geocachegroup;
 
 
+import android.util.Log;
+
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.LinkedList;
@@ -81,9 +83,14 @@ public class KMeans {
 
     private void fillCentroids() {
         for (Pair centroid : centroids) {
-            Pair newCentroid = getMassCenter(resultMap.get(centroid));
-            centroid.x = newCentroid.x;
-            centroid.y = newCentroid.y;
+            if (resultMap.get(centroid).size() != 0) {
+                Pair newCentroid = getMassCenter(resultMap.get(centroid));
+                centroid.x = newCentroid.x;
+                centroid.y = newCentroid.y;
+            } else {
+                Log.d("Centroid fill", "Empty centroid: x = " + centroid.x + ", y = " + centroid.y);
+//                centroids.remove(centroid);
+            }
         }
     }
 
