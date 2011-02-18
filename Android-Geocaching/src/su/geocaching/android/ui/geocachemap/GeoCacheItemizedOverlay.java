@@ -1,6 +1,7 @@
 package su.geocaching.android.ui.geocachemap;
 
 import android.graphics.drawable.Drawable;
+import android.util.Log;
 import com.google.android.maps.MapView;
 import com.google.android.maps.OverlayItem;
 import su.geocaching.android.model.datatype.GeoCache;
@@ -16,51 +17,65 @@ public class GeoCacheItemizedOverlay extends com.google.android.maps.ItemizedOve
     private IMapAware context;
 
     public GeoCacheItemizedOverlay(Drawable defaultMarker, IMapAware context) {
-	super(defaultMarker);
-	items = new ArrayList<GeoCacheOverlayItem>();
-	this.context = context;
+        super(defaultMarker);
+        items = new ArrayList<GeoCacheOverlayItem>();
+        this.context = context;
         populate();
     }
 
     public void addOverlayItem(GeoCacheOverlayItem overlay) {
-	if(!contains(overlay.getGeoCache())) {
+        if (!contains(overlay.getGeoCache()) || overlay.getTitle().equals("Group")) {
+            Log.d("SelectGeoCacheMap", "adding overlay, title = " + overlay.getTitle());
             items.add(overlay);
             populate();
         }
     }
 
     private boolean contains(GeoCache geoCache) {
-        for(GeoCacheOverlayItem item: items) {
-            if(item.getGeoCache().equals(geoCache)) {
+        for (GeoCacheOverlayItem item : items) {
+            if (item.getGeoCache().equals(geoCache)) {
                 return true;
             }
         }
         return false;
     }
 
+    public void remove(GeoCacheOverlayItem item) {
+        items.remove(item);
+        populate();
+    }
+
     @Override
     protected OverlayItem createItem(int i) {
-	return items.get(i);
+        return items.get(i);
     }
 
     @Override
     public int size() {
-	return items.size();
+        return items.size();
     }
 
     public void clear() {
-	items.clear();
+        items.clear();
     }
 
     @Override
     public void draw(android.graphics.Canvas canvas, MapView mapView, boolean shadow) {
-	super.draw(canvas, mapView, false);
+        super.draw(canvas, mapView, false);
     }
 
     @Override
     public boolean onTap(int index) {
-	context.onGeoCacheItemTaped(items.get(index));
-	return true;
+        context.onGeoCacheItemTaped(items.get(index));
+        return true;
     }
 
+    public void removeGroupItems() {
+        for (GeoCacheOverlayItem item : items) {
+            if (item.getTitle().equals("Group")) {
+                items.remove(item);
+            }
+        }
+        populate();
+    }
 }
