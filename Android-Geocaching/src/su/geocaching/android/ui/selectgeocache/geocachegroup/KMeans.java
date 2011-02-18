@@ -38,8 +38,8 @@ public class KMeans {
 
     private List<AdvancedPair> convertPairArray(Pair[] pairs) {
         List<AdvancedPair> res = new LinkedList<AdvancedPair>();
-        for (int i = 0; i < pairs.length; i++) {
-            res.add(new AdvancedPair(pairs[i].x, pairs[i].y));
+        for (Pair pair : pairs) {
+            res.add(new AdvancedPair(pair.x, pair.y));
         }
         return res;
     }
@@ -89,7 +89,6 @@ public class KMeans {
                 centroid.y = newCentroid.y;
             } else {
                 Log.d("Centroid fill", "Empty centroid: x = " + centroid.x + ", y = " + centroid.y);
-//                centroids.remove(centroid);
             }
         }
     }
