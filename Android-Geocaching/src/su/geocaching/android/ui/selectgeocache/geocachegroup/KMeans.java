@@ -19,16 +19,24 @@ public class KMeans {
     private List<AdvancedPair> points;
     private boolean ready;
 
+    private static final String TAG = KMeans.class.getCanonicalName();
+    ;
+
     public KMeans(Pair[] cacheCoordinates, Pair[] centroids) {
         this.points = convertPairArray(cacheCoordinates);
         this.centroids = Arrays.asList(centroids);
+        Log.d(TAG, "Results Map init");
         initResultsMap();
 
         ready = false;
+        int iteration = 1;
         while (!ready) {
+            Log.d(TAG, "Iteration " + iteration + " started.");
             ready = true;
             fillCentroids();
+            Log.d(TAG, "Centroids filled.");
             fillCurrentResultMap();
+            Log.d(TAG, "Results Map filled. Iteration " + iteration + " finished.");
         }
     }
 
@@ -88,7 +96,7 @@ public class KMeans {
                 centroid.x = newCentroid.x;
                 centroid.y = newCentroid.y;
             } else {
-                Log.d("Centroid fill", "Empty centroid: x = " + centroid.x + ", y = " + centroid.y);
+                Log.d(TAG, "Empty centroid: x = " + centroid.x + ", y = " + centroid.y);
             }
         }
     }
