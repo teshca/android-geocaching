@@ -199,7 +199,6 @@ public class SelectGeoCacheMap extends MapActivity implements IMapAware, IIntern
                 if (currentLocation != null) {
                     GeoPoint center = GpsHelper.locationToGeoPoint(currentLocation);
                     mapController.animateTo(center);
-                    mapController.setCenter(center);
                 } else {
                     Toast.makeText(getBaseContext(), R.string.status_null_last_location, Toast.LENGTH_SHORT).show();
                 }
