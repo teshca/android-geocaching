@@ -230,12 +230,8 @@ public class SelectGeoCacheMap extends MapActivity implements IMapAware, IIntern
         if (!item.getTitle().equals("Group")) {
             startGeoCacheInfoView(item.getGeoCache());
         } else {
-//            gOverlay.remove(item);
-            gOverlay.clear();
             mapController.animateTo(item.getGeoCache().getLocationGeoPoint());
             mapController.zoomIn();
-            map.invalidate();
-            testAddGeoCacheList(item.getGeoCacheList());
             map.invalidate();
         }
     }
