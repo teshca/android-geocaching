@@ -27,8 +27,7 @@ public class GeoCacheListAnalyzer {
 
     private static GeoCacheListAnalyzer instance;
 
-    private GeoCacheListAnalyzer(MapView map, List<GeoCache> geoCacheList) {
-        this.geoCacheList = geoCacheList;
+    public GeoCacheListAnalyzer(MapView map) {
         this.map = map;
     }
 
@@ -93,17 +92,9 @@ public class GeoCacheListAnalyzer {
         return coordinatesMap;
     }
 
-    public static GeoCacheListAnalyzer getInstance(MapView map, List<GeoCache> geoCacheList) {
-        synchronized (GeoCacheListAnalyzer.class) {
-            if (instance == null) {
-                instance = new GeoCacheListAnalyzer(map, geoCacheList);
-            }
-        }
-        return instance;
-    }
 
-
-    public List<GeoCacheOverlayItem> getList() {
+    public List<GeoCacheOverlayItem> getList(List<GeoCache> geoCacheList) {
+        this.geoCacheList = geoCacheList;
         overlayItemList = new LinkedList<GeoCacheOverlayItem>();
 
         cacheCoordinatesMap = generateGeoCacheCoordinatesMap();
