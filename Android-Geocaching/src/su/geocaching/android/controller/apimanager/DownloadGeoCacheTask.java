@@ -13,7 +13,7 @@ import su.geocaching.android.ui.selectgeocache.SelectGeoCacheMap;
 import android.os.AsyncTask;
 
 /**
- * Class downloads List of GeoCahes and adds them to SelectGeoCacheMap
+ * Class downloads List of GeoCaches and adds them to SelectGeoCacheMap
  * 
  * @author Nikita Bumakov
  */
