@@ -72,7 +72,7 @@ public class SearchGeoCacheMap extends MapActivity implements ISearchActivity, I
 		setContentView(R.layout.search_geocache_map);
 		
 		tracker = GoogleAnalyticsTracker.getInstance();
-		tracker.start("UA-20327116-1", this);
+		tracker.start("UA-20327116-3", this);
 		tracker.trackPageView("/searchActivity");
 		
 		waitingLocationFixText = (TextView) findViewById(R.id.waitingLocationFixText);
@@ -128,7 +128,7 @@ public class SearchGeoCacheMap extends MapActivity implements ISearchActivity, I
 			onInternetLost();
 			Log.w(TAG, "internet not connected");
 		}
-		tracker.start("UA-20327116-1", this);
+		tracker.start("UA-20327116-3", this);
 		tracker.trackPageView("/searchActivity");
 	}
 
