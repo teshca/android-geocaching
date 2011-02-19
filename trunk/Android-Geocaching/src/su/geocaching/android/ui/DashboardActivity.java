@@ -31,7 +31,7 @@ public class DashboardActivity extends Activity {
 		setContentView(R.layout.dashboard_menu);
 		
 		tracker = GoogleAnalyticsTracker.getInstance();
-		tracker.start("UA-20327116-3", this);
+		tracker.start(getString(R.string.id_Google_Analytics), this);
 		tracker.trackPageView("/mainWindow");
 	}
 
