@@ -213,8 +213,6 @@ public class SelectGeoCacheMap extends MapActivity implements IMapAware, IIntern
 
     public void updateCacheOverlay() {
         Log.d(TAG, "updateCacheOverlay; count = " + countDownloadTask);
-        gOverlay.clear();
-        map.invalidate();
         GeoPoint upperLeftCorner = map.getProjection().fromPixels(0, 0);
         GeoPoint lowerRightCorner = map.getProjection().fromPixels(map.getWidth(), map.getHeight());
         Controller.getInstance().updateSelectedGeoCaches(this, upperLeftCorner, lowerRightCorner);
@@ -261,19 +259,19 @@ public class SelectGeoCacheMap extends MapActivity implements IMapAware, IIntern
 
     public void testAddGeoCacheList(List<GeoCache> geoCacheList) {
         if (geoCacheList == null || geoCacheList.size() == 0) {
-//            Log.d("GroupCacheTask", "0 geocachelist, size = " + geoCacheList.size());
             updateProgressStop();
             return;
         }
         Log.d(TAG, "draw update cache overlay; count = " + countDownloadTask + "; size = " + geoCacheList.size());
         Log.d("GroupCacheTask", "execute task, size = " + geoCacheList.size());
-        new GroupCacheTask(this).execute(new List[]{geoCacheList});
+        new GroupCacheTask(this, geoCacheList).execute();
         Log.d(TAG, "Adding completed.");
         updateProgressStop();
         Log.d(TAG, "progress stopped.");
     }
 
     public void addOverlayItemList(List<GeoCacheOverlayItem> overlayItemList) {
+        gOverlay.clear();
         for (GeoCacheOverlayItem item : overlayItemList) {
             gOverlay.addOverlayItem(item);
         }

@@ -55,7 +55,7 @@ public class GeoCacheItemizedOverlay extends com.google.android.maps.ItemizedOve
         return items.size();
     }
 
-    public void clear() {
+    public synchronized void clear() {
         items.clear();
     }
 
