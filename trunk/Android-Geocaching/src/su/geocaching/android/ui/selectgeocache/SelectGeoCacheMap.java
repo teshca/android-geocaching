@@ -231,7 +231,6 @@ public class SelectGeoCacheMap extends MapActivity implements IMapAware, IIntern
             startGeoCacheInfoView(item.getGeoCache());
         } else {
             gOverlay.remove(item);
-            mapController.setCenter(item.getGeoCache().getLocationGeoPoint());
             mapController.animateTo(item.getGeoCache().getLocationGeoPoint());
             mapController.zoomIn();
             map.invalidate();
