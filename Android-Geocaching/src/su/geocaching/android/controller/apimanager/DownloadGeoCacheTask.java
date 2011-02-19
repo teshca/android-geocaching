@@ -41,6 +41,6 @@ public class DownloadGeoCacheTask extends AsyncTask<GeoPoint, Integer, List<GeoC
 				gcList = filter.filter(gcList);
 			}
 		}
-		map.addGeoCacheList(gcList);
+		map.testAddGeoCacheList(gcList);
 	}
 }

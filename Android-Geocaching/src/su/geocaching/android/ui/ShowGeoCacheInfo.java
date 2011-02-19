@@ -72,7 +72,7 @@ public class ShowGeoCacheInfo extends Activity implements OnCheckedChangeListene
 	webView.setWebViewClient(new MyWebClient());
 
     tracker = GoogleAnalyticsTracker.getInstance();
-    tracker.start("UA-20327116-3", this);
+    tracker.start(getString(R.string.id_Google_Analytics), this);
     tracker.trackPageView("/showGeoGacheActivity");
     }
 
@@ -108,7 +108,7 @@ public class ShowGeoCacheInfo extends Activity implements OnCheckedChangeListene
 	isCacheStoredInDataBase = (dbm.getCacheByID(GeoCacheForShowInfo.getId()) != null);
 	dbm.closeDB();
 
-	tracker.start("UA-20327116-3", this);
+	tracker.start(getString(R.string.id_Google_Analytics), this);
 	tracker.trackPageView("/ShowGeoCacheActivity");
 	
 	if (isCacheStoredInDataBase) {

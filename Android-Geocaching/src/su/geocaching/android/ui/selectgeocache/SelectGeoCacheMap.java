@@ -87,7 +87,7 @@ public class SelectGeoCacheMap extends MapActivity implements IMapAware, IIntern
         };
 
         tracker = GoogleAnalyticsTracker.getInstance();
-        tracker.start("UA-20327116-3", this);
+        tracker.start(getString(R.string.id_Google_Analytics), this);
         tracker.trackPageView("/selectActivity");
 
         map.setBuiltInZoomControls(true);
@@ -153,7 +153,7 @@ public class SelectGeoCacheMap extends MapActivity implements IMapAware, IIntern
     @Override
     protected void onResume() {
         super.onResume();
-        tracker.start("UA-20327116-3", this);
+        tracker.start(getString(R.string.id_Google_Analytics), this);
         tracker.trackPageView("/selectActivity");
 
         userOverlay.enableMyLocation();
