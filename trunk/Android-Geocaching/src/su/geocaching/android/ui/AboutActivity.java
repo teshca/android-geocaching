@@ -20,7 +20,7 @@ public class AboutActivity extends Activity implements OnClickListener {
 	exitButton = (Button) findViewById(R.id.about_exit_button);
 	exitButton.setOnClickListener(this);
 	tracker = GoogleAnalyticsTracker.getInstance();
-	tracker.start("UA-20327116-1", this);
+	tracker.start("UA-20327116-3", this);
 	tracker.trackPageView("/aboutActivity");
     }
 
