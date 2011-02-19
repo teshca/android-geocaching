@@ -18,7 +18,6 @@ import android.graphics.Point;
 import android.graphics.Rect;
 import android.graphics.drawable.AnimationDrawable;
 import android.graphics.drawable.Drawable;
-import android.hardware.Sensor;
 import android.location.Location;
 import android.os.Bundle;
 
@@ -82,7 +81,7 @@ public class SearchGeoCacheMap extends MapActivity implements ISearchActivity, I
 		map = (MapView) findViewById(R.id.searchGeocacheMap);
 		mapOverlays = map.getOverlays();
 		mapController = map.getController();
-		userOverlay = new UserLocationOverlay(this, map);
+		userOverlay = new UserLocationOverlay(this);
 		manager = new SearchGeoCacheManager(this);
 		map.setBuiltInZoomControls(true);
 		internetManager = Controller.getInstance().getConnectionManager(this);
@@ -106,8 +105,6 @@ public class SearchGeoCacheMap extends MapActivity implements ISearchActivity, I
 		super.onPause();
 		Log.d(TAG, "on pause");
 		manager.onPause();
-		userOverlay.disableCompass();
-		userOverlay.disableMyLocation();
 		internetManager.removeSubscriber(this);
 		tracker.stop();
 	}
@@ -120,8 +117,6 @@ public class SearchGeoCacheMap extends MapActivity implements ISearchActivity, I
 	@Override
 	protected void onResume() {
 		super.onResume();
-		userOverlay.enableCompass();
-		userOverlay.enableMyLocation();
 		manager.onResume();
 		Log.d(TAG, "on pause");
 		if (!internetManager.isInternetConnected()) {
@@ -176,7 +171,8 @@ public class SearchGeoCacheMap extends MapActivity implements ISearchActivity, I
 	 */
 	@Override
 	public void updateLocation(Location location) {
-		userOverlay.onLocationChanged(location);
+		userOverlay.setPoint(GpsHelper.locationToGeoPoint(location));
+		userOverlay.setAccuracy(location.getAccuracy());
 		Log.d(TAG, "update location");
 		if (progressBarView.getVisibility() == View.VISIBLE) {
 			progressBarView.setVisibility(View.GONE);
@@ -214,8 +210,7 @@ public class SearchGeoCacheMap extends MapActivity implements ISearchActivity, I
 		values[0] = bearing;
 		// Log.d(TAG, "update bearing. New bearing=" +
 		// Integer.toString(bearing));
-		// FIXME: using deprecated constant
-		userOverlay.onSensorChanged(Sensor.TYPE_ORIENTATION, values);
+		userOverlay.setBearing(bearing);
 	}
 
 	/**
