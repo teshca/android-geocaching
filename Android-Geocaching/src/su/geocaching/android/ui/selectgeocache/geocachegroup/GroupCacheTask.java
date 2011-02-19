@@ -14,20 +14,22 @@ import java.util.List;
  * @author: Yuri Denison
  * @since: 19.02.11
  */
-public class GroupCacheTask extends AsyncTask<List<GeoCache>, Integer, List<GeoCacheOverlayItem>>{
+public class GroupCacheTask extends AsyncTask<Void, Integer, List<GeoCacheOverlayItem>>{
     private SelectGeoCacheMap map;
     private GeoCacheListAnalyzer analyzer;
     private static final String TAG = "GroupCacheTask";
+    private List<GeoCache> geoCacheList;
 
-    public GroupCacheTask(SelectGeoCacheMap map) {
+    public GroupCacheTask(SelectGeoCacheMap map, List<GeoCache> geoCacheList) {
         this.map = map;
+        this.geoCacheList = geoCacheList;
         analyzer = new GeoCacheListAnalyzer(map.getMapView());
     }
 
     @Override
-    protected List<GeoCacheOverlayItem> doInBackground(List<GeoCache>... params) {
-        Log.d(TAG, "start doInBackground, par.len = " + params[0].size());
-        return analyzer.getList(params[0]);
+    protected List<GeoCacheOverlayItem> doInBackground(Void... voids) {
+        Log.d(TAG, "start doInBackground, par.len = " + geoCacheList.size());
+        return analyzer.getList(geoCacheList);
     }
 
     @Override
