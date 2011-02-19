@@ -22,8 +22,8 @@ public class GeoCacheListAnalyzer {
     private HashMap<Pair, GeoCache> cacheCoordinatesMap;
 
     private static final int MINIMUM_GROUP_SIZE_TO_CREATE_CLUSTER = 2;
-    private static final int FINGER_SIZE_X = 50;
-    private static final int FINGER_SIZE_Y = 70;
+    private static final int FINGER_SIZE_X = 60;
+    private static final int FINGER_SIZE_Y = 80;
 
     private static GeoCacheListAnalyzer instance;
 
