@@ -6,6 +6,7 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.drawable.AnimationDrawable;
 import android.location.Location;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Handler;
 import android.provider.Settings;
@@ -24,10 +25,12 @@ import su.geocaching.android.ui.R;
 import su.geocaching.android.ui.ShowGeoCacheInfo;
 import su.geocaching.android.ui.geocachemap.*;
 import su.geocaching.android.ui.selectgeocache.geocachegroup.GeoCacheListAnalyzer;
+import su.geocaching.android.ui.selectgeocache.geocachegroup.GroupCacheTask;
 import su.geocaching.android.ui.selectgeocache.timer.MapUpdateTimer;
 import su.geocaching.android.utils.GpsHelper;
 import su.geocaching.android.utils.UiHelper;
 
+import java.util.LinkedList;
 import java.util.List;
 
 /**
@@ -258,17 +261,22 @@ public class SelectGeoCacheMap extends MapActivity implements IMapAware, IIntern
 
     public void testAddGeoCacheList(List<GeoCache> geoCacheList) {
         if (geoCacheList == null || geoCacheList.size() == 0) {
+//            Log.d("GroupCacheTask", "0 geocachelist, size = " + geoCacheList.size());
             updateProgressStop();
             return;
         }
         Log.d(TAG, "draw update cache overlay; count = " + countDownloadTask + "; size = " + geoCacheList.size());
-        List<GeoCacheOverlayItem> overlayItemList = GeoCacheListAnalyzer.getInstance(map, geoCacheList).getList();
-        for (GeoCacheOverlayItem item : overlayItemList) {
-            gOverlay.addOverlayItem(item);
-        }
+        Log.d("GroupCacheTask", "execute task, size = " + geoCacheList.size());
+        new GroupCacheTask(this).execute(new List[]{geoCacheList});
         Log.d(TAG, "Adding completed.");
         updateProgressStop();
         Log.d(TAG, "progress stopped.");
+    }
+
+    public void addOverlayItemList(List<GeoCacheOverlayItem> overlayItemList) {
+        for (GeoCacheOverlayItem item : overlayItemList) {
+            gOverlay.addOverlayItem(item);
+        }
         map.invalidate();
     }
 
@@ -331,5 +339,9 @@ public class SelectGeoCacheMap extends MapActivity implements IMapAware, IIntern
 
     public void onHomeClick(View v) {
         UiHelper.goHome(this);
+    }
+
+    public MapView getMapView() {
+        return map;
     }
 }

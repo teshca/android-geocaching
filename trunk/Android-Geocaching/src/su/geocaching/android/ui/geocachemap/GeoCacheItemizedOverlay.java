@@ -23,7 +23,7 @@ public class GeoCacheItemizedOverlay extends com.google.android.maps.ItemizedOve
         populate();
     }
 
-    public void addOverlayItem(GeoCacheOverlayItem overlay) {
+    public synchronized void addOverlayItem(GeoCacheOverlayItem overlay) {
         if (!contains(overlay.getGeoCache()) || overlay.getTitle().equals("Group")) {
             Log.d("SelectGeoCacheMap", "adding overlay, title = " + overlay.getTitle());
             items.add(overlay);
@@ -40,7 +40,7 @@ public class GeoCacheItemizedOverlay extends com.google.android.maps.ItemizedOve
         return false;
     }
 
-    public void remove(GeoCacheOverlayItem item) {
+    public synchronized void remove(GeoCacheOverlayItem item) {
         items.remove(item);
         populate();
     }
