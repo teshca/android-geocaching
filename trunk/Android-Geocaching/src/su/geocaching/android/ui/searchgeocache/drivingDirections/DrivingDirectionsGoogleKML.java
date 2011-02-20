@@ -5,7 +5,11 @@ import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
+import java.io.Reader;
+import java.io.StringWriter;
+import java.io.Writer;
 import java.net.HttpURLConnection;
+import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
@@ -20,6 +24,7 @@ import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 import org.xml.sax.SAXException;
 
+import android.net.Uri;
 import android.os.AsyncTask;
 import android.util.Log;
 
@@ -61,36 +66,36 @@ public abstract class DrivingDirectionsGoogleKML extends DrivingDirections {
 			// string
 			// containing the directions from one point to another.
 			//
-			urlString = new StringBuilder();
-			urlString.append(BASE_URL).append("&saddr=").append(
-					startPoint.getLatitudeE6()).append(",").append(
-					startPoint.getLongitudeE6() ).append("&geocode=").append("_ilhE_qd_C_c`|@~b`|@")
-					.append(
-							"&ie=UTF8&0&om=0&output=kml");
-String s= "http://maps.googleapis.com/maps/api/directions/json?origin="+startPoint.getLatitudeE6()+","+startPoint.getLongitudeE6()+"&destination="+endPoint.getLatitudeE6()+","+endPoint;
+//			urlString = new StringBuilder();
+//			urlString.append(BASE_URL).append("&saddr=").append(
+//					startPoint.getLatitudeE6()/1.0E6).append(",").append(
+//					startPoint.getLongitudeE6()/1.0E6 ).append("&daddr=").append(endPoint.getLatitudeE6()/1.0E6).append(",").append(endPoint.getLongitudeE6()/1.0E6)
+//					.append(
+//							"&ie=UTF8&0&om=0&output=kml");
+//String s= "http://maps.googleapis.com/maps/api/directions/json?origin="+startPoint.getLatitudeE6()+","+startPoint.getLongitudeE6()+"&destination="+endPoint.getLatitudeE6()+","+endPoint.getLongitudeE6();
 //			if (params[0] == Mode.WALKING) {
 //				urlString.append("&dirflg=w");
 //			}
-
-			RouteImpl route = null;
+//Log.d("FileMessage", urlString.toString());
+			
+String test ="http://maps.google.ru/maps?f=d&source=s_d&saddr=59.968096,+30.303894&daddr=59.97048,30.307971&geocode=&abauth=9b9a1b53:EL1rIvWygwh20UBkMw1SCKKS3gY&hl=ru&mra=ls&dirflg=w&vps=4&jsv=314b&sll=59.970085,30.306129&sspn=0.002218,0.016512&ie=UTF8&0&om=0&output=kml";
+RouteImpl route = null;
 			try {
-				URL url = new URL(s);
+				URL url = new URL(test);
 				HttpURLConnection connection = (HttpURLConnection) url.openConnection();
 				connection.setRequestMethod("GET");
 				connection.setDoOutput(true);
 				connection.setDoInput(true);
 				connection.connect();
-				 Log.d("Inputstream",convertinputStreamToString(connection.getInputStream()) );
-			
+				
+				 Log.d("inputstream", convertStreamToString(connection.getInputStream()));
 				 route = parseResponse(connection.getInputStream());
-			} catch (IOException e) {
-				// Don't handle the exception but set the Route to null.
-				//
-			    Log.d("IOException", "problem is at 77 -83 line");
-				route = null;
-			} 
-			catch (IllegalAccessError e) {
+			} catch (IllegalAccessError e) {
 			    Log.d("IlligalaccessEror", "problem on *.setDoInOrOutput");
+			} catch (MalformedURLException e) {
+				Log.i("tag", "here");				e.printStackTrace();
+			} catch (IOException e) {
+Log.i("tag", "here");				e.printStackTrace();
 			}
 			return route;
 		}
@@ -101,7 +106,7 @@ String s= "http://maps.googleapis.com/maps/api/directions/json?origin="+startPoi
 			//
 			try {
 			    
-			       Log.d("Inputstream",convertinputStreamToString(inputstream) );
+			  Log.d("inputstream", convertStreamToString(inputstream));
 			        
 			        
 				DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
@@ -122,7 +127,7 @@ String s= "http://maps.googleapis.com/maps/api/directions/json?origin="+startPoi
 						placemarks.add(placemark);
 					}
 				}
-
+Log.d("List of Placemarks", " "+placemarks.size());
 				// Get the route defining the driving directions.
 				//
 				RouteImpl route = parseRoute(placemarkList);
@@ -217,26 +222,30 @@ String s= "http://maps.googleapis.com/maps/api/directions/json?origin="+startPoi
 
 			return route;
 		}
-		public String convertinputStreamToString(InputStream ists) throws IOException {
-		       
-		        if (ists != null) {
-		            StringBuilder sb = new StringBuilder();
-		            String line;
-		 
-		            try {
-		                BufferedReader r1 = new BufferedReader(new InputStreamReader(ists, "UTF-8"));
-		                
-		                while ((line = r1.readLine()) != null) {
-		                    sb.append(line).append("\n");
-		                }
-		            } finally {
-		                ists.close();
-		            }
-		            return sb.toString().substring(0, 40);
-		        } else {       
-		            return "";
-		        }
-		    }
+		 public String convertStreamToString(InputStream is) throws IOException {
+	        
+	        if (is != null) {
+	            Writer writer = new StringWriter();
+                 StringBuilder str = new  StringBuilder();  
+	            char[] buffer = new char[8*1024];
+	            try {
+	                Reader reader = new BufferedReader(
+	                        new InputStreamReader(is, "UTF-8"),8*1024);
+	                int n;
+	                while ((n = reader.read(buffer)) != -1) {
+	                    writer.write(buffer, 0, n);
+	               str.append(writer.toString());
+	               Log.i("str", str.toString());
+	                }
+	            } finally {
+	               is.close();
+	            }
+	            return writer.toString();
+	        } else {        
+	            return "";
+	        }
+	    }
+	
 		private RouteImpl parseRoute(Node item) {
 			RouteImpl route = new RouteImpl();
 
