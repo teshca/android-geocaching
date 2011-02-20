@@ -60,4 +60,12 @@
 
 <string name="about_google_code">Подробную информацию о проекте вы можете найти на сайте http://code.google.com/p/android-geocaching/</string>
 <string name="id_Google_Analytics">UA-20327116-3</string> 
+<string name="addStepByStep">Добавить точку</string>
+<string name="latitude">Широта :</string>
+<string name="longitude">Долгота :</string>
+<string name="geographical_coordinates">Географические координаты</string>
+<string name="enter">Ввести</string>
+<string name="sexagesimal">Iестидесятеричный</string>
+<string name="decimal">Десятичный</string>
+<string name="on_azimuth">По азимуту</string>
 </resources>

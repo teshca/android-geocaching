@@ -188,7 +188,7 @@ public class SearchGeoCacheCompass extends Activity {
 	private void showCompassPreferences() {
 		stopAnimation();
 		Intent intent = new Intent(this, CompassPreferenceActivity.class);
-		startActivityForResult(intent, 1);
+		startActivity(intent);
 	}
 
 	private void onBestProviderUnavailable() {

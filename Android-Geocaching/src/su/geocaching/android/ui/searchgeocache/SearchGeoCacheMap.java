@@ -11,8 +11,11 @@ import su.geocaching.android.ui.geocachemap.*;
 import su.geocaching.android.ui.searchgeocache.drivingDirections.IRoute;
 import su.geocaching.android.ui.searchgeocache.drivingDirections.DrivingDirections.IDirectionsListener;
 import su.geocaching.android.ui.searchgeocache.drivingDirections.DrivingDirections.Mode;
+import su.geocaching.android.ui.searchgeocache.stepbystep.SexagesimalInputActivity;
+import su.geocaching.android.ui.searchgeocache.stepbystep.StepByStepTabActivity;
 import su.geocaching.android.utils.GpsHelper;
 import su.geocaching.android.utils.UiHelper;
+import su.geocaching.android.utils.log.LogHelper;
 import android.content.Intent;
 import android.graphics.Point;
 import android.graphics.Rect;
@@ -37,6 +40,7 @@ import com.google.android.maps.MapView;
 import com.google.android.maps.Overlay;
 import com.google.android.maps.Projection;
 import com.google.android.apps.analytics.GoogleAnalyticsTracker;
+
 /**
  * Search GeoCache with the map
  * 
@@ -59,7 +63,8 @@ public class SearchGeoCacheMap extends MapActivity implements ISearchActivity, I
 	private ConnectionManager internetManager;
 	private ImageView progressBarView;
 	private AnimationDrawable progressBarAnim;
-	private GoogleAnalyticsTracker tracker; 
+	private GoogleAnalyticsTracker tracker;
+
 	/*
 	 * (non-Javadoc)
 	 * 
@@ -69,11 +74,11 @@ public class SearchGeoCacheMap extends MapActivity implements ISearchActivity, I
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.search_geocache_map);
-		
+
 		tracker = GoogleAnalyticsTracker.getInstance();
 		tracker.start(getString(R.string.id_Google_Analytics), this);
 		tracker.trackPageView("/searchActivity");
-		
+
 		waitingLocationFixText = (TextView) findViewById(R.id.waitingLocationFixText);
 		progressBarView = (ImageView) findViewById(R.id.progressCircle);
 		progressBarView.setBackgroundResource(R.anim.earth_anim);
@@ -155,7 +160,7 @@ public class SearchGeoCacheMap extends MapActivity implements ISearchActivity, I
 	 */
 	public void startCompassView() {
 		Log.d(TAG, "start compass activity");
-		
+
 		Intent intent = new Intent(this, SearchGeoCacheCompass.class);
 		if ((manager != null) && (manager.getGeoCache() != null)) {
 			intent.putExtra(GeoCache.class.getCanonicalName(), manager.getGeoCache());
@@ -297,8 +302,45 @@ public class SearchGeoCacheMap extends MapActivity implements ISearchActivity, I
 			return true;
 			// case R.id.DrawDirectionPath:
 			// directionControlller.setVisibleWay();
+		case R.id.stepByStep:
+			Intent intent = new Intent(this, StepByStepTabActivity.class);
+			startActivityForResult(intent, 100);
+
+			return true;
 		default:
 			return super.onOptionsItemSelected(item);
+		}
+	}
+
+	GeoCacheItemizedOverlay secondaryCacheItemizedOverlay;
+
+	// TODO
+	@Override
+	protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+		super.onActivityResult(requestCode, resultCode, data);
+
+		switch (requestCode) {
+		case 100:
+			LogHelper.d(TAG, "data == null " + (data == null));
+			if (data != null) {
+				int latitude = data.getIntExtra(SexagesimalInputActivity.LATITUDE, 0);
+				int longitude = data.getIntExtra(SexagesimalInputActivity.LONGITUDE, 0);
+				LogHelper.d(TAG, "latitude " + latitude);
+				LogHelper.d(TAG, "longitude " + longitude);
+				GeoCache gc = new GeoCache();
+				gc.setLocationGeoPoint(new GeoPoint(latitude, longitude));
+
+				Drawable cacheMarker = getResources().getDrawable(R.drawable.cache);
+				if (secondaryCacheItemizedOverlay == null) {
+					secondaryCacheItemizedOverlay = new GeoCacheItemizedOverlay(cacheMarker, this);
+					mapOverlays.add(secondaryCacheItemizedOverlay);
+				}
+				cacheOverlayItem = new GeoCacheOverlayItem(gc, "", "");
+				cacheItemizedOverlay.addOverlayItem(cacheOverlayItem);
+
+				map.invalidate();
+			}
+			break;
 		}
 	}
 

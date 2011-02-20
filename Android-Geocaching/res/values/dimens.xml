@@ -4,4 +4,6 @@
 <dimen name="header_progress_bar_size">32dip</dimen>
 <dimen name="text_size_medium">15dip</dimen>
 <dimen name="text_size_small">12dip</dimen>
+<dimen name="text_size_big">18dip</dimen>
+<dimen name="coordinate_label_width">80dip</dimen>
 </resources>
