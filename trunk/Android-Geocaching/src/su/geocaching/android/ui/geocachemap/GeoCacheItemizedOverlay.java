@@ -13,69 +13,69 @@ import java.util.ArrayList;
  * @since October 2010 GeoCache Itemized Overlay for one or more caches
  */
 public class GeoCacheItemizedOverlay extends com.google.android.maps.ItemizedOverlay<OverlayItem> {
-    private ArrayList<GeoCacheOverlayItem> items;
-    private IMapAware context;
+	private ArrayList<GeoCacheOverlayItem> items;
+	private IMapAware context;
 
-    public GeoCacheItemizedOverlay(Drawable defaultMarker, IMapAware context) {
-        super(defaultMarker);
-        items = new ArrayList<GeoCacheOverlayItem>();
-        this.context = context;
-        populate();
-    }
+	public GeoCacheItemizedOverlay(Drawable defaultMarker, IMapAware context) {
+		super(defaultMarker);
+		items = new ArrayList<GeoCacheOverlayItem>();
+		this.context = context;
+		populate();
+	}
 
-    public synchronized void addOverlayItem(GeoCacheOverlayItem overlay) {
-        if (!contains(overlay.getGeoCache()) || overlay.getTitle().equals("Group")) {
-            Log.d("SelectGeoCacheMap", "adding overlay, title = " + overlay.getTitle());
-            items.add(overlay);
-            populate();
-        }
-    }
+	public synchronized void addOverlayItem(GeoCacheOverlayItem overlay) {
+		if (!contains(overlay.getGeoCache()) || overlay.getTitle().equals("Group")) {
+			Log.d("SelectGeoCacheMap", "adding overlay, title = " + overlay.getTitle());
+			items.add(overlay);
+			populate();
+		}
+	}
 
-    private boolean contains(GeoCache geoCache) {
-        for (GeoCacheOverlayItem item : items) {
-            if (item.getGeoCache().equals(geoCache)) {
-                return true;
-            }
-        }
-        return false;
-    }
+	private boolean contains(GeoCache geoCache) {
+		for (GeoCacheOverlayItem item : items) {
+			if (item.getGeoCache().equals(geoCache)) {
+				return true;
+			}
+		}
+		return false;
+	}
 
-    public synchronized void remove(GeoCacheOverlayItem item) {
-        items.remove(item);
-        populate();
-    }
+	public synchronized void remove(GeoCacheOverlayItem item) {
+		items.remove(item);
+		populate();
+	}
 
-    @Override
-    protected OverlayItem createItem(int i) {
-        return items.get(i);
-    }
+	@Override
+	protected OverlayItem createItem(int i) {
+		return items.get(i);
+	}
 
-    @Override
-    public int size() {
-        return items.size();
-    }
+	@Override
+	public int size() {
+		return items.size();
+	}
 
-    public synchronized void clear() {
-        items.clear();
-    }
+	public synchronized void clear() {
+		items.clear();
+	}
 
-    @Override
-    public void draw(android.graphics.Canvas canvas, MapView mapView, boolean shadow) {
-        super.draw(canvas, mapView, false);
-    }
+	@Override
+	public void draw(android.graphics.Canvas canvas, MapView mapView, boolean shadow) {
+		super.draw(canvas, mapView, false);
+	}
 
-    @Override
-    public boolean onTap(int index) {
-        context.onGeoCacheItemTaped(items.get(index));
-        return true;
-    }
+	@Override
+	public boolean onTap(int index) {
+		context.onGeoCacheItemTaped(items.get(index));
+		return true;
+	}
 
-    public void removeGroupItems() {
-        for (GeoCacheOverlayItem item : items) {
-            if (item.getTitle().equals("Group")) {
-                items.remove(item);
-            }
-        }
-        populate();
-    }
+	public void removeGroupItems() {
+		for (GeoCacheOverlayItem item : items) {
+			if (item.getTitle().equals("Group")) {
+				items.remove(item);
+			}
+		}
+		populate();
+	}
 }

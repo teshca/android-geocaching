@@ -111,4 +111,26 @@ public class GpsHelper {
 	public static GeoPoint locationToGeoPoint(Location location) {
 		return new GeoPoint((int) (location.getLatitude() * 1E6), (int) (location.getLongitude() * 1E6));
 	}
+
+	public static int[] decimalToSexagesimal(double coordinate) throws Exception {
+		if (Math.abs(coordinate) > 180) {
+			throw new Exception("invalid value");
+		}
+
+		int[] sexagesimal = new int[3];
+		sexagesimal[0] = (int) coordinate;
+		coordinate -= sexagesimal[0];
+		coordinate = Math.abs(coordinate * 60);
+		sexagesimal[1] = (int) coordinate;
+		coordinate -= sexagesimal[1];
+		coordinate *= 1000;
+		sexagesimal[2] = (int) coordinate;
+		return sexagesimal;
+	}
+
+	public static int sexagesimalToCoordinateE6(int degrees, int minutes, int mMinutes) {
+		int coordinateE6 = (int) (degrees * 1E6);
+		coordinateE6 += (minutes * 1E3 + mMinutes) * 100 / 6;
+		return coordinateE6;
+	}
 }
