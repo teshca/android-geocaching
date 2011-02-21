@@ -28,7 +28,7 @@ import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
-
+import com.google.android.apps.analytics.GoogleAnalyticsTracker;
 /**
  * Search GeoCache with the compass.
  * 
@@ -51,13 +51,17 @@ public class SearchGeoCacheCompass extends Activity {
 	private AnimationDrawable progressBarAnim;
 
 	private GeoCache geoCache;
-
+	private GoogleAnalyticsTracker tracker;
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		LogHelper.d(TAG, "on create");
 		setContentView(R.layout.search_geocache_compass);
 
+		tracker = GoogleAnalyticsTracker.getInstance();
+		tracker.start(getString(R.string.id_Google_Analytics), this);
+		tracker.trackPageView(getString(R.string.compass_activity_folder));		
+		
 		compassView = (CompassView) findViewById(R.id.compassView);
 		distanceToCache = (TextView) findViewById(R.id.DistanceValue);
 		progressBarView = (ImageView) findViewById(R.id.progressCircle);

@@ -24,16 +24,15 @@ import com.google.android.apps.analytics.GoogleAnalyticsTracker;
 public class DashboardActivity extends Activity {
 	private static final String TAG = DashboardActivity.class.getCanonicalName();
 	private GoogleAnalyticsTracker tracker;
-
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		Log.d(TAG, "onCreate");
 		setContentView(R.layout.dashboard_menu);
-
+		
 		tracker = GoogleAnalyticsTracker.getInstance();
 		tracker.start(getString(R.string.id_Google_Analytics), this);
-		tracker.trackPageView("/mainWindow");
+		tracker.trackPageView(getString(R.string.dashboard_activity_folder));
 	}
 
 	@Override
@@ -62,11 +61,9 @@ public class DashboardActivity extends Activity {
 	 * Starting activity to select GeoCache
 	 */
 	public void onSelectClick(View v) {
-		tracker.trackEvent("Cliks", "Button", "select", 77);
-		tracker.trackPageView("/SelectActivity");
 		Intent intent = new Intent(this, SelectGeoCacheMap.class);
 		startActivity(intent);
-
+		
 	}
 
 	/**
@@ -77,33 +74,27 @@ public class DashboardActivity extends Activity {
 			Toast.makeText(this.getBaseContext(), getString(R.string.search_geocache_start_without_geocache), Toast.LENGTH_SHORT).show();
 			return;
 		}
-		tracker.trackEvent("Cliks", "Button", "search", 71);
-		tracker.trackPageView("/SearchActivity");
 		Intent intent = new Intent(this, SearchGeoCacheMap.class);
 		intent.putExtra(GeoCache.class.getCanonicalName(), Controller.getInstance().getLastSearchedGeoCache(this));
 		startActivity(intent);
-
+		
 	}
 
 	/**
 	 * Starting about activity
 	 */
 	public void onAboutClick(View v) {
-		tracker.trackEvent("Cliks", "Button", "about", 72);
-		tracker.trackPageView("/AboutActivity");
 		Intent intent = new Intent(this, su.geocaching.android.ui.AboutActivity.class);
 		startActivity(intent);
-
+		
 	}
 
 	/**
 	 * Starting activity with favorites geocaches
 	 */
 	public void onFavoriteClick(View v) {
-		tracker.trackEvent("Cliks", "Button", "favorites", 73);
-		tracker.trackPageView("/FavoriteActivity");
 		Intent intent = new Intent(this, su.geocaching.android.ui.FavoritesFolder.class);
 		startActivity(intent);
-
+		
 	}
 }

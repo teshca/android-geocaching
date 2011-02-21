@@ -41,7 +41,7 @@ public class FavoritesFolder extends Activity implements OnItemClickListener {
 	super.onCreate(savedInstanceState);
 	tracker = GoogleAnalyticsTracker.getInstance();
 	tracker.start(getString(R.string.id_Google_Analytics), this);
-	tracker.trackPageView("/favoriteActivity");
+	tracker.trackPageView(getString(R.string.favorites_activity_folder));
 	setContentView(R.layout.favorit_list);
 	lvListShowCache = (ListView) findViewById(R.id.favorit_folder_listCach);
 	tvTitle = (TextView) findViewById(R.id.favorit_foldet_title_text);
@@ -201,8 +201,6 @@ public class FavoritesFolder extends Activity implements OnItemClickListener {
 	dbm.openDB();
 	mass = dbm.getArrayGeoCache();
 	dbm.closeDB();
-	tracker.start(getString(R.string.id_Google_Analytics), this);
-	tracker.trackPageView("/favoriteActivity");
 	if (mass != null) {
 	    SimpleAdapter ap = new SimpleAdapter(this, createGeoCacheList(mass), R.layout.row_in_favorit_rolder, new String[] { "type", "name", "typeText", "statusText" }, new int[] {
 		    R.id.favorit_list_imagebutton_type, R.id.favorit_list_textview_name, R.id.favorites_row_type_text, R.id.favorites_row_statys_text });
