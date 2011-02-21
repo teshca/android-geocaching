@@ -60,6 +60,13 @@
 
 <string name="about_google_code">Подробную информацию о проекте вы можете найти на сайте http://code.google.com/p/android-geocaching/</string>
 <string name="id_Google_Analytics">UA-20327116-3</string> 
+<string name="dashboard_activity_folder">/DashboardActivity</string>
+<string name="about_activity_folder">/AboutActivity</string>
+<string name="geocache_info_activity_folder">/GeocCacheInfoActivity</string>
+<string name="favorites_activity_folder">/FavoritesActivity</string>
+<string name="compass_activity_folder">/CompassActivity</string>
+<string name="search_activity_folder">/SearchActivity</string>
+<string name="select_activity_folder">/SelectActivity</string>
 <string name="addStepByStep">Добавить точку</string>
 <string name="latitude">Широта :</string>
 <string name="longitude">Долгота :</string>

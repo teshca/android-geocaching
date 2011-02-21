@@ -23,7 +23,7 @@ public class AboutActivity extends Activity implements OnClickListener {
 	tracker = GoogleAnalyticsTracker.getInstance();
 	
 	tracker.start(getString(R.string.id_Google_Analytics), this);
-	tracker.trackPageView("/aboutActivity");
+	tracker.trackPageView(getString(R.string.about_activity_folder));
     }
 
     @Override
