@@ -112,19 +112,31 @@ public class GpsHelper {
 		return new GeoPoint((int) (location.getLatitude() * 1E6), (int) (location.getLongitude() * 1E6));
 	}
 
-	public static int[] decimalToSexagesimal(double coordinate) throws Exception {
-		if (Math.abs(coordinate) > 180) {
-			throw new Exception("invalid value");
-		}
+	// public static int[] decimalToSexagesimal(double coordinate) throws Exception {
+	// if (Math.abs(coordinate) > 180) {
+	// throw new Exception("invalid value");
+	// }
+	//
+	// int[] sexagesimal = new int[3];
+	// sexagesimal[0] = (int) coordinate;
+	// coordinate -= sexagesimal[0];
+	// coordinate = Math.abs(coordinate * 60);
+	// sexagesimal[1] = (int) coordinate;
+	// coordinate -= sexagesimal[1];
+	// coordinate *= 1000;
+	// sexagesimal[2] = (int) coordinate;
+	// return sexagesimal;
+	// }
+
+	public static int[] coordinateE6ToSexagesimal(int coordinate) {
 
 		int[] sexagesimal = new int[3];
-		sexagesimal[0] = (int) coordinate;
-		coordinate -= sexagesimal[0];
-		coordinate = Math.abs(coordinate * 60);
-		sexagesimal[1] = (int) coordinate;
-		coordinate -= sexagesimal[1];
-		coordinate *= 1000;
-		sexagesimal[2] = (int) coordinate;
+		sexagesimal[0] = coordinate / 1000000;
+		coordinate %= 1000000;
+		coordinate = Math.abs(coordinate * 6 / 10);
+		sexagesimal[1] = coordinate / 10000;
+		coordinate %= 10000;
+		sexagesimal[2] = (int) Math.round((double) coordinate / 10);
 		return sexagesimal;
 	}
 

@@ -7,12 +7,15 @@ import su.geocaching.android.model.datatype.GeoCache;
 import su.geocaching.android.ui.R;
 import su.geocaching.android.ui.ShowGeoCacheInfo;
 import su.geocaching.android.ui.compass.SearchGeoCacheCompass;
-import su.geocaching.android.ui.geocachemap.*;
-import su.geocaching.android.ui.searchgeocache.drivingDirections.IRoute;
+import su.geocaching.android.ui.geocachemap.ConnectionManager;
+import su.geocaching.android.ui.geocachemap.GeoCacheItemizedOverlay;
+import su.geocaching.android.ui.geocachemap.GeoCacheOverlayItem;
+import su.geocaching.android.ui.geocachemap.IInternetAware;
+import su.geocaching.android.ui.geocachemap.IMapAware;
 import su.geocaching.android.ui.searchgeocache.drivingDirections.DrivingDirections.IDirectionsListener;
 import su.geocaching.android.ui.searchgeocache.drivingDirections.DrivingDirections.Mode;
+import su.geocaching.android.ui.searchgeocache.drivingDirections.IRoute;
 import su.geocaching.android.ui.searchgeocache.stepbystep.SexagesimalInputActivity;
-import su.geocaching.android.ui.searchgeocache.stepbystep.StepByStepTabActivity;
 import su.geocaching.android.utils.GpsHelper;
 import su.geocaching.android.utils.UiHelper;
 import su.geocaching.android.utils.log.LogHelper;
@@ -23,7 +26,6 @@ import android.graphics.drawable.AnimationDrawable;
 import android.graphics.drawable.Drawable;
 import android.location.Location;
 import android.os.Bundle;
-
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -33,13 +35,13 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.google.android.apps.analytics.GoogleAnalyticsTracker;
 import com.google.android.maps.GeoPoint;
 import com.google.android.maps.MapActivity;
 import com.google.android.maps.MapController;
 import com.google.android.maps.MapView;
 import com.google.android.maps.Overlay;
 import com.google.android.maps.Projection;
-import com.google.android.apps.analytics.GoogleAnalyticsTracker;
 
 /**
  * Search GeoCache with the map
@@ -303,9 +305,7 @@ public class SearchGeoCacheMap extends MapActivity implements ISearchActivity, I
 			// case R.id.DrawDirectionPath:
 			// directionControlller.setVisibleWay();
 		case R.id.stepByStep:
-			Intent intent = new Intent(this, StepByStepTabActivity.class);
-			startActivityForResult(intent, 100);
-
+			UiHelper.startStepByStepForResult(this, manager.getGeoCache());
 			return true;
 		default:
 			return super.onOptionsItemSelected(item);
@@ -324,19 +324,19 @@ public class SearchGeoCacheMap extends MapActivity implements ISearchActivity, I
 			LogHelper.d(TAG, "data == null " + (data == null));
 			if (data != null) {
 				int latitude = data.getIntExtra(SexagesimalInputActivity.LATITUDE, 0);
-				int longitude = data.getIntExtra(SexagesimalInputActivity.LONGITUDE, 0);
-				LogHelper.d(TAG, "latitude " + latitude);
-				LogHelper.d(TAG, "longitude " + longitude);
+				int longitude = data.getIntExtra(SexagesimalInputActivity.LONGITUDE, 0);		
 				GeoCache gc = new GeoCache();
 				gc.setLocationGeoPoint(new GeoPoint(latitude, longitude));
 
-				Drawable cacheMarker = getResources().getDrawable(R.drawable.cache);
+				Drawable cacheMarker = this.getResources().getDrawable(R.drawable.cache);	;
+				cacheMarker.setBounds(-cacheMarker.getMinimumWidth() / 2, -cacheMarker.getMinimumHeight(), cacheMarker.getMinimumWidth() / 2, 0);
+
 				if (secondaryCacheItemizedOverlay == null) {
 					secondaryCacheItemizedOverlay = new GeoCacheItemizedOverlay(cacheMarker, this);
 					mapOverlays.add(secondaryCacheItemizedOverlay);
 				}
-				cacheOverlayItem = new GeoCacheOverlayItem(gc, "", "");
-				cacheItemizedOverlay.addOverlayItem(cacheOverlayItem);
+				GeoCacheOverlayItem cacheOverlayItem = new GeoCacheOverlayItem(gc, "", "");
+				secondaryCacheItemizedOverlay.addOverlayItem(cacheOverlayItem);
 
 				map.invalidate();
 			}

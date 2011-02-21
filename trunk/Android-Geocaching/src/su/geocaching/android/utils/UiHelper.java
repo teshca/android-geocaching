@@ -5,6 +5,7 @@ import su.geocaching.android.ui.DashboardActivity;
 import su.geocaching.android.ui.R;
 import su.geocaching.android.ui.ShowGeoCacheInfo;
 import su.geocaching.android.ui.searchgeocache.SearchGeoCacheMap;
+import su.geocaching.android.ui.searchgeocache.stepbystep.StepByStepTabActivity;
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.Context;
@@ -17,6 +18,7 @@ import android.provider.Settings;
  */
 public class UiHelper {
 
+	public static int STEP_BY_STEP_REQUEST = 100;
 	/**
 	 * Invoke "home" action, returning to DashBoardActivity
 	 */
@@ -62,5 +64,11 @@ public class UiHelper {
 		Intent intent = new Intent(context, SearchGeoCacheMap.class);
 		intent.putExtra(GeoCache.class.getCanonicalName(), geoCache);
 		context.startActivity(intent);
+	}
+	
+	public static void startStepByStepForResult(Activity activity, GeoCache geoCache){
+		Intent intent = new Intent(activity, StepByStepTabActivity.class);
+		intent.putExtra(GeoCache.class.getCanonicalName(), geoCache);
+		activity.startActivityForResult(intent, STEP_BY_STEP_REQUEST);
 	}
 }

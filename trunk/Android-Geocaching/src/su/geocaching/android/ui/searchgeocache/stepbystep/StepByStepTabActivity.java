@@ -19,6 +19,7 @@ public class StepByStepTabActivity extends TabActivity {
 		Intent intent;
 
 		intent = new Intent(this, SexagesimalInputActivity.class);
+		intent.putExtras(getIntent().getExtras());		
 
 		spec = tabHost.newTabSpec("tab1");
 		spec.setIndicator(getString(R.string.sexagesimal));
@@ -26,16 +27,11 @@ public class StepByStepTabActivity extends TabActivity {
 		tabHost.addTab(spec);
 
 		intent = new Intent(this, DecimalInputActivity.class);
+		intent.putExtras(getIntent().getExtras());		
 
 		spec = tabHost.newTabSpec("tab2");
 		spec.setIndicator(getString(R.string.decimal));
 		spec.setContent(intent);
 		tabHost.addTab(spec);
 	}
-
-	// @Override
-	// protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-	// setResult(resultCode, data);
-	// LogHelper.d("", "DATA == null" +(data==null));
-	// }
 }
