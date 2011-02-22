@@ -1,4 +1,4 @@
-#summary LocationManager: HowTo
+#summary Описание класса LocationManager
 
 = Введение =
 
