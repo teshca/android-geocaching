@@ -9,35 +9,25 @@
 
 	<LinearLayout android:layout_width="fill_parent"
 		android:layout_height="wrap_content" android:orientation="horizontal">
-		<TextView android:text="@string/latitude" android:minWidth="@dimen/coordinate_label_width"
+		<TextView android:text="@string/azimuth" android:minWidth="110dip"
 			android:textSize="@dimen/text_size_big" android:layout_width="wrap_content"
 			android:layout_height="wrap_content"></TextView>
-		<EditText android:text="00" android:id="@+id/dLatDegrees"
-			android:maxLines="1" android:numeric="signed" android:maxLength="4"
-			android:layout_width="50dip" android:layout_height="wrap_content"></EditText>
-		<TextView android:text="." android:layout_width="wrap_content"
-			android:textSize="@dimen/text_size_big" android:layout_height="wrap_content"></TextView>
-		<EditText android:text="00" android:id="@+id/dLatFraction"
-			android:maxLines="1" android:numeric="integer" android:maxLength="6"
-			android:layout_width="100dip" android:layout_height="wrap_content"></EditText>
+		<EditText android:text="0" android:id="@+id/azimuth"
+			android:maxLines="1" android:numeric="integer" android:maxLength="3"
+			android:layout_width="75dip" android:layout_height="wrap_content"></EditText>
 		<TextView android:text="°" android:layout_width="wrap_content"
 			android:textSize="@dimen/text_size_big" android:layout_height="wrap_content"></TextView>
 	</LinearLayout>
 
 	<LinearLayout android:layout_width="fill_parent"
 		android:layout_height="wrap_content" android:orientation="horizontal">
-		<TextView android:text="@string/longitude" android:minWidth="@dimen/coordinate_label_width"
+		<TextView android:text="@string/distance" android:minWidth="110dip"
 			android:textSize="@dimen/text_size_big" android:layout_width="wrap_content"
 			android:layout_height="wrap_content"></TextView>
-		<EditText android:text="00" android:id="@+id/dLngDegrees"
-			android:maxLines="1" android:numeric="signed" android:maxLength="4"
-			android:layout_width="50dip" android:layout_height="wrap_content"></EditText>
-		<TextView android:text="." android:layout_width="wrap_content"
-			android:textSize="@dimen/text_size_big" android:layout_height="wrap_content"></TextView>
-		<EditText android:text="00" android:id="@+id/dLngFraction"
-			android:maxLines="1" android:numeric="integer" android:maxLength="6"
-			android:layout_width="100dip" android:layout_height="wrap_content"></EditText>
-		<TextView android:text="°" android:layout_width="wrap_content"
+		<EditText android:text="0" android:id="@+id/distance"
+			android:maxLines="1" android:numeric="integer" android:maxLength="5"
+			android:layout_width="75dip" android:layout_height="wrap_content"></EditText>
+		<TextView android:text="@string/meter" android:layout_width="wrap_content"
 			android:textSize="@dimen/text_size_big" android:layout_height="wrap_content"></TextView>
 	</LinearLayout>
 

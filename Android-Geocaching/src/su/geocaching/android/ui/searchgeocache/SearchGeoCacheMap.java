@@ -15,7 +15,7 @@ import su.geocaching.android.ui.geocachemap.IMapAware;
 import su.geocaching.android.ui.searchgeocache.drivingDirections.DrivingDirections.IDirectionsListener;
 import su.geocaching.android.ui.searchgeocache.drivingDirections.DrivingDirections.Mode;
 import su.geocaching.android.ui.searchgeocache.drivingDirections.IRoute;
-import su.geocaching.android.ui.searchgeocache.stepbystep.SexagesimalInputActivity;
+import su.geocaching.android.ui.searchgeocache.stepbystep.StepByStepTabActivity;
 import su.geocaching.android.utils.GpsHelper;
 import su.geocaching.android.utils.UiHelper;
 import su.geocaching.android.utils.log.LogHelper;
@@ -320,12 +320,13 @@ public class SearchGeoCacheMap extends MapActivity implements ISearchActivity, I
 		case 100:
 			LogHelper.d(TAG, "data == null " + (data == null));
 			if (data != null) {
-				int latitude = data.getIntExtra(SexagesimalInputActivity.LATITUDE, 0);
-				int longitude = data.getIntExtra(SexagesimalInputActivity.LONGITUDE, 0);		
+				int latitude = data.getIntExtra(StepByStepTabActivity.LATITUDE, 0);
+				int longitude = data.getIntExtra(StepByStepTabActivity.LONGITUDE, 0);
 				GeoCache gc = new GeoCache();
 				gc.setLocationGeoPoint(new GeoPoint(latitude, longitude));
 
-				Drawable cacheMarker = this.getResources().getDrawable(R.drawable.cache);	;
+				Drawable cacheMarker = this.getResources().getDrawable(R.drawable.cache);
+				;
 				cacheMarker.setBounds(-cacheMarker.getMinimumWidth() / 2, -cacheMarker.getMinimumHeight(), cacheMarker.getMinimumWidth() / 2, 0);
 
 				if (secondaryCacheItemizedOverlay == null) {
