@@ -36,7 +36,7 @@
 
     http://android-geocaching.googlecode.com/svn/trunk/files/wiki/images/select_cache_without_menu.png 
 
-В этом режиме откроется карта с тайниками. Посмотреть на значки тайников можно [GeoCacheIcons здесь].
+В этом режиме откроется карта с [GeoCacheIcons тайниками].
 Каждый тип тайника имеет свои цвет:
  * Традиционный - зеленый
  * Виртуальный - голубой
