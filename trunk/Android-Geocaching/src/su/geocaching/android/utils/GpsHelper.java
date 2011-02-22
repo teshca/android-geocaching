@@ -3,6 +3,7 @@ package su.geocaching.android.utils;
 import java.text.DecimalFormat;
 
 import android.location.Location;
+import android.util.Log;
 
 import com.google.android.maps.GeoPoint;
 
@@ -17,10 +18,11 @@ public class GpsHelper {
 	// greater than this
 	// show (x/1000) km else x m
 	private static final int BIG_DISTANCE_VALUE = 10000;
+	private static final int EARTH_RADIUS = 6371000;
 
 	private static final DecimalFormat BIG_DISTANCE_NUMBER_FORMAT = new DecimalFormat("0.0");
 	private static final DecimalFormat SMALL_DISTANCE_NUMBER_FORMAT = new DecimalFormat("0");
-	private static final String BIG_DISTANCE_VALUE_NAME = "κμ";
+	private static final String BIG_DISTANCE_VALUE_NAME = "κμ"; // TODO go to xml
 	private static final String SMALL_DISTANCE_VALUE_NAME = "μ";
 	private static final float BIG_DISTANCE_COEFFICIENT = (float) 0.001;
 	private static final float SMALL_DISTANCE_COEFFICIENT = 1;
@@ -140,9 +142,28 @@ public class GpsHelper {
 		return sexagesimal;
 	}
 
-	public static int sexagesimalToCoordinateE6(int degrees, int minutes, int mMinutes) {
+	public static int sexagesimalToCoordinateE6(int degrees, int minutes, int mMinutes) throws Exception {
+		if (Math.abs(degrees) > 180 || minutes >= 60) {
+			throw new Exception("Invalid data format");
+		}
 		int coordinateE6 = (int) (degrees * 1E6);
 		coordinateE6 += (minutes * 1E3 + mMinutes) * 100 / 6;
 		return coordinateE6;
+	}
+
+	//TODO still not work
+	public static GeoPoint distanceBearingToGeoPoint(GeoPoint currentGeoPoint, int bearing, int distance) {
+		double latitude = currentGeoPoint.getLatitudeE6() / 1E6;
+		double longitude = currentGeoPoint.getLatitudeE6() / 1E6;
+		double radianBearing = bearing * Math.PI / 180;
+		Log.d("Geocaching.su", "radianBearing = " + radianBearing);
+		double distanceDivRadius = (double) distance / EARTH_RADIUS;
+
+		// Calculating goal Location
+		double goalLatitude = Math.asin(Math.sin(latitude) * Math.cos(distanceDivRadius) + Math.cos(latitude) * Math.sin(distanceDivRadius) * Math.cos(radianBearing));
+		double goalLonitude = longitude
+				+ Math.atan2(Math.sin(radianBearing) * Math.sin(distanceDivRadius) * Math.cos(latitude), Math.cos(distanceDivRadius) - Math.sin(latitude) * Math.sin(goalLatitude));
+
+		return new GeoPoint((int) (goalLatitude * 1E6), (int) (goalLonitude * 1E6));
 	}
 }
