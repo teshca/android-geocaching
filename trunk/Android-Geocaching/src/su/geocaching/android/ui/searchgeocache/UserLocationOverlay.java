@@ -22,19 +22,37 @@ public class UserLocationOverlay extends com.google.android.maps.Overlay {
 	private static final int ACCURACY_CIRCLE_COLOR = 0xff00aa00;
 	private static final int ACCURACY_CIRCLE_STROKE_COLOR = 0xff00ff00;
 
-	private Context context;
 	private GeoPoint userPoint;
 	private float bearing;
 	private float accuracyRadius; // accuracy radius in meters
+	private Paint paintCircle;
+	private Paint paintStroke;
+	private Bitmap userArrowBmp;
+	private Bitmap userPointBmp;
+	private Matrix matrix;
 
 	/**
 	 * @param context activity which use this overlay
 	 */
 	public UserLocationOverlay(Context context) {
-		this.context = context;
 		userPoint = null;
 		bearing = Float.NaN;
 		accuracyRadius = Float.NaN;
+		
+		paintCircle = new Paint();
+		paintCircle.setColor(ACCURACY_CIRCLE_COLOR);
+		paintCircle.setAntiAlias(true);
+		paintCircle.setAlpha(ACCURACY_CIRCLE_ALPHA);
+
+		paintStroke = new Paint();
+		paintStroke.setColor(ACCURACY_CIRCLE_STROKE_COLOR);
+		paintStroke.setAntiAlias(true);
+		paintStroke.setStyle(Style.STROKE);
+		paintStroke.setAlpha(ACCURACY_CIRCLE_ALPHA);
+		
+		userPointBmp = BitmapFactory.decodeResource(context.getResources(), R.drawable.userpoint);
+		userArrowBmp = BitmapFactory.decodeResource(context.getResources(), R.drawable.userarrow);
+		matrix = new Matrix();
 	}
 
 	/* (non-Javadoc)
@@ -42,7 +60,7 @@ public class UserLocationOverlay extends com.google.android.maps.Overlay {
 	 */
 	@Override
 	public boolean draw(Canvas canvas, MapView mapView, boolean shadow, long when) {
-		super.draw(canvas, mapView, shadow);
+		super.draw(canvas, mapView, shadow,when);
 
 		if (userPoint == null) {
 			return true;
@@ -55,11 +73,10 @@ public class UserLocationOverlay extends com.google.android.maps.Overlay {
 		// Prepare to draw default marker
 		Bitmap userPoint;
 		if (Float.isNaN(bearing)) {
-			userPoint = BitmapFactory.decodeResource(context.getResources(), R.drawable.userpoint);
+			userPoint = userPointBmp;
 		} else {
-			userPoint = BitmapFactory.decodeResource(context.getResources(), R.drawable.userarrow);
+			userPoint = userArrowBmp;
 			// Rotate default marker
-			Matrix matrix = new Matrix();
 			matrix.setRotate(bearing);
 			userPoint = Bitmap.createBitmap(userPoint, 0, 0, userPoint.getWidth(), userPoint.getHeight(), matrix, true);
 		}
@@ -68,17 +85,6 @@ public class UserLocationOverlay extends com.google.android.maps.Overlay {
 		if (!Float.isNaN(accuracyRadius)) {
 			float radiusInPixels = mapView.getProjection().metersToEquatorPixels(accuracyRadius);
 			if ((radiusInPixels > userPoint.getWidth()) && (radiusInPixels > userPoint.getHeight())) {
-				Paint paintCircle = new Paint();
-				paintCircle.setColor(ACCURACY_CIRCLE_COLOR);
-				paintCircle.setAntiAlias(true);
-				paintCircle.setAlpha(ACCURACY_CIRCLE_ALPHA);
-
-				Paint paintStroke = new Paint();
-				paintStroke.setColor(ACCURACY_CIRCLE_STROKE_COLOR);
-				paintStroke.setAntiAlias(true);
-				paintStroke.setStyle(Style.STROKE);
-				paintStroke.setAlpha(ACCURACY_CIRCLE_ALPHA);
-
 				canvas.drawCircle(screenPts.x, screenPts.y, radiusInPixels, paintCircle);
 				canvas.drawCircle(screenPts.x, screenPts.y, radiusInPixels, paintStroke);
 			}
