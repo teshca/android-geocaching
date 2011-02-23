@@ -6,7 +6,6 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.drawable.AnimationDrawable;
 import android.location.Location;
-import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Handler;
 import android.provider.Settings;
@@ -24,13 +23,11 @@ import su.geocaching.android.model.datatype.GeoCache;
 import su.geocaching.android.ui.R;
 import su.geocaching.android.ui.ShowGeoCacheInfo;
 import su.geocaching.android.ui.geocachemap.*;
-import su.geocaching.android.ui.selectgeocache.geocachegroup.GeoCacheListAnalyzer;
 import su.geocaching.android.ui.selectgeocache.geocachegroup.GroupCacheTask;
 import su.geocaching.android.ui.selectgeocache.timer.MapUpdateTimer;
 import su.geocaching.android.utils.GpsHelper;
 import su.geocaching.android.utils.UiHelper;
 
-import java.util.LinkedList;
 import java.util.List;
 
 /**
