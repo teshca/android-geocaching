@@ -14,6 +14,9 @@
     <string name="ask_enable_gps_no">Нет</string>
     <string name="ask_enable_internet_yes">Да</string>
     <string name="ask_enable_internet_no">Нет</string>
+	<string name="ask_download_notebook_yes">Да</string>
+	<string name="ask_download_notebook_no">Нет</string>
+	<string name="ask_download_notebook">Скачать блокнот тайника?</string>
     <string name="search_geocache_error_no_geocache">Ошибка!\n\rНечего искать!</string>
     <string name="search_geocache_start_without_geocache">Перед поиском выберите тайник</string>
     <string name="search_geocache_internet_lost">Подключение к интернету отсутствует. Могут
@@ -49,7 +52,8 @@
     <string name="status_geocache_no_valid">Недоступен</string>
     <string name="status_geocache_no_confirmed">Возможно недоступен</string>
 
-
+	<string name="menu_show_web_notebook_cache">Блокнот</string>
+	<string name="menu_show_info_cache">Инфо</string>
     <string name="favorit_folder_In_DB_not_cache">В базе нет ни одного тайника</string>
     <string name="info_geocach_not_internet_and_not_in_DB">Невозможно показать информацию о тайнике, поскольку
         тайника нет в локальной базе, а так же отсутствует соединение с
