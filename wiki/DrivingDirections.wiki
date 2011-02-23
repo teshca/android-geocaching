@@ -79,6 +79,9 @@ hasCityblockCoverage:false}...
 {{{
 http://maps.google.ru/maps?f=d&source=s_d&saddr=59.968096+30.303894&daddr=59.97048,30.307971&geocode=&abauth=9b9a1b53:EL1rIvWygwh20UBkMw1SCKKS3gY&hl=ru&mra=ls&dirflg=w&vps=4&jsv=314b&sll=59.970085,30.306129&sspn=0.002218,0.016512&ie=UTF8&0&om=0&output=kml
 }}}
+
+<wiki:comment>
+
 ==Response file:==
 {{{
 <?xml version="1.0" encoding="UTF-8"?>
@@ -443,6 +446,8 @@ http://maps.google.ru/maps?f=d&source=s_d&saddr=59.968096+30.303894&daddr=59.970
 </kml>
 
 }}}
+
+</wiki:comment>
 ==Проблема==
 отправляемый мной запрос имеет вид:
 {{{
