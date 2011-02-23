@@ -2,19 +2,17 @@ package su.geocaching.android.ui.selectgeocache.geocachegroup;
 
 import android.os.AsyncTask;
 import android.util.Log;
-import com.google.android.maps.MapView;
 import su.geocaching.android.model.datatype.GeoCache;
 import su.geocaching.android.ui.geocachemap.GeoCacheOverlayItem;
 import su.geocaching.android.ui.selectgeocache.SelectGeoCacheMap;
 
-import java.util.LinkedList;
 import java.util.List;
 
 /**
  * @author: Yuri Denison
  * @since: 19.02.11
  */
-public class GroupCacheTask extends AsyncTask<Void, Integer, List<GeoCacheOverlayItem>>{
+public class GroupCacheTask extends AsyncTask<Void, Integer, List<GeoCacheOverlayItem>> {
     private SelectGeoCacheMap map;
     private GeoCacheListAnalyzer analyzer;
     private static final String TAG = "GroupCacheTask";

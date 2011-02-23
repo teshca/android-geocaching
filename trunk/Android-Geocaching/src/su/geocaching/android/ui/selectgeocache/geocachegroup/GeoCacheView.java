@@ -1,7 +1,5 @@
 package su.geocaching.android.ui.selectgeocache.geocachegroup;
 
-import android.graphics.Point;
-import com.google.android.maps.Projection;
 import su.geocaching.android.model.datatype.GeoCache;
 
 /**
