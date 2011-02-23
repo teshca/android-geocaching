@@ -201,7 +201,7 @@ public class SelectGeoCacheMap extends MapActivity implements IMapAware, IIntern
                 }
                 return true;
             case R.id.mapSettings:
-                startActivity(new Intent(this, MapSettingsActivity.class));
+                startActivity(new Intent(this, MapPreferenceActivity.class));
                 return true;
             default:
                 return super.onOptionsItemSelected(item);
