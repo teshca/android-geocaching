@@ -1,15 +1,29 @@
 <?xml version="1.0" encoding="utf-8"?>
 <PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
-    <ListPreference android:entries="@array/requests_frequency_preference_entries"
-                    android:entryValues="@array/requests_frequency_preference_values"
-                    android:title="@string/prefer_requests_frequency_title"
-                    android:summary="@string/prefer_requests_frequency_summary"
-                    android:key="@string/prefs_requests_frequency_key"
-                    android:defaultValue="@string/prefer_requests_frequency_default_value"/>
-    <ListPreference android:entries="@array/requests_map_type_entries"
-                    android:entryValues="@array/requests_map_type_values"
-                    android:title="@string/prefer_map_type_title"
-                    android:summary="@string/prefer_map_type_summary"
-                    android:key="@string/prefs_map_type_key"
-                    android:defaultValue="@string/prefer_map_type_default_value"/>
+    <PreferenceCategory
+            android:title="@string/map_category_title">
+
+        <ListPreference android:entries="@array/requests_map_type_entries"
+                        android:entryValues="@array/requests_map_type_values"
+                        android:title="@string/prefer_map_type_title"
+                        android:summary="@string/prefer_map_type_summary"
+                        android:key="@string/prefer_map_type_key"
+                        android:defaultValue="@string/prefer_map_type_default_value"/>
+        <CheckBoxPreference android:title="@string/way_cache_adding_title"
+                            android:key="@string/way_cache_adding_key"
+                            android:defaultValue="true"
+                            android:summary="@string/way_cache_adding_summary"/>
+        <ListPreference android:entries="@array/requests_frequency_preference_entries"
+                        android:entryValues="@array/requests_frequency_preference_values"
+                        android:title="@string/prefer_requests_frequency_title"
+                        android:summary="@string/prefer_requests_frequency_summary"
+                        android:key="@string/prefer_requests_frequency_key"
+                        android:defaultValue="@string/prefer_requests_frequency_default_value"/>
+    </PreferenceCategory>
+
+    <!--<PreferenceCategory
+            android:title="@string/map_filters_title"
+            />-->
+
+
 </PreferenceScreen>
