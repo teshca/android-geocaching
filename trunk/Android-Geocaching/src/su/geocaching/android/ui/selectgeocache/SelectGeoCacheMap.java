@@ -154,6 +154,8 @@ public class SelectGeoCacheMap extends MapActivity implements IMapAware, IIntern
         tracker.trackPageView("/selectActivity");
 
         userOverlay.enableMyLocation();
+        gOverlay.clear();
+        map.invalidate();
         updateMapInfoFromSettings();
         mapTimer = new MapUpdateTimer(this);
         updateCacheOverlay();
