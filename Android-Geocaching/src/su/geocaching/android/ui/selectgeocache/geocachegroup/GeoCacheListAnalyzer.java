@@ -2,7 +2,6 @@ package su.geocaching.android.ui.selectgeocache.geocachegroup;
 
 import android.graphics.Point;
 import android.util.Log;
-import android.util.Pair;
 import com.google.android.maps.MapView;
 import su.geocaching.android.model.datatype.GeoCache;
 import su.geocaching.android.ui.geocachemap.GeoCacheOverlayItem;
@@ -49,7 +48,7 @@ public class GeoCacheListAnalyzer {
 
     private List<GeoCache> getCacheListFromCacheViewList(List<GeoCacheView> cacheViewList) {
         List<GeoCache> list = new LinkedList<GeoCache>();
-        for(GeoCacheView cacheView: cacheViewList) {
+        for (GeoCacheView cacheView : cacheViewList) {
             list.add(cacheView.getCache());
         }
         return list;
@@ -83,7 +82,7 @@ public class GeoCacheListAnalyzer {
 
     private List<GeoCacheView> generatePointsList(List<GeoCache> geoCacheList) {
         List<GeoCacheView> list = new LinkedList<GeoCacheView>();
-        for(GeoCache cache: geoCacheList) {
+        for (GeoCache cache : geoCacheList) {
             Point point = map.getProjection().toPixels(cache.getLocationGeoPoint(), null);
             list.add(new GeoCacheView(point.x, point.y, cache));
         }
