@@ -89,4 +89,5 @@
 	<string name="azimuth">Азимут:</string>
 	<string name="distance">Расстояние:</string>
 	<string name="meter">m</string>
+    <string name="settings">Настройки карты</string>
 </resources>

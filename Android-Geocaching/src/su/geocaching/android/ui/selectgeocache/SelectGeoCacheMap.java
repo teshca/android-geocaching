@@ -200,6 +200,9 @@ public class SelectGeoCacheMap extends MapActivity implements IMapAware, IIntern
                     Toast.makeText(getBaseContext(), R.string.status_null_last_location, Toast.LENGTH_SHORT).show();
                 }
                 return true;
+            case R.id.mapSettings:
+                startActivity(new Intent(this, MapSettingsActivity.class));
+                return true;
             default:
                 return super.onOptionsItemSelected(item);
         }
