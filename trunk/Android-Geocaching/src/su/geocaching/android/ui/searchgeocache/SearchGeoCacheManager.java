@@ -33,7 +33,7 @@ public class SearchGeoCacheManager implements ILocationAware, ICompassAware, IGp
 	private ISearchActivity activity;
 	private Activity context; // it's activity casted to Activity. Cast is
 	// bad...
-	private GeoCache geoCache;
+	//private GeoCache geoCache;
 	private GpsStatusManager gpsStatusManager;
 
 	/**
@@ -46,8 +46,8 @@ public class SearchGeoCacheManager implements ILocationAware, ICompassAware, IGp
 		locationManager = Controller.getInstance().getLocationManager(context);
 		compass = Controller.getInstance().getCompassManager(context);
 		gpsStatusManager = Controller.getInstance().getGpsStatusManager(context);
-		Intent intent = ((Activity) activity).getIntent();
-		geoCache = intent.getParcelableExtra(GeoCache.class.getCanonicalName());
+//		Intent intent = ((Activity) activity).getIntent();
+//		geoCache = intent.getParcelableExtra(GeoCache.class.getCanonicalName());
 		Log.d(TAG, "Init");
 	}
 
@@ -183,7 +183,7 @@ public class SearchGeoCacheManager implements ILocationAware, ICompassAware, IGp
 	 * Common part of init and run search geocache activities
 	 */
 	public void runLogic() {
-		if (geoCache == null) {
+		if (Controller.getInstance().getSearchingGeoCache() == null) {
 			Log.e(TAG, "runLogic: null geocache. Finishing.");
 			Toast.makeText(context, context.getString(R.string.search_geocache_error_no_geocache), Toast.LENGTH_LONG).show();
 			((Activity) activity).finish();
@@ -191,7 +191,8 @@ public class SearchGeoCacheManager implements ILocationAware, ICompassAware, IGp
 		}
 
 		// Save last searched geocache
-		Controller.getInstance().setLastSearchedGeoCache(geoCache, context);
+		//TODO unnecessary parameter Controller.getInstance().getSearchedGeoCache()
+		Controller.getInstance().setLastSearchedGeoCache(Controller.getInstance().getSearchingGeoCache(), context);
 
 		if (!isLocationFixed()) {
 			activity.onBestProviderUnavailable();
@@ -206,12 +207,12 @@ public class SearchGeoCacheManager implements ILocationAware, ICompassAware, IGp
 		gpsStatusManager.addSubscriber(this);
 	}
 
-	/**
-	 * @return geocache which we search
-	 */
-	public GeoCache getGeoCache() {
-		return geoCache;
-	}
+//	/**
+//	 * @return geocache which we search
+//	 */
+//	public GeoCache getGeoCache() {
+//		return geoCache;
+//	}
 
 	/**
 	 * @return current user location
