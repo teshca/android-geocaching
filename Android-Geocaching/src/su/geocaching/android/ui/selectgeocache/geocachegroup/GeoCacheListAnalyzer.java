@@ -76,6 +76,8 @@ public class GeoCacheListAnalyzer {
         List<GeoCacheView> centroids = generateCentroidsArray();
         List<GeoCacheView> points = generatePointsList(geoCacheList);
         HashMap<GeoCacheView, List<GeoCacheView>> clusterPointMap = new KMeans(points, centroids).getClusterMap();
+        Log.d("mapStats", "sizeList = " + geoCacheList.size() + "; centroids = " + centroids.size());
+
         fillOverlayItemList(clusterPointMap);
         return overlayItemList;
     }

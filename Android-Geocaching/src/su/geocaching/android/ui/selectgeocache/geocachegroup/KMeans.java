@@ -18,28 +18,32 @@ public class KMeans {
     private HashMap<GeoCacheView, List<GeoCacheView>> resultMap;
     private List<GeoCacheView> points;
     private boolean ready;
+    private long timeStart;
 
     private static final String TAG = "KMeans";
 
     public KMeans(List<GeoCacheView> cacheCoordinates, List<GeoCacheView> centroids) {
+        timeStart = System.currentTimeMillis();
         this.points = cacheCoordinates;
         this.centroids = centroids;
+        long iterations = 0;
         Log.d(TAG, "Results Map init");
         initResultsMap();
 
         ready = false;
-        int iteration = 1;
         while (!ready) {
-            Log.d(TAG, "Iteration " + iteration + " started.");
+            iterations++;
             ready = true;
             fillCentroids();
             Log.d(TAG, "Centroids filled.");
             fillCurrentResultMap();
-            Log.d(TAG, "Results Map filled. Iteration " + iteration + " finished.");
         }
+        Log.d("mapStats", "iterations = " + iterations);
+
     }
 
     public HashMap<GeoCacheView, List<GeoCacheView>> getClusterMap() {
+        Log.d("mapStats", "timeAlgorithm = " + (System.currentTimeMillis() - timeStart));
         return resultMap;
     }
 
@@ -103,7 +107,9 @@ public class KMeans {
         return new Pair<Integer, Integer>(centerX, centerY);
     }
 
-    private double countDistance(GeoCacheView point, GeoCacheView centroid) {
-        return Math.sqrt(Math.pow(point.getX() - centroid.getX(), 2) + Math.pow(point.getY() - centroid.getY(), 2));
+    private long countDistance(GeoCacheView point, GeoCacheView centroid) {
+        int x = point.getX() - centroid.getX();
+        int y = point.getY() - centroid.getY();
+        return x * x + y * y;
     }
 }
