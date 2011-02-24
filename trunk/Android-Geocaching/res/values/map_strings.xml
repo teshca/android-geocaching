@@ -33,6 +33,7 @@
 
     <string name="way_cache_adding_key">map.addWay</string>
     <string name="way_cache_adding_title">Группировка тайников</string>
+    <string name="way_cache_adding_default_value">true</string>
     <string name="way_cache_adding_summary">Включить группировку близких тайников (beta)</string>
 
     <string name="map_filters_title">Фильтры</string>
