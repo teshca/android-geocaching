@@ -153,6 +153,8 @@ public class SelectGeoCacheMap extends MapActivity implements IMapAware, IIntern
         tracker.start(getString(R.string.id_Google_Analytics), this);
         tracker.trackPageView("/selectActivity");
 
+        map.setSatellite(!Controller.getInstance().getMapTypeString(map.getContext()).equals("MAP"));
+
         userOverlay.enableMyLocation();
         gOverlay.clear();
         map.invalidate();
@@ -338,5 +340,9 @@ public class SelectGeoCacheMap extends MapActivity implements IMapAware, IIntern
 
     public MapView getMapView() {
         return map;
+    }
+
+    public boolean getWayCacheAdding() {
+        return Controller.getInstance().getWayCacheAdding(map.getContext());
     }
 }

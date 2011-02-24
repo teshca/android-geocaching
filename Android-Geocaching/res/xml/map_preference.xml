@@ -11,14 +11,14 @@
                         android:defaultValue="@string/prefer_map_type_default_value"/>
         <CheckBoxPreference android:title="@string/way_cache_adding_title"
                             android:key="@string/way_cache_adding_key"
-                            android:defaultValue="true"
+                            android:defaultValue="@string/way_cache_adding_default_value"
                             android:summary="@string/way_cache_adding_summary"/>
-        <ListPreference android:entries="@array/requests_frequency_preference_entries"
+        <!--<ListPreference android:entries="@array/requests_frequency_preference_entries"
                         android:entryValues="@array/requests_frequency_preference_values"
                         android:title="@string/prefer_requests_frequency_title"
                         android:summary="@string/prefer_requests_frequency_summary"
                         android:key="@string/prefer_requests_frequency_key"
-                        android:defaultValue="@string/prefer_requests_frequency_default_value"/>
+                        android:defaultValue="@string/prefer_requests_frequency_default_value"/>-->
     </PreferenceCategory>
 
     <!--<PreferenceCategory
