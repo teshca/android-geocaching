@@ -7,11 +7,13 @@ import su.geocaching.android.model.datatype.GeoCache;
 import su.geocaching.android.model.datatype.GeoCacheStatus;
 import su.geocaching.android.model.datatype.GeoCacheType;
 import su.geocaching.android.ui.R;
+import su.geocaching.android.ui.ShowGeoCacheInfo;
 import su.geocaching.android.ui.compass.SearchGeoCacheCompass;
 import su.geocaching.android.ui.geocachemap.ConnectionManager;
 import su.geocaching.android.ui.geocachemap.GeoCacheItemizedOverlay;
 import su.geocaching.android.ui.geocachemap.GeoCacheOverlayItem;
 import su.geocaching.android.ui.geocachemap.IInternetAware;
+import su.geocaching.android.ui.geocachemap.IMapAware;
 import su.geocaching.android.ui.searchgeocache.drivingDirections.DrivingDirections.IDirectionsListener;
 import su.geocaching.android.ui.searchgeocache.drivingDirections.DrivingDirections.Mode;
 import su.geocaching.android.ui.searchgeocache.drivingDirections.IRoute;
@@ -48,7 +50,7 @@ import com.google.android.maps.Projection;
  * @author Android-Geocaching.su student project team
  * @since October 2010
  */
-public class SearchGeoCacheMap extends MapActivity implements ISearchActivity, IInternetAware, IDirectionsListener { // IMapAware
+public class SearchGeoCacheMap extends MapActivity implements ISearchActivity, IInternetAware, IMapAware, IDirectionsListener { 
 	private final static String TAG = SearchGeoCacheMap.class.getCanonicalName();
 
 	private GeoCacheOverlayItem cacheOverlayItem;
@@ -327,14 +329,14 @@ public class SearchGeoCacheMap extends MapActivity implements ISearchActivity, I
 				GeoCache gc = new GeoCache();
 				GeoCache currentGCache = controller.getSearchingGeoCache();
 				gc.setLocationGeoPoint(new GeoPoint(latitude, longitude));
-				gc.setType(GeoCacheType.CHECKPOINT);
-			
+				gc.setType(GeoCacheType.CHECKPOINT);			
 
 				if (checkpointCacheOverlay == null) {
 					cacheMarker = Controller.getInstance().getMarker(gc, this);
 					checkpointCacheOverlay = new GeoCacheItemizedOverlay(cacheMarker, this);
 					mapOverlays.add(checkpointCacheOverlay);
 				}
+				
 				GeoCacheOverlayItem checkpoint = new GeoCacheOverlayItem(gc, "", "");
 				checkpointCacheOverlay.addOverlayItem(checkpoint);
 				activeCheckpoint = checkpointCacheOverlay.size();
@@ -342,6 +344,7 @@ public class SearchGeoCacheMap extends MapActivity implements ISearchActivity, I
 				gc.setId(currentGCache.getId());
 				gc.setStatus(GeoCacheStatus.ACTIVE_CHECKPOINT);
 				gc.setName("Checkpoint "+activeCheckpoint);
+				controller.setSearchingGeoCache(gc);
 
 				map.invalidate();
 			}
@@ -391,17 +394,17 @@ public class SearchGeoCacheMap extends MapActivity implements ISearchActivity, I
 		return manager.getCurrentBearing();
 	}
 
-//	/*
-//	 * (non-Javadoc)
-//	 * 
-//	 * @see su.geocaching.android.ui.geocachemap.IMapAware#onGeoCacheItemTaped(su .geocaching.android.ui.geocachemap.GeoCacheOverlayItem)
-//	 */
-//	@Override
-//	public void onGeoCacheItemTaped(GeoCacheOverlayItem item) {
-//		Intent intent = new Intent(this, ShowGeoCacheInfo.class);
-//		intent.putExtra(GeoCache.class.getCanonicalName(), controller.getSearchedGeoCache());
-//		this.startActivity(intent);
-//	}
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see su.geocaching.android.ui.geocachemap.IMapAware#onGeoCacheItemTaped(su .geocaching.android.ui.geocachemap.GeoCacheOverlayItem)
+	 */
+	@Override
+	public void onGeoCacheItemTaped(GeoCacheOverlayItem item) {
+		Intent intent = new Intent(this, ShowGeoCacheInfo.class);
+		intent.putExtra(GeoCache.class.getCanonicalName(), controller.getSearchingGeoCache());
+		this.startActivity(intent);
+	}
 
 	/*
 	 * (non-Javadoc)
