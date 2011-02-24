@@ -31,7 +31,11 @@ import java.util.List;
 public class Controller {
     private static final String TAG = Controller.class.getCanonicalName();
     private static final String PREFS_NAME = "geocaching_prefs";
-
+    
+    private static final int DEFAULT_CENTER_LONGITUDE = 29828674;
+    private static final int DEFAULT_CENTER_LATITUDE = 59879904;
+    private static final int DEFAULT_ZOOM = 13;
+    
     private static Controller instance;
 
     private IApiManager apiManager;
@@ -44,12 +48,9 @@ public class Controller {
     private CompassManager compassManager;
     private GpsStatusManager gpsStatusManager;
     private ConnectionManager connectionManager;
+    private GeoCache searchingGeoCache;
 
-    private static final int DEFAULT_CENTER_LONGITUDE = 29828674;
-    private static final int DEFAULT_CENTER_LATITUDE = 59879904;
-    private static final int DEFAULT_ZOOM = 13;
-
-    private Controller() {
+	private Controller() {
         apiManager = new ApiManager();
         favoriteGeoCacheStorage = GeoCacheStorage.getInstance();
         settingsStorage = SettingsStorage.getInstance();
@@ -285,6 +286,14 @@ public class Controller {
         LogHelper.d("lastMapInfo", "zoom = " + zoom + "; def = " + DEFAULT_ZOOM);
         return new int[]{center_x, center_y, zoom};
     }
+    
+    public GeoCache getSearchingGeoCache() {
+		return searchingGeoCache;
+	}
+
+	public void setSearchingGeoCache(GeoCache searchedGeoCache) {
+		this.searchingGeoCache = searchedGeoCache;
+	}
 
     public boolean getWayCacheAdding(Context context) {
         return MapPreferenceManager.getPreference(context).getAddingCacheWayString();

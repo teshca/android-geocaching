@@ -64,6 +64,7 @@ public class SearchGeoCacheMap extends MapActivity implements ISearchActivity, I
 	private ConnectionManager internetManager;
 	private ImageView progressBarView;
 	private AnimationDrawable progressBarAnim;
+	private Controller controller;
 	private GoogleAnalyticsTracker tracker;
 
 	/*
@@ -89,13 +90,15 @@ public class SearchGeoCacheMap extends MapActivity implements ISearchActivity, I
 		mapController = map.getController();
 		userOverlay = new UserLocationOverlay(this);
 		manager = new SearchGeoCacheManager(this);
+		controller = Controller.getInstance();
+		controller.setSearchingGeoCache((GeoCache) getIntent().getParcelableExtra(GeoCache.class.getCanonicalName())); 
 		map.setBuiltInZoomControls(true);
 		internetManager = Controller.getInstance().getConnectionManager(this);
 		internetManager.addSubscriber(this);
-		if (manager.getGeoCache() != null) {
-			cacheMarker = Controller.getInstance().getMarker(manager.getGeoCache(), this);
+		if (controller.getSearchingGeoCache() != null) {
+			cacheMarker = Controller.getInstance().getMarker(controller.getSearchingGeoCache(), this);
 			cacheItemizedOverlay = new GeoCacheItemizedOverlay(cacheMarker, this);
-			cacheOverlayItem = new GeoCacheOverlayItem(manager.getGeoCache(), "", "");
+			cacheOverlayItem = new GeoCacheOverlayItem(controller.getSearchingGeoCache(), "", "");
 			cacheItemizedOverlay.addOverlayItem(cacheOverlayItem);
 			mapOverlays.add(cacheItemizedOverlay);
 		}
@@ -138,12 +141,12 @@ public class SearchGeoCacheMap extends MapActivity implements ISearchActivity, I
 	public void runLogic() {
 		Log.d(TAG, "run logic");
 		manager.runLogic();
-		if (manager.getGeoCache() == null) {
+		if (controller.getSearchingGeoCache() == null) {
 			return;
 		}
 		if (!manager.isLocationFixed()) {
 			Log.d(TAG, "run logic: location not fixed. Show gps status");
-			mapController.animateTo(manager.getGeoCache().getLocationGeoPoint());
+			mapController.animateTo(controller.getSearchingGeoCache().getLocationGeoPoint());
 			// we need to run progress bar, but it will be done in
 			// onFocusChanged
 			progressBarView.setVisibility(View.VISIBLE);
@@ -161,8 +164,8 @@ public class SearchGeoCacheMap extends MapActivity implements ISearchActivity, I
 		Log.d(TAG, "start compass activity");
 
 		Intent intent = new Intent(this, SearchGeoCacheCompass.class);
-		if ((manager != null) && (manager.getGeoCache() != null)) {
-			intent.putExtra(GeoCache.class.getCanonicalName(), manager.getGeoCache());
+		if ((manager != null) && (controller.getSearchingGeoCache() != null)) {
+			intent.putExtra(GeoCache.class.getCanonicalName(), controller.getSearchingGeoCache());
 		}
 		startActivity(intent);
 	}
@@ -183,8 +186,8 @@ public class SearchGeoCacheMap extends MapActivity implements ISearchActivity, I
 		if (distanceOverlay == null) {
 			// It's really first run of update location
 			Log.d(TAG, "update location: first run of this activity");
-			distanceOverlay = new DistanceToGeoCacheOverlay(GpsHelper.locationToGeoPoint(location), manager.getGeoCache().getLocationGeoPoint());
-			distanceOverlay.setCachePoint(manager.getGeoCache().getLocationGeoPoint());
+			distanceOverlay = new DistanceToGeoCacheOverlay(GpsHelper.locationToGeoPoint(location), controller.getSearchingGeoCache().getLocationGeoPoint());
+			distanceOverlay.setCachePoint(controller.getSearchingGeoCache().getLocationGeoPoint());
 			mapOverlays.add(distanceOverlay);
 			mapOverlays.add(userOverlay);
 			resetZoom();
@@ -192,7 +195,7 @@ public class SearchGeoCacheMap extends MapActivity implements ISearchActivity, I
 			// DrivingDirections.Mode mode = Mode.WALKING;
 			// DrivingDirections directions =
 			// DrivingDirectionsFactory.createDrivingDirections();
-			// directions.driveTo(Helper.locationToGeoPoint(location),manager.getGeoCache().getLocationGeoPoint()
+			// directions.driveTo(Helper.locationToGeoPoint(location),controller.getSearchedGeoCache().getLocationGeoPoint()
 			// , mode, this);
 
 			return;
@@ -222,10 +225,10 @@ public class SearchGeoCacheMap extends MapActivity implements ISearchActivity, I
 	private void resetZoom() {
 		GeoPoint currentGeoPoint = GpsHelper.locationToGeoPoint(manager.getCurrentLocation());
 		// Calculating max and min lat and lon
-		int minLat = Math.min(manager.getGeoCache().getLocationGeoPoint().getLatitudeE6(), currentGeoPoint.getLatitudeE6());
-		int maxLat = Math.max(manager.getGeoCache().getLocationGeoPoint().getLatitudeE6(), currentGeoPoint.getLatitudeE6());
-		int minLon = Math.min(manager.getGeoCache().getLocationGeoPoint().getLongitudeE6(), currentGeoPoint.getLongitudeE6());
-		int maxLon = Math.max(manager.getGeoCache().getLocationGeoPoint().getLongitudeE6(), currentGeoPoint.getLongitudeE6());
+		int minLat = Math.min(controller.getSearchingGeoCache().getLocationGeoPoint().getLatitudeE6(), currentGeoPoint.getLatitudeE6());
+		int maxLat = Math.max(controller.getSearchingGeoCache().getLocationGeoPoint().getLatitudeE6(), currentGeoPoint.getLatitudeE6());
+		int minLon = Math.min(controller.getSearchingGeoCache().getLocationGeoPoint().getLongitudeE6(), currentGeoPoint.getLongitudeE6());
+		int maxLon = Math.max(controller.getSearchingGeoCache().getLocationGeoPoint().getLongitudeE6(), currentGeoPoint.getLongitudeE6());
 
 		// Calculate span
 		int latSpan = maxLat - minLat;
@@ -235,7 +238,7 @@ public class SearchGeoCacheMap extends MapActivity implements ISearchActivity, I
 		mapController.zoomToSpan(latSpan, lonSpan);
 
 		// Calculate new center of map
-		GeoPoint center = new GeoPoint((manager.getGeoCache().getLocationGeoPoint().getLatitudeE6() + currentGeoPoint.getLatitudeE6()) / 2, (manager.getGeoCache().getLocationGeoPoint()
+		GeoPoint center = new GeoPoint((controller.getSearchingGeoCache().getLocationGeoPoint().getLatitudeE6() + currentGeoPoint.getLatitudeE6()) / 2, (controller.getSearchingGeoCache().getLocationGeoPoint()
 				.getLongitudeE6() + currentGeoPoint.getLongitudeE6()) / 2);
 
 		// Set new center of map
@@ -249,7 +252,7 @@ public class SearchGeoCacheMap extends MapActivity implements ISearchActivity, I
 		Point userPoint = new Point();
 		Point cachePoint = new Point();
 		proj.toPixels(currentGeoPoint, userPoint);
-		proj.toPixels(manager.getGeoCache().getLocationGeoPoint(), cachePoint);
+		proj.toPixels(controller.getSearchingGeoCache().getLocationGeoPoint(), cachePoint);
 		// Get map boundaries
 		int mapRight = map.getRight();
 		int mapBottom = map.getBottom();
@@ -288,7 +291,7 @@ public class SearchGeoCacheMap extends MapActivity implements ISearchActivity, I
 			if (manager.isLocationFixed()) {
 				resetZoom();
 			} else {
-				mapController.animateTo(manager.getGeoCache().getLocationGeoPoint());
+				mapController.animateTo(controller.getSearchingGeoCache().getLocationGeoPoint());
 				Toast.makeText(getBaseContext(), R.string.status_null_last_location, Toast.LENGTH_SHORT).show();
 			}
 			return true;
@@ -296,12 +299,12 @@ public class SearchGeoCacheMap extends MapActivity implements ISearchActivity, I
 			this.startCompassView();
 			return true;
 		case R.id.menuGeoCacheInfo:
-			UiHelper.showGeoCacheInfo(this, manager.getGeoCache());
+			UiHelper.showGeoCacheInfo(this, controller.getSearchingGeoCache());
 			return true;
 			// case R.id.DrawDirectionPath:
 			// directionControlller.setVisibleWay();
 		case R.id.stepByStep:
-			UiHelper.startStepByStepForResult(this, manager.getGeoCache());
+			UiHelper.startStepByStepForResult(this, controller.getSearchingGeoCache());
 			return true;
 		default:
 			return super.onOptionsItemSelected(item);
@@ -322,7 +325,7 @@ public class SearchGeoCacheMap extends MapActivity implements ISearchActivity, I
 				int latitude = data.getIntExtra(StepByStepTabActivity.LATITUDE, 0);
 				int longitude = data.getIntExtra(StepByStepTabActivity.LONGITUDE, 0);
 				GeoCache gc = new GeoCache();
-				GeoCache currentGCache = manager.getGeoCache();
+				GeoCache currentGCache = controller.getSearchingGeoCache();
 				gc.setLocationGeoPoint(new GeoPoint(latitude, longitude));
 				gc.setType(GeoCacheType.CHECKPOINT);
 			
@@ -396,7 +399,7 @@ public class SearchGeoCacheMap extends MapActivity implements ISearchActivity, I
 //	@Override
 //	public void onGeoCacheItemTaped(GeoCacheOverlayItem item) {
 //		Intent intent = new Intent(this, ShowGeoCacheInfo.class);
-//		intent.putExtra(GeoCache.class.getCanonicalName(), manager.getGeoCache());
+//		intent.putExtra(GeoCache.class.getCanonicalName(), controller.getSearchedGeoCache());
 //		this.startActivity(intent);
 //	}
 
