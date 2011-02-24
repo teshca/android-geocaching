@@ -4,21 +4,20 @@ import java.util.List;
 
 import su.geocaching.android.controller.Controller;
 import su.geocaching.android.model.datatype.GeoCache;
+import su.geocaching.android.model.datatype.GeoCacheStatus;
+import su.geocaching.android.model.datatype.GeoCacheType;
 import su.geocaching.android.ui.R;
-import su.geocaching.android.ui.ShowGeoCacheInfo;
 import su.geocaching.android.ui.compass.SearchGeoCacheCompass;
 import su.geocaching.android.ui.geocachemap.ConnectionManager;
 import su.geocaching.android.ui.geocachemap.GeoCacheItemizedOverlay;
 import su.geocaching.android.ui.geocachemap.GeoCacheOverlayItem;
 import su.geocaching.android.ui.geocachemap.IInternetAware;
-import su.geocaching.android.ui.geocachemap.IMapAware;
 import su.geocaching.android.ui.searchgeocache.drivingDirections.DrivingDirections.IDirectionsListener;
 import su.geocaching.android.ui.searchgeocache.drivingDirections.DrivingDirections.Mode;
 import su.geocaching.android.ui.searchgeocache.drivingDirections.IRoute;
 import su.geocaching.android.ui.searchgeocache.stepbystep.StepByStepTabActivity;
 import su.geocaching.android.utils.GpsHelper;
 import su.geocaching.android.utils.UiHelper;
-import su.geocaching.android.utils.log.LogHelper;
 import android.content.Intent;
 import android.graphics.Point;
 import android.graphics.Rect;
@@ -49,7 +48,7 @@ import com.google.android.maps.Projection;
  * @author Android-Geocaching.su student project team
  * @since October 2010
  */
-public class SearchGeoCacheMap extends MapActivity implements ISearchActivity, IMapAware, IInternetAware, IDirectionsListener {
+public class SearchGeoCacheMap extends MapActivity implements ISearchActivity, IInternetAware, IDirectionsListener { // IMapAware
 	private final static String TAG = SearchGeoCacheMap.class.getCanonicalName();
 
 	private GeoCacheOverlayItem cacheOverlayItem;
@@ -309,7 +308,8 @@ public class SearchGeoCacheMap extends MapActivity implements ISearchActivity, I
 		}
 	}
 
-	GeoCacheItemizedOverlay secondaryCacheItemizedOverlay;
+	private GeoCacheItemizedOverlay checkpointCacheOverlay;
+	private int activeCheckpoint = 0;
 
 	// TODO
 	@Override
@@ -317,24 +317,28 @@ public class SearchGeoCacheMap extends MapActivity implements ISearchActivity, I
 		super.onActivityResult(requestCode, resultCode, data);
 
 		switch (requestCode) {
-		case 100:
-			LogHelper.d(TAG, "data == null " + (data == null));
-			if (data != null) {
+		case UiHelper.STEP_BY_STEP_REQUEST:
+			if (resultCode == RESULT_OK && data != null) {
 				int latitude = data.getIntExtra(StepByStepTabActivity.LATITUDE, 0);
 				int longitude = data.getIntExtra(StepByStepTabActivity.LONGITUDE, 0);
 				GeoCache gc = new GeoCache();
+				GeoCache currentGCache = manager.getGeoCache();
 				gc.setLocationGeoPoint(new GeoPoint(latitude, longitude));
+				gc.setType(GeoCacheType.CHECKPOINT);
+			
 
-				Drawable cacheMarker = this.getResources().getDrawable(R.drawable.cache);
-				;
-				cacheMarker.setBounds(-cacheMarker.getMinimumWidth() / 2, -cacheMarker.getMinimumHeight(), cacheMarker.getMinimumWidth() / 2, 0);
-
-				if (secondaryCacheItemizedOverlay == null) {
-					secondaryCacheItemizedOverlay = new GeoCacheItemizedOverlay(cacheMarker, this);
-					mapOverlays.add(secondaryCacheItemizedOverlay);
+				if (checkpointCacheOverlay == null) {
+					cacheMarker = Controller.getInstance().getMarker(gc, this);
+					checkpointCacheOverlay = new GeoCacheItemizedOverlay(cacheMarker, this);
+					mapOverlays.add(checkpointCacheOverlay);
 				}
-				GeoCacheOverlayItem cacheOverlayItem = new GeoCacheOverlayItem(gc, "", "");
-				secondaryCacheItemizedOverlay.addOverlayItem(cacheOverlayItem);
+				GeoCacheOverlayItem checkpoint = new GeoCacheOverlayItem(gc, "", "");
+				checkpointCacheOverlay.addOverlayItem(checkpoint);
+				activeCheckpoint = checkpointCacheOverlay.size();
+				
+				gc.setId(currentGCache.getId());
+				gc.setStatus(GeoCacheStatus.ACTIVE_CHECKPOINT);
+				gc.setName("Checkpoint "+activeCheckpoint);
 
 				map.invalidate();
 			}
@@ -384,17 +388,17 @@ public class SearchGeoCacheMap extends MapActivity implements ISearchActivity, I
 		return manager.getCurrentBearing();
 	}
 
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see su.geocaching.android.ui.geocachemap.IMapAware#onGeoCacheItemTaped(su .geocaching.android.ui.geocachemap.GeoCacheOverlayItem)
-	 */
-	@Override
-	public void onGeoCacheItemTaped(GeoCacheOverlayItem item) {
-		Intent intent = new Intent(this, ShowGeoCacheInfo.class);
-		intent.putExtra(GeoCache.class.getCanonicalName(), manager.getGeoCache());
-		this.startActivity(intent);
-	}
+//	/*
+//	 * (non-Javadoc)
+//	 * 
+//	 * @see su.geocaching.android.ui.geocachemap.IMapAware#onGeoCacheItemTaped(su .geocaching.android.ui.geocachemap.GeoCacheOverlayItem)
+//	 */
+//	@Override
+//	public void onGeoCacheItemTaped(GeoCacheOverlayItem item) {
+//		Intent intent = new Intent(this, ShowGeoCacheInfo.class);
+//		intent.putExtra(GeoCache.class.getCanonicalName(), manager.getGeoCache());
+//		this.startActivity(intent);
+//	}
 
 	/*
 	 * (non-Javadoc)

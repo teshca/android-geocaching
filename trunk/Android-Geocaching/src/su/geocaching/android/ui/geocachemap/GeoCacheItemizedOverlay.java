@@ -1,9 +1,12 @@
 package su.geocaching.android.ui.geocachemap;
 
+import android.content.Context;
+import android.content.Intent;
 import android.graphics.drawable.Drawable;
 import com.google.android.maps.MapView;
 import com.google.android.maps.OverlayItem;
 import su.geocaching.android.model.datatype.GeoCache;
+import su.geocaching.android.ui.ShowGeoCacheInfo;
 
 import java.util.Collections;
 import java.util.LinkedList;
@@ -15,9 +18,9 @@ import java.util.List;
  */
 public class GeoCacheItemizedOverlay extends com.google.android.maps.ItemizedOverlay<OverlayItem> {
     private List<GeoCacheOverlayItem> items;
-    private IMapAware context;
+    private Context context;
 
-    public GeoCacheItemizedOverlay(Drawable defaultMarker, IMapAware context) {
+    public GeoCacheItemizedOverlay(Drawable defaultMarker, Context context) {
         super(defaultMarker);
         items = Collections.synchronizedList(new LinkedList<GeoCacheOverlayItem>());
         this.context = context;
@@ -64,7 +67,9 @@ public class GeoCacheItemizedOverlay extends com.google.android.maps.ItemizedOve
 
     @Override
     public boolean onTap(int index) {
-        context.onGeoCacheItemTaped(items.get(index));
+    	Intent intent = new Intent(context, ShowGeoCacheInfo.class);
+		intent.putExtra(GeoCache.class.getCanonicalName(), items.get(index).getGeoCache());
+		context.startActivity(intent);
         return true;
     }
 }

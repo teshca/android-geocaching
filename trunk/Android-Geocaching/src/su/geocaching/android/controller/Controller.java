@@ -168,6 +168,8 @@ public class Controller {
                 break;
             case GROUP:
                 return getMarker(R.drawable.ic_cache_group, map);
+            case CHECKPOINT:
+                return getMarker(R.drawable.cache, map);
         }
         return null;
     }

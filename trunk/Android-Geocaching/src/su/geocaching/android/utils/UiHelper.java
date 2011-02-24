@@ -18,7 +18,7 @@ import android.provider.Settings;
  */
 public class UiHelper {
 
-	public static int STEP_BY_STEP_REQUEST = 100;
+	public static final int STEP_BY_STEP_REQUEST = 100;
 	/**
 	 * Invoke "home" action, returning to DashBoardActivity
 	 */

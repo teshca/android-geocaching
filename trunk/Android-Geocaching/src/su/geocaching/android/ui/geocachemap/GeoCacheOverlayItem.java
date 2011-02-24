@@ -1,13 +1,14 @@
 package su.geocaching.android.ui.geocachemap;
 
-import android.content.Context;
-import com.google.android.maps.GeoPoint;
-import com.google.android.maps.OverlayItem;
+import java.util.List;
+
 import su.geocaching.android.controller.Controller;
 import su.geocaching.android.model.datatype.GeoCache;
 import su.geocaching.android.model.datatype.GeoCacheType;
+import android.content.Context;
 
-import java.util.List;
+import com.google.android.maps.GeoPoint;
+import com.google.android.maps.OverlayItem;
 
 /**
  * Describes overlay item which contains GeoCache object
@@ -17,7 +18,7 @@ import java.util.List;
  */
 public class GeoCacheOverlayItem extends OverlayItem {
 
-	private GeoCache mData;
+	private GeoCache geoCache;
 	private List<GeoCache> geoCacheList = null;
 
 	/**
@@ -30,21 +31,21 @@ public class GeoCacheOverlayItem extends OverlayItem {
 	 */
 	public GeoCacheOverlayItem(GeoCache geoCache, String title, String snippet) {
 		super(geoCache.getLocationGeoPoint(), title, snippet);
-		mData = geoCache;
+		this.geoCache = geoCache;
 	}
 
 	public GeoCacheOverlayItem(GeoCache geoCache, String title, String snippet, Context map) {
 		super(geoCache.getLocationGeoPoint(), title, snippet);
 		this.setMarker(Controller.getInstance().getMarker(geoCache, map));
-		mData = geoCache;
+		this.geoCache = geoCache;
 	}
 
 	public GeoCacheOverlayItem(GeoPoint point, List<GeoCache> geoCacheList, String title, String snippet, Context map) {
 		super(point, title, snippet);
-		mData = new GeoCache();
-		mData.setType(GeoCacheType.GROUP);
-		this.setMarker(Controller.getInstance().getMarker(mData, map));
-		mData.setLocationGeoPoint(point);
+		geoCache = new GeoCache();
+		geoCache.setType(GeoCacheType.GROUP);
+		this.setMarker(Controller.getInstance().getMarker(geoCache, map));
+		geoCache.setLocationGeoPoint(point);
 		this.geoCacheList = geoCacheList;
 	}
 
@@ -52,7 +53,7 @@ public class GeoCacheOverlayItem extends OverlayItem {
 	 * @return GeoCache object which contains by this overlay use if it's not a group
 	 */
 	public GeoCache getGeoCache() {
-		return mData;
+		return geoCache;
 	}
 
 	public List<GeoCache> getGeoCacheList() {
