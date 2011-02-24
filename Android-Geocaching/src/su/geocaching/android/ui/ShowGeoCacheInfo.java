@@ -149,7 +149,13 @@ public class ShowGeoCacheInfo extends Activity implements OnCheckedChangeListene
 			break;
 		case NOT_CONFIRMED:
 			tvStatusGeoCacheText.setText(getString(R.string.status_geocache_no_confirmed));
+			break;			
+		case ACTIVE_CHECKPOINT:
+			tvStatusGeoCacheText.setText(getString(R.string.status_geocache_active_checkpoint));
 			break;
+		case NOT_ACTIVE_CHECKPOINT:
+			tvStatusGeoCacheText.setText(getString(R.string.status_geocache_not_active_checkpoint));
+			break;			
 		default:
 			tvStatusGeoCacheText.setText(getString(R.string.status_geocache_no_confirmed));
 			break;
@@ -170,6 +176,9 @@ public class ShowGeoCacheInfo extends Activity implements OnCheckedChangeListene
 			break;
 		case EXTREME:
 			tvTypeGeoCacheText.setText(getString(R.string.type_geocache_extreme));
+			break;
+		case CHECKPOINT:
+			tvTypeGeoCacheText.setText(getString(R.string.type_geocache_checkpoint));
 			break;
 		default:
 			tvTypeGeoCacheText.setText("???");
