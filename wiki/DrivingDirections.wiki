@@ -454,6 +454,7 @@ http://maps.google.ru/maps?f=d&source=s_d&saddr=59.968096+30.303894&daddr=59.970
 String test ="http://maps.google.ru/maps?f=d&source=s_d&saddr="+startPoint.getLatitudeE6()/1.0E6+","+startPoint.getLongitudeE6()/1.0E6+"&daddr="+endPoint.getLatitudeE6()/1.0E6+","+endPoint.getLongitudeE6()/1.0E6+"&hl=ru&mra=ls&dirflg=w&sll="+startPoint.getLatitudeE6()/1.0E6+","+startPoint.getLongitudeE6()/1.0E6+"&ie=UTF8&om=0&output=kml"
 
 String test ="http://maps.google.ru/maps?f=d&source=s_d&saddr="+startPoint.getLatitudeE6()/1.0E6+","+startPoint.getLongitudeE6()/1.0E6+"&daddr="+endPoint.getLatitudeE6()/1.0E6+","+endPoint.getLongitudeE6()/1.0E6+"&geocode=&hl=ru&mra=ls&dirflg=w&vps=4&output=kml";}}}
-
-На эти два запроса я получаю пустой inputstream.
-Я не вижу очевидной ошибки.
+для первой:
+http://maps.google.ru/maps?f=d&source=s_d&saddr=37.422834,22.087&daddr=59.900766,30.27465&hl=ru&mra=ls&dirflg=w&sll=37.422834,22.087&ie=UTF8&0&om=0&output=kml
+для второй:
+http://maps.google.ru/maps?f=d&source=s_d&saddr=37.422834,22.087&daddr=59.900766,30.27465&geocode=&hl=ru&mra=ls&dirflg=w&vps=4&output=kml
