@@ -48,10 +48,10 @@ public class KMeans {
     }
 
     private GeoCacheView findClosestCentroid(GeoCacheView point) {
-        double minDistance = 10000;
+        long minDistance = 10000;
         GeoCacheView result = null;
         for (GeoCacheView centroid : centroids) {
-            double dist = countDistance(point, centroid);
+            long dist = countDistance(point, centroid);
             if (dist < minDistance) {
                 result = centroid;
                 minDistance = dist;
@@ -70,6 +70,7 @@ public class KMeans {
             point.setClosestCentroid(findClosestCentroid(point));
             resultMap.get(point.getClosestCentroid()).add(point);
         }
+        //deleteEmptyCentroids();
     }
 
     private void fillCurrentResultMap() {
@@ -90,8 +91,14 @@ public class KMeans {
                 Pair<Integer, Integer> newCentroid = getMassCenter(resultMap.get(centroid));
                 centroid.setX(newCentroid.first);
                 centroid.setY(newCentroid.second);
-            } else {
-                Log.d(TAG, "Empty centroid: x = " + centroid.getX() + ", y = " + centroid.getY());
+            }
+        }
+    }
+
+    private void deleteEmptyCentroids() {
+        for (int i = 0; i < centroids.size(); i++) {
+            if (resultMap.get(centroids.get(i)).size() == 0) {
+                centroids.remove(i);
             }
         }
     }
