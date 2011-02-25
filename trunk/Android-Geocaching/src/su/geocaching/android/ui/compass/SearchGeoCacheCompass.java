@@ -61,6 +61,7 @@ public class SearchGeoCacheCompass extends Activity {
 		tracker = GoogleAnalyticsTracker.getInstance();
 		tracker.start(getString(R.string.id_Google_Analytics), this);
 		tracker.trackPageView(getString(R.string.compass_activity_folder));		
+		tracker.dispatch();
 		
 		compassView = (CompassView) findViewById(R.id.compassView);
 		distanceToCache = (TextView) findViewById(R.id.DistanceValue);

@@ -82,7 +82,8 @@ public class SearchGeoCacheMap extends MapActivity implements ISearchActivity, I
 		tracker = GoogleAnalyticsTracker.getInstance();
 		tracker.start(getString(R.string.id_Google_Analytics), this);
 		tracker.trackPageView(getString(R.string.search_activity_folder));
-
+		tracker.dispatch();
+		
 		waitingLocationFixText = (TextView) findViewById(R.id.waitingLocationFixText);
 		progressBarView = (ImageView) findViewById(R.id.progressCircle);
 		progressBarView.setBackgroundResource(R.anim.earth_anim);

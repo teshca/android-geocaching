@@ -33,6 +33,7 @@ public class DashboardActivity extends Activity {
 		tracker = GoogleAnalyticsTracker.getInstance();
 		tracker.start(getString(R.string.id_Google_Analytics), this);
 		tracker.trackPageView(getString(R.string.dashboard_activity_folder));
+		tracker.dispatch();
 	}
 
 	@Override
@@ -61,6 +62,8 @@ public class DashboardActivity extends Activity {
 	 * Starting activity to select GeoCache
 	 */
 	public void onSelectClick(View v) {
+		tracker.trackEvent("Click", "Button", "from DashBoardActivity to SelesctActivity ", 0);
+		
 		Intent intent = new Intent(this, SelectGeoCacheMap.class);
 		startActivity(intent);
 		
@@ -70,6 +73,7 @@ public class DashboardActivity extends Activity {
 	 * Starting activity to search GeoCache
 	 */
 	public void onSearchClick(View v) {
+		tracker.trackEvent("Click", "Button", "from DashBoardActivity to SearchActivity ", 0);
 		if (Controller.getInstance().getLastSearchedGeoCache(this) == null) {
 			Toast.makeText(this.getBaseContext(), getString(R.string.search_geocache_start_without_geocache), Toast.LENGTH_SHORT).show();
 			return;
@@ -84,6 +88,7 @@ public class DashboardActivity extends Activity {
 	 * Starting about activity
 	 */
 	public void onAboutClick(View v) {
+		tracker.trackEvent("Click", "Button", "from DashBoardActivity to AboutActivity ", 0);
 		Intent intent = new Intent(this, su.geocaching.android.ui.AboutActivity.class);
 		startActivity(intent);
 		
@@ -93,8 +98,9 @@ public class DashboardActivity extends Activity {
 	 * Starting activity with favorites geocaches
 	 */
 	public void onFavoriteClick(View v) {
+		tracker.trackEvent("Click", "Button", "from DashBoardActivity to FavoriteActivity ", 0);
 		Intent intent = new Intent(this, su.geocaching.android.ui.FavoritesFolder.class);
 		startActivity(intent);
-		
+	
 	}
 }
