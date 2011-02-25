@@ -2,10 +2,7 @@ package su.geocaching.android.ui.selectgeocache.geocachegroup;
 
 
 import android.util.Log;
-import android.util.Pair;
 
-import java.util.HashMap;
-import java.util.LinkedList;
 import java.util.List;
 
 /**
@@ -14,20 +11,18 @@ import java.util.List;
  */
 
 public class KMeans {
-    private List<GeoCacheView> centroids;
-    private HashMap<GeoCacheView, List<GeoCacheView>> resultMap;
+    private List<Centroid> centroids;
     private List<GeoCacheView> points;
     private boolean ready;
     private long timeStart;
 
     private static final String TAG = "KMeans";
 
-    public KMeans(List<GeoCacheView> cacheCoordinates, List<GeoCacheView> centroids) {
+    public KMeans(List<GeoCacheView> cacheCoordinates, List<Centroid> centroids) {
         timeStart = System.currentTimeMillis();
         this.points = cacheCoordinates;
         this.centroids = centroids;
         long iterations = 0;
-        Log.d(TAG, "Results Map init");
         initResultsMap();
 
         ready = false;
@@ -35,22 +30,21 @@ public class KMeans {
             iterations++;
             ready = true;
             fillCentroids();
-            Log.d(TAG, "Centroids filled.");
-            fillCurrentResultMap();
+            fillCurrentResult();
         }
         Log.d("mapStats", "iterations = " + iterations);
 
     }
 
-    public HashMap<GeoCacheView, List<GeoCacheView>> getClusterMap() {
+    public List<Centroid> getClusterMap() {
         Log.d("mapStats", "timeAlgorithm = " + (System.currentTimeMillis() - timeStart));
-        return resultMap;
+        return centroids;
     }
 
-    private GeoCacheView findClosestCentroid(GeoCacheView point) {
-        long minDistance = 10000;
-        GeoCacheView result = null;
-        for (GeoCacheView centroid : centroids) {
+    private Centroid findClosestCentroid(GeoCacheView point) {
+        long minDistance = (long) 1e7;
+        Centroid result = null;
+        for (Centroid centroid : centroids) {
             long dist = countDistance(point, centroid);
             if (dist < minDistance) {
                 result = centroid;
@@ -61,49 +55,36 @@ public class KMeans {
     }
 
     private void initResultsMap() {
-        resultMap = new HashMap<GeoCacheView, List<GeoCacheView>>();
-        for (GeoCacheView centroid : centroids) {
-            resultMap.put(centroid, new LinkedList<GeoCacheView>());
-        }
-
         for (GeoCacheView point : points) {
-            point.setClosestCentroid(findClosestCentroid(point));
-            resultMap.get(point.getClosestCentroid()).add(point);
+            Centroid centroid = findClosestCentroid(point);
+            point.setClosestCentroid(centroid);
+            centroid.getGeoCacheList().add(point);
         }
-        //deleteEmptyCentroids();
     }
 
-    private void fillCurrentResultMap() {
+    private void fillCurrentResult() {
         for (GeoCacheView aPoint : points) {
-            GeoCacheView newClosestCentroid = findClosestCentroid(aPoint);
+            Centroid newClosestCentroid = findClosestCentroid(aPoint);
             if (!aPoint.getClosestCentroid().equals(newClosestCentroid)) {
                 ready = false;
-                resultMap.get(aPoint.getClosestCentroid()).remove(aPoint);
+                aPoint.getClosestCentroid().getGeoCacheList().remove(aPoint);
                 aPoint.setClosestCentroid(newClosestCentroid);
-                resultMap.get(aPoint.getClosestCentroid()).add(aPoint);
+                aPoint.getClosestCentroid().getGeoCacheList().add(aPoint);
             }
         }
     }
 
     private void fillCentroids() {
-        for (GeoCacheView centroid : centroids) {
-            if (resultMap.get(centroid).size() != 0) {
-                Pair<Integer, Integer> newCentroid = getMassCenter(resultMap.get(centroid));
-                centroid.setX(newCentroid.first);
-                centroid.setY(newCentroid.second);
+        for (Centroid centroid : centroids) {
+            if (centroid.getGeoCacheList().size() != 0) {
+                Pair newCentroid = getMassCenter(centroid.getGeoCacheList());
+                centroid.setX(newCentroid.x);
+                centroid.setY(newCentroid.y);
             }
         }
     }
 
-    private void deleteEmptyCentroids() {
-        for (int i = 0; i < centroids.size(); i++) {
-            if (resultMap.get(centroids.get(i)).size() == 0) {
-                centroids.remove(i);
-            }
-        }
-    }
-
-    private Pair<Integer, Integer> getMassCenter(List<GeoCacheView> points) {
+    private Pair getMassCenter(List<GeoCacheView> points) {
         int centerX = 0, centerY = 0;
         for (GeoCacheView point : points) {
             centerX += point.getX();
@@ -111,12 +92,22 @@ public class KMeans {
         }
         centerX /= points.size();
         centerY /= points.size();
-        return new Pair<Integer, Integer>(centerX, centerY);
+        return new Pair(centerX, centerY);
     }
 
     private long countDistance(GeoCacheView point, GeoCacheView centroid) {
         int x = point.getX() - centroid.getX();
         int y = point.getY() - centroid.getY();
         return x * x + y * y;
+    }
+
+    private class Pair {
+        public int x;
+        public int y;
+
+        private Pair(int x, int y) {
+            this.x = x;
+            this.y = y;
+        }
     }
 }

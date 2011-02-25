@@ -11,7 +11,7 @@ public class GeoCacheView {
     private int x;
     private int y;
     private GeoCache cache;
-    private GeoCacheView closestCentroid;
+    private Centroid closestCentroid;
 
     public GeoCacheView(int x, int y, GeoCache cache) {
         this.x = x;
@@ -44,11 +44,11 @@ public class GeoCacheView {
         return cache;
     }
 
-    public GeoCacheView getClosestCentroid() {
+    public Centroid getClosestCentroid() {
         return closestCentroid;
     }
 
-    public void setClosestCentroid(GeoCacheView closestCentroid) {
+    public void setClosestCentroid(Centroid closestCentroid) {
         this.closestCentroid = closestCentroid;
     }
 }

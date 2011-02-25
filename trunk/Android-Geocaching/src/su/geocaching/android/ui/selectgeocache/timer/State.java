@@ -1,5 +1,6 @@
 package su.geocaching.android.ui.selectgeocache.timer;
 
+import android.util.Log;
 import su.geocaching.android.ui.selectgeocache.SelectGeoCacheMap;
 
 /**
@@ -30,6 +31,7 @@ public class State {
 
     private synchronized void sendRequest() {
         if (requestSent && mapUpdated) {
+            Log.d("mapStats", "state start");
             gcMap.updateCacheOverlay();
 
             mapUpdated = false;
