@@ -42,6 +42,7 @@ public class FavoritesFolder extends Activity implements OnItemClickListener {
 	tracker = GoogleAnalyticsTracker.getInstance();
 	tracker.start(getString(R.string.id_Google_Analytics), this);
 	tracker.trackPageView(getString(R.string.favorites_activity_folder));
+	tracker.dispatch();
 	setContentView(R.layout.favorit_list);
 	lvListShowCache = (ListView) findViewById(R.id.favorit_folder_listCach);
 	tvTitle = (TextView) findViewById(R.id.favorit_foldet_title_text);

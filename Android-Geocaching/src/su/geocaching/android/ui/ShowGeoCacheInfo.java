@@ -85,6 +85,7 @@ public class ShowGeoCacheInfo extends Activity implements OnCheckedChangeListene
 		tracker = GoogleAnalyticsTracker.getInstance();
 		tracker.start(getString(R.string.id_Google_Analytics), this);
 		tracker.trackPageView(getString(R.string.geocache_info_activity_folder));
+		tracker.dispatch();
 	}
 
 	@Override

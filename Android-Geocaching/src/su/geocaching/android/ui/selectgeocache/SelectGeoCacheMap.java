@@ -86,7 +86,8 @@ public class SelectGeoCacheMap extends MapActivity implements IMapAware, IIntern
         tracker = GoogleAnalyticsTracker.getInstance();
         tracker.start(getString(R.string.id_Google_Analytics), this);
         tracker.trackPageView(getString(R.string.select_activity_folder));
-
+        tracker.dispatch();
+        
         map.setBuiltInZoomControls(true);
         map.getOverlays().add(userOverlay);
         map.invalidate();
