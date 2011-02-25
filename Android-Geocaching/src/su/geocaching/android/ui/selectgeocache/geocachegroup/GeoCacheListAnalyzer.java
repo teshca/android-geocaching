@@ -6,7 +6,6 @@ import com.google.android.maps.MapView;
 import su.geocaching.android.model.datatype.GeoCache;
 import su.geocaching.android.ui.geocachemap.GeoCacheOverlayItem;
 
-import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
 
@@ -27,10 +26,10 @@ public class GeoCacheListAnalyzer {
         this.map = map;
     }
 
-    private void fillOverlayItemList(HashMap<GeoCacheView, List<GeoCacheView>> clusterPointMap) {
+    private void fillOverlayItemList(List<Centroid> clusterPointMap) {
         overlayItemList = new LinkedList<GeoCacheOverlayItem>();
-        for (GeoCacheView centroid : clusterPointMap.keySet()) {
-            List<GeoCacheView> cacheList = clusterPointMap.get(centroid);
+        for (Centroid centroid : clusterPointMap) {
+            List<GeoCacheView> cacheList = centroid.getGeoCacheList();
             if (cacheList.size() != 0) {
                 if (cacheList.size() < MINIMUM_GROUP_SIZE_TO_CREATE_CLUSTER) {
                     for (GeoCacheView cache : cacheList) {
@@ -54,15 +53,15 @@ public class GeoCacheListAnalyzer {
         return list;
     }
 
-    private List<GeoCacheView> generateCentroidsArray() {
+    private List<Centroid> generateCentroidsArray() {
         int sizeX = map.getWidth() / FINGER_SIZE_X;
         int sizeY = map.getHeight() / FINGER_SIZE_Y;
         Log.d("Screen Size", "width = " + map.getWidth() + ", height = " + map.getHeight());
-        List<GeoCacheView> centroids = new LinkedList<GeoCacheView>();
+        List<Centroid> centroids = new LinkedList<Centroid>();
 
         for (int i = 0; i < sizeX; i++) {
             for (int j = 0; j < sizeY; j++) {
-                centroids.add(new GeoCacheView(
+                centroids.add(new Centroid(
                     (int) ((i + 0.5) * FINGER_SIZE_X),
                     (int) ((j + 0.5) * FINGER_SIZE_Y),
                     null
@@ -73,9 +72,9 @@ public class GeoCacheListAnalyzer {
     }
 
     public List<GeoCacheOverlayItem> getList(List<GeoCache> geoCacheList) {
-        List<GeoCacheView> centroids = generateCentroidsArray();
+        List<Centroid> centroids = generateCentroidsArray();
         List<GeoCacheView> points = generatePointsList(geoCacheList);
-        HashMap<GeoCacheView, List<GeoCacheView>> clusterPointMap = new KMeans(points, centroids).getClusterMap();
+        List<Centroid> clusterPointMap = new KMeans(points, centroids).getClusterMap();
         Log.d("mapStats", "sizeList = " + geoCacheList.size() + "; centroids = " + centroids.size());
 
         fillOverlayItemList(clusterPointMap);
