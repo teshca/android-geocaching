@@ -89,7 +89,7 @@ public class DashboardActivity extends Activity {
 	 */
 	public void onAboutClick(View v) {
 		tracker.trackEvent("Click", "Button", "from DashBoardActivity to AboutActivity ", 0);
-		Intent intent = new Intent(this, su.geocaching.android.ui.AboutActivity.class);
+		Intent intent = new Intent(this, AboutActivity.class);
 		startActivity(intent);
 		
 	}
@@ -99,7 +99,7 @@ public class DashboardActivity extends Activity {
 	 */
 	public void onFavoriteClick(View v) {
 		tracker.trackEvent("Click", "Button", "from DashBoardActivity to FavoriteActivity ", 0);
-		Intent intent = new Intent(this, su.geocaching.android.ui.FavoritesFolder.class);
+		Intent intent = new Intent(this, FavoritesFolder.class);
 		startActivity(intent);
 	
 	}

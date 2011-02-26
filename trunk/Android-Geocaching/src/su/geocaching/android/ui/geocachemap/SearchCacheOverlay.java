@@ -6,7 +6,7 @@ import java.util.List;
 
 import su.geocaching.android.model.datatype.GeoCache;
 import su.geocaching.android.utils.UiHelper;
-import android.content.Context;
+import android.app.Activity;
 import android.graphics.drawable.Drawable;
 import android.util.Log;
 import android.view.GestureDetector;
@@ -27,9 +27,9 @@ public class SearchCacheOverlay extends ItemizedOverlay<OverlayItem> {
 	private boolean longClick;
 
 	private List<GeoCacheOverlayItem> items;
-	private Context context;
+	private Activity context;
 
-	public SearchCacheOverlay(Drawable defaultMarker, Context context) {
+	public SearchCacheOverlay(Drawable defaultMarker, Activity context) {
 		super(defaultMarker);
 		items = Collections.synchronizedList(new LinkedList<GeoCacheOverlayItem>());
 		this.context = context;
@@ -77,7 +77,10 @@ public class SearchCacheOverlay extends ItemizedOverlay<OverlayItem> {
 
 	@Override
 	public boolean onTap(int index) {
-		if (!longClick) {
+		Log.d("Geocaching.su", "onTap");
+		if (longClick) {
+			context.showDialog(1);
+		} else {
 			UiHelper.showGeoCacheInfo(context, items.get(index).getGeoCache());
 		}
 		return true;
@@ -96,14 +99,15 @@ public class SearchCacheOverlay extends ItemizedOverlay<OverlayItem> {
 		}
 
 		@Override
-		public boolean onFling(MotionEvent e1, MotionEvent e2, float velocityX, float velocityY) {			
+		public boolean onFling(MotionEvent e1, MotionEvent e2, float velocityX, float velocityY) {
 			return false;
 		}
 
 		@Override
 		public void onLongPress(MotionEvent e) {
+			Log.d("Geocaching.su", "onLongPress");
 			longClick = true;
-			}
+		}
 
 		@Override
 		public boolean onScroll(MotionEvent e1, MotionEvent e2, float distanceX, float distanceY) {

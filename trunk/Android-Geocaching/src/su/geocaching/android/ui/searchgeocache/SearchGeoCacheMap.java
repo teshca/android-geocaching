@@ -21,9 +21,11 @@ import su.geocaching.android.ui.geocachemap.SearchCacheOverlay;
 import su.geocaching.android.ui.searchgeocache.drivingDirections.DrivingDirections.IDirectionsListener;
 import su.geocaching.android.ui.searchgeocache.drivingDirections.DrivingDirections.Mode;
 import su.geocaching.android.ui.searchgeocache.drivingDirections.IRoute;
+import su.geocaching.android.ui.searchgeocache.stepbystep.CheckpointDialog;
 import su.geocaching.android.ui.searchgeocache.stepbystep.StepByStepTabActivity;
 import su.geocaching.android.utils.GpsHelper;
 import su.geocaching.android.utils.UiHelper;
+import android.app.Dialog;
 import android.content.Intent;
 import android.graphics.Point;
 import android.graphics.Rect;
@@ -56,7 +58,7 @@ import com.google.android.maps.Projection;
  * @author Android-Geocaching.su student project team
  * @since October 2010
  */
-public class SearchGeoCacheMap extends MapActivity implements IInternetAware, IDirectionsListener,ILocationAware, ICompassAware, IGpsStatusAware { 
+public class SearchGeoCacheMap extends MapActivity implements IInternetAware, IDirectionsListener, ILocationAware, ICompassAware, IGpsStatusAware {
 	private final static String TAG = SearchGeoCacheMap.class.getCanonicalName();
 
 	private GeoCacheOverlayItem cacheOverlayItem;
@@ -67,11 +69,11 @@ public class SearchGeoCacheMap extends MapActivity implements IInternetAware, ID
 	private MapView map;
 	private MapController mapController;
 	private List<Overlay> mapOverlays;
-	
+
 	private TextView waitingLocationFixText;
 	private ImageView progressBarView;
 	private AnimationDrawable progressBarAnim;
-	
+
 	private ConnectionManager internetManager;
 	private CompassManager mCompassManager;
 	private GeoCacheLocationManager mLocationManager;
@@ -93,29 +95,29 @@ public class SearchGeoCacheMap extends MapActivity implements IInternetAware, ID
 		tracker.start(getString(R.string.id_Google_Analytics), this);
 		tracker.trackPageView(getString(R.string.search_activity_folder));
 		tracker.dispatch();
-		
+
 		waitingLocationFixText = (TextView) findViewById(R.id.waitingLocationFixText);
 		progressBarView = (ImageView) findViewById(R.id.progressCircle);
 		progressBarView.setBackgroundResource(R.anim.earth_anim);
 		progressBarAnim = (AnimationDrawable) progressBarView.getBackground();
-		
+
 		map = (MapView) findViewById(R.id.searchGeocacheMap);
 		mapOverlays = map.getOverlays();
 		mapController = map.getController();
 		userOverlay = new UserLocationOverlay(this);
 		map.setBuiltInZoomControls(true);
-		
+
 		GeoCache geoCache = (GeoCache) getIntent().getParcelableExtra(GeoCache.class.getCanonicalName());
-		
+
 		mController = Controller.getInstance();
-		mController.setSearchingGeoCache(geoCache); 
-		
+		mController.setSearchingGeoCache(geoCache);
+
 		internetManager = mController.getConnectionManager(this);
 		internetManager.addSubscriber(this);
 		mLocationManager = mController.getLocationManager(this);
 		mCompassManager = mController.getCompassManager(this);
 		mGpsStatusManager = mController.getGpsStatusManager(this);
-		
+
 		if (geoCache != null) {
 			cacheMarker = mController.getMarker(mController.getSearchingGeoCache(), this);
 			cacheItemizedOverlay = new SearchCacheOverlay(cacheMarker, this);
@@ -134,12 +136,12 @@ public class SearchGeoCacheMap extends MapActivity implements IInternetAware, ID
 	protected void onPause() {
 		super.onPause();
 		Log.d(TAG, "on pause");
-		
+
 		internetManager.removeSubscriber(this);
 		mLocationManager.removeSubsriber(this);
 		mCompassManager.removeSubscriber(this);
 		mGpsStatusManager.removeSubsriber(this);
-		
+
 		tracker.stop();
 	}
 
@@ -188,7 +190,7 @@ public class SearchGeoCacheMap extends MapActivity implements IInternetAware, ID
 
 			map.invalidate();
 		}
-		
+
 		if (!internetManager.isInternetConnected()) {
 			onInternetLost();
 			Log.w(TAG, "internet not connected");
@@ -202,13 +204,15 @@ public class SearchGeoCacheMap extends MapActivity implements IInternetAware, ID
 		Log.d(TAG, "start compass activity");
 
 		Intent intent = new Intent(this, SearchGeoCacheCompass.class);
-		if (mController.getSearchingGeoCache()!=null) {
+		if (mController.getSearchingGeoCache() != null) {
 			intent.putExtra(GeoCache.class.getCanonicalName(), mController.getSearchingGeoCache());
 		}
 		startActivity(intent);
 	}
 
-	/* (non-Javadoc)
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see su.geocaching.android.controller.ILocationAware#updateLocation(android.location.Location)
 	 */
 	@Override
@@ -274,8 +278,8 @@ public class SearchGeoCacheMap extends MapActivity implements IInternetAware, ID
 		mapController.zoomToSpan(latSpan, lonSpan);
 
 		// Calculate new center of map
-		GeoPoint center = new GeoPoint((mController.getSearchingGeoCache().getLocationGeoPoint().getLatitudeE6() + currentGeoPoint.getLatitudeE6()) / 2, (mController.getSearchingGeoCache().getLocationGeoPoint()
-				.getLongitudeE6() + currentGeoPoint.getLongitudeE6()) / 2);
+		GeoPoint center = new GeoPoint((mController.getSearchingGeoCache().getLocationGeoPoint().getLatitudeE6() + currentGeoPoint.getLatitudeE6()) / 2, (mController.getSearchingGeoCache()
+				.getLocationGeoPoint().getLongitudeE6() + currentGeoPoint.getLongitudeE6()) / 2);
 
 		// Set new center of map
 		mapController.setCenter(center);
@@ -363,21 +367,21 @@ public class SearchGeoCacheMap extends MapActivity implements IInternetAware, ID
 				GeoCache gc = new GeoCache();
 				GeoCache currentGCache = mController.getSearchingGeoCache();
 				gc.setLocationGeoPoint(new GeoPoint(latitude, longitude));
-				gc.setType(GeoCacheType.CHECKPOINT);			
+				gc.setType(GeoCacheType.CHECKPOINT);
 
 				if (checkpointCacheOverlay == null) {
 					cacheMarker = Controller.getInstance().getMarker(gc, this);
 					checkpointCacheOverlay = new SearchCacheOverlay(cacheMarker, this);
 					mapOverlays.add(checkpointCacheOverlay);
 				}
-				
+
 				GeoCacheOverlayItem checkpoint = new GeoCacheOverlayItem(gc, "", "");
 				checkpointCacheOverlay.addOverlayItem(checkpoint);
 				activeCheckpoint = checkpointCacheOverlay.size();
-				
+
 				gc.setId(currentGCache.getId());
 				gc.setStatus(GeoCacheStatus.ACTIVE_CHECKPOINT);
-				gc.setName("Checkpoint "+activeCheckpoint);
+				gc.setName("Checkpoint " + activeCheckpoint);
 				mController.setSearchingGeoCache(gc);
 
 				map.invalidate();
@@ -388,8 +392,11 @@ public class SearchGeoCacheMap extends MapActivity implements IInternetAware, ID
 
 	/**
 	 * Show message string to user
-	 * @param status string with information about device status
-	 * @param type type of message(GPS, Internet, etc)
+	 * 
+	 * @param status
+	 *            string with information about device status
+	 * @param type
+	 *            type of message(GPS, Internet, etc)
 	 */
 	public void updateStatus(String status, StatusType type) {
 		if (type == StatusType.GPS) {
@@ -435,6 +442,17 @@ public class SearchGeoCacheMap extends MapActivity implements IInternetAware, ID
 		Toast.makeText(this, getString(R.string.search_geocache_best_provider_lost), Toast.LENGTH_LONG).show();
 	}
 
+	@Override
+	protected Dialog onCreateDialog(int id) {
+		Dialog dialog;
+		switch (id) {
+
+		default:
+			dialog = new CheckpointDialog(this);
+		}
+		return dialog;
+	}
+
 	/*
 	 * (non-Javadoc)
 	 * 
@@ -459,12 +477,14 @@ public class SearchGeoCacheMap extends MapActivity implements IInternetAware, ID
 		UiHelper.goHome(this);
 	}
 
-	/* (non-Javadoc)
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see su.geocaching.android.controller.IGpsStatusAware#updateStatus(java.lang.String)
 	 */
 	@Override
 	public void updateStatus(String status) {
-		updateStatus(status, StatusType.GPS);		
+		updateStatus(status, StatusType.GPS);
 	}
 
 	@Override
@@ -495,7 +515,9 @@ public class SearchGeoCacheMap extends MapActivity implements IInternetAware, ID
 		}
 	}
 
-	/* (non-Javadoc)
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see su.geocaching.android.controller.ILocationAware#onProviderEnabled(java.lang.String)
 	 */
 	@Override
@@ -503,7 +525,9 @@ public class SearchGeoCacheMap extends MapActivity implements IInternetAware, ID
 		Log.d(TAG, "onProviderEnabled: do nothing");
 	}
 
-	/* (non-Javadoc)
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see su.geocaching.android.controller.ILocationAware#onProviderDisabled(java.lang.String)
 	 */
 	@Override

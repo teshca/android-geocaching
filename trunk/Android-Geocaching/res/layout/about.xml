@@ -44,6 +44,6 @@
 			android:layout_width="100dip" android:layout_height="40dip"
 			android:clickable="true" android:layout_marginBottom="2dip"
 			android:text="@string/about_exit_button_text" android:layout_gravity="center"
-			android:gravity="center" />
+			android:gravity="center" android:onClick="onExitClick"/>
 	</TableRow>
 </TableLayout>
