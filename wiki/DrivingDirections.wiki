@@ -6,6 +6,8 @@
 
 3)http://code.google.com/p/j2memaprouteprovider/source/browse/trunk/J2MEMapRouteBlackBerryEx/src/org/ci/geo/route/RoadProvider.java
 
+4)http://facstaff.unca.edu/mcmcclur/googlemaps/encodepolyline/
+
 Также было использована информация еще с двух сайтов,но ссылки на них я добавлю позже.(в них реализуется та функциональность ,которую я собираюсь привить нашему приложению)
 
 ==Сайт с параметрами Google map==
@@ -28,4 +30,3 @@ http://maps.google.ru/maps?f=d&source=s_d&saddr=59.968096,+30.303894&daddr=59.97
 до:59.900766,30.27465
 
 http://maps.google.ru/maps?f=d&source=s_d&saddr=59.9765,30.305001&daddr=59.900766,30.27465&hl=ru&mra=ls&dirflg=w&sll=59.9765,30.305001&ie=UTF8&0&om=0&output=kml
-
