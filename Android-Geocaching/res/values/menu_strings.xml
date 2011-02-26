@@ -6,4 +6,5 @@
 	<string name="favorites">Избранное</string>
 	<string name="enableGps">Настройки GPS</string>
 	<string name="enableInternet">Настройки Интернета</string>
+	<string name="DrawDirectionPath">Построить путь</string>
 </resources>
