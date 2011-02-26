@@ -78,8 +78,6 @@ public class SearchGeoCacheMap extends MapActivity implements IInternetAware, ID
 	private GpsStatusManager mGpsStatusManager;
 	private Controller mController;
 	private GoogleAnalyticsTracker tracker;
-	
-	private GeoCache mGeoCache;
 
 	/*
 	 * (non-Javadoc)
@@ -107,10 +105,10 @@ public class SearchGeoCacheMap extends MapActivity implements IInternetAware, ID
 		userOverlay = new UserLocationOverlay(this);
 		map.setBuiltInZoomControls(true);
 		
-		mGeoCache = (GeoCache) getIntent().getParcelableExtra(GeoCache.class.getCanonicalName());
+		GeoCache geoCache = (GeoCache) getIntent().getParcelableExtra(GeoCache.class.getCanonicalName());
 		
 		mController = Controller.getInstance();
-		mController.setSearchingGeoCache(mGeoCache); 
+		mController.setSearchingGeoCache(geoCache); 
 		
 		internetManager = mController.getConnectionManager(this);
 		internetManager.addSubscriber(this);
@@ -118,7 +116,7 @@ public class SearchGeoCacheMap extends MapActivity implements IInternetAware, ID
 		mCompassManager = mController.getCompassManager(this);
 		mGpsStatusManager = mController.getGpsStatusManager(this);
 		
-		if (mGeoCache != null) {
+		if (geoCache != null) {
 			cacheMarker = mController.getMarker(mController.getSearchingGeoCache(), this);
 			cacheItemizedOverlay = new SearchCacheOverlay(cacheMarker, this);
 			cacheOverlayItem = new GeoCacheOverlayItem(mController.getSearchingGeoCache(), "", "");
@@ -163,7 +161,7 @@ public class SearchGeoCacheMap extends MapActivity implements IInternetAware, ID
 			Log.d(TAG, "resume: best provider (" + mLocationManager.getBestProvider() + ") disabled. Current provider is " + mLocationManager.getCurrentProvider());
 		} else {
 			Log.d(TAG, "resume: best provider (" + mLocationManager.getBestProvider() + ") enabled. Run logic");
-			if (mGeoCache == null) {
+			if (mController.getSearchingGeoCache() == null) {
 				Log.e(TAG, "null geocache. Finishing.");
 				Toast.makeText(this, getString(R.string.search_geocache_error_no_geocache), Toast.LENGTH_LONG).show();
 				this.finish();
@@ -171,11 +169,11 @@ public class SearchGeoCacheMap extends MapActivity implements IInternetAware, ID
 			}
 
 			// Save last searched geocache
-			mController.setLastSearchedGeoCache(mGeoCache, this);
+			mController.setLastSearchedGeoCache(mController.getSearchingGeoCache(), this);
 
 			if (!mLocationManager.hasLocation()) {
 				onBestProviderUnavailable();
-				mapController.animateTo(mGeoCache.getLocationGeoPoint());
+				mapController.animateTo(mController.getSearchingGeoCache().getLocationGeoPoint());
 				progressBarView.setVisibility(View.VISIBLE);
 				Log.d(TAG, "runLogic: location not fixed. Send msg.");
 			} else {
@@ -204,8 +202,8 @@ public class SearchGeoCacheMap extends MapActivity implements IInternetAware, ID
 		Log.d(TAG, "start compass activity");
 
 		Intent intent = new Intent(this, SearchGeoCacheCompass.class);
-		if (mGeoCache!=null) {
-			intent.putExtra(GeoCache.class.getCanonicalName(), mGeoCache);
+		if (mController.getSearchingGeoCache()!=null) {
+			intent.putExtra(GeoCache.class.getCanonicalName(), mController.getSearchingGeoCache());
 		}
 		startActivity(intent);
 	}
@@ -224,8 +222,8 @@ public class SearchGeoCacheMap extends MapActivity implements IInternetAware, ID
 		if (distanceOverlay == null) {
 			// It's really first run of update location
 			Log.d(TAG, "update location: first run of this activity");
-			distanceOverlay = new DistanceToGeoCacheOverlay(GpsHelper.locationToGeoPoint(location), mGeoCache.getLocationGeoPoint());
-			distanceOverlay.setCachePoint(mGeoCache.getLocationGeoPoint());
+			distanceOverlay = new DistanceToGeoCacheOverlay(GpsHelper.locationToGeoPoint(location), mController.getSearchingGeoCache().getLocationGeoPoint());
+			distanceOverlay.setCachePoint(mController.getSearchingGeoCache().getLocationGeoPoint());
 			mapOverlays.add(distanceOverlay);
 			mapOverlays.add(userOverlay);
 			resetZoom();
@@ -263,10 +261,10 @@ public class SearchGeoCacheMap extends MapActivity implements IInternetAware, ID
 	private void resetZoom() {
 		GeoPoint currentGeoPoint = GpsHelper.locationToGeoPoint(mLocationManager.getLastKnownLocation());
 		// Calculating max and min lat and lon
-		int minLat = Math.min(mGeoCache.getLocationGeoPoint().getLatitudeE6(), currentGeoPoint.getLatitudeE6());
-		int maxLat = Math.max(mGeoCache.getLocationGeoPoint().getLatitudeE6(), currentGeoPoint.getLatitudeE6());
-		int minLon = Math.min(mGeoCache.getLocationGeoPoint().getLongitudeE6(), currentGeoPoint.getLongitudeE6());
-		int maxLon = Math.max(mGeoCache.getLocationGeoPoint().getLongitudeE6(), currentGeoPoint.getLongitudeE6());
+		int minLat = Math.min(mController.getSearchingGeoCache().getLocationGeoPoint().getLatitudeE6(), currentGeoPoint.getLatitudeE6());
+		int maxLat = Math.max(mController.getSearchingGeoCache().getLocationGeoPoint().getLatitudeE6(), currentGeoPoint.getLatitudeE6());
+		int minLon = Math.min(mController.getSearchingGeoCache().getLocationGeoPoint().getLongitudeE6(), currentGeoPoint.getLongitudeE6());
+		int maxLon = Math.max(mController.getSearchingGeoCache().getLocationGeoPoint().getLongitudeE6(), currentGeoPoint.getLongitudeE6());
 
 		// Calculate span
 		int latSpan = maxLat - minLat;
@@ -276,7 +274,7 @@ public class SearchGeoCacheMap extends MapActivity implements IInternetAware, ID
 		mapController.zoomToSpan(latSpan, lonSpan);
 
 		// Calculate new center of map
-		GeoPoint center = new GeoPoint((mGeoCache.getLocationGeoPoint().getLatitudeE6() + currentGeoPoint.getLatitudeE6()) / 2, (mGeoCache.getLocationGeoPoint()
+		GeoPoint center = new GeoPoint((mController.getSearchingGeoCache().getLocationGeoPoint().getLatitudeE6() + currentGeoPoint.getLatitudeE6()) / 2, (mController.getSearchingGeoCache().getLocationGeoPoint()
 				.getLongitudeE6() + currentGeoPoint.getLongitudeE6()) / 2);
 
 		// Set new center of map
@@ -290,7 +288,7 @@ public class SearchGeoCacheMap extends MapActivity implements IInternetAware, ID
 		Point userPoint = new Point();
 		Point cachePoint = new Point();
 		proj.toPixels(currentGeoPoint, userPoint);
-		proj.toPixels(mGeoCache.getLocationGeoPoint(), cachePoint);
+		proj.toPixels(mController.getSearchingGeoCache().getLocationGeoPoint(), cachePoint);
 		// Get map boundaries
 		int mapRight = map.getRight();
 		int mapBottom = map.getBottom();
@@ -329,7 +327,7 @@ public class SearchGeoCacheMap extends MapActivity implements IInternetAware, ID
 			if (mLocationManager.hasLocation()) {
 				resetZoom();
 			} else {
-				mapController.animateTo(mGeoCache.getLocationGeoPoint());
+				mapController.animateTo(mController.getSearchingGeoCache().getLocationGeoPoint());
 				Toast.makeText(getBaseContext(), R.string.status_null_last_location, Toast.LENGTH_SHORT).show();
 			}
 			return true;
@@ -337,12 +335,12 @@ public class SearchGeoCacheMap extends MapActivity implements IInternetAware, ID
 			this.startCompassView();
 			return true;
 		case R.id.menuGeoCacheInfo:
-			UiHelper.showGeoCacheInfo(this, mGeoCache);
+			UiHelper.showGeoCacheInfo(this, mController.getSearchingGeoCache());
 			return true;
 			// case R.id.DrawDirectionPath:
 			// directionControlller.setVisibleWay();
 		case R.id.stepByStep:
-			UiHelper.startStepByStepForResult(this, mGeoCache);
+			UiHelper.startStepByStepForResult(this, mController.getSearchingGeoCache());
 			return true;
 		default:
 			return super.onOptionsItemSelected(item);
@@ -363,7 +361,7 @@ public class SearchGeoCacheMap extends MapActivity implements IInternetAware, ID
 				int latitude = data.getIntExtra(StepByStepTabActivity.LATITUDE, 0);
 				int longitude = data.getIntExtra(StepByStepTabActivity.LONGITUDE, 0);
 				GeoCache gc = new GeoCache();
-				GeoCache currentGCache = mGeoCache;
+				GeoCache currentGCache = mController.getSearchingGeoCache();
 				gc.setLocationGeoPoint(new GeoPoint(latitude, longitude));
 				gc.setType(GeoCacheType.CHECKPOINT);			
 
