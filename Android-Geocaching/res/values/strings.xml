@@ -104,4 +104,6 @@
 	<string name="azimuth">Азимут:</string>
 	<string name="distance">Расстояние:</string>
 	<string name="meter">m</string>
+<string name="checkpoint_active">Активировать</string>
+<string name="checkpoint_delete">Удалить</string>
 </resources>

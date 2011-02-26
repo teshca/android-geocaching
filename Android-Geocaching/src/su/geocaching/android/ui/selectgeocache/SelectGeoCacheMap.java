@@ -1,5 +1,18 @@
 package su.geocaching.android.ui.selectgeocache;
 
+import java.util.List;
+
+import su.geocaching.android.controller.Controller;
+import su.geocaching.android.model.datatype.GeoCache;
+import su.geocaching.android.ui.R;
+import su.geocaching.android.ui.geocachemap.ConnectionManager;
+import su.geocaching.android.ui.geocachemap.GeoCacheOverlayItem;
+import su.geocaching.android.ui.geocachemap.IInternetAware;
+import su.geocaching.android.ui.geocachemap.SelectCacheOverlay;
+import su.geocaching.android.ui.selectgeocache.geocachegroup.GroupCacheTask;
+import su.geocaching.android.ui.selectgeocache.timer.MapUpdateTimer;
+import su.geocaching.android.utils.GpsHelper;
+import su.geocaching.android.utils.UiHelper;
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
@@ -16,334 +29,311 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.Toast;
-import com.google.android.apps.analytics.GoogleAnalyticsTracker;
-import com.google.android.maps.*;
-import su.geocaching.android.controller.Controller;
-import su.geocaching.android.model.datatype.GeoCache;
-import su.geocaching.android.ui.R;
-import su.geocaching.android.ui.ShowGeoCacheInfo;
-import su.geocaching.android.ui.geocachemap.*;
-import su.geocaching.android.ui.selectgeocache.geocachegroup.GroupCacheTask;
-import su.geocaching.android.ui.selectgeocache.timer.MapUpdateTimer;
-import su.geocaching.android.utils.GpsHelper;
-import su.geocaching.android.utils.UiHelper;
 
-import java.util.List;
+import com.google.android.apps.analytics.GoogleAnalyticsTracker;
+import com.google.android.maps.GeoPoint;
+import com.google.android.maps.MapActivity;
+import com.google.android.maps.MapController;
+import com.google.android.maps.MapView;
+import com.google.android.maps.MyLocationOverlay;
 
 /**
  * @author Yuri Denison
  * @since 04.11.2010
  */
-public class SelectGeoCacheMap extends MapActivity implements IMapAware, IInternetAware {
-    private static final String TAG = SelectGeoCacheMap.class.getCanonicalName();
-    private static final int MAX_CACHE_NUMBER = 100;
+public class SelectGeoCacheMap extends MapActivity implements IInternetAware {
+	private static final String TAG = SelectGeoCacheMap.class.getCanonicalName();
+	private static final int MAX_CACHE_NUMBER = 100;
 
-    private MyLocationOverlay userOverlay;
-    private MapView map;
-    private MapController mapController;
-    private GeoCacheItemizedOverlay gOverlay;
-    private MapUpdateTimer mapTimer;
-    private ConnectionManager connectionManager;
-    private Activity context;
-    private Location currentLocation;
-    private ImageView progressBarView;
-    private AnimationDrawable progressBarAnimation;
-    private int countDownloadTask;
-    private Handler handler;
-    private GoogleAnalyticsTracker tracker;
+	private MyLocationOverlay userOverlay;
+	private MapView map;
+	private MapController mapController;
+	private SelectCacheOverlay selectCacheOverlay;
+	private MapUpdateTimer mapTimer;
+	private ConnectionManager connectionManager;
+	private Activity context;
+	private Location currentLocation;
+	private ImageView progressBarView;
+	private AnimationDrawable progressBarAnimation;
+	private int countDownloadTask;
+	private Handler handler;
+	private GoogleAnalyticsTracker tracker;
 
-    @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.select_geocache_map);
-        map = (MapView) findViewById(R.id.selectGeocacheMap);
-        map.getOverlays().clear();
-        mapController = map.getController();
+	@Override
+	protected void onCreate(Bundle savedInstanceState) {
+		super.onCreate(savedInstanceState);
+		setContentView(R.layout.select_geocache_map);
+		map = (MapView) findViewById(R.id.selectGeocacheMap);
+		map.getOverlays().clear();
+		mapController = map.getController();
 
-        progressBarView = (ImageView) findViewById(R.id.progressCircle);
-        progressBarView.setBackgroundResource(R.anim.earth_anim);
-        progressBarAnimation = (AnimationDrawable) progressBarView.getBackground();
-        progressBarView.setVisibility(View.GONE);
-        countDownloadTask = 0;
-        handler = new Handler();
+		progressBarView = (ImageView) findViewById(R.id.progressCircle);
+		progressBarView.setBackgroundResource(R.anim.earth_anim);
+		progressBarAnimation = (AnimationDrawable) progressBarView.getBackground();
+		progressBarView.setVisibility(View.GONE);
+		countDownloadTask = 0;
+		handler = new Handler();
 
-        gOverlay = new GeoCacheItemizedOverlay(Controller.getInstance().getMarker(new GeoCache(), this), this);
-        map.getOverlays().add(gOverlay);
+		selectCacheOverlay = new SelectCacheOverlay(Controller.getInstance().getMarker(new GeoCache(), this), this, map);
+		map.getOverlays().add(selectCacheOverlay);
 
-        connectionManager = Controller.getInstance().getConnectionManager(this);
-        connectionManager.addSubscriber(this);
+		connectionManager = Controller.getInstance().getConnectionManager(this);
+		connectionManager.addSubscriber(this);
 
-        context = this;
-        askTurnOnInternet();
-        userOverlay = new MyLocationOverlay(this, map) {
-            @Override
-            public void onLocationChanged(Location location) {
-                super.onLocationChanged(location);
-                currentLocation = location;
-            }
-        };
+		context = this;
+		askTurnOnInternet();
+		userOverlay = new MyLocationOverlay(this, map) {
+			@Override
+			public void onLocationChanged(Location location) {
+				super.onLocationChanged(location);
+				currentLocation = location;
+			}
+		};
 
-        tracker = GoogleAnalyticsTracker.getInstance();
-        tracker.start(getString(R.string.id_Google_Analytics), this);
-        tracker.trackPageView(getString(R.string.select_activity_folder));
-        tracker.dispatch();
-        
-        map.setBuiltInZoomControls(true);
-        map.getOverlays().add(userOverlay);
-        map.invalidate();
-    }
+		tracker = GoogleAnalyticsTracker.getInstance();
+		tracker.start(getString(R.string.id_Google_Analytics), this);
+		tracker.trackPageView(getString(R.string.select_activity_folder));
+		tracker.dispatch();
 
-    private synchronized void updateProgressStart() {
-        if (countDownloadTask == 0) {
-            Log.d(TAG, "set visible Visible for progress");
-            handler.post(new Runnable() {
-                public void run() {
-                    progressBarView.setVisibility(View.VISIBLE);
-                }
-            });
-        }
-        Log.d(TAG, "count plus. count = " + countDownloadTask);
-        countDownloadTask++;
-    }
+		map.setBuiltInZoomControls(true);
+		map.getOverlays().add(userOverlay);
+		map.invalidate();
+	}
 
-    private synchronized void updateProgressStop() {
-        countDownloadTask--;
-        Log.d(TAG, "count minus. count = " + countDownloadTask);
-        if (countDownloadTask == 0) {
-            Log.d(TAG, "set visible gone for progress");
-            handler.post(new Runnable() {
-                public void run() {
-                    progressBarView.setVisibility(View.GONE);
-                }
-            });
-        }
-    }
+	private synchronized void updateProgressStart() {
+		if (countDownloadTask == 0) {
+			Log.d(TAG, "set visible Visible for progress");
+			handler.post(new Runnable() {
+				public void run() {
+					progressBarView.setVisibility(View.VISIBLE);
+				}
+			});
+		}
+		Log.d(TAG, "count plus. count = " + countDownloadTask);
+		countDownloadTask++;
+	}
 
-    private void updateMapInfoFromSettings() {
-        int[] lastMapInfo = Controller.getInstance().getLastMapInfo(this);
-        GeoPoint lastCenter = new GeoPoint(lastMapInfo[0], lastMapInfo[1]);
-        Log.d("mapInfo", "X = " + lastMapInfo[0]);
-        Log.d("mapInfo", "Y = " + lastMapInfo[1]);
-        Log.d("mapInfo", "zoom = " + lastMapInfo[2]);
+	private synchronized void updateProgressStop() {
+		countDownloadTask--;
+		Log.d(TAG, "count minus. count = " + countDownloadTask);
+		if (countDownloadTask == 0) {
+			Log.d(TAG, "set visible gone for progress");
+			handler.post(new Runnable() {
+				public void run() {
+					progressBarView.setVisibility(View.GONE);
+				}
+			});
+		}
+	}
 
-        mapController.setCenter(lastCenter);
-        mapController.animateTo(lastCenter);
-        mapController.setZoom(lastMapInfo[2]);
-        map.invalidate();
-    }
+	private void updateMapInfoFromSettings() {
+		int[] lastMapInfo = Controller.getInstance().getLastMapInfo(this);
+		GeoPoint lastCenter = new GeoPoint(lastMapInfo[0], lastMapInfo[1]);
+		Log.d("mapInfo", "X = " + lastMapInfo[0]);
+		Log.d("mapInfo", "Y = " + lastMapInfo[1]);
+		Log.d("mapInfo", "zoom = " + lastMapInfo[2]);
 
-    private void saveMapInfoToSettings() {
-        Controller.getInstance().setLastMapInfo(map.getMapCenter(), map.getZoomLevel(), this);
-    }
+		mapController.setCenter(lastCenter);
+		mapController.animateTo(lastCenter);
+		mapController.setZoom(lastMapInfo[2]);
+		map.invalidate();
+	}
 
-    @Override
-    protected void onSaveInstanceState(Bundle savedInstanceState) {
-        super.onSaveInstanceState(savedInstanceState);
+	private void saveMapInfoToSettings() {
+		Controller.getInstance().setLastMapInfo(map.getMapCenter(), map.getZoomLevel(), this);
+	}
 
-    }
+	@Override
+	protected void onSaveInstanceState(Bundle savedInstanceState) {
+		super.onSaveInstanceState(savedInstanceState);
 
-    @Override
-    protected void onRestoreInstanceState(Bundle savedInstanceState) {
-        super.onRestoreInstanceState(savedInstanceState);
-        mapController.setZoom(savedInstanceState.getInt("zoom"));
-    }
+	}
 
-    @Override
-    protected void onResume() {
-        super.onResume();
-        tracker.start(getString(R.string.id_Google_Analytics), this);
-        tracker.trackPageView("/selectActivity");
+	@Override
+	protected void onRestoreInstanceState(Bundle savedInstanceState) {
+		super.onRestoreInstanceState(savedInstanceState);
+		mapController.setZoom(savedInstanceState.getInt("zoom"));
+	}
 
-        map.setSatellite(!Controller.getInstance().getMapTypeString(map.getContext()).equals("MAP"));
+	@Override
+	protected void onResume() {
+		super.onResume();
+		tracker.start(getString(R.string.id_Google_Analytics), this);
+		tracker.trackPageView("/selectActivity");
 
-        userOverlay.enableMyLocation();
-        gOverlay.clear();
-        map.invalidate();
-        updateMapInfoFromSettings();
-        mapTimer = new MapUpdateTimer(this);
-        updateCacheOverlay();
-        map.invalidate();
-    }
+		map.setSatellite(!Controller.getInstance().getMapTypeString(map.getContext()).equals("MAP"));
 
-    @Override
-    protected void onPause() {
-        userOverlay.disableMyLocation();
-        mapTimer.cancel();
-        connectionManager.removeSubscriber(this);
-        saveMapInfoToSettings();
-        tracker.stop();
-        Log.d("mapInfo", "save on pause");
-        super.onPause();
-    }
+		userOverlay.enableMyLocation();
+		selectCacheOverlay.clear();
+		map.invalidate();
+		updateMapInfoFromSettings();
+		mapTimer = new MapUpdateTimer(this);
+		updateCacheOverlay();
+		map.invalidate();
+	}
 
-    @Override
-    protected boolean isRouteDisplayed() {
-        return false;
-    }
+	@Override
+	protected void onPause() {
+		userOverlay.disableMyLocation();
+		mapTimer.cancel();
+		connectionManager.removeSubscriber(this);
+		saveMapInfoToSettings();
+		tracker.stop();
+		Log.d("mapInfo", "save on pause");
+		super.onPause();
+	}
 
-    /**
-     * Creating menu object
-     */
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        MenuInflater inflater = getMenuInflater();
-        inflater.inflate(R.menu.select_geocache_map, menu);
-        return true;
-    }
+	@Override
+	protected boolean isRouteDisplayed() {
+		return false;
+	}
 
-    /**
-     * Called when menu element selected
-     */
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        switch (item.getItemId()) {
-            case R.id.revertCenterToLocation:
-                if (currentLocation != null) {
-                    GeoPoint center = GpsHelper.locationToGeoPoint(currentLocation);
-                    mapController.animateTo(center);
-                } else {
-                    Toast.makeText(getBaseContext(), R.string.status_null_last_location, Toast.LENGTH_SHORT).show();
-                }
-                return true;
-            case R.id.mapSettings:
-                startActivity(new Intent(this, MapPreferenceActivity.class));
-                return true;
-            default:
-                return super.onOptionsItemSelected(item);
-        }
-    }
+	/**
+	 * Creating menu object
+	 */
+	@Override
+	public boolean onCreateOptionsMenu(Menu menu) {
+		MenuInflater inflater = getMenuInflater();
+		inflater.inflate(R.menu.select_geocache_map, menu);
+		return true;
+	}
 
-    /* Handles item selections */
+	/**
+	 * Called when menu element selected
+	 */
+	@Override
+	public boolean onOptionsItemSelected(MenuItem item) {
+		switch (item.getItemId()) {
+		case R.id.revertCenterToLocation:
+			if (currentLocation != null) {
+				GeoPoint center = GpsHelper.locationToGeoPoint(currentLocation);
+				mapController.animateTo(center);
+			} else {
+				Toast.makeText(getBaseContext(), R.string.status_null_last_location, Toast.LENGTH_SHORT).show();
+			}
+			return true;
+		case R.id.mapSettings:
+			startActivity(new Intent(this, MapPreferenceActivity.class));
+			return true;
+		default:
+			return super.onOptionsItemSelected(item);
+		}
+	}
 
-    public void updateCacheOverlay() {
-        Log.d(TAG, "updateCacheOverlay; count = " + countDownloadTask);
-        GeoPoint upperLeftCorner = map.getProjection().fromPixels(0, 0);
-        GeoPoint lowerRightCorner = map.getProjection().fromPixels(map.getWidth(), map.getHeight());
-        Controller.getInstance().updateSelectedGeoCaches(this, upperLeftCorner, lowerRightCorner);
-        updateProgressStart();
-    }
+	/* Handles item selections */
 
-    private void startGeoCacheInfoView(GeoCache geoCache) {
-        Intent intent = new Intent(this, ShowGeoCacheInfo.class);
-        intent.putExtra(GeoCache.class.getCanonicalName(), geoCache);
-        startActivity(intent);
-    }
+	public void updateCacheOverlay() {
+		Log.d(TAG, "updateCacheOverlay; count = " + countDownloadTask);
+		GeoPoint upperLeftCorner = map.getProjection().fromPixels(0, 0);
+		GeoPoint lowerRightCorner = map.getProjection().fromPixels(map.getWidth(), map.getHeight());
+		Controller.getInstance().updateSelectedGeoCaches(this, upperLeftCorner, lowerRightCorner);
+		updateProgressStart();
+	}
 
-    @Override
-    public void onGeoCacheItemTaped(GeoCacheOverlayItem item) {
-        if (!item.getTitle().equals("Group")) {
-            startGeoCacheInfoView(item.getGeoCache());
-        } else {
-            mapController.animateTo(item.getGeoCache().getLocationGeoPoint());
-            mapController.zoomIn();
-            map.invalidate();
-        }
-    }
+	public void addGeoCacheList(List<GeoCache> geoCacheList) {
+		if (geoCacheList == null || geoCacheList.size() == 0) {
+			updateProgressStop();
+			return;
+		}
+		if (geoCacheList.size() > MAX_CACHE_NUMBER) {
+			geoCacheList = geoCacheList.subList(0, MAX_CACHE_NUMBER);
+		}
 
-    public void addGeoCacheList(List<GeoCache> geoCacheList) {
-        if (geoCacheList == null || geoCacheList.size() == 0) {
-            updateProgressStop();
-            return;
-        }
-        if (geoCacheList.size() > MAX_CACHE_NUMBER) {
-            geoCacheList = geoCacheList.subList(0, MAX_CACHE_NUMBER);
-        }
+		Log.d(TAG, "draw update cache overlay; count = " + countDownloadTask + "; size = " + geoCacheList.size());
+		for (GeoCache geoCache : geoCacheList) {
+			selectCacheOverlay.addOverlayItem(new GeoCacheOverlayItem(geoCache, "", "", this));
+		}
+		updateProgressStop();
+		map.invalidate();
+	}
 
-        Log.d(TAG, "draw update cache overlay; count = " + countDownloadTask + "; size = " + geoCacheList.size());
-        for (GeoCache geoCache : geoCacheList) {
-            gOverlay.addOverlayItem(new GeoCacheOverlayItem(geoCache, "", "", this));
-        }
-        updateProgressStop();
-        map.invalidate();
-    }
+	public void testAddGeoCacheList(List<GeoCache> geoCacheList) {
+		if (geoCacheList == null || geoCacheList.size() == 0) {
+			updateProgressStop();
+			return;
+		}
+		Log.d(TAG, "draw update cache overlay; count = " + countDownloadTask + "; size = " + geoCacheList.size());
+		Log.d("GroupCacheTask", "execute task, size = " + geoCacheList.size());
+		new GroupCacheTask(this, geoCacheList).execute();
+		Log.d(TAG, "Adding completed.");
+		updateProgressStop();
+		Log.d(TAG, "progress stopped.");
+	}
 
-    public void testAddGeoCacheList(List<GeoCache> geoCacheList) {
-        if (geoCacheList == null || geoCacheList.size() == 0) {
-            updateProgressStop();
-            return;
-        }
-        Log.d(TAG, "draw update cache overlay; count = " + countDownloadTask + "; size = " + geoCacheList.size());
-        Log.d("GroupCacheTask", "execute task, size = " + geoCacheList.size());
-        new GroupCacheTask(this, geoCacheList).execute();
-        Log.d(TAG, "Adding completed.");
-        updateProgressStop();
-        Log.d(TAG, "progress stopped.");
-    }
+	public void addOverlayItemList(List<GeoCacheOverlayItem> overlayItemList) {
+		selectCacheOverlay.clear();
+		for (GeoCacheOverlayItem item : overlayItemList) {
+			selectCacheOverlay.addOverlayItem(item);
+		}
+		map.invalidate();
+	}
 
-    public void addOverlayItemList(List<GeoCacheOverlayItem> overlayItemList) {
-        gOverlay.clear();
-        for (GeoCacheOverlayItem item : overlayItemList) {
-            gOverlay.addOverlayItem(item);
-        }
-        map.invalidate();
-    }
+	public int getZoom() {
+		return map.getZoomLevel();
+	}
 
-    public int getZoom() {
-        return map.getZoomLevel();
-    }
+	public GeoPoint getCenter() {
+		return map.getMapCenter();
+	}
 
-    public GeoPoint getCenter() {
-        return map.getMapCenter();
-    }
+	@Override
+	public void onInternetLost() {
+		Toast.makeText(this, getString(R.string.search_geocache_internet_lost), Toast.LENGTH_LONG).show();
+	}
 
-    @Override
-    public void onInternetLost() {
-        Toast.makeText(this, getString(R.string.search_geocache_internet_lost), Toast.LENGTH_LONG).show();
-    }
+	@Override
+	public void onInternetFound() {
+	}
 
-    @Override
-    public void onInternetFound() {
-    }
+	/**
+	 * Ask user turn on Internet, if this disabled
+	 */
+	private void askTurnOnInternet() {
+		if (connectionManager.isInternetConnected()) {
+			Log.d(TAG, "Internet connected");
+			return;
+		}
+		AlertDialog.Builder builder = new AlertDialog.Builder(context);
+		builder.setMessage(context.getString(R.string.ask_enable_internet_text)).setCancelable(false)
+				.setPositiveButton(context.getString(R.string.ask_enable_internet_yes), new DialogInterface.OnClickListener() {
+					public void onClick(DialogInterface dialog, int id) {
+						Intent startGPS = new Intent(Settings.ACTION_WIRELESS_SETTINGS);
+						context.startActivity(startGPS);
+						dialog.cancel();
+					}
+				}).setNegativeButton(context.getString(R.string.ask_enable_internet_no), new DialogInterface.OnClickListener() {
+					public void onClick(DialogInterface dialog, int id) {
+						dialog.cancel();
+						finish();
+					}
+				});
+		AlertDialog turnOnInternetAlert = builder.create();
+		turnOnInternetAlert.show();
+	}
 
-    /**
-     * Ask user turn on Internet, if this disabled
-     */
-    private void askTurnOnInternet() {
-        if (connectionManager.isInternetConnected()) {
-            Log.d(TAG, "Internet connected");
-            return;
-        }
-        AlertDialog.Builder builder = new AlertDialog.Builder(context);
-        builder.setMessage(context.getString(R.string.ask_enable_internet_text)).setCancelable(false)
-            .setPositiveButton(context.getString(R.string.ask_enable_internet_yes), new DialogInterface.OnClickListener() {
-                public void onClick(DialogInterface dialog, int id) {
-                    Intent startGPS = new Intent(Settings.ACTION_WIRELESS_SETTINGS);
-                    context.startActivity(startGPS);
-                    dialog.cancel();
-                }
-            }).setNegativeButton(context.getString(R.string.ask_enable_internet_no), new DialogInterface.OnClickListener() {
-            public void onClick(DialogInterface dialog, int id) {
-                dialog.cancel();
-                finish();
-            }
-        });
-        AlertDialog turnOnInternetAlert = builder.create();
-        turnOnInternetAlert.show();
-    }
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see android.app.Activity#onWindowFocusChanged(boolean)
+	 */
+	@Override
+	public void onWindowFocusChanged(boolean hasFocus) {
+		super.onWindowFocusChanged(hasFocus);
+		if (hasFocus) {
+			updateCacheOverlay();
+		}
+		progressBarAnimation.start();
+	}
 
-    /*
-     * (non-Javadoc)
-     * 
-     * @see android.app.Activity#onWindowFocusChanged(boolean)
-     */
-    @Override
-    public void onWindowFocusChanged(boolean hasFocus) {
-        super.onWindowFocusChanged(hasFocus);
-        if (hasFocus) {
-            updateCacheOverlay();
-        }
-        progressBarAnimation.start();
-    }
+	public void onHomeClick(View v) {
+		UiHelper.goHome(this);
+	}
 
-    public void onHomeClick(View v) {
-        UiHelper.goHome(this);
-    }
+	public MapView getMapView() {
+		return map;
+	}
 
-    public MapView getMapView() {
-        return map;
-    }
-
-    public boolean getWayCacheAdding() {
-        return Controller.getInstance().getWayCacheAdding(map.getContext());
-    }
+	public boolean getWayCacheAdding() {
+		return Controller.getInstance().getWayCacheAdding(map.getContext());
+	}
 }
