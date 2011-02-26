@@ -451,13 +451,6 @@ http://maps.google.ru/maps?f=d&source=s_d&saddr=59.968096+30.303894&daddr=59.970
 ==Проблема==
 отправляемый мной запрос имеет вид:
 {{{
-String test ="http://maps.google.ru/maps?f=d&source=s_d&saddr="+startPoint.getLatitudeE6()/1.0E6+","+startPoint.getLongitudeE6()/1.0E6+"&daddr="+endPoint.getLatitudeE6()/1.0E6+","+endPoint.getLongitudeE6()/1.0E6+"&hl=ru&mra=ls&dirflg=w&sll="+startPoint.getLatitudeE6()/1.0E6+","+startPoint.getLongitudeE6()/1.0E6+"&ie=UTF8&om=0&output=kml"
-
-String test ="http://maps.google.ru/maps?f=d&source=s_d&saddr="+startPoint.getLatitudeE6()/1.0E6+","+startPoint.getLongitudeE6()/1.0E6+"&daddr="+endPoint.getLatitudeE6()/1.0E6+","+endPoint.getLongitudeE6()/1.0E6+"&geocode=&hl=ru&mra=ls&dirflg=w&vps=4&output=kml";}}}
-для первой:
-http://maps.google.ru/maps?f=d&source=s_d&saddr=37.422834,22.087&daddr=59.900766,30.27465&hl=ru&mra=ls&dirflg=w&sll=37.422834,22.087&ie=UTF8&0&om=0&output=kml
-для второй:
-http://maps.google.ru/maps?f=d&source=s_d&saddr=37.422834,22.087&daddr=59.900766,30.27465&geocode=&hl=ru&mra=ls&dirflg=w&vps=4&output=kml
 
 Возник вопорос: 
 1)т.е. вы хотите сказать,что по первому запросу,описанному вами вы получаете файл? 
@@ -467,8 +460,7 @@ http://maps.google.ru/maps?f=d&source=s_d&saddr=37.422834,22.087&daddr=59.900766
 от: 59.967427,30.311258
 до:59.900766,30.27465
 
-http://maps.google.ru/maps?f=d&source=s_d&saddr=59.009833,30.005&daddr=59.900766,30.27465&geocode=&hl=ru&mra=ls&dirflg=w&vps=4&output=kml
+http://maps.google.ru/maps?f=d&source=s_d&saddr=59.9765,30.305001&daddr=59.900766,30.27465&hl=ru&mra=ls&dirflg=w&sll=59.9765,30.305001&ie=UTF8&0&om=0&output=kml
 
-http://maps.google.ru/maps?f=d&source=s_d&saddr=59.009833,30.005&daddr=59.900766,30.27465&hl=ru&mra=ls&dirflg=w&sll=59.009833,30.005&ie=UTF8&0&om=0&output=kml
-Ок,тогда прошу ввести одну из строк выше в браузер(без &output=kml) и посмотреть где будут расположены точки.А затем введите в Картах Гугл координаты ,написанные выше,окажется,что обе точки находятся в СПб.
+
 4)Да,ошибся Иран,а не Кавказ.
