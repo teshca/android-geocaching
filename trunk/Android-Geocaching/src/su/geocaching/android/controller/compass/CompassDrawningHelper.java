@@ -1,6 +1,7 @@
 package su.geocaching.android.controller.compass;
 
 import su.geocaching.android.ui.R;
+import su.geocaching.android.ui.compass.CompassView;
 import android.content.Context;
 import android.graphics.Canvas;
 import android.graphics.Color;
@@ -17,9 +18,10 @@ public abstract class CompassDrawningHelper {
 	protected int center;
 	protected int bgColor; // background color, taken from the xml
 	protected int needleWidth = DEFAULT_NEEDLE_WIDTH;
+	protected CompassView compassView;
 
 	public CompassDrawningHelper(Context context) {
-		bgColor = Color.parseColor(context.getResources().getString(R.color.menu_background));
+		bgColor = Color.parseColor(context.getResources().getString(R.color.menu_background));		
 	}
 
 	/**

@@ -18,14 +18,14 @@ import android.graphics.Path;
  */
 public class StandartCompassDrawning extends CompassDrawningHelper {
 
-	private Paint bitmapPaint = new Paint();
-	private Paint textPaint = new Paint();
-	private Bitmap roseBitmap, needleBitmap, arrowBitmap;
+	protected Paint bitmapPaint = new Paint();
+	protected Paint textPaint = new Paint();
+	protected Bitmap roseBitmap, needleBitmap, arrowBitmap;
 
 	public StandartCompassDrawning(Context context) {
 		super(context);
 
-		roseBitmap = BitmapFactory.decodeResource(context.getResources(), R.drawable.compass);
+		roseBitmap = BitmapFactory.decodeResource(context.getResources(), R.drawable.compass_rose_yellow);
 
 		textPaint.setColor(Color.parseColor(context.getString(R.color.menu_text_color)));
 		textPaint.setAntiAlias(true);
@@ -48,10 +48,10 @@ public class StandartCompassDrawning extends CompassDrawningHelper {
 		canvas.drawBitmap(roseBitmap, 0, 0, bitmapPaint);
 		canvas.translate(center, center); // !!!
 		drawNeedle(canvas, northDirection);
-		drawDirectionLabel(canvas, northDirection);
+		drawAzimuthLabel(canvas, northDirection);
 	}
 
-	private void drawDirectionLabel(Canvas canvas, float direction) {
+	private void drawAzimuthLabel(Canvas canvas, float direction) {
 		canvas.drawText(CompassHelper.degreesToString(direction), 5 - center, -center * 0.8f, textPaint);
 	}
 

@@ -21,5 +21,19 @@
 	<string name="prefs_speed_key">compass.speed</string>
 	<string name="prefer_speed_title">Скорость</string>
 	<string name="prefer_speed_summary">Выберете скорость вращения стрелки компаса</string>
-	<string name="prefer_speed_default_value">NORMAL</string>	
+	<string name="prefer_speed_default_value">NORMAL</string>
+
+	<string name="prefer_appearance_dialog_title">Внешний вид</string>
+	<string name="prefer_appearance_title">Внешний вид</string>
+	<string name="prefs_appearance_key">appearance.speed</string>
+	<string-array name="appearance_preference_entries">
+		<item>Классический</item>
+		<item>Бледный</item>
+	</string-array>
+	<string-array name="appearance_preference_values">
+		<item>CLASSIC</item>
+		<item>PALE</item>
+	</string-array>
+	<string name="prefer_appearance_default_value">CLASSIC</string>
+	<string name="prefer_appearance_summary">Выберете внешний вид компаса</string>
 </resources>

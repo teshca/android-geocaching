@@ -3,6 +3,7 @@ package su.geocaching.android.ui.compass;
 import su.geocaching.android.controller.compass.CompassDrawningHelper;
 import su.geocaching.android.controller.compass.ICompassAnimation;
 import su.geocaching.android.controller.compass.StandartCompassDrawning;
+import su.geocaching.android.controller.compass.WhiteStandartCompassDrawning;
 import su.geocaching.android.utils.log.LogHelper;
 import android.content.Context;
 import android.graphics.Canvas;
@@ -17,9 +18,11 @@ import android.view.SurfaceView;
  */
 public class CompassView extends SurfaceView implements SurfaceHolder.Callback, ICompassAnimation {
 
-	private static final String TAG = SurfaceView.class.getCanonicalName();
+	private static final String TAG = CompassView.class.getCanonicalName();
 
 	private CompassDrawningHelper helper;
+	private Context context;
+
 	private float northDirection; // in degrees
 	private float cacheDirection;
 	private boolean ready = false;
@@ -35,6 +38,7 @@ public class CompassView extends SurfaceView implements SurfaceHolder.Callback, 
 
 		helper = new StandartCompassDrawning(context);
 		ready = true; // Is it need?
+		this.context = context;
 
 		setMinimumWidth(240);
 		setMinimumHeight(240);
@@ -58,7 +62,6 @@ public class CompassView extends SurfaceView implements SurfaceHolder.Callback, 
 		super.onSizeChanged(w, h, oldw, oldh);
 		LogHelper.d(TAG, "onSizeChanged" + w + " " + h);
 		helper.onSizeChanged(w, h);
-
 	}
 
 	@Override
@@ -113,6 +116,29 @@ public class CompassView extends SurfaceView implements SurfaceHolder.Callback, 
 
 	public void setLocationFix(boolean isLocationFix) {
 		this.isLocationFixed = isLocationFix;
+	}
+
+	/**
+	 * @return the helper
+	 */
+	public CompassDrawningHelper getHelper() {
+		return helper;
+	}
+
+	/**
+	 * @param helper
+	 *            the helper to set
+	 */
+	// TODO too many objects
+	public void setHelper(String string) {
+		if (string.equals("CLASSIC")) {
+			helper = new StandartCompassDrawning(context);
+		} else if (string.equals("PALE")) {
+			helper = new WhiteStandartCompassDrawning(context);
+		}
+		if (getWidth() > 0) {
+			helper.onSizeChanged(getWidth(), getHeight());
+		}
 	}
 
 	@Override

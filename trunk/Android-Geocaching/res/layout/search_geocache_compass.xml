@@ -36,11 +36,12 @@
 		<TextView android:gravity="center_horizontal" android:id="@+id/DistanceDescription"
 			android:text="@string/distance_to_geocache" android:layout_height="wrap_content"
 			android:layout_width="wrap_content" android:layout_weight="1"
-			android:textStyle="bold" android:textColor="@color/menu_text_color"></TextView>
+			android:textColor="@color/menu_text_color" android:textSize="@dimen/text_size_big"></TextView>
 		<TextView android:layout_width="wrap_content"
 			android:layout_height="wrap_content" android:id="@+id/DistanceValue"
 			android:text="@string/distance_unknown" android:layout_weight="1"
-			android:gravity="left" android:textStyle="bold" android:textColor="@color/menu_text_color"></TextView>
+			android:gravity="left" android:textColor="@color/menu_text_color"
+			android:textSize="@dimen/text_size_big"></TextView>
 	</LinearLayout>
 
 
