@@ -13,7 +13,7 @@ public class LogHelper {
 	private static NoLoggingState noLoggingState = new NoLoggingState();
 	private static OneTagState oneTagState = new OneTagState();
 	// TODO
-	private static State currentLogState = loggingState;
+	private static State currentLogState = oneTagState;
 
 	public static void setLogging(LogState state) {
 

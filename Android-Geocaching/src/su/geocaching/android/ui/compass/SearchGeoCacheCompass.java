@@ -8,7 +8,6 @@ import su.geocaching.android.controller.ILocationAware;
 import su.geocaching.android.controller.compass.CompassPreferenceManager;
 import su.geocaching.android.controller.compass.CompassSpeed;
 import su.geocaching.android.controller.compass.SmoothCompassThread;
-import su.geocaching.android.model.datatype.GeoCache;
 import su.geocaching.android.ui.R;
 import su.geocaching.android.utils.GpsHelper;
 import su.geocaching.android.utils.UiHelper;
@@ -28,7 +27,9 @@ import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
+
 import com.google.android.apps.analytics.GoogleAnalyticsTracker;
+
 /**
  * Search GeoCache with the compass.
  * 
@@ -49,19 +50,15 @@ public class SearchGeoCacheCompass extends Activity {
 	private TextView statusText;
 	private ImageView progressBarView;
 	private AnimationDrawable progressBarAnim;
-
-	private GeoCache geoCache;
+	
+	private Controller controller;
 	private GoogleAnalyticsTracker tracker;
+
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		LogHelper.d(TAG, "on create");
 		setContentView(R.layout.search_geocache_compass);
-
-		tracker = GoogleAnalyticsTracker.getInstance();
-		tracker.start(getString(R.string.id_Google_Analytics), this);
-		tracker.trackPageView(getString(R.string.compass_activity_folder));		
-		tracker.dispatch();
 		
 		compassView = (CompassView) findViewById(R.id.compassView);
 		distanceToCache = (TextView) findViewById(R.id.DistanceValue);
@@ -70,11 +67,16 @@ public class SearchGeoCacheCompass extends Activity {
 		progressBarAnim = (AnimationDrawable) progressBarView.getBackground();
 		statusText = (TextView) findViewById(R.id.waitingLocationFixText);
 
-		locationManager = Controller.getInstance().getLocationManager(this);
-		gpsManager = Controller.getInstance().getGpsStatusManager(this);
+		controller = Controller.getInstance();	
+		locationManager = controller.getLocationManager(this);
+		gpsManager = controller.getGpsStatusManager(this);
 		locationListener = new LocationListener(this);
 		gpsListener = new GpsStatusListener();
-		geoCache = getIntent().getParcelableExtra(GeoCache.class.getCanonicalName());
+		
+		tracker = GoogleAnalyticsTracker.getInstance();
+		tracker.start(getString(R.string.id_Google_Analytics), this);
+		tracker.trackPageView(getString(R.string.compass_activity_folder));
+		tracker.dispatch();
 	}
 
 	@Override
@@ -89,7 +91,7 @@ public class SearchGeoCacheCompass extends Activity {
 	 * Run activity logic
 	 */
 	private void runLogic() {
-		if (geoCache == null) {
+		if (controller.getSearchingGeoCache() == null) {
 			Log.e(TAG, "runLogic: null geocache. Finishing.");
 			Toast.makeText(this, this.getString(R.string.search_geocache_error_no_geocache), Toast.LENGTH_LONG).show();
 			finish();
@@ -97,7 +99,7 @@ public class SearchGeoCacheCompass extends Activity {
 		}
 
 		// Save last searched geocache
-		// Controller.getInstance().setLastSearchedGeoCache(geoCache, this);
+		// controller.setLastSearchedGeoCache(geoCache, this);
 
 		if (locationManager.hasLocation()) {
 			Log.d(TAG, "runLogic: location fixed. Update location with last known location");
@@ -129,9 +131,11 @@ public class SearchGeoCacheCompass extends Activity {
 			animationThread.setRunning(true);
 
 			CompassPreferenceManager preferManager = CompassPreferenceManager.getPreference(this);
-			String speed = preferManager.getString(CompassPreferenceManager.PREFS_COMPASS_SPEED_KEY, CompassSpeed.NORMAL.name());
+			String speed = preferManager.getString(CompassPreferenceManager.PREFS_COMPASS_SPEED_KEY, getString(R.string.prefer_speed_default_value));
 			animationThread.setSpeed(CompassSpeed.valueOf(speed));
-
+			
+			String appearance = preferManager.getString(CompassPreferenceManager.PREFS_COMPASS_APPEARENCE_KEY, getString(R.string.prefer_appearance_default_value));
+			compassView.setHelper(appearance);
 			animationThread.start();
 		}
 	}
@@ -164,10 +168,10 @@ public class SearchGeoCacheCompass extends Activity {
 	public boolean onOptionsItemSelected(MenuItem item) {
 		switch (item.getItemId()) {
 		case R.id.menuStartMap:
-			UiHelper.startMapView(this, geoCache);
+			UiHelper.startMapView(this, controller.getSearchingGeoCache());
 			return true;
 		case R.id.menuGeoCacheInfo:
-			UiHelper.showGeoCacheInfo(this, geoCache);
+			UiHelper.showGeoCacheInfo(this, controller.getSearchingGeoCache());
 			return true;
 		case R.id.menuKeepScreen:
 			keepScreenOn(item);
@@ -234,8 +238,8 @@ public class SearchGeoCacheCompass extends Activity {
 			if (progressBarView.getVisibility() == View.VISIBLE) {
 				progressBarView.setVisibility(View.GONE);
 			}
-			compassView.setCacheDirection(GpsHelper.getBearingBetween(location, geoCache.getLocationGeoPoint()));
-			setDistance(GpsHelper.getDistanceBetween(location, geoCache.getLocationGeoPoint()));
+			compassView.setCacheDirection(GpsHelper.getBearingBetween(location, controller.getSearchingGeoCache().getLocationGeoPoint()));
+			setDistance(GpsHelper.getDistanceBetween(location, controller.getSearchingGeoCache().getLocationGeoPoint()));
 		}
 
 		@Override

@@ -7,7 +7,7 @@ import android.preference.PreferenceManager;
 
 public class CompassPreferenceManager {
 
-	public static String PREFS_COMPASS_SPEED_KEY;
+	public static String PREFS_COMPASS_SPEED_KEY, PREFS_COMPASS_APPEARENCE_KEY;
 	private static CompassPreferenceManager compassPreference;
 	private SharedPreferences preferences;
 
@@ -15,10 +15,11 @@ public class CompassPreferenceManager {
 		preferences = PreferenceManager.getDefaultSharedPreferences(context);
 
 		PREFS_COMPASS_SPEED_KEY = context.getString(R.string.prefs_speed_key);
+		PREFS_COMPASS_APPEARENCE_KEY = context.getString(R.string.prefs_appearance_key);
 	}
 
 	public String getString(String key, String defaultValue) {
-		return preferences.getString(PREFS_COMPASS_SPEED_KEY, defaultValue);
+		return preferences.getString(key, defaultValue);
 	}
 
 	public static CompassPreferenceManager getPreference(Context context) {
