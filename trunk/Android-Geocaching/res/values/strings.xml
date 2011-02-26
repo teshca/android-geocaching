@@ -104,9 +104,11 @@
 	<string name="azimuth">Азимут:</string>
 	<string name="distance">Расстояние:</string>
 	<string name="meter">m</string>
+	<string name="checkpoint_dialog_title">Контрольная точка </string>
 
-
-<string-array name="checkpoints_menu"><item>Активировать</item>
-<item>Удалить</item>
-</string-array>
+	<string-array name="checkpoints_menu">
+		<item>Активировать</item>
+		<item>Удалить</item>
+		<item>Удалить все</item>
+	</string-array>
 </resources>

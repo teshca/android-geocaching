@@ -5,10 +5,10 @@ import java.util.LinkedList;
 import java.util.List;
 
 import su.geocaching.android.model.datatype.GeoCache;
+import su.geocaching.android.model.datatype.GeoCacheType;
 import su.geocaching.android.utils.UiHelper;
 import android.app.Activity;
 import android.graphics.drawable.Drawable;
-import android.util.Log;
 import android.view.GestureDetector;
 import android.view.GestureDetector.OnGestureListener;
 import android.view.MotionEvent;
@@ -28,6 +28,7 @@ public class SearchCacheOverlay extends ItemizedOverlay<OverlayItem> {
 
 	private List<GeoCacheOverlayItem> items;
 	private Activity context;
+	private int activeItem = 0;
 
 	public SearchCacheOverlay(Drawable defaultMarker, Activity context) {
 		super(defaultMarker);
@@ -38,10 +39,18 @@ public class SearchCacheOverlay extends ItemizedOverlay<OverlayItem> {
 	}
 
 	public synchronized void addOverlayItem(GeoCacheOverlayItem overlay) {
-		if (!contains(overlay.getGeoCache()) || overlay.getTitle().equals("Group")) {
+		if (!contains(overlay.getGeoCache())) {
 			items.add(overlay);
 			setLastFocusedIndex(-1);
+			activeItem++;
 			populate();
+		}
+	}
+
+	public void removeOverlayItem(int index) {
+		items.remove(index);
+		if (activeItem > index) {
+			activeItem--;
 		}
 	}
 
@@ -52,6 +61,10 @@ public class SearchCacheOverlay extends ItemizedOverlay<OverlayItem> {
 			}
 		}
 		return false;
+	}
+
+	public GeoCache getGeoCache(int index) {
+		return items.get(index).getGeoCache();
 	}
 
 	@Override
@@ -67,6 +80,7 @@ public class SearchCacheOverlay extends ItemizedOverlay<OverlayItem> {
 	public synchronized void clear() {
 		items.clear();
 		setLastFocusedIndex(-1);
+		activeItem = 0;
 		populate();
 	}
 
@@ -77,11 +91,11 @@ public class SearchCacheOverlay extends ItemizedOverlay<OverlayItem> {
 
 	@Override
 	public boolean onTap(int index) {
-		Log.d("Geocaching.su", "onTap");
-		if (longClick) {
-			context.showDialog(1);
+		GeoCache gc = items.get(index).getGeoCache();
+		if (longClick && gc.getType() == GeoCacheType.CHECKPOINT) {
+			context.showDialog(index);
 		} else {
-			UiHelper.showGeoCacheInfo(context, items.get(index).getGeoCache());
+			UiHelper.showGeoCacheInfo(context, gc);
 		}
 		return true;
 	}
@@ -89,6 +103,21 @@ public class SearchCacheOverlay extends ItemizedOverlay<OverlayItem> {
 	@Override
 	public boolean onTouchEvent(MotionEvent event, MapView mapView) {
 		return gestureDetector.onTouchEvent(event);
+	}
+
+	/**
+	 * @return the activeItem
+	 */
+	public int getActiveItem() {
+		return activeItem;
+	}
+
+	/**
+	 * @param activeItem
+	 *            the activeItem to set
+	 */
+	public void setActiveItem(int activeItem) {
+		this.activeItem = activeItem;
 	}
 
 	class GestureScanner implements OnGestureListener {
@@ -105,7 +134,6 @@ public class SearchCacheOverlay extends ItemizedOverlay<OverlayItem> {
 
 		@Override
 		public void onLongPress(MotionEvent e) {
-			Log.d("Geocaching.su", "onLongPress");
 			longClick = true;
 		}
 
@@ -123,7 +151,5 @@ public class SearchCacheOverlay extends ItemizedOverlay<OverlayItem> {
 			longClick = false;
 			return false;
 		}
-
 	}
-
 }

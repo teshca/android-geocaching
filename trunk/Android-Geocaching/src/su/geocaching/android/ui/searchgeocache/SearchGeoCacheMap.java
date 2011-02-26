@@ -60,7 +60,7 @@ public class SearchGeoCacheMap extends MapActivity implements IInternetAware, IL
 	private final static String TAG = SearchGeoCacheMap.class.getCanonicalName();
 
 	private GeoCacheOverlayItem cacheOverlayItem;
-	private SearchCacheOverlay cacheItemizedOverlay;
+	private SearchCacheOverlay searchCacheOverlay;
 	private Drawable cacheMarker;
 	private DistanceToGeoCacheOverlay distanceOverlay;
 	private UserLocationOverlay userOverlay;
@@ -119,10 +119,10 @@ public class SearchGeoCacheMap extends MapActivity implements IInternetAware, IL
 
 		if (geoCache != null) {
 			cacheMarker = mController.getMarker(mController.getSearchingGeoCache(), this);
-			cacheItemizedOverlay = new SearchCacheOverlay(cacheMarker, this);
+			searchCacheOverlay = new SearchCacheOverlay(cacheMarker, this);
 			cacheOverlayItem = new GeoCacheOverlayItem(mController.getSearchingGeoCache(), "", "");
-			cacheItemizedOverlay.addOverlayItem(cacheOverlayItem);
-			mapOverlays.add(cacheItemizedOverlay);
+			searchCacheOverlay.addOverlayItem(cacheOverlayItem);
+			mapOverlays.add(searchCacheOverlay);
 		}
 	}
 
@@ -241,8 +241,8 @@ public class SearchGeoCacheMap extends MapActivity implements IInternetAware, IL
 
 	@Override
 	// id misused
-	protected Dialog onCreateDialog(int id) {
-		return new CheckpointDialog(this, id);
+	protected Dialog onCreateDialog(int index) {
+		return new CheckpointDialog(this, index, checkpointCacheOverlay, map);
 	}
 
 	/*
@@ -355,7 +355,6 @@ public class SearchGeoCacheMap extends MapActivity implements IInternetAware, IL
 	}
 
 	private SearchCacheOverlay checkpointCacheOverlay;
-	private int activeCheckpoint = 0;
 
 	// TODO
 	@Override
@@ -380,11 +379,10 @@ public class SearchGeoCacheMap extends MapActivity implements IInternetAware, IL
 
 				GeoCacheOverlayItem checkpoint = new GeoCacheOverlayItem(gc, "", "");
 				checkpointCacheOverlay.addOverlayItem(checkpoint);
-				activeCheckpoint = checkpointCacheOverlay.size();
 
 				gc.setId(currentGCache.getId());
 				gc.setStatus(GeoCacheStatus.ACTIVE_CHECKPOINT);
-				gc.setName("Checkpoint " + activeCheckpoint);
+				gc.setName("Checkpoint " + searchCacheOverlay.size());
 				mController.setSearchingGeoCache(gc);
 
 				map.invalidate();
