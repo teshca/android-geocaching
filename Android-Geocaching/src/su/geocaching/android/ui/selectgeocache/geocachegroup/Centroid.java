@@ -21,8 +21,4 @@ public class Centroid extends GeoCacheView {
     public List<GeoCacheView> getGeoCacheList() {
         return geoCacheList;
     }
-
-    public void setGeoCacheList(List<GeoCacheView> geoCacheList) {
-        this.geoCacheList = geoCacheList;
-    }
 }

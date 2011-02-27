@@ -28,16 +28,13 @@ public class GeoCacheView {
         return x;
     }
 
-    public void setX(int x) {
+    public void set(int x, int y) {
         this.x = x;
+        this.y = y;
     }
 
     public int getY() {
         return y;
-    }
-
-    public void setY(int y) {
-        this.y = y;
     }
 
     public GeoCache getCache() {
