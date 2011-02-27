@@ -2,4 +2,6 @@
 <menu
   xmlns:android="http://schemas.android.com/apk/res/android">
 <item android:id="@+id/show_web_notebook_cache" android:title="@string/menu_show_web_notebook_cache"></item>
+<item android:id="@+id/show_web_add_delete_cache" android:title="@string/menu_show_web_add_cache"></item>
+<item android:id="@+id/show_web_search_cache" android:title="@string/menu_show_web_search_cache"></item>
 </menu>
