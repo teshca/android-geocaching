@@ -74,8 +74,10 @@ public class GeoCacheListAnalyzer {
     public List<GeoCacheOverlayItem> getList(List<GeoCache> geoCacheList) {
         List<Centroid> centroids = generateCentroidsArray();
         List<GeoCacheView> points = generatePointsList(geoCacheList);
+
+        long startTime = System.currentTimeMillis();
         List<Centroid> clusterPointMap = new KMeans(points, centroids).getClusterMap();
-        Log.d("mapStats", "sizeList = " + geoCacheList.size() + "; centroids = " + centroids.size());
+        Log.d("mapStats", "log: sizeList = " + geoCacheList.size() + " centroids = " + centroids.size() + " time = " + (System.currentTimeMillis() - startTime));
 
         fillOverlayItemList(clusterPointMap);
         return overlayItemList;
