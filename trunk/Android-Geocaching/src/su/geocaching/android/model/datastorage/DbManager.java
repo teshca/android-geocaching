@@ -87,38 +87,10 @@ public class DbManager extends SQLiteOpenHelper {
 			geocache.setId(cur.getInt(cur.getColumnIndex(COLUMN_ID)));
 			geocache.setName(cur.getString(cur.getColumnIndex(COLUMN_NAME)));
 			geocache.setStatus(GeoCacheStatus.values()[cur.getInt(cur.getColumnIndex(COLUMN_STATUS))]);
-			// switch (cur.getInt(cur.getColumnIndex(COLUMN_STATUS))) {
-			// case 0:
-			// geocache.setStatus(GeoCacheStatus.VALID);
-			// break;
-			// case 1:
-			// geocache.setStatus(GeoCacheStatus.NOT_VALID);
-			// break;
-			// case 2:
-			// geocache.setStatus(GeoCacheStatus.NOT_CONFIRMED);
-			// break;
-			// }
 
 			geocache.setLocationGeoPoint(new GeoPoint(cur.getInt(cur.getColumnIndex(COLUMN_LAT)), cur.getInt(cur.getColumnIndex(COLUMN_LON))));
 
 			geocache.setType(GeoCacheType.values()[cur.getInt(cur.getColumnIndex(COLUMN_TYPE))]);
-			// switch (cur.getInt(cur.getColumnIndex(COLUMN_TYPE))) {
-			// case 0:
-			// geocache.setType(GeoCacheType.TRADITIONAL);
-			// break;
-			// case 1:
-			// geocache.setType(GeoCacheType.VIRTUAL);
-			// break;
-			// case 2:
-			// geocache.setType(GeoCacheType.STEP_BY_STEP);
-			// break;
-			// case 3:
-			// geocache.setType(GeoCacheType.EXTREME);
-			// break;
-			// case 4:
-			// geocache.setType(GeoCacheType.EVENT);
-			// break;
-			// }
 			exitCollection.add(geocache);
 			cur.moveToNext();
 		}
@@ -220,45 +192,8 @@ public class DbManager extends SQLiteOpenHelper {
 		exitCache.setLocationGeoPoint(new GeoPoint(c.getInt(c.getColumnIndex(COLUMN_LAT)), c.getInt(c.getColumnIndex(COLUMN_LON))));
 
 		exitCache.setStatus(GeoCacheStatus.values()[c.getInt(c.getColumnIndex(COLUMN_STATUS))]);
-		// switch (c.getInt(c.getColumnIndex(COLUMN_STATUS))) {
-		// case 1:
-		// exitCache.setStatus(GeoCacheStatus.VALID);
-		// break;
-		//
-		// case 2:
-		// exitCache.setStatus(GeoCacheStatus.NOT_VALID);
-		// break;
-		//
-		// case 3:
-		// exitCache.setStatus(GeoCacheStatus.NOT_CONFIRMED);
-		// break;
-		// default:
-		// exitCache.setStatus(GeoCacheStatus.NOT_VALID);
-		// break;
-		// }
 
 		exitCache.setType(GeoCacheType.values()[c.getInt(c.getColumnIndex(COLUMN_TYPE))]);
-		//
-		// switch (c.getInt(c.getColumnIndex(COLUMN_TYPE))) {
-		// case 1:
-		// exitCache.setType(GeoCacheType.TRADITIONAL);
-		// break;
-		// case 2:
-		// exitCache.setType(GeoCacheType.VIRTUAL);
-		// break;
-		// case 3:
-		// exitCache.setType(GeoCacheType.STEP_BY_STEP);
-		// break;
-		// case 4:
-		// exitCache.setType(GeoCacheType.EXTREME);
-		// break;
-		// case 5:
-		// exitCache.setType(GeoCacheType.EVENT);
-		// break;
-		// default:
-		// exitCache.setType(GeoCacheType.TRADITIONAL);
-		// break;
-		// }
 
 		c.close();
 		return exitCache;
