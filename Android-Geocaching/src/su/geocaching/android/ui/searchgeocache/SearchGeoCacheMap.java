@@ -153,6 +153,7 @@ public class SearchGeoCacheMap extends MapActivity implements IInternetAware, IL
 	protected void onResume() {
 		super.onResume();
 		Log.d(TAG, "on pause");
+		map.setKeepScreenOn(Controller.getInstance().getKeepScreenOnPreference(map.getContext()));
 
 		if (!mLocationManager.isBestProviderEnabled()) {
 			if (!mLocationManager.isBestProviderGps()) {

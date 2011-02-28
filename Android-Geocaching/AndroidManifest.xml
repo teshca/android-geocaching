@@ -80,6 +80,7 @@
         <uses-library android:name="com.google.android.maps"/>
 
         <activity android:name=".selectgeocache.MapPreferenceActivity"></activity>
+        <activity android:name=".DashboardPreferenceActivity"></activity>
 
         <activity android:name=".compass.CompassPreferenceActivity"></activity>
         <activity android:name=".searchgeocache.stepbystep.StepByStepTabActivity"></activity>

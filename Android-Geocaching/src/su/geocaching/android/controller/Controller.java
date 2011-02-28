@@ -302,4 +302,8 @@ public class Controller {
     public String getMapTypeString(Context context) {
         return MapPreferenceManager.getPreference(context).getMapTypeString();
     }
+    
+    public boolean getKeepScreenOnPreference(Context context){
+    	return DashboardPreferenceManager.getPreference(context).getKeepScreenOnPreference();
+    }
 }
