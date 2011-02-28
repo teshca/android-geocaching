@@ -5,6 +5,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import su.geocaching.android.controller.Controller;
 import su.geocaching.android.model.datastorage.DbManager;
 import su.geocaching.android.model.datatype.GeoCache;
 import su.geocaching.android.model.datatype.GeoCacheStatus;
@@ -195,6 +196,12 @@ public class FavoritesFolder extends Activity implements OnItemClickListener {
 	}
 
 	return ExitList;
+    }
+    
+    @Override
+    protected void onResume() {
+        super.onResume();
+        tvTitle.setKeepScreenOn(Controller.getInstance().getKeepScreenOnPreference(tvTitle.getContext()));
     }
 
     @Override

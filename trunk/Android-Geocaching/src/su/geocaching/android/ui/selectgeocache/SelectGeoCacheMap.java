@@ -156,6 +156,7 @@ public class SelectGeoCacheMap extends MapActivity implements IInternetAware {
         tracker.start(getString(R.string.id_Google_Analytics), this);
         tracker.trackPageView("/selectActivity");
 
+        map.setKeepScreenOn(Controller.getInstance().getKeepScreenOnPreference(map.getContext()));
         map.setSatellite(!Controller.getInstance().getMapTypeString(map.getContext()).equals("MAP"));
 
         userOverlay.enableMyLocation();

@@ -7,4 +7,9 @@
 	<string name="enableGps">Настройки GPS</string>
 	<string name="enableInternet">Настройки Интернета</string>
 	<string name="DrawDirectionPath">Построить путь</string>
+	<string name="keep_screen_on_title">Не выключать экран</string>
+	<string name="keep_screen_on_key">keepScreen</string>
+	<string name="keep_screen_on_default_value">false</string>
+	<string name="keep_screen_on_summary"></string>
+	<string name="preference">Настройки</string>
 </resources>

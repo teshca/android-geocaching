@@ -83,6 +83,7 @@ public class SearchGeoCacheCompass extends Activity {
 	protected void onResume() {
 		super.onResume();
 		LogHelper.d(TAG, "onResume");
+		compassView.setKeepScreenOn(Controller.getInstance().getKeepScreenOnPreference(compassView.getContext()));
 		runLogic();
 		startAnimation();
 	}
@@ -173,9 +174,9 @@ public class SearchGeoCacheCompass extends Activity {
 		case R.id.menuGeoCacheInfo:
 			UiHelper.showGeoCacheInfo(this, controller.getSearchingGeoCache());
 			return true;
-		case R.id.menuKeepScreen:
+		/*case R.id.menuKeepScreen:
 			keepScreenOn(item);
-			return true;
+			return true;*/
 		case R.id.compassSettings:
 			showCompassPreferences();
 			return true;
@@ -184,7 +185,7 @@ public class SearchGeoCacheCompass extends Activity {
 		}
 	}
 
-	private void keepScreenOn(MenuItem item) {
+	/*private void keepScreenOn(MenuItem item) {
 		if (compassView.getKeepScreenOn()) {
 			compassView.setKeepScreenOn(false);
 			item.setIcon(R.drawable.ic_menu_screen_off);
@@ -192,7 +193,7 @@ public class SearchGeoCacheCompass extends Activity {
 			compassView.setKeepScreenOn(true);
 			item.setIcon(R.drawable.ic_menu_screen_on);
 		}
-	}
+	}*/
 
 	private void showCompassPreferences() {
 		stopAnimation();

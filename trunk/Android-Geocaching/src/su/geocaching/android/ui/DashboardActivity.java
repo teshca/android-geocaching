@@ -3,6 +3,7 @@ package su.geocaching.android.ui;
 import su.geocaching.android.controller.Controller;
 import su.geocaching.android.model.datatype.GeoCache;
 import su.geocaching.android.ui.searchgeocache.SearchGeoCacheMap;
+import su.geocaching.android.ui.selectgeocache.MapPreferenceActivity;
 import su.geocaching.android.ui.selectgeocache.SelectGeoCacheMap;
 import android.app.Activity;
 import android.content.Intent;
@@ -47,6 +48,9 @@ public class DashboardActivity extends Activity {
 	public boolean onOptionsItemSelected(MenuItem item) {
 		// Handle item selection
 		switch (item.getItemId()) {
+		case R.id.preference:
+            startActivity(new Intent(this, DashboardPreferenceActivity.class));
+            return true;
 		case R.id.enableGps:
 			startActivityForResult(new Intent(android.provider.Settings.ACTION_LOCATION_SOURCE_SETTINGS), 0);
 			return true;
