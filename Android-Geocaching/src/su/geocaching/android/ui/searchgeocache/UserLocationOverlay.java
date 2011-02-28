@@ -1,5 +1,6 @@
 package su.geocaching.android.ui.searchgeocache;
 
+import su.geocaching.android.controller.compass.ICompassAnimation;
 import su.geocaching.android.ui.R;
 import android.content.Context;
 import android.graphics.Bitmap;
@@ -17,7 +18,7 @@ import com.google.android.maps.MapView;
  * @author Grigory Kalabin. grigory.kalabin@gmail.com
  * @since Nov 20, 2010F
  */
-public class UserLocationOverlay extends com.google.android.maps.Overlay {
+public class UserLocationOverlay extends com.google.android.maps.Overlay implements ICompassAnimation {
 	private static final int ACCURACY_CIRCLE_ALPHA = 50;
 	private static final int ACCURACY_CIRCLE_COLOR = 0xff00aa00;
 	private static final int ACCURACY_CIRCLE_STROKE_COLOR = 0xff00ff00;
@@ -103,16 +104,42 @@ public class UserLocationOverlay extends com.google.android.maps.Overlay {
 	}
 
 	/**
-	 * @param angle set user bearing on North
-	 */
-	public void setBearing(float angle) {
-		this.bearing = angle;
-	}
-
-	/**
 	 * @param radius set accuracy radius of location point
 	 */
 	public void setAccuracy(float radius) {
 		this.accuracyRadius = radius;
 	}
+
+	/* (non-Javadoc)
+	 * @see su.geocaching.android.controller.compass.ICompassAnimation#setDirection(float)
+	 */
+	@Override
+	public boolean setDirection(float direction) {
+			bearing = direction;
+			return true;
+	}
+	
+//	private boolean doAnim() {
+//		boolean success = false;
+//		Canvas c = null;
+//		SurfaceHolder holder = this.getHolder();
+//		if (holder != null) {
+//			try {
+//				c = holder.lockCanvas(null);
+//				synchronized (holder) {
+//					if (c != null) {
+//						success = onDrawnCheck(c);
+//					}
+//				}
+//			} finally {
+//				// do this in a finally so that if an exception is thrown
+//				// during the above, we don't leave the Surface in an
+//				// inconsistent state
+//				if (c != null) {
+//					holder.unlockCanvasAndPost(c);
+//				}
+//			}
+//		}
+//		return success;
+//	}
 }

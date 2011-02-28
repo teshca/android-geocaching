@@ -9,6 +9,9 @@ import su.geocaching.android.controller.GpsStatusManager;
 import su.geocaching.android.controller.ICompassAware;
 import su.geocaching.android.controller.IGpsStatusAware;
 import su.geocaching.android.controller.ILocationAware;
+import su.geocaching.android.controller.compass.CompassPreferenceManager;
+import su.geocaching.android.controller.compass.CompassSpeed;
+import su.geocaching.android.controller.compass.SmoothCompassThread;
 import su.geocaching.android.model.datatype.GeoCache;
 import su.geocaching.android.model.datatype.GeoCacheStatus;
 import su.geocaching.android.model.datatype.GeoCacheType;
@@ -79,6 +82,7 @@ public class SearchGeoCacheMap extends MapActivity implements IInternetAware, IL
 	private Controller mController;
 	private GoogleAnalyticsTracker tracker;
 	private DrivingDirections drivingDirection;
+	private SmoothCompassThread animationThread;
 
 	/*
 	 * (non-Javadoc)
@@ -136,6 +140,10 @@ public class SearchGeoCacheMap extends MapActivity implements IInternetAware, IL
 		super.onPause();
 		Log.d(TAG, "on pause");
 
+        if (mLocationManager.hasLocation()) {
+            stopAnimation();
+        }
+		
 		internetManager.removeSubscriber(this);
 		mLocationManager.removeSubsriber(this);
 		mCompassManager.removeSubscriber(this);
@@ -181,6 +189,7 @@ public class SearchGeoCacheMap extends MapActivity implements IInternetAware, IL
 			} else {
 				updateLocation(mLocationManager.getLastKnownLocation());
 				progressBarView.setVisibility(View.GONE);
+				startAnimation();
 				Log.d(TAG, "runLogic: location fixed. Update location with last known location");
 			}
 			mLocationManager.addSubscriber(this);
@@ -232,7 +241,8 @@ public class SearchGeoCacheMap extends MapActivity implements IInternetAware, IL
 			mapOverlays.add(userOverlay);
 			resetZoom();
 			drivingDirection = new DrivingDirections(GpsHelper.locationToGeoPoint(location), mController.getSearchingGeoCache().getLocationGeoPoint());
-
+			startAnimation();
+			
 			return;
 		}
 		distanceOverlay.setUserPoint(GpsHelper.locationToGeoPoint(location));
@@ -257,7 +267,7 @@ public class SearchGeoCacheMap extends MapActivity implements IInternetAware, IL
 		values[0] = bearing;
 		// Log.d(TAG, "update bearing. New bearing=" +
 		// Integer.toString(bearing));
-		userOverlay.setBearing(bearing);
+		userOverlay.setDirection(bearing);
 	}
 
 	/**
@@ -520,4 +530,28 @@ public class SearchGeoCacheMap extends MapActivity implements IInternetAware, IL
 			UiHelper.askTurnOnGps(this);
 		}
 	}
+	
+    private void startAnimation() {
+        if (animationThread == null) {
+            animationThread = new SmoothCompassThread(userOverlay, this);
+            animationThread.setRunning(true);
+
+            CompassPreferenceManager preferManager = CompassPreferenceManager.getPreference(this);
+            String speed = preferManager.getString(CompassPreferenceManager.PREFS_COMPASS_SPEED_KEY, CompassSpeed.NORMAL.name());
+            animationThread.setSpeed(CompassSpeed.valueOf(speed));
+
+            animationThread.start();
+        }
+    }
+
+    private void stopAnimation() {
+        if (animationThread != null) {
+            animationThread.setRunning(false);
+            try {
+                animationThread.join(150); // TODO Is it need?
+            } catch (InterruptedException e) {
+            }
+            animationThread = null;
+        }
+    }
 }
