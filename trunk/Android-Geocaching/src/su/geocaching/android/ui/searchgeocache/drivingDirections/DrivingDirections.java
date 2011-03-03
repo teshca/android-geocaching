@@ -26,17 +26,17 @@ public class DrivingDirections {
 	}
 
 	public boolean drawWay(MapView map) {
-		this.map=map;
+		this.map = map;
 		double flat = startPoint.getLatitudeE6() / 1.0E6, flong = startPoint.getLongitudeE6() / 1.0E6;
 
 		String test = "http://maps.google.ru/maps?f=d&source=s_d&saddr=" + flat + "," + flong + "&daddr=" + Double.toString((double) endPoint.getLatitudeE6() / 1.0E6) + ","
 				+ Double.toString((double) endPoint.getLongitudeE6() / 1.0E6) + "&geocode=&hl=ru&mra=ls&dirflg=w&vps=4&output=kml";
-//		String test1 = "http://maps.google.ru/maps?f=d&source=s_d&saddr=" + startPoint.getLatitudeE6() / 1.0E6 + "," + startPoint.getLongitudeE6() / 1.0E6 + "&daddr=" + endPoint.getLatitudeE6()
-//				/ 1.0E6 + "," + endPoint.getLongitudeE6() / 1.0E6 + "&hl=ru&mra=ls&dirflg=w&sll=" + startPoint.getLatitudeE6() / 1.0E6 + "," + startPoint.getLongitudeE6() / 1.0E6
-//				+ "&ie=UTF8&0&om=0&output=kml";
+		// String test1 = "http://maps.google.ru/maps?f=d&source=s_d&saddr=" + startPoint.getLatitudeE6() / 1.0E6 + "," + startPoint.getLongitudeE6() / 1.0E6 + "&daddr=" + endPoint.getLatitudeE6()
+		// / 1.0E6 + "," + endPoint.getLongitudeE6() / 1.0E6 + "&hl=ru&mra=ls&dirflg=w&sll=" + startPoint.getLatitudeE6() / 1.0E6 + "," + startPoint.getLongitudeE6() / 1.0E6
+		// + "&ie=UTF8&0&om=0&output=kml";
 
 		try {
-			
+
 			URL url = new URL(test);
 			HttpURLConnection urlConnection = (HttpURLConnection) url.openConnection();
 			urlConnection.setRequestMethod("GET");

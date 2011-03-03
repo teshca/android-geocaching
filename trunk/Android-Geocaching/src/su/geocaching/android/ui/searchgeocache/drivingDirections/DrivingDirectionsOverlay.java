@@ -19,13 +19,11 @@ public class DrivingDirectionsOverlay extends Overlay {
 	private int mode = 0;
 	private int defaultColor;
 
-
-	public DrivingDirectionsOverlay(GeoPoint gp1, GeoPoint gp2, int mode)
-	{
+	public DrivingDirectionsOverlay(GeoPoint gp1, GeoPoint gp2, int mode) {
 		this.gp1 = gp1;
 		this.gp2 = gp2;
 		this.mode = mode;
-		defaultColor = 690; 
+		defaultColor = 690;
 
 	}
 
@@ -36,7 +34,6 @@ public class DrivingDirectionsOverlay extends Overlay {
 		this.defaultColor = defaultColor;
 	}
 
-	
 	public int getMode() {
 		return mode;
 	}
@@ -48,17 +45,17 @@ public class DrivingDirectionsOverlay extends Overlay {
 			paint.setAntiAlias(true);
 			Point point = new Point();
 			projection.toPixels(gp1, point);
-			
+
 			if (mode == 1) {
 				if (defaultColor == 690)
 					paint.setColor(Color.BLUE);
 				else
 					paint.setColor(defaultColor);
 				RectF oval = new RectF(point.x - mRadius, point.y - mRadius, point.x + mRadius, point.y + mRadius);
-				
+
 				canvas.drawOval(oval, paint);
 			}
-			
+
 			else if (mode == 2) {
 				if (defaultColor == 999)
 					paint.setColor(Color.RED);
@@ -70,9 +67,8 @@ public class DrivingDirectionsOverlay extends Overlay {
 				paint.setAlpha(120);
 				canvas.drawLine(point.x, point.y, point2.x, point2.y, paint);
 			}
-			
+
 			else if (mode == 3) {
-			
 
 				if (defaultColor == 999)
 					paint.setColor(Color.GREEN);

@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
-    <item android:id="@+id/revertCenterToLocation" android:icon="@drawable/ic_menu_mylocation"
+	<item android:id="@+id/revertCenterToLocation" android:icon="@drawable/ic_menu_mylocation"
 		android:title="@string/revert_center_to_location" />
-    <item android:id="@+id/mapSettings" android:icon="@drawable/settings"
-            android:title="@string/settings"/>
+	<item android:id="@+id/mapSettings" android:icon="@drawable/settings"
+		android:title="@string/settings" />
 </menu>
