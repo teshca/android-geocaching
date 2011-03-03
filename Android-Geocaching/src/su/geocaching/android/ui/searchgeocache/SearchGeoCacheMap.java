@@ -22,6 +22,7 @@ import su.geocaching.android.ui.geocachemap.GeoCacheOverlayItem;
 import su.geocaching.android.ui.geocachemap.IInternetAware;
 import su.geocaching.android.ui.geocachemap.SearchCacheOverlay;
 import su.geocaching.android.ui.searchgeocache.drivingDirections.DrivingDirections;
+import su.geocaching.android.ui.searchgeocache.drivingDirections.DrivingDirectionsToGeopoint;
 import su.geocaching.android.ui.searchgeocache.stepbystep.CheckpointDialog;
 import su.geocaching.android.ui.searchgeocache.stepbystep.StepByStepTabActivity;
 import su.geocaching.android.utils.GpsHelper;
@@ -35,6 +36,7 @@ import android.graphics.drawable.Drawable;
 import android.location.Location;
 import android.location.LocationManager;
 import android.location.LocationProvider;
+import android.net.Uri;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.Menu;
@@ -70,7 +72,7 @@ public class SearchGeoCacheMap extends MapActivity implements IInternetAware, IL
 	private MapView map;
 	private MapController mapController;
 	private List<Overlay> mapOverlays;
-
+	private DrivingDirectionsToGeopoint path ;
 	private TextView waitingLocationFixText;
 	private ImageView progressBarView;
 	private AnimationDrawable progressBarAnim;
@@ -241,6 +243,7 @@ public class SearchGeoCacheMap extends MapActivity implements IInternetAware, IL
 			mapOverlays.add(userOverlay);
 			resetZoom();
 			drivingDirection = new DrivingDirections(GpsHelper.locationToGeoPoint(location), mController.getSearchingGeoCache().getLocationGeoPoint());
+			path = new DrivingDirectionsToGeopoint(GpsHelper.locationToGeoPoint(location),mController.getSearchingGeoCache().getLocationGeoPoint() );
 			startAnimation();
 			
 			return;
@@ -255,6 +258,7 @@ public class SearchGeoCacheMap extends MapActivity implements IInternetAware, IL
 	protected Dialog onCreateDialog(int index) {
 		return new CheckpointDialog(this, index, checkpointCacheOverlay, map);
 	}
+
 
 	/*
 	 * (non-Javadoc)
@@ -356,6 +360,10 @@ public class SearchGeoCacheMap extends MapActivity implements IInternetAware, IL
 			if (!drivingDirection.drawWay(map)) {
 				Toast.makeText(getBaseContext(), "Невозможно построить путь.", Toast.LENGTH_SHORT).show();
 			}
+		case R.id.DrawDirectionPathApp:
+			Intent intent = new Intent(android.content.Intent.ACTION_VIEW, 
+					Uri.parse("http://maps.google.com/maps?saddr="+GpsHelper.locationToGeoPoint(mLocationManager.getLastKnownLocation() ).getLatitudeE6() / 1.0E6+","+GpsHelper.locationToGeoPoint(mLocationManager.getLastKnownLocation() ).getLongitudeE6() / 1.0E6+"&daddr="+mController.getSearchingGeoCache().getLocationGeoPoint().getLatitudeE6() / 1.0E6+","+mController.getSearchingGeoCache().getLocationGeoPoint().getLongitudeE6() / 1.0E6+"&ie=UTF8&om=0&output=kml"));
+				startActivity(intent);
 			return true;
 		case R.id.stepByStep:
 			UiHelper.startStepByStepForResult(this, mController.getSearchingGeoCache());
