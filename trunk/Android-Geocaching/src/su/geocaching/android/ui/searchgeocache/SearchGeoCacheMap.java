@@ -22,7 +22,7 @@ import su.geocaching.android.ui.geocachemap.GeoCacheOverlayItem;
 import su.geocaching.android.ui.geocachemap.IInternetAware;
 import su.geocaching.android.ui.geocachemap.SearchCacheOverlay;
 import su.geocaching.android.ui.searchgeocache.drivingDirections.DrivingDirections;
-import su.geocaching.android.ui.searchgeocache.drivingDirections.DrivingDirectionsToGeopoint;
+
 import su.geocaching.android.ui.searchgeocache.stepbystep.CheckpointDialog;
 import su.geocaching.android.ui.searchgeocache.stepbystep.StepByStepTabActivity;
 import su.geocaching.android.utils.GpsHelper;
@@ -72,7 +72,7 @@ public class SearchGeoCacheMap extends MapActivity implements IInternetAware, IL
 	private MapView map;
 	private MapController mapController;
 	private List<Overlay> mapOverlays;
-	private DrivingDirectionsToGeopoint path ;
+	
 	private TextView waitingLocationFixText;
 	private ImageView progressBarView;
 	private AnimationDrawable progressBarAnim;
@@ -243,7 +243,7 @@ public class SearchGeoCacheMap extends MapActivity implements IInternetAware, IL
 			mapOverlays.add(userOverlay);
 			resetZoom();
 			drivingDirection = new DrivingDirections(GpsHelper.locationToGeoPoint(location), mController.getSearchingGeoCache().getLocationGeoPoint());
-			path = new DrivingDirectionsToGeopoint(GpsHelper.locationToGeoPoint(location),mController.getSearchingGeoCache().getLocationGeoPoint() );
+			
 			startAnimation();
 			
 			return;
