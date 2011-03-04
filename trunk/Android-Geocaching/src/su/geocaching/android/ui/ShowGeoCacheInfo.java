@@ -205,7 +205,6 @@ public class ShowGeoCacheInfo extends Activity implements OnCheckedChangeListene
 		else
 			htmlTextGeoCache = getHtmlString(isPageNoteBook);
 		webView.loadDataWithBaseURL(HTTP_PDA_GEOCACHING_SU, htmlTextGeoCache, "text/html", "utf-8", "");
-
 		super.onStart();
 	}
 
@@ -238,6 +237,7 @@ public class ShowGeoCacheInfo extends Activity implements OnCheckedChangeListene
 	public boolean onCreateOptionsMenu(Menu menu) {
 		MenuInflater inflater = getMenuInflater();
 		inflater.inflate(R.menu.info_about_cache, menu);
+		menuInfo = menu;
 		return true;
 	}
 
@@ -306,7 +306,9 @@ public class ShowGeoCacheInfo extends Activity implements OnCheckedChangeListene
 			}
 		}
 	}
-
+	
+	
+	
 	private String getHtmlString(boolean isPageNoteBook) {
 		String exString = "";
 		if (!isPageNoteBook)

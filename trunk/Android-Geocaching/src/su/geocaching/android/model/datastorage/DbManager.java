@@ -54,9 +54,10 @@ public class DbManager extends SQLiteOpenHelper {
 
 	@Override
 	public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
-        if (oldVersion < 2)  
-        	db.execSQL(String.format("ALTER TABLE %s ADD %s string;",DATABASE_NAME_TABLE,COLUMN_NOTEBOOK_TEXT));
-   }
+		if (oldVersion < 2) {
+			db.execSQL(String.format("ALTER TABLE %s ADD %s string;", DATABASE_NAME_TABLE, COLUMN_NOTEBOOK_TEXT));
+		}
+	}
 
 	/**
 	 * Method for open database
@@ -161,6 +162,7 @@ public class DbManager extends SQLiteOpenHelper {
 				return null;
 			}
 			c.moveToFirst();
+
 			if (c.getString(0) != null)
 				exitString = c.getString(0);
 			else
@@ -169,6 +171,12 @@ public class DbManager extends SQLiteOpenHelper {
 			return exitString;
 		}
 		return null;
+	}
+
+	public void ubdateNotebookText(int cacheId, String htmlNotebookText) {
+		ContentValues values = new ContentValues();
+		values.put(COLUMN_NOTEBOOK_TEXT, htmlNotebookText);
+		db.update(DATABASE_NAME_TABLE, values, COLUMN_ID + "=" + cacheId, null);
 	}
 
 	/**
