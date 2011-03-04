@@ -54,10 +54,9 @@ public class DbManager extends SQLiteOpenHelper {
 
 	@Override
 	public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
-        if(oldVersion<newVersion){
-            db.execSQL(String.format("ALTER TABLE %s ADD %s string;",DATABASE_NAME_TABLE,COLUMN_NOTEBOOK_TEXT));
-        }
-	}
+        if (oldVersion < 2)  
+        	db.execSQL(String.format("ALTER TABLE %s ADD %s string;",DATABASE_NAME_TABLE,COLUMN_NOTEBOOK_TEXT));
+   }
 
 	/**
 	 * Method for open database

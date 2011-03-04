@@ -51,15 +51,15 @@ import com.google.android.maps.GeoPoint;
  */
 public class ShowGeoCacheInfo extends Activity implements OnCheckedChangeListener, OnClickListener, IInternetAware {
 	private static final String TAG = ShowGeoCacheInfo.class.getCanonicalName();
-    private static final String HTTP_PDA_GEOCACHING_SU = "http://pda.geocaching.su/";
-    private WebView webView;
+	private static final String HTTP_PDA_GEOCACHING_SU = "http://pda.geocaching.su/";
+	private WebView webView;
 	private TextView tvNameText;
 	private TextView tvTypeGeoCacheText;
 	private TextView tvStatusGeoCacheText;
 	private ImageView btGoToSearchGeoCache;
 	private CheckBox cbAddDelCache;
 	private DbManager dbm;
-	private MenuItem menuInfo;
+	private Menu menuInfo;
 	private GeoCache GeoCacheForShowInfo;
 	private String htmlTextGeoCache = null;
 	private String htmlTextNotebookGeoCache = null;
@@ -92,6 +92,7 @@ public class ShowGeoCacheInfo extends Activity implements OnCheckedChangeListene
 	@Override
 	public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
 		if (isChecked) {
+			isCacheStoredInDataBase = true;
 			if (htmlTextNotebookGeoCache == null || htmlTextNotebookGeoCache == "") {
 				AlertDialog.Builder builder = new AlertDialog.Builder(this);
 				builder.setMessage(this.getString(R.string.ask_download_notebook)).setCancelable(false)
@@ -108,9 +109,10 @@ public class ShowGeoCacheInfo extends Activity implements OnCheckedChangeListene
 				AlertDialog askDownloadNotebook = builder.create();
 				askDownloadNotebook.show();
 			}
-			dbm.openDB();
-			dbm.addGeoCache(GeoCacheForShowInfo, htmlTextGeoCache, htmlTextNotebookGeoCache);
-			dbm.closeDB();
+				dbm.openDB();
+				dbm.addGeoCache(GeoCacheForShowInfo, htmlTextGeoCache, htmlTextNotebookGeoCache);
+				dbm.closeDB();
+			
 		} else {
 			dbm.openDB();
 			dbm.deleteCacheById(GeoCacheForShowInfo.getId());
@@ -118,11 +120,12 @@ public class ShowGeoCacheInfo extends Activity implements OnCheckedChangeListene
 		}
 
 	}
-    @Override
-    protected void onResume() {
-        super.onResume();
-        webView.setKeepScreenOn(Controller.getInstance().getKeepScreenOnPreference(webView.getContext()));
-    }
+
+	@Override
+	protected void onResume() {
+		super.onResume();
+		webView.setKeepScreenOn(Controller.getInstance().getKeepScreenOnPreference(webView.getContext()));
+	}
 
 	@Override
 	protected void onStop() {
@@ -140,10 +143,12 @@ public class ShowGeoCacheInfo extends Activity implements OnCheckedChangeListene
 
 		dbm.openDB();
 		isCacheStoredInDataBase = (dbm.getCacheByID(GeoCacheForShowInfo.getId()) != null);
-		dbm.closeDB();
-
-		if (isCacheStoredInDataBase)
+		if (isCacheStoredInDataBase) {
 			cbAddDelCache.setChecked(true);
+			htmlTextGeoCache = dbm.getWebTextById(GeoCacheForShowInfo.getId());
+			htmlTextNotebookGeoCache = dbm.getWebNotebookTextById(GeoCacheForShowInfo.getId());
+		}
+		dbm.close();
 
 		tvNameText.setText(GeoCacheForShowInfo.getName());
 
@@ -156,13 +161,13 @@ public class ShowGeoCacheInfo extends Activity implements OnCheckedChangeListene
 			break;
 		case NOT_CONFIRMED:
 			tvStatusGeoCacheText.setText(getString(R.string.status_geocache_no_confirmed));
-			break;			
+			break;
 		case ACTIVE_CHECKPOINT:
 			tvStatusGeoCacheText.setText(getString(R.string.status_geocache_active_checkpoint));
 			break;
 		case NOT_ACTIVE_CHECKPOINT:
 			tvStatusGeoCacheText.setText(getString(R.string.status_geocache_not_active_checkpoint));
-			break;			
+			break;
 		default:
 			tvStatusGeoCacheText.setText(getString(R.string.status_geocache_no_confirmed));
 			break;
@@ -200,6 +205,7 @@ public class ShowGeoCacheInfo extends Activity implements OnCheckedChangeListene
 		else
 			htmlTextGeoCache = getHtmlString(isPageNoteBook);
 		webView.loadDataWithBaseURL(HTTP_PDA_GEOCACHING_SU, htmlTextGeoCache, "text/html", "utf-8", "");
+
 		super.onStart();
 	}
 
@@ -242,41 +248,42 @@ public class ShowGeoCacheInfo extends Activity implements OnCheckedChangeListene
 			changeMenuItem(item);
 			return true;
 		}
-            case R.id.show_web_add_delete_cache:{
+		case R.id.show_web_add_delete_cache: {
 
-                        if(cbAddDelCache.isChecked()) {
-                            cbAddDelCache.setChecked(false);
-                        }
-                        else {
-                            cbAddDelCache.setChecked(true);
-                        }
+			if (cbAddDelCache.isChecked()) {
+				cbAddDelCache.setChecked(false);
+			} else {
+				cbAddDelCache.setChecked(true);
+			}
 
-                        return true;
-                    }
-                    case R.id.show_web_search_cache:{
-                        if (!isCacheStoredInDataBase) {
-                            cbAddDelCache.setChecked(true);
-                        }
-                        Intent intent = new Intent(this, SearchGeoCacheMap.class);
-                        intent.putExtra(GeoCache.class.getCanonicalName(), GeoCacheForShowInfo);
-                        startActivity(intent);
-                        return true;
-                    }
+			return true;
+		}
+		case R.id.show_web_search_cache: {
+			if (!isCacheStoredInDataBase) {
+				cbAddDelCache.setChecked(true);
+			}
+			Intent intent = new Intent(this, SearchGeoCacheMap.class);
+			intent.putExtra(GeoCache.class.getCanonicalName(), GeoCacheForShowInfo);
+			startActivity(intent);
+			return true;
+		}
 
 		default:
 			return super.onOptionsItemSelected(item);
 		}
 	}
-    public boolean onPrepareOptionsMenu(Menu menu){
-         if(cbAddDelCache.isChecked()){
 
-             menu.getItem(1).setTitle(R.string.menu_show_web_delete_cache);
-         }else{
-            menu.getItem(1).setTitle(R.string.menu_show_web_add_cache);
-         }
+	public boolean onPrepareOptionsMenu(Menu menu) {
 
-      return super.onPrepareOptionsMenu(menu);
-    }
+		if (cbAddDelCache.isChecked()) {
+
+			menu.getItem(1).setTitle(R.string.menu_show_web_delete_cache);
+		} else {
+			menu.getItem(1).setTitle(R.string.menu_show_web_add_cache);
+		}
+
+		return super.onPrepareOptionsMenu(menu);
+	}
 
 	public void changeMenuItem(MenuItem item) {
 		if (!connectManager.isInternetConnected() && !isCacheStoredInDataBase)
@@ -286,7 +293,10 @@ public class ShowGeoCacheInfo extends Activity implements OnCheckedChangeListene
 				item.setTitle(R.string.menu_show_info_cache);
 				isPageNoteBook = true;
 				htmlTextNotebookGeoCache = getHtmlString(isPageNoteBook);
-				webView.loadDataWithBaseURL(HTTP_PDA_GEOCACHING_SU, htmlTextNotebookGeoCache, "text/html", "utf-8", "");
+				if (htmlTextNotebookGeoCache == null)
+					webView.loadData("<?xml version='1.0' encoding='utf-8'?>" + "<center>" + getString(R.string.notebook_geocache_not_internet_and_not_in_DB) + "</center>", "text/html", "utf-8");
+				else
+					webView.loadDataWithBaseURL(HTTP_PDA_GEOCACHING_SU, htmlTextNotebookGeoCache, "text/html", "utf-8", "");
 
 			} else {
 				isPageNoteBook = false;

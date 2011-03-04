@@ -56,15 +56,19 @@
 	<string name="status_geocache_not_active_checkpoint">Не активна</string>
 
 	<string name="menu_show_web_notebook_cache">Блокнот</string>
-     <string name="menu_show_web_add_cache">Добавить</string>
-    <string name="menu_show_web_delete_cache">Удалить</string>
-    <string name="menu_show_web_search_cache">Искать</string>
+	<string name="menu_show_web_add_cache">Добавить</string>
+	<string name="menu_show_web_delete_cache">Удалить</string>
+	<string name="menu_show_web_search_cache">Искать</string>
 	<string name="menu_show_info_cache">Инфо</string>
 	<string name="favorit_folder_In_DB_not_cache">В базе нет ни одного тайника</string>
 	<string name="info_geocach_not_internet_and_not_in_DB">Невозможно показать информацию о тайнике, поскольку
 		тайника нет в локальной базе, а так же отсутствует соединение с
 		интернетом
     </string>
+	<string name="notebook_geocache_not_internet_and_not_in_DB">Невозможно показать блокнот тайника, поскольку
+		блокнота нет в локальной базе, а так же отсутствует соединение с
+		интернетом
+	</string>
 	<string name="menu_keep_screen">Не выключать экран</string>
 	<string name="about">О программе</string>
 	<string name="about_title">Геокешинг версия 0.0.1b</string>
