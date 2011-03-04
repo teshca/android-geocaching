@@ -37,19 +37,16 @@ public class DownloadWebNotebookTask extends AsyncTask<String, Void, String> {
 			if (htmlNotebookTextGeoCache == null || htmlNotebookTextGeoCache == "") {
 				try {
 					htmlNotebookTextGeoCache = getWebText(idCache);
-					if (isCacheStoredInDataBase){
+					if (isCacheStoredInDataBase) {
 						dbManager.openDB();
-						GeoCache tempCache = dbManager.getCacheByID(idCache);
-						String htmlInfo = dbManager.getWebTextById(idCache);
-						dbManager.deleteCacheById(idCache);
-						dbManager.addGeoCache(tempCache, htmlInfo, htmlNotebookTextGeoCache);
+						dbManager.ubdateNotebookText(idCache, htmlNotebookTextGeoCache);
 						dbManager.close();
 					}
 				} catch (IOException e) {
 					// TODO Auto-generated catch block
 					e.printStackTrace();
 				}
-				
+
 			}
 			return htmlNotebookTextGeoCache;
 		} else {
