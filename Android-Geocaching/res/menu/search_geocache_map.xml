@@ -6,7 +6,7 @@
 	<item android:id="@+id/menuStartCompass" android:icon="@drawable/ic_menu_compass"
 		android:title="@string/menu_start_compass" />
 	<item android:id="@+id/addDrawDirectionPath" android:title="@string/DrawDirectionPath" />
-	<item android:id="@+id/stepByStep" android:title="@string/addStepByStep" />
+	<item android:id="@+id/stepByStep" android:title="@string/add_stepbystep" />
 	<item android:id="@+id/DrawDirectionPathApp" android:title="@string/DrawDirectionPathApp" />
 	
 </menu>

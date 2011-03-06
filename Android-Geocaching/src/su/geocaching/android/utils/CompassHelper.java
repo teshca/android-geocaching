@@ -7,7 +7,7 @@ public class CompassHelper {
 		if (direction < 0){
 			direction = 360+direction;
 		}
-		return String.format("%.1f°", direction);
+		return String.format("%.1f°", 360-direction);
 	}
 
 	public static float calculateNormalDifference(float lastDirection, float currentDirection) {

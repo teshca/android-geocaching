@@ -9,8 +9,8 @@ import su.geocaching.android.model.datatype.GeoCacheType;
 import su.geocaching.android.utils.UiHelper;
 import android.app.Activity;
 import android.graphics.drawable.Drawable;
+import android.util.Log;
 import android.view.GestureDetector;
-import android.view.GestureDetector.OnGestureListener;
 import android.view.MotionEvent;
 
 import com.google.android.maps.ItemizedOverlay;
@@ -24,17 +24,22 @@ import com.google.android.maps.OverlayItem;
 public class SearchCacheOverlay extends ItemizedOverlay<OverlayItem> {
 
 	private GestureDetector gestureDetector;
-	private boolean longClick;
+	// private boolean doubleTouchEvent;
 
 	private List<GeoCacheOverlayItem> items;
-	private Activity context;
+	private Activity activity;
+	private MapView map;
 	private int activeItem = 0;
 
-	public SearchCacheOverlay(Drawable defaultMarker, Activity context) {
+	public SearchCacheOverlay(Drawable defaultMarker, Activity context, MapView map) {
 		super(defaultMarker);
+
 		items = Collections.synchronizedList(new LinkedList<GeoCacheOverlayItem>());
-		this.context = context;
-		gestureDetector = new GestureDetector(context, new GestureScanner());
+		gestureDetector = new GestureDetector(context, sogl);
+		// gestureDetector.setIsLongpressEnabled(false);
+		this.activity = context;
+		this.map = map;
+
 		populate();
 	}
 
@@ -92,16 +97,31 @@ public class SearchCacheOverlay extends ItemizedOverlay<OverlayItem> {
 	@Override
 	public boolean onTap(int index) {
 		GeoCache gc = items.get(index).getGeoCache();
-		if (longClick && gc.getType() == GeoCacheType.CHECKPOINT) {
-			context.showDialog(index);
+		if (gc.getType() == GeoCacheType.CHECKPOINT) {
+			activity.showDialog(index);
+			// UiHelper.startStepByStepForResult(activity, gc);
 		} else {
-			UiHelper.showGeoCacheInfo(context, gc);
+			UiHelper.showGeoCacheInfo(activity, gc);
 		}
 		return true;
 	}
 
 	@Override
 	public boolean onTouchEvent(MotionEvent event, MapView mapView) {
+		// super.onTouchEvent(event, mapView);
+		if (event.getAction() == MotionEvent.ACTION_DOWN) {
+			Log.d("Geocaching.su", "onTouchEvent ");
+		}
+		// if (doubleTouchEvent && event.getAction() == MotionEvent.ACTION_DOWN) {
+		//
+		// return false;
+		// }
+		// doubleTouchEvent = true;
+		//
+		// if (doubleTouchEvent && event.getAction() == MotionEvent.ACTION_UP) {
+		// doubleTouchEvent = false;
+		// }
+
 		return gestureDetector.onTouchEvent(event);
 	}
 
@@ -120,36 +140,51 @@ public class SearchCacheOverlay extends ItemizedOverlay<OverlayItem> {
 		this.activeItem = activeItem;
 	}
 
-	class GestureScanner implements OnGestureListener {
+	GestureDetector.SimpleOnGestureListener sogl = new GestureDetector.SimpleOnGestureListener() {
 
-		@Override
-		public boolean onDown(MotionEvent e) {
-			return false;
-		}
-
-		@Override
-		public boolean onFling(MotionEvent e1, MotionEvent e2, float velocityX, float velocityY) {
-			return false;
-		}
-
-		@Override
 		public void onLongPress(MotionEvent e) {
-			longClick = true;
+			Log.d("Geocaching.su", "onLongPress");
+			GeoCache gc = new GeoCache();
+			gc.setType(GeoCacheType.CHECKPOINT);
+			gc.setLocationGeoPoint(map.getProjection().fromPixels((int) e.getX(), (int) e.getY()));
+			UiHelper.startStepByStepForResult(activity, gc);
 		}
+	};
 
-		@Override
-		public boolean onScroll(MotionEvent e1, MotionEvent e2, float distanceX, float distanceY) {
-			return false;
-		}
-
-		@Override
-		public void onShowPress(MotionEvent e) {
-		}
-
-		@Override
-		public boolean onSingleTapUp(MotionEvent e) {
-			longClick = false;
-			return false;
-		}
-	}
+	// class GestureScanner implements OnGestureListener {
+	//
+	// @Override
+	// public boolean onDown(MotionEvent e) {
+	// return false;
+	// }
+	//
+	// @Override
+	// public boolean onFling(MotionEvent e1, MotionEvent e2, float velocityX, float velocityY) {
+	// return true;
+	// }
+	//
+	// @Override
+	// public void onLongPress(MotionEvent e) {
+	// Log.d("Geocaching.su", "onLongPress");
+	//
+	// GeoCache gc = new GeoCache();
+	// gc.setType(GeoCacheType.CHECKPOINT);
+	// gc.setLocationGeoPoint(map.getProjection().fromPixels((int) e.getX(), (int) e.getY()));
+	// UiHelper.startStepByStepForResult(activity, gc);
+	// }
+	//
+	// @Override
+	// public boolean onScroll(MotionEvent e1, MotionEvent e2, float distanceX, float distanceY) {
+	// return true;
+	// }
+	//
+	// @Override
+	// public void onShowPress(MotionEvent e) {
+	// }
+	//
+	// @Override
+	// public boolean onSingleTapUp(MotionEvent e) {
+	// return true;
+	// }
+	// }
 }

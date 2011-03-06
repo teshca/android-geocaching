@@ -22,7 +22,7 @@ public class GpsHelper {
 
 	private static final DecimalFormat BIG_DISTANCE_NUMBER_FORMAT = new DecimalFormat("0.0");
 	private static final DecimalFormat SMALL_DISTANCE_NUMBER_FORMAT = new DecimalFormat("0");
-	private static final String BIG_DISTANCE_VALUE_NAME = "κμ"; // TODO go to xml
+	private static final String BIG_DISTANCE_VALUE_NAME = "κμ"; // TODO move constant to xml
 	private static final String SMALL_DISTANCE_VALUE_NAME = "μ";
 	private static final float BIG_DISTANCE_COEFFICIENT = (float) 0.001;
 	private static final float SMALL_DISTANCE_COEFFICIENT = 1;

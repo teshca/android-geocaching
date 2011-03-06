@@ -1,30 +1,21 @@
 package su.geocaching.android.ui;
 
-import java.io.BufferedReader;
-import java.io.IOException;
-import java.io.InputStreamReader;
-import java.net.URL;
 import java.util.concurrent.ExecutionException;
 
-import su.geocaching.android.ui.geocachemap.ConnectionManager;
-import su.geocaching.android.ui.geocachemap.IInternetAware;
 import su.geocaching.android.controller.Controller;
 import su.geocaching.android.model.datastorage.DbManager;
 import su.geocaching.android.model.datastorage.DownloadInfoCacheTask;
 import su.geocaching.android.model.datastorage.DownloadWebNotebookTask;
 import su.geocaching.android.model.datatype.GeoCache;
-import su.geocaching.android.model.datatype.GeoCacheType;
-import su.geocaching.android.ui.R;
+import su.geocaching.android.ui.geocachemap.ConnectionManager;
+import su.geocaching.android.ui.geocachemap.IInternetAware;
 import su.geocaching.android.ui.searchgeocache.SearchGeoCacheMap;
-import su.geocaching.android.utils.GpsHelper;
 import su.geocaching.android.utils.UiHelper;
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
-import android.provider.Settings;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
@@ -34,14 +25,12 @@ import android.webkit.WebView;
 import android.webkit.WebViewClient;
 import android.widget.CheckBox;
 import android.widget.CompoundButton;
-import android.widget.ImageView;
-import android.widget.Toast;
 import android.widget.CompoundButton.OnCheckedChangeListener;
-import android.widget.ImageButton;
+import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.google.android.apps.analytics.GoogleAnalyticsTracker;
-import com.google.android.maps.GeoPoint;
 
 /**
  * 
@@ -95,24 +84,23 @@ public class ShowGeoCacheInfo extends Activity implements OnCheckedChangeListene
 			isCacheStoredInDataBase = true;
 			if (htmlTextNotebookGeoCache == null || htmlTextNotebookGeoCache == "") {
 				AlertDialog.Builder builder = new AlertDialog.Builder(this);
-				builder.setMessage(this.getString(R.string.ask_download_notebook)).setCancelable(false)
-						.setPositiveButton(this.getString(R.string.ask_download_notebook_yes), new DialogInterface.OnClickListener() {
-							public void onClick(DialogInterface dialog, int id) {
-								htmlTextNotebookGeoCache = getHtmlString(!isPageNoteBook);
-								dialog.cancel();
-							}
-						}).setNegativeButton(this.getString(R.string.ask_download_notebook_no), new DialogInterface.OnClickListener() {
-							public void onClick(DialogInterface dialog, int id) {
-								dialog.cancel();
-							}
-						});
+				builder.setMessage(this.getString(R.string.ask_download_notebook)).setCancelable(false).setPositiveButton(this.getString(R.string.yes), new DialogInterface.OnClickListener() {
+					public void onClick(DialogInterface dialog, int id) {
+						htmlTextNotebookGeoCache = getHtmlString(!isPageNoteBook);
+						dialog.cancel();
+					}
+				}).setNegativeButton(this.getString(R.string.no), new DialogInterface.OnClickListener() {
+					public void onClick(DialogInterface dialog, int id) {
+						dialog.cancel();
+					}
+				});
 				AlertDialog askDownloadNotebook = builder.create();
 				askDownloadNotebook.show();
 			}
-				dbm.openDB();
-				dbm.addGeoCache(GeoCacheForShowInfo, htmlTextGeoCache, htmlTextNotebookGeoCache);
-				dbm.closeDB();
-			
+			dbm.openDB();
+			dbm.addGeoCache(GeoCacheForShowInfo, htmlTextGeoCache, htmlTextNotebookGeoCache);
+			dbm.closeDB();
+
 		} else {
 			dbm.openDB();
 			dbm.deleteCacheById(GeoCacheForShowInfo.getId());
@@ -306,9 +294,7 @@ public class ShowGeoCacheInfo extends Activity implements OnCheckedChangeListene
 			}
 		}
 	}
-	
-	
-	
+
 	private String getHtmlString(boolean isPageNoteBook) {
 		String exString = "";
 		if (!isPageNoteBook)

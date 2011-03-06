@@ -20,7 +20,7 @@
 	<string name="prefer_speed_dialog_title">Скорость</string>
 	<string name="prefs_speed_key">compass.speed</string>
 	<string name="prefer_speed_title">Скорость</string>
-	<string name="prefer_speed_summary">Выберете скорость вращения стрелки компаса</string>
+	<string name="prefer_speed_summary">Выберите скорость вращения стрелки компаса</string>
 	<string name="prefer_speed_default_value">NORMAL</string>
 
 	<string name="prefer_appearance_dialog_title">Внешний вид</string>
@@ -35,5 +35,5 @@
 		<item>PALE</item>
 	</string-array>
 	<string name="prefer_appearance_default_value">CLASSIC</string>
-	<string name="prefer_appearance_summary">Выберете внешний вид компаса</string>
+	<string name="prefer_appearance_summary">Выберите внешний вид компаса</string>
 </resources>

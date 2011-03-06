@@ -10,12 +10,17 @@
 	</string>
 	<string name="ask_enable_gps_text">Для дальнейшей работы необходим GPS. Включить?
 	</string>
+	
+	<string name="yes">Да</string>
+	<string name="no">Нет</string>
+	<!--
 	<string name="ask_enable_gps_yes">Да</string>
 	<string name="ask_enable_gps_no">Нет</string>
 	<string name="ask_enable_internet_yes">Да</string>
 	<string name="ask_enable_internet_no">Нет</string>
 	<string name="ask_download_notebook_yes">Да</string>
 	<string name="ask_download_notebook_no">Нет</string>
+	-->
 	<string name="ask_download_notebook">Скачать блокнот тайника?</string>
 	<string name="search_geocache_error_no_geocache">Ошибка!\n\rНечего искать!</string>
 	<string name="search_geocache_start_without_geocache">Перед поиском выберите тайник</string>
@@ -99,23 +104,21 @@
 	<string name="compass_activity_folder">/CompassActivity</string>
 	<string name="search_activity_folder">/SearchActivity</string>
 	<string name="select_activity_folder">/SelectActivity</string>
-	<string name="addStepByStep">Добавить точку</string>
+	
+	<string name="add_stepbystep">Добавить точку</string>
 	<string name="latitude">Широта :</string>
 	<string name="longitude">Долгота :</string>
 	<string name="geographical_coordinates">Географические координаты</string>
-	<string name="enter">Ввести</string>
-	<string name="sexagesimal">Iестидесятеричный</string>
+	<string name="enter">Добавить точку</string>
+	<string name="sexagesimal">Шестидесятеричный</string>
 	<string name="decimal">Десятичный</string>
 	<string name="on_azimuth">По азимуту</string>
 	<string name="error_stepbystep_input">Неверный формат введенных данных</string>
 	<string name="azimuth">Азимут:</string>
 	<string name="distance">Расстояние:</string>
 	<string name="meter">m</string>
-	<string name="checkpoint_dialog_title">Контрольная точка </string>
-
-	<string-array name="checkpoints_menu">
-		<item>Активировать</item>
-		<item>Удалить</item>
-		<item>Удалить все</item>
-	</string-array>
+	<string name="checkpoint_dialog_title">Контрольная точка </string>	
+	<string name="active">Активировать</string>	
+	<string name="delete">Удалить</string>	
+	
 </resources>

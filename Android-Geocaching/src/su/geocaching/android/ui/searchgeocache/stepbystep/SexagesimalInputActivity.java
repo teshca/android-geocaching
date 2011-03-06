@@ -46,7 +46,7 @@ public class SexagesimalInputActivity extends Activity {
 	}
 
 	// TODO
-	public void onEnterClick(View v) {
+	public void onEnterClick(View v) {		
 		try {
 			int latitudeE6 = GpsHelper.sexagesimalToCoordinateE6(Integer.parseInt(latDegrees.getText().toString()), Integer.parseInt(latMinutes.getText().toString()),
 					Integer.parseInt(latmMinutes.getText().toString()));
@@ -55,12 +55,11 @@ public class SexagesimalInputActivity extends Activity {
 			Intent intent = new Intent();
 			intent.putExtra(StepByStepTabActivity.LATITUDE, latitudeE6);
 			intent.putExtra(StepByStepTabActivity.LONGITUDE, longitudeE6);
-			getParent().setResult(RESULT_OK, intent);
-			finish();
+			getParent().setResult(RESULT_OK, intent);				
 		} catch (Exception e) {
 			Log.e("Geocaching.su", e.getMessage());
 			Toast.makeText(this, getString(R.string.error_stepbystep_input), Toast.LENGTH_SHORT).show();
 		}
-
+		finish();		
 	}
 }
