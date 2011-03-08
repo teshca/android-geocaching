@@ -117,14 +117,14 @@ public class SearchGeoCacheMap extends MapActivity implements IInternetAware, IL
 		mController = Controller.getInstance();
 		mController.setSearchingGeoCache(geoCache);
 
-		internetManager = mController.getConnectionManager(this);
+		internetManager = mController.getConnectionManager();
 		internetManager.addSubscriber(this);
-		mLocationManager = mController.getLocationManager(this);
-		mCompassManager = mController.getCompassManager(this);
-		mGpsStatusManager = mController.getGpsStatusManager(this);
+		mLocationManager = mController.getLocationManager();
+		mCompassManager = mController.getCompassManager();
+		mGpsStatusManager = mController.getGpsStatusManager();
 
 		if (geoCache != null) {
-			cacheMarker = mController.getMarker(mController.getSearchingGeoCache(), this);
+			cacheMarker = mController.getMarker(mController.getSearchingGeoCache());
 			searchCacheOverlay = new SearchCacheOverlay(cacheMarker, this, map);
 			cacheOverlayItem = new GeoCacheOverlayItem(mController.getSearchingGeoCache(), "", "");
 			searchCacheOverlay.addOverlayItem(cacheOverlayItem);
@@ -260,10 +260,8 @@ public class SearchGeoCacheMap extends MapActivity implements IInternetAware, IL
 	}
 
 
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see su.geocaching.android.ui.searchgeocache.ISearchActivity#updateBearing (int)
+	/* (non-Javadoc)
+	 * @see su.geocaching.android.controller.ICompassAware#updateBearing(float)
 	 */
 	@Override
 	public void updateBearing(float bearing) {
@@ -391,7 +389,7 @@ public class SearchGeoCacheMap extends MapActivity implements IInternetAware, IL
 				gc.setType(GeoCacheType.CHECKPOINT);
 
 				if (checkpointCacheOverlay == null) {
-					cacheMarker = Controller.getInstance().getMarker(gc, this);
+					cacheMarker = Controller.getInstance().getMarker(gc);
 					checkpointCacheOverlay = new SearchCacheOverlay(cacheMarker, this, map);
 					mapOverlays.add(checkpointCacheOverlay);
 				}
@@ -539,6 +537,9 @@ public class SearchGeoCacheMap extends MapActivity implements IInternetAware, IL
 		}
 	}
 	
+    /**
+     * run animation for user location overlay
+     */
     private void startAnimation() {
         if (animationThread == null) {
             animationThread = new SmoothCompassThread(userOverlay, this);
@@ -552,6 +553,9 @@ public class SearchGeoCacheMap extends MapActivity implements IInternetAware, IL
         }
     }
 
+    /**
+     * Stop animation for user location overlay
+     */
     private void stopAnimation() {
         if (animationThread != null) {
             animationThread.setRunning(false);

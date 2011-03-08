@@ -126,7 +126,7 @@ public class ShowGeoCacheInfo extends Activity implements OnCheckedChangeListene
 	protected void onStart() {
 		GeoCacheForShowInfo = getIntent().getParcelableExtra(GeoCache.class.getCanonicalName());
 
-		connectManager = Controller.getInstance().getConnectionManager(this);
+		connectManager = Controller.getInstance().getConnectionManager();
 		connectManager.addSubscriber(this);
 
 		dbm.openDB();

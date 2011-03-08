@@ -68,8 +68,8 @@ public class SearchGeoCacheCompass extends Activity {
 		statusText = (TextView) findViewById(R.id.waitingLocationFixText);
 
 		controller = Controller.getInstance();	
-		locationManager = controller.getLocationManager(this);
-		gpsManager = controller.getGpsStatusManager(this);
+		locationManager = controller.getLocationManager();
+		gpsManager = controller.getGpsStatusManager();
 		locationListener = new LocationListener(this);
 		gpsListener = new GpsStatusListener();
 		

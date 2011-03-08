@@ -22,7 +22,7 @@ public class CheckpointDialog extends Dialog {
 	public CheckpointDialog(Context context, int index, SearchCacheOverlay searchOverlay, MapView map) {
 		super(context);
 
-		String title = context.getString(R.string.checkpoint_dialog_title) + " " + index;
+		String title = Controller.getInstance().getResourceManager().getString(R.string.checkpoint_dialog_title) + " " + index;
 		setTitle(title);
 		// this.context = context;
 		this.index = index;
