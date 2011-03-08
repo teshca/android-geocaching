@@ -69,10 +69,10 @@ public class SelectGeoCacheMap extends MapActivity implements IInternetAware {
         countDownloadTask = 0;
         handler = new Handler();
 
-        selectCacheOverlay = new SelectCacheOverlay(Controller.getInstance().getMarker(new GeoCache(), this), this, map);
+        selectCacheOverlay = new SelectCacheOverlay(Controller.getInstance().getMarker(new GeoCache()), this, map);
         map.getOverlays().add(selectCacheOverlay);
 
-        connectionManager = Controller.getInstance().getConnectionManager(this);
+        connectionManager = Controller.getInstance().getConnectionManager();
         connectionManager.addSubscriber(this);
 
         context = this;

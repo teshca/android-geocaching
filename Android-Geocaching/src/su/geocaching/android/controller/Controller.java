@@ -48,6 +48,7 @@ public class Controller {
     private CompassManager compassManager;
     private GpsStatusManager gpsStatusManager;
     private ConnectionManager connectionManager;
+    private ResourceManager resourceManager;
     private GeoCache searchingGeoCache;
 
 	private Controller() {
@@ -112,71 +113,70 @@ public class Controller {
 
     /**
      * @param geoCache we want to draw on the map
-     * @param map      -
      * @return Drawable for this geoCache depends on it's parameters
      */
-    public Drawable getMarker(GeoCache geoCache, Context map) {
+    public Drawable getMarker(GeoCache geoCache) {
         switch (geoCache.getType()) {
             case TRADITIONAL:
                 switch (geoCache.getStatus()) {
                     case VALID:
-                        return getMarker(R.drawable.ic_cache_traditional_valid, map);
+                        return getMarker(R.drawable.ic_cache_traditional_valid);
                     case NOT_VALID:
-                        return getMarker(R.drawable.ic_cache_traditional_not_valid, map);
+                        return getMarker(R.drawable.ic_cache_traditional_not_valid);
                     case NOT_CONFIRMED:
-                        return getMarker(R.drawable.ic_cache_traditional_not_confirmed, map);
+                        return getMarker(R.drawable.ic_cache_traditional_not_confirmed);
                 }
                 break;
             case VIRTUAL:
                 switch (geoCache.getStatus()) {
                     case VALID:
-                        return getMarker(R.drawable.ic_cache_virtual_valid, map);
+                        return getMarker(R.drawable.ic_cache_virtual_valid);
                     case NOT_VALID:
-                        return getMarker(R.drawable.ic_cache_virtual_not_valid, map);
+                        return getMarker(R.drawable.ic_cache_virtual_not_valid);
                     case NOT_CONFIRMED:
-                        return getMarker(R.drawable.ic_cache_virtual_not_confirmed, map);
+                        return getMarker(R.drawable.ic_cache_virtual_not_confirmed);
                 }
                 break;
             case STEP_BY_STEP:
                 switch (geoCache.getStatus()) {
                     case VALID:
-                        return getMarker(R.drawable.ic_cache_stepbystep_valid, map);
+                        return getMarker(R.drawable.ic_cache_stepbystep_valid);
                     case NOT_VALID:
-                        return getMarker(R.drawable.ic_cache_stepbystep_not_valid, map);
+                        return getMarker(R.drawable.ic_cache_stepbystep_not_valid);
                     case NOT_CONFIRMED:
-                        return getMarker(R.drawable.ic_cache_stepbystep_not_confirmed, map);
+                        return getMarker(R.drawable.ic_cache_stepbystep_not_confirmed);
                 }
                 break;
             case EXTREME:
                 switch (geoCache.getStatus()) {
                     case VALID:
-                        return getMarker(R.drawable.ic_cache_extreme_valid, map);
+                        return getMarker(R.drawable.ic_cache_extreme_valid);
                     case NOT_VALID:
-                        return getMarker(R.drawable.ic_cache_extreme_not_valid, map);
+                        return getMarker(R.drawable.ic_cache_extreme_not_valid);
                     case NOT_CONFIRMED:
-                        return getMarker(R.drawable.ic_cache_extreme_not_confirmed, map);
+                        return getMarker(R.drawable.ic_cache_extreme_not_confirmed);
                 }
                 break;
             case EVENT:
                 switch (geoCache.getStatus()) {
                     case VALID:
-                        return getMarker(R.drawable.ic_cache_event_valid, map);
+                        return getMarker(R.drawable.ic_cache_event_valid);
                     case NOT_VALID:
-                        return getMarker(R.drawable.ic_cache_event_not_valid, map);
+                        return getMarker(R.drawable.ic_cache_event_not_valid);
                     case NOT_CONFIRMED:
-                        return getMarker(R.drawable.ic_cache_event_not_confirmed, map);
+                        return getMarker(R.drawable.ic_cache_event_not_confirmed);
                 }
                 break;
             case GROUP:
-                return getMarker(R.drawable.ic_cache_group, map);
+                return getMarker(R.drawable.ic_cache_group);
             case CHECKPOINT:
-                return getMarker(R.drawable.cache, map);
+                return getMarker(R.drawable.cache);
         }
         return null;
     }
 
-    private Drawable getMarker(int resource, Context map) {
-        Drawable cacheMarker = map.getResources().getDrawable(resource);
+    private Drawable getMarker(int resource) {
+        Drawable cacheMarker = resourceManager.getDrawable(resource);
         cacheMarker.setBounds(-cacheMarker.getMinimumWidth() / 2, -cacheMarker.getMinimumHeight(), cacheMarker.getMinimumWidth() / 2, 0);
         return cacheMarker;
     }
@@ -184,10 +184,9 @@ public class Controller {
     /**
      * @return location manager which can send to ILocationAware location updates
      */
-    public synchronized GeoCacheLocationManager getLocationManager(Context context) {
+    public synchronized GeoCacheLocationManager getLocationManager() {
         if (locationManager == null) {
-            locationManager = new GeoCacheLocationManager(context);
-            LogHelper.d(TAG, "location manager wasn't init yet. Create it");
+            LogHelper.e(TAG, "location manager wasn't init yet", new NullPointerException("location manager wasn't init yet"));
         }
         return locationManager;
     }
@@ -195,10 +194,9 @@ public class Controller {
     /**
      * @return compass manager which can send to ICompassAware updates of bearing
      */
-    public synchronized CompassManager getCompassManager(Context context) {
+    public synchronized CompassManager getCompassManager() {
         if (compassManager == null) {
-            compassManager = new CompassManager((SensorManager) context.getSystemService(Context.SENSOR_SERVICE));
-            LogHelper.d(TAG, "compass manager wasn't init yet. Create it");
+            LogHelper.e(TAG, "compass manager wasn't init yet", new NullPointerException("compass manager wasn't init yet"));
         }
         return compassManager;
     }
@@ -206,10 +204,9 @@ public class Controller {
     /**
      * @return gps status manager which can send to IGpsStatusAware updates of status gps engine
      */
-    public synchronized GpsStatusManager getGpsStatusManager(Context context) {
+    public synchronized GpsStatusManager getGpsStatusManager() {
         if (gpsStatusManager == null) {
-            gpsStatusManager = new GpsStatusManager((LocationManager) context.getSystemService(Context.LOCATION_SERVICE), context);
-            LogHelper.d(TAG, "gps status manager wasn't init yet. Create it");
+            LogHelper.e(TAG, "gps status manager wasn't init yet", new NullPointerException("gps status manager wasn't init yet"));
         }
         return gpsStatusManager;
     }
@@ -217,12 +214,21 @@ public class Controller {
     /**
      * @return connection manager which can send to IInternetAware updates of internet connection status
      */
-    public synchronized ConnectionManager getConnectionManager(Context context) {
+    public synchronized ConnectionManager getConnectionManager() {
         if (connectionManager == null) {
-            connectionManager = new ConnectionManager((ConnectivityManager) context.getSystemService(Context.CONNECTIVITY_SERVICE));
-            LogHelper.d(TAG, "connection manager wasn't init yet. Create it");
+            LogHelper.e(TAG, "connection manager wasn't init yet", new NullPointerException("connection manager wasn't init yet"));
         }
         return connectionManager;
+    }
+    
+    /**
+     * @return resource manager which can give you application resources
+     */
+    public synchronized ResourceManager getResourceManager() {
+        if (resourceManager == null) {
+            LogHelper.e(TAG, "resource manager wasn't init yet", new NullPointerException("resource manager wasn't init yet"));
+        }
+        return resourceManager;
     }
 
     /**
@@ -305,5 +311,13 @@ public class Controller {
     
     public boolean getKeepScreenOnPreference(Context context){
     	return DashboardPreferenceManager.getPreference(context).getKeepScreenOnPreference();
+    }
+    
+    public void initManagers(Context context) {
+        compassManager = new CompassManager((SensorManager) context.getSystemService(Context.SENSOR_SERVICE));
+        locationManager = new GeoCacheLocationManager((LocationManager) context.getSystemService(Context.LOCATION_SERVICE));
+        gpsStatusManager = new GpsStatusManager((LocationManager) context.getSystemService(Context.LOCATION_SERVICE));
+        connectionManager = new ConnectionManager((ConnectivityManager) context.getSystemService(Context.CONNECTIVITY_SERVICE));
+        resourceManager = new ResourceManager(context);
     }
 }

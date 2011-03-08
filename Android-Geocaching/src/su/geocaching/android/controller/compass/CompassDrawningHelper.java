@@ -1,5 +1,6 @@
 package su.geocaching.android.controller.compass;
 
+import su.geocaching.android.controller.Controller;
 import su.geocaching.android.ui.R;
 import su.geocaching.android.ui.compass.CompassView;
 import android.content.Context;
@@ -21,7 +22,8 @@ public abstract class CompassDrawningHelper {
 	protected CompassView compassView;
 
 	public CompassDrawningHelper(Context context) {
-		bgColor = Color.parseColor(context.getResources().getString(R.color.menu_background));		
+		//FIXME: it is need context?
+		bgColor = Color.parseColor(Controller.getInstance().getResourceManager().getString(R.color.menu_background));		
 	}
 
 	/**

@@ -1,5 +1,6 @@
 package su.geocaching.android.ui.searchgeocache;
 
+import su.geocaching.android.controller.Controller;
 import su.geocaching.android.controller.compass.ICompassAnimation;
 import su.geocaching.android.ui.R;
 import android.content.Context;
@@ -33,13 +34,14 @@ public class UserLocationOverlay extends com.google.android.maps.Overlay impleme
 	private Matrix matrix;
 
 	/**
-	 * @param context activity which use this overlay
+	 * @param context
+	 *            activity which use this overlay
 	 */
 	public UserLocationOverlay(Context context) {
 		userPoint = null;
 		bearing = Float.NaN;
 		accuracyRadius = Float.NaN;
-		
+
 		paintCircle = new Paint();
 		paintCircle.setColor(ACCURACY_CIRCLE_COLOR);
 		paintCircle.setAntiAlias(true);
@@ -50,18 +52,20 @@ public class UserLocationOverlay extends com.google.android.maps.Overlay impleme
 		paintStroke.setAntiAlias(true);
 		paintStroke.setStyle(Style.STROKE);
 		paintStroke.setAlpha(ACCURACY_CIRCLE_ALPHA);
-		
-		userPointBmp = BitmapFactory.decodeResource(context.getResources(), R.drawable.userpoint);
-		userArrowBmp = BitmapFactory.decodeResource(context.getResources(), R.drawable.userarrow);
+
+		userPointBmp = BitmapFactory.decodeResource(Controller.getInstance().getResourceManager().getResources(), R.drawable.userpoint);
+		userArrowBmp = BitmapFactory.decodeResource(Controller.getInstance().getResourceManager().getResources(), R.drawable.userarrow);
 		matrix = new Matrix();
 	}
 
-	/* (non-Javadoc)
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see com.google.android.maps.Overlay#draw(android.graphics.Canvas, com.google.android.maps.MapView, boolean, long)
 	 */
 	@Override
 	public boolean draw(Canvas canvas, MapView mapView, boolean shadow, long when) {
-		super.draw(canvas, mapView, shadow,when);
+		super.draw(canvas, mapView, shadow, when);
 
 		if (userPoint == null) {
 			return true;
@@ -97,49 +101,29 @@ public class UserLocationOverlay extends com.google.android.maps.Overlay impleme
 	}
 
 	/**
-	 * @param point set user location
+	 * @param point
+	 *            set user location
 	 */
 	public void setPoint(GeoPoint point) {
 		this.userPoint = point;
 	}
 
 	/**
-	 * @param radius set accuracy radius of location point
+	 * @param radius
+	 *            set accuracy radius of location point
 	 */
 	public void setAccuracy(float radius) {
 		this.accuracyRadius = radius;
 	}
 
-	/* (non-Javadoc)
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see su.geocaching.android.controller.compass.ICompassAnimation#setDirection(float)
 	 */
 	@Override
 	public boolean setDirection(float direction) {
-			bearing = direction;
-			return true;
+		bearing = direction;
+		return true;
 	}
-	
-//	private boolean doAnim() {
-//		boolean success = false;
-//		Canvas c = null;
-//		SurfaceHolder holder = this.getHolder();
-//		if (holder != null) {
-//			try {
-//				c = holder.lockCanvas(null);
-//				synchronized (holder) {
-//					if (c != null) {
-//						success = onDrawnCheck(c);
-//					}
-//				}
-//			} finally {
-//				// do this in a finally so that if an exception is thrown
-//				// during the above, we don't leave the Surface in an
-//				// inconsistent state
-//				if (c != null) {
-//					holder.unlockCanvasAndPost(c);
-//				}
-//			}
-//		}
-//		return success;
-//	}
 }

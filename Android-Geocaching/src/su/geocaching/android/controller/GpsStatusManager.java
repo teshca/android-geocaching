@@ -4,7 +4,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 import su.geocaching.android.ui.R;
-import android.content.Context;
 import android.location.*;
 import android.util.Log;
 
@@ -19,18 +18,14 @@ public class GpsStatusManager implements GpsStatus.Listener {
 
     private List<IGpsStatusAware> subsribers;
     private LocationManager locationMaganer;
-    private Context context;
 
     /**
      * @param locationManager
      *            manager which can add or remove updates of gps status
-     * @param context
-     *            which can get strings from application resources
      */
-    public GpsStatusManager(LocationManager locationManager, Context context) {
+    public GpsStatusManager(LocationManager locationManager) {
 	this.locationMaganer = locationManager;
 	subsribers = new ArrayList<IGpsStatusAware>();
-	this.context = context;
 	Log.d(TAG, "Init");
     }
 
@@ -89,19 +84,19 @@ public class GpsStatusManager implements GpsStatus.Listener {
 	Log.d(TAG, "gps status changed");
 	switch (arg0) {
 	case GpsStatus.GPS_EVENT_STARTED:
-	    status = context.getString(R.string.gps_status_started);
+	    status = Controller.getInstance().getResourceManager().getString(R.string.gps_status_started);
 	    Log.d(TAG, "     started");
 	    break;
 	case GpsStatus.GPS_EVENT_STOPPED:
-	    status = context.getString(R.string.gps_status_stopped);
+	    status = Controller.getInstance().getResourceManager().getString(R.string.gps_status_stopped);
 	    Log.d(TAG, "     stoped");
 	    break;
 	case GpsStatus.GPS_EVENT_FIRST_FIX:
-	    status = context.getString(R.string.gps_status_first_fix);
+	    status = Controller.getInstance().getResourceManager().getString(R.string.gps_status_first_fix);
 	    Log.d(TAG, "     first fix");
 	    break;
 	case GpsStatus.GPS_EVENT_SATELLITE_STATUS:
-	    status = context.getString(R.string.gps_status_satellite_status) + " ";
+	    status = Controller.getInstance().getResourceManager().getString(R.string.gps_status_satellite_status) + " ";
 	    GpsStatus gpsStatus = locationMaganer.getGpsStatus(null);
 	    int usedInFix = 0;
 	    int count = 0;
