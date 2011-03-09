@@ -3,6 +3,8 @@ package su.geocaching.android.controller;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.preference.PreferenceManager;
+import su.geocaching.android.model.datatype.GeoCacheStatus;
+import su.geocaching.android.model.datatype.GeoCacheType;
 import su.geocaching.android.ui.R;
 
 /**
@@ -34,5 +36,35 @@ public class MapPreferenceManager {
             mapPreference = new MapPreferenceManager(context);
         }
         return mapPreference;
+    }
+
+    public Boolean getFilterByStatus(GeoCacheStatus status) {
+        switch (status) {
+            case VALID:
+                return preferences.getBoolean(context.getString(R.string.cache_filter_valid), true);
+            case NOT_VALID:
+                return preferences.getBoolean(context.getString(R.string.cache_filter_not_valid), true);
+            case NOT_CONFIRMED:
+                return preferences.getBoolean(context.getString(R.string.cache_filter_not_confirmed), true);
+            default:
+                return true;
+        }
+    }
+
+    public Boolean getFilterByType(GeoCacheType type) {
+        switch (type) {
+            case TRADITIONAL:
+                return preferences.getBoolean(context.getString(R.string.cache_filter_traditional), true);
+            case EXTREME:
+                return preferences.getBoolean(context.getString(R.string.cache_filter_extreme), true);
+            case STEP_BY_STEP:
+                return preferences.getBoolean(context.getString(R.string.cache_filter_stepbystep), true);
+            case VIRTUAL:
+                return preferences.getBoolean(context.getString(R.string.cache_filter_virtual), true);
+            case EVENT:
+                return preferences.getBoolean(context.getString(R.string.cache_filter_event), true);
+            default:
+                return true;
+        }
     }
 }
