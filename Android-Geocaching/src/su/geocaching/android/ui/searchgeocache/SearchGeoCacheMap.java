@@ -124,7 +124,7 @@ public class SearchGeoCacheMap extends MapActivity implements IInternetAware, IL
 		mGpsStatusManager = mController.getGpsStatusManager();
 
 		if (geoCache != null) {
-			cacheMarker = mController.getMarker(mController.getSearchingGeoCache());
+			cacheMarker = mController.getResourceManager().getMarker(mController.getSearchingGeoCache());
 			searchCacheOverlay = new SearchCacheOverlay(cacheMarker, this, map);
 			cacheOverlayItem = new GeoCacheOverlayItem(mController.getSearchingGeoCache(), "", "");
 			searchCacheOverlay.addOverlayItem(cacheOverlayItem);
@@ -389,7 +389,7 @@ public class SearchGeoCacheMap extends MapActivity implements IInternetAware, IL
 				gc.setType(GeoCacheType.CHECKPOINT);
 
 				if (checkpointCacheOverlay == null) {
-					cacheMarker = Controller.getInstance().getMarker(gc);
+					cacheMarker = Controller.getInstance().getResourceManager().getMarker(gc);
 					checkpointCacheOverlay = new SearchCacheOverlay(cacheMarker, this, map);
 					mapOverlays.add(checkpointCacheOverlay);
 				}

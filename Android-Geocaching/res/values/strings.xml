@@ -57,6 +57,7 @@
 	<string name="status_geocache_valid">Доступнен</string>
 	<string name="status_geocache_no_valid">Недоступен</string>
 	<string name="status_geocache_no_confirmed">Возможно недоступен</string>
+	<string name="status_geocache_unknown">Неизвестен</string>
 	<string name="status_geocache_active_checkpoint">Активна</string>
 	<string name="status_geocache_not_active_checkpoint">Не активна</string>
 

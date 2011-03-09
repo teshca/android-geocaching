@@ -139,51 +139,8 @@ public class ShowGeoCacheInfo extends Activity implements OnCheckedChangeListene
 		dbm.close();
 
 		tvNameText.setText(GeoCacheForShowInfo.getName());
-
-		switch (GeoCacheForShowInfo.getStatus()) {
-		case VALID:
-			tvStatusGeoCacheText.setText(getString(R.string.status_geocache_valid));
-			break;
-		case NOT_VALID:
-			tvStatusGeoCacheText.setText(getString(R.string.status_geocache_no_valid));
-			break;
-		case NOT_CONFIRMED:
-			tvStatusGeoCacheText.setText(getString(R.string.status_geocache_no_confirmed));
-			break;
-		case ACTIVE_CHECKPOINT:
-			tvStatusGeoCacheText.setText(getString(R.string.status_geocache_active_checkpoint));
-			break;
-		case NOT_ACTIVE_CHECKPOINT:
-			tvStatusGeoCacheText.setText(getString(R.string.status_geocache_not_active_checkpoint));
-			break;
-		default:
-			tvStatusGeoCacheText.setText(getString(R.string.status_geocache_no_confirmed));
-			break;
-		}
-
-		switch (GeoCacheForShowInfo.getType()) {
-		case TRADITIONAL:
-			tvTypeGeoCacheText.setText(getString(R.string.type_geocache_traditional));
-			break;
-		case VIRTUAL:
-			tvTypeGeoCacheText.setText(getString(R.string.type_geocache_virtua));
-			break;
-		case STEP_BY_STEP:
-			tvTypeGeoCacheText.setText(getString(R.string.type_geocache_step_by_step));
-			break;
-		case EVENT:
-			tvTypeGeoCacheText.setText(getString(R.string.type_geocache_event));
-			break;
-		case EXTREME:
-			tvTypeGeoCacheText.setText(getString(R.string.type_geocache_extreme));
-			break;
-		case CHECKPOINT:
-			tvTypeGeoCacheText.setText(getString(R.string.type_geocache_checkpoint));
-			break;
-		default:
-			tvTypeGeoCacheText.setText("???");
-			break;
-		}
+		tvStatusGeoCacheText.setText(Controller.getInstance().getResourceManager().getGeoCacheStatus(GeoCacheForShowInfo));
+		tvTypeGeoCacheText.setText(Controller.getInstance().getResourceManager().getGeoCacheType(GeoCacheForShowInfo));
 
 		cbAddDelCache.setOnCheckedChangeListener(this);
 		btGoToSearchGeoCache.setOnClickListener(this);
