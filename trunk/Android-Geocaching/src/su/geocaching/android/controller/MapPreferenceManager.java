@@ -38,7 +38,7 @@ public class MapPreferenceManager {
         return mapPreference;
     }
 
-    public Boolean getFilterByStatus(GeoCacheStatus status) {
+    public Boolean getStatusFilter(GeoCacheStatus status) {
         switch (status) {
             case VALID:
                 return preferences.getBoolean(context.getString(R.string.cache_filter_valid), true);
@@ -51,7 +51,7 @@ public class MapPreferenceManager {
         }
     }
 
-    public Boolean getFilterByType(GeoCacheType type) {
+    public Boolean getTypeFilter(GeoCacheType type) {
         switch (type) {
             case TRADITIONAL:
                 return preferences.getBoolean(context.getString(R.string.cache_filter_traditional), true);

@@ -19,7 +19,6 @@ import android.widget.Toast;
 import com.google.android.apps.analytics.GoogleAnalyticsTracker;
 import com.google.android.maps.*;
 import su.geocaching.android.controller.Controller;
-import su.geocaching.android.controller.MapPreferenceManager;
 import su.geocaching.android.model.datatype.GeoCache;
 import su.geocaching.android.ui.R;
 import su.geocaching.android.ui.geocachemap.ConnectionManager;
@@ -54,7 +53,6 @@ public class SelectGeoCacheMap extends MapActivity implements IInternetAware {
     private int countDownloadTask;
     private Handler handler;
     private GoogleAnalyticsTracker tracker;
-    private MapPreferenceManager prefManager;
 
 
     @Override
@@ -64,7 +62,6 @@ public class SelectGeoCacheMap extends MapActivity implements IInternetAware {
         map = (MapView) findViewById(R.id.selectGeocacheMap);
         map.getOverlays().clear();
         mapController = map.getController();
-        prefManager = MapPreferenceManager.getPreference(map.getContext());
 
         progressBarView = (ImageView) findViewById(R.id.progressCircle);
         progressBarView.setBackgroundResource(R.anim.earth_anim);
@@ -322,17 +319,5 @@ public class SelectGeoCacheMap extends MapActivity implements IInternetAware {
 
     public MapView getMapView() {
         return map;
-    }
-
-    public boolean getWayCacheAdding() {
-        return Controller.getInstance().getWayCacheAdding(map.getContext());
-    }
-
-    public void filterCacheList(List<GeoCache> list) {
-        for (GeoCache cache : list) {
-            if (!(prefManager.getFilterByStatus(cache.getStatus()) && prefManager.getFilterByType(cache.getType()))) {
-                list.remove(cache);
-            }
-        }
     }
 }
