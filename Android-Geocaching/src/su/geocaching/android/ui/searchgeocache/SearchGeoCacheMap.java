@@ -62,7 +62,7 @@ import com.google.android.maps.Projection;
  */
 public class SearchGeoCacheMap extends MapActivity implements IInternetAware, ILocationAware, ICompassAware, IGpsStatusAware {
     private final static String TAG = SearchGeoCacheMap.class.getCanonicalName();
-
+    private final String dislocation = "Ваше месторасположение не определено.Повторите попытку позже.";
     private GeoCacheOverlayItem cacheOverlayItem;
     private SearchCacheOverlay searchCacheOverlay;
     private Drawable cacheMarker;
@@ -339,33 +339,42 @@ public class SearchGeoCacheMap extends MapActivity implements IInternetAware, IL
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
 
-        case R.id.menuDefaultZoom:
-            if (mLocationManager.hasLocation()) {
-                resetZoom();
-            } else {
-                mapController.animateTo(mController.getSearchingGeoCache().getLocationGeoPoint());
-                Toast.makeText(getBaseContext(), R.string.status_null_last_location, Toast.LENGTH_SHORT).show();
-            }
-            return true;
-        case R.id.menuStartCompass:
-            this.startCompassView();
-            return true;
-        case R.id.menuGeoCacheInfo:
-            UiHelper.showGeoCacheInfo(this, mController.getSearchingGeoCache());
-            return true;
-        case R.id.driving_directions:
-            Intent intent = new Intent(android.content.Intent.ACTION_VIEW, Uri.parse("http://maps.google.com/maps?saddr="
-                    + GpsHelper.locationToGeoPoint(mLocationManager.getLastKnownLocation()).getLatitudeE6() / 1.0E6 + ","
-                    + GpsHelper.locationToGeoPoint(mLocationManager.getLastKnownLocation()).getLongitudeE6() / 1.0E6 + "&daddr="
-                    + mController.getSearchingGeoCache().getLocationGeoPoint().getLatitudeE6() / 1.0E6 + "," + mController.getSearchingGeoCache().getLocationGeoPoint().getLongitudeE6() / 1.0E6
-                    + "&ie=UTF8&om=0&output=kml"));
+            case R.id.menuDefaultZoom:
+                if (mLocationManager.hasLocation()) {
+                    resetZoom();
+                } else {
+                    mapController.animateTo(mController.getSearchingGeoCache().getLocationGeoPoint());
+                    Toast.makeText(getBaseContext(), R.string.status_null_last_location, Toast.LENGTH_SHORT).show();
+                }
+                return true;
+            case R.id.menuStartCompass:
+                this.startCompassView();
+                return true;
+            case R.id.menuGeoCacheInfo:
+                UiHelper.showGeoCacheInfo(this, mController.getSearchingGeoCache());
+                return true;
+            case R.id.driving_directions:
+                onDrivingDirectionsSelected();
+                return true;
+            case R.id.stepByStep:
+                UiHelper.startStepByStepForResult(this, mController.getSearchingGeoCache());
+                return true;
+            default:
+                return super.onOptionsItemSelected(item);
+        }
+    }
+
+    private void onDrivingDirectionsSelected() {
+
+        if (mLocationManager.getLastKnownLocation() != null) {
+            GeoPoint first = GpsHelper.locationToGeoPoint(mLocationManager.getLastKnownLocation()), second = mController.getSearchingGeoCache().getLocationGeoPoint();
+            int firstlat = first.getLatitudeE6(), firstlon = first.getLongitudeE6();
+            int seclat = second.getLatitudeE6(), seclong = second.getLongitudeE6();
+            double a = firstlat / 1E06, b = firstlon / 1E06, c = seclat / 1E06, d = seclong / 1E06;
+            Intent intent = new Intent(android.content.Intent.ACTION_VIEW, Uri.parse("http://maps.google.com/maps?saddr=" + a + "," + b + "&daddr=" + c + "," + d + "&ie=UTF8&om=0&output=kml"));
             startActivity(intent);
-            return true;
-        case R.id.stepByStep:
-            UiHelper.startStepByStepForResult(this, mController.getSearchingGeoCache());
-            return true;
-        default:
-            return super.onOptionsItemSelected(item);
+        } else {
+            Toast.makeText(getBaseContext(), dislocation, Toast.LENGTH_LONG).show();
         }
     }
 
@@ -377,32 +386,32 @@ public class SearchGeoCacheMap extends MapActivity implements IInternetAware, IL
         super.onActivityResult(requestCode, resultCode, data);
 
         switch (requestCode) {
-        case UiHelper.STEP_BY_STEP_REQUEST:
-            if (resultCode == RESULT_OK && data != null) {
-                int latitude = data.getIntExtra(StepByStepTabActivity.LATITUDE, 0);
-                int longitude = data.getIntExtra(StepByStepTabActivity.LONGITUDE, 0);
-                GeoCache gc = new GeoCache();
-                GeoCache currentGCache = mController.getSearchingGeoCache();
-                gc.setLocationGeoPoint(new GeoPoint(latitude, longitude));
-                gc.setType(GeoCacheType.CHECKPOINT);
+            case UiHelper.STEP_BY_STEP_REQUEST:
+                if (resultCode == RESULT_OK && data != null) {
+                    int latitude = data.getIntExtra(StepByStepTabActivity.LATITUDE, 0);
+                    int longitude = data.getIntExtra(StepByStepTabActivity.LONGITUDE, 0);
+                    GeoCache gc = new GeoCache();
+                    GeoCache currentGCache = mController.getSearchingGeoCache();
+                    gc.setLocationGeoPoint(new GeoPoint(latitude, longitude));
+                    gc.setType(GeoCacheType.CHECKPOINT);
 
-                if (checkpointCacheOverlay == null) {
-                    cacheMarker = Controller.getInstance().getResourceManager().getMarker(gc);
-                    checkpointCacheOverlay = new CheckpointCacheOverlay(cacheMarker, this, map);
-                    mapOverlays.add(checkpointCacheOverlay);
+                    if (checkpointCacheOverlay == null) {
+                        cacheMarker = Controller.getInstance().getResourceManager().getMarker(gc);
+                        checkpointCacheOverlay = new CheckpointCacheOverlay(cacheMarker, this, map);
+                        mapOverlays.add(checkpointCacheOverlay);
+                    }
+
+                    GeoCacheOverlayItem checkpoint = new GeoCacheOverlayItem(gc, "", "");
+                    checkpointCacheOverlay.addOverlayItem(checkpoint);
+
+                    gc.setId(currentGCache.getId());
+                    gc.setStatus(GeoCacheStatus.ACTIVE_CHECKPOINT);
+                    gc.setName("Checkpoint " + searchCacheOverlay.size());
+                    mController.setSearchingGeoCache(gc);
+
+                    map.invalidate();
                 }
-
-                GeoCacheOverlayItem checkpoint = new GeoCacheOverlayItem(gc, "", "");
-                checkpointCacheOverlay.addOverlayItem(checkpoint);
-
-                gc.setId(currentGCache.getId());
-                gc.setStatus(GeoCacheStatus.ACTIVE_CHECKPOINT);
-                gc.setName("Checkpoint " + searchCacheOverlay.size());
-                mController.setSearchingGeoCache(gc);
-
-                map.invalidate();
-            }
-            break;
+                break;
         }
     }
 
@@ -489,20 +498,20 @@ public class SearchGeoCacheMap extends MapActivity implements IInternetAware, IL
         String statusString = "Location fixed: " + Boolean.toString(mLocationManager.hasLocation()) + ". Provider: " + provider + ". ";
         Log.d(TAG, "     " + statusString);
         switch (status) {
-        case LocationProvider.OUT_OF_SERVICE:
-            statusString += "Status: out of service. ";
-            onBestProviderUnavailable();
-            Log.d(TAG, "     Status: out of service.");
-            break;
-        case LocationProvider.TEMPORARILY_UNAVAILABLE:
-            statusString += "Status: temporarily unavailable. ";
-            onBestProviderUnavailable();
-            Log.d(TAG, "     Status: temporarily unavailable.");
-            break;
-        case LocationProvider.AVAILABLE:
-            statusString += "Status: available. ";
-            Log.d(TAG, "     Status: available.");
-            break;
+            case LocationProvider.OUT_OF_SERVICE:
+                statusString += "Status: out of service. ";
+                onBestProviderUnavailable();
+                Log.d(TAG, "     Status: out of service.");
+                break;
+            case LocationProvider.TEMPORARILY_UNAVAILABLE:
+                statusString += "Status: temporarily unavailable. ";
+                onBestProviderUnavailable();
+                Log.d(TAG, "     Status: temporarily unavailable.");
+                break;
+            case LocationProvider.AVAILABLE:
+                statusString += "Status: available. ";
+                Log.d(TAG, "     Status: available.");
+                break;
         }
         if (provider.equals(LocationManager.GPS_PROVIDER)) {
             statusString += "Satellites: " + Integer.toString(extras.getInt("satellites"));
