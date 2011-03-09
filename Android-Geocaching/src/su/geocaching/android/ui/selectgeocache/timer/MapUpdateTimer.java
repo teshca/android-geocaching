@@ -30,6 +30,6 @@ public class MapUpdateTimer extends Timer {
     private void scheduleTasks(SelectGeoCacheMap map, State state) {
         this.schedule(new CheckRequestTimerTask(state), REQUEST_TIMER_DELAY, REQUEST_TIMER_PERIOD);
         this.schedule(new CheckMapStateTimerTask(state, map, map.getCenter(), map.getZoom()),
-            MAP_STATE_TIMER_DELAY, MAP_STATE_TIMER_PERIOD);
+                MAP_STATE_TIMER_DELAY, MAP_STATE_TIMER_PERIOD);
     }
 }

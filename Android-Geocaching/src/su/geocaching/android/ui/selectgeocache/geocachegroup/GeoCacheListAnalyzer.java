@@ -37,9 +37,9 @@ public class GeoCacheListAnalyzer {
                     }
                 } else {
                     overlayItemList.add(new GeoCacheOverlayItem(map.getProjection().fromPixels(centroid.getX(), centroid.getY()),
-                        getCacheListFromCacheViewList(cacheList),
-                        "Group", "",
-                        map.getContext()));
+                            getCacheListFromCacheViewList(cacheList),
+                            "Group", "",
+                            map.getContext()));
                 }
             }
         }
@@ -62,9 +62,9 @@ public class GeoCacheListAnalyzer {
         for (int i = 0; i < sizeX; i++) {
             for (int j = 0; j < sizeY; j++) {
                 centroids.add(new Centroid(
-                    (int) ((i + 0.5) * FINGER_SIZE_X),
-                    (int) ((j + 0.5) * FINGER_SIZE_Y),
-                    null
+                        (int) ((i + 0.5) * FINGER_SIZE_X),
+                        (int) ((j + 0.5) * FINGER_SIZE_Y),
+                        null
                 ));
             }
         }

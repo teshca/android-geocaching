@@ -49,9 +49,9 @@ public class SexagesimalInputActivity extends Activity {
     public void onEnterClick(View v) {
         try {
             int latitudeE6 = GpsHelper.sexagesimalToCoordinateE6(Integer.parseInt(latDegrees.getText().toString()), Integer.parseInt(latMinutes.getText().toString()),
-                Integer.parseInt(latmMinutes.getText().toString()));
+                    Integer.parseInt(latmMinutes.getText().toString()));
             int longitudeE6 = GpsHelper.sexagesimalToCoordinateE6(Integer.parseInt(lngDegrees.getText().toString()), Integer.parseInt(lngMinutes.getText().toString()),
-                Integer.parseInt(lngmMinutes.getText().toString()));
+                    Integer.parseInt(lngmMinutes.getText().toString()));
             Intent intent = new Intent();
             intent.putExtra(StepByStepTabActivity.LATITUDE, latitudeE6);
             intent.putExtra(StepByStepTabActivity.LONGITUDE, longitudeE6);

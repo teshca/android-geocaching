@@ -283,13 +283,13 @@ public class SelectGeoCacheMap extends MapActivity implements IInternetAware {
         }
         AlertDialog.Builder builder = new AlertDialog.Builder(context);
         builder.setMessage(context.getString(R.string.ask_enable_internet_text)).setCancelable(false)
-            .setPositiveButton(context.getString(R.string.yes), new DialogInterface.OnClickListener() {
-                public void onClick(DialogInterface dialog, int id) {
-                    Intent startGPS = new Intent(Settings.ACTION_WIRELESS_SETTINGS);
-                    context.startActivity(startGPS);
-                    dialog.cancel();
-                }
-            }).setNegativeButton(context.getString(R.string.no), new DialogInterface.OnClickListener() {
+                .setPositiveButton(context.getString(R.string.yes), new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int id) {
+                        Intent startGPS = new Intent(Settings.ACTION_WIRELESS_SETTINGS);
+                        context.startActivity(startGPS);
+                        dialog.cancel();
+                    }
+                }).setNegativeButton(context.getString(R.string.no), new DialogInterface.OnClickListener() {
             public void onClick(DialogInterface dialog, int id) {
                 dialog.cancel();
                 finish();
