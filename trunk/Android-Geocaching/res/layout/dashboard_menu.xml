@@ -1,38 +1,38 @@
 <LinearLayout android:layout_width="fill_parent"
-	android:layout_height="fill_parent" xmlns:android="http://schemas.android.com/apk/res/android"
-	android:id="@+id/menu_root" android:orientation="vertical"
-	android:background="@color/menu_background">
-	<LinearLayout style="@style/TitleBar" android:id="@+id/title_bar">
-		<ImageView android:src="@drawable/geologo" style="@style/TitleBarLogo"
-			android:id="@+id/title_logo"></ImageView>
-		<View style="@style/TitleBarSpring"></View>
-		<ImageView style="@style/TitleBarSeparator"></ImageView>
+              android:layout_height="fill_parent" xmlns:android="http://schemas.android.com/apk/res/android"
+              android:id="@+id/menu_root" android:orientation="vertical"
+              android:background="@color/menu_background">
+    <LinearLayout style="@style/TitleBar" android:id="@+id/title_bar">
+        <ImageView android:src="@drawable/geologo" style="@style/TitleBarLogo"
+                   android:id="@+id/title_logo"></ImageView>
+        <View style="@style/TitleBarSpring"></View>
+        <ImageView style="@style/TitleBarSeparator"></ImageView>
 
-	</LinearLayout>
-	<LinearLayout android:layout_height="wrap_content"
-		android:orientation="vertical" android:padding="10dip"
-		android:layout_width="fill_parent" android:layout_weight="1">
-		<LinearLayout android:layout_height="wrap_content"
-			android:layout_weight="1" android:layout_width="fill_parent"
-			android:orientation="horizontal">
+    </LinearLayout>
+    <LinearLayout android:layout_height="wrap_content"
+                  android:orientation="vertical" android:padding="10dip"
+                  android:layout_width="fill_parent" android:layout_weight="1">
+        <LinearLayout android:layout_height="wrap_content"
+                      android:layout_weight="1" android:layout_width="fill_parent"
+                      android:orientation="horizontal">
 
-			<Button style="@style/MenuButton" android:onClick="onSelectClick"
-				android:drawableTop="@drawable/ic_menu_select" android:text="@string/select_geocache"
-				android:id="@+id/SelectButton"></Button>
-			<Button style="@style/MenuButton" android:onClick="onSearchClick"
-				android:drawableTop="@drawable/ic_menu_search" android:text="@string/search_geocache"
-				android:id="@+id/SearchButton"></Button>
-		</LinearLayout>
-		<LinearLayout android:layout_height="wrap_content"
-			android:layout_weight="1" android:layout_width="fill_parent"
-			android:orientation="horizontal">
+            <Button style="@style/MenuButton" android:onClick="onSelectClick"
+                    android:drawableTop="@drawable/ic_menu_select" android:text="@string/select_geocache"
+                    android:id="@+id/SelectButton"></Button>
+            <Button style="@style/MenuButton" android:onClick="onSearchClick"
+                    android:drawableTop="@drawable/ic_menu_search" android:text="@string/search_geocache"
+                    android:id="@+id/SearchButton"></Button>
+        </LinearLayout>
+        <LinearLayout android:layout_height="wrap_content"
+                      android:layout_weight="1" android:layout_width="fill_parent"
+                      android:orientation="horizontal">
 
-			<Button android:drawableTop="@drawable/ic_menu_favorites"
-				style="@style/MenuButton" android:text="@string/favorites"
-				android:id="@+id/FavoritesButton" android:onClick="onFavoriteClick"></Button>
-			<Button android:drawableTop="@drawable/ic_menu_about" style="@style/MenuButton"
-				android:id="@+id/AboutButton" android:text="@string/about"
-				android:onClick="onAboutClick"></Button>
-		</LinearLayout>
-	</LinearLayout>
+            <Button android:drawableTop="@drawable/ic_menu_favorites"
+                    style="@style/MenuButton" android:text="@string/favorites"
+                    android:id="@+id/FavoritesButton" android:onClick="onFavoriteClick"></Button>
+            <Button android:drawableTop="@drawable/ic_menu_about" style="@style/MenuButton"
+                    android:id="@+id/AboutButton" android:text="@string/about"
+                    android:onClick="onAboutClick"></Button>
+        </LinearLayout>
+    </LinearLayout>
 </LinearLayout>

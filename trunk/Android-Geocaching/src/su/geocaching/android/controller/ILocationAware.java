@@ -5,14 +5,13 @@ import android.os.Bundle;
 
 /**
  * Interface of activities uses location updates
- * 
+ *
  * @author Grigory Kalabin. grigory.kalabin@gmail.com
  * @since Nov 10, 2010
  */
 public interface ILocationAware {
     /**
-     * @param location
-     *            - new location
+     * @param location - new location
      */
     public void updateLocation(Location location);
 

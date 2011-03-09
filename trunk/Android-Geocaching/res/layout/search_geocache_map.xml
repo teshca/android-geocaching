@@ -1,31 +1,31 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-	android:orientation="vertical" android:layout_width="fill_parent"
-	android:layout_height="fill_parent">
+              android:orientation="vertical" android:layout_width="fill_parent"
+              android:layout_height="fill_parent">
 
-	<LinearLayout style="@style/TitleBar" android:id="@+id/waitingLocationFixBar"
-		android:visibility="visible">
-		<ImageView android:src="@drawable/geologo" style="@style/TitleBarLogo"
-			android:id="@+id/title_logo" android:onClick="onHomeClick" />
-		<ImageView style="@style/TitleBarSeparator" />
-		<TextView android:id="@+id/waitingLocationFixText"
-			android:layout_width="wrap_content" android:layout_height="fill_parent"
-			android:textColor="#ffffffff" android:padding="3px"
-			android:textSize="@dimen/text_size_small" />
+    <LinearLayout style="@style/TitleBar" android:id="@+id/waitingLocationFixBar"
+                  android:visibility="visible">
+        <ImageView android:src="@drawable/geologo" style="@style/TitleBarLogo"
+                   android:id="@+id/title_logo" android:onClick="onHomeClick"/>
+        <ImageView style="@style/TitleBarSeparator"/>
+        <TextView android:id="@+id/waitingLocationFixText"
+                  android:layout_width="wrap_content" android:layout_height="fill_parent"
+                  android:textColor="#ffffffff" android:padding="3px"
+                  android:textSize="@dimen/text_size_small"/>
 
-		<!-- It view need for right align -->
-		<View style="@style/TitleBarSpring" />
+        <!-- It view need for right align -->
+        <View style="@style/TitleBarSpring"/>
 
-		<ImageView android:layout_width="@dimen/header_progress_bar_size"
-			android:layout_height="@dimen/header_progress_bar_size"
-			android:layout_gravity="center_vertical" android:id="@+id/progressCircle" />
+        <ImageView android:layout_width="@dimen/header_progress_bar_size"
+                   android:layout_height="@dimen/header_progress_bar_size"
+                   android:layout_gravity="center_vertical" android:id="@+id/progressCircle"/>
 
-		<!-- It view need for margin -->
-		<View android:layout_width="3px" android:layout_height="fill_parent" />
-	</LinearLayout>
+        <!-- It view need for margin -->
+        <View android:layout_width="3px" android:layout_height="fill_parent"/>
+    </LinearLayout>
 
-	<com.google.android.maps.MapView
-		xmlns:android="http://schemas.android.com/apk/res/android" android:id="@+id/searchGeocacheMap"
-		android:layout_width="fill_parent" android:layout_height="wrap_content"
-		android:clickable="true" android:apiKey="@string/google_map_api_key" />
+    <com.google.android.maps.MapView
+            xmlns:android="http://schemas.android.com/apk/res/android" android:id="@+id/searchGeocacheMap"
+            android:layout_width="fill_parent" android:layout_height="wrap_content"
+            android:clickable="true" android:apiKey="@string/google_map_api_key"/>
 </LinearLayout>

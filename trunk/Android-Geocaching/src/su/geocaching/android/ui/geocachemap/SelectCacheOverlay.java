@@ -1,16 +1,15 @@
 package su.geocaching.android.ui.geocachemap;
 
+import android.content.Context;
+import android.graphics.drawable.Drawable;
+import com.google.android.maps.MapView;
+import com.google.android.maps.OverlayItem;
+import su.geocaching.android.model.datatype.GeoCache;
+import su.geocaching.android.utils.UiHelper;
+
 import java.util.Collections;
 import java.util.LinkedList;
 import java.util.List;
-
-import su.geocaching.android.model.datatype.GeoCache;
-import su.geocaching.android.utils.UiHelper;
-import android.content.Context;
-import android.graphics.drawable.Drawable;
-
-import com.google.android.maps.MapView;
-import com.google.android.maps.OverlayItem;
 
 /**
  * @author Android-Geocaching.su student project team
@@ -69,14 +68,14 @@ public class SelectCacheOverlay extends com.google.android.maps.ItemizedOverlay<
 
     @Override
     public boolean onTap(int index) {
-    	GeoCacheOverlayItem gcItem = items.get(index);
-    	   if (!gcItem.getTitle().equals("Group")) {
-               UiHelper.showGeoCacheInfo(context, gcItem.getGeoCache());
-           } else {
-        	   map.getController().animateTo(gcItem.getGeoCache().getLocationGeoPoint());
-        	   map.getController().zoomIn();
-               map.invalidate();
-           }
-        return true;    
-    }    
+        GeoCacheOverlayItem gcItem = items.get(index);
+        if (!gcItem.getTitle().equals("Group")) {
+            UiHelper.showGeoCacheInfo(context, gcItem.getGeoCache());
+        } else {
+            map.getController().animateTo(gcItem.getGeoCache().getLocationGeoPoint());
+            map.getController().zoomIn();
+            map.invalidate();
+        }
+        return true;
+    }
 }

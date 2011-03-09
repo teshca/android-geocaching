@@ -1,16 +1,16 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-	<string name="search_geocache">Искать</string>
-	<string name="select_geocache">Выбрать</string>
-	<string name="info">Информация</string>
-	<string name="favorites">Избранное</string>
-	<string name="enableGps">Настройки GPS</string>
-	<string name="enableInternet">Настройки Интернета</string>
-	<string name="DrawDirectionPath">Построить путь</string>
-	<string name="DrawDirectionPathApp">Подключить путь</string>
-	<string name="keep_screen_on_title">Не выключать экран</string>
-	<string name="keep_screen_on_key">keepScreen</string>
-	<string name="keep_screen_on_default_value">false</string>
-	<string name="keep_screen_on_summary"></string>
-	<string name="preference">Настройки</string>
+    <string name="search_geocache">Искать</string>
+    <string name="select_geocache">Выбрать</string>
+    <string name="info">Информация</string>
+    <string name="favorites">Избранное</string>
+    <string name="enableGps">Настройки GPS</string>
+    <string name="enableInternet">Настройки Интернета</string>
+    <string name="DrawDirectionPath">Построить путь</string>
+    <string name="DrawDirectionPathApp">Подключить путь</string>
+    <string name="keep_screen_on_title">Не выключать экран</string>
+    <string name="keep_screen_on_key">keepScreen</string>
+    <string name="keep_screen_on_default_value">false</string>
+    <string name="keep_screen_on_summary"></string>
+    <string name="preference">Настройки</string>
 </resources>
