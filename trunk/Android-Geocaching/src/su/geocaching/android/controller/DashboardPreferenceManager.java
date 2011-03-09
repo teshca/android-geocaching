@@ -17,7 +17,7 @@ public class DashboardPreferenceManager {
 
     public boolean getKeepScreenOnPreference() {
         return preferences.getBoolean(context.getString(R.string.keep_screen_on_key),
-            String.valueOf(R.string.keep_screen_on_default_value).equals("false"));
+                String.valueOf(R.string.keep_screen_on_default_value).equals("false"));
 
     }
 

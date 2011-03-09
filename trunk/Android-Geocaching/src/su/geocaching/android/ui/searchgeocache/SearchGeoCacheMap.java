@@ -279,7 +279,7 @@ public class SearchGeoCacheMap extends MapActivity implements IInternetAware, IL
 
         // Calculate new center of map
         GeoPoint center = new GeoPoint((mController.getSearchingGeoCache().getLocationGeoPoint().getLatitudeE6() + currentGeoPoint.getLatitudeE6()) / 2, (mController.getSearchingGeoCache()
-            .getLocationGeoPoint().getLongitudeE6() + currentGeoPoint.getLongitudeE6()) / 2);
+                .getLocationGeoPoint().getLongitudeE6() + currentGeoPoint.getLongitudeE6()) / 2);
 
         // Set new center of map
         mapController.setCenter(center);
@@ -347,7 +347,7 @@ public class SearchGeoCacheMap extends MapActivity implements IInternetAware, IL
                 }
             case R.id.DrawDirectionPathApp:
                 Intent intent = new Intent(android.content.Intent.ACTION_VIEW,
-                    Uri.parse("http://maps.google.com/maps?saddr=" + GpsHelper.locationToGeoPoint(mLocationManager.getLastKnownLocation()).getLatitudeE6() / 1.0E6 + "," + GpsHelper.locationToGeoPoint(mLocationManager.getLastKnownLocation()).getLongitudeE6() / 1.0E6 + "&daddr=" + mController.getSearchingGeoCache().getLocationGeoPoint().getLatitudeE6() / 1.0E6 + "," + mController.getSearchingGeoCache().getLocationGeoPoint().getLongitudeE6() / 1.0E6 + "&ie=UTF8&om=0&output=kml"));
+                        Uri.parse("http://maps.google.com/maps?saddr=" + GpsHelper.locationToGeoPoint(mLocationManager.getLastKnownLocation()).getLatitudeE6() / 1.0E6 + "," + GpsHelper.locationToGeoPoint(mLocationManager.getLastKnownLocation()).getLongitudeE6() / 1.0E6 + "&daddr=" + mController.getSearchingGeoCache().getLocationGeoPoint().getLatitudeE6() / 1.0E6 + "," + mController.getSearchingGeoCache().getLocationGeoPoint().getLongitudeE6() / 1.0E6 + "&ie=UTF8&om=0&output=kml"));
                 startActivity(intent);
                 return true;
             case R.id.stepByStep:

@@ -23,12 +23,12 @@ public class MapPreferenceManager {
 
     public String getMapTypeString() {
         return preferences.getString(context.getString(R.string.prefer_map_type_key),
-            String.valueOf(R.string.prefer_map_type_default_value));
+                String.valueOf(R.string.prefer_map_type_default_value));
     }
 
     public Boolean getAddingCacheWayString() {
         return preferences.getBoolean(context.getString(R.string.way_cache_adding_key),
-            String.valueOf(R.string.way_cache_adding_default_value).equals("true"));
+                String.valueOf(R.string.way_cache_adding_default_value).equals("true"));
     }
 
     public static MapPreferenceManager getPreference(Context context) {
