@@ -6,8 +6,7 @@
     <string name="favorites">Избранное</string>
     <string name="enableGps">Настройки GPS</string>
     <string name="enableInternet">Настройки Интернета</string>
-    <string name="DrawDirectionPath">Построить путь</string>
-    <string name="DrawDirectionPathApp">Подключить путь</string>
+    <string name="driving_directions">Подключить путь</string>
     <string name="keep_screen_on_title">Не выключать экран</string>
     <string name="keep_screen_on_key">keepScreen</string>
     <string name="keep_screen_on_default_value">false</string>

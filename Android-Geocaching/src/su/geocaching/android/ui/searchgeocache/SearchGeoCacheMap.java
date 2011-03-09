@@ -22,8 +22,6 @@ import su.geocaching.android.ui.geocachemap.ConnectionManager;
 import su.geocaching.android.ui.geocachemap.GeoCacheOverlayItem;
 import su.geocaching.android.ui.geocachemap.IInternetAware;
 import su.geocaching.android.ui.geocachemap.SearchCacheOverlay;
-import su.geocaching.android.ui.searchgeocache.drivingDirections.DrivingDirections;
-
 import su.geocaching.android.ui.searchgeocache.stepbystep.CheckpointDialog;
 import su.geocaching.android.ui.searchgeocache.stepbystep.StepByStepTabActivity;
 import su.geocaching.android.utils.GpsHelper;
@@ -84,7 +82,6 @@ public class SearchGeoCacheMap extends MapActivity implements IInternetAware, IL
     private GpsStatusManager mGpsStatusManager;
     private Controller mController;
     private GoogleAnalyticsTracker tracker;
-    private DrivingDirections drivingDirection;
     private SmoothCompassThread animationThread;
 
     /*
@@ -243,7 +240,6 @@ public class SearchGeoCacheMap extends MapActivity implements IInternetAware, IL
             mapOverlays.add(distanceOverlay);
             mapOverlays.add(userOverlay);
             resetZoom();
-            drivingDirection = new DrivingDirections(GpsHelper.locationToGeoPoint(location), mController.getSearchingGeoCache().getLocationGeoPoint());
 
             startAnimation();
 
@@ -357,11 +353,7 @@ public class SearchGeoCacheMap extends MapActivity implements IInternetAware, IL
         case R.id.menuGeoCacheInfo:
             UiHelper.showGeoCacheInfo(this, mController.getSearchingGeoCache());
             return true;
-        case R.id.addDrawDirectionPath:
-            if (!drivingDirection.drawWay(map)) {
-                Toast.makeText(getBaseContext(), "Невозможно построить путь.", Toast.LENGTH_SHORT).show();
-            }
-        case R.id.DrawDirectionPathApp:
+        case R.id.driving_directions:
             Intent intent = new Intent(android.content.Intent.ACTION_VIEW, Uri.parse("http://maps.google.com/maps?saddr="
                     + GpsHelper.locationToGeoPoint(mLocationManager.getLastKnownLocation()).getLatitudeE6() / 1.0E6 + ","
                     + GpsHelper.locationToGeoPoint(mLocationManager.getLastKnownLocation()).getLongitudeE6() / 1.0E6 + "&daddr="
