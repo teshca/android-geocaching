@@ -2,7 +2,6 @@ package su.geocaching.android.controller;
 
 import android.content.Context;
 import android.content.SharedPreferences;
-import android.graphics.drawable.Drawable;
 import android.hardware.SensorManager;
 import android.location.LocationManager;
 import android.net.ConnectivityManager;
@@ -14,7 +13,6 @@ import su.geocaching.android.model.datastorage.DbManager;
 import su.geocaching.android.model.datatype.GeoCache;
 import su.geocaching.android.model.datatype.GeoCacheStatus;
 import su.geocaching.android.model.datatype.GeoCacheType;
-import su.geocaching.android.ui.R;
 import su.geocaching.android.ui.geocachemap.ConnectionManager;
 import su.geocaching.android.ui.selectgeocache.SelectGeoCacheMap;
 import su.geocaching.android.utils.log.LogHelper;
@@ -69,76 +67,6 @@ public class Controller {
     public void updateSelectedGeoCaches(SelectGeoCacheMap map, GeoPoint upperLeftCorner, GeoPoint lowerRightCorner) {
         GeoPoint[] d = {upperLeftCorner, lowerRightCorner};
         new DownloadGeoCacheTask(apiManager, map).execute(d);
-    }
-
-    /**
-     * @param geoCache we want to draw on the map
-     * @return Drawable for this geoCache depends on it's parameters
-     */
-    public Drawable getMarker(GeoCache geoCache) {
-        switch (geoCache.getType()) {
-            case TRADITIONAL:
-                switch (geoCache.getStatus()) {
-                    case VALID:
-                        return getMarker(R.drawable.ic_cache_traditional_valid);
-                    case NOT_VALID:
-                        return getMarker(R.drawable.ic_cache_traditional_not_valid);
-                    case NOT_CONFIRMED:
-                        return getMarker(R.drawable.ic_cache_traditional_not_confirmed);
-                }
-                break;
-            case VIRTUAL:
-                switch (geoCache.getStatus()) {
-                    case VALID:
-                        return getMarker(R.drawable.ic_cache_virtual_valid);
-                    case NOT_VALID:
-                        return getMarker(R.drawable.ic_cache_virtual_not_valid);
-                    case NOT_CONFIRMED:
-                        return getMarker(R.drawable.ic_cache_virtual_not_confirmed);
-                }
-                break;
-            case STEP_BY_STEP:
-                switch (geoCache.getStatus()) {
-                    case VALID:
-                        return getMarker(R.drawable.ic_cache_stepbystep_valid);
-                    case NOT_VALID:
-                        return getMarker(R.drawable.ic_cache_stepbystep_not_valid);
-                    case NOT_CONFIRMED:
-                        return getMarker(R.drawable.ic_cache_stepbystep_not_confirmed);
-                }
-                break;
-            case EXTREME:
-                switch (geoCache.getStatus()) {
-                    case VALID:
-                        return getMarker(R.drawable.ic_cache_extreme_valid);
-                    case NOT_VALID:
-                        return getMarker(R.drawable.ic_cache_extreme_not_valid);
-                    case NOT_CONFIRMED:
-                        return getMarker(R.drawable.ic_cache_extreme_not_confirmed);
-                }
-                break;
-            case EVENT:
-                switch (geoCache.getStatus()) {
-                    case VALID:
-                        return getMarker(R.drawable.ic_cache_event_valid);
-                    case NOT_VALID:
-                        return getMarker(R.drawable.ic_cache_event_not_valid);
-                    case NOT_CONFIRMED:
-                        return getMarker(R.drawable.ic_cache_event_not_confirmed);
-                }
-                break;
-            case GROUP:
-                return getMarker(R.drawable.ic_cache_group);
-            case CHECKPOINT:
-                return getMarker(R.drawable.cache);
-        }
-        return null;
-    }
-
-    private Drawable getMarker(int resource) {
-        Drawable cacheMarker = resourceManager.getDrawable(resource);
-        cacheMarker.setBounds(-cacheMarker.getMinimumWidth() / 2, -cacheMarker.getMinimumHeight(), cacheMarker.getMinimumWidth() / 2, 0);
-        return cacheMarker;
     }
 
     /**
@@ -210,7 +138,7 @@ public class Controller {
     /**
      * Save last searched geocache id in preferences
      *
-     * @param lastSearchedGeoCache last searched geocache
+     * @param lastSearchedGeoCache last searched geoCache
      * @param context              for connection to db and saving it to preferences
      */
     public synchronized void setLastSearchedGeoCache(GeoCache lastSearchedGeoCache, Context context) {

@@ -1,52 +1,52 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-	android:layout_width="fill_parent" android:layout_height="fill_parent"
-	android:orientation="vertical" android:background="@color/menu_background">
+              android:layout_width="fill_parent" android:layout_height="fill_parent"
+              android:orientation="vertical" android:background="@color/menu_background">
 
-	<LinearLayout style="@style/TitleBar" android:id="@+id/title_bar"
-		android:background="@drawable/geologo_background">
-		<ImageView android:src="@drawable/geologo" style="@style/TitleBarLogo"
-			android:id="@+id/title_logo" android:onClick="onHomeClick"></ImageView>
-		<View style="@style/TitleBarSpring"></View>
-		<ImageView style="@style/TitleBarSeparator"></ImageView>
-		<CheckBox android:id="@+id/info_geocache_add_del"
-			android:layout_width="wrap_content" android:layout_height="fill_parent"
-			style="?android:attr/starStyle" android:layout_marginRight="40dip"
-			android:gravity="center_vertical"></CheckBox>
+    <LinearLayout style="@style/TitleBar" android:id="@+id/title_bar"
+                  android:background="@drawable/geologo_background">
+        <ImageView android:src="@drawable/geologo" style="@style/TitleBarLogo"
+                   android:id="@+id/title_logo" android:onClick="onHomeClick"></ImageView>
+        <View style="@style/TitleBarSpring"></View>
+        <ImageView style="@style/TitleBarSeparator"></ImageView>
+        <CheckBox android:id="@+id/info_geocache_add_del"
+                  android:layout_width="wrap_content" android:layout_height="fill_parent"
+                  style="?android:attr/starStyle" android:layout_marginRight="40dip"
+                  android:gravity="center_vertical"></CheckBox>
 
-		<ImageView android:id="@+id/info_geocach_Go_button"
-			android:src="@drawable/icon_search" android:layout_width="38dip"
-			android:layout_height="38dip" android:layout_marginTop="7dip" />
+        <ImageView android:id="@+id/info_geocach_Go_button"
+                   android:src="@drawable/icon_search" android:layout_width="38dip"
+                   android:layout_height="38dip" android:layout_marginTop="7dip"/>
 
-	</LinearLayout>
+    </LinearLayout>
 
 
-	<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-		android:layout_width="fill_parent" android:layout_height="wrap_content"
-		android:orientation="vertical" android:gravity="left">
+    <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+                  android:layout_width="fill_parent" android:layout_height="wrap_content"
+                  android:orientation="vertical" android:gravity="left">
 
-		<TextView android:id="@+id/info_text_name" style="@style/FavoritesFolderRowStyle"
-			android:layout_marginBottom="0dip" android:textSize="18sp" />
+        <TextView android:id="@+id/info_text_name" style="@style/FavoritesFolderRowStyle"
+                  android:layout_marginBottom="0dip" android:textSize="18sp"/>
 
-		<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-			android:layout_width="fill_parent" android:layout_height="fill_parent"
-			android:orientation="horizontal">
-			<TextView android:layout_width="wrap_content"
-				android:layout_height="wrap_content" android:id="@+id/info_GeoCache_type"
-				android:layout_marginBottom="5dip" android:layout_marginTop="0dip"
-				style="@style/FavoritesFolderRowStyle" />
+        <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+                      android:layout_width="fill_parent" android:layout_height="fill_parent"
+                      android:orientation="horizontal">
+            <TextView android:layout_width="wrap_content"
+                      android:layout_height="wrap_content" android:id="@+id/info_GeoCache_type"
+                      android:layout_marginBottom="5dip" android:layout_marginTop="0dip"
+                      style="@style/FavoritesFolderRowStyle"/>
 
-			<TextView android:layout_width="fill_parent"
-				android:layout_height="wrap_content" android:gravity="right"
-				android:id="@+id/info_GeoCache_status" android:layout_marginRight="35dip"
-				android:layout_marginTop="0dip" android:layout_marginBottom="5dip"
-				style="@style/FavoritesFolderRowStyle" />
-		</LinearLayout>
-		<View android:layout_width="fill_parent" android:layout_height="2dip"
-			android:background="@color/menu_text_color" />
-	</LinearLayout>
+            <TextView android:layout_width="fill_parent"
+                      android:layout_height="wrap_content" android:gravity="right"
+                      android:id="@+id/info_GeoCache_status" android:layout_marginRight="35dip"
+                      android:layout_marginTop="0dip" android:layout_marginBottom="5dip"
+                      style="@style/FavoritesFolderRowStyle"/>
+        </LinearLayout>
+        <View android:layout_width="fill_parent" android:layout_height="2dip"
+              android:background="@color/menu_text_color"/>
+    </LinearLayout>
 
-	<WebView android:id="@+id/info_web_brouse"
-		android:layout_width="fill_parent" android:layout_height="wrap_content" />
+    <WebView android:id="@+id/info_web_brouse"
+             android:layout_width="fill_parent" android:layout_height="wrap_content"/>
 
 </LinearLayout>
