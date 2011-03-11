@@ -1,7 +1,7 @@
 package su.geocaching.android.ui.selectgeocache.geocachegroup;
 
 import android.os.AsyncTask;
-import android.util.Log;
+import su.geocaching.android.controller.LogManager;
 import su.geocaching.android.model.datatype.GeoCache;
 import su.geocaching.android.ui.geocachemap.GeoCacheOverlayItem;
 import su.geocaching.android.ui.selectgeocache.SelectGeoCacheMap;
@@ -26,14 +26,14 @@ public class GroupCacheTask extends AsyncTask<Void, Integer, List<GeoCacheOverla
 
     @Override
     protected List<GeoCacheOverlayItem> doInBackground(Void... voids) {
-        Log.d(TAG, "start doInBackground, par.len = " + geoCacheList.size());
+        LogManager.d(TAG, "start doInBackground, par.len = " + geoCacheList.size());
         return analyzer.getList(geoCacheList);
     }
 
     @Override
     protected void onPostExecute(List<GeoCacheOverlayItem> items) {
-        Log.d(TAG, "start add OItems, items = " + items.size());
+        LogManager.d(TAG, "start add OItems, items = " + items.size());
         map.addOverlayItemList(items);
-        Log.d(TAG, "finish add OItems");
+        LogManager.d(TAG, "finish add OItems");
     }
 }

@@ -3,7 +3,6 @@ package su.geocaching.android.ui;
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
@@ -12,6 +11,7 @@ import android.widget.SimpleAdapter;
 import android.widget.TextView;
 import com.google.android.apps.analytics.GoogleAnalyticsTracker;
 import su.geocaching.android.controller.Controller;
+import su.geocaching.android.controller.LogManager;
 import su.geocaching.android.model.datastorage.DbManager;
 import su.geocaching.android.model.datatype.GeoCache;
 import su.geocaching.android.utils.UiHelper;
@@ -23,6 +23,7 @@ import java.util.Map;
 
 public class FavoritesFolder extends Activity implements OnItemClickListener {
 
+    private static final String TAG = FavoritesFolder.class.getCanonicalName();
     private ArrayList<GeoCache> mass = new ArrayList<GeoCache>();
     private ListView lvListShowCache;
     private DbManager dbm = null;
@@ -82,7 +83,7 @@ public class FavoritesFolder extends Activity implements OnItemClickListener {
         } else {
             lvListShowCache.setAdapter(null);
             tvTitle.setText(tvTitle.getText() + "\n" + getString(R.string.favorit_folder_In_DB_not_cache));
-            Log.d("FavoritFolder", "DB empty");
+            LogManager.d(TAG, "DB empty");
         }
         super.onStart();
     }

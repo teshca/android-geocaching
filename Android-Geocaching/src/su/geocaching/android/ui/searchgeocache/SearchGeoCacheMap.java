@@ -9,6 +9,7 @@ import su.geocaching.android.controller.GpsStatusManager;
 import su.geocaching.android.controller.ICompassAware;
 import su.geocaching.android.controller.IGpsStatusAware;
 import su.geocaching.android.controller.ILocationAware;
+import su.geocaching.android.controller.LogManager;
 import su.geocaching.android.controller.compass.CompassPreferenceManager;
 import su.geocaching.android.controller.compass.CompassSpeed;
 import su.geocaching.android.controller.compass.SmoothCompassThread;
@@ -37,7 +38,6 @@ import android.location.LocationManager;
 import android.location.LocationProvider;
 import android.net.Uri;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
@@ -138,7 +138,7 @@ public class SearchGeoCacheMap extends MapActivity implements IInternetAware, IL
     @Override
     protected void onPause() {
         super.onPause();
-        Log.d(TAG, "on pause");
+        LogManager.d(TAG, "on pause");
 
         if (mLocationManager.hasLocation()) {
             stopAnimation();
@@ -160,19 +160,19 @@ public class SearchGeoCacheMap extends MapActivity implements IInternetAware, IL
     @Override
     protected void onResume() {
         super.onResume();
-        Log.d(TAG, "on pause");
+        LogManager.d(TAG, "on pause");
         map.setKeepScreenOn(Controller.getInstance().getKeepScreenOnPreference(map.getContext()));
 
         if (!mLocationManager.isBestProviderEnabled()) {
             if (!mLocationManager.isBestProviderGps()) {
-                Log.w(TAG, "resume: device without gps");
+                LogManager.w(TAG, "resume: device without gps");
             }
             UiHelper.askTurnOnGps(this);
-            Log.d(TAG, "resume: best provider (" + mLocationManager.getBestProvider() + ") disabled. Current provider is " + mLocationManager.getCurrentProvider());
+            LogManager.d(TAG, "resume: best provider (" + mLocationManager.getBestProvider() + ") disabled. Current provider is " + mLocationManager.getCurrentProvider());
         } else {
-            Log.d(TAG, "resume: best provider (" + mLocationManager.getBestProvider() + ") enabled. Run logic");
+            LogManager.d(TAG, "resume: best provider (" + mLocationManager.getBestProvider() + ") enabled. Run logic");
             if (mController.getSearchingGeoCache() == null) {
-                Log.e(TAG, "null geocache. Finishing.");
+                LogManager.e(TAG, "null geocache. Finishing.");
                 Toast.makeText(this, getString(R.string.search_geocache_error_no_geocache), Toast.LENGTH_LONG).show();
                 this.finish();
                 return;
@@ -185,12 +185,12 @@ public class SearchGeoCacheMap extends MapActivity implements IInternetAware, IL
                 onBestProviderUnavailable();
                 mapController.animateTo(mController.getSearchingGeoCache().getLocationGeoPoint());
                 progressBarView.setVisibility(View.VISIBLE);
-                Log.d(TAG, "runLogic: location not fixed. Send msg.");
+                LogManager.d(TAG, "runLogic: location not fixed. Send msg.");
             } else {
                 updateLocation(mLocationManager.getLastKnownLocation());
                 progressBarView.setVisibility(View.GONE);
                 startAnimation();
-                Log.d(TAG, "runLogic: location fixed. Update location with last known location");
+                LogManager.d(TAG, "runLogic: location fixed. Update location with last known location");
             }
             mLocationManager.addSubscriber(this);
             mLocationManager.enableBestProviderUpdates();
@@ -202,7 +202,7 @@ public class SearchGeoCacheMap extends MapActivity implements IInternetAware, IL
 
         if (!internetManager.isInternetConnected()) {
             onInternetLost();
-            Log.w(TAG, "internet not connected");
+            LogManager.w(TAG, "internet not connected");
         }
     }
 
@@ -210,7 +210,7 @@ public class SearchGeoCacheMap extends MapActivity implements IInternetAware, IL
      * Start SearchGeoCacheCompass activity
      */
     public void startCompassView() {
-        Log.d(TAG, "start compass activity");
+        LogManager.d(TAG, "start compass activity");
 
         Intent intent = new Intent(this, SearchGeoCacheCompass.class);
         if (mController.getSearchingGeoCache() != null) {
@@ -228,13 +228,13 @@ public class SearchGeoCacheMap extends MapActivity implements IInternetAware, IL
     public void updateLocation(Location location) {
         userOverlay.setPoint(GpsHelper.locationToGeoPoint(location));
         userOverlay.setAccuracy(location.getAccuracy());
-        Log.d(TAG, "update location");
+        LogManager.d(TAG, "update location");
         if (progressBarView.getVisibility() == View.VISIBLE) {
             progressBarView.setVisibility(View.GONE);
         }
         if (distanceOverlay == null) {
             // It's really first run of update location
-            Log.d(TAG, "update location: first run of this activity");
+            LogManager.d(TAG, "update location: first run of this activity");
             distanceOverlay = new DistanceToGeoCacheOverlay(GpsHelper.locationToGeoPoint(location), mController.getSearchingGeoCache().getLocationGeoPoint());
             distanceOverlay.setCachePoint(mController.getSearchingGeoCache().getLocationGeoPoint());
             mapOverlays.add(distanceOverlay);
@@ -265,7 +265,7 @@ public class SearchGeoCacheMap extends MapActivity implements IInternetAware, IL
     public void updateBearing(float bearing) {
         float[] values = new float[1];
         values[0] = bearing;
-        // Log.d(TAG, "update bearing. New bearing=" +
+        // LogManager.d(TAG, "update bearing. New bearing=" +
         // Integer.toString(bearing));
         userOverlay.setDirection(bearing);
     }
@@ -317,7 +317,7 @@ public class SearchGeoCacheMap extends MapActivity implements IInternetAware, IL
         boolean isMapDimensionsZeroes = mapRight == 0 && mapLeft == 0 && mapTop == 0 && mapBottom == 0;
         // if markers are not visible then zoomOut
         if ((isCacheMarkerNotInMapX || isCacheMarkerNotInMapY || isUserMarkerNotInMapX || isUserMarkerNotInMapY) && (!isMapDimensionsZeroes)) {
-            Log.d(TAG, "markers not in the visible part of map. Zoom out.");
+            LogManager.d(TAG, "markers not in the visible part of map. Zoom out.");
             mapController.zoomOut();
         }
     }
@@ -494,28 +494,28 @@ public class SearchGeoCacheMap extends MapActivity implements IInternetAware, IL
     @Override
     public void onStatusChanged(String provider, int status, Bundle extras) {
         // TODO: send code of event to activity
-        Log.d(TAG, "onStatusChanged:");
+        LogManager.d(TAG, "onStatusChanged:");
         String statusString = "Location fixed: " + Boolean.toString(mLocationManager.hasLocation()) + ". Provider: " + provider + ". ";
-        Log.d(TAG, "     " + statusString);
+        LogManager.d(TAG, "     " + statusString);
         switch (status) {
             case LocationProvider.OUT_OF_SERVICE:
                 statusString += "Status: out of service. ";
                 onBestProviderUnavailable();
-                Log.d(TAG, "     Status: out of service.");
+                LogManager.d(TAG, "     Status: out of service.");
                 break;
             case LocationProvider.TEMPORARILY_UNAVAILABLE:
                 statusString += "Status: temporarily unavailable. ";
                 onBestProviderUnavailable();
-                Log.d(TAG, "     Status: temporarily unavailable.");
+                LogManager.d(TAG, "     Status: temporarily unavailable.");
                 break;
             case LocationProvider.AVAILABLE:
                 statusString += "Status: available. ";
-                Log.d(TAG, "     Status: available.");
+                LogManager.d(TAG, "     Status: available.");
                 break;
         }
         if (provider.equals(LocationManager.GPS_PROVIDER)) {
             statusString += "Satellites: " + Integer.toString(extras.getInt("satellites"));
-            Log.d(TAG, "     Satellites: " + Integer.toString(extras.getInt("satellites")));
+            LogManager.d(TAG, "     Satellites: " + Integer.toString(extras.getInt("satellites")));
         }
     }
 
@@ -526,7 +526,7 @@ public class SearchGeoCacheMap extends MapActivity implements IInternetAware, IL
      */
     @Override
     public void onProviderEnabled(String provider) {
-        Log.d(TAG, "onProviderEnabled: do nothing");
+        LogManager.d(TAG, "onProviderEnabled: do nothing");
     }
 
     /*
@@ -536,9 +536,9 @@ public class SearchGeoCacheMap extends MapActivity implements IInternetAware, IL
      */
     @Override
     public void onProviderDisabled(String provider) {
-        Log.d(TAG, "onProviderDisabled");
+        LogManager.d(TAG, "onProviderDisabled");
         if (!mLocationManager.isBestProviderEnabled()) {
-            Log.d(TAG, "onStatusChanged: best provider (" + mLocationManager.getBestProvider() + ") disabled. Ask turn on.");
+            LogManager.d(TAG, "onStatusChanged: best provider (" + mLocationManager.getBestProvider() + ") disabled. Ask turn on.");
             onBestProviderUnavailable();
             UiHelper.askTurnOnGps(this);
         }

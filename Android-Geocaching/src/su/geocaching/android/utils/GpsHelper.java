@@ -1,10 +1,11 @@
 package su.geocaching.android.utils;
 
 import android.location.Location;
-import android.util.Log;
 import com.google.android.maps.GeoPoint;
 
 import java.text.DecimalFormat;
+
+import su.geocaching.android.controller.LogManager;
 
 /**
  * This class is subset of common method, which we often use
@@ -143,7 +144,7 @@ public class GpsHelper {
         double latitude = currentGeoPoint.getLatitudeE6() / 1E6;
         double longitude = currentGeoPoint.getLatitudeE6() / 1E6;
         double radianBearing = bearing * Math.PI / 180;
-        Log.d("Geocaching.su", "radianBearing = " + radianBearing);
+        LogManager.d("Geocaching.su", "radianBearing = " + radianBearing);
         double distanceDivRadius = (double) distance / EARTH_RADIUS;
 
         // Calculating goal Location

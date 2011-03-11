@@ -9,7 +9,6 @@ import android.location.Location;
 import android.os.Bundle;
 import android.os.Handler;
 import android.provider.Settings;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
@@ -19,6 +18,7 @@ import android.widget.Toast;
 import com.google.android.apps.analytics.GoogleAnalyticsTracker;
 import com.google.android.maps.*;
 import su.geocaching.android.controller.Controller;
+import su.geocaching.android.controller.LogManager;
 import su.geocaching.android.model.datatype.GeoCache;
 import su.geocaching.android.ui.R;
 import su.geocaching.android.ui.geocachemap.ConnectionManager;
@@ -98,22 +98,22 @@ public class SelectGeoCacheMap extends MapActivity implements IInternetAware {
 
     private synchronized void updateProgressStart() {
         if (countDownloadTask == 0) {
-            Log.d(TAG, "set visible Visible for progress");
+            LogManager.d(TAG, "set visible Visible for progress");
             handler.post(new Runnable() {
                 public void run() {
                     progressBarView.setVisibility(View.VISIBLE);
                 }
             });
         }
-        Log.d(TAG, "count plus. count = " + countDownloadTask);
+        LogManager.d(TAG, "count plus. count = " + countDownloadTask);
         countDownloadTask++;
     }
 
     private synchronized void updateProgressStop() {
         countDownloadTask--;
-        Log.d(TAG, "count minus. count = " + countDownloadTask);
+        LogManager.d(TAG, "count minus. count = " + countDownloadTask);
         if (countDownloadTask == 0) {
-            Log.d(TAG, "set visible gone for progress");
+            LogManager.d(TAG, "set visible gone for progress");
             handler.post(new Runnable() {
                 public void run() {
                     progressBarView.setVisibility(View.GONE);
@@ -125,9 +125,9 @@ public class SelectGeoCacheMap extends MapActivity implements IInternetAware {
     private void updateMapInfoFromSettings() {
         int[] lastMapInfo = Controller.getInstance().getLastMapInfo(this);
         GeoPoint lastCenter = new GeoPoint(lastMapInfo[0], lastMapInfo[1]);
-        Log.d("mapInfo", "X = " + lastMapInfo[0]);
-        Log.d("mapInfo", "Y = " + lastMapInfo[1]);
-        Log.d("mapInfo", "zoom = " + lastMapInfo[2]);
+        LogManager.d("mapInfo", "X = " + lastMapInfo[0]);
+        LogManager.d("mapInfo", "Y = " + lastMapInfo[1]);
+        LogManager.d("mapInfo", "zoom = " + lastMapInfo[2]);
 
         mapController.setCenter(lastCenter);
         mapController.animateTo(lastCenter);
@@ -173,7 +173,7 @@ public class SelectGeoCacheMap extends MapActivity implements IInternetAware {
         connectionManager.removeSubscriber(this);
         saveMapInfoToSettings();
         tracker.stop();
-        Log.d("mapInfo", "save on pause");
+        LogManager.d("mapInfo", "save on pause");
         super.onPause();
     }
 
@@ -217,7 +217,7 @@ public class SelectGeoCacheMap extends MapActivity implements IInternetAware {
     /* Handles item selections */
 
     public void updateCacheOverlay() {
-        Log.d(TAG, "updateCacheOverlay; count = " + countDownloadTask);
+        LogManager.d(TAG, "updateCacheOverlay; count = " + countDownloadTask);
         GeoPoint upperLeftCorner = map.getProjection().fromPixels(0, 0);
         GeoPoint lowerRightCorner = map.getProjection().fromPixels(map.getWidth(), map.getHeight());
         Controller.getInstance().updateSelectedGeoCaches(this, upperLeftCorner, lowerRightCorner);
@@ -278,7 +278,7 @@ public class SelectGeoCacheMap extends MapActivity implements IInternetAware {
      */
     private void askTurnOnInternet() {
         if (connectionManager.isInternetConnected()) {
-            Log.d(TAG, "Internet connected");
+            LogManager.d(TAG, "Internet connected");
             return;
         }
         AlertDialog.Builder builder = new AlertDialog.Builder(context);

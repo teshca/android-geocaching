@@ -3,17 +3,18 @@ package su.geocaching.android.ui.searchgeocache.stepbystep;
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.TextView.BufferType;
 import android.widget.Toast;
+import su.geocaching.android.controller.LogManager;
 import su.geocaching.android.model.datatype.GeoCache;
 import su.geocaching.android.ui.R;
 import su.geocaching.android.utils.GpsHelper;
 
 public class SexagesimalInputActivity extends Activity {
 
+    private static final String TAG = SexagesimalInputActivity.class.getCanonicalName();
     private EditText latDegrees, latMinutes, latmMinutes;
     private EditText lngDegrees, lngMinutes, lngmMinutes;
 
@@ -57,7 +58,7 @@ public class SexagesimalInputActivity extends Activity {
             intent.putExtra(StepByStepTabActivity.LONGITUDE, longitudeE6);
             getParent().setResult(RESULT_OK, intent);
         } catch (Exception e) {
-            Log.e("Geocaching.su", e.getMessage());
+            LogManager.e(TAG, e.getMessage(),e);
             Toast.makeText(this, getString(R.string.error_stepbystep_input), Toast.LENGTH_SHORT).show();
         }
         finish();

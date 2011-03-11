@@ -4,8 +4,8 @@ import android.content.Context;
 import su.geocaching.android.controller.CompassManager;
 import su.geocaching.android.controller.Controller;
 import su.geocaching.android.controller.ICompassAware;
+import su.geocaching.android.controller.LogManager;
 import su.geocaching.android.utils.CompassHelper;
-import su.geocaching.android.utils.log.LogHelper;
 
 /**
  * The class provides a smooth rotation of compass
@@ -46,13 +46,13 @@ public class SmoothCompassThread extends Thread implements ICompassAware {
     public void setRunning(boolean isRunning) {
         this.isRunning = isRunning;
         if (!isRunning) {
-            LogHelper.d(TAG, "SmoothCompassThread - isRunning false");
+            LogManager.d(TAG, "SmoothCompassThread - isRunning false");
             compassManager.removeSubscriber(this);
         }
     }
 
     public SmoothCompassThread(ICompassAnimation compassView, Context context) {
-        LogHelper.d(TAG, "new SmoothCompassThread");
+        LogManager.d(TAG, "new SmoothCompassThread");
         compassManager = Controller.getInstance().getCompassManager();
         compassManager.addSubscriber(this);
         this.compassView = compassView;
@@ -61,7 +61,7 @@ public class SmoothCompassThread extends Thread implements ICompassAware {
 
     @Override
     public void run() {
-        LogHelper.d(TAG, "SmoothCompassThread - run");
+        LogManager.d(TAG, "SmoothCompassThread - run");
         float speed = 0;
         float needleDirection = 0;
         boolean isArrived = false; // The needle has not arrived the goalDirection
@@ -87,7 +87,7 @@ public class SmoothCompassThread extends Thread implements ICompassAware {
                     Thread.sleep(STANDART_SLEEP);
                 }
             } catch (InterruptedException e) {
-                LogHelper.w(TAG, "interrupt() was called for SmoothCompassThread while it was sleeping", e);
+                LogManager.w(TAG, "interrupt() was called for SmoothCompassThread while it was sleeping", e);
             }
         }
     }

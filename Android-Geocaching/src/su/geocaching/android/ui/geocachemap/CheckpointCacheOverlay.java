@@ -4,13 +4,13 @@ import java.util.Collections;
 import java.util.LinkedList;
 import java.util.List;
 
+import su.geocaching.android.controller.LogManager;
 import su.geocaching.android.model.datatype.GeoCache;
 import su.geocaching.android.model.datatype.GeoCacheType;
 import su.geocaching.android.utils.UiHelper;
 
 import android.app.Activity;
 import android.graphics.drawable.Drawable;
-import android.util.Log;
 import android.view.GestureDetector;
 import android.view.MotionEvent;
 
@@ -42,7 +42,7 @@ public class CheckpointCacheOverlay extends ItemizedOverlay<OverlayItem> {
 	GestureDetector.SimpleOnGestureListener sogl = new GestureDetector.SimpleOnGestureListener() {
 
 		public void onLongPress(MotionEvent e) {
-			Log.d("Geocaching.su", "onLongPress");
+		    LogManager.d("Geocaching.su", "onLongPress");
 			GeoCache gc = new GeoCache();
 			gc.setType(GeoCacheType.CHECKPOINT);
 			gc.setLocationGeoPoint(map.getProjection().fromPixels((int) e.getX(), (int) e.getY()));

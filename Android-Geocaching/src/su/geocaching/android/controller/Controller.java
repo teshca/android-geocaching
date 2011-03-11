@@ -15,7 +15,6 @@ import su.geocaching.android.model.datatype.GeoCacheStatus;
 import su.geocaching.android.model.datatype.GeoCacheType;
 import su.geocaching.android.ui.geocachemap.ConnectionManager;
 import su.geocaching.android.ui.selectgeocache.SelectGeoCacheMap;
-import su.geocaching.android.utils.log.LogHelper;
 
 /**
  * @author Yuri Denison
@@ -74,7 +73,7 @@ public class Controller {
      */
     public synchronized GeoCacheLocationManager getLocationManager() {
         if (locationManager == null) {
-            LogHelper.e(TAG, "location manager wasn't init yet", new NullPointerException("location manager wasn't init yet"));
+            LogManager.e(TAG, "location manager wasn't init yet", new NullPointerException("location manager wasn't init yet"));
         }
         return locationManager;
     }
@@ -84,7 +83,7 @@ public class Controller {
      */
     public synchronized CompassManager getCompassManager() {
         if (compassManager == null) {
-            LogHelper.e(TAG, "compass manager wasn't init yet", new NullPointerException("compass manager wasn't init yet"));
+            LogManager.e(TAG, "compass manager wasn't init yet", new NullPointerException("compass manager wasn't init yet"));
         }
         return compassManager;
     }
@@ -94,7 +93,7 @@ public class Controller {
      */
     public synchronized GpsStatusManager getGpsStatusManager() {
         if (gpsStatusManager == null) {
-            LogHelper.e(TAG, "gps status manager wasn't init yet", new NullPointerException("gps status manager wasn't init yet"));
+            LogManager.e(TAG, "gps status manager wasn't init yet", new NullPointerException("gps status manager wasn't init yet"));
         }
         return gpsStatusManager;
     }
@@ -104,7 +103,7 @@ public class Controller {
      */
     public synchronized ConnectionManager getConnectionManager() {
         if (connectionManager == null) {
-            LogHelper.e(TAG, "connection manager wasn't init yet", new NullPointerException("connection manager wasn't init yet"));
+            LogManager.e(TAG, "connection manager wasn't init yet", new NullPointerException("connection manager wasn't init yet"));
         }
         return connectionManager;
     }
@@ -114,7 +113,7 @@ public class Controller {
      */
     public synchronized ResourceManager getResourceManager() {
         if (resourceManager == null) {
-            LogHelper.e(TAG, "resource manager wasn't init yet", new NullPointerException("resource manager wasn't init yet"));
+            LogManager.e(TAG, "resource manager wasn't init yet", new NullPointerException("resource manager wasn't init yet"));
         }
         return resourceManager;
     }
@@ -143,7 +142,7 @@ public class Controller {
      */
     public synchronized void setLastSearchedGeoCache(GeoCache lastSearchedGeoCache, Context context) {
         if (lastSearchedGeoCache != null) {
-            LogHelper.d(TAG, "Save last searched geocache (id=" + Integer.toString(lastSearchedGeoCache.getId()) + ") in settings");
+            LogManager.d(TAG, "Save last searched geocache (id=" + Integer.toString(lastSearchedGeoCache.getId()) + ") in settings");
             SharedPreferences settings = context.getSharedPreferences(PREFS_NAME, 0);
             SharedPreferences.Editor editor = settings.edit();
             editor.putInt(GeoCache.class.getCanonicalName(), lastSearchedGeoCache.getId());
@@ -155,7 +154,7 @@ public class Controller {
 
     public synchronized void setLastMapInfo(GeoPoint center, int zoom, Context context) {
         if (center != null) {
-            LogHelper.d(TAG, "Save last map center (" + center.getLatitudeE6() + ", " + center.getLongitudeE6() + ") in settings");
+            LogManager.d(TAG, "Save last map center (" + center.getLatitudeE6() + ", " + center.getLongitudeE6() + ") in settings");
             SharedPreferences settings = context.getSharedPreferences(PREFS_NAME, 0);
             SharedPreferences.Editor editor = settings.edit();
             editor.putInt("center_x", center.getLatitudeE6());
@@ -175,9 +174,9 @@ public class Controller {
         int center_x = settings.getInt("center_x", DEFAULT_CENTER_LATITUDE);
         int center_y = settings.getInt("center_y", DEFAULT_CENTER_LONGITUDE);
         int zoom = settings.getInt("zoom", DEFAULT_ZOOM);
-        LogHelper.d("lastMapInfo", "X = " + center_x + "; def = " + DEFAULT_CENTER_LATITUDE);
-        LogHelper.d("lastMapInfo", "Y = " + center_y + "; def = " + DEFAULT_CENTER_LONGITUDE);
-        LogHelper.d("lastMapInfo", "zoom = " + zoom + "; def = " + DEFAULT_ZOOM);
+        LogManager.d("lastMapInfo", "X = " + center_x + "; def = " + DEFAULT_CENTER_LATITUDE);
+        LogManager.d("lastMapInfo", "Y = " + center_y + "; def = " + DEFAULT_CENTER_LONGITUDE);
+        LogManager.d("lastMapInfo", "zoom = " + zoom + "; def = " + DEFAULT_ZOOM);
         return new int[]{center_x, center_y, zoom};
     }
 

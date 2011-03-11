@@ -3,15 +3,16 @@ package su.geocaching.android.ui.searchgeocache.stepbystep;
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.TextView.BufferType;
 import android.widget.Toast;
+import su.geocaching.android.controller.LogManager;
 import su.geocaching.android.model.datatype.GeoCache;
 import su.geocaching.android.ui.R;
 
 public class DecimalInputActivity extends Activity {
+    private static final String TAG = DecimalInputActivity.class.getCanonicalName();
 
     private EditText latDegrees, latFraction;
     private EditText lngDegrees, lngFraction;
@@ -47,7 +48,7 @@ public class DecimalInputActivity extends Activity {
             getParent().setResult(RESULT_OK, intent);
             finish();
         } catch (Exception e) {
-            Log.e("Geocaching.su", e.getMessage());
+            LogManager.e(TAG, e.getMessage(), e);
             Toast.makeText(this, getString(R.string.error_stepbystep_input), Toast.LENGTH_SHORT);
         }
     }

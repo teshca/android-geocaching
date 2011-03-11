@@ -5,11 +5,11 @@ import android.graphics.Canvas;
 import android.util.AttributeSet;
 import android.view.SurfaceHolder;
 import android.view.SurfaceView;
+import su.geocaching.android.controller.LogManager;
 import su.geocaching.android.controller.compass.CompassDrawningHelper;
 import su.geocaching.android.controller.compass.ICompassAnimation;
 import su.geocaching.android.controller.compass.StandartCompassDrawning;
 import su.geocaching.android.controller.compass.WhiteStandartCompassDrawning;
-import su.geocaching.android.utils.log.LogHelper;
 
 /**
  * View which displays compass contains of bitmaps for searching geocache.
@@ -34,7 +34,7 @@ public class CompassView extends SurfaceView implements SurfaceHolder.Callback, 
 
     public CompassView(Context context, AttributeSet attrs) {
         super(context, attrs);
-        LogHelper.d(TAG, "new CompassView");
+        LogManager.d(TAG, "new CompassView");
 
         helper = new StandartCompassDrawning(context);
         ready = true; // Is it need?
@@ -53,14 +53,14 @@ public class CompassView extends SurfaceView implements SurfaceHolder.Callback, 
                 helper.drawCacheArrow(canvas, cacheDirection + northDirection);
             }
         } else {
-            LogHelper.w("draw", "not ready");
+            LogManager.w("draw", "not ready");
         }
     }
 
     @Override
     protected void onSizeChanged(int w, int h, int oldw, int oldh) {
         super.onSizeChanged(w, h, oldw, oldh);
-        LogHelper.d(TAG, "onSizeChanged" + w + " " + h);
+        LogManager.d(TAG, "onSizeChanged" + w + " " + h);
         helper.onSizeChanged(w, h);
     }
 
@@ -107,7 +107,7 @@ public class CompassView extends SurfaceView implements SurfaceHolder.Callback, 
      * @param direction - direction to geocache in degrees
      */
     public void setCacheDirection(float direction) {
-        LogHelper.d(TAG, "Compass View - setDirectionToGeoCache ");
+        LogManager.d(TAG, "Compass View - setDirectionToGeoCache ");
         cacheDirection = direction;
         isLocationFixed = true;
         doAnim();
@@ -141,7 +141,7 @@ public class CompassView extends SurfaceView implements SurfaceHolder.Callback, 
 
     @Override
     public void surfaceChanged(SurfaceHolder holder, int format, int width, int height) {
-        LogHelper.d(TAG, "CompassView - surfaceChanged");
+        LogManager.d(TAG, "CompassView - surfaceChanged");
     }
 
     @Override

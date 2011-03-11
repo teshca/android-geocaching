@@ -5,8 +5,9 @@ import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
-import android.util.Log;
 import com.google.android.maps.GeoPoint;
+
+import su.geocaching.android.controller.LogManager;
 import su.geocaching.android.model.datatype.GeoCache;
 import su.geocaching.android.model.datatype.GeoCacheStatus;
 import su.geocaching.android.model.datatype.GeoCacheType;
@@ -19,6 +20,7 @@ import java.util.ArrayList;
  * @author Alekseenko Vladimir
  */
 public class DbManager extends SQLiteOpenHelper {
+    private static final String TAG = DbManager.class.getCanonicalName();
 
     // Name, version and name table
     public static final String DATABASE_NAME_BASE = "CacheBase.db";
@@ -61,7 +63,7 @@ public class DbManager extends SQLiteOpenHelper {
      * Method for open database
      */
     public void openDB() {
-        Log.d("DataBase", "Open");
+        LogManager.d(TAG, "Open");
         db = this.getWritableDatabase();
     }
 
@@ -101,7 +103,7 @@ public class DbManager extends SQLiteOpenHelper {
      * Method for close database
      */
     public void closeDB() {
-        Log.d("Database", "close");
+        LogManager.d(TAG, "close");
         db.close();
     }
 
