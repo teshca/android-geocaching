@@ -3,7 +3,6 @@ package su.geocaching.android.ui;
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
@@ -11,6 +10,7 @@ import android.view.View;
 import android.widget.Toast;
 import com.google.android.apps.analytics.GoogleAnalyticsTracker;
 import su.geocaching.android.controller.Controller;
+import su.geocaching.android.controller.LogManager;
 import su.geocaching.android.model.datatype.GeoCache;
 import su.geocaching.android.ui.searchgeocache.SearchGeoCacheMap;
 import su.geocaching.android.ui.selectgeocache.SelectGeoCacheMap;
@@ -28,7 +28,7 @@ public class DashboardActivity extends Activity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        Log.d(TAG, "onCreate");
+        LogManager.d(TAG, "onCreate");
         setContentView(R.layout.dashboard_menu);
 
         Controller.getInstance().initManagers(this);

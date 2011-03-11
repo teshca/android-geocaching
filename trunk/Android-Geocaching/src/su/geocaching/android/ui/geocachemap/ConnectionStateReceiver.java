@@ -3,8 +3,8 @@ package su.geocaching.android.ui.geocachemap;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
-import android.util.Log;
 import su.geocaching.android.controller.Controller;
+import su.geocaching.android.controller.LogManager;
 
 /**
  * Used for listen broadcast messages for activities which uses internet. It
@@ -24,7 +24,7 @@ public class ConnectionStateReceiver extends BroadcastReceiver {
      */
     @Override
     public void onReceive(Context context, Intent intent) {
-        Log.d(TAG, "Recieved message about internet status");
+        LogManager.d(TAG, "Recieved message about internet status");
         ConnectionManager connManager = Controller.getInstance().getConnectionManager();
         if (connManager.isInternetConnected()) {
             connManager.onInternetFound();

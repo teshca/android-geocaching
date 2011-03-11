@@ -1,8 +1,9 @@
 package su.geocaching.android.ui.selectgeocache.geocachegroup;
 
 import android.graphics.Point;
-import android.util.Log;
 import com.google.android.maps.MapView;
+
+import su.geocaching.android.controller.LogManager;
 import su.geocaching.android.model.datatype.GeoCache;
 import su.geocaching.android.ui.geocachemap.GeoCacheOverlayItem;
 
@@ -56,7 +57,7 @@ public class GeoCacheListAnalyzer {
     private List<Centroid> generateCentroidsArray() {
         int sizeX = map.getWidth() / FINGER_SIZE_X;
         int sizeY = map.getHeight() / FINGER_SIZE_Y;
-        Log.d("Screen Size", "width = " + map.getWidth() + ", height = " + map.getHeight());
+        LogManager.d("Screen Size", "width = " + map.getWidth() + ", height = " + map.getHeight());
         List<Centroid> centroids = new LinkedList<Centroid>();
 
         for (int i = 0; i < sizeX; i++) {
@@ -77,7 +78,7 @@ public class GeoCacheListAnalyzer {
 
         long startTime = System.currentTimeMillis();
         List<Centroid> clusterPointMap = new KMeans(points, centroids).getClusterMap();
-        Log.d("mapStats", "log: sizeList = " + geoCacheList.size() + " centroids = " + centroids.size() + " time = " + (System.currentTimeMillis() - startTime));
+        LogManager.d("mapStats", "log: sizeList = " + geoCacheList.size() + " centroids = " + centroids.size() + " time = " + (System.currentTimeMillis() - startTime));
 
         fillOverlayItemList(clusterPointMap);
         return overlayItemList;

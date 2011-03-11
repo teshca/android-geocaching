@@ -52,7 +52,6 @@ public class UiHelper {
      * Open GeoCache info activity
      */
     public static void showGeoCacheInfo(Context context, GeoCache geoCache) {
-        // Log.d(TAG, "Go to show geo cache activity");
         Intent intent = new Intent(context, ShowGeoCacheInfo.class);
         intent.putExtra(GeoCache.class.getCanonicalName(), geoCache);
         context.startActivity(intent);

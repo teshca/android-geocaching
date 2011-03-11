@@ -5,7 +5,6 @@ import android.location.Location;
 import android.location.LocationListener;
 import android.location.LocationManager;
 import android.os.Bundle;
-import android.util.Log;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -43,7 +42,7 @@ public class GeoCacheLocationManager implements LocationListener {
         isUpdating = false;
         removeUpdatesTimer = new Timer(TIMER_NAME);
         removeUpdatesTask = new RemoveUpdatesTask(this);
-        Log.d(TAG, "Init");
+        LogManager.d(TAG, "Init");
     }
 
     /**
@@ -52,7 +51,7 @@ public class GeoCacheLocationManager implements LocationListener {
     public void addSubscriber(ILocationAware subsriber) {
         removeUpdatesTask.cancel();
 
-        Log.d(TAG, "addSubscriber: remove task cancelled;\n	isUpdating=" + Boolean.toString(isUpdating) + ";\n	subscribers=" + Integer.toString(subsribers.size()));
+        LogManager.d(TAG, "addSubscriber: remove task cancelled;\n	isUpdating=" + Boolean.toString(isUpdating) + ";\n	subscribers=" + Integer.toString(subsribers.size()));
 
         if ((subsribers.size() == 0) && (!isUpdating)) {
             addUpdates();
@@ -60,7 +59,7 @@ public class GeoCacheLocationManager implements LocationListener {
         if (!subsribers.contains(subsriber)) {
             subsribers.add(subsriber);
         }
-        Log.d(TAG, "	Count of subsribers became " + Integer.toString(subsribers.size()));
+        LogManager.d(TAG, "	Count of subsribers became " + Integer.toString(subsribers.size()));
     }
 
     /**
@@ -76,9 +75,9 @@ public class GeoCacheLocationManager implements LocationListener {
             removeUpdatesTask.cancel();
             removeUpdatesTask = new RemoveUpdatesTask(this);
             removeUpdatesTimer.schedule(removeUpdatesTask, REMOVE_UPDATES_DELAY);
-            Log.d(TAG, "none subscribers. wait " + Long.toString(REMOVE_UPDATES_DELAY / 1000) + " s from " + Long.toString(System.currentTimeMillis()));
+            LogManager.d(TAG, "none subscribers. wait " + Long.toString(REMOVE_UPDATES_DELAY / 1000) + " s from " + Long.toString(System.currentTimeMillis()));
         }
-        Log.d(TAG, "remove subsriber. Count of subsribers became " + Integer.toString(subsribers.size()));
+        LogManager.d(TAG, "remove subsriber. Count of subsribers became " + Integer.toString(subsribers.size()));
         return res;
     }
 
@@ -90,12 +89,12 @@ public class GeoCacheLocationManager implements LocationListener {
     @Override
     public void onLocationChanged(Location location) {
         lastLocation = location;
-        Log.d(TAG, "Location changed: send msg to " + Integer.toString(subsribers.size()) + " activity(es)");
+        LogManager.d(TAG, "Location changed: send msg to " + Integer.toString(subsribers.size()) + " activity(es)");
         boolean isCompassAvailable = Controller.getInstance().getCompassManager().isCompassAvailable();
         for (ILocationAware subsriber : subsribers) {
             if ((subsriber instanceof ICompassAware) && (!isCompassAvailable)) {
                 ((ICompassAware) subsriber).updateBearing((int) location.getBearing());
-                Log.d(TAG, "update location: send bearing to " + subsriber.getClass().getCanonicalName());
+                LogManager.d(TAG, "update location: send bearing to " + subsriber.getClass().getCanonicalName());
             }
             subsriber.updateLocation(location);
         }
@@ -108,7 +107,7 @@ public class GeoCacheLocationManager implements LocationListener {
       */
     @Override
     public void onProviderDisabled(String provider) {
-        Log.d(TAG, "Provider (" + provider + ") disabled: send msg to " + Integer.toString(subsribers.size()) + " activity(es)");
+        LogManager.d(TAG, "Provider (" + provider + ") disabled: send msg to " + Integer.toString(subsribers.size()) + " activity(es)");
         for (ILocationAware subsriber : subsribers) {
             subsriber.onProviderDisabled(provider);
         }
@@ -121,7 +120,7 @@ public class GeoCacheLocationManager implements LocationListener {
       */
     @Override
     public void onProviderEnabled(String provider) {
-        Log.d(TAG, "Provider (" + provider + ") enabled: send msg to " + Integer.toString(subsribers.size()) + " activity(es)");
+        LogManager.d(TAG, "Provider (" + provider + ") enabled: send msg to " + Integer.toString(subsribers.size()) + " activity(es)");
         for (ILocationAware subsriber : subsribers) {
             subsriber.onProviderEnabled(provider);
         }
@@ -134,7 +133,7 @@ public class GeoCacheLocationManager implements LocationListener {
       */
     @Override
     public void onStatusChanged(String provider, int status, Bundle extras) {
-        Log.d(TAG, "Provider (" + provider + ") status changed (new status is " + Integer.toString(status) + "): send msg to " + Integer.toString(subsribers.size()) + " activity(es)");
+        LogManager.d(TAG, "Provider (" + provider + ") status changed (new status is " + Integer.toString(status) + "): send msg to " + Integer.toString(subsribers.size()) + " activity(es)");
         for (ILocationAware subsriber : subsribers) {
             subsriber.onStatusChanged(provider, status, extras);
         }
@@ -145,9 +144,9 @@ public class GeoCacheLocationManager implements LocationListener {
      */
     private synchronized void removeUpdates() {
         if (!isUpdating) {
-            Log.w(TAG, "updates already removed");
+            LogManager.w(TAG, "updates already removed");
         }
-        Log.d(TAG, "remove location updates at " + Long.toString(System.currentTimeMillis()));
+        LogManager.d(TAG, "remove location updates at " + Long.toString(System.currentTimeMillis()));
         locationManager.removeUpdates(this);
         provider = "none";
         isUpdating = false;
@@ -162,7 +161,7 @@ public class GeoCacheLocationManager implements LocationListener {
         provider = locationManager.getBestProvider(criteria, true);
         locationManager.requestLocationUpdates(provider, MIN_TIME, MIN_DISTANCE, this);
         isUpdating = true;
-        Log.d(TAG, "add updates. Provider is " + provider);
+        LogManager.d(TAG, "add updates. Provider is " + provider);
     }
 
     /**
@@ -206,17 +205,17 @@ public class GeoCacheLocationManager implements LocationListener {
         if (!isBestProviderEnabled()) {
             return false;
         }
-        Log.d(TAG, "request for enable best provider");
+        LogManager.d(TAG, "request for enable best provider");
         Criteria criteria = new Criteria();
         criteria.setAccuracy(Criteria.ACCURACY_FINE);
         if (provider.equals(locationManager.getBestProvider(criteria, true))) {
-            Log.d(TAG, "	best provider (" + provider + ") already running");
+            LogManager.d(TAG, "	best provider (" + provider + ") already running");
             return true;
         }
         provider = locationManager.getBestProvider(criteria, true);
         removeUpdates();
         locationManager.requestLocationUpdates(provider, MIN_TIME, MIN_DISTANCE, this);
-        Log.d(TAG, "request for enable best provider: enabled");
+        LogManager.d(TAG, "request for enable best provider: enabled");
         isUpdating = true;
         return true;
     }

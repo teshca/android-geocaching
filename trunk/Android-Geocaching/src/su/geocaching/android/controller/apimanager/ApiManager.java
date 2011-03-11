@@ -3,8 +3,9 @@ package su.geocaching.android.controller.apimanager;
 import com.google.android.maps.GeoPoint;
 import org.xml.sax.InputSource;
 import org.xml.sax.SAXException;
+
+import su.geocaching.android.controller.LogManager;
 import su.geocaching.android.model.datatype.GeoCache;
-import su.geocaching.android.utils.log.LogHelper;
 
 import javax.xml.parsers.ParserConfigurationException;
 import javax.xml.parsers.SAXParser;
@@ -37,12 +38,12 @@ public class ApiManager implements IApiManager {
         id = (int) (Math.random() * 1E6);
         geoCaches = new LinkedList<GeoCache>();
         rusLocale = new Locale("ru");
-        LogHelper.d(TAG, "new ApiManager Created");
+        LogManager.d(TAG, "new ApiManager Created");
     }
 
     @Override
     public synchronized List<GeoCache> getGeoCacheList(GeoPoint upperLeftCorner, GeoPoint lowerRightCorner) {
-        LogHelper.d(TAG, "getGeoCacheList");
+        LogManager.d(TAG, "getGeoCacheList");
 
         double maxLatitude = (double) upperLeftCorner.getLatitudeE6() / 1E6;
         double minLatitude = (double) lowerRightCorner.getLatitudeE6() / 1E6;
@@ -50,7 +51,7 @@ public class ApiManager implements IApiManager {
         double minLongitude = (double) upperLeftCorner.getLongitudeE6() / 1E6;
 
         if (maxLatitude == minLatitude && maxLongitude == minLongitude) {
-            LogHelper.d(TAG, "Size of obtained listGeoCaches: 0");
+            LogManager.d(TAG, "Size of obtained listGeoCaches: 0");
             return filterGeoCaches(maxLatitude, minLatitude, maxLongitude, minLongitude);
         }
 
@@ -63,7 +64,7 @@ public class ApiManager implements IApiManager {
             connection = (HttpURLConnection) url.openConnection();
 
             if (connection.getResponseCode() != HttpURLConnection.HTTP_OK) {
-                LogHelper.e(TAG, "Can't connect to geocaching.su. Response: " + connection.getResponseCode());
+                LogManager.e(TAG, "Can't connect to geocaching.su. Response: " + connection.getResponseCode());
             }
 
             InputSource geoCacheXml = new InputSource(new InputStreamReader(connection.getInputStream(), ENCODING));
@@ -71,27 +72,27 @@ public class ApiManager implements IApiManager {
             parser.parse(geoCacheXml, handler);
             geoCaches.addAll(handler.getGeoCaches());
         } catch (MalformedURLException e) {
-            LogHelper.e(TAG, e.getMessage(), e);
+            LogManager.e(TAG, e.getMessage(), e);
         } catch (IOException e) {
-            LogHelper.e(TAG, e.getMessage(), e);
+            LogManager.e(TAG, e.getMessage(), e);
         } catch (SAXException e) {
-            LogHelper.e(TAG, e.getMessage(), e);
+            LogManager.e(TAG, e.getMessage(), e);
         } catch (ParserConfigurationException e) {
-            LogHelper.e(TAG, e.getMessage(), e);
+            LogManager.e(TAG, e.getMessage(), e);
         } finally {
             if (connection != null) {
                 connection.disconnect();
             }
         }
 
-        LogHelper.d(TAG, "Size of obtained listGeoCaches: " + geoCaches.size());
+        LogManager.d(TAG, "Size of obtained listGeoCaches: " + geoCaches.size());
         return filterGeoCaches(maxLatitude, minLatitude, maxLongitude, minLongitude);
     }
 
     private URL generateUrl(double maxLatitude, double minLatitude, double maxLongitude, double minLongitude) throws MalformedURLException {
         String request = String.format(rusLocale, "%s?lngmax=%f&lngmin=%f&latmax=%f&latmin=%f&id=%d&geocaching=5767e405a17c4b0e1cbaecffdb93475d", URL, maxLongitude, minLongitude, maxLatitude,
                 minLatitude, id);
-        LogHelper.d(TAG, "generated Url: " + request);
+        LogManager.d(TAG, "generated Url: " + request);
         return new URL(request);
     }
 
@@ -104,7 +105,7 @@ public class ApiManager implements IApiManager {
                 filteredGeoCaches.add(gc);
             }
         }
-        LogHelper.d(TAG, "filterGeoCaches: " + filteredGeoCaches.size());
+        LogManager.d(TAG, "filterGeoCaches: " + filteredGeoCaches.size());
         return filteredGeoCaches;
     }
 

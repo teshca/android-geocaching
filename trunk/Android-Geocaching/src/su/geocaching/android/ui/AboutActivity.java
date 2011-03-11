@@ -2,13 +2,14 @@ package su.geocaching.android.ui;
 
 import android.app.Activity;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
 import android.widget.TextView;
 import com.google.android.apps.analytics.GoogleAnalyticsTracker;
 import su.geocaching.android.controller.Controller;
+import su.geocaching.android.controller.LogManager;
 
 public class AboutActivity extends Activity {
+    private static final String TAG = AboutActivity.class.getCanonicalName();
 
     private GoogleAnalyticsTracker tracker;
     private TextView tv;
@@ -16,7 +17,7 @@ public class AboutActivity extends Activity {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        Log.d("about", "on create");
+        LogManager.d(TAG, "on create");
         setContentView(R.layout.about);
         tv = (TextView) findViewById(R.id.about_content);
         tracker = GoogleAnalyticsTracker.getInstance();
@@ -35,6 +36,6 @@ public class AboutActivity extends Activity {
     public void onExitClick(View v) {
         tracker.stop();
         super.finish();
-        Log.d("aboutActivity", "exit");
+        LogManager.d(TAG, "exit");
     }
 }

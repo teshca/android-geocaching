@@ -7,7 +7,6 @@ import android.location.Location;
 import android.location.LocationManager;
 import android.location.LocationProvider;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
@@ -23,7 +22,6 @@ import su.geocaching.android.controller.compass.SmoothCompassThread;
 import su.geocaching.android.ui.R;
 import su.geocaching.android.utils.GpsHelper;
 import su.geocaching.android.utils.UiHelper;
-import su.geocaching.android.utils.log.LogHelper;
 
 /**
  * Search GeoCache with the compass.
@@ -52,7 +50,7 @@ public class SearchGeoCacheCompass extends Activity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        LogHelper.d(TAG, "on create");
+        LogManager.d(TAG, "on create");
         setContentView(R.layout.search_geocache_compass);
 
         compassView = (CompassView) findViewById(R.id.compassView);
@@ -77,7 +75,7 @@ public class SearchGeoCacheCompass extends Activity {
     @Override
     protected void onResume() {
         super.onResume();
-        LogHelper.d(TAG, "onResume");
+        LogManager.d(TAG, "onResume");
         compassView.setKeepScreenOn(Controller.getInstance().getKeepScreenOnPreference(compassView.getContext()));
         runLogic();
         startAnimation();
@@ -88,7 +86,7 @@ public class SearchGeoCacheCompass extends Activity {
      */
     private void runLogic() {
         if (controller.getSearchingGeoCache() == null) {
-            Log.e(TAG, "runLogic: null geocache. Finishing.");
+            LogManager.e(TAG, "runLogic: null geocache. Finishing.");
             Toast.makeText(this, this.getString(R.string.search_geocache_error_no_geocache), Toast.LENGTH_LONG).show();
             finish();
             return;
@@ -98,11 +96,11 @@ public class SearchGeoCacheCompass extends Activity {
         // controller.setLastSearchedGeoCache(geoCache, this);
 
         if (locationManager.hasLocation()) {
-            Log.d(TAG, "runLogic: location fixed. Update location with last known location");
+            LogManager.d(TAG, "runLogic: location fixed. Update location with last known location");
             locationListener.updateLocation(locationManager.getLastKnownLocation());
             progressBarView.setVisibility(View.GONE);
         } else {
-            LogHelper.d(TAG, "run logic: location not fixed. Show gps status");
+            LogManager.d(TAG, "run logic: location not fixed. Show gps status");
             onBestProviderUnavailable();
             progressBarView.setVisibility(View.VISIBLE);
         }
@@ -114,7 +112,7 @@ public class SearchGeoCacheCompass extends Activity {
 
     @Override
     protected void onPause() {
-        LogHelper.d(TAG, "onPause");
+        LogManager.d(TAG, "onPause");
         locationManager.removeSubsriber(locationListener);
         gpsManager.removeSubsriber(gpsListener);
         stopAnimation();
@@ -240,7 +238,7 @@ public class SearchGeoCacheCompass extends Activity {
 
         @Override
         public void onStatusChanged(String provider, int status, Bundle extras) {
-            Log.d(TAG, "onStatusChanged:");
+            LogManager.d(TAG, "onStatusChanged:");
             switch (status) {
                 case LocationProvider.OUT_OF_SERVICE:
                     onBestProviderUnavailable();
@@ -262,9 +260,9 @@ public class SearchGeoCacheCompass extends Activity {
 
         @Override
         public void onProviderDisabled(String provider) {
-            Log.d(TAG, "onProviderDisabled provider: " + provider);
+            LogManager.d(TAG, "onProviderDisabled provider: " + provider);
             if (!locationManager.isBestProviderEnabled()) {
-                Log.d(TAG, "onStatusChanged: best provider (" + locationManager.getBestProvider() + ") disabled. Ask turn on.");
+                LogManager.d(TAG, "onStatusChanged: best provider (" + locationManager.getBestProvider() + ") disabled. Ask turn on.");
                 onBestProviderUnavailable();
                 UiHelper.askTurnOnGps(activity);
             }

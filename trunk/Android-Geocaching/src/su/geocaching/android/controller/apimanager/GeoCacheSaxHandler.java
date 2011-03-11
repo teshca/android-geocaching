@@ -1,10 +1,11 @@
 package su.geocaching.android.controller.apimanager;
 
-import android.util.Log;
 import com.google.android.maps.GeoPoint;
 import org.xml.sax.Attributes;
 import org.xml.sax.SAXException;
 import org.xml.sax.helpers.DefaultHandler;
+
+import su.geocaching.android.controller.LogManager;
 import su.geocaching.android.model.datatype.GeoCache;
 import su.geocaching.android.model.datatype.GeoCacheStatus;
 import su.geocaching.android.model.datatype.GeoCacheType;
@@ -109,7 +110,7 @@ public class GeoCacheSaxHandler extends DefaultHandler {
         try {
             result = (int) (Double.parseDouble(coordinate) * 1E6);
         } catch (NumberFormatException e) {
-            Log.e(TAG, "parseCoordinate: Invalid numeric format", e);
+            LogManager.e(TAG, "parseCoordinate: Invalid numeric format", e);
         }
         return result;
     }
@@ -122,7 +123,7 @@ public class GeoCacheSaxHandler extends DefaultHandler {
         try {
             defaultValue = Integer.parseInt(number);
         } catch (NumberFormatException e) {
-            Log.e(TAG, "parseInt: Invalid numeric format", e);
+            LogManager.e(TAG, "parseInt: Invalid numeric format", e);
         }
         return defaultValue;
     }
