@@ -104,7 +104,7 @@ public class ShowGeoCacheInfo extends Activity implements OnCheckedChangeListene
     @Override
     protected void onResume() {
         super.onResume();
-        webView.setKeepScreenOn(Controller.getInstance().getKeepScreenOnPreference(webView.getContext()));
+        webView.setKeepScreenOn(Controller.getInstance().getPreferencesManager().getKeepScreenOnPreference());
     }
 
     @Override

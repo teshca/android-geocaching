@@ -1,17 +1,13 @@
 package su.geocaching.android.controller;
 
 import android.content.Context;
-import android.content.SharedPreferences;
 import android.hardware.SensorManager;
 import android.location.LocationManager;
 import com.google.android.maps.GeoPoint;
 import su.geocaching.android.controller.apimanager.ApiManager;
 import su.geocaching.android.controller.apimanager.DownloadGeoCacheTask;
 import su.geocaching.android.controller.apimanager.IApiManager;
-import su.geocaching.android.model.datastorage.DbManager;
 import su.geocaching.android.model.datatype.GeoCache;
-import su.geocaching.android.model.datatype.GeoCacheStatus;
-import su.geocaching.android.model.datatype.GeoCacheType;
 import su.geocaching.android.ui.geocachemap.ConnectionManager;
 import su.geocaching.android.ui.selectgeocache.SelectGeoCacheMap;
 
@@ -21,22 +17,17 @@ import su.geocaching.android.ui.selectgeocache.SelectGeoCacheMap;
  */
 public class Controller {
     private static final String TAG = Controller.class.getCanonicalName();
-    private static final String PREFERENCES_NAME = "geoCaching_preferences";
-
-    private static final int DEFAULT_CENTER_LONGITUDE = 29828674;
-    private static final int DEFAULT_CENTER_LATITUDE = 59879904;
-    private static final int DEFAULT_ZOOM = 13;
 
     private static Controller instance;
 
     private IApiManager apiManager;
 
-    private GeoCache lastSearchedGeoCache;
     private GeoCacheLocationManager locationManager;
     private CompassManager compassManager;
     private GpsStatusManager gpsStatusManager;
     private ConnectionManager connectionManager;
     private ResourceManager resourceManager;
+    private PreferencesManager preferencesManager;
     private GeoCache searchingGeoCache;
 
     private Controller() {
@@ -120,6 +111,16 @@ public class Controller {
     }
 
     /**
+     * @return resource manager which can give you application preferences
+     */
+    public synchronized PreferencesManager getPreferencesManager() {
+        if (preferencesManager == null) {
+            LogManager.e(TAG, "preferences manager wasn't init yet", new NullPointerException("preferences manager wasn't init yet"));
+        }
+        return preferencesManager;
+    }
+
+    /**
      * @param context
      *            for init manager
      * @return location manager which can send to ILocationAware location updates
@@ -185,67 +186,16 @@ public class Controller {
     }
 
     /**
-     * Get id of last searched geocache from preferences and get GeoCache object from database
-     * 
+     * @return resource manager which can give you application preferences
      * @param context
-     *            Context for connection to db and loading preferences
-     * @return last searched geocache by user saved in preferences
+     *            for init manager
      */
-    public synchronized GeoCache getLastSearchedGeoCache(Context context) {
-        SharedPreferences settings = context.getSharedPreferences(PREFERENCES_NAME, 0);
-        int desiredGeoCacheId = settings.getInt(GeoCache.class.getCanonicalName(), -1);
-        DbManager dbm = new DbManager(context);
-        dbm.openDB();
-        lastSearchedGeoCache = dbm.getCacheByID(desiredGeoCacheId);
-        dbm.closeDB();
-        return lastSearchedGeoCache;
-    }
-
-    /**
-     * Save last searched geocache id in preferences
-     * 
-     * @param lastSearchedGeoCache
-     *            last searched geoCache
-     * @param context
-     *            for connection to db and saving it to preferences
-     */
-    public synchronized void setLastSearchedGeoCache(GeoCache lastSearchedGeoCache, Context context) {
-        if (lastSearchedGeoCache != null) {
-            LogManager.d(TAG, "Save last searched geocache (id=" + Integer.toString(lastSearchedGeoCache.getId()) + ") in settings");
-            SharedPreferences settings = context.getSharedPreferences(PREFERENCES_NAME, 0);
-            SharedPreferences.Editor editor = settings.edit();
-            editor.putInt(GeoCache.class.getCanonicalName(), lastSearchedGeoCache.getId());
-            // Commit the edits!
-            editor.commit();
+    public synchronized PreferencesManager getPreferencesManager(Context context) {
+        if (preferencesManager == null) {
+            LogManager.d(TAG, "preferences manager wasn't init yet. init.");
+            preferencesManager = new PreferencesManager(context);
         }
-        this.lastSearchedGeoCache = lastSearchedGeoCache;
-    }
-
-    public synchronized void setLastMapInfo(GeoPoint center, int zoom, Context context) {
-        if (center != null) {
-            LogManager.d(TAG, "Save last map center (" + center.getLatitudeE6() + ", " + center.getLongitudeE6() + ") in settings");
-            SharedPreferences settings = context.getSharedPreferences(PREFERENCES_NAME, 0);
-            SharedPreferences.Editor editor = settings.edit();
-            editor.putInt("center_x", center.getLatitudeE6());
-            editor.putInt("center_y", center.getLongitudeE6());
-            editor.putInt("zoom", zoom);
-            // Commit the edits!
-            editor.commit();
-        }
-    }
-
-    /**
-     * @return [0] - last center latitude [1] - last center longitude [2] - last zoom
-     */
-    public synchronized int[] getLastMapInfo(Context context) {
-        SharedPreferences settings = context.getSharedPreferences(PREFERENCES_NAME, 0);
-        int center_x = settings.getInt("center_x", DEFAULT_CENTER_LATITUDE);
-        int center_y = settings.getInt("center_y", DEFAULT_CENTER_LONGITUDE);
-        int zoom = settings.getInt("zoom", DEFAULT_ZOOM);
-        LogManager.d("lastMapInfo", "X = " + center_x + "; def = " + DEFAULT_CENTER_LATITUDE);
-        LogManager.d("lastMapInfo", "Y = " + center_y + "; def = " + DEFAULT_CENTER_LONGITUDE);
-        LogManager.d("lastMapInfo", "zoom = " + zoom + "; def = " + DEFAULT_ZOOM);
-        return new int[] { center_x, center_y, zoom };
+        return preferencesManager;
     }
 
     public GeoCache getSearchingGeoCache() {
@@ -254,26 +204,6 @@ public class Controller {
 
     public void setSearchingGeoCache(GeoCache searchedGeoCache) {
         this.searchingGeoCache = searchedGeoCache;
-    }
-
-    public boolean getWayCacheAdding(Context context) {
-        return MapPreferenceManager.getPreference(context).getAddingCacheWayString();
-    }
-
-    public String getMapTypeString(Context context) {
-        return MapPreferenceManager.getPreference(context).getMapTypeString();
-    }
-
-    public Boolean getStatusFilter(Context context, GeoCacheStatus status) {
-        return MapPreferenceManager.getPreference(context).getStatusFilter(status);
-    }
-
-    public Boolean getTypeFilter(Context context, GeoCacheType status) {
-        return MapPreferenceManager.getPreference(context).getTypeFilter(status);
-    }
-
-    public boolean getKeepScreenOnPreference(Context context) {
-        return DashboardPreferenceManager.getPreference(context).getKeepScreenOnPreference();
     }
 
     /**
@@ -297,6 +227,9 @@ public class Controller {
         }
         if (resourceManager == null) {
             resourceManager = new ResourceManager(context);
+        }
+        if (preferencesManager == null) {
+            preferencesManager = new PreferencesManager(context);
         }
     }
 }

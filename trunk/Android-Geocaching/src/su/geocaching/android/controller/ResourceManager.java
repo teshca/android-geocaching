@@ -8,9 +8,9 @@ import su.geocaching.android.ui.R;
 
 /**
  * Manager which can get access to application resources
- *
+ * 
  * @author Grigory Kalabin. grigory.kalabin@gmail.com
- * @Mar 8, 2011
+ * @since March 2011
  */
 public class ResourceManager {
     private Context context;
@@ -41,8 +41,9 @@ public class ResourceManager {
 
     /**
      * Return marker for map of input geoCache
-     *
-     * @param geoCache we want to draw on the map
+     * 
+     * @param geoCache
+     *            we want to draw on the map
      * @return Drawable for this geoCache depends on it's parameters
      */
     public Drawable getMarker(GeoCache geoCache) {
@@ -54,8 +55,9 @@ public class ResourceManager {
 
     /**
      * Return marker resource id of input geoCache
-     *
-     * @param geoCache we want to draw on the map
+     * 
+     * @param geoCache
+     *            we want to draw on the map
      * @return Drawable for this geoCache depends on it's parameters
      */
     public int getMarkerResId(GeoCache geoCache) {
@@ -120,8 +122,9 @@ public class ResourceManager {
 
     /**
      * Set bounds to marker
-     *
-     * @param resource id of marker
+     * 
+     * @param resource
+     *            id of marker
      * @return marker with set bounds
      */
     private Drawable getMarker(int resource) {
@@ -131,7 +134,8 @@ public class ResourceManager {
     }
 
     /**
-     * @param geoCache input geo cache
+     * @param geoCache
+     *            input geo cache
      * @return localized name of geocache status
      */
     public String getGeoCacheStatus(GeoCache geoCache) {
@@ -148,12 +152,13 @@ public class ResourceManager {
                 return getString(R.string.status_geocache_not_active_checkpoint);
             default:
                 return getString(R.string.status_geocache_unknown);
-            // what a terrible failure?
+                // what a terrible failure?
         }
     }
 
     /**
-     * @param geoCache input geo cache
+     * @param geoCache
+     *            input geo cache
      * @return localized name of geocache type
      */
     public String getGeoCacheType(GeoCache geoCache) {
@@ -172,7 +177,7 @@ public class ResourceManager {
                 return getString(R.string.type_geocache_checkpoint);
             default:
                 return getString(R.string.status_geocache_unknown);
-            // what a terrible failure?
+                // what a terrible failure?
         }
     }
 }

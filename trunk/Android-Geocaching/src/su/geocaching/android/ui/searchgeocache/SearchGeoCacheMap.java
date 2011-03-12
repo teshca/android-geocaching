@@ -169,7 +169,7 @@ public class SearchGeoCacheMap extends MapActivity implements IInternetAware, IL
     protected void onResume() {
         super.onResume();
         LogManager.d(TAG, "on pause");
-        map.setKeepScreenOn(Controller.getInstance().getKeepScreenOnPreference(map.getContext()));
+        map.setKeepScreenOn(Controller.getInstance().getPreferencesManager().getKeepScreenOnPreference());
 
         if (!mLocationManager.isBestProviderEnabled()) {
             if (!mLocationManager.isBestProviderGps()) {
@@ -188,7 +188,7 @@ public class SearchGeoCacheMap extends MapActivity implements IInternetAware, IL
 
             // Save last searched geocache
             if (mController.getSearchingGeoCache().getType() != GeoCacheType.CHECKPOINT) {
-                mController.setLastSearchedGeoCache(mController.getSearchingGeoCache(), this);
+                Controller.getInstance().getPreferencesManager().setLastSearchedGeoCache(mController.getSearchingGeoCache());
             }
 
             if (!mLocationManager.hasLocation()) {

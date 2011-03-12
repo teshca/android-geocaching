@@ -1,6 +1,5 @@
 package su.geocaching.android.controller.apimanager;
 
-import android.content.Context;
 import android.os.AsyncTask;
 import com.google.android.maps.GeoPoint;
 import su.geocaching.android.controller.Controller;
@@ -30,16 +29,15 @@ public class DownloadGeoCacheTask extends AsyncTask<GeoPoint, Integer, List<GeoC
     private void initFilterLists() {
         typeFilterList = new LinkedList<GeoCacheType>();
         statusFilterList = new LinkedList<GeoCacheStatus>();
-        Context mapContext = map.getMapView().getContext();
 
         for (GeoCacheType type : EnumSet.allOf(GeoCacheType.class)) {
-            if (controller.getTypeFilter(mapContext, type)) {
+            if (controller.getPreferencesManager().getTypeFilter(type)) {
                 typeFilterList.add(type);
             }
         }
 
         for (GeoCacheStatus status : EnumSet.allOf(GeoCacheStatus.class)) {
-            if (controller.getStatusFilter(mapContext, status)) {
+            if (controller.getPreferencesManager().getStatusFilter(status)) {
                 statusFilterList.add(status);
             }
         }
@@ -71,7 +69,7 @@ public class DownloadGeoCacheTask extends AsyncTask<GeoPoint, Integer, List<GeoC
 
     @Override
     protected void onPostExecute(List<GeoCache> gcList) {
-        if (Controller.getInstance().getWayCacheAdding(map.getMapView().getContext())) {
+        if (Controller.getInstance().getPreferencesManager().getAddingCacheWayString()) {
             map.testAddGeoCacheList(gcList);
         } else {
             map.addGeoCacheList(gcList);

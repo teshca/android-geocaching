@@ -54,7 +54,6 @@ public class SelectGeoCacheMap extends MapActivity implements IInternetAware {
     private Handler handler;
     private GoogleAnalyticsTracker tracker;
 
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -123,7 +122,7 @@ public class SelectGeoCacheMap extends MapActivity implements IInternetAware {
     }
 
     private void updateMapInfoFromSettings() {
-        int[] lastMapInfo = Controller.getInstance().getLastMapInfo(this);
+        int[] lastMapInfo = Controller.getInstance().getPreferencesManager().getLastMapInfo();
         GeoPoint lastCenter = new GeoPoint(lastMapInfo[0], lastMapInfo[1]);
         LogManager.d("mapInfo", "X = " + lastMapInfo[0]);
         LogManager.d("mapInfo", "Y = " + lastMapInfo[1]);
@@ -136,7 +135,7 @@ public class SelectGeoCacheMap extends MapActivity implements IInternetAware {
     }
 
     private void saveMapInfoToSettings() {
-        Controller.getInstance().setLastMapInfo(map.getMapCenter(), map.getZoomLevel(), this);
+        Controller.getInstance().getPreferencesManager().setLastMapInfo(map.getMapCenter(), map.getZoomLevel());
     }
 
     @Override
@@ -154,8 +153,8 @@ public class SelectGeoCacheMap extends MapActivity implements IInternetAware {
     @Override
     protected void onResume() {
         super.onResume();
-        map.setKeepScreenOn(Controller.getInstance().getKeepScreenOnPreference(map.getContext()));
-        map.setSatellite(!Controller.getInstance().getMapTypeString(map.getContext()).equals("MAP"));
+        map.setKeepScreenOn(Controller.getInstance().getPreferencesManager().getKeepScreenOnPreference());
+        map.setSatellite(!Controller.getInstance().getPreferencesManager().getMapTypeString().equals("MAP"));
 
         userOverlay.enableMyLocation();
         selectCacheOverlay.clear();
@@ -282,14 +281,13 @@ public class SelectGeoCacheMap extends MapActivity implements IInternetAware {
             return;
         }
         AlertDialog.Builder builder = new AlertDialog.Builder(context);
-        builder.setMessage(context.getString(R.string.ask_enable_internet_text)).setCancelable(false)
-                .setPositiveButton(context.getString(R.string.yes), new DialogInterface.OnClickListener() {
-                    public void onClick(DialogInterface dialog, int id) {
-                        Intent startGPS = new Intent(Settings.ACTION_WIRELESS_SETTINGS);
-                        context.startActivity(startGPS);
-                        dialog.cancel();
-                    }
-                }).setNegativeButton(context.getString(R.string.no), new DialogInterface.OnClickListener() {
+        builder.setMessage(context.getString(R.string.ask_enable_internet_text)).setCancelable(false).setPositiveButton(context.getString(R.string.yes), new DialogInterface.OnClickListener() {
+            public void onClick(DialogInterface dialog, int id) {
+                Intent startGPS = new Intent(Settings.ACTION_WIRELESS_SETTINGS);
+                context.startActivity(startGPS);
+                dialog.cancel();
+            }
+        }).setNegativeButton(context.getString(R.string.no), new DialogInterface.OnClickListener() {
             public void onClick(DialogInterface dialog, int id) {
                 dialog.cancel();
                 finish();
@@ -300,10 +298,10 @@ public class SelectGeoCacheMap extends MapActivity implements IInternetAware {
     }
 
     /*
-      * (non-Javadoc)
-      *
-      * @see android.app.Activity#onWindowFocusChanged(boolean)
-      */
+     * (non-Javadoc)
+     * 
+     * @see android.app.Activity#onWindowFocusChanged(boolean)
+     */
     @Override
     public void onWindowFocusChanged(boolean hasFocus) {
         super.onWindowFocusChanged(hasFocus);

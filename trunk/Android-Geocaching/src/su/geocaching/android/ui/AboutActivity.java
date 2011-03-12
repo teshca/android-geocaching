@@ -30,7 +30,7 @@ public class AboutActivity extends Activity {
     @Override
     protected void onResume() {
         super.onResume();
-        tv.setKeepScreenOn(Controller.getInstance().getKeepScreenOnPreference(tv.getContext()));
+        tv.setKeepScreenOn(Controller.getInstance().getPreferencesManager().getKeepScreenOnPreference());
     }
 
     public void onExitClick(View v) {
