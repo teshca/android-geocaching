@@ -5,6 +5,10 @@ import android.content.IntentFilter;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 
+import java.io.IOException;
+import java.net.HttpURLConnection;
+import java.net.MalformedURLException;
+import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -18,6 +22,8 @@ import su.geocaching.android.controller.LogManager;
  */
 public class ConnectionManager {
     private static final String TAG = ConnectionManager.class.getCanonicalName();
+
+    private static final String CONTROL_URL = "http://pda.geocaching.su";
 
     private List<IInternetAware> subscribers;
     private ConnectivityManager connectivityManager;
@@ -94,7 +100,28 @@ public class ConnectionManager {
      */
     public boolean isInternetConnected() {
         NetworkInfo activeNetInfo = connectivityManager.getActiveNetworkInfo();
-        return activeNetInfo != null && activeNetInfo.isConnected();
+        boolean res =  activeNetInfo != null && activeNetInfo.isConnected();
+        URL url;
+        HttpURLConnection connection;
+        try {
+            url = new URL(CONTROL_URL);
+            connection = (HttpURLConnection) url.openConnection();
+            if (connection.getResponseCode() != HttpURLConnection.HTTP_OK) {
+                res = false;
+                LogManager.d(TAG, "Check connection: not reachable ("+CONTROL_URL+") Response: " + connection.getResponseCode());
+            } else {
+                LogManager.d(TAG, "Check connection: reachable ("+CONTROL_URL+")");
+            }
+            connection.disconnect();
+        } catch (MalformedURLException e) {
+            LogManager.e(TAG, "Check connection: mailformed url ("+CONTROL_URL+")");
+            e.printStackTrace();
+            res = false;
+        } catch (IOException e) {
+            res = false;
+            LogManager.w(TAG, "Check connection: IO exception ("+CONTROL_URL+")",e);
+        }
+        return res;
     }
 
     /**
