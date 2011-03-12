@@ -6,7 +6,7 @@ import android.util.Log;
  * Manager for logging
  * 
  * @author Grigory Kalabin. grigory.kalabin@gmail.com
- * @Mar 8, 2011
+ * @since March 2011
  */
 public class LogManager {
     private static final boolean DEBUG = true; // it is constant really need, because compiler can remove code blocks which cannot be execute
