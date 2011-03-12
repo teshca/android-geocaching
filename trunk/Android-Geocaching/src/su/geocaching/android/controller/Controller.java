@@ -18,11 +18,11 @@ import su.geocaching.android.ui.selectgeocache.SelectGeoCacheMap;
 
 /**
  * @author Yuri Denison
- * @date 04.11.2010
+ * @since 04.11.2010
  */
 public class Controller {
     private static final String TAG = Controller.class.getCanonicalName();
-    private static final String PREFS_NAME = "geocaching_prefs";
+    private static final String PREFERENCES_NAME = "geoCaching_preferences";
 
     private static final int DEFAULT_CENTER_LONGITUDE = 29828674;
     private static final int DEFAULT_CENTER_LATITUDE = 59879904;
@@ -32,7 +32,6 @@ public class Controller {
 
     private IApiManager apiManager;
 
-    //private GeoPoint lastCenter;
     private GeoCache lastSearchedGeoCache;
     private GeoCacheLocationManager locationManager;
     private CompassManager compassManager;
@@ -125,7 +124,7 @@ public class Controller {
      * @return last searched geocache by user saved in preferences
      */
     public synchronized GeoCache getLastSearchedGeoCache(Context context) {
-        SharedPreferences settings = context.getSharedPreferences(PREFS_NAME, 0);
+        SharedPreferences settings = context.getSharedPreferences(PREFERENCES_NAME, 0);
         int desiredGeoCacheId = settings.getInt(GeoCache.class.getCanonicalName(), -1);
         DbManager dbm = new DbManager(context);
         dbm.openDB();
@@ -143,7 +142,7 @@ public class Controller {
     public synchronized void setLastSearchedGeoCache(GeoCache lastSearchedGeoCache, Context context) {
         if (lastSearchedGeoCache != null) {
             LogManager.d(TAG, "Save last searched geocache (id=" + Integer.toString(lastSearchedGeoCache.getId()) + ") in settings");
-            SharedPreferences settings = context.getSharedPreferences(PREFS_NAME, 0);
+            SharedPreferences settings = context.getSharedPreferences(PREFERENCES_NAME, 0);
             SharedPreferences.Editor editor = settings.edit();
             editor.putInt(GeoCache.class.getCanonicalName(), lastSearchedGeoCache.getId());
             // Commit the edits!
@@ -155,7 +154,7 @@ public class Controller {
     public synchronized void setLastMapInfo(GeoPoint center, int zoom, Context context) {
         if (center != null) {
             LogManager.d(TAG, "Save last map center (" + center.getLatitudeE6() + ", " + center.getLongitudeE6() + ") in settings");
-            SharedPreferences settings = context.getSharedPreferences(PREFS_NAME, 0);
+            SharedPreferences settings = context.getSharedPreferences(PREFERENCES_NAME, 0);
             SharedPreferences.Editor editor = settings.edit();
             editor.putInt("center_x", center.getLatitudeE6());
             editor.putInt("center_y", center.getLongitudeE6());
@@ -163,14 +162,13 @@ public class Controller {
             // Commit the edits!
             editor.commit();
         }
-        //this.lastCenter = center;
     }
 
     /**
      * @return [0] - last center latitude [1] - last center longitude [2] - last zoom
      */
     public synchronized int[] getLastMapInfo(Context context) {
-        SharedPreferences settings = context.getSharedPreferences(PREFS_NAME, 0);
+        SharedPreferences settings = context.getSharedPreferences(PREFERENCES_NAME, 0);
         int center_x = settings.getInt("center_x", DEFAULT_CENTER_LATITUDE);
         int center_y = settings.getInt("center_y", DEFAULT_CENTER_LONGITUDE);
         int zoom = settings.getInt("zoom", DEFAULT_ZOOM);
