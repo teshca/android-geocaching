@@ -3,30 +3,30 @@ package su.geocaching.android.ui.searchgeocache.stepbystep;
 import su.geocaching.android.controller.Controller;
 import su.geocaching.android.ui.R;
 import su.geocaching.android.ui.geocachemap.CheckpointCacheOverlay;
+import su.geocaching.android.utils.GpsHelper;
 import android.app.Dialog;
 import android.content.Context;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
+import android.widget.TextView;
 
 import com.google.android.maps.MapView;
 
 public class CheckpointDialog extends Dialog {
 
     private Button active, delete;
+    private TextView coordinates;
 
-    private CheckpointCacheOverlay searchOverlay;
+    private CheckpointCacheOverlay checkpointOverlay;
     private MapView map;
     private int index;
 
     public CheckpointDialog(Context context, int index, CheckpointCacheOverlay checkpointCacheOverlay, MapView map) {
         super(context);
 
-        String title = Controller.getInstance().getResourceManager().getString(R.string.checkpoint_dialog_title) + " " + index;
-        setTitle(title);
-        // this.context = context;
         this.index = index;
-        this.searchOverlay = checkpointCacheOverlay;
+        this.checkpointOverlay = checkpointCacheOverlay;
         this.map = map;
     }
 
@@ -35,6 +35,8 @@ public class CheckpointDialog extends Dialog {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.checkpoint_dialog);
 
+        coordinates = (TextView) findViewById(R.id.checkpointCoordinate);
+
         active = (Button) findViewById(R.id.checkpointActiveButton);
         delete = (Button) findViewById(R.id.checkpointDeleteButton);
         ButtonClickListener clickListener = new ButtonClickListener();
@@ -42,14 +44,21 @@ public class CheckpointDialog extends Dialog {
         delete.setOnClickListener(clickListener);
     }
 
+    @Override
+    public void show() {
+        setTitle(checkpointOverlay.getGeoCache(index).getName());
+        coordinates.setText(GpsHelper.coordinateToString(checkpointOverlay.getGeoCache(index).getLocationGeoPoint()));
+        super.show();
+    }
+
     class ButtonClickListener implements android.view.View.OnClickListener {
 
         @Override
         public void onClick(View v) {
             if (v.equals(active)) {
-                Controller.getInstance().setSearchingGeoCache(searchOverlay.getGeoCache(index));
+                Controller.getInstance().setSearchingGeoCache(checkpointOverlay.getGeoCache(index));
             } else if (v.equals(delete)) {
-                searchOverlay.removeOverlayItem(index);
+                checkpointOverlay.removeOverlayItem(index);
             }
             map.invalidate();
             dismiss();

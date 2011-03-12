@@ -138,7 +138,13 @@ public class GpsHelper {
         coordinateE6 += (minutes * 1E3 + mMinutes) * 100 / 6;
         return coordinateE6;
     }
-
+    
+    public static String coordinateToString(GeoPoint location){
+        int[] latitude = coordinateE6ToSexagesimal(location.getLatitudeE6());
+        int[] longitude = coordinateE6ToSexagesimal(location.getLatitudeE6());
+        return String.format("%d' %d,%d / %d' %d,%d", latitude[0], latitude[1], latitude[2], longitude[0], longitude[1], longitude[2]);
+        
+    }
     //TODO still not work
     public static GeoPoint distanceBearingToGeoPoint(GeoPoint currentGeoPoint, int bearing, int distance) {
         double latitude = currentGeoPoint.getLatitudeE6() / 1E6;
