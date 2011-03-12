@@ -78,8 +78,9 @@ public class KMeans {
             centerX += point.getX();
             centerY += point.getY();
         }
-        centerX /= points.size();
-        centerY /= points.size();
+        int size = points.size();
+        centerX /= size;
+        centerY /= size;
         centroid.set(centerX, centerY);
     }
 
