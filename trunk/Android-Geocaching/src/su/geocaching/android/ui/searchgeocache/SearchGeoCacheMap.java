@@ -246,7 +246,6 @@ public class SearchGeoCacheMap extends MapActivity implements IInternetAware, IL
             // It's really first run of update location
             LogManager.d(TAG, "update location: first run of this activity");
             distanceOverlay = new DistanceToGeoCacheOverlay(GpsHelper.locationToGeoPoint(location), mController.getSearchingGeoCache().getLocationGeoPoint());
-            distanceOverlay.setCachePoint(mController.getSearchingGeoCache().getLocationGeoPoint());
             mapOverlays.add(distanceOverlay);
             mapOverlays.add(userOverlay);
             resetZoom();
@@ -255,6 +254,7 @@ public class SearchGeoCacheMap extends MapActivity implements IInternetAware, IL
 
             return;
         }
+        distanceOverlay.setCachePoint(mController.getSearchingGeoCache().getLocationGeoPoint());
         distanceOverlay.setUserPoint(GpsHelper.locationToGeoPoint(location));
 
         map.invalidate();
