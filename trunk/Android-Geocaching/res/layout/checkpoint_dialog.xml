@@ -1,40 +1,30 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-              android:layout_width="fill_parent" android:layout_height="fill_parent"
-              android:orientation="vertical">
+	android:layout_width="fill_parent" android:layout_height="fill_parent"
+	android:orientation="vertical">
 
-    <LinearLayout android:layout_width="fill_parent"
-                  android:layout_height="wrap_content" android:orientation="horizontal">
-        <TextView android:text="@string/latitude" android:minWidth="@dimen/coordinate_label_width"
-                  android:textSize="@dimen/text_size_big" android:layout_width="wrap_content"
-                  android:layout_height="wrap_content"></TextView>
-        <TextView android:id="@+id/checkpointLatitude"
-                  android:textSize="@dimen/text_size_big" android:layout_width="wrap_content"
-                  android:layout_height="wrap_content"></TextView>
-    </LinearLayout>
+	<LinearLayout android:layout_width="fill_parent"
+		android:layout_height="wrap_content" android:orientation="horizontal"
+		android:gravity="center">
 
-    <LinearLayout android:layout_width="fill_parent"
-                  android:layout_height="wrap_content" android:orientation="horizontal">
-        <TextView android:text="@string/longitude" android:minWidth="@dimen/coordinate_label_width"
-                  android:textSize="@dimen/text_size_big" android:layout_width="wrap_content"
-                  android:layout_height="wrap_content"></TextView>
-        <TextView android:id="@+id/checkpointLongitude"
-                  android:textSize="@dimen/text_size_big" android:layout_width="wrap_content"
-                  android:layout_height="wrap_content"></TextView>
-
-    </LinearLayout>
+		<TextView android:id="@+id/checkpointCoordinate"
+			android:textSize="17dip" android:layout_width="wrap_content"
+			android:layout_height="wrap_content"></TextView>
+	</LinearLayout>
 
 
-    <LinearLayout android:layout_width="fill_parent"
-                  android:layout_height="wrap_content" android:orientation="horizontal">
-        <Button android:id="@+id/checkpointActiveButton"
-                android:layout_height="wrap_content" android:text="@string/active"
-                android:layout_width="wrap_content" android:onClick="onActiveClick"
-                android:drawableTop="@drawable/activate"></Button>
-        <Button android:id="@+id/checkpointDeleteButton" android:layout_height="wrap_content"
-                android:text="@string/delete" android:layout_width="wrap_content"
-                android:onClick="onDeleteClick" android:drawableTop="@drawable/delete"></Button>
-    </LinearLayout>
+	<LinearLayout android:layout_width="fill_parent"
+		android:layout_height="wrap_content" android:orientation="horizontal"
+		android:gravity="center" android:paddingTop="10dip">
+		<Button android:id="@+id/checkpointActiveButton"
+			android:layout_height="wrap_content" android:text="@string/active"
+			android:layout_width="wrap_content" android:onClick="onActiveClick"
+			android:drawableTop="@drawable/activate"></Button>
+		<Button android:id="@+id/checkpointDeleteButton"
+			android:layout_height="wrap_content" android:text="@string/delete"
+			android:onClick="onDeleteClick" android:drawableTop="@drawable/delete"
+			android:layout_width="wrap_content"></Button>
+	</LinearLayout>
 
 
 </LinearLayout>

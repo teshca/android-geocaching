@@ -65,6 +65,7 @@ public class SearchGeoCacheMap extends MapActivity implements IInternetAware, IL
     private final String dislocation = "Ваше месторасположение не определено.Повторите попытку позже.";
     private GeoCacheOverlayItem cacheOverlayItem;
     private SearchCacheOverlay searchCacheOverlay;
+    private CheckpointCacheOverlay checkpointCacheOverlay;
     private Drawable cacheMarker;
     private DistanceToGeoCacheOverlay distanceOverlay;
     private UserLocationOverlay userOverlay;
@@ -128,6 +129,13 @@ public class SearchGeoCacheMap extends MapActivity implements IInternetAware, IL
             searchCacheOverlay.addOverlayItem(cacheOverlayItem);
             mapOverlays.add(searchCacheOverlay);
         }
+
+        GeoCache gc = new GeoCache();
+        gc.setType(GeoCacheType.CHECKPOINT);
+        cacheMarker = Controller.getInstance().getResourceManager().getMarker(gc);
+        checkpointCacheOverlay = new CheckpointCacheOverlay(cacheMarker, this, map);
+        mapOverlays.add(checkpointCacheOverlay);
+
     }
 
     /*
@@ -179,7 +187,9 @@ public class SearchGeoCacheMap extends MapActivity implements IInternetAware, IL
             }
 
             // Save last searched geocache
-            mController.setLastSearchedGeoCache(mController.getSearchingGeoCache(), this);
+            if (mController.getSearchingGeoCache().getType() != GeoCacheType.CHECKPOINT) {
+                mController.setLastSearchedGeoCache(mController.getSearchingGeoCache(), this);
+            }
 
             if (!mLocationManager.hasLocation()) {
                 onBestProviderUnavailable();
@@ -251,7 +261,6 @@ public class SearchGeoCacheMap extends MapActivity implements IInternetAware, IL
     }
 
     @Override
-    // id misused
     protected Dialog onCreateDialog(int index) {
         return new CheckpointDialog(this, index, checkpointCacheOverlay, map);
     }
@@ -378,35 +387,26 @@ public class SearchGeoCacheMap extends MapActivity implements IInternetAware, IL
         }
     }
 
-    private CheckpointCacheOverlay checkpointCacheOverlay;
-
     // TODO
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
 
         switch (requestCode) {
+
             case UiHelper.STEP_BY_STEP_REQUEST:
                 if (resultCode == RESULT_OK && data != null) {
                     int latitude = data.getIntExtra(StepByStepTabActivity.LATITUDE, 0);
                     int longitude = data.getIntExtra(StepByStepTabActivity.LONGITUDE, 0);
                     GeoCache gc = new GeoCache();
-                    GeoCache currentGCache = mController.getSearchingGeoCache();
                     gc.setLocationGeoPoint(new GeoPoint(latitude, longitude));
                     gc.setType(GeoCacheType.CHECKPOINT);
-
-                    if (checkpointCacheOverlay == null) {
-                        cacheMarker = Controller.getInstance().getResourceManager().getMarker(gc);
-                        checkpointCacheOverlay = new CheckpointCacheOverlay(cacheMarker, this, map);
-                        mapOverlays.add(checkpointCacheOverlay);
-                    }
 
                     GeoCacheOverlayItem checkpoint = new GeoCacheOverlayItem(gc, "", "");
                     checkpointCacheOverlay.addOverlayItem(checkpoint);
 
-                    gc.setId(currentGCache.getId());
+                    gc.setId(mController.getSearchingGeoCache().getId());
                     gc.setStatus(GeoCacheStatus.ACTIVE_CHECKPOINT);
-                    gc.setName("Checkpoint " + searchCacheOverlay.size());
                     mController.setSearchingGeoCache(gc);
 
                     map.invalidate();
@@ -498,6 +498,7 @@ public class SearchGeoCacheMap extends MapActivity implements IInternetAware, IL
         String statusString = "Location fixed: " + Boolean.toString(mLocationManager.hasLocation()) + ". Provider: " + provider + ". ";
         LogManager.d(TAG, "     " + statusString);
         switch (status) {
+
             case LocationProvider.OUT_OF_SERVICE:
                 statusString += "Status: out of service. ";
                 onBestProviderUnavailable();

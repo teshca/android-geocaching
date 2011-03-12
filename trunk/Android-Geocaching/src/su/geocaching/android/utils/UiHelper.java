@@ -57,7 +57,7 @@ public class UiHelper {
         context.startActivity(intent);
     }
 
-    /**
+    /**F
      * Starts SearchGeoCacheMap activity and finish this
      */
     public static void startMapView(Context context, GeoCache geoCache) {
