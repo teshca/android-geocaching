@@ -1,7 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
               android:layout_width="fill_parent" android:layout_height="fill_parent"
-              android:orientation="vertical" android:background="@color/menu_background">
+              android:orientation="vertical"
+              android:background="@color/menu_background">
 
     <LinearLayout style="@style/TitleBar" android:id="@+id/title_bar"
                   android:background="@drawable/geologo_background">
@@ -12,7 +13,8 @@
     </LinearLayout>
 
     <ListView android:layout_height="wrap_content"
-              android:layout_width="fill_parent" android:id="@+id/favorit_folder_listCach"/>
+              android:layout_width="fill_parent" android:id="@+id/favorit_folder_listCach"
+              android:background="@color/menu_background"/>
 
     <TextView android:gravity="center_horizontal"
               android:layout_width="fill_parent" android:layout_height="wrap_content"
