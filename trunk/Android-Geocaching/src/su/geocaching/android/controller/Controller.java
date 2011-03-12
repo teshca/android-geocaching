@@ -4,7 +4,6 @@ import android.content.Context;
 import android.content.SharedPreferences;
 import android.hardware.SensorManager;
 import android.location.LocationManager;
-import android.net.ConnectivityManager;
 import com.google.android.maps.GeoPoint;
 import su.geocaching.android.controller.apimanager.ApiManager;
 import su.geocaching.android.controller.apimanager.DownloadGeoCacheTask;
@@ -57,13 +56,16 @@ public class Controller {
 
     /**
      * Request for caches in the visible region
-     *
-     * @param map              - links to maps, which will be added caches
-     * @param upperLeftCorner  - upper left corner of the visible area
-     * @param lowerRightCorner - lower right corner of the visible area
+     * 
+     * @param map
+     *            - links to maps, which will be added caches
+     * @param upperLeftCorner
+     *            - upper left corner of the visible area
+     * @param lowerRightCorner
+     *            - lower right corner of the visible area
      */
     public void updateSelectedGeoCaches(SelectGeoCacheMap map, GeoPoint upperLeftCorner, GeoPoint lowerRightCorner) {
-        GeoPoint[] d = {upperLeftCorner, lowerRightCorner};
+        GeoPoint[] d = { upperLeftCorner, lowerRightCorner };
         new DownloadGeoCacheTask(apiManager, map).execute(d);
     }
 
@@ -118,9 +120,75 @@ public class Controller {
     }
 
     /**
+     * @param context
+     *            for init manager
+     * @return location manager which can send to ILocationAware location updates
+     */
+    public synchronized GeoCacheLocationManager getLocationManager(Context context) {
+        if (locationManager == null) {
+            LogManager.d(TAG, "location manager wasn't init yet. init.");
+            locationManager = new GeoCacheLocationManager((LocationManager) context.getSystemService(Context.LOCATION_SERVICE));
+        }
+        return locationManager;
+    }
+
+    /**
+     * @return compass manager which can send to ICompassAware updates of bearing
+     * @param context
+     *            for init manager
+     */
+    public synchronized CompassManager getCompassManager(Context context) {
+        if (compassManager == null) {
+            LogManager.d(TAG, "compass manager wasn't init yet. init.");
+            compassManager = new CompassManager((SensorManager) context.getSystemService(Context.SENSOR_SERVICE));
+        }
+        return compassManager;
+    }
+
+    /**
+     * @return gps status manager which can send to IGpsStatusAware updates of status gps engine
+     * @param context
+     *            for init manager
+     */
+    public synchronized GpsStatusManager getGpsStatusManager(Context context) {
+        if (gpsStatusManager == null) {
+            LogManager.d(TAG, "gps status manager wasn't init yet. init.");
+            gpsStatusManager = new GpsStatusManager((LocationManager) context.getSystemService(Context.LOCATION_SERVICE));
+        }
+        return gpsStatusManager;
+    }
+
+    /**
+     * @return connection manager which can send to IInternetAware updates of internet connection status
+     * @param context
+     *            for init manager
+     */
+    public synchronized ConnectionManager getConnectionManager(Context context) {
+        if (connectionManager == null) {
+            LogManager.d(TAG, "connection manager wasn't init yet. init.");
+            connectionManager = new ConnectionManager(context);
+        }
+        return connectionManager;
+    }
+
+    /**
+     * @return resource manager which can give you application resources
+     * @param context
+     *            for init manager
+     */
+    public synchronized ResourceManager getResourceManager(Context context) {
+        if (resourceManager == null) {
+            LogManager.d(TAG, "resource manager wasn't init yet. init.");
+            resourceManager = new ResourceManager(context);
+        }
+        return resourceManager;
+    }
+
+    /**
      * Get id of last searched geocache from preferences and get GeoCache object from database
-     *
-     * @param context Context for connection to db and loading preferences
+     * 
+     * @param context
+     *            Context for connection to db and loading preferences
      * @return last searched geocache by user saved in preferences
      */
     public synchronized GeoCache getLastSearchedGeoCache(Context context) {
@@ -135,9 +203,11 @@ public class Controller {
 
     /**
      * Save last searched geocache id in preferences
-     *
-     * @param lastSearchedGeoCache last searched geoCache
-     * @param context              for connection to db and saving it to preferences
+     * 
+     * @param lastSearchedGeoCache
+     *            last searched geoCache
+     * @param context
+     *            for connection to db and saving it to preferences
      */
     public synchronized void setLastSearchedGeoCache(GeoCache lastSearchedGeoCache, Context context) {
         if (lastSearchedGeoCache != null) {
@@ -175,7 +245,7 @@ public class Controller {
         LogManager.d("lastMapInfo", "X = " + center_x + "; def = " + DEFAULT_CENTER_LATITUDE);
         LogManager.d("lastMapInfo", "Y = " + center_y + "; def = " + DEFAULT_CENTER_LONGITUDE);
         LogManager.d("lastMapInfo", "zoom = " + zoom + "; def = " + DEFAULT_ZOOM);
-        return new int[]{center_x, center_y, zoom};
+        return new int[] { center_x, center_y, zoom };
     }
 
     public GeoCache getSearchingGeoCache() {
@@ -208,14 +278,25 @@ public class Controller {
 
     /**
      * Initialize all managers with fixed context
-     *
-     * @param context which will be used in all managers
+     * 
+     * @param context
+     *            which will be used in all managers
      */
     public void initManagers(Context context) {
-        compassManager = new CompassManager((SensorManager) context.getSystemService(Context.SENSOR_SERVICE));
-        locationManager = new GeoCacheLocationManager((LocationManager) context.getSystemService(Context.LOCATION_SERVICE));
-        gpsStatusManager = new GpsStatusManager((LocationManager) context.getSystemService(Context.LOCATION_SERVICE));
-        connectionManager = new ConnectionManager((ConnectivityManager) context.getSystemService(Context.CONNECTIVITY_SERVICE));
-        resourceManager = new ResourceManager(context);
+        if (compassManager == null) {
+            compassManager = new CompassManager((SensorManager) context.getSystemService(Context.SENSOR_SERVICE));
+        }
+        if (locationManager == null) {
+            locationManager = new GeoCacheLocationManager((LocationManager) context.getSystemService(Context.LOCATION_SERVICE));
+        }
+        if (gpsStatusManager == null) {
+            gpsStatusManager = new GpsStatusManager((LocationManager) context.getSystemService(Context.LOCATION_SERVICE));
+        }
+        if (connectionManager == null) {
+            connectionManager = new ConnectionManager(context);
+        }
+        if (resourceManager == null) {
+            resourceManager = new ResourceManager(context);
+        }
     }
 }
