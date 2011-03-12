@@ -76,7 +76,7 @@ public class SearchGeoCacheCompass extends Activity {
     protected void onResume() {
         super.onResume();
         LogManager.d(TAG, "onResume");
-        compassView.setKeepScreenOn(Controller.getInstance().getKeepScreenOnPreference(compassView.getContext()));
+        compassView.setKeepScreenOn(Controller.getInstance().getPreferencesManager().getKeepScreenOnPreference());
         runLogic();
         startAnimation();
     }

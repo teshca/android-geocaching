@@ -67,7 +67,7 @@ public class FavoritesFolder extends Activity implements OnItemClickListener {
     @Override
     protected void onResume() {
         super.onResume();
-        tvTitle.setKeepScreenOn(Controller.getInstance().getKeepScreenOnPreference(tvTitle.getContext()));
+        tvTitle.setKeepScreenOn(Controller.getInstance().getPreferencesManager().getKeepScreenOnPreference());
     }
 
     @Override
@@ -76,8 +76,8 @@ public class FavoritesFolder extends Activity implements OnItemClickListener {
         mass = dbm.getArrayGeoCache();
         dbm.closeDB();
         if (mass != null) {
-            SimpleAdapter ap = new SimpleAdapter(this, createGeoCacheList(mass), R.layout.row_in_favorit_rolder, new String[]{"type", "name", "typeText", "statusText"}, new int[]{
-                    R.id.favorit_list_imagebutton_type, R.id.favorit_list_textview_name, R.id.favorites_row_type_text, R.id.favorites_row_statys_text});
+            SimpleAdapter ap = new SimpleAdapter(this, createGeoCacheList(mass), R.layout.row_in_favorit_rolder, new String[] { "type", "name", "typeText", "statusText" }, new int[] {
+                    R.id.favorit_list_imagebutton_type, R.id.favorit_list_textview_name, R.id.favorites_row_type_text, R.id.favorites_row_statys_text });
             lvListShowCache.setAdapter(ap);
             lvListShowCache.setOnItemClickListener(this);
         } else {

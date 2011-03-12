@@ -17,7 +17,7 @@ import su.geocaching.android.ui.selectgeocache.SelectGeoCacheMap;
 
 /**
  * Main activity in application
- *
+ * 
  * @author Android-Geocaching.su student project team
  * @since October 2010
  */
@@ -80,12 +80,12 @@ public class DashboardActivity extends Activity {
      */
     public void onSearchClick(View v) {
         tracker.trackEvent("Click", "Button", "from DashBoardActivity to SearchActivity ", 0);
-        if (Controller.getInstance().getLastSearchedGeoCache(this) == null) {
+        if (Controller.getInstance().getPreferencesManager().getLastSearchedGeoCache() == null) {
             Toast.makeText(this.getBaseContext(), getString(R.string.search_geocache_start_without_geocache), Toast.LENGTH_SHORT).show();
             return;
         }
         Intent intent = new Intent(this, SearchGeoCacheMap.class);
-        intent.putExtra(GeoCache.class.getCanonicalName(), Controller.getInstance().getLastSearchedGeoCache(this));
+        intent.putExtra(GeoCache.class.getCanonicalName(), Controller.getInstance().getPreferencesManager().getLastSearchedGeoCache());
         startActivity(intent);
 
     }
