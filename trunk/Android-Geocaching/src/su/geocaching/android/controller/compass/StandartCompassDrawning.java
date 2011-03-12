@@ -9,7 +9,7 @@ import su.geocaching.android.utils.CompassHelper;
 
 /**
  * Default appearance of the compass
- *
+ * 
  * @author Nikita Bumakov
  */
 public class StandartCompassDrawning extends CompassDrawningHelper {
@@ -32,6 +32,7 @@ public class StandartCompassDrawning extends CompassDrawningHelper {
     public void onSizeChanged(int w, int h) {
         int size = Math.min(h, w);
         center = size / 2;
+        needleWidth = size / 30;
         roseBitmap = Bitmap.createScaledBitmap(roseBitmap, size, size, true);
         needleBitmap = createNeedle();
         arrowBitmap = createCacheArrow();
