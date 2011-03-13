@@ -10,10 +10,16 @@
 	</string>
 	<string name="ask_enable_gps_text">Для дальнейшей работы необходим GPS. Включить?
 	</string>
-
+	<string name="download_info">Скачивание информации</string>
+	<string name="download_notebook">Скачивание блокнота тайника</string>
 	<string name="yes">Да</string>
 	<string name="no">Нет</string>
-	<string name="ask_download_notebook">Сохранить вместе с интернет-блокнотом?</string>
+	<string name="ask_download_notebook_title">Сохранить вместе с интернет-блокнотом?</string>
+	<string name="save_notebook_alwayse_title">Сохранять блокнот</string>
+	<string name="save_notebook_alwayse_key">downloadNoteBookAlways</string>
+	<string name="save_notebook_alwayse_text"> </string>
+    <string name="save_notebook_alwayse_value">false</string>
+    <string name="save_notebook_alwayse_summary">Всегда сохранять блокнот тайника </string>
 	<string name="search_geocache_error_no_geocache">Ошибка!\n\rНечего искать!</string>
 	<string name="search_geocache_start_without_geocache">Перед поиском выберите тайник</string>
 	<string name="search_geocache_internet_lost">Подключение к интернету отсутствует. Могут
@@ -112,5 +118,6 @@
 	<string name="checkpoint_dialog_title">Контрольная точка</string>
 	<string name="active">Активировать</string>
 	<string name="delete">Удалить</string>
+	
 
 </resources>

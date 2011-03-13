@@ -13,24 +13,22 @@ import java.net.URL;
 import su.geocaching.android.ui.R;
 
 public class DownloadWebNotebookTask extends AsyncTask<String, Void, String> {
-    private static final String HTTP_PDA_GEOCACHING_SU = "http://pda.geocaching.su/";
     private DbManager dbManager;
     private boolean isCacheStoredInDataBase;
     private int idCache;
     private Context context;
     private ProgressDialog progressDialog;
-    private WebView webView;
-    public DownloadWebNotebookTask(DbManager db, boolean isCacheStoredInDataBase, int idCache, Context context, WebView web) {
+
+    public DownloadWebNotebookTask(DbManager db, boolean isCacheStoredInDataBase, int idCache, Context context) {
         this.dbManager = db;
         this.isCacheStoredInDataBase = isCacheStoredInDataBase;
         this.idCache = idCache;
         this.context = context;
-        this.webView = web;
     }
     @Override
     protected void onPreExecute() {
         progressDialog = new ProgressDialog(context);
-        progressDialog.setMessage("Скачивание дневника");
+        progressDialog.setMessage(context.getString(R.string.download_notebook));
         progressDialog.show();
     };
     @Override
@@ -52,12 +50,7 @@ public class DownloadWebNotebookTask extends AsyncTask<String, Void, String> {
 
             }
         }
-        if (params[0] == null) {
-            webView.loadData("<?xml version='1.0' encoding='utf-8'?>" + "<center>" + context.getString(R.string.notebook_geocache_not_internet_and_not_in_DB) + "</center>", "text/html", "utf-8");
-        } else {
-            webView.loadDataWithBaseURL(HTTP_PDA_GEOCACHING_SU, params[0], "text/html", "utf-8", "");
-        }
-            return params[0];
+       return params[0];
         
 
     }
