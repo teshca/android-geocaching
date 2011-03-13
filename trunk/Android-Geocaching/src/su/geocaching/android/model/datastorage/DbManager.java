@@ -3,8 +3,11 @@ package su.geocaching.android.model.datastorage;
 import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
+import android.database.SQLException;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
+import android.util.Log;
+
 import com.google.android.maps.GeoPoint;
 
 import su.geocaching.android.controller.LogManager;
@@ -50,13 +53,30 @@ public class DbManager extends SQLiteOpenHelper {
 
     @Override
     public void onCreate(SQLiteDatabase db) {
-        db.execSQL(SQL_CREATE_DATABASE_TABLE);
+        db.beginTransaction();
+        try {
+            // Create tables
+            db.execSQL(SQL_CREATE_DATABASE_TABLE);
+            db.setTransactionSuccessful();
+        } catch (SQLException e) {
+            LogManager.e(TAG, e.toString(), e);
+        } finally {
+            db.endTransaction();
+        }
     }
 
     @Override
     public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
         if (oldVersion < 2) {
-            db.execSQL(String.format("ALTER TABLE %s ADD %s string;", DATABASE_NAME_TABLE, COLUMN_NOTEBOOK_TEXT));
+            db.beginTransaction();
+            try {
+                db.execSQL(String.format("ALTER TABLE %s ADD %s string;", DATABASE_NAME_TABLE, COLUMN_NOTEBOOK_TEXT));
+                db.setTransactionSuccessful();
+            } catch (SQLException e) {
+                Log.e(TAG, e.toString(), e);
+            } finally {
+                db.endTransaction();
+            }
         }
     }
 
