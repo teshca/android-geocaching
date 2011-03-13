@@ -40,6 +40,8 @@ public class ShowGeoCacheInfo extends Activity implements OnCheckedChangeListene
     private ImageView btGoToSearchGeoCache;
     private CheckBox cbAddDelCache;
     private DbManager dbm;
+    private int webViewScrollPositionY =0;
+    private int webViewScrollPositionX =0;
     private Menu menuInfo;
     private GeoCache GeoCacheForShowInfo;
     private String htmlTextGeoCache = null;
@@ -54,7 +56,7 @@ public class ShowGeoCacheInfo extends Activity implements OnCheckedChangeListene
         super.onCreate(savedInstanceState);
         setContentView(R.layout.info_geocach_activity);
         dbm = new DbManager(getApplicationContext());
-
+        htmlTextGeoCache="";
         webView = (WebView) findViewById(R.id.info_web_brouse);
         btGoToSearchGeoCache = (ImageView) findViewById(R.id.info_geocach_Go_button);
         cbAddDelCache = (CheckBox) findViewById(R.id.info_geocache_add_del);
@@ -62,7 +64,14 @@ public class ShowGeoCacheInfo extends Activity implements OnCheckedChangeListene
         tvTypeGeoCacheText = (TextView) findViewById(R.id.info_GeoCache_type);
         tvStatusGeoCacheText = (TextView) findViewById(R.id.info_GeoCache_status);
         webView.getSettings().setJavaScriptEnabled(true);
-        webView.setWebViewClient(new WebViewClient());
+        webView.setWebViewClient(new WebViewClient(){
+            @Override
+            public void onPageFinished(WebView view, String url) {
+                webView.scrollTo(webViewScrollPositionX, webViewScrollPositionY);
+                super.onPageFinished(view,url);
+            }
+
+        });
         isPageNoteBook = false;
         tracker = GoogleAnalyticsTracker.getInstance();
         tracker.start(getString(R.string.id_Google_Analytics), this);
@@ -103,6 +112,18 @@ public class ShowGeoCacheInfo extends Activity implements OnCheckedChangeListene
 
     @Override
     protected void onResume() {
+        if (htmlTextGeoCache!=""){
+            webView.loadDataWithBaseURL(HTTP_PDA_GEOCACHING_SU, htmlTextGeoCache, "text/html", "utf-8", "");
+        }else{
+
+            if (!connectManager.isInternetConnected() && !isCacheStoredInDataBase)
+                webView.loadData("<?xml version='1.0' encoding='utf-8'?>" + "<center>" + getString(R.string.info_geocach_not_internet_and_not_in_DB) + "</center>", "text/html", "utf-8");
+            else{
+                htmlTextGeoCache = getHtmlString(isPageNoteBook);
+                webView.loadDataWithBaseURL(HTTP_PDA_GEOCACHING_SU, htmlTextGeoCache, "text/html", "utf-8", "");
+            }
+        }
+
         super.onResume();
         webView.setKeepScreenOn(Controller.getInstance().getPreferencesManager().getKeepScreenOnPreference());
     }
@@ -146,6 +167,13 @@ public class ShowGeoCacheInfo extends Activity implements OnCheckedChangeListene
     }
 
     @Override
+    protected void onPause() {
+        webViewScrollPositionY =webView.getScrollY();
+        webViewScrollPositionX=webView.getScrollX();
+        super.onPause();
+    }
+
+    @Override
     public void onClick(View v) {
         if (!isCacheStoredInDataBase) {
             cbAddDelCache.setChecked(true);
@@ -176,6 +204,23 @@ public class ShowGeoCacheInfo extends Activity implements OnCheckedChangeListene
         inflater.inflate(R.menu.info_about_cache, menu);
         menuInfo = menu;
         return true;
+    }
+
+    @Override
+    protected void onSaveInstanceState(Bundle outState) {
+        outState.putString("htmlGeoCache",htmlTextGeoCache);
+        outState.putInt("scrollY",webView.getScrollY());
+        outState.putInt("scrollX",webView.getScrollX());
+        super.onSaveInstanceState(outState);    //To change body of overridden methods use File | Settings | File Templates.
+    }
+
+    @Override
+    protected void onRestoreInstanceState(Bundle savedInstanceState) {
+        super.onRestoreInstanceState(savedInstanceState);
+        htmlTextGeoCache=savedInstanceState.getString("htmlGeoCache");
+        webViewScrollPositionY =savedInstanceState.getInt("scrollY");
+        webViewScrollPositionX=savedInstanceState.getInt("scrollX");
+        webView.scrollTo(webViewScrollPositionX,webViewScrollPositionY);
     }
 
     @Override
