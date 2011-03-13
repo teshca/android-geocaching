@@ -37,17 +37,13 @@ public class DownloadWebNotebookTask extends AsyncTask<String, Void, String> {
     protected String doInBackground(String... params) {
         if (params[0] == null || params[0] == "") {
             if (isCacheStoredInDataBase) {
-                dbManager.openDB();
                 params[0] = dbManager.getWebNotebookTextById(idCache);
-                dbManager.closeDB();
             }
             if (params[0] == null || params[0] == "") {
                 try {
                     params[0] = getWebText(idCache);
                     if (isCacheStoredInDataBase) {
-                        dbManager.openDB();
                         dbManager.ubdateNotebookText(idCache, params[0]);
-                        dbManager.closeDB();
                     }
                 } catch (IOException e) {
                     // TODO Auto-generated catch block

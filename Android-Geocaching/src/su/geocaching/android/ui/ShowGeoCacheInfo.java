@@ -9,7 +9,6 @@ import android.content.Intent;
 import android.graphics.drawable.AnimationDrawable;
 import android.opengl.Visibility;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
@@ -20,14 +19,15 @@ import android.webkit.WebViewClient;
 import android.widget.*;
 import android.widget.CompoundButton.OnCheckedChangeListener;
 import com.google.android.apps.analytics.GoogleAnalyticsTracker;
+
+import su.geocaching.android.controller.ConnectionManager;
 import su.geocaching.android.controller.Controller;
+import su.geocaching.android.controller.IInternetAware;
 import su.geocaching.android.controller.UiHelper;
 import su.geocaching.android.model.datastorage.DbManager;
 import su.geocaching.android.model.datastorage.DownloadInfoCacheTask;
 import su.geocaching.android.model.datastorage.DownloadWebNotebookTask;
 import su.geocaching.android.model.datatype.GeoCache;
-import su.geocaching.android.ui.geocachemap.ConnectionManager;
-import su.geocaching.android.ui.geocachemap.IInternetAware;
 import su.geocaching.android.ui.searchgeocache.SearchGeoCacheMap;
 
 import java.util.concurrent.ExecutionException;
@@ -91,14 +91,10 @@ public class ShowGeoCacheInfo extends Activity implements OnCheckedChangeListene
             if (htmlTextNotebookGeoCache == null || htmlTextNotebookGeoCache == "") {
                 createDialog();
             }
-            dbm.openDB();
             dbm.addGeoCache(GeoCacheForShowInfo, htmlTextGeoCache, htmlTextNotebookGeoCache);
-            dbm.closeDB();
 
         } else {
-            dbm.openDB();
             dbm.deleteCacheById(GeoCacheForShowInfo.getId());
-            dbm.closeDB();
         }
 
     }
@@ -159,14 +155,12 @@ public class ShowGeoCacheInfo extends Activity implements OnCheckedChangeListene
         connectManager = Controller.getInstance().getConnectionManager();
         connectManager.addSubscriber(this);
 
-        dbm.openDB();
         isCacheStoredInDataBase = (dbm.getCacheByID(GeoCacheForShowInfo.getId()) != null);
         if (isCacheStoredInDataBase) {
             cbAddDelCache.setChecked(true);
             htmlTextGeoCache = dbm.getWebTextById(GeoCacheForShowInfo.getId());
             htmlTextNotebookGeoCache = dbm.getWebNotebookTextById(GeoCacheForShowInfo.getId());
         }
-        dbm.closeDB();
 
         tvNameText.setText(GeoCacheForShowInfo.getName());
         tvStatusGeoCacheText.setText(Controller.getInstance().getResourceManager().getGeoCacheStatus(GeoCacheForShowInfo));
