@@ -5,7 +5,6 @@ import android.graphics.*;
 import android.graphics.Paint.Style;
 import su.geocaching.android.controller.Controller;
 import su.geocaching.android.ui.R;
-import su.geocaching.android.utils.CompassHelper;
 
 /**
  * Default appearance of the compass
@@ -19,7 +18,7 @@ public class StandartCompassDrawning extends CompassDrawningHelper {
     protected Bitmap roseBitmap, needleBitmap, arrowBitmap;
 
     public StandartCompassDrawning(Context context) {
-        super(context);
+        super();
 
         roseBitmap = BitmapFactory.decodeResource(Controller.getInstance().getResourceManager().getResources(), R.drawable.compass_rose_yellow);
 
@@ -29,6 +28,7 @@ public class StandartCompassDrawning extends CompassDrawningHelper {
         textPaint.setStrokeWidth(0.8f);
     }
 
+    @Override
     public void onSizeChanged(int w, int h) {
         int size = Math.min(h, w);
         center = size / 2;
@@ -40,6 +40,7 @@ public class StandartCompassDrawning extends CompassDrawningHelper {
 
     }
 
+    @Override
     public void draw(Canvas canvas, float northDirection) {
         canvas.drawColor(bgColor);
         canvas.drawBitmap(roseBitmap, 0, 0, bitmapPaint);
@@ -58,6 +59,7 @@ public class StandartCompassDrawning extends CompassDrawningHelper {
         canvas.rotate(-direction);
     }
 
+    @Override
     public void drawCacheArrow(Canvas canvas, float direction) {
         canvas.rotate(direction);
         canvas.drawBitmap(arrowBitmap, -arrowBitmap.getWidth() / 2, -arrowBitmap.getHeight() / 2, bitmapPaint);

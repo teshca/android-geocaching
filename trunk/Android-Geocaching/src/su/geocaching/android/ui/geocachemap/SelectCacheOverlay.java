@@ -4,8 +4,9 @@ import android.content.Context;
 import android.graphics.drawable.Drawable;
 import com.google.android.maps.MapView;
 import com.google.android.maps.OverlayItem;
+
+import su.geocaching.android.controller.UiHelper;
 import su.geocaching.android.model.datatype.GeoCache;
-import su.geocaching.android.utils.UiHelper;
 
 import java.util.Collections;
 import java.util.LinkedList;

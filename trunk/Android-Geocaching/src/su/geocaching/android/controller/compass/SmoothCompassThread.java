@@ -5,11 +5,10 @@ import su.geocaching.android.controller.CompassManager;
 import su.geocaching.android.controller.Controller;
 import su.geocaching.android.controller.ICompassAware;
 import su.geocaching.android.controller.LogManager;
-import su.geocaching.android.utils.CompassHelper;
 
 /**
  * The class provides a smooth rotation of compass
- *
+ * 
  * @author Nikita Bumakov
  */
 public class SmoothCompassThread extends Thread implements ICompassAware {
@@ -25,10 +24,9 @@ public class SmoothCompassThread extends Thread implements ICompassAware {
 
     private CompassSpeed speed;
 
-    // public CompassSpeed getSpeed() {
-    // return speed;
-    // }
-
+    /**
+     * @param speed - Speed mode of compass needle
+     */
     public void setSpeed(CompassSpeed speed) {
         this.speed = speed;
     }
@@ -111,8 +109,8 @@ public class SmoothCompassThread extends Thread implements ICompassAware {
     private float calculateSpeed(float difference, float oldSpeed) {
         switch (speed) {
             case DIRET:
-                oldSpeed = oldSpeed * 0f;
-                oldSpeed += difference;
+                oldSpeed = oldSpeed * 0f; // friction
+                oldSpeed += difference; // acceleration
                 break;
             case SLOW:
                 oldSpeed = oldSpeed * 0.75f;
@@ -136,15 +134,9 @@ public class SmoothCompassThread extends Thread implements ICompassAware {
 
     private boolean isNeedPainting(boolean isArrived, float speed, float needleDirection, float goalDirection) {
         if (isArrived) {
-            if (Math.abs(needleDirection - goalDirection) > LEAVED_EPS) {
-                return true;
-            }
-            return false;
+            return Math.abs(needleDirection - goalDirection) > LEAVED_EPS;
         } else {
-            if (Math.abs(needleDirection - goalDirection) < ARRIVED_EPS && Math.abs(speed) < SPEED_EPS) {
-                return false;
-            }
-            return true;
+            return Math.abs(needleDirection - goalDirection) >= ARRIVED_EPS && Math.abs(speed) < SPEED_EPS;
         }
     }
 }

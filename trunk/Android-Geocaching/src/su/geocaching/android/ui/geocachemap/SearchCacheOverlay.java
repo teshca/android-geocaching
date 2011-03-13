@@ -4,8 +4,8 @@ import java.util.Collections;
 import java.util.LinkedList;
 import java.util.List;
 
+import su.geocaching.android.controller.UiHelper;
 import su.geocaching.android.model.datatype.GeoCache;
-import su.geocaching.android.utils.UiHelper;
 import android.app.Activity;
 import android.graphics.drawable.Drawable;
 

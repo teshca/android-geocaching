@@ -12,9 +12,9 @@ import android.widget.TextView;
 import com.google.android.apps.analytics.GoogleAnalyticsTracker;
 import su.geocaching.android.controller.Controller;
 import su.geocaching.android.controller.LogManager;
+import su.geocaching.android.controller.UiHelper;
 import su.geocaching.android.model.datastorage.DbManager;
 import su.geocaching.android.model.datatype.GeoCache;
-import su.geocaching.android.utils.UiHelper;
 
 import java.util.ArrayList;
 import java.util.HashMap;

@@ -16,6 +16,7 @@ import java.util.List;
 /**
  * Class for parsing data from geocaching.su and put it in the List of GeoCache. Parse XML file is as follows:
  * <p/>
+ * 
  * <pre>
  *         {@code
  *         <c>
@@ -30,7 +31,7 @@ import java.util.List;
  *         </c>
  *         }
  * </pre>
- *
+ * 
  * @author Nikita Bumakov
  */
 public class GeoCacheSaxHandler extends DefaultHandler {
@@ -76,8 +77,9 @@ public class GeoCacheSaxHandler extends DefaultHandler {
 
     @Override
     public void endElement(String uri, String localName, String qName) throws SAXException {
-        if (text != null)
+        if (text != null) {
             text.trim();
+        }
 
         if (localName.equalsIgnoreCase(ID)) {
             int id = parseInt(text, 0);

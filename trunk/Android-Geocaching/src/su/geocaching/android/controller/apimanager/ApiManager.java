@@ -52,7 +52,7 @@ public class ApiManager implements IApiManager {
 
         if (maxLatitude == minLatitude && maxLongitude == minLongitude) {
             LogManager.d(TAG, "Size of obtained listGeoCaches: 0");
-            return filterGeoCaches(maxLatitude, minLatitude, maxLongitude, minLongitude);
+            return new LinkedList<GeoCache>();
         }
 
         GeoCacheSaxHandler handler = null;
@@ -108,5 +108,4 @@ public class ApiManager implements IApiManager {
         LogManager.d(TAG, "filterGeoCaches: " + filteredGeoCaches.size());
         return filteredGeoCaches;
     }
-
 }
