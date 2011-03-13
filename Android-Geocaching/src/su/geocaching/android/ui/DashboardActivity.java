@@ -31,7 +31,7 @@ public class DashboardActivity extends Activity {
         LogManager.d(TAG, "onCreate");
         setContentView(R.layout.dashboard_menu);
 
-        Controller.getInstance().initManagers(this);
+        Controller.getInstance().initManagers(this.getApplicationContext());
 
         tracker = GoogleAnalyticsTracker.getInstance();
         tracker.start(getString(R.string.id_Google_Analytics), this);
