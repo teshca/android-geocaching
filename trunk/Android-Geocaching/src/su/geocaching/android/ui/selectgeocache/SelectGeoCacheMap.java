@@ -17,14 +17,16 @@ import android.widget.ImageView;
 import android.widget.Toast;
 import com.google.android.apps.analytics.GoogleAnalyticsTracker;
 import com.google.android.maps.*;
+
+import su.geocaching.android.controller.ConnectionManager;
 import su.geocaching.android.controller.Controller;
+import su.geocaching.android.controller.IInternetAware;
 import su.geocaching.android.controller.LogManager;
 import su.geocaching.android.controller.UiHelper;
 import su.geocaching.android.model.datatype.GeoCache;
 import su.geocaching.android.ui.R;
-import su.geocaching.android.ui.geocachemap.ConnectionManager;
 import su.geocaching.android.ui.geocachemap.GeoCacheOverlayItem;
-import su.geocaching.android.ui.geocachemap.IInternetAware;
+import su.geocaching.android.ui.geocachemap.MapInfo;
 import su.geocaching.android.ui.geocachemap.SelectCacheOverlay;
 import su.geocaching.android.ui.selectgeocache.geocachegroup.GroupCacheTask;
 import su.geocaching.android.ui.selectgeocache.timer.MapUpdateTimer;
@@ -122,20 +124,20 @@ public class SelectGeoCacheMap extends MapActivity implements IInternetAware {
     }
 
     private void updateMapInfoFromSettings() {
-        int[] lastMapInfo = Controller.getInstance().getPreferencesManager().getLastMapInfo();
-        GeoPoint lastCenter = new GeoPoint(lastMapInfo[0], lastMapInfo[1]);
-        LogManager.d("mapInfo", "X = " + lastMapInfo[0]);
-        LogManager.d("mapInfo", "Y = " + lastMapInfo[1]);
-        LogManager.d("mapInfo", "zoom = " + lastMapInfo[2]);
+        MapInfo lastMapInfo = Controller.getInstance().getPreferencesManager().getLastMapInfo();
+        GeoPoint lastCenter = new GeoPoint(lastMapInfo.getCenterX(), lastMapInfo.getCenterY());
+        LogManager.d("mapInfo", "X = " + lastMapInfo.getCenterX());
+        LogManager.d("mapInfo", "Y = " + lastMapInfo.getCenterY());
+        LogManager.d("mapInfo", "zoom = " + lastMapInfo.getZoom());
 
         mapController.setCenter(lastCenter);
         mapController.animateTo(lastCenter);
-        mapController.setZoom(lastMapInfo[2]);
+        mapController.setZoom(lastMapInfo.getZoom());
         map.invalidate();
     }
 
     private void saveMapInfoToSettings() {
-        Controller.getInstance().getPreferencesManager().setLastMapInfo(map.getMapCenter(), map.getZoomLevel());
+        Controller.getInstance().getPreferencesManager().setLastMapInfo(new MapInfo(map.getMapCenter().getLatitudeE6(), map.getMapCenter().getLongitudeE6(), map.getZoomLevel()));
     }
 
     @Override

@@ -1,4 +1,4 @@
-package su.geocaching.android.ui.geocachemap;
+package su.geocaching.android.controller;
 
 import android.content.Context;
 import android.content.IntentFilter;
@@ -12,7 +12,6 @@ import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
 
-import su.geocaching.android.controller.LogManager;
 
 /**
  * This class manage classes (named subscribers) which want to get messages about InternetConnectionState
@@ -23,7 +22,7 @@ import su.geocaching.android.controller.LogManager;
 public class ConnectionManager {
     private static final String TAG = ConnectionManager.class.getCanonicalName();
 
-    private static final String CONTROL_URL = "http://pda.geocaching.su";
+    private static final String PING_URL = "http://pda.geocaching.su";
 
     private List<IInternetAware> subscribers;
     private ConnectivityManager connectivityManager;
@@ -100,28 +99,31 @@ public class ConnectionManager {
      */
     public boolean isInternetConnected() {
         NetworkInfo activeNetInfo = connectivityManager.getActiveNetworkInfo();
-        boolean res =  activeNetInfo != null && activeNetInfo.isConnected();
+        boolean isConnected = activeNetInfo != null && activeNetInfo.isConnected();
+        if (!isConnected) {
+            return false;
+        }
         URL url;
         HttpURLConnection connection;
         try {
-            url = new URL(CONTROL_URL);
+            url = new URL(PING_URL);
             connection = (HttpURLConnection) url.openConnection();
             if (connection.getResponseCode() != HttpURLConnection.HTTP_OK) {
-                res = false;
-                LogManager.d(TAG, "Check connection: not reachable ("+CONTROL_URL+") Response: " + connection.getResponseCode());
+                isConnected = false;
+                LogManager.d(TAG, "Check connection: not reachable (" + PING_URL + ") Response: " + connection.getResponseCode());
             } else {
-                LogManager.d(TAG, "Check connection: reachable ("+CONTROL_URL+")");
+                LogManager.d(TAG, "Check connection: reachable (" + PING_URL + ")");
             }
             connection.disconnect();
         } catch (MalformedURLException e) {
-            LogManager.e(TAG, "Check connection: mailformed url ("+CONTROL_URL+")");
+            LogManager.e(TAG, "Check connection: mailformed url (" + PING_URL + ")");
             e.printStackTrace();
-            res = false;
+            isConnected = false;
         } catch (IOException e) {
-            res = false;
-            LogManager.w(TAG, "Check connection: IO exception ("+CONTROL_URL+")",e);
+            isConnected = false;
+            LogManager.w(TAG, "Check connection: IO exception (" + PING_URL + ")", e);
         }
-        return res;
+        return isConnected;
     }
 
     /**

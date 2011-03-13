@@ -11,7 +11,7 @@
     <application android:icon="@drawable/launcher_icon"
                  android:label="@string/app_name" android:debuggable="true">
 
-        <receiver android:name=".geocachemap.ConnectionStateReceiver">
+        <receiver android:name="su.geocaching.android.controller.ConnectionStateReceiver">
             <intent-filter>
                 <action android:name="android.net.conn.CONNECTIVITY_CHANGE"/>
             </intent-filter>

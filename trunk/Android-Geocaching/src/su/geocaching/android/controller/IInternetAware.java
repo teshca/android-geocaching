@@ -1,4 +1,4 @@
-package su.geocaching.android.ui.geocachemap;
+package su.geocaching.android.controller;
 
 /**
  * describes something what use internet connection

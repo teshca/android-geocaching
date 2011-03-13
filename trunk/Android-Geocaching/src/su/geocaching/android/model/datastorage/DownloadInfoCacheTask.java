@@ -10,8 +10,6 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.net.URL;
 
-import su.geocaching.android.controller.Controller;
-
 public class DownloadInfoCacheTask extends AsyncTask<String, Integer, String> {
     private static final String HTTP_PDA_GEOCACHING_SU = "http://pda.geocaching.su/";
     
@@ -40,9 +38,7 @@ public class DownloadInfoCacheTask extends AsyncTask<String, Integer, String> {
     protected String doInBackground(String... params) {
         if (params[0] == null || params[0] == "") {
             if (isCacheStoredInDataBase) {
-                dbManager.openDB();
                 params[0] = dbManager.getWebTextById(idCache);
-                dbManager.closeDB();
             } else
                 try {
                     params[0] = getWebText(idCache);

@@ -63,7 +63,7 @@ public class DbManager extends SQLiteOpenHelper {
     /**
      * Method for open database
      */
-    public void openDB() {
+    private void openDB() {
         LogManager.d(TAG, "Open");
         db = this.getWritableDatabase();
     }
@@ -73,7 +73,9 @@ public class DbManager extends SQLiteOpenHelper {
      */
     public ArrayList<GeoCache> getArrayGeoCache() {
         ArrayList<GeoCache> exitCollection = new ArrayList<GeoCache>();
+        openDB();
         Cursor cur = db.rawQuery(String.format("select %s,%s,%s,%s,%s,%s from %s", COLUMN_ID, COLUMN_NAME, COLUMN_TYPE, COLUMN_STATUS, COLUMN_LAT, COLUMN_LON, DATABASE_NAME_TABLE), null);
+        closeDB();
 
         if (cur.getCount() == 0) {
             cur.close();
@@ -103,7 +105,7 @@ public class DbManager extends SQLiteOpenHelper {
     /**
      * Method for close database
      */
-    public void closeDB() {
+    private void closeDB() {
         LogManager.d(TAG, "close");
         db.close();
     }
@@ -125,7 +127,9 @@ public class DbManager extends SQLiteOpenHelper {
         values.put(COLUMN_WEB_TEXT, webText);
         if (webNotebookText != null && webNotebookText != "")
             values.put(COLUMN_NOTEBOOK_TEXT, webNotebookText);
+        openDB();
         db.insert(DATABASE_NAME_TABLE, null, values);
+        closeDB();
     }
 
     /**
@@ -133,7 +137,9 @@ public class DbManager extends SQLiteOpenHelper {
      *            ID geocache for delete from database
      */
     public void deleteCacheById(int id) {
+        openDB();
         this.db.execSQL(String.format("delete from %s where %s=%s;", DATABASE_NAME_TABLE, COLUMN_ID, id + ""));
+        closeDB();
     }
 
     /**
@@ -143,7 +149,9 @@ public class DbManager extends SQLiteOpenHelper {
      */
     public String getWebTextById(int id) {
         String exitString = "";
+        openDB();
         Cursor c = db.rawQuery(String.format("select %s from %s where %s=%s", COLUMN_WEB_TEXT, DATABASE_NAME_TABLE, COLUMN_ID, id + ""), null);
+        closeDB();
         if (c.getCount() == 0) {
             c.close();
             return null;
@@ -156,7 +164,9 @@ public class DbManager extends SQLiteOpenHelper {
 
     public String getWebNotebookTextById(int id) {
         String exitString = "";
+        openDB();
         Cursor c = db.rawQuery(String.format("select %s from %s where %s=%s", COLUMN_NOTEBOOK_TEXT, DATABASE_NAME_TABLE, COLUMN_ID, id + ""), null);
+        closeDB();
         if (c != null) {
             if (c.getCount() == 0) {
                 c.close();
@@ -177,7 +187,9 @@ public class DbManager extends SQLiteOpenHelper {
     public void ubdateNotebookText(int cacheId, String htmlNotebookText) {
         ContentValues values = new ContentValues();
         values.put(COLUMN_NOTEBOOK_TEXT, htmlNotebookText);
+        openDB();
         db.update(DATABASE_NAME_TABLE, values, COLUMN_ID + "=" + cacheId, null);
+        closeDB();
     }
 
     /**
@@ -186,8 +198,10 @@ public class DbManager extends SQLiteOpenHelper {
      * @return GeoCache if database have GeoCache. Null if database haven't GeoCache
      */
     public GeoCache getCacheByID(int id) {
+        openDB();
         Cursor c = db.rawQuery(String.format("select %s,%s,%s,%s,%s from %s where %s=%s", COLUMN_NAME, COLUMN_TYPE, COLUMN_STATUS, COLUMN_LAT, COLUMN_LON, DATABASE_NAME_TABLE, COLUMN_ID, id + ""),
                 null);
+        closeDB();
         if (c.getCount() == 0) {
             c.close();
             return null;
