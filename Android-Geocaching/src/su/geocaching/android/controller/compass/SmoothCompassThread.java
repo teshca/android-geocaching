@@ -136,7 +136,7 @@ public class SmoothCompassThread extends Thread implements ICompassAware {
         if (isArrived) {
             return Math.abs(needleDirection - goalDirection) > LEAVED_EPS;
         } else {
-            return Math.abs(needleDirection - goalDirection) >= ARRIVED_EPS && Math.abs(speed) < SPEED_EPS;
+            return Math.abs(needleDirection - goalDirection) > ARRIVED_EPS || Math.abs(speed) > SPEED_EPS;
         }
     }
 }
