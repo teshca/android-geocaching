@@ -10,28 +10,25 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.net.URL;
 
+import su.geocaching.android.ui.R;
+
 public class DownloadInfoCacheTask extends AsyncTask<String, Integer, String> {
-    private static final String HTTP_PDA_GEOCACHING_SU = "http://pda.geocaching.su/";
     
     private DbManager dbManager;
     private boolean isCacheStoredInDataBase;
     private ProgressDialog prDialog;
     private int idCache;
     private Context context;
-	private WebView webView;
-    public DownloadInfoCacheTask(DbManager db, boolean isCacheStoredInDataBase, int idCache, Context context, WebView web) {
+	public DownloadInfoCacheTask(DbManager db, boolean isCacheStoredInDataBase, int idCache, Context context) {
         this.dbManager = db;
         this.isCacheStoredInDataBase = isCacheStoredInDataBase;
         this.idCache = idCache;
-        this.context = context;
-        this.webView = web;
-     //   this. prDialog = new ProgressDialog(context);
-         
+        this.context = context;     
     }
     @Override
     protected void onPreExecute() {
       prDialog = new ProgressDialog(context);
-      prDialog.setMessage("Скачивание информации");
+      prDialog.setMessage(context.getString(R.string.download_info));
       prDialog.show();
     };
     @Override
@@ -47,7 +44,6 @@ public class DownloadInfoCacheTask extends AsyncTask<String, Integer, String> {
                     e.printStackTrace();
                 }
         }
-        webView.loadDataWithBaseURL(HTTP_PDA_GEOCACHING_SU, params[0], "text/html", "utf-8", "");
         return params[0];
     }
 

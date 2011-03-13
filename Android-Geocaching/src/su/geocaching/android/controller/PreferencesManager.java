@@ -58,7 +58,8 @@ public class PreferencesManager {
             editor.commit();
         }
     }
-
+    
+    //}
     /**
      * @param info
      *            with data to save
@@ -72,6 +73,16 @@ public class PreferencesManager {
             editor.putInt("zoom", info.getZoom());
             editor.commit();
         }
+    }
+    
+    public void setDownloadNoteBookAlways(boolean downloadAlways){
+        SharedPreferences.Editor editor = preferences.edit();
+        editor.putBoolean(context.getString(R.string.save_notebook_alwayse_key), downloadAlways);
+        editor.commit();
+    }
+    
+    public boolean getDownloadNoteBookAlways(){
+        return preferences.getBoolean(context.getString(R.string.save_notebook_alwayse_key),false);
     }
 
     /**

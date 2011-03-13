@@ -1,13 +1,8 @@
 package su.geocaching.android.ui;
 
 import android.app.Activity;
-import android.app.AlertDialog;
 import android.app.Dialog;
-import android.app.ProgressDialog;
-import android.content.DialogInterface;
 import android.content.Intent;
-import android.graphics.drawable.AnimationDrawable;
-import android.opengl.Visibility;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -23,6 +18,7 @@ import com.google.android.apps.analytics.GoogleAnalyticsTracker;
 import su.geocaching.android.controller.ConnectionManager;
 import su.geocaching.android.controller.Controller;
 import su.geocaching.android.controller.IInternetAware;
+import su.geocaching.android.controller.PreferencesManager;
 import su.geocaching.android.controller.UiHelper;
 import su.geocaching.android.model.datastorage.DbManager;
 import su.geocaching.android.model.datastorage.DownloadInfoCacheTask;
@@ -55,13 +51,12 @@ public class ShowGeoCacheInfo extends Activity implements OnCheckedChangeListene
     private ConnectionManager connectManager;
     private GoogleAnalyticsTracker tracker;
     private boolean isPageNoteBook;
-
+    
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.info_geocach_activity);
         dbm = new DbManager(getApplicationContext());
-        htmlTextGeoCache = "";
         webView = (WebView) findViewById(R.id.info_web_brouse);
         btGoToSearchGeoCache = (ImageView) findViewById(R.id.info_geocach_Go_button);
         cbAddDelCache = (CheckBox) findViewById(R.id.info_geocache_add_del);
@@ -88,33 +83,48 @@ public class ShowGeoCacheInfo extends Activity implements OnCheckedChangeListene
     public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
         if (isChecked) {
             isCacheStoredInDataBase = true;
-            if (htmlTextNotebookGeoCache == null || htmlTextNotebookGeoCache == "") {
-                createDialog();
+            if (!Controller.getInstance().getPreferencesManager().getDownloadNoteBookAlways()){
+                if (htmlTextNotebookGeoCache == null || htmlTextNotebookGeoCache == "") {
+                    createDownloadNotebookDialog();
+                }
+            }
+            else{
+                htmlTextNotebookGeoCache = getHtmlString(!isPageNoteBook);
             }
             dbm.addGeoCache(GeoCacheForShowInfo, htmlTextGeoCache, htmlTextNotebookGeoCache);
-
         } else {
             dbm.deleteCacheById(GeoCacheForShowInfo.getId());
         }
 
     }
 
-    private void createDialog() {
+    private void createDownloadNotebookDialog() {
         final Dialog dialog = new Dialog(this);
         dialog.setContentView(R.layout.custom_dialog_in_info_activity);
         dialog.setCancelable(true);
+        CheckBox check = (CheckBox) dialog.findViewById(R.id.downloadNoteBookAlways);
+        check.setOnCheckedChangeListener(new OnCheckedChangeListener() {
+            
+            @Override
+            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                // TODO Auto-generated method stub
+                Controller.getInstance().getPreferencesManager().setDownloadNoteBookAlways(true);
+            }
+        });
         Button buttonYes = (Button) dialog.findViewById(R.id.ButtonYes);
         buttonYes.setOnClickListener(new OnClickListener() {
             @Override
             public void onClick(View v) {
                 // TODO Auto-generated method stub
+                if (connectManager.isInternetConnected()){
                 htmlTextNotebookGeoCache = getHtmlString(!isPageNoteBook);
+                }
                 dialog.dismiss();
             }
         });
         Button buttonNo = (Button) dialog.findViewById(R.id.ButtonNo);
         buttonNo.setOnClickListener(new OnClickListener() {
-
+  
             @Override
             public void onClick(View v) {
                 // TODO Auto-generated method stub
@@ -123,13 +133,12 @@ public class ShowGeoCacheInfo extends Activity implements OnCheckedChangeListene
         });
         dialog.show();
     }
-
+    
     @Override
     protected void onResume() {
         if (htmlTextGeoCache != "") {
             webView.loadDataWithBaseURL(HTTP_PDA_GEOCACHING_SU, htmlTextGeoCache, "text/html", "utf-8", "");
         } else {
-
             if (!connectManager.isInternetConnected() && !isCacheStoredInDataBase)
                 webView.loadData("<?xml version='1.0' encoding='utf-8'?>" + "<center>" + getString(R.string.info_geocach_not_internet_and_not_in_DB) + "</center>", "text/html", "utf-8");
             else {
@@ -169,11 +178,11 @@ public class ShowGeoCacheInfo extends Activity implements OnCheckedChangeListene
         cbAddDelCache.setOnCheckedChangeListener(this);
         btGoToSearchGeoCache.setOnClickListener(this);
 
-        if (!connectManager.isInternetConnected() && !isCacheStoredInDataBase) {
+        if (!connectManager.isInternetConnected() && !isCacheStoredInDataBase)
             webView.loadData("<?xml version='1.0' encoding='utf-8'?>" + "<center>" + getString(R.string.info_geocach_not_internet_and_not_in_DB) + "</center>", "text/html", "utf-8");
-        } else {
+        else
             htmlTextGeoCache = getHtmlString(isPageNoteBook);
-        }
+        webView.loadDataWithBaseURL(HTTP_PDA_GEOCACHING_SU, htmlTextGeoCache, "text/html", "utf-8", "");
         super.onStart();
     }
 
@@ -187,6 +196,7 @@ public class ShowGeoCacheInfo extends Activity implements OnCheckedChangeListene
     @Override
     public void onClick(View v) {
         if (!isCacheStoredInDataBase) {
+            htmlTextNotebookGeoCache = getHtmlString(!isPageNoteBook);
             cbAddDelCache.setChecked(true);
         }
         Intent intent = new Intent(this, SearchGeoCacheMap.class);
@@ -289,11 +299,16 @@ public class ShowGeoCacheInfo extends Activity implements OnCheckedChangeListene
                 item.setTitle(R.string.menu_show_info_cache);
                 isPageNoteBook = true;
                 htmlTextNotebookGeoCache = getHtmlString(isPageNoteBook);
-
+                if (htmlTextNotebookGeoCache == null)
+                    webView.loadData("<?xml version='1.0' encoding='utf-8'?>" + "<center>" + getString(R.string.notebook_geocache_not_internet_and_not_in_DB) + "</center>", "text/html", "utf-8");
+                else
+                    webView.loadDataWithBaseURL(HTTP_PDA_GEOCACHING_SU, htmlTextNotebookGeoCache, "text/html", "utf-8", "");
+      
             } else {
                 isPageNoteBook = false;
                 item.setTitle(R.string.menu_show_web_notebook_cache);
                 htmlTextGeoCache = getHtmlString(isPageNoteBook);
+                webView.loadDataWithBaseURL(HTTP_PDA_GEOCACHING_SU, htmlTextGeoCache, "text/html", "utf-8", "");
             }
 
         }
@@ -303,7 +318,7 @@ public class ShowGeoCacheInfo extends Activity implements OnCheckedChangeListene
         String exString = "";
         if (!isPageNoteBook)
             try {
-                exString = new DownloadInfoCacheTask(dbm, isCacheStoredInDataBase, GeoCacheForShowInfo.getId(), this, webView).execute(htmlTextGeoCache).get();
+                exString = new DownloadInfoCacheTask(dbm, isCacheStoredInDataBase, GeoCacheForShowInfo.getId(), this).execute(htmlTextGeoCache).get();
             } catch (InterruptedException e) {
                 // TODO Auto-generated catch block
                 e.printStackTrace();
@@ -313,7 +328,7 @@ public class ShowGeoCacheInfo extends Activity implements OnCheckedChangeListene
             }
         else {
             try {
-                exString = new DownloadWebNotebookTask(dbm, isCacheStoredInDataBase, GeoCacheForShowInfo.getId(), this, webView).execute(htmlTextNotebookGeoCache).get();
+                exString = new DownloadWebNotebookTask(dbm, isCacheStoredInDataBase, GeoCacheForShowInfo.getId(), this).execute(htmlTextNotebookGeoCache).get();
             } catch (InterruptedException e) {
                 // TODO Auto-generated catch block
                 e.printStackTrace();

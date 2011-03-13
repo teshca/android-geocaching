@@ -22,7 +22,12 @@
                             android:key="@string/keep_screen_on_key"
                             android:defaultValue="@string/keep_screen_on_default_value"
                             android:summary="@string/keep_screen_on_summary"/>
-    </PreferenceCategory>
+        <CheckBoxPreference android:title="@string/save_notebook_alwayse_title"
+                            android:key="@string/save_notebook_alwayse_key"
+                            android:defaultValue="@string/save_notebook_alwayse_value"
+                            android:summary="@string/save_notebook_alwayse_summary"/>
+       
+</PreferenceCategory>
 
 
 </PreferenceScreen>

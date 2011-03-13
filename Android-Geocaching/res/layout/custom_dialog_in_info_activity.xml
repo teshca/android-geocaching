@@ -3,9 +3,9 @@
 	android:orientation="vertical" android:layout_width="fill_parent" 
 	android:layout_height="fill_parent">
 
-	<TextView android:text="@string/ask_download_notebook" android:layout_gravity ="center" android:layout_height="wrap_content"
+	<TextView android:text="@string/ask_download_notebook_title" android:layout_gravity ="center" android:layout_height="wrap_content"
 		android:layout_width="wrap_content" android:id="@+id/TextViewDownloadNoteBook"></TextView>
-	<CheckBox android:text="@string/always_keep" android:id="@+id/CheckBox01"
+	<CheckBox android:text="@string/always_keep" android:id="@+id/downloadNoteBookAlways"
 		android:layout_height="wrap_content" android:layout_width="wrap_content"></CheckBox>
 
 
