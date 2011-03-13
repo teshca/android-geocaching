@@ -1,4 +1,4 @@
-package su.geocaching.android.utils;
+package su.geocaching.android.controller;
 
 import android.app.Activity;
 import android.app.AlertDialog;

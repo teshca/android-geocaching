@@ -16,6 +16,7 @@ import android.widget.*;
 import android.widget.CompoundButton.OnCheckedChangeListener;
 import com.google.android.apps.analytics.GoogleAnalyticsTracker;
 import su.geocaching.android.controller.Controller;
+import su.geocaching.android.controller.UiHelper;
 import su.geocaching.android.model.datastorage.DbManager;
 import su.geocaching.android.model.datastorage.DownloadInfoCacheTask;
 import su.geocaching.android.model.datastorage.DownloadWebNotebookTask;
@@ -23,7 +24,7 @@ import su.geocaching.android.model.datatype.GeoCache;
 import su.geocaching.android.ui.geocachemap.ConnectionManager;
 import su.geocaching.android.ui.geocachemap.IInternetAware;
 import su.geocaching.android.ui.searchgeocache.SearchGeoCacheMap;
-import su.geocaching.android.utils.UiHelper;
+
 
 import java.util.concurrent.ExecutionException;
 

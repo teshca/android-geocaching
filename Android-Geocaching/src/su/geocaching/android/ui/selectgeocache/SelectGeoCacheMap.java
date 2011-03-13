@@ -19,6 +19,7 @@ import com.google.android.apps.analytics.GoogleAnalyticsTracker;
 import com.google.android.maps.*;
 import su.geocaching.android.controller.Controller;
 import su.geocaching.android.controller.LogManager;
+import su.geocaching.android.controller.UiHelper;
 import su.geocaching.android.model.datatype.GeoCache;
 import su.geocaching.android.ui.R;
 import su.geocaching.android.ui.geocachemap.ConnectionManager;
@@ -28,7 +29,6 @@ import su.geocaching.android.ui.geocachemap.SelectCacheOverlay;
 import su.geocaching.android.ui.selectgeocache.geocachegroup.GroupCacheTask;
 import su.geocaching.android.ui.selectgeocache.timer.MapUpdateTimer;
 import su.geocaching.android.utils.GpsHelper;
-import su.geocaching.android.utils.UiHelper;
 
 import java.util.List;
 

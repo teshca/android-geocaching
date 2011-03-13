@@ -21,11 +21,10 @@ import su.geocaching.android.controller.compass.CompassSpeed;
 import su.geocaching.android.controller.compass.SmoothCompassThread;
 import su.geocaching.android.ui.R;
 import su.geocaching.android.utils.GpsHelper;
-import su.geocaching.android.utils.UiHelper;
 
 /**
  * Search GeoCache with the compass.
- *
+ * 
  * @author Android-Geocaching.su student project team
  * @since October 2010
  */
@@ -167,9 +166,9 @@ public class SearchGeoCacheCompass extends Activity {
             case R.id.menuGeoCacheInfo:
                 UiHelper.showGeoCacheInfo(this, controller.getSearchingGeoCache());
                 return true;
-            /*case R.id.menuKeepScreen:
-               keepScreenOn(item);
-               return true;*/
+                /*
+                 * case R.id.menuKeepScreen: keepScreenOn(item); return true;
+                 */
             case R.id.compassSettings:
                 showCompassPreferences();
                 return true;
@@ -178,15 +177,10 @@ public class SearchGeoCacheCompass extends Activity {
         }
     }
 
-    /*private void keepScreenOn(MenuItem item) {
-         if (compassView.getKeepScreenOn()) {
-             compassView.setKeepScreenOn(false);
-             item.setIcon(R.drawable.ic_menu_screen_off);
-         } else {
-             compassView.setKeepScreenOn(true);
-             item.setIcon(R.drawable.ic_menu_screen_on);
-         }
-     }*/
+    /*
+     * private void keepScreenOn(MenuItem item) { if (compassView.getKeepScreenOn()) { compassView.setKeepScreenOn(false); item.setIcon(R.drawable.ic_menu_screen_off); } else {
+     * compassView.setKeepScreenOn(true); item.setIcon(R.drawable.ic_menu_screen_on); } }
+     */
 
     private void showCompassPreferences() {
         stopAnimation();

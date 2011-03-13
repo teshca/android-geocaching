@@ -4,11 +4,11 @@ import java.util.Collections;
 import java.util.LinkedList;
 import java.util.List;
 
+import su.geocaching.android.controller.UiHelper;
 import su.geocaching.android.model.datatype.GeoCache;
 import su.geocaching.android.model.datatype.GeoCacheStatus;
 import su.geocaching.android.model.datatype.GeoCacheType;
 import su.geocaching.android.ui.R;
-import su.geocaching.android.utils.UiHelper;
 import android.app.Activity;
 import android.graphics.drawable.Drawable;
 import android.view.GestureDetector;
@@ -18,6 +18,11 @@ import com.google.android.maps.ItemizedOverlay;
 import com.google.android.maps.MapView;
 import com.google.android.maps.OverlayItem;
 
+/**
+ * Overlay with checkpoints
+ * 
+ * @author Nikita Bumakov
+ */
 public class CheckpointCacheOverlay extends ItemizedOverlay<OverlayItem> {
 
     private GestureDetector gestureDetector;
@@ -52,7 +57,7 @@ public class CheckpointCacheOverlay extends ItemizedOverlay<OverlayItem> {
     public void addOverlayItem(GeoCacheOverlayItem overlayItem) {
         if (!contains(overlayItem.getGeoCache())) {
             checkpointNumber++;
-            overlayItem.getGeoCache().setName(activity.getString(R.string.checkpoint_dialog_title)+" "+checkpointNumber);
+            overlayItem.getGeoCache().setName(activity.getString(R.string.checkpoint_dialog_title) + " " + checkpointNumber);
             items.add(overlayItem);
             setLastFocusedIndex(-1);
             populate();

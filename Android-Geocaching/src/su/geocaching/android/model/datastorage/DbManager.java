@@ -16,7 +16,7 @@ import java.util.ArrayList;
 
 /**
  * This class contains method for working with database.
- *
+ * 
  * @author Alekseenko Vladimir
  */
 public class DbManager extends SQLiteOpenHelper {
@@ -41,7 +41,8 @@ public class DbManager extends SQLiteOpenHelper {
             DATABASE_NAME_TABLE, COLUMN_ID, COLUMN_NAME, COLUMN_TYPE, COLUMN_STATUS, COLUMN_LAT, COLUMN_LON, COLUMN_WEB_TEXT, COLUMN_NOTEBOOK_TEXT);
 
     /**
-     * @param context this activivty
+     * @param context
+     *            this activivty
      */
     public DbManager(Context context) {
         super(context, DATABASE_NAME_BASE, null, DATABASE_VERSION);
@@ -108,8 +109,10 @@ public class DbManager extends SQLiteOpenHelper {
     }
 
     /**
-     * @param geoCacheForAdd GeoCache for add in database
-     * @param webText        html text for description GeoCache
+     * @param geoCacheForAdd
+     *            GeoCache for add in database
+     * @param webText
+     *            html text for description GeoCache
      */
     public void addGeoCache(GeoCache geoCacheForAdd, String webText, String webNotebookText) {
         ContentValues values = new ContentValues();
@@ -126,14 +129,16 @@ public class DbManager extends SQLiteOpenHelper {
     }
 
     /**
-     * @param id ID geocache for delete from database
+     * @param id
+     *            ID geocache for delete from database
      */
     public void deleteCacheById(int id) {
         this.db.execSQL(String.format("delete from %s where %s=%s;", DATABASE_NAME_TABLE, COLUMN_ID, id + ""));
     }
 
     /**
-     * @param id ID GeoCache for taking his html description
+     * @param id
+     *            ID GeoCache for taking his html description
      * @return String if GeoCache in database. Empty string if in database haven't GeoCache
      */
     public String getWebTextById(int id) {
@@ -176,7 +181,8 @@ public class DbManager extends SQLiteOpenHelper {
     }
 
     /**
-     * @param id ID GeoCache for taking from database
+     * @param id
+     *            ID GeoCache for taking from database
      * @return GeoCache if database have GeoCache. Null if database haven't GeoCache
      */
     public GeoCache getCacheByID(int id) {
