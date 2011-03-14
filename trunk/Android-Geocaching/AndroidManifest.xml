@@ -82,6 +82,11 @@
 
         <activity android:name=".selectgeocache.MapPreferenceActivity"></activity>
         <activity android:name=".DashboardPreferenceActivity"></activity>
+        <activity android:name=".EnergySavingPreferenceActivity"></activity>
+        <activity android:name=".InternetAndGpsPreferenceActivity"></activity>
+        
+        <activity android:name=".selectgeocache.MapMultiSelectPreferenceActivity"></activity>
+        
 
         <activity android:name=".compass.CompassPreferenceActivity"></activity>
         <activity android:name=".searchgeocache.stepbystep.StepByStepTabActivity"></activity>

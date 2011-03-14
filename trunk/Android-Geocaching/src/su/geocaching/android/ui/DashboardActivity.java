@@ -22,6 +22,7 @@ import su.geocaching.android.ui.selectgeocache.SelectGeoCacheMap;
  * @since October 2010
  */
 public class DashboardActivity extends Activity {
+    
     private static final String TAG = DashboardActivity.class.getCanonicalName();
     private GoogleAnalyticsTracker tracker;
 
@@ -52,12 +53,6 @@ public class DashboardActivity extends Activity {
         switch (item.getItemId()) {
             case R.id.preference:
                 startActivity(new Intent(this, DashboardPreferenceActivity.class));
-                return true;
-            case R.id.enableGps:
-                startActivityForResult(new Intent(android.provider.Settings.ACTION_LOCATION_SOURCE_SETTINGS), 0);
-                return true;
-            case R.id.enableInternet:
-                startActivityForResult(new Intent(android.provider.Settings.ACTION_WIRELESS_SETTINGS), 0);
                 return true;
             default:
                 return super.onOptionsItemSelected(item);

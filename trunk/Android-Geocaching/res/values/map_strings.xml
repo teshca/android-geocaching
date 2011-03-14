@@ -39,12 +39,19 @@
     <string name="way_cache_adding_summary">Включить группировку близких тайников (beta)</string>
 
     <string name="map_filters_title">Фильтры</string>
-    <string name="cache_filter_valid">true</string>
-    <string name="cache_filter_not_valid">true</string>
-    <string name="cache_filter_not_confirmed">true</string>
-    <string name="cache_filter_traditional">true</string>
-    <string name="cache_filter_extreme">true</string>
-    <string name="cache_filter_stepbystep">true</string>
-    <string name="cache_filter_virtual">true</string>
-    <string name="cache_filter_event">true</string>
+    <string name="cache_filter_valid">filter.valid</string>
+    <string name="cache_filter_not_valid">filter.notValid</string>
+    <string name="cache_filter_not_confirmed">filter.notConfirmed</string>
+    <string name="cache_filter_traditional">filer.traditional</string>
+    <string name="cache_filter_extreme">filter.extreme</string>
+    <string name="cache_filter_stepbystep">filter.stepbystep</string>
+    <string name="cache_filter_virtual">filter.virtual</string>
+    <string name="cache_filter_event">filter.event</string>
+    <string name="map_preference_title">Настройки карты</string>
+    <string name="map_preference_key">map.preference</string>
+    <string name="cache_filter_traditional_default_value">true</string>
+    <string name="cache_filter_virtual_default_value">true</string>
+    <string name="cache_filter_stepbystepl_default_value">true</string>
+    <string name="cache_filter_extremel_default_value">true</string>
+    <string name="cache_filter_eventl_default_value">true</string>
 </resources>

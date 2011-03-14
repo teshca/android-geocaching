@@ -1,33 +1,44 @@
 <?xml version="1.0" encoding="utf-8"?>
 <PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
-    <PreferenceCategory
-            android:title="@string/map_category_title">
+	<PreferenceCategory android:title="@string/main_category_title">
 
-        <ListPreference android:entries="@array/requests_map_type_entries"
-                        android:entryValues="@array/requests_map_type_values"
-                        android:title="@string/prefer_map_type_title"
-                        android:summary="@string/prefer_map_type_summary"
-                        android:key="@string/prefer_map_type_key"
-                        android:defaultValue="@string/prefer_map_type_default_value"/>
-        <CheckBoxPreference android:title="@string/way_cache_adding_title"
-                            android:key="@string/way_cache_adding_key"
-                            android:defaultValue="@string/way_cache_adding_default_value"
-                            android:summary="@string/way_cache_adding_summary"/>
-        <ListPreference android:entries="@array/speed_preference_entries"
-                        android:entryValues="@array/speed_preference_values" android:title="@string/prefer_speed_title"
-                        android:dialogTitle="@string/prefer_speed_dialog_title"
-                        android:summary="@string/prefer_speed_summary" android:key="@string/prefs_speed_key"
-                        android:defaultValue="@string/prefer_speed_default_value"></ListPreference>
-        <CheckBoxPreference android:title="@string/keep_screen_on_title"
-                            android:key="@string/keep_screen_on_key"
-                            android:defaultValue="@string/keep_screen_on_default_value"
-                            android:summary="@string/keep_screen_on_summary"/>
-        <CheckBoxPreference android:title="@string/save_notebook_alwayse_title"
-                            android:key="@string/save_notebook_alwayse_key"
-                            android:defaultValue="@string/save_notebook_alwayse_value"
-                            android:summary="@string/save_notebook_alwayse_summary"/>
-       
-</PreferenceCategory>
+		<Preference android:title="@string/map_preference_title"
+			android:summary="" android:key="mapPreference" />
+		<Preference android:title="@string/compass_preference_title"
+			android:summary="" android:key="compassPreference" />
+		<Preference android:title="@string/energy_saving_title"
+			android:summary="" android:key="energySavingPreference" />
+		<Preference android:title="@string/internet_and_gps_preference_title"
+			android:summary="Настройки интернета и GPS" android:key="internetAndGpsPreference" />
+
+		<!--
+			<ListPreference android:entries="@array/requests_map_type_entries"
+			android:entryValues="@array/requests_map_type_values"
+			android:title="@string/prefer_map_type_title"
+			android:summary="@string/prefer_map_type_summary"
+			android:key="@string/prefer_map_type_key"
+			android:defaultValue="@string/prefer_map_type_default_value"/>
+			<CheckBoxPreference android:title="@string/way_cache_adding_title"
+			android:key="@string/way_cache_adding_key"
+			android:defaultValue="@string/way_cache_adding_default_value"
+			android:summary="@string/way_cache_adding_summary"/> <ListPreference
+			android:entries="@array/speed_preference_entries"
+			android:entryValues="@array/speed_preference_values"
+			android:title="@string/prefer_speed_title"
+			android:dialogTitle="@string/prefer_speed_dialog_title"
+			android:summary="@string/prefer_speed_summary"
+			android:key="@string/prefs_speed_key"
+			android:defaultValue="@string/prefer_speed_default_value"></ListPreference>
+			<CheckBoxPreference android:title="@string/keep_screen_on_title"
+			android:key="@string/keep_screen_on_key"
+			android:defaultValue="@string/keep_screen_on_default_value"
+			android:summary="@string/keep_screen_on_summary"/>
+		-->
+		<CheckBoxPreference android:title="@string/save_notebook_alwayse_title"
+			android:key="@string/save_notebook_alwayse_key" android:defaultValue="@string/save_notebook_alwayse_value"
+			android:summary="@string/save_notebook_alwayse_summary" />
+
+	</PreferenceCategory>
 
 
 </PreferenceScreen>
