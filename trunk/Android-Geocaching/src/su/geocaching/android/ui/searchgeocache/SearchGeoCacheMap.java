@@ -117,7 +117,6 @@ public class SearchGeoCacheMap extends MapActivity implements IInternetAware, IL
         mController.setSearchingGeoCache(geoCache);
 
         internetManager = mController.getConnectionManager();
-        internetManager.addSubscriber(this);
         mLocationManager = mController.getLocationManager();
         mCompassManager = mController.getCompassManager();
         mGpsStatusManager = mController.getGpsStatusManager();
@@ -206,6 +205,7 @@ public class SearchGeoCacheMap extends MapActivity implements IInternetAware, IL
             mLocationManager.enableBestProviderUpdates();
             mCompassManager.addSubscriber(this);
             mGpsStatusManager.addSubscriber(this);
+            internetManager.addSubscriber(this);
 
             map.invalidate();
         }

@@ -57,6 +57,7 @@ public class ShowGeoCacheInfo extends Activity implements OnCheckedChangeListene
         super.onCreate(savedInstanceState);
         setContentView(R.layout.info_geocach_activity);
         dbm = new DbManager(getApplicationContext());
+        connectManager = Controller.getInstance().getConnectionManager();
         webView = (WebView) findViewById(R.id.info_web_brouse);
         btGoToSearchGeoCache = (ImageView) findViewById(R.id.info_geocach_Go_button);
         cbAddDelCache = (CheckBox) findViewById(R.id.info_geocache_add_del);
@@ -145,7 +146,7 @@ public class ShowGeoCacheInfo extends Activity implements OnCheckedChangeListene
                 htmlTextGeoCache = getHtmlString(isPageNoteBook);
             }
         }
-
+        connectManager.addSubscriber(this);
         super.onResume();
         webView.setKeepScreenOn(Controller.getInstance().getPreferencesManager().getKeepScreenOnPreference());
     }
@@ -160,9 +161,6 @@ public class ShowGeoCacheInfo extends Activity implements OnCheckedChangeListene
     @Override
     protected void onStart() {
         GeoCacheForShowInfo = getIntent().getParcelableExtra(GeoCache.class.getCanonicalName());
-
-        connectManager = Controller.getInstance().getConnectionManager();
-        connectManager.addSubscriber(this);
 
         isCacheStoredInDataBase = (dbm.getCacheByID(GeoCacheForShowInfo.getId()) != null);
         if (isCacheStoredInDataBase) {

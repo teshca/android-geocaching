@@ -12,7 +12,6 @@ import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
 
-
 /**
  * This class manage classes (named subscribers) which want to get messages about InternetConnectionState
  * 
@@ -66,8 +65,12 @@ public class ConnectionManager {
      * @return true if that activity has been contain in list of subscribers
      */
     public boolean removeSubscriber(IInternetAware activity) {
-        LogManager.d(TAG, "remove subscriber. Count of subscribers was " + Integer.toString(subscribers.size()));
+        if (subscribers.size() == 0) {
+            LogManager.w(TAG, "remove subscriber: empty list. do nothing");
+            return false;
+        }
         boolean res = subscribers.remove(activity);
+        LogManager.d(TAG, "remove subscriber. Count of subscribers became " + Integer.toString(subscribers.size()) + "; list changed=" + res);
         if (subscribers.size() == 0) {
             removeUpdates();
         }
