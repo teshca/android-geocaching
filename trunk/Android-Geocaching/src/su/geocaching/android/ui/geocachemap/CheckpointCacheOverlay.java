@@ -5,6 +5,7 @@ import java.util.LinkedList;
 import java.util.List;
 
 import su.geocaching.android.controller.UiHelper;
+import su.geocaching.android.model.datastorage.DbManager;
 import su.geocaching.android.model.datatype.GeoCache;
 import su.geocaching.android.model.datatype.GeoCacheStatus;
 import su.geocaching.android.model.datatype.GeoCacheType;
@@ -31,9 +32,13 @@ public class CheckpointCacheOverlay extends ItemizedOverlay<OverlayItem> {
     private Activity activity;
     private MapView map;
     private int checkpointNumber;
+    
+    private DbManager dbm;
 
     public CheckpointCacheOverlay(Drawable defaultMarker, Activity context, MapView map) {
         super(defaultMarker);
+        
+        dbm = new DbManager(context.getApplicationContext());
 
         items = Collections.synchronizedList(new LinkedList<GeoCacheOverlayItem>());
         gestureDetector = new GestureDetector(context, sogl);
@@ -58,6 +63,8 @@ public class CheckpointCacheOverlay extends ItemizedOverlay<OverlayItem> {
         if (!contains(overlayItem.getGeoCache())) {
             checkpointNumber++;
             overlayItem.getGeoCache().setName(activity.getString(R.string.checkpoint_dialog_title) + " " + checkpointNumber);
+            overlayItem.getGeoCache().setId(overlayItem.getGeoCache().getId()*1000+checkpointNumber);
+            dbm.addCheckpointGeoCache(overlayItem.getGeoCache());
             items.add(overlayItem);
             setLastFocusedIndex(-1);
             populate();
@@ -65,6 +72,8 @@ public class CheckpointCacheOverlay extends ItemizedOverlay<OverlayItem> {
     }
 
     public void removeOverlayItem(int index) {
+        GeoCache gc = items.get(index).getGeoCache();
+        dbm.deleteCheckpointCacheById(gc.getId());
         items.remove(index);
         setLastFocusedIndex(-1);
         populate();

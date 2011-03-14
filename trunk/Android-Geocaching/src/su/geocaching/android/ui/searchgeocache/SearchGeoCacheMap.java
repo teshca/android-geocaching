@@ -1,5 +1,6 @@
 package su.geocaching.android.ui.searchgeocache;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import su.geocaching.android.controller.CompassManager;
@@ -16,6 +17,7 @@ import su.geocaching.android.controller.UiHelper;
 import su.geocaching.android.controller.compass.CompassPreferenceManager;
 import su.geocaching.android.controller.compass.CompassSpeed;
 import su.geocaching.android.controller.compass.SmoothCompassThread;
+import su.geocaching.android.model.datastorage.DbManager;
 import su.geocaching.android.model.datatype.GeoCache;
 import su.geocaching.android.model.datatype.GeoCacheStatus;
 import su.geocaching.android.model.datatype.GeoCacheType;
@@ -84,6 +86,8 @@ public class SearchGeoCacheMap extends MapActivity implements IInternetAware, IL
     private Controller mController;
     private GoogleAnalyticsTracker tracker;
     private SmoothCompassThread animationThread;
+    
+    private DbManager dbm;
 
     /*
      * (non-Javadoc)
@@ -128,13 +132,20 @@ public class SearchGeoCacheMap extends MapActivity implements IInternetAware, IL
             searchCacheOverlay.addOverlayItem(cacheOverlayItem);
             mapOverlays.add(searchCacheOverlay);
         }
-
+        
+       
         GeoCache gc = new GeoCache();
         gc.setType(GeoCacheType.CHECKPOINT);
         cacheMarker = Controller.getInstance().getResourceManager().getMarker(gc);
+        
+        dbm = new DbManager(getApplicationContext());
         checkpointCacheOverlay = new CheckpointCacheOverlay(cacheMarker, this, map);
+//        for (GeoCache item : dbm.getCheckpointsArrayById(mController.getSearchingGeoCache().getId())) {
+//            cacheOverlayItem = new GeoCacheOverlayItem(item, "", "");            
+//        }
         mapOverlays.add(checkpointCacheOverlay);
-
+        
+        
     }
 
     /*
@@ -167,7 +178,16 @@ public class SearchGeoCacheMap extends MapActivity implements IInternetAware, IL
     @Override
     protected void onResume() {
         super.onResume();
-        LogManager.d(TAG, "on pause");
+        //dbm = new DbManager(getApplicationContext());      
+        ArrayList<GeoCache> checkpoints = dbm.getCheckpointsArrayById(mController.getSearchingGeoCache().getId()/1000);
+        LogManager.d("Geocaching.su", "checkpoints "+checkpoints.size());
+        LogManager.d("Geocaching.su", "mController.getSearchingGeoCache().getId() "+mController.getSearchingGeoCache().getId());
+        for (GeoCache item : checkpoints) {
+            cacheOverlayItem = new GeoCacheOverlayItem(item, "", "");            
+        }
+     
+       
+        LogManager.d(TAG, "on resume");
         map.setKeepScreenOn(Controller.getInstance().getPreferencesManager().getKeepScreenOnPreference());
 
         if (!mLocationManager.isBestProviderEnabled()) {
@@ -214,6 +234,7 @@ public class SearchGeoCacheMap extends MapActivity implements IInternetAware, IL
             onInternetLost();
             LogManager.w(TAG, "internet not connected");
         }
+       
     }
 
     /**
@@ -403,10 +424,14 @@ public class SearchGeoCacheMap extends MapActivity implements IInternetAware, IL
                     gc.setType(GeoCacheType.CHECKPOINT);
 
                     GeoCacheOverlayItem checkpoint = new GeoCacheOverlayItem(gc, "", "");
-                    checkpointCacheOverlay.addOverlayItem(checkpoint);
-
-                    gc.setId(mController.getSearchingGeoCache().getId());
+                   
+                    if (mController.getSearchingGeoCache().getType() == GeoCacheType.CHECKPOINT){
+                        gc.setId(mController.getSearchingGeoCache().getId()/1000);
+                    }else{
+                        gc.setId(mController.getSearchingGeoCache().getId());
+                    }
                     gc.setStatus(GeoCacheStatus.ACTIVE_CHECKPOINT);
+                    checkpointCacheOverlay.addOverlayItem(checkpoint);                    
                     mController.setSearchingGeoCache(gc);
 
                     map.invalidate();
