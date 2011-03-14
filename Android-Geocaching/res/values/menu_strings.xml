@@ -10,6 +10,10 @@
     <string name="keep_screen_on_title">Не выключать экран</string>
     <string name="keep_screen_on_key">keepScreen</string>
     <string name="keep_screen_on_default_value">false</string>
-    <string name="keep_screen_on_summary"></string>
+    <string name="keep_screen_on_summary">Не выключать экран при поиске</string>
     <string name="preference">Настройки</string>
+    <string name="energy_saving_title">Энегросбережение</string>
+    <string name="energy_saving_key">energySaving.preference</string>
+    <string name="main_category_title">Настройки</string>
+    <string name="internet_and_gps_preference_title">Настройки сети</string>
 </resources>

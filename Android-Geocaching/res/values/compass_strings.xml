@@ -36,4 +36,7 @@
     </string-array>
     <string name="prefer_appearance_default_value">CLASSIC</string>
     <string name="prefer_appearance_summary">Выберите внешний вид компаса</string>
+    <string name="compass_preference_title">Настройки компаса</string>
+    <string name="compass_preference_key">compass.preference</string>
+    <string name="compass_category_title">Компас</string>
 </resources>

@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
+    <PreferenceCategory
+            android:title="@string/energy_saving_title"> 
+            
+        <CheckBoxPreference android:title="@string/keep_screen_on_title"
+                            android:key="@string/keep_screen_on_key"
+                            android:defaultValue="@string/keep_screen_on_default_value"
+                            android:summary="@string/keep_screen_on_summary"/>
+    </PreferenceCategory>
+</PreferenceScreen>
