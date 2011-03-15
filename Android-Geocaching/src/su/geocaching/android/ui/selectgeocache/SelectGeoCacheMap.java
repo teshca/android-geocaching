@@ -160,7 +160,10 @@ public class SelectGeoCacheMap extends MapActivity implements IInternetAware {
         map.invalidate();
         updateMapInfoFromSettings();
         mapTimer = new MapUpdateTimer(this);
+
+        selectCacheOverlay.clear();
         updateCacheOverlay();
+
         map.invalidate();
     }
 
