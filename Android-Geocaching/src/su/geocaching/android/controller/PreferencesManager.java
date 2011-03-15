@@ -1,18 +1,20 @@
 package su.geocaching.android.controller;
 
+import android.content.Context;
+import android.content.SharedPreferences;
+import android.preference.PreferenceManager;
 import su.geocaching.android.model.datastorage.DbManager;
 import su.geocaching.android.model.datatype.GeoCache;
 import su.geocaching.android.model.datatype.GeoCacheStatus;
 import su.geocaching.android.model.datatype.GeoCacheType;
 import su.geocaching.android.ui.R;
 import su.geocaching.android.ui.geocachemap.MapInfo;
-import android.content.Context;
-import android.content.SharedPreferences;
-import android.preference.PreferenceManager;
+
+import java.util.EnumSet;
 
 /**
  * Manager which can get access to application preferences
- * 
+ *
  * @author Grigory Kalabin. grigory.kalabin@gmail.com
  * @since March 2011
  */
@@ -41,9 +43,8 @@ public class PreferencesManager {
 
     /**
      * Save last searched geocache id in preferences
-     * 
-     * @param lastSearchedGeoCache
-     *            last searched geoCache
+     *
+     * @param lastSearchedGeoCache last searched geoCache
      */
     public synchronized void setLastSearchedGeoCache(GeoCache lastSearchedGeoCache) {
         if (lastSearchedGeoCache != null) {
@@ -53,11 +54,11 @@ public class PreferencesManager {
             editor.commit();
         }
     }
-    
+
     //}
+
     /**
-     * @param info
-     *            with data to save
+     * @param info with data to save
      */
     public synchronized void setLastMapInfo(MapInfo info) {
         if (info != null) {
@@ -69,15 +70,15 @@ public class PreferencesManager {
             editor.commit();
         }
     }
-    
-    public void setDownloadNoteBookAlways(boolean downloadAlways){
+
+    public void setDownloadNoteBookAlways(boolean downloadAlways) {
         SharedPreferences.Editor editor = preferences.edit();
         editor.putBoolean(context.getString(R.string.save_notebook_alwayse_key), downloadAlways);
         editor.commit();
     }
-    
-    public boolean getDownloadNoteBookAlways(){
-        return preferences.getBoolean(context.getString(R.string.save_notebook_alwayse_key),false);
+
+    public boolean getDownloadNoteBookAlways() {
+        return preferences.getBoolean(context.getString(R.string.save_notebook_alwayse_key), false);
     }
 
     /**
@@ -105,33 +106,37 @@ public class PreferencesManager {
         return preferences.getBoolean(context.getString(R.string.way_cache_adding_key), String.valueOf(R.string.way_cache_adding_default_value).equals("true"));
     }
 
-    public Boolean getStatusFilter(GeoCacheStatus status) {
-        switch (status) {
-            case VALID:
-                return preferences.getBoolean(context.getString(R.string.cache_filter_valid), true);
-            case NOT_VALID:
-                return preferences.getBoolean(context.getString(R.string.cache_filter_not_valid), true);
-            case NOT_CONFIRMED:
-                return preferences.getBoolean(context.getString(R.string.cache_filter_not_confirmed), true);
-            default:
-                return true;
+    public EnumSet<GeoCacheStatus> getStatusFilter() {
+        EnumSet<GeoCacheStatus> set = EnumSet.noneOf(GeoCacheStatus.class);
+        if (preferences.getBoolean(context.getString(R.string.cache_filter_valid), true)) {
+            set.add(GeoCacheStatus.VALID);
         }
+        if (preferences.getBoolean(context.getString(R.string.cache_filter_not_valid), true)) {
+            set.add(GeoCacheStatus.NOT_VALID);
+        }
+        if (preferences.getBoolean(context.getString(R.string.cache_filter_not_confirmed), true)) {
+            set.add(GeoCacheStatus.NOT_CONFIRMED);
+        }
+        return set;
     }
 
-    public Boolean getTypeFilter(GeoCacheType type) {
-        switch (type) {
-            case TRADITIONAL:
-                return preferences.getBoolean(context.getString(R.string.cache_filter_traditional), true);
-            case EXTREME:
-                return preferences.getBoolean(context.getString(R.string.cache_filter_extreme), true);
-            case STEP_BY_STEP:
-                return preferences.getBoolean(context.getString(R.string.cache_filter_stepbystep), true);
-            case VIRTUAL:
-                return preferences.getBoolean(context.getString(R.string.cache_filter_virtual), true);
-            case EVENT:
-                return preferences.getBoolean(context.getString(R.string.cache_filter_event), true);
-            default:
-                return true;
+    public EnumSet<GeoCacheType> getTypeFilter() {
+        EnumSet<GeoCacheType> set = EnumSet.noneOf(GeoCacheType.class);
+        if (preferences.getBoolean(context.getString(R.string.cache_filter_traditional), true)) {
+            set.add(GeoCacheType.TRADITIONAL);
         }
+        if (preferences.getBoolean(context.getString(R.string.cache_filter_extreme), true)) {
+            set.add(GeoCacheType.EXTREME);
+        }
+        if (preferences.getBoolean(context.getString(R.string.cache_filter_stepbystep), true)) {
+            set.add(GeoCacheType.STEP_BY_STEP);
+        }
+        if (preferences.getBoolean(context.getString(R.string.cache_filter_virtual), true)) {
+            set.add(GeoCacheType.VIRTUAL);
+        }
+        if (preferences.getBoolean(context.getString(R.string.cache_filter_event), true)) {
+            set.add(GeoCacheType.VIRTUAL);
+        }
+        return set;
     }
 }
