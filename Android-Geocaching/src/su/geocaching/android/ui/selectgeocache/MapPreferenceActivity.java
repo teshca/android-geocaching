@@ -20,11 +20,20 @@ public class MapPreferenceActivity extends PreferenceActivity {
         addPreferencesFromResource(R.xml.map_preference);
         setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
         
-        Preference mapPreference = (Preference) findPreference("mapFilters");
-        mapPreference.setOnPreferenceClickListener(new OnPreferenceClickListener() {
+        Preference mapFilterTypePreference = (Preference) findPreference("mapFilterType");
+        mapFilterTypePreference.setOnPreferenceClickListener(new OnPreferenceClickListener() {
             
             public boolean onPreferenceClick(Preference preference) {
-                startActivity(new Intent(getBaseContext(), MapMultiSelectPreferenceActivity.class));
+                startActivity(new Intent(getBaseContext(), MapFilterTypePreferenceActivity.class));
+                return true;
+            }
+        });
+        
+        Preference mapFilterStatusPreference = (Preference) findPreference("mapFilterStatus");
+        mapFilterStatusPreference.setOnPreferenceClickListener(new OnPreferenceClickListener() {
+            
+            public boolean onPreferenceClick(Preference preference) {
+                startActivity(new Intent(getBaseContext(), MapFilterStatusPreferenceActivity.class));
                 return true;
             }
         });

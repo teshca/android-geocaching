@@ -85,7 +85,10 @@
         <activity android:name=".EnergySavingPreferenceActivity"></activity>
         <activity android:name=".InternetAndGpsPreferenceActivity"></activity>
         
-        <activity android:name=".selectgeocache.MapMultiSelectPreferenceActivity"></activity>
+        <activity android:name=".selectgeocache.MapFilterTypePreferenceActivity"
+        android:theme="@android:style/Theme.Dialog"></activity>
+        <activity android:name=".selectgeocache.MapFilterStatusPreferenceActivity"
+        android:theme="@android:style/Theme.Dialog"></activity>
         
 
         <activity android:name=".compass.CompassPreferenceActivity"></activity>
