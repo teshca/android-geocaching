@@ -31,7 +31,6 @@ public class State {
 
     private synchronized void sendRequest() {
         if (requestSent && mapUpdated) {
-            LogManager.d("mapStats", "state start");
             gcMap.updateCacheOverlay();
 
             mapUpdated = false;
