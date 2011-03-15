@@ -265,11 +265,7 @@ public class DbManager extends SQLiteOpenHelper {
             }
             c.moveToFirst();
 
-            if (c.getString(0) != null) {
-                exitString = c.getString(0);
-            } else {
-                exitString = null;
-            }
+            exitString = c.getString(0);
             c.close();
             closeDB();
             return exitString;

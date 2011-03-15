@@ -28,6 +28,7 @@ public class ConnectionManager {
     private ConnectionStateReceiver reciever;
     private IntentFilter intentFilter;
     private Context context;
+    private URL pingUrl;
 
     /**
      * @param connectivityManager
@@ -40,6 +41,12 @@ public class ConnectionManager {
         reciever = new ConnectionStateReceiver();
         intentFilter = new IntentFilter();
         intentFilter.addAction("android.net.conn.CONNECTIVITY_CHANGE");
+        try {
+            pingUrl = new URL(PING_URL);
+        } catch (MalformedURLException e) {
+            LogManager.e(TAG, "ConnectionManager init: mailformed url (" + PING_URL + ")");
+            e.printStackTrace();
+        }
         LogManager.d(TAG, "Init");
     }
 
@@ -106,25 +113,22 @@ public class ConnectionManager {
         if (!isConnected) {
             return false;
         }
-        URL url;
-        HttpURLConnection connection;
+        HttpURLConnection connection = null;
         try {
-            url = new URL(PING_URL);
-            connection = (HttpURLConnection) url.openConnection();
+            connection = (HttpURLConnection) pingUrl.openConnection();
             if (connection.getResponseCode() != HttpURLConnection.HTTP_OK) {
                 isConnected = false;
                 LogManager.d(TAG, "Check connection: not reachable (" + PING_URL + ") Response: " + connection.getResponseCode());
             } else {
                 LogManager.d(TAG, "Check connection: reachable (" + PING_URL + ")");
             }
-            connection.disconnect();
-        } catch (MalformedURLException e) {
-            LogManager.e(TAG, "Check connection: mailformed url (" + PING_URL + ")");
-            e.printStackTrace();
-            isConnected = false;
         } catch (IOException e) {
             isConnected = false;
             LogManager.w(TAG, "Check connection: IO exception (" + PING_URL + ")", e);
+        } finally {
+            if (connection != null) {
+                connection.disconnect();
+            }
         }
         return isConnected;
     }

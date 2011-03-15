@@ -7,31 +7,20 @@ import android.graphics.Point;
 import com.google.android.maps.GeoPoint;
 import com.google.android.maps.MapView;
 import com.google.android.maps.Projection;
-import su.geocaching.android.utils.GpsHelper;
 
 public class DistanceToGeoCacheOverlay extends com.google.android.maps.Overlay {
 
-    private static final float DEFAULT_TEXT_SIZE = 12;
     private static final int LINE_COLOR = Color.BLUE;
-    private static final int TEXT_COLOR = Color.RED;
-    private static final float DEFAULT_TEXT_X = 10;
-    private static final float DEFAULT_TEXT_Y = 30;
 
     private GeoPoint userPoint;
     private GeoPoint cachePoint;
-    private Paint paintText, paintLine;
+    private Paint paintLine;
     private boolean withShortestWay;
 
     public DistanceToGeoCacheOverlay(GeoPoint userPoint, GeoPoint cachePoint) {
         this.userPoint = userPoint;
         this.cachePoint = cachePoint;
         withShortestWay = true;
-
-        paintText = new Paint();
-        paintText.setColor(TEXT_COLOR);
-        paintText.setTextSize(DEFAULT_TEXT_SIZE);
-        paintText.setAntiAlias(true);
-        paintText.setFakeBoldText(true);
 
         paintLine = new Paint();
         paintLine.setColor(LINE_COLOR);
@@ -50,9 +39,6 @@ public class DistanceToGeoCacheOverlay extends com.google.android.maps.Overlay {
             proj.toPixels(cachePoint, to);
             canvas.drawLine(from.x, from.y, to.x, to.y, paintLine);
         }
-
-        float dist = GpsHelper.getDistanceBetween(userPoint, cachePoint);
-        canvas.drawText(GpsHelper.distanceToString(dist), DEFAULT_TEXT_X, DEFAULT_TEXT_Y, paintText);
 
         return true;
     }
