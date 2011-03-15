@@ -31,9 +31,7 @@ public class PreferencesManager {
 
     /**
      * Get id of last searched geocache from preferences and get GeoCache object from database
-     * 
-     * @param context
-     *            Context for connection to db and loading preferences
+     *
      * @return last searched geocache by user saved in preferences
      */
     public synchronized GeoCache getLastSearchedGeoCache() {
@@ -47,8 +45,6 @@ public class PreferencesManager {
      * 
      * @param lastSearchedGeoCache
      *            last searched geoCache
-     * @param context
-     *            for connection to db and saving it to preferences
      */
     public synchronized void setLastSearchedGeoCache(GeoCache lastSearchedGeoCache) {
         if (lastSearchedGeoCache != null) {
