@@ -18,7 +18,6 @@ import com.google.android.apps.analytics.GoogleAnalyticsTracker;
 import su.geocaching.android.controller.ConnectionManager;
 import su.geocaching.android.controller.Controller;
 import su.geocaching.android.controller.IInternetAware;
-import su.geocaching.android.controller.PreferencesManager;
 import su.geocaching.android.controller.UiHelper;
 import su.geocaching.android.model.datastorage.DbManager;
 import su.geocaching.android.model.datastorage.DownloadInfoCacheTask;
@@ -56,7 +55,7 @@ public class ShowGeoCacheInfo extends Activity implements OnCheckedChangeListene
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.info_geocach_activity);
-        dbm = new DbManager(getApplicationContext());
+        dbm = Controller.getInstance().getDbManager();
         connectManager = Controller.getInstance().getConnectionManager();
         webView = (WebView) findViewById(R.id.info_web_brouse);
         btGoToSearchGeoCache = (ImageView) findViewById(R.id.info_geocach_Go_button);

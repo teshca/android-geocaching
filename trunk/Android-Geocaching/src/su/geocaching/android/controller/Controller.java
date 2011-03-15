@@ -7,6 +7,7 @@ import com.google.android.maps.GeoPoint;
 import su.geocaching.android.controller.apimanager.ApiManager;
 import su.geocaching.android.controller.apimanager.DownloadGeoCacheTask;
 import su.geocaching.android.controller.apimanager.IApiManager;
+import su.geocaching.android.model.datastorage.DbManager;
 import su.geocaching.android.model.datatype.GeoCache;
 import su.geocaching.android.ui.selectgeocache.SelectGeoCacheMap;
 
@@ -27,6 +28,7 @@ public class Controller {
     private ConnectionManager connectionManager;
     private ResourceManager resourceManager;
     private PreferencesManager preferencesManager;
+    private DbManager dbManager;
     private GeoCache searchingGeoCache;
 
     private Controller() {
@@ -120,6 +122,16 @@ public class Controller {
     }
 
     /**
+     * @return resource manager which can give you interface to working with database
+     */
+    public synchronized DbManager getDbManager() {
+        if (dbManager == null) {
+            LogManager.e(TAG, "db manager wasn't init yet", new NullPointerException("db manager wasn't init yet"));
+        }
+        return dbManager;
+    }
+
+    /**
      * @param context
      *            for init manager
      * @return location manager which can send to ILocationAware location updates
@@ -197,6 +209,19 @@ public class Controller {
         return preferencesManager;
     }
 
+    /**
+     * @return resource manager which can give you interface to working with database
+     * @param context
+     *            for init manager
+     */
+    public synchronized DbManager getDbManager(Context context) {
+        if (dbManager == null) {
+            LogManager.d(TAG, "db manager wasn't init yet. init");
+            dbManager = new DbManager(context);
+        }
+        return dbManager;
+    }
+
     public GeoCache getSearchingGeoCache() {
         return searchingGeoCache;
     }
@@ -229,6 +254,9 @@ public class Controller {
         }
         if (preferencesManager == null) {
             preferencesManager = new PreferencesManager(context);
+        }
+        if (dbManager == null) {
+            dbManager = new DbManager(context);
         }
     }
 }

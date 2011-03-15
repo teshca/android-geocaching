@@ -138,7 +138,7 @@ public class SearchGeoCacheMap extends MapActivity implements IInternetAware, IL
         gc.setType(GeoCacheType.CHECKPOINT);
         cacheMarker = Controller.getInstance().getResourceManager().getMarker(gc);
 
-        dbm = new DbManager(getApplicationContext());
+        dbm = Controller.getInstance().getDbManager();
         checkpointCacheOverlay = new CheckpointCacheOverlay(cacheMarker, this, map);
         // for (GeoCache item : dbm.getCheckpointsArrayById(mController.getSearchingGeoCache().getId())) {
         // cacheOverlayItem = new GeoCacheOverlayItem(item, "", "");
