@@ -1,24 +1,24 @@
 package su.geocaching.android.ui.searchgeocache;
 
-import android.content.Context;
 import android.graphics.*;
 import android.graphics.Paint.Style;
 import com.google.android.maps.GeoPoint;
 import com.google.android.maps.MapView;
+
 import su.geocaching.android.controller.Controller;
 import su.geocaching.android.controller.compass.ICompassAnimation;
 import su.geocaching.android.ui.R;
 
 /**
  * @author Grigory Kalabin. grigory.kalabin@gmail.com
- * @since Nov 20, 2010F
+ * @since November 2010
  */
 public class UserLocationOverlay extends com.google.android.maps.Overlay implements ICompassAnimation {
     private static final int ACCURACY_CIRCLE_ALPHA = 50;
     private static final int ACCURACY_CIRCLE_COLOR = 0xff00aa00;
     private static final int ACCURACY_CIRCLE_STROKE_COLOR = 0xff00ff00;
 
-    private GeoPoint userPoint;
+    private GeoPoint userGeoPoint;
     private float bearing;
     private float accuracyRadius; // accuracy radius in meters
     private Paint paintCircle;
@@ -26,14 +26,24 @@ public class UserLocationOverlay extends com.google.android.maps.Overlay impleme
     private Bitmap userArrowBmp;
     private Bitmap userPointBmp;
     private Matrix matrix;
+    private SearchGeoCacheMap context;
+    private Point tapPoint;
+    private Point userPoint;
+    private int userBitmapWidth;
+    private int userBitmapHeight;
 
     /**
-     * @param context activity which use this overlay
+     * @param context
+     *            activity which use this overlay
      */
-    public UserLocationOverlay(Context context) {
-        userPoint = null;
+    public UserLocationOverlay(SearchGeoCacheMap context) {
+        userGeoPoint = null;
         bearing = Float.NaN;
         accuracyRadius = Float.NaN;
+
+        this.context = context;
+        tapPoint = new Point();
+        userPoint = new Point();
 
         paintCircle = new Paint();
         paintCircle.setColor(ACCURACY_CIRCLE_COLOR);
@@ -52,69 +62,90 @@ public class UserLocationOverlay extends com.google.android.maps.Overlay impleme
     }
 
     /*
-      * (non-Javadoc)
-      *
-      * @see com.google.android.maps.Overlay#draw(android.graphics.Canvas, com.google.android.maps.MapView, boolean, long)
-      */
+     * (non-Javadoc)
+     * 
+     * @see com.google.android.maps.Overlay#draw(android.graphics.Canvas, com.google.android.maps.MapView, boolean, long)
+     */
     @Override
     public boolean draw(Canvas canvas, MapView mapView, boolean shadow, long when) {
         super.draw(canvas, mapView, shadow, when);
 
-        if (userPoint == null) {
+        if (userGeoPoint == null) {
             return true;
         }
 
         // Translate the GeoPoint to screen pixels
-        Point screenPts = new Point();
-        mapView.getProjection().toPixels(userPoint, screenPts);
+        mapView.getProjection().toPixels(userGeoPoint, userPoint);
 
         // Prepare to draw default marker
-        Bitmap userPoint;
+        Bitmap userBitmapPoint;
         if (Float.isNaN(bearing)) {
-            userPoint = userPointBmp;
+            userBitmapPoint = userPointBmp;
         } else {
-            userPoint = userArrowBmp;
+            userBitmapPoint = userArrowBmp;
             // Rotate default marker
             matrix.setRotate(bearing);
-            userPoint = Bitmap.createBitmap(userPoint, 0, 0, userPoint.getWidth(), userPoint.getHeight(), matrix, true);
+            userBitmapPoint = Bitmap.createBitmap(userBitmapPoint, 0, 0, userBitmapPoint.getWidth(), userBitmapPoint.getHeight(), matrix, true);
         }
+        userBitmapWidth = userBitmapPoint.getWidth();
+        userBitmapHeight = userBitmapPoint.getHeight();
 
         // Draw accuracy circle
         if (!Float.isNaN(accuracyRadius)) {
             float radiusInPixels = mapView.getProjection().metersToEquatorPixels(accuracyRadius);
-            if ((radiusInPixels > userPoint.getWidth()) && (radiusInPixels > userPoint.getHeight())) {
-                canvas.drawCircle(screenPts.x, screenPts.y, radiusInPixels, paintCircle);
-                canvas.drawCircle(screenPts.x, screenPts.y, radiusInPixels, paintStroke);
+            if ((radiusInPixels > userBitmapPoint.getWidth()) && (radiusInPixels > userBitmapPoint.getHeight())) {
+                canvas.drawCircle(userPoint.x, userPoint.y, radiusInPixels, paintCircle);
+                canvas.drawCircle(userPoint.x, userPoint.y, radiusInPixels, paintStroke);
             }
         }
 
         // Draw default marker
-        canvas.drawBitmap(userPoint, screenPts.x - userPoint.getWidth() / 2, screenPts.y - userPoint.getHeight() / 2, null);
+        canvas.drawBitmap(userBitmapPoint, userPoint.x - userBitmapPoint.getWidth() / 2, userPoint.y - userBitmapPoint.getHeight() / 2, null);
         return true;
     }
 
     /**
-     * @param point set user location
+     * @param point
+     *            set user location
      */
     public void setPoint(GeoPoint point) {
-        this.userPoint = point;
+        this.userGeoPoint = point;
     }
 
     /**
-     * @param radius set accuracy radius of location point
+     * @param radius
+     *            set accuracy radius of location point
      */
     public void setAccuracy(float radius) {
         this.accuracyRadius = radius;
     }
 
     /*
-      * (non-Javadoc)
-      *
-      * @see su.geocaching.android.controller.compass.ICompassAnimation#setDirection(float)
-      */
+     * (non-Javadoc)
+     * 
+     * @see su.geocaching.android.controller.compass.ICompassAnimation#setDirection(float)
+     */
     @Override
     public boolean setDirection(float direction) {
         bearing = direction;
         return true;
+    }
+
+    /*
+     * (non-Javadoc)
+     * 
+     * @see com.google.android.maps.Overlay#onTap(com.google.android.maps.GeoPoint, com.google.android.maps.MapView)
+     */
+    @Override
+    public boolean onTap(GeoPoint p, MapView map) {
+        if ((!Controller.getInstance().getLocationManager().hasLocation()) || (!Controller.getInstance().getCompassManager().isCompassAvailable())) {
+            return super.onTap(p, map);
+        }
+        map.getProjection().toPixels(p, tapPoint);
+        if ((Math.abs(tapPoint.x - userPoint.x) < userBitmapWidth / 2) && (Math.abs((tapPoint.y - userPoint.y)) < userBitmapHeight / 2)) {
+            context.startCompassView();
+            return true;
+        }
+        return false;
     }
 }
