@@ -77,7 +77,6 @@ public class SelectGeoCacheMap extends MapActivity implements IInternetAware {
         connectionManager = Controller.getInstance().getConnectionManager();
 
         context = this;
-        askTurnOnInternet();
         userOverlay = new MyLocationOverlay(this, map) {
             @Override
             public void onLocationChanged(Location location) {
@@ -151,6 +150,8 @@ public class SelectGeoCacheMap extends MapActivity implements IInternetAware {
     @Override
     protected void onResume() {
         super.onResume();
+        askTurnOnInternet();
+
         map.setKeepScreenOn(Controller.getInstance().getPreferencesManager().getKeepScreenOnPreference());
         map.setSatellite(!Controller.getInstance().getPreferencesManager().getMapTypeString().equals("MAP"));
         connectionManager.addSubscriber(this);

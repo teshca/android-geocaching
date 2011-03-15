@@ -21,27 +21,8 @@ import java.util.ListIterator;
 public class DownloadGeoCacheTask extends AsyncTask<GeoPoint, Integer, List<GeoCache>> {
     private SelectGeoCacheMap map;
     private IApiManager apiManager;
-
-    private List<GeoCacheType> typeFilterList;
-    private List<GeoCacheStatus> statusFilterList;
     private Controller controller;
 
-    private void initFilterLists() {
-        typeFilterList = new LinkedList<GeoCacheType>();
-        statusFilterList = new LinkedList<GeoCacheStatus>();
-
-        for (GeoCacheType type : EnumSet.allOf(GeoCacheType.class)) {
-            if (controller.getPreferencesManager().getTypeFilter(type)) {
-                typeFilterList.add(type);
-            }
-        }
-
-        for (GeoCacheStatus status : EnumSet.allOf(GeoCacheStatus.class)) {
-            if (controller.getPreferencesManager().getStatusFilter(status)) {
-                statusFilterList.add(status);
-            }
-        }
-    }
 
     public DownloadGeoCacheTask(IApiManager apiManager, SelectGeoCacheMap map) {
         this.apiManager = apiManager;
@@ -52,16 +33,18 @@ public class DownloadGeoCacheTask extends AsyncTask<GeoPoint, Integer, List<GeoC
     @Override
     protected List<GeoCache> doInBackground(GeoPoint... params) {
         List<GeoCache> gcList = apiManager.getGeoCacheList(params[0], params[1]);
-        initFilterLists();
         filterCacheList(gcList);
         return gcList;
     }
 
     private synchronized void filterCacheList(List<GeoCache> list) {
+        EnumSet<GeoCacheType> typeSet = controller.getPreferencesManager().getTypeFilter();
+        EnumSet<GeoCacheStatus> statusSet = controller.getPreferencesManager().getStatusFilter();
+
         ListIterator<GeoCache> iterator = list.listIterator();
         while (iterator.hasNext()) {
             GeoCache cache = iterator.next();
-            if (!(typeFilterList.contains(cache.getType()) && statusFilterList.contains(cache.getStatus()))) {
+            if (!(typeSet.contains(cache.getType()) && statusSet.contains(cache.getStatus()))) {
                 iterator.remove();
             }
         }
