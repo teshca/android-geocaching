@@ -57,7 +57,6 @@ public class GeoCacheListAnalyzer {
     private List<Centroid> generateCentroidsArray() {
         int sizeX = map.getWidth() / FINGER_SIZE_X;
         int sizeY = map.getHeight() / FINGER_SIZE_Y;
-        LogManager.d("Screen Size", "width = " + map.getWidth() + ", height = " + map.getHeight());
         List<Centroid> centroids = new LinkedList<Centroid>();
 
         for (int i = 0; i < sizeX; i++) {
@@ -78,7 +77,6 @@ public class GeoCacheListAnalyzer {
 
         long startTime = System.currentTimeMillis();
         List<Centroid> clusterPointMap = new KMeans(points, centroids).getClusterMap();
-        LogManager.d("mapStats", "log: sizeList = " + geoCacheList.size() + " centroids = " + centroids.size() + " time = " + (System.currentTimeMillis() - startTime));
 
         fillOverlayItemList(clusterPointMap);
         return overlayItemList;

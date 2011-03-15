@@ -36,8 +36,7 @@ public class PreferencesManager {
      */
     public synchronized GeoCache getLastSearchedGeoCache() {
         int desiredGeoCacheId = preferences.getInt(GeoCache.class.getCanonicalName(), -1);
-        GeoCache lastSearchedGeoCache = dbManager.getCacheByID(desiredGeoCacheId);
-        return lastSearchedGeoCache;
+        return dbManager.getCacheByID(desiredGeoCacheId);
     }
 
     /**
@@ -88,9 +87,6 @@ public class PreferencesManager {
         int center_x = preferences.getInt("center_x", MapInfo.DEFAULT_CENTER_LATITUDE);
         int center_y = preferences.getInt("center_y", MapInfo.DEFAULT_CENTER_LONGITUDE);
         int zoom = preferences.getInt("zoom", MapInfo.DEFAULT_ZOOM);
-        LogManager.d("lastMapInfo", "X = " + center_x + "; def = " + MapInfo.DEFAULT_CENTER_LATITUDE);
-        LogManager.d("lastMapInfo", "Y = " + center_y + "; def = " + MapInfo.DEFAULT_CENTER_LONGITUDE);
-        LogManager.d("lastMapInfo", "zoom = " + zoom + "; def = " + MapInfo.DEFAULT_ZOOM);
         return new MapInfo(center_x, center_y, zoom);
     }
 
