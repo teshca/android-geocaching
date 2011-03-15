@@ -28,7 +28,7 @@ public class PreferencesManager {
     public PreferencesManager(Context context) {
         this.context = context;
         preferences = PreferenceManager.getDefaultSharedPreferences(context);
-        dbManager = new DbManager(context);
+        dbManager = Controller.getInstance().getDbManager();
     }
 
     /**

@@ -4,6 +4,7 @@ import java.util.Collections;
 import java.util.LinkedList;
 import java.util.List;
 
+import su.geocaching.android.controller.Controller;
 import su.geocaching.android.controller.UiHelper;
 import su.geocaching.android.model.datastorage.DbManager;
 import su.geocaching.android.model.datatype.GeoCache;
@@ -38,7 +39,7 @@ public class CheckpointCacheOverlay extends ItemizedOverlay<OverlayItem> {
     public CheckpointCacheOverlay(Drawable defaultMarker, Activity context, MapView map) {
         super(defaultMarker);
         
-        dbm = new DbManager(context.getApplicationContext());
+        dbm = Controller.getInstance().getDbManager();
 
         items = Collections.synchronizedList(new LinkedList<GeoCacheOverlayItem>());
         gestureDetector = new GestureDetector(context, sogl);

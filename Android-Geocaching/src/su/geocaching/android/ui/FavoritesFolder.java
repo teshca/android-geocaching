@@ -43,7 +43,7 @@ public class FavoritesFolder extends Activity implements OnItemClickListener {
         setContentView(R.layout.favorit_list);
         lvListShowCache = (ListView) findViewById(R.id.favorit_folder_listCach);
         tvTitle = (TextView) findViewById(R.id.favorit_foldet_title_text);
-        dbm = new DbManager(getBaseContext());
+        dbm = Controller.getInstance().getDbManager();
 
     }
 
