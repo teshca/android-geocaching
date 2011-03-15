@@ -237,6 +237,9 @@ public class Controller {
      *            which will be used in all managers
      */
     public void initManagers(Context context) {
+        if (dbManager == null) {
+            dbManager = new DbManager(context);
+        }
         if (compassManager == null) {
             compassManager = new CompassManager((SensorManager) context.getSystemService(Context.SENSOR_SERVICE));
         }
@@ -254,9 +257,6 @@ public class Controller {
         }
         if (preferencesManager == null) {
             preferencesManager = new PreferencesManager(context);
-        }
-        if (dbManager == null) {
-            dbManager = new DbManager(context);
         }
     }
 }
