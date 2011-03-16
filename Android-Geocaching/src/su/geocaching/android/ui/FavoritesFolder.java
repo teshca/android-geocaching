@@ -64,11 +64,6 @@ public class FavoritesFolder extends Activity implements OnItemClickListener {
         return ExitList;
     }
 
-    @Override
-    protected void onResume() {
-        super.onResume();
-        tvTitle.setKeepScreenOn(Controller.getInstance().getPreferencesManager().getKeepScreenOnPreference());
-    }
 
     @Override
     protected void onStart() {

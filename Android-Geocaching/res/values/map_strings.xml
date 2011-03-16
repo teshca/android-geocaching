@@ -52,6 +52,6 @@
     <string name="cache_filter_traditional_default_value">true</string>
     <string name="cache_filter_virtual_default_value">true</string>
     <string name="cache_filter_stepbystepl_default_value">true</string>
-    <string name="cache_filter_extremel_default_value">true</string>
+    <string name="cache_filter_extreme_default_value">true</string>
     <string name="cache_filter_eventl_default_value">true</string>
 </resources>

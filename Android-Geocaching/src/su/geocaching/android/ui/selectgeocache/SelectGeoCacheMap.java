@@ -151,8 +151,6 @@ public class SelectGeoCacheMap extends MapActivity implements IInternetAware {
     protected void onResume() {
         super.onResume();
         askTurnOnInternet();
-
-        map.setKeepScreenOn(Controller.getInstance().getPreferencesManager().getKeepScreenOnPreference());
         map.setSatellite(!Controller.getInstance().getPreferencesManager().getMapTypeString().equals("MAP"));
         connectionManager.addSubscriber(this);
         userOverlay.enableMyLocation();

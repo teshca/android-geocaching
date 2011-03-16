@@ -27,11 +27,6 @@ public class AboutActivity extends Activity {
         tracker.dispatch();
     }
 
-    @Override
-    protected void onResume() {
-        super.onResume();
-        tv.setKeepScreenOn(Controller.getInstance().getPreferencesManager().getKeepScreenOnPreference());
-    }
 
     public void onExitClick(View v) {
         tracker.stop();
