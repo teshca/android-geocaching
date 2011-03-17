@@ -1,7 +1,7 @@
 package su.geocaching.android.ui.test;
 
 import android.test.AndroidTestCase;
-import android.util.Log;
+import su.geocaching.android.controller.LogManager;
 import su.geocaching.android.model.datatype.GeoCache;
 import su.geocaching.android.ui.selectgeocache.geocachegroup.Centroid;
 import su.geocaching.android.ui.selectgeocache.geocachegroup.GeoCacheView;
@@ -34,7 +34,7 @@ public class KMeansTest extends AndroidTestCase {
             value += singleTest();
         }
         value /= NUMBER_OF_TESTS;
-        Log.d(TAG, "Time = " + value + " with items = " + NUMBER_OF_VIEW + "");
+        LogManager.d(TAG, "Time = " + value + " with items = " + NUMBER_OF_VIEW + "");
         assertEquals(1, 1);
     }
 
@@ -72,7 +72,7 @@ public class KMeansTest extends AndroidTestCase {
         long startTime = System.currentTimeMillis();
         new KMeans(points, centroids).getCentroids();
         long time = System.currentTimeMillis() - startTime;
-        Log.d(TAG, "" + time);
+        LogManager.d(TAG, "" + time);
         return time;
     }
 }
