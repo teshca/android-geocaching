@@ -7,10 +7,6 @@
     <string name="enableGps">Настройки GPS</string>
     <string name="enableInternet">Настройки Интернета</string>
     <string name="driving_directions">Подключить путь</string>
-    <string name="keep_screen_on_title">Не выключать экран</string>
-    <string name="keep_screen_on_key">keepScreen</string>
-    <string name="keep_screen_on_default_value">false</string>
-    <string name="keep_screen_on_summary">Не выключать экран при поиске</string>
     <string name="preference">Настройки</string>
     <string name="energy_saving_title">Энегросбережение</string>
     <string name="energy_saving_key">energySaving.preference</string>

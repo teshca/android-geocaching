@@ -240,6 +240,12 @@ public class Controller {
         if (dbManager == null) {
             dbManager = new DbManager(context);
         }
+        if (resourceManager == null) {
+            resourceManager = new ResourceManager(context);
+        }
+        if (preferencesManager == null) {
+            preferencesManager = new PreferencesManager(context);
+        }
         if (compassManager == null) {
             compassManager = new CompassManager((SensorManager) context.getSystemService(Context.SENSOR_SERVICE));
         }
@@ -251,12 +257,6 @@ public class Controller {
         }
         if (connectionManager == null) {
             connectionManager = new ConnectionManager(context);
-        }
-        if (resourceManager == null) {
-            resourceManager = new ResourceManager(context);
-        }
-        if (preferencesManager == null) {
-            preferencesManager = new PreferencesManager(context);
         }
     }
 }

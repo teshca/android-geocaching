@@ -14,7 +14,7 @@ import java.util.EnumSet;
 
 /**
  * Manager which can get access to application preferences
- *
+ * 
  * @author Grigory Kalabin. grigory.kalabin@gmail.com
  * @since March 2011
  */
@@ -33,7 +33,7 @@ public class PreferencesManager {
 
     /**
      * Get id of last searched geocache from preferences and get GeoCache object from database
-     *
+     * 
      * @return last searched geocache by user saved in preferences
      */
     public synchronized GeoCache getLastSearchedGeoCache() {
@@ -43,8 +43,9 @@ public class PreferencesManager {
 
     /**
      * Save last searched geocache id in preferences
-     *
-     * @param lastSearchedGeoCache last searched geoCache
+     * 
+     * @param lastSearchedGeoCache
+     *            last searched geoCache
      */
     public synchronized void setLastSearchedGeoCache(GeoCache lastSearchedGeoCache) {
         if (lastSearchedGeoCache != null) {
@@ -55,10 +56,11 @@ public class PreferencesManager {
         }
     }
 
-    //}
+    // }
 
     /**
-     * @param info with data to save
+     * @param info
+     *            with data to save
      */
     public synchronized void setLastMapInfo(MapInfo info) {
         if (info != null) {
@@ -104,6 +106,11 @@ public class PreferencesManager {
     public Boolean getAddingCacheWayString() {
         // keys located in resources, because settings logic described in xml and write it automatically to SharedPreferences
         return preferences.getBoolean(context.getString(R.string.way_cache_adding_key), String.valueOf(R.string.way_cache_adding_default_value).equals("true"));
+    }
+
+    public GpsUpdateFrequency getGpsUpdateFrequency() {
+        // keys located in resources, because settings logic described in xml and write it automatically to SharedPreferences
+        return GpsUpdateFrequency.valueOf(preferences.getString(context.getString(R.string.gps_update_frequency_key), String.valueOf(R.string.gps_update_frequency_default_value)));
     }
 
     public EnumSet<GeoCacheStatus> getStatusFilter() {

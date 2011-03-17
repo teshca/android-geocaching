@@ -13,13 +13,11 @@ import java.util.TimerTask;
 
 /**
  * Location manager which get updates of location by GPS or GSM/Wi-Fi
- *
+ * 
  * @author Grigory Kalabin. grigory.kalabin@gmail.com
  * @since fall, 2010
  */
 public class GeoCacheLocationManager implements LocationListener {
-    private static final int MIN_DISTANCE = 1; // in meters
-    private static final int MIN_TIME = 1000; // in milliseconds
     private static final String TAG = GeoCacheLocationManager.class.getCanonicalName();
     private static final String TIMER_NAME = "remove location updates timer";
     private static final long REMOVE_UPDATES_DELAY = 30000; // in milliseconds
@@ -32,11 +30,15 @@ public class GeoCacheLocationManager implements LocationListener {
     private RemoveUpdatesTask removeUpdatesTask;
     private boolean isUpdating;
 
+    private GpsUpdateFrequency updateFrequency;
+
     /**
-     * @param locationManager manager which can add or remove updates of location services
+     * @param locationManager
+     *            manager which can add or remove updates of location services
      */
     public GeoCacheLocationManager(LocationManager locationManager) {
         this.locationManager = locationManager;
+        updateFrequency = Controller.getInstance().getPreferencesManager().getGpsUpdateFrequency();
         subsribers = new ArrayList<ILocationAware>();
         provider = "none";
         isUpdating = false;
@@ -46,7 +48,8 @@ public class GeoCacheLocationManager implements LocationListener {
     }
 
     /**
-     * @param subsriber activity which will be listen location updates
+     * @param subsriber
+     *            activity which will be listen location updates
      */
     public void addSubscriber(ILocationAware subsriber) {
         removeUpdatesTask.cancel();
@@ -63,7 +66,8 @@ public class GeoCacheLocationManager implements LocationListener {
     }
 
     /**
-     * @param subsriber activity which no need to listen location updates
+     * @param subsriber
+     *            activity which no need to listen location updates
      * @return true if activity was subsribed on location updates
      */
     public boolean removeSubsriber(ILocationAware subsriber) {
@@ -82,10 +86,10 @@ public class GeoCacheLocationManager implements LocationListener {
     }
 
     /*
-      * (non-Javadoc)
-      *
-      * @see android.location.LocationListener#onLocationChanged(android.location. Location)
-      */
+     * (non-Javadoc)
+     * 
+     * @see android.location.LocationListener#onLocationChanged(android.location. Location)
+     */
     @Override
     public void onLocationChanged(Location location) {
         lastLocation = location;
@@ -101,10 +105,10 @@ public class GeoCacheLocationManager implements LocationListener {
     }
 
     /*
-      * (non-Javadoc)
-      *
-      * @see android.location.LocationListener#onProviderDisabled(java.lang.String)
-      */
+     * (non-Javadoc)
+     * 
+     * @see android.location.LocationListener#onProviderDisabled(java.lang.String)
+     */
     @Override
     public void onProviderDisabled(String provider) {
         LogManager.d(TAG, "Provider (" + provider + ") disabled: send msg to " + Integer.toString(subsribers.size()) + " activity(es)");
@@ -114,10 +118,10 @@ public class GeoCacheLocationManager implements LocationListener {
     }
 
     /*
-      * (non-Javadoc)
-      *
-      * @see android.location.LocationListener#onProviderEnabled(java.lang.String)
-      */
+     * (non-Javadoc)
+     * 
+     * @see android.location.LocationListener#onProviderEnabled(java.lang.String)
+     */
     @Override
     public void onProviderEnabled(String provider) {
         LogManager.d(TAG, "Provider (" + provider + ") enabled: send msg to " + Integer.toString(subsribers.size()) + " activity(es)");
@@ -127,10 +131,10 @@ public class GeoCacheLocationManager implements LocationListener {
     }
 
     /*
-      * (non-Javadoc)
-      *
-      * @see android.location.LocationListener#onStatusChanged(java.lang.String, int, android.os.Bundle)
-      */
+     * (non-Javadoc)
+     * 
+     * @see android.location.LocationListener#onStatusChanged(java.lang.String, int, android.os.Bundle)
+     */
     @Override
     public void onStatusChanged(String provider, int status, Bundle extras) {
         LogManager.d(TAG, "Provider (" + provider + ") status changed (new status is " + Integer.toString(status) + "): send msg to " + Integer.toString(subsribers.size()) + " activity(es)");
@@ -159,8 +163,7 @@ public class GeoCacheLocationManager implements LocationListener {
         Criteria criteria = new Criteria();
         criteria.setAccuracy(Criteria.ACCURACY_FINE);
         provider = locationManager.getBestProvider(criteria, true);
-        locationManager.requestLocationUpdates(provider, MIN_TIME, MIN_DISTANCE, this);
-        isUpdating = true;
+        requestLocationUpdates();
         LogManager.d(TAG, "add updates. Provider is " + provider);
     }
 
@@ -214,10 +217,34 @@ public class GeoCacheLocationManager implements LocationListener {
         }
         provider = locationManager.getBestProvider(criteria, true);
         removeUpdates();
-        locationManager.requestLocationUpdates(provider, MIN_TIME, MIN_DISTANCE, this);
+        requestLocationUpdates();
         LogManager.d(TAG, "request for enable best provider: enabled");
-        isUpdating = true;
         return true;
+    }
+
+    /**
+     * call request location updates on location manager with right min time and min distance
+     */
+    private void requestLocationUpdates() {
+        long minTime = 120000;
+        float minDistance = 5;
+        switch (updateFrequency) {
+            case RARELY:
+                minTime = 240000;
+                minDistance = 10;
+                break;
+            case NORMAL:
+                minTime = 120000;
+                minDistance = 5;
+                break;
+            case OFTEN:
+                minTime = 65000;
+                minDistance = 1;
+                break;
+        }
+        LogManager.d(TAG, "update frequency: " + updateFrequency.toString());
+        locationManager.requestLocationUpdates(provider, minTime, minDistance, this);
+        isUpdating = true;
     }
 
     /**
@@ -237,28 +264,46 @@ public class GeoCacheLocationManager implements LocationListener {
     }
 
     /**
+     * Refresh frequency of location updates and re-request location updates from current provider
+     * 
+     * @param value
+     *            frequency which need
+     */
+    public synchronized void updateFrequency(GpsUpdateFrequency value) {
+        updateFrequency = value;
+        LogManager.d(TAG, "refresh frequency. new value is " + updateFrequency.toString());
+        if (isUpdating) {
+            removeUpdates();
+            addUpdates();
+            LogManager.d(TAG, "refresh frequency: re-request location updates from provider");
+        }
+    }
+
+    /**
      * task which remove updates from LocationManager
-     *
+     * 
      * @author Grigory Kalabin. grigory.kalabin@gmail.com
      */
     private class RemoveUpdatesTask extends TimerTask {
         private GeoCacheLocationManager parent;
 
         /**
-         * @param parent listener which want remove updates
+         * @param parent
+         *            listener which want remove updates
          */
         public RemoveUpdatesTask(GeoCacheLocationManager parent) {
             this.parent = parent;
         }
 
         /*
-           * (non-Javadoc)
-           *
-           * @see java.util.TimerTask#run()
-           */
+         * (non-Javadoc)
+         * 
+         * @see java.util.TimerTask#run()
+         */
         public void run() {
-
-            parent.removeUpdates();
+            if (parent.isUpdating) {
+                parent.removeUpdates();
+            }
         }
     }
 }
