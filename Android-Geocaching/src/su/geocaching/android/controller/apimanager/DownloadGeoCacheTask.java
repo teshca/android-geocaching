@@ -9,7 +9,6 @@ import su.geocaching.android.model.datatype.GeoCacheType;
 import su.geocaching.android.ui.selectgeocache.SelectGeoCacheMap;
 
 import java.util.EnumSet;
-import java.util.LinkedList;
 import java.util.List;
 import java.util.ListIterator;
 
@@ -38,8 +37,8 @@ public class DownloadGeoCacheTask extends AsyncTask<GeoPoint, Integer, List<GeoC
     }
 
     private synchronized void filterCacheList(List<GeoCache> list) {
-        EnumSet<GeoCacheType> typeSet = controller.getPreferencesManager().getTypeFilter();
-        EnumSet<GeoCacheStatus> statusSet = controller.getPreferencesManager().getStatusFilter();
+        EnumSet<GeoCacheType> typeSet = controller.getPreferencesManager(map.getApplicationContext()).getTypeFilter();
+        EnumSet<GeoCacheStatus> statusSet = controller.getPreferencesManager(map.getApplicationContext()).getStatusFilter();
 
         ListIterator<GeoCache> iterator = list.listIterator();
         while (iterator.hasNext()) {
@@ -52,7 +51,7 @@ public class DownloadGeoCacheTask extends AsyncTask<GeoPoint, Integer, List<GeoC
 
     @Override
     protected void onPostExecute(List<GeoCache> gcList) {
-        if (Controller.getInstance().getPreferencesManager().getAddingCacheWayString()) {
+        if (Controller.getInstance().getPreferencesManager(map.getApplicationContext()).getAddingCacheWayString()) {
             map.testAddGeoCacheList(gcList);
         } else {
             map.addGeoCacheList(gcList);

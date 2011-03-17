@@ -1,5 +1,6 @@
 package su.geocaching.android.controller;
 
+import android.content.Context;
 import android.location.Criteria;
 import android.location.Location;
 import android.location.LocationListener;
@@ -29,6 +30,7 @@ public class GeoCacheLocationManager implements LocationListener {
     private Timer removeUpdatesTimer;
     private RemoveUpdatesTask removeUpdatesTask;
     private boolean isUpdating;
+    private Context context;
 
     private GpsUpdateFrequency updateFrequency;
 
@@ -36,9 +38,10 @@ public class GeoCacheLocationManager implements LocationListener {
      * @param locationManager
      *            manager which can add or remove updates of location services
      */
-    public GeoCacheLocationManager(LocationManager locationManager) {
-        this.locationManager = locationManager;
-        updateFrequency = Controller.getInstance().getPreferencesManager().getGpsUpdateFrequency();
+    public GeoCacheLocationManager(Context context) {
+        this.context = context.getApplicationContext();
+        this.locationManager = (LocationManager) this.context.getSystemService(Context.LOCATION_SERVICE);
+        updateFrequency = Controller.getInstance().getPreferencesManager(this.context).getGpsUpdateFrequency();
         subsribers = new ArrayList<ILocationAware>();
         provider = "none";
         isUpdating = false;
@@ -94,7 +97,7 @@ public class GeoCacheLocationManager implements LocationListener {
     public void onLocationChanged(Location location) {
         lastLocation = location;
         LogManager.d(TAG, "Location changed: send msg to " + Integer.toString(subsribers.size()) + " activity(es)");
-        boolean isCompassAvailable = Controller.getInstance().getCompassManager().isCompassAvailable();
+        boolean isCompassAvailable = Controller.getInstance().getCompassManager(this.context).isCompassAvailable();
         for (ILocationAware subsriber : subsribers) {
             if ((subsriber instanceof ICompassAware) && (!isCompassAvailable)) {
                 ((ICompassAware) subsriber).updateBearing((int) location.getBearing());

@@ -2,7 +2,6 @@ package su.geocaching.android.controller;
 
 import android.content.Context;
 import android.hardware.SensorManager;
-import android.location.LocationManager;
 import com.google.android.maps.GeoPoint;
 import su.geocaching.android.controller.apimanager.ApiManager;
 import su.geocaching.android.controller.apimanager.DownloadGeoCacheTask;
@@ -139,7 +138,7 @@ public class Controller {
     public synchronized GeoCacheLocationManager getLocationManager(Context context) {
         if (locationManager == null) {
             LogManager.d(TAG, "location manager wasn't init yet. init.");
-            locationManager = new GeoCacheLocationManager((LocationManager) context.getSystemService(Context.LOCATION_SERVICE));
+            locationManager = new GeoCacheLocationManager(context);
         }
         return locationManager;
     }
@@ -165,7 +164,7 @@ public class Controller {
     public synchronized GpsStatusManager getGpsStatusManager(Context context) {
         if (gpsStatusManager == null) {
             LogManager.d(TAG, "gps status manager wasn't init yet. init.");
-            gpsStatusManager = new GpsStatusManager((LocationManager) context.getSystemService(Context.LOCATION_SERVICE));
+            gpsStatusManager = new GpsStatusManager(context);
         }
         return gpsStatusManager;
     }
@@ -250,10 +249,10 @@ public class Controller {
             compassManager = new CompassManager((SensorManager) context.getSystemService(Context.SENSOR_SERVICE));
         }
         if (locationManager == null) {
-            locationManager = new GeoCacheLocationManager((LocationManager) context.getSystemService(Context.LOCATION_SERVICE));
+            locationManager = new GeoCacheLocationManager(context);
         }
         if (gpsStatusManager == null) {
-            gpsStatusManager = new GpsStatusManager((LocationManager) context.getSystemService(Context.LOCATION_SERVICE));
+            gpsStatusManager = new GpsStatusManager(context);
         }
         if (connectionManager == null) {
             connectionManager = new ConnectionManager(context);

@@ -51,7 +51,7 @@ public class SmoothCompassThread extends Thread implements ICompassAware {
 
     public SmoothCompassThread(ICompassAnimation compassView, Context context) {
         LogManager.d(TAG, "new SmoothCompassThread");
-        compassManager = Controller.getInstance().getCompassManager();
+        compassManager = Controller.getInstance().getCompassManager(context.getApplicationContext());
         compassManager.addSubscriber(this);
         this.compassView = compassView;
         speed = CompassSpeed.NORMAL;

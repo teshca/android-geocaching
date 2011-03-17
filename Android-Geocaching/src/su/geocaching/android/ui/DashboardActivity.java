@@ -75,12 +75,12 @@ public class DashboardActivity extends Activity {
      */
     public void onSearchClick(View v) {
         tracker.trackEvent("Click", "Button", "from DashBoardActivity to SearchActivity ", 0);
-        if (Controller.getInstance().getPreferencesManager().getLastSearchedGeoCache() == null) {
+        if (Controller.getInstance().getPreferencesManager(getApplicationContext()).getLastSearchedGeoCache() == null) {
             Toast.makeText(this.getBaseContext(), getString(R.string.search_geocache_start_without_geocache), Toast.LENGTH_SHORT).show();
             return;
         }
         Intent intent = new Intent(this, SearchGeoCacheMap.class);
-        intent.putExtra(GeoCache.class.getCanonicalName(), Controller.getInstance().getPreferencesManager().getLastSearchedGeoCache());
+        intent.putExtra(GeoCache.class.getCanonicalName(), Controller.getInstance().getPreferencesManager(getApplicationContext()).getLastSearchedGeoCache());
         startActivity(intent);
 
     }

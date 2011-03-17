@@ -39,7 +39,7 @@ public class CheckpointCacheOverlay extends ItemizedOverlay<OverlayItem> {
     public CheckpointCacheOverlay(Drawable defaultMarker, Activity context, MapView map) {
         super(defaultMarker);
         
-        dbm = Controller.getInstance().getDbManager();
+        dbm = Controller.getInstance().getDbManager(context.getApplicationContext());
 
         items = Collections.synchronizedList(new LinkedList<GeoCacheOverlayItem>());
         gestureDetector = new GestureDetector(context, sogl);
