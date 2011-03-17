@@ -14,6 +14,6 @@ public class WhiteStandartCompassDrawning extends StandartCompassDrawning {
 
     public WhiteStandartCompassDrawning(Context context) {
         super(context);
-        roseBitmap = BitmapFactory.decodeResource(Controller.getInstance().getResourceManager().getResources(), R.drawable.compass_rose_pale);
+        roseBitmap = BitmapFactory.decodeResource(Controller.getInstance().getResourceManager(context.getApplicationContext()).getResources(), R.drawable.compass_rose_pale);
     }
 }

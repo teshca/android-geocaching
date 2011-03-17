@@ -20,7 +20,7 @@ public class StandartCompassDrawning extends CompassDrawningHelper {
     public StandartCompassDrawning(Context context) {
         super();
 
-        roseBitmap = BitmapFactory.decodeResource(Controller.getInstance().getResourceManager().getResources(), R.drawable.compass_rose_yellow);
+        roseBitmap = BitmapFactory.decodeResource(Controller.getInstance().getResourceManager(context.getApplicationContext()).getResources(), R.drawable.compass_rose_yellow);
 
         textPaint.setColor(Color.parseColor(context.getString(R.color.menu_text_color)));
         textPaint.setAntiAlias(true);

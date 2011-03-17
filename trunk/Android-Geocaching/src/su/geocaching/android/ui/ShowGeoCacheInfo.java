@@ -55,8 +55,8 @@ public class ShowGeoCacheInfo extends Activity implements OnCheckedChangeListene
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.info_geocach_activity);
-        dbm = Controller.getInstance().getDbManager();
-        connectManager = Controller.getInstance().getConnectionManager();
+        dbm = Controller.getInstance().getDbManager(getApplicationContext());
+        connectManager = Controller.getInstance().getConnectionManager(getApplicationContext());
         webView = (WebView) findViewById(R.id.info_web_brouse);
         btGoToSearchGeoCache = (ImageView) findViewById(R.id.info_geocach_Go_button);
         cbAddDelCache = (CheckBox) findViewById(R.id.info_geocache_add_del);
@@ -83,7 +83,7 @@ public class ShowGeoCacheInfo extends Activity implements OnCheckedChangeListene
     public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
         if (isChecked) {
             isCacheStoredInDataBase = true;
-            if (!Controller.getInstance().getPreferencesManager().getDownloadNoteBookAlways()){
+            if (!Controller.getInstance().getPreferencesManager(getApplicationContext()).getDownloadNoteBookAlways()){
                 if (htmlTextNotebookGeoCache == null || htmlTextNotebookGeoCache == "") {
                     createDownloadNotebookDialog();
                 }
@@ -108,7 +108,7 @@ public class ShowGeoCacheInfo extends Activity implements OnCheckedChangeListene
             @Override
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
                 // TODO Auto-generated method stub
-                Controller.getInstance().getPreferencesManager().setDownloadNoteBookAlways(true);
+                Controller.getInstance().getPreferencesManager(getApplicationContext()).setDownloadNoteBookAlways(true);
             }
         });
         Button buttonYes = (Button) dialog.findViewById(R.id.ButtonYes);
@@ -168,8 +168,8 @@ public class ShowGeoCacheInfo extends Activity implements OnCheckedChangeListene
         }
 
         tvNameText.setText(GeoCacheForShowInfo.getName());
-        tvStatusGeoCacheText.setText(Controller.getInstance().getResourceManager().getGeoCacheStatus(GeoCacheForShowInfo));
-        tvTypeGeoCacheText.setText(Controller.getInstance().getResourceManager().getGeoCacheType(GeoCacheForShowInfo));
+        tvStatusGeoCacheText.setText(Controller.getInstance().getResourceManager(getApplicationContext()).getGeoCacheStatus(GeoCacheForShowInfo));
+        tvTypeGeoCacheText.setText(Controller.getInstance().getResourceManager(getApplicationContext()).getGeoCacheType(GeoCacheForShowInfo));
 
         cbAddDelCache.setOnCheckedChangeListener(this);
         btGoToSearchGeoCache.setOnClickListener(this);
