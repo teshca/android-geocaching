@@ -17,6 +17,7 @@ import java.util.List;
 public class KMeansTest extends AndroidTestCase {
     private static final int MAX_NUMBER_OF_VIEW = 2000;
     private static final int MIN_NUMBER_OF_VIEW = 10;
+    private static final int STEP = 50;
     private static final int NUMBER_OF_TESTS = 10;
     private static final int SCREEN_WIDTH = 640;
     private static final int SCREEN_HEIGHT = 480;
@@ -30,7 +31,7 @@ public class KMeansTest extends AndroidTestCase {
     }
 
     public void testMultiply() {
-        for (int i = MIN_NUMBER_OF_VIEW; i < MAX_NUMBER_OF_VIEW; i += 50) {
+        for (int i = MIN_NUMBER_OF_VIEW; i < MAX_NUMBER_OF_VIEW; i += STEP) {
             withNumberOfViewTest(i);
         }
     }
