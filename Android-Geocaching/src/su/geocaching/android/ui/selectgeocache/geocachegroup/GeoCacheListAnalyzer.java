@@ -25,31 +25,21 @@ public class GeoCacheListAnalyzer {
         this.map = map;
     }
 
-    private void fillOverlayItemList(List<Centroid> clusterPointMap) {
+    private void fillOverlayItemList(List<Centroid> centroidList) {
         overlayItemList = new LinkedList<GeoCacheOverlayItem>();
-        for (Centroid centroid : clusterPointMap) {
-            List<GeoCacheView> cacheList = centroid.getGeoCacheList();
-            if (cacheList.size() != 0) {
-                if (cacheList.size() < MINIMUM_GROUP_SIZE_TO_CREATE_CLUSTER) {
-                    for (GeoCacheView cache : cacheList) {
-                        overlayItemList.add(new GeoCacheOverlayItem(cache.getCache(), "", "", map.getContext()));
-                    }
+        for (Centroid centroid : centroidList) {
+            int num = centroid.getNumberOfView();
+            if (num != 0) {
+                if (num < MINIMUM_GROUP_SIZE_TO_CREATE_CLUSTER) {
+                    //  we think minimum = 2
+                    overlayItemList.add(new GeoCacheOverlayItem(centroid.getCache(), "", "", map.getContext()));
                 } else {
                     overlayItemList.add(new GeoCacheOverlayItem(map.getProjection().fromPixels(centroid.getX(), centroid.getY()),
-                            getCacheListFromCacheViewList(cacheList),
                             "Group", "",
                             map.getContext()));
                 }
             }
         }
-    }
-
-    private List<GeoCache> getCacheListFromCacheViewList(List<GeoCacheView> cacheViewList) {
-        List<GeoCache> list = new LinkedList<GeoCache>();
-        for (GeoCacheView cacheView : cacheViewList) {
-            list.add(cacheView.getCache());
-        }
-        return list;
     }
 
     private List<Centroid> generateCentroids() {
@@ -73,10 +63,9 @@ public class GeoCacheListAnalyzer {
         List<Centroid> centroids = generateCentroids();
         List<GeoCacheView> points = generatePointsList(geoCacheList);
 
-        long startTime = System.currentTimeMillis();
-        List<Centroid> clusterPointMap = new KMeans(points, centroids).getCentroids();
+        List<Centroid> centroidList = new KMeans(points, centroids).getCentroids();
 
-        fillOverlayItemList(clusterPointMap);
+        fillOverlayItemList(centroidList);
         return overlayItemList;
     }
 
