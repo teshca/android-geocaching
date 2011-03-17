@@ -15,14 +15,14 @@ import java.util.List;
  * @since: 17.03.11
  */
 public class KMeansTest extends AndroidTestCase {
-    private static final int MAX_NUMBER_OF_VIEW = 2000;
+    private static final int MAX_NUMBER_OF_VIEW = 6000;
     private static final int MIN_NUMBER_OF_VIEW = 10;
-    private static final int STEP = 50;
+    private static final int STEP = 100;
     private static final int NUMBER_OF_TESTS = 10;
     private static final int SCREEN_WIDTH = 640;
     private static final int SCREEN_HEIGHT = 480;
-    private static final int FINGER_SIZE_X = 60;
-    private static final int FINGER_SIZE_Y = 80;
+    private static final int FINGER_SIZE_X = 80;
+    private static final int FINGER_SIZE_Y = 60;
     public static final String TAG = "KMeans"; //KMeansTest.class.getName();
 
     @Override

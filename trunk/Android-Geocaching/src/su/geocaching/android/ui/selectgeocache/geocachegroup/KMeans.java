@@ -28,6 +28,13 @@ public class KMeans {
     }
 
     public List<Centroid> getCentroids() {
+        for (GeoCacheView point : points) {
+            Centroid centroid = point.getClosestCentroid();
+            centroid.plusNew(point.getX(), point.getY());
+            if (centroid.getCache() == null) {
+                centroid.setCache(point.getCache());
+            }
+        }
         return centroids;
     }
 
@@ -48,7 +55,6 @@ public class KMeans {
         for (GeoCacheView point : points) {
             Centroid centroid = findClosestCentroid(point);
             point.setClosestCentroid(centroid);
-            centroid.getGeoCacheList().add(point);
         }
     }
 
@@ -57,31 +63,18 @@ public class KMeans {
             Centroid newClosestCentroid = findClosestCentroid(aPoint);
             if (!aPoint.getClosestCentroid().equals(newClosestCentroid)) {
                 ready = false;
-                aPoint.getClosestCentroid().getGeoCacheList().remove(aPoint);
                 aPoint.setClosestCentroid(newClosestCentroid);
-                aPoint.getClosestCentroid().getGeoCacheList().add(aPoint);
             }
         }
     }
 
     private void fillCentroids() {
-        for (Centroid centroid : centroids) {
-            if (centroid.getGeoCacheList().size() != 0) {
-                updateCentroid(centroid.getGeoCacheList(), centroid);
-            }
-        }
-    }
-
-    private void updateCentroid(List<GeoCacheView> points, Centroid centroid) {
-        int centerX = 0, centerY = 0;
         for (GeoCacheView point : points) {
-            centerX += point.getX();
-            centerY += point.getY();
+            point.getClosestCentroid().plusNew(point.getX(), point.getY());
         }
-        int size = points.size();
-        centerX /= size;
-        centerY /= size;
-        centroid.set(centerX, centerY);
+        for (Centroid centroid : centroids) {
+            centroid.setNew();
+        }
     }
 
     private long countDistance(GeoCacheView point, GeoCacheView centroid) {

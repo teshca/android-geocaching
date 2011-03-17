@@ -41,6 +41,10 @@ public class GeoCacheView {
         return cache;
     }
 
+    public void setCache(GeoCache cache) {
+        this.cache = cache;
+    }
+
     public Centroid getClosestCentroid() {
         return closestCentroid;
     }

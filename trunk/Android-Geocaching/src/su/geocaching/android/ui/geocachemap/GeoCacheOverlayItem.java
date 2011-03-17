@@ -7,8 +7,6 @@ import su.geocaching.android.controller.Controller;
 import su.geocaching.android.model.datatype.GeoCache;
 import su.geocaching.android.model.datatype.GeoCacheType;
 
-import java.util.List;
-
 /**
  * Describes overlay item which contains GeoCache object
  *
@@ -18,7 +16,6 @@ import java.util.List;
 public class GeoCacheOverlayItem extends OverlayItem {
 
     private GeoCache geoCache;
-    private List<GeoCache> geoCacheList = null;
 
     /**
      * @param geoCache which will be kept in this overlay
@@ -36,13 +33,12 @@ public class GeoCacheOverlayItem extends OverlayItem {
         this.geoCache = geoCache;
     }
 
-    public GeoCacheOverlayItem(GeoPoint point, List<GeoCache> geoCacheList, String title, String snippet, Context map) {
+    public GeoCacheOverlayItem(GeoPoint point, String title, String snippet, Context map) {
         super(point, title, snippet);
         geoCache = new GeoCache();
         geoCache.setType(GeoCacheType.GROUP);
         this.setMarker(Controller.getInstance().getResourceManager().getMarker(geoCache));
         geoCache.setLocationGeoPoint(point);
-        this.geoCacheList = geoCacheList;
     }
 
     /**
@@ -51,9 +47,4 @@ public class GeoCacheOverlayItem extends OverlayItem {
     public GeoCache getGeoCache() {
         return geoCache;
     }
-
-    public List<GeoCache> getGeoCacheList() {
-        return geoCacheList;
-    }
-
 }
