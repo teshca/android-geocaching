@@ -12,6 +12,7 @@ public class KMeans {
     private List<Centroid> centroids;
     private List<GeoCacheView> points;
     private boolean ready;
+    private int iterations = 0;
 
     public KMeans(List<GeoCacheView> cacheCoordinates, List<Centroid> centroids) {
         this.points = cacheCoordinates;
@@ -20,6 +21,7 @@ public class KMeans {
 
         ready = false;
         while (!ready) {
+            iterations++;
             ready = true;
             fillCentroids();
             fillCurrentResult();
@@ -81,5 +83,9 @@ public class KMeans {
         int x = point.getX() - centroid.getX();
         int y = point.getY() - centroid.getY();
         return x * x + y * y;
+    }
+
+    public int getIterations() {
+        return iterations;
     }
 }

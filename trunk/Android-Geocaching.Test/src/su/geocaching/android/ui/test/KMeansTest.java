@@ -15,15 +15,17 @@ import java.util.List;
  * @since: 17.03.11
  */
 public class KMeansTest extends AndroidTestCase {
-    private static final int MAX_NUMBER_OF_VIEW = 6000;
+    private static final int MAX_NUMBER_OF_VIEW = 3020;
     private static final int MIN_NUMBER_OF_VIEW = 10;
     private static final int STEP = 100;
-    private static final int NUMBER_OF_TESTS = 10;
+    private static final int NUMBER_OF_TESTS = 50;
     private static final int SCREEN_WIDTH = 640;
     private static final int SCREEN_HEIGHT = 480;
     private static final int FINGER_SIZE_X = 80;
     private static final int FINGER_SIZE_Y = 60;
+    private int iter = 0;
     public static final String TAG = "KMeans"; //KMeansTest.class.getName();
+
 
     @Override
     protected void setUp() throws Exception {
@@ -37,12 +39,14 @@ public class KMeansTest extends AndroidTestCase {
     }
 
     public void withNumberOfViewTest(int numberOfView) {
-        int value = 0;
+        long value = 0, iteration = 0;
         for (int i = 0; i < NUMBER_OF_TESTS; i++) {
             value += singleTest(numberOfView);
+            iteration += iter;
         }
         value /= NUMBER_OF_TESTS;
-        LogManager.d(TAG, "Time = " + value + " with items = " + numberOfView + "");
+        iteration /= NUMBER_OF_TESTS;
+        LogManager.d(TAG, numberOfView + ", " + iteration + ", " + value);
     }
 
     private List<GeoCacheView> generatePoints(int numberOfView) {
@@ -77,7 +81,9 @@ public class KMeansTest extends AndroidTestCase {
         List<GeoCacheView> points = generatePoints(numberOfView);
         List<Centroid> centroids = generateCentroids();
         long startTime = System.currentTimeMillis();
-        new KMeans(points, centroids).getCentroids();
+        KMeans k = new KMeans(points, centroids);
+        k.getCentroids();
+        iter = k.getIterations();
         long time = System.currentTimeMillis() - startTime;
         // LogManager.d(TAG, "" + time);
         return time;
