@@ -15,7 +15,8 @@ import java.util.List;
  * @since: 17.03.11
  */
 public class KMeansTest extends AndroidTestCase {
-    private static final int NUMBER_OF_VIEW = 2000;
+    private static final int MAX_NUMBER_OF_VIEW = 2000;
+    private static final int MIN_NUMBER_OF_VIEW = 10;
     private static final int NUMBER_OF_TESTS = 10;
     private static final int SCREEN_WIDTH = 640;
     private static final int SCREEN_HEIGHT = 480;
@@ -28,19 +29,24 @@ public class KMeansTest extends AndroidTestCase {
         super.setUp();
     }
 
-    public void testKMeans() {
-        int value = 0;
-        for (int i = 0; i < NUMBER_OF_TESTS; i++) {
-            value += singleTest();
+    public void testMultiply() {
+        for (int i = MIN_NUMBER_OF_VIEW; i < MAX_NUMBER_OF_VIEW; i += 50) {
+            withNumberOfViewTest(i);
         }
-        value /= NUMBER_OF_TESTS;
-        LogManager.d(TAG, "Time = " + value + " with items = " + NUMBER_OF_VIEW + "");
-        assertEquals(1, 1);
     }
 
-    private List<GeoCacheView> generatePoints() {
+    public void withNumberOfViewTest(int numberOfView) {
+        int value = 0;
+        for (int i = 0; i < NUMBER_OF_TESTS; i++) {
+            value += singleTest(numberOfView);
+        }
+        value /= NUMBER_OF_TESTS;
+        LogManager.d(TAG, "Time = " + value + " with items = " + numberOfView + "");
+    }
+
+    private List<GeoCacheView> generatePoints(int numberOfView) {
         List<GeoCacheView> points = new LinkedList<GeoCacheView>();
-        for (int i = 0; i < NUMBER_OF_VIEW; i++) {
+        for (int i = 0; i < numberOfView; i++) {
             points.add(
                     new GeoCacheView(
                             (int) (SCREEN_WIDTH * Math.random()),
@@ -66,13 +72,13 @@ public class KMeansTest extends AndroidTestCase {
         return centroids;
     }
 
-    private long singleTest() {
-        List<GeoCacheView> points = generatePoints();
+    private long singleTest(int numberOfView) {
+        List<GeoCacheView> points = generatePoints(numberOfView);
         List<Centroid> centroids = generateCentroids();
         long startTime = System.currentTimeMillis();
         new KMeans(points, centroids).getCentroids();
         long time = System.currentTimeMillis() - startTime;
-        LogManager.d(TAG, "" + time);
+        // LogManager.d(TAG, "" + time);
         return time;
     }
 }
