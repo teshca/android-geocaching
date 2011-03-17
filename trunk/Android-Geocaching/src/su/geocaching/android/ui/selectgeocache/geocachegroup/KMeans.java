@@ -27,7 +27,7 @@ public class KMeans {
 
     }
 
-    public List<Centroid> getClusterMap() {
+    public List<Centroid> getCentroids() {
         return centroids;
     }
 
