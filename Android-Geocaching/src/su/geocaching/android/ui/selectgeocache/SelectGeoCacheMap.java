@@ -6,6 +6,7 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.drawable.AnimationDrawable;
 import android.location.Location;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Handler;
 import android.provider.Settings;
@@ -17,12 +18,7 @@ import android.widget.ImageView;
 import android.widget.Toast;
 import com.google.android.apps.analytics.GoogleAnalyticsTracker;
 import com.google.android.maps.*;
-
-import su.geocaching.android.controller.ConnectionManager;
-import su.geocaching.android.controller.Controller;
-import su.geocaching.android.controller.IInternetAware;
-import su.geocaching.android.controller.LogManager;
-import su.geocaching.android.controller.UiHelper;
+import su.geocaching.android.controller.*;
 import su.geocaching.android.model.datatype.GeoCache;
 import su.geocaching.android.ui.R;
 import su.geocaching.android.ui.geocachemap.GeoCacheOverlayItem;
@@ -55,6 +51,7 @@ public class SelectGeoCacheMap extends MapActivity implements IInternetAware {
     private int countDownloadTask;
     private Handler handler;
     private GoogleAnalyticsTracker tracker;
+    private GroupCacheTask groupTask = null;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -242,7 +239,12 @@ public class SelectGeoCacheMap extends MapActivity implements IInternetAware {
             updateProgressStop();
             return;
         }
-        new GroupCacheTask(this, geoCacheList).execute();
+        if (groupTask != null && groupTask.getStatus() != AsyncTask.Status.FINISHED) {
+            LogManager.d(TAG, "task canceled");
+            groupTask.cancel(false);
+        }
+        groupTask = new GroupCacheTask(this, geoCacheList);
+        groupTask.execute();
         updateProgressStop();
     }
 
