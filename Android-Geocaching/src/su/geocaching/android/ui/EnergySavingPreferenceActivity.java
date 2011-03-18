@@ -34,7 +34,7 @@ public class EnergySavingPreferenceActivity extends PreferenceActivity implement
     @Override
     public boolean onPreferenceChange(Preference preference, Object newValue) {
         GpsUpdateFrequency frequency = GpsUpdateFrequency.valueOf((String) newValue);
-        Controller.getInstance().getLocationManager(getApplicationContext()).updateFrequency(frequency);
+        Controller.getInstance().getLocationManager().updateFrequency(frequency);
         return true;
     }
 }

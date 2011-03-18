@@ -121,13 +121,13 @@ public class SearchGeoCacheMap extends MapActivity implements IInternetAware, IL
         mController = Controller.getInstance();
         mController.setSearchingGeoCache(geoCache);
 
-        internetManager = mController.getConnectionManager(getApplicationContext());
-        mLocationManager = mController.getLocationManager(getApplicationContext());
-        mCompassManager = mController.getCompassManager(getApplicationContext());
+        internetManager = mController.getConnectionManager();
+        mLocationManager = mController.getLocationManager();
+        mCompassManager = mController.getCompassManager();
         mGpsStatusManager = mController.getGpsStatusManager(getApplicationContext());
 
         if (geoCache != null) {
-            cacheMarker = mController.getResourceManager(getApplicationContext()).getMarker(mController.getSearchingGeoCache());
+            cacheMarker = mController.getResourceManager().getMarker(mController.getSearchingGeoCache());
             searchCacheOverlay = new SearchCacheOverlay(cacheMarker, this);
             cacheOverlayItem = new GeoCacheOverlayItem(mController.getSearchingGeoCache(), "", "");
             searchCacheOverlay.addOverlayItem(cacheOverlayItem);
@@ -136,9 +136,9 @@ public class SearchGeoCacheMap extends MapActivity implements IInternetAware, IL
 
         GeoCache gc = new GeoCache();
         gc.setType(GeoCacheType.CHECKPOINT);
-        cacheMarker = Controller.getInstance().getResourceManager(getApplicationContext()).getMarker(gc);
+        cacheMarker = Controller.getInstance().getResourceManager().getMarker(gc);
 
-        dbm = Controller.getInstance().getDbManager(getApplicationContext());
+        dbm = Controller.getInstance().getDbManager();
         checkpointCacheOverlay = new CheckpointCacheOverlay(cacheMarker, this, map);
         // for (GeoCache item : dbm.getCheckpointsArrayById(mController.getSearchingGeoCache().getId())) {
         // cacheOverlayItem = new GeoCacheOverlayItem(item, "", "");
@@ -186,7 +186,7 @@ public class SearchGeoCacheMap extends MapActivity implements IInternetAware, IL
         }
 
         LogManager.d(TAG, "on resume");
-        map.setKeepScreenOn(Controller.getInstance().getPreferencesManager(getApplicationContext()).getKeepScreenOnPreference());
+        map.setKeepScreenOn(Controller.getInstance().getPreferencesManager().getKeepScreenOnPreference());
 
         if (!mLocationManager.isBestProviderEnabled()) {
             if (!mLocationManager.isBestProviderGps()) {
@@ -205,7 +205,7 @@ public class SearchGeoCacheMap extends MapActivity implements IInternetAware, IL
 
             // Save last searched geocache
             if (mController.getSearchingGeoCache().getType() != GeoCacheType.CHECKPOINT) {
-                Controller.getInstance().getPreferencesManager(getApplicationContext()).setLastSearchedGeoCache(mController.getSearchingGeoCache());
+                Controller.getInstance().getPreferencesManager().setLastSearchedGeoCache(mController.getSearchingGeoCache());
             }
 
             if (!mLocationManager.hasLocation()) {
@@ -577,7 +577,7 @@ public class SearchGeoCacheMap extends MapActivity implements IInternetAware, IL
      */
     private void startAnimation() {
         if (animationThread == null) {
-            animationThread = new SmoothCompassThread(userOverlay, this);
+            animationThread = new SmoothCompassThread(userOverlay);
             animationThread.setRunning(true);
 
             CompassPreferenceManager preferManager = CompassPreferenceManager.getPreference(this);

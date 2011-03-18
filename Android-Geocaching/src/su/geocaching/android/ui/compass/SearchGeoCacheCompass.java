@@ -60,8 +60,8 @@ public class SearchGeoCacheCompass extends Activity {
         statusText = (TextView) findViewById(R.id.waitingLocationFixText);
 
         controller = Controller.getInstance();
-        locationManager = controller.getLocationManager(getApplicationContext());
-        gpsManager = controller.getGpsStatusManager(getApplicationContext());
+        locationManager = controller.getLocationManager();
+        gpsManager = controller.getGpsStatusManager();
         locationListener = new LocationListener(this);
         gpsListener = new GpsStatusListener();
 
@@ -75,7 +75,7 @@ public class SearchGeoCacheCompass extends Activity {
     protected void onResume() {
         super.onResume();
         LogManager.d(TAG, "onResume");
-        compassView.setKeepScreenOn(Controller.getInstance().getPreferencesManager(getApplicationContext()).getKeepScreenOnPreference());
+        compassView.setKeepScreenOn(Controller.getInstance().getPreferencesManager().getKeepScreenOnPreference());
         runLogic();
         startAnimation();
     }
@@ -120,7 +120,7 @@ public class SearchGeoCacheCompass extends Activity {
 
     private void startAnimation() {
         if (animationThread == null) {
-            animationThread = new SmoothCompassThread(compassView, this);
+            animationThread = new SmoothCompassThread(compassView);
             animationThread.setRunning(true);
 
             CompassPreferenceManager preferManager = CompassPreferenceManager.getPreference(this);

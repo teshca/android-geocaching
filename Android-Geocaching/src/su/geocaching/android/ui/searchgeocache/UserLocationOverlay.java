@@ -56,8 +56,8 @@ public class UserLocationOverlay extends com.google.android.maps.Overlay impleme
         paintStroke.setStyle(Style.STROKE);
         paintStroke.setAlpha(ACCURACY_CIRCLE_ALPHA);
 
-        userPointBmp = BitmapFactory.decodeResource(Controller.getInstance().getResourceManager(context.getApplicationContext()).getResources(), R.drawable.userpoint);
-        userArrowBmp = BitmapFactory.decodeResource(Controller.getInstance().getResourceManager(context.getApplicationContext()).getResources(), R.drawable.userarrow);
+        userPointBmp = BitmapFactory.decodeResource(Controller.getInstance().getResourceManager().getResources(), R.drawable.userpoint);
+        userArrowBmp = BitmapFactory.decodeResource(Controller.getInstance().getResourceManager().getResources(), R.drawable.userarrow);
         matrix = new Matrix();
     }
 
@@ -138,7 +138,7 @@ public class UserLocationOverlay extends com.google.android.maps.Overlay impleme
      */
     @Override
     public boolean onTap(GeoPoint p, MapView map) {
-        if ((!Controller.getInstance().getLocationManager(map.getContext().getApplicationContext()).hasLocation()) || (!Controller.getInstance().getCompassManager(map.getContext().getApplicationContext()).isCompassAvailable())) {
+        if ((!Controller.getInstance().getLocationManager().hasLocation()) || (!Controller.getInstance().getCompassManager().isCompassAvailable())) {
             return super.onTap(p, map);
         }
         map.getProjection().toPixels(p, tapPoint);

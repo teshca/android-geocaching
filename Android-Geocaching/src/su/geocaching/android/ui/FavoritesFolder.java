@@ -43,7 +43,7 @@ public class FavoritesFolder extends Activity implements OnItemClickListener {
         setContentView(R.layout.favorit_list);
         lvListShowCache = (ListView) findViewById(R.id.favorit_folder_listCach);
         tvTitle = (TextView) findViewById(R.id.favorit_foldet_title_text);
-        dbm = Controller.getInstance().getDbManager(getApplicationContext());
+        dbm = Controller.getInstance().getDbManager();
 
     }
 
@@ -54,9 +54,9 @@ public class FavoritesFolder extends Activity implements OnItemClickListener {
         for (int i = 0; i < t.size(); i++) {
             Map<String, Object> map = new HashMap<String, Object>();
             localGeoCache = t.get(i);
-            map.put("statusText", Controller.getInstance().getResourceManager(getApplicationContext()).getGeoCacheStatus(localGeoCache));
-            map.put("typeText", Controller.getInstance().getResourceManager(getApplicationContext()).getGeoCacheType(localGeoCache));
-            map.put("type", Controller.getInstance().getResourceManager(getApplicationContext()).getMarkerResId(localGeoCache));
+            map.put("statusText", Controller.getInstance().getResourceManager().getGeoCacheStatus(localGeoCache));
+            map.put("typeText", Controller.getInstance().getResourceManager().getGeoCacheType(localGeoCache));
+            map.put("type", Controller.getInstance().getResourceManager().getMarkerResId(localGeoCache));
             map.put("name", localGeoCache.getName());
             ExitList.add(map);
         }
