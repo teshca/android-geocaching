@@ -110,7 +110,7 @@ public class PreferencesManager {
 
     public GpsUpdateFrequency getGpsUpdateFrequency() {
         // keys located in resources, because settings logic described in xml and write it automatically to SharedPreferences
-        return GpsUpdateFrequency.valueOf(preferences.getString(context.getString(R.string.gps_update_frequency_key), String.valueOf(R.string.gps_update_frequency_default_value)));
+        return GpsUpdateFrequency.valueOf(preferences.getString(context.getString(R.string.gps_update_frequency_key), context.getString(R.string.gps_update_frequency_default_value)));
     }
 
     public EnumSet<GeoCacheStatus> getStatusFilter() {
