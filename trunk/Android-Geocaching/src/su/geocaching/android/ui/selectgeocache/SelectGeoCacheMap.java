@@ -71,10 +71,10 @@ public class SelectGeoCacheMap extends MapActivity implements IInternetAware {
         countDownloadTask = 0;
         handler = new Handler();
 
-        selectCacheOverlay = new SelectCacheOverlay(Controller.getInstance().getResourceManager(getApplicationContext()).getMarker(new GeoCache()), this, map);
+        selectCacheOverlay = new SelectCacheOverlay(Controller.getInstance().getResourceManager().getMarker(new GeoCache()), this, map);
         map.getOverlays().add(selectCacheOverlay);
 
-        connectionManager = Controller.getInstance().getConnectionManager(getApplicationContext());
+        connectionManager = Controller.getInstance().getConnectionManager();
 
         context = this;
         userOverlay = new MyLocationOverlay(this, map) {
@@ -122,7 +122,7 @@ public class SelectGeoCacheMap extends MapActivity implements IInternetAware {
     }
 
     private void updateMapInfoFromSettings() {
-        MapInfo lastMapInfo = Controller.getInstance().getPreferencesManager(getApplicationContext()).getLastMapInfo();
+        MapInfo lastMapInfo = Controller.getInstance().getPreferencesManager().getLastMapInfo();
         GeoPoint lastCenter = new GeoPoint(lastMapInfo.getCenterX(), lastMapInfo.getCenterY());
 
         mapController.setCenter(lastCenter);
@@ -132,7 +132,7 @@ public class SelectGeoCacheMap extends MapActivity implements IInternetAware {
     }
 
     private void saveMapInfoToSettings() {
-        Controller.getInstance().getPreferencesManager(getApplicationContext()).setLastMapInfo(new MapInfo(map.getMapCenter().getLatitudeE6(), map.getMapCenter().getLongitudeE6(), map.getZoomLevel()));
+        Controller.getInstance().getPreferencesManager().setLastMapInfo(new MapInfo(map.getMapCenter().getLatitudeE6(), map.getMapCenter().getLongitudeE6(), map.getZoomLevel()));
     }
 
     @Override
@@ -151,7 +151,7 @@ public class SelectGeoCacheMap extends MapActivity implements IInternetAware {
     protected void onResume() {
         super.onResume();
         askTurnOnInternet();
-        map.setSatellite(!Controller.getInstance().getPreferencesManager(getApplicationContext()).getMapTypeString().equals("MAP"));
+        map.setSatellite(!Controller.getInstance().getPreferencesManager().getMapTypeString().equals("MAP"));
         connectionManager.addSubscriber(this);
         userOverlay.enableMyLocation();
         selectCacheOverlay.clear();

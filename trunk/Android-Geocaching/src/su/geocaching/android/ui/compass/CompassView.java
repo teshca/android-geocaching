@@ -21,7 +21,6 @@ public class CompassView extends SurfaceView implements SurfaceHolder.Callback, 
     private static final String TAG = CompassView.class.getCanonicalName();
 
     private CompassDrawningHelper helper;
-    private Context context;
 
     private float northDirection; // in degrees
     private float cacheDirection;
@@ -36,9 +35,8 @@ public class CompassView extends SurfaceView implements SurfaceHolder.Callback, 
         super(context, attrs);
         LogManager.d(TAG, "new CompassView");
 
-        helper = new StandartCompassDrawning(context);
+        helper = new StandartCompassDrawning();
         ready = true; // Is it need?
-        this.context = context;
 
         setMinimumWidth(240);
         setMinimumHeight(240);
@@ -132,9 +130,9 @@ public class CompassView extends SurfaceView implements SurfaceHolder.Callback, 
     // TODO too many objects
     public void setHelper(String string) {
         if (string.equals("CLASSIC")) {
-            helper = new StandartCompassDrawning(context);
+            helper = new StandartCompassDrawning();
         } else if (string.equals("PALE")) {
-            helper = new WhiteStandartCompassDrawning(context);
+            helper = new WhiteStandartCompassDrawning();
         }
         if (getWidth() > 0) {
             helper.onSizeChanged(getWidth(), getHeight());

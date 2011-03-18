@@ -1,6 +1,5 @@
 package su.geocaching.android.controller.compass;
 
-import android.content.Context;
 import su.geocaching.android.controller.CompassManager;
 import su.geocaching.android.controller.Controller;
 import su.geocaching.android.controller.ICompassAware;
@@ -49,9 +48,9 @@ public class SmoothCompassThread extends Thread implements ICompassAware {
         }
     }
 
-    public SmoothCompassThread(ICompassAnimation compassView, Context context) {
+    public SmoothCompassThread(ICompassAnimation compassView) {
         LogManager.d(TAG, "new SmoothCompassThread");
-        compassManager = Controller.getInstance().getCompassManager(context.getApplicationContext());
+        compassManager = Controller.getInstance().getCompassManager();
         compassManager.addSubscriber(this);
         this.compassView = compassView;
         speed = CompassSpeed.NORMAL;

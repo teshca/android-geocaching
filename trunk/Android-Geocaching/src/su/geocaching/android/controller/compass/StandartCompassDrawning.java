@@ -1,6 +1,5 @@
 package su.geocaching.android.controller.compass;
 
-import android.content.Context;
 import android.graphics.*;
 import android.graphics.Paint.Style;
 import su.geocaching.android.controller.Controller;
@@ -17,12 +16,12 @@ public class StandartCompassDrawning extends CompassDrawningHelper {
     protected Paint textPaint = new Paint();
     protected Bitmap roseBitmap, needleBitmap, arrowBitmap;
 
-    public StandartCompassDrawning(Context context) {
+    public StandartCompassDrawning() {
         super();
 
-        roseBitmap = BitmapFactory.decodeResource(Controller.getInstance().getResourceManager(context.getApplicationContext()).getResources(), R.drawable.compass_rose_yellow);
+        roseBitmap = BitmapFactory.decodeResource(Controller.getInstance().getResourceManager().getResources(), R.drawable.compass_rose_yellow);
 
-        textPaint.setColor(Color.parseColor(context.getString(R.color.menu_text_color)));
+        textPaint.setColor(Color.parseColor(Controller.getInstance().getResourceManager().getString(R.color.menu_text_color)));
         textPaint.setAntiAlias(true);
         textPaint.setStyle(Style.STROKE);
         textPaint.setStrokeWidth(0.8f);

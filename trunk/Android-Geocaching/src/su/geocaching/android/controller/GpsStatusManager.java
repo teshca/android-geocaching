@@ -1,6 +1,5 @@
 package su.geocaching.android.controller;
 
-import android.content.Context;
 import android.location.GpsSatellite;
 import android.location.GpsStatus;
 import android.location.LocationManager;
@@ -20,14 +19,12 @@ public class GpsStatusManager implements GpsStatus.Listener {
 
     private List<IGpsStatusAware> subsribers;
     private LocationManager locationMaganer;
-    private Context context;
 
     /**
      * @param locationManager manager which can add or remove updates of gps status
      */
-    public GpsStatusManager(Context context) {
-        this.locationMaganer = (LocationManager) context.getSystemService(Context.LOCATION_SERVICE);
-        this.context = context.getApplicationContext();
+    public GpsStatusManager(LocationManager locationManager) {
+        this.locationMaganer = locationManager;
         subsribers = new ArrayList<IGpsStatusAware>();
         LogManager.d(TAG, "Init");
     }
@@ -85,19 +82,19 @@ public class GpsStatusManager implements GpsStatus.Listener {
         LogManager.d(TAG, "gps status changed");
         switch (arg0) {
             case GpsStatus.GPS_EVENT_STARTED:
-                status = Controller.getInstance().getResourceManager(context).getString(R.string.gps_status_started);
+                status = Controller.getInstance().getResourceManager().getString(R.string.gps_status_started);
                 LogManager.d(TAG, "     started");
                 break;
             case GpsStatus.GPS_EVENT_STOPPED:
-                status = Controller.getInstance().getResourceManager(context).getString(R.string.gps_status_stopped);
+                status = Controller.getInstance().getResourceManager().getString(R.string.gps_status_stopped);
                 LogManager.d(TAG, "     stoped");
                 break;
             case GpsStatus.GPS_EVENT_FIRST_FIX:
-                status = Controller.getInstance().getResourceManager(context).getString(R.string.gps_status_first_fix);
+                status = Controller.getInstance().getResourceManager().getString(R.string.gps_status_first_fix);
                 LogManager.d(TAG, "     first fix");
                 break;
             case GpsStatus.GPS_EVENT_SATELLITE_STATUS:
-                status = Controller.getInstance().getResourceManager(context).getString(R.string.gps_status_satellite_status) + " ";
+                status = Controller.getInstance().getResourceManager().getString(R.string.gps_status_satellite_status) + " ";
                 GpsStatus gpsStatus = locationMaganer.getGpsStatus(null);
                 int usedInFix = 0;
                 int count = 0;
