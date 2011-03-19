@@ -115,13 +115,13 @@ public class PreferencesManager {
 
     public EnumSet<GeoCacheStatus> getStatusFilter() {
         EnumSet<GeoCacheStatus> set = EnumSet.noneOf(GeoCacheStatus.class);
-        if (preferences.getBoolean(context.getString(R.string.cache_filter_valid), true)) {
+        if (preferences.getBoolean(context.getString(R.string.cache_filter_valid), String.valueOf(R.string.cache_filter_valid_default_value).equals("true"))) {
             set.add(GeoCacheStatus.VALID);
         }
-        if (preferences.getBoolean(context.getString(R.string.cache_filter_not_valid), true)) {
+        if (preferences.getBoolean(context.getString(R.string.cache_filter_not_valid), String.valueOf(R.string.cache_filter_not_valid_default_value).equals("true"))) {
             set.add(GeoCacheStatus.NOT_VALID);
         }
-        if (preferences.getBoolean(context.getString(R.string.cache_filter_not_confirmed), true)) {
+        if (preferences.getBoolean(context.getString(R.string.cache_filter_not_confirmed), String.valueOf(R.string.cache_filter_not_confirmed_default_value).equals("true"))) {
             set.add(GeoCacheStatus.NOT_CONFIRMED);
         }
         return set;
@@ -129,19 +129,19 @@ public class PreferencesManager {
 
     public EnumSet<GeoCacheType> getTypeFilter() {
         EnumSet<GeoCacheType> set = EnumSet.noneOf(GeoCacheType.class);
-        if (preferences.getBoolean(context.getString(R.string.cache_filter_traditional), true)) {
+        if (preferences.getBoolean(context.getString(R.string.cache_filter_traditional), String.valueOf(R.string.cache_filter_traditional_default_value).equals("true"))) {
             set.add(GeoCacheType.TRADITIONAL);
         }
-        if (preferences.getBoolean(context.getString(R.string.cache_filter_extreme), true)) {
+        if (preferences.getBoolean(context.getString(R.string.cache_filter_extreme), String.valueOf(R.string.cache_filter_extreme_default_value).equals("true"))) {
             set.add(GeoCacheType.EXTREME);
         }
-        if (preferences.getBoolean(context.getString(R.string.cache_filter_stepbystep), true)) {
+        if (preferences.getBoolean(context.getString(R.string.cache_filter_stepbystep), String.valueOf(R.string.cache_filter_stepbystepl_default_value).equals("true"))) {
             set.add(GeoCacheType.STEP_BY_STEP);
         }
-        if (preferences.getBoolean(context.getString(R.string.cache_filter_virtual), true)) {
+        if (preferences.getBoolean(context.getString(R.string.cache_filter_virtual), String.valueOf(R.string.cache_filter_virtual_default_value).equals("true"))) {
             set.add(GeoCacheType.VIRTUAL);
         }
-        if (preferences.getBoolean(context.getString(R.string.cache_filter_event), true)) {
+        if (preferences.getBoolean(context.getString(R.string.cache_filter_event), String.valueOf(R.string.cache_filter_event_default_value).equals("true"))) {
             set.add(GeoCacheType.VIRTUAL);
         }
         return set;

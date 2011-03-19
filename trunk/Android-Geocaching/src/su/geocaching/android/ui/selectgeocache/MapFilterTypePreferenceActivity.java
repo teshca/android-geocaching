@@ -5,6 +5,7 @@ import android.content.pm.ActivityInfo;
 import android.os.Bundle;
 import su.geocaching.android.controller.LogManager;
 import android.preference.PreferenceActivity;
+import android.widget.CheckBox;
 
 public class MapFilterTypePreferenceActivity extends PreferenceActivity {
     

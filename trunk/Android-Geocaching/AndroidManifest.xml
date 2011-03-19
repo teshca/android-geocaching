@@ -63,7 +63,7 @@
 
 
         <activity android:name="su.geocaching.android.ui.AboutActivity"
-                  android:label="@string/about_title" android:theme="@android:style/Theme.Dialog">
+                   android:theme="@android:style/Theme.Dialog">
             <intent-filter>
                 <action android:name="android.intent.action.RUN"/>
                 <category android:name="android.intent.category.DEFAULT"/>

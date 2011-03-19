@@ -4,12 +4,15 @@
             android:title="@string/map_category_title"> 
             
         <CheckBoxPreference android:title="Доступный"
+                            android:defaultValue="@string/cache_filter_valid_default_value"
                             android:key="@string/cache_filter_valid"/>
             
         <CheckBoxPreference android:title="Возможно недоступный"
+                            android:defaultValue="@string/cache_filter_not_confirmed_default_value"
                             android:key="@string/cache_filter_not_confirmed"/>
             
         <CheckBoxPreference android:title="Недоступный"
+                            android:defaultValue="@string/cache_filter_not_valid_default_value"
                             android:key="@string/cache_filter_not_valid"/>
     </PreferenceCategory>
     
