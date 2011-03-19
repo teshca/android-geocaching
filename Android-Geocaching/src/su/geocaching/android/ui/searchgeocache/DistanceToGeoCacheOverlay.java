@@ -4,6 +4,8 @@ import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
 import android.graphics.Point;
+import android.graphics.Paint.Style;
+
 import com.google.android.maps.GeoPoint;
 import com.google.android.maps.MapView;
 import com.google.android.maps.Projection;
@@ -23,8 +25,11 @@ public class DistanceToGeoCacheOverlay extends com.google.android.maps.Overlay {
         withShortestWay = true;
 
         paintLine = new Paint();
-        paintLine.setColor(LINE_COLOR);
+        paintLine.setARGB(55, 100, 20, 100);
+        
+        paintLine.setStyle(Style.FILL_AND_STROKE);
         paintLine.setAntiAlias(true);
+        paintLine.setStrokeWidth(5);
     }
 
     @Override
@@ -32,11 +37,14 @@ public class DistanceToGeoCacheOverlay extends com.google.android.maps.Overlay {
         super.draw(canvas, mapView, shadow, when);
 
         if (withShortestWay) {
+           
+            paintLine.setAlpha(120);
             Point from = new Point();
             Point to = new Point();
             Projection proj = mapView.getProjection();
             proj.toPixels(userPoint, from);
             proj.toPixels(cachePoint, to);
+            
             canvas.drawLine(from.x, from.y, to.x, to.y, paintLine);
         }
 
