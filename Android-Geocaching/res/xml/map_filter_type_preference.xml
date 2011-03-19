@@ -4,19 +4,23 @@
             android:title="@string/map_category_title"> 
             
         <CheckBoxPreference android:title="Традиционный"
-                            android:key="@string/cache_filter_traditional"/>
+                            android:key="@string/cache_filter_traditional"
+                            android:defaultValue="@string/cache_filter_traditional_default_value"/>
             
         <CheckBoxPreference android:title="Виртуальный"
-                            android:key="@string/cache_filter_virtual"/>
+                            android:key="@string/cache_filter_virtual"
+                            android:defaultValue="@string/cache_filter_virtual_default_value"/>
             
         <CheckBoxPreference android:title="Пошаговый"
-                            android:key="@string/cache_filter_stepbystep"/>
+                            android:key="@string/cache_filter_stepbystep"
+                            android:defaultValue="@string/cache_filter_stepbystepl_default_value"/>
             
         <CheckBoxPreference android:title="Экстрим"
-                            android:key="@string/cache_filter_extreme"/>
+                            android:key="@string/cache_filter_extreme"
+                            android:defaultValue="@string/cache_filter_extreme_default_value"/>
             
         <CheckBoxPreference android:title="Событие"
-                            android:defaultValue="@string/cache_filter_eventl_default_value"
+                            android:defaultValue="@string/cache_filter_event_default_value"
                             android:key="@string/cache_filter_event"/>
     </PreferenceCategory>
     

@@ -16,7 +16,7 @@
                             android:key="@string/cache_filter_extreme"/>
             
         <CheckBoxPreference android:title="Событие"
-                            android:defaultValue="@string/cache_filter_eventl_default_value"
+                            android:defaultValue="@string/cache_filter_event_default_value"
                             android:key="@string/cache_filter_event"/>
             
         <CheckBoxPreference android:title="Доступный"
