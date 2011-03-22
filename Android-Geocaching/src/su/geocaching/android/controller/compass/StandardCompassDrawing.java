@@ -7,7 +7,7 @@ import su.geocaching.android.ui.R;
 
 /**
  * Default appearance of the compass
- * 
+ *
  * @author Nikita Bumakov
  */
 public class StandardCompassDrawing extends CompassDrawingHelper {

@@ -7,7 +7,7 @@ import su.geocaching.android.controller.LogManager;
 
 /**
  * The class provides a smooth rotation of compass
- * 
+ *
  * @author Nikita Bumakov
  */
 public class SmoothCompassThread extends Thread implements ICompassAware {

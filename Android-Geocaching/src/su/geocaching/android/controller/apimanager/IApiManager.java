@@ -13,10 +13,8 @@ public interface IApiManager {
     /**
      * Get list of GeoCache in search area
      *
-     * @param upperLeftCorner
-     *          //TODO describe it
-     * @param lowerRightCorner
-     *          //TODO describe it
+     * @param upperLeftCorner  //TODO describe it
+     * @param lowerRightCorner //TODO describe it
      * @return List of geoCash in visible area
      */
     public List<GeoCache> getGeoCacheList(GeoPoint upperLeftCorner, GeoPoint lowerRightCorner);

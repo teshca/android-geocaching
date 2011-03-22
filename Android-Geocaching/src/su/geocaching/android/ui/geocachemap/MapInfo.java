@@ -2,10 +2,9 @@ package su.geocaching.android.ui.geocachemap;
 
 /**
  * Represent information about map center and map zoom
- * 
+ *
  * @author Grigory Kalabin. grigory.kalabin@gmail.com
  * @since March 2011
- * 
  */
 public class MapInfo {
     public static final int DEFAULT_CENTER_LONGITUDE = 29828674;
@@ -26,12 +25,9 @@ public class MapInfo {
     }
 
     /**
-     * @param centerX
-     *            latitude of map center point
-     * @param centerY
-     *            logitude of map center point
-     * @param zoom
-     *            map zoom value
+     * @param centerX latitude of map center point
+     * @param centerY logitude of map center point
+     * @param zoom    map zoom value
      */
     public MapInfo(int centerX, int centerY, int zoom) {
         this.centerX = centerX;
@@ -61,24 +57,21 @@ public class MapInfo {
     }
 
     /**
-     * @param centerX
-     *            latitude of map center point
+     * @param centerX latitude of map center point
      */
     public void setCenterX(int centerX) {
         this.centerX = centerX;
     }
 
     /**
-     * @param centerY
-     *            longitude of map center point
+     * @param centerY longitude of map center point
      */
     public void setCenterY(int centerY) {
         this.centerY = centerY;
     }
 
     /**
-     * @param zoom
-     *            map zoom value
+     * @param zoom map zoom value
      */
     public void setZoom(int zoom) {
         this.zoom = zoom;

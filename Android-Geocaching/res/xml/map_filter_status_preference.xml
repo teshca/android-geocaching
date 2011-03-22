@@ -1,20 +1,20 @@
 <?xml version="1.0" encoding="utf-8"?>
 <PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
     <PreferenceCategory
-            android:title="@string/map_category_title"> 
-            
+            android:title="@string/map_category_title">
+
         <CheckBoxPreference android:title="Доступный"
                             android:defaultValue="@bool/cache_filter_valid_default_value"
                             android:key="@string/cache_filter_valid"/>
-            
+
         <CheckBoxPreference android:title="Возможно недоступный"
                             android:defaultValue="@bool/cache_filter_not_confirmed_default_value"
                             android:key="@string/cache_filter_not_confirmed"/>
-            
+
         <CheckBoxPreference android:title="Недоступный"
                             android:defaultValue="@bool/cache_filter_not_valid_default_value"
                             android:key="@string/cache_filter_not_valid"/>
     </PreferenceCategory>
-    
-    
+
+
 </PreferenceScreen>

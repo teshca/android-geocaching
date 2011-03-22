@@ -4,7 +4,6 @@ import android.graphics.*;
 import android.graphics.Paint.Style;
 import com.google.android.maps.GeoPoint;
 import com.google.android.maps.MapView;
-
 import su.geocaching.android.controller.Controller;
 import su.geocaching.android.controller.compass.ICompassAnimation;
 import su.geocaching.android.ui.R;
@@ -33,8 +32,7 @@ public class UserLocationOverlay extends com.google.android.maps.Overlay impleme
     private int userBitmapHeight;
 
     /**
-     * @param context
-     *            activity which use this overlay
+     * @param context activity which use this overlay
      */
     public UserLocationOverlay(SearchGeoCacheMap context) {
         userGeoPoint = null;
@@ -105,16 +103,14 @@ public class UserLocationOverlay extends com.google.android.maps.Overlay impleme
     }
 
     /**
-     * @param point
-     *            set user location
+     * @param point set user location
      */
     public void setPoint(GeoPoint point) {
         this.userGeoPoint = point;
     }
 
     /**
-     * @param radius
-     *            set accuracy radius of location point
+     * @param radius set accuracy radius of location point
      */
     public void setAccuracy(float radius) {
         this.accuracyRadius = radius;

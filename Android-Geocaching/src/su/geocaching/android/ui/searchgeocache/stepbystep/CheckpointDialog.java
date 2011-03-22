@@ -1,17 +1,16 @@
 package su.geocaching.android.ui.searchgeocache.stepbystep;
 
-import su.geocaching.android.controller.Controller;
-import su.geocaching.android.ui.R;
-import su.geocaching.android.ui.geocachemap.CheckpointCacheOverlay;
-import su.geocaching.android.utils.GpsHelper;
 import android.app.Dialog;
 import android.content.Context;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
-
 import com.google.android.maps.MapView;
+import su.geocaching.android.controller.Controller;
+import su.geocaching.android.ui.R;
+import su.geocaching.android.ui.geocachemap.CheckpointCacheOverlay;
+import su.geocaching.android.utils.GpsHelper;
 
 public class CheckpointDialog extends Dialog {
 

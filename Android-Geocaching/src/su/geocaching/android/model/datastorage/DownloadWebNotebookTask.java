@@ -3,14 +3,12 @@ package su.geocaching.android.model.datastorage;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.os.AsyncTask;
-import android.webkit.WebView;
+import su.geocaching.android.ui.R;
 
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.net.URL;
-
-import su.geocaching.android.ui.R;
 
 public class DownloadWebNotebookTask extends AsyncTask<String, Void, String> {
     private DbManager dbManager;
@@ -25,6 +23,7 @@ public class DownloadWebNotebookTask extends AsyncTask<String, Void, String> {
         this.idCache = idCache;
         this.context = context;
     }
+
     @Override
     protected void onPreExecute() {
         progressDialog = new ProgressDialog(context);
@@ -51,8 +50,8 @@ public class DownloadWebNotebookTask extends AsyncTask<String, Void, String> {
 
             }
         }
-       return params[0];
-        
+        return params[0];
+
 
     }
 
@@ -73,6 +72,7 @@ public class DownloadWebNotebookTask extends AsyncTask<String, Void, String> {
         return html.toString();
 
     }
+
     @Override
     protected void onPostExecute(String result) {
         // TODO Auto-generated method stub

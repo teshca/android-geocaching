@@ -1,13 +1,10 @@
 package su.geocaching.android.ui;
 
-import android.Manifest;
 import android.app.Activity;
 import android.content.pm.PackageManager.NameNotFoundException;
 import android.os.Bundle;
 import android.view.View;
-import android.widget.TextView;
 import com.google.android.apps.analytics.GoogleAnalyticsTracker;
-import su.geocaching.android.controller.Controller;
 import su.geocaching.android.controller.LogManager;
 
 public class AboutActivity extends Activity {
@@ -20,7 +17,7 @@ public class AboutActivity extends Activity {
         super.onCreate(savedInstanceState);
         LogManager.d(TAG, "on create");
         setContentView(R.layout.about);
-        
+
         try {
             String versionName = getPackageManager().getPackageInfo(getPackageName(), 0).versionName;
             String aboutTitle = "��������� ������ " + versionName;
@@ -29,7 +26,7 @@ public class AboutActivity extends Activity {
             // TODO Auto-generated catch block
             e.printStackTrace();
         }
-        
+
         tracker = GoogleAnalyticsTracker.getInstance();
         tracker.start(getString(R.string.id_Google_Analytics), this);
         tracker.trackPageView(getString(R.string.about_activity_folder));

@@ -3,7 +3,6 @@ package su.geocaching.android.controller;
 import android.content.Context;
 import android.hardware.SensorManager;
 import android.location.LocationManager;
-
 import com.google.android.maps.GeoPoint;
 import su.geocaching.android.controller.apimanager.ApiManager;
 import su.geocaching.android.controller.apimanager.DownloadGeoCacheTask;
@@ -49,16 +48,13 @@ public class Controller {
 
     /**
      * Request for caches in the visible region
-     * 
-     * @param map
-     *            - links to maps, which will be added caches
-     * @param upperLeftCorner
-     *            - upper left corner of the visible area
-     * @param lowerRightCorner
-     *            - lower right corner of the visible area
+     *
+     * @param map              - links to maps, which will be added caches
+     * @param upperLeftCorner  - upper left corner of the visible area
+     * @param lowerRightCorner - lower right corner of the visible area
      */
     public void updateSelectedGeoCaches(SelectGeoCacheMap map, GeoPoint upperLeftCorner, GeoPoint lowerRightCorner) {
-        GeoPoint[] d = { upperLeftCorner, lowerRightCorner };
+        GeoPoint[] d = {upperLeftCorner, lowerRightCorner};
         new DownloadGeoCacheTask(apiManager, map).execute(d);
     }
 
@@ -133,8 +129,7 @@ public class Controller {
     }
 
     /**
-     * @param context
-     *            for init manager
+     * @param context for init manager
      * @return location manager which can send to ILocationAware location updates
      */
     public synchronized GeoCacheLocationManager getLocationManager(Context context) {
@@ -146,9 +141,8 @@ public class Controller {
     }
 
     /**
+     * @param context for init manager
      * @return compass manager which can send to ICompassAware updates of bearing
-     * @param context
-     *            for init manager
      */
     public synchronized CompassManager getCompassManager(Context context) {
         if (compassManager == null) {
@@ -159,9 +153,8 @@ public class Controller {
     }
 
     /**
+     * @param context for init manager
      * @return gps status manager which can send to IGpsStatusAware updates of status gps engine
-     * @param context
-     *            for init manager
      */
     public synchronized GpsStatusManager getGpsStatusManager(Context context) {
         if (gpsStatusManager == null) {
@@ -172,9 +165,8 @@ public class Controller {
     }
 
     /**
+     * @param context for init manager
      * @return connection manager which can send to IInternetAware updates of internet connection status
-     * @param context
-     *            for init manager
      */
     public synchronized ConnectionManager getConnectionManager(Context context) {
         if (connectionManager == null) {
@@ -185,9 +177,8 @@ public class Controller {
     }
 
     /**
+     * @param context for init manager
      * @return resource manager which can give you application resources
-     * @param context
-     *            for init manager
      */
     public synchronized ResourceManager getResourceManager(Context context) {
         if (resourceManager == null) {
@@ -198,9 +189,8 @@ public class Controller {
     }
 
     /**
+     * @param context for init manager
      * @return resource manager which can give you application preferences
-     * @param context
-     *            for init manager
      */
     public synchronized PreferencesManager getPreferencesManager(Context context) {
         if (preferencesManager == null) {
@@ -211,9 +201,8 @@ public class Controller {
     }
 
     /**
+     * @param context for init manager
      * @return resource manager which can give you interface to working with database
-     * @param context
-     *            for init manager
      */
     public synchronized DbManager getDbManager(Context context) {
         if (dbManager == null) {
@@ -233,9 +222,8 @@ public class Controller {
 
     /**
      * Initialize all managers with fixed context
-     * 
-     * @param context
-     *            which will be used in all managers
+     *
+     * @param context which will be used in all managers
      */
     public void initManagers(Context context) {
         if (dbManager == null) {
