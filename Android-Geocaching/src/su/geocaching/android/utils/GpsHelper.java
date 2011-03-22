@@ -85,7 +85,7 @@ public class GpsHelper {
      * @return String of distance formatted value and measure
      */
     public static String distanceToString(float dist) {
-        String textDistance = "";
+        String textDistance;
         if (dist >= BIG_DISTANCE_VALUE) {
             textDistance = BIG_DISTANCE_NUMBER_FORMAT.format(dist * BIG_DISTANCE_COEFFICIENT) + " " + BIG_DISTANCE_VALUE_NAME;
         } else {

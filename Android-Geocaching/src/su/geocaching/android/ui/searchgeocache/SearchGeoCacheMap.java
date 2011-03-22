@@ -292,10 +292,6 @@ public class SearchGeoCacheMap extends MapActivity implements IInternetAware, IL
      */
     @Override
     public void updateBearing(float bearing) {
-        float[] values = new float[1];
-        values[0] = bearing;
-        // LogManager.d(TAG, "update bearing. New bearing=" +
-        // Integer.toString(bearing));
         userOverlay.setDirection(bearing);
     }
 

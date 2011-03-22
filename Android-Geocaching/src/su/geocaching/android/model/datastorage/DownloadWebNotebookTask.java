@@ -34,11 +34,11 @@ public class DownloadWebNotebookTask extends AsyncTask<String, Void, String> {
 
     @Override
     protected String doInBackground(String... params) {
-        if (params[0] == null || params[0] == "") {
+        if (params[0] == null || params[0].equals("")) {
             if (isCacheStoredInDataBase) {
                 params[0] = dbManager.getWebNotebookTextById(idCache);
             }
-            if (params[0] == null || params[0] == "") {
+            if (params[0] == null || params[0].equals("")) {
                 try {
                     params[0] = getWebText(idCache);
                     if (isCacheStoredInDataBase) {
@@ -58,7 +58,7 @@ public class DownloadWebNotebookTask extends AsyncTask<String, Void, String> {
 
     private String getWebText(int id) throws IOException {
         StringBuilder html = new StringBuilder();
-        String html2 = "";
+        String html2;
         URL url = new URL("http://pda.geocaching.su/note.php?cid=" + id + "&mode=0");
         BufferedReader in = new BufferedReader(new InputStreamReader(url.openStream(), "windows-1251"));
 
