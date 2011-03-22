@@ -65,7 +65,6 @@ import com.google.android.maps.Projection;
  */
 public class SearchGeoCacheMap extends MapActivity implements IInternetAware, ILocationAware, ICompassAware, IGpsStatusAware {
     private final static String TAG = SearchGeoCacheMap.class.getCanonicalName();
-    private final String dislocation = "Ваше местоположение не определено. Повторите попытку позже.";
     private CheckpointCacheOverlay checkpointCacheOverlay;
     private Drawable cacheMarker;
     private DistanceToGeoCacheOverlay distanceOverlay;
@@ -399,7 +398,7 @@ public class SearchGeoCacheMap extends MapActivity implements IInternetAware, IL
             Intent intent = new Intent(android.content.Intent.ACTION_VIEW, Uri.parse("http://maps.google.com/maps?saddr=" + a + "," + b + "&daddr=" + c + "," + d + "&ie=UTF8&om=0&output=kml"));
             startActivity(intent);
         } else {
-            Toast.makeText(getBaseContext(), dislocation, Toast.LENGTH_LONG).show();
+            Toast.makeText(getBaseContext(), getString(R.string.dislocation), Toast.LENGTH_LONG).show();
         }
     }
 
