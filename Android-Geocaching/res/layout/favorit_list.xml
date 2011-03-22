@@ -7,9 +7,9 @@
     <LinearLayout style="@style/TitleBar" android:id="@+id/title_bar"
                   android:background="@drawable/geologo_background">
         <ImageView android:src="@drawable/geologo" style="@style/TitleBarLogo"
-                   android:id="@+id/title_logo" android:onClick="onHomeClick"></ImageView>
-        <View style="@style/TitleBarSpring"></View>
-        <ImageView style="@style/TitleBarSeparator"></ImageView>
+                   android:id="@+id/title_logo" android:onClick="onHomeClick"/>
+        <View style="@style/TitleBarSpring"/>
+        <ImageView style="@style/TitleBarSeparator"/>
     </LinearLayout>
 
     <ListView android:layout_height="wrap_content"

@@ -5,33 +5,33 @@
 
     <TextView android:text="@string/geographical_coordinates"
               android:textSize="@dimen/text_size_big" android:layout_width="wrap_content"
-              android:layout_height="wrap_content"></TextView>
+              android:layout_height="wrap_content"/>
 
     <LinearLayout android:layout_width="fill_parent"
                   android:layout_height="wrap_content" android:orientation="horizontal">
         <TextView android:text="@string/azimuth" android:minWidth="110dip"
                   android:textSize="@dimen/text_size_big" android:layout_width="wrap_content"
-                  android:layout_height="wrap_content"></TextView>
+                  android:layout_height="wrap_content"/>
         <EditText android:text="0" android:id="@+id/azimuth"
                   android:maxLines="1" android:numeric="integer" android:maxLength="3"
-                  android:layout_width="75dip" android:layout_height="wrap_content"></EditText>
+                  android:layout_width="75dip" android:layout_height="wrap_content"/>
         <TextView android:text="°" android:layout_width="wrap_content"
-                  android:textSize="@dimen/text_size_big" android:layout_height="wrap_content"></TextView>
+                  android:textSize="@dimen/text_size_big" android:layout_height="wrap_content"/>
     </LinearLayout>
 
     <LinearLayout android:layout_width="fill_parent"
                   android:layout_height="wrap_content" android:orientation="horizontal">
         <TextView android:text="@string/distance" android:minWidth="110dip"
                   android:textSize="@dimen/text_size_big" android:layout_width="wrap_content"
-                  android:layout_height="wrap_content"></TextView>
+                  android:layout_height="wrap_content"/>
         <EditText android:text="0" android:id="@+id/distance"
                   android:maxLines="1" android:numeric="integer" android:maxLength="5"
-                  android:layout_width="75dip" android:layout_height="wrap_content"></EditText>
+                  android:layout_width="75dip" android:layout_height="wrap_content"/>
         <TextView android:text="@string/meter" android:layout_width="wrap_content"
-                  android:textSize="@dimen/text_size_big" android:layout_height="wrap_content"></TextView>
+                  android:textSize="@dimen/text_size_big" android:layout_height="wrap_content"/>
     </LinearLayout>
 
     <Button android:text="@string/enter" android:id="@+id/EnterButton"
             android:layout_width="wrap_content" android:layout_height="wrap_content"
-            android:onClick="onEnterClick"></Button>
+            android:onClick="onEnterClick"/>
 </LinearLayout>
