@@ -20,7 +20,7 @@ public class MapPreferenceActivity extends PreferenceActivity {
         addPreferencesFromResource(R.xml.map_preference);
         setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
         
-        Preference mapFilterTypePreference = (Preference) findPreference("mapFilterType");
+        Preference mapFilterTypePreference = findPreference("mapFilterType");
         mapFilterTypePreference.setOnPreferenceClickListener(new OnPreferenceClickListener() {
             
             public boolean onPreferenceClick(Preference preference) {
@@ -29,7 +29,7 @@ public class MapPreferenceActivity extends PreferenceActivity {
             }
         });
         
-        Preference mapFilterStatusPreference = (Preference) findPreference("mapFilterStatus");
+        Preference mapFilterStatusPreference = findPreference("mapFilterStatus");
         mapFilterStatusPreference.setOnPreferenceClickListener(new OnPreferenceClickListener() {
             
             public boolean onPreferenceClick(Preference preference) {

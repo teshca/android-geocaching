@@ -1,0 +1,15 @@
+<resources>
+    <bool name="use_satellite_map_type_default_value">false</bool>
+
+    <bool name="cache_filter_traditional_default_value">true</bool>
+    <bool name="cache_filter_virtual_default_value">true</bool>
+    <bool name="cache_filter_stepbystep_default_value">true</bool>
+    <bool name="cache_filter_extreme_default_value">true</bool>
+    <bool name="cache_filter_event_default_value">true</bool>
+    <bool name="cache_filter_valid_default_value">true</bool>
+    <bool name="cache_filter_not_valid_default_value">true</bool>
+    <bool name="cache_filter_not_confirmed_default_value">true</bool>
+    <bool name="use_group_cache_default_value">true</bool>
+
+
+</resources>
