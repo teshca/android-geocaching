@@ -111,8 +111,8 @@ public class SearchGeoCacheCompass extends Activity {
     @Override
     protected void onPause() {
         LogManager.d(TAG, "onPause");
-        locationManager.removeSubsriber(locationListener);
-        gpsManager.removeSubsriber(gpsListener);
+        locationManager.removeSubscriber(locationListener);
+        gpsManager.removeSubscriber(gpsListener);
         stopAnimation();
         super.onPause();
     }

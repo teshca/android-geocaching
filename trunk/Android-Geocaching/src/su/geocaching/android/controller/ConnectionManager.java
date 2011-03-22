@@ -25,26 +25,26 @@ public class ConnectionManager {
 
     private List<IInternetAware> subscribers;
     private ConnectivityManager connectivityManager;
-    private ConnectionStateReceiver reciever;
+    private ConnectionStateReceiver receiver;
     private IntentFilter intentFilter;
     private Context context;
     private URL pingUrl;
 
     /**
-     * @param connectivityManager
-     *            manager which know about network state
+     * @param context
+     *            //TODO describe it
      */
     public ConnectionManager(Context context) {
         this.connectivityManager = (ConnectivityManager) context.getSystemService(Context.CONNECTIVITY_SERVICE);
         this.context = context;
         subscribers = new ArrayList<IInternetAware>();
-        reciever = new ConnectionStateReceiver();
+        receiver = new ConnectionStateReceiver();
         intentFilter = new IntentFilter();
         intentFilter.addAction("android.net.conn.CONNECTIVITY_CHANGE");
         try {
             pingUrl = new URL(PING_URL);
         } catch (MalformedURLException e) {
-            LogManager.e(TAG, "ConnectionManager init: mailformed url (" + PING_URL + ")");
+            LogManager.e(TAG, "ConnectionManager init: malformed url (" + PING_URL + ")");
             e.printStackTrace();
         }
         LogManager.d(TAG, "Init");
@@ -137,7 +137,7 @@ public class ConnectionManager {
      * Add updates of connection state
      */
     private void addUpdates() {
-        context.registerReceiver(reciever, intentFilter);
+        context.registerReceiver(receiver, intentFilter);
         LogManager.d(TAG, "add updates");
     }
 
@@ -145,7 +145,7 @@ public class ConnectionManager {
      * Remove updates of connection state
      */
     private void removeUpdates() {
-        context.unregisterReceiver(reciever);
+        context.unregisterReceiver(receiver);
         LogManager.d(TAG, "remove updates");
     }
 }

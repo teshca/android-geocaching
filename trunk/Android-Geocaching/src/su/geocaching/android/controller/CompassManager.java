@@ -53,7 +53,7 @@ public class CompassManager implements SensorEventListener {
     /**
      * @param subscriber
      *            activity which no need to listen location updates
-     * @return true if activity was subsribed on location updates
+     * @return true if activity was subscribed on location updates
      */
     public boolean removeSubscriber(ICompassAware subscriber) {
         boolean res = subscribers.remove(subscriber);
@@ -66,8 +66,6 @@ public class CompassManager implements SensorEventListener {
     @Override
     public void onAccuracyChanged(Sensor sensor, int accuracy) {
     }
-
-    long time;
 
     @Override
     public void onSensorChanged(SensorEvent event) {
@@ -83,8 +81,7 @@ public class CompassManager implements SensorEventListener {
                 return;
         }
 
-        for (int i = 0; i < 3; i++)
-            data[i] = event.values[i];
+        System.arraycopy(event.values, 0, data, 0, 3);
 
         SensorManager.getRotationMatrix(afRotation, afInclination, afGravity, afGeomagnetic);
         SensorManager.getOrientation(afRotation, afOrientation);
