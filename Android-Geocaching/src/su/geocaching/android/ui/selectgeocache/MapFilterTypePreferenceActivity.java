@@ -1,16 +1,15 @@
 package su.geocaching.android.ui.selectgeocache;
 
-import su.geocaching.android.ui.R;
 import android.content.pm.ActivityInfo;
 import android.os.Bundle;
-import su.geocaching.android.controller.LogManager;
 import android.preference.PreferenceActivity;
-import android.widget.CheckBox;
+import su.geocaching.android.controller.LogManager;
+import su.geocaching.android.ui.R;
 
 public class MapFilterTypePreferenceActivity extends PreferenceActivity {
-    
+
     private static final String TAG = MapFilterTypePreferenceActivity.class.getCanonicalName();
-    
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);

@@ -1,6 +1,5 @@
 package su.geocaching.android.ui.selectgeocache.timer;
 
-import su.geocaching.android.controller.LogManager;
 import su.geocaching.android.ui.selectgeocache.SelectGeoCacheMap;
 
 /**
