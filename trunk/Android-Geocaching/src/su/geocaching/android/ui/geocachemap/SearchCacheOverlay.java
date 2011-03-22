@@ -1,17 +1,16 @@
 package su.geocaching.android.ui.geocachemap;
 
-import java.util.Collections;
-import java.util.LinkedList;
-import java.util.List;
-
-import su.geocaching.android.controller.UiHelper;
-import su.geocaching.android.model.datatype.GeoCache;
 import android.app.Activity;
 import android.graphics.drawable.Drawable;
-
 import com.google.android.maps.ItemizedOverlay;
 import com.google.android.maps.MapView;
 import com.google.android.maps.OverlayItem;
+import su.geocaching.android.controller.UiHelper;
+import su.geocaching.android.model.datatype.GeoCache;
+
+import java.util.Collections;
+import java.util.LinkedList;
+import java.util.List;
 
 /**
  * @author Android-Geocaching.su student project team

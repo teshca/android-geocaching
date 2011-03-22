@@ -3,9 +3,8 @@ package su.geocaching.android.ui.searchgeocache;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
-import android.graphics.Point;
 import android.graphics.Paint.Style;
-
+import android.graphics.Point;
 import com.google.android.maps.GeoPoint;
 import com.google.android.maps.MapView;
 import com.google.android.maps.Projection;
@@ -26,7 +25,7 @@ public class DistanceToGeoCacheOverlay extends com.google.android.maps.Overlay {
 
         paintLine = new Paint();
         paintLine.setARGB(55, 100, 20, 100);
-        
+
         paintLine.setStyle(Style.FILL_AND_STROKE);
         paintLine.setAntiAlias(true);
         paintLine.setStrokeWidth(5);
@@ -37,14 +36,14 @@ public class DistanceToGeoCacheOverlay extends com.google.android.maps.Overlay {
         super.draw(canvas, mapView, shadow, when);
 
         if (withShortestWay) {
-           
+
             paintLine.setAlpha(120);
             Point from = new Point();
             Point to = new Point();
             Projection proj = mapView.getProjection();
             proj.toPixels(userPoint, from);
             proj.toPixels(cachePoint, to);
-            
+
             canvas.drawLine(from.x, from.y, to.x, to.y, paintLine);
         }
 

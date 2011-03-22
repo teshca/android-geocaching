@@ -13,7 +13,7 @@ import java.util.TimerTask;
 
 /**
  * Location manager which get updates of location by GPS or GSM/Wi-Fi
- * 
+ *
  * @author Grigory Kalabin. grigory.kalabin@gmail.com
  * @since fall, 2010
  */
@@ -33,8 +33,7 @@ public class GeoCacheLocationManager implements LocationListener {
     private GpsUpdateFrequency updateFrequency;
 
     /**
-     * @param locationManager
-     *            manager which can add or remove updates of location services
+     * @param locationManager manager which can add or remove updates of location services
      */
     public GeoCacheLocationManager(LocationManager locationManager) {
         this.locationManager = locationManager;
@@ -48,8 +47,7 @@ public class GeoCacheLocationManager implements LocationListener {
     }
 
     /**
-     * @param subscriber
-     *            activity which will be listen location updates
+     * @param subscriber activity which will be listen location updates
      */
     public void addSubscriber(ILocationAware subscriber) {
         removeUpdatesTask.cancel();
@@ -66,8 +64,7 @@ public class GeoCacheLocationManager implements LocationListener {
     }
 
     /**
-     * @param subscriber
-     *            activity which no need to listen location updates
+     * @param subscriber activity which no need to listen location updates
      * @return true if activity was subscribed on location updates
      */
     public boolean removeSubscriber(ILocationAware subscriber) {
@@ -265,9 +262,8 @@ public class GeoCacheLocationManager implements LocationListener {
 
     /**
      * Refresh frequency of location updates and re-request location updates from current provider
-     * 
-     * @param value
-     *            frequency which need
+     *
+     * @param value frequency which need
      */
     public synchronized void updateFrequency(GpsUpdateFrequency value) {
         updateFrequency = value;
@@ -281,15 +277,14 @@ public class GeoCacheLocationManager implements LocationListener {
 
     /**
      * task which remove updates from LocationManager
-     * 
+     *
      * @author Grigory Kalabin. grigory.kalabin@gmail.com
      */
     private class RemoveUpdatesTask extends TimerTask {
         private GeoCacheLocationManager parent;
 
         /**
-         * @param parent
-         *            listener which want remove updates
+         * @param parent listener which want remove updates
          */
         public RemoveUpdatesTask(GeoCacheLocationManager parent) {
             this.parent = parent;

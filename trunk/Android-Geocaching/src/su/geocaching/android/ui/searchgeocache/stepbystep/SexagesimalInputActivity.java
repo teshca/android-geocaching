@@ -58,7 +58,7 @@ public class SexagesimalInputActivity extends Activity {
             intent.putExtra(StepByStepTabActivity.LONGITUDE, longitudeE6);
             getParent().setResult(RESULT_OK, intent);
         } catch (Exception e) {
-            LogManager.e(TAG, e.getMessage(),e);
+            LogManager.e(TAG, e.getMessage(), e);
             Toast.makeText(this, getString(R.string.error_stepbystep_input), Toast.LENGTH_SHORT).show();
         }
         finish();

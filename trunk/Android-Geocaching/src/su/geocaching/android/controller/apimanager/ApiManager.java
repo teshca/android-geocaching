@@ -3,7 +3,6 @@ package su.geocaching.android.controller.apimanager;
 import com.google.android.maps.GeoPoint;
 import org.xml.sax.InputSource;
 import org.xml.sax.SAXException;
-
 import su.geocaching.android.controller.LogManager;
 import su.geocaching.android.model.datatype.GeoCache;
 

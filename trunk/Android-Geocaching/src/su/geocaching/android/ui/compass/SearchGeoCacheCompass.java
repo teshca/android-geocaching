@@ -24,7 +24,7 @@ import su.geocaching.android.utils.GpsHelper;
 
 /**
  * Search GeoCache with the compass.
- * 
+ *
  * @author Android-Geocaching.su student project team
  * @since October 2010
  */
@@ -165,9 +165,9 @@ public class SearchGeoCacheCompass extends Activity {
             case R.id.menuGeoCacheInfo:
                 UiHelper.showGeoCacheInfo(this, controller.getSearchingGeoCache());
                 return true;
-                /*
-                 * case R.id.menuKeepScreen: keepScreenOn(item); return true;
-                 */
+            /*
+            * case R.id.menuKeepScreen: keepScreenOn(item); return true;
+            */
             case R.id.compassSettings:
                 showCompassPreferences();
                 return true;

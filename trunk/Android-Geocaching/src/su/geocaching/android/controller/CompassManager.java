@@ -30,8 +30,7 @@ public class CompassManager implements SensorEventListener {
     private List<ICompassAware> subscribers;
 
     /**
-     * @param sensorManager
-     *            manager which can add or remove updates of sensors
+     * @param sensorManager manager which can add or remove updates of sensors
      */
     public CompassManager(SensorManager sensorManager) {
         this.sensorManager = sensorManager;
@@ -40,8 +39,7 @@ public class CompassManager implements SensorEventListener {
     }
 
     /**
-     * @param subscriber
-     *            activity which will be listen location updates
+     * @param subscriber activity which will be listen location updates
      */
     public void addSubscriber(ICompassAware subscriber) {
         if (subscribers.size() == 0) {
@@ -51,8 +49,7 @@ public class CompassManager implements SensorEventListener {
     }
 
     /**
-     * @param subscriber
-     *            activity which no need to listen location updates
+     * @param subscriber activity which no need to listen location updates
      * @return true if activity was subscribed on location updates
      */
     public boolean removeSubscriber(ICompassAware subscriber) {
@@ -93,8 +90,7 @@ public class CompassManager implements SensorEventListener {
     }
 
     /**
-     * @param lastDirection
-     *            current direction known to this listener
+     * @param lastDirection current direction known to this listener
      */
     private void notifyObservers(int lastDirection) {
         for (ICompassAware observer : subscribers) {

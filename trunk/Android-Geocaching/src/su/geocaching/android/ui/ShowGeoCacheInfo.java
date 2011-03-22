@@ -14,7 +14,6 @@ import android.webkit.WebViewClient;
 import android.widget.*;
 import android.widget.CompoundButton.OnCheckedChangeListener;
 import com.google.android.apps.analytics.GoogleAnalyticsTracker;
-
 import su.geocaching.android.controller.ConnectionManager;
 import su.geocaching.android.controller.Controller;
 import su.geocaching.android.controller.IInternetAware;
@@ -49,7 +48,7 @@ public class ShowGeoCacheInfo extends Activity implements OnCheckedChangeListene
     private ConnectionManager connectManager;
     private GoogleAnalyticsTracker tracker;
     private boolean isPageNoteBook;
-    
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -82,12 +81,11 @@ public class ShowGeoCacheInfo extends Activity implements OnCheckedChangeListene
     public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
         if (isChecked) {
             isCacheStoredInDataBase = true;
-            if (!Controller.getInstance().getPreferencesManager().getDownloadNoteBookAlways()){
+            if (!Controller.getInstance().getPreferencesManager().getDownloadNoteBookAlways()) {
                 if (htmlTextNotebookGeoCache == null || htmlTextNotebookGeoCache.equals("")) {
                     createDownloadNotebookDialog();
                 }
-            }
-            else{
+            } else {
                 htmlTextNotebookGeoCache = getHtmlString(!isPageNoteBook);
             }
             dbm.addGeoCache(GeoCacheForShowInfo, htmlTextGeoCache, htmlTextNotebookGeoCache);
@@ -103,7 +101,7 @@ public class ShowGeoCacheInfo extends Activity implements OnCheckedChangeListene
         dialog.setCancelable(true);
         CheckBox check = (CheckBox) dialog.findViewById(R.id.downloadNoteBookAlways);
         check.setOnCheckedChangeListener(new OnCheckedChangeListener() {
-            
+
             @Override
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
                 // TODO Auto-generated method stub
@@ -115,15 +113,15 @@ public class ShowGeoCacheInfo extends Activity implements OnCheckedChangeListene
             @Override
             public void onClick(View v) {
                 // TODO Auto-generated method stub
-                if (connectManager.isInternetConnected()){
-                htmlTextNotebookGeoCache = getHtmlString(!isPageNoteBook);
+                if (connectManager.isInternetConnected()) {
+                    htmlTextNotebookGeoCache = getHtmlString(!isPageNoteBook);
                 }
                 dialog.dismiss();
             }
         });
         Button buttonNo = (Button) dialog.findViewById(R.id.ButtonNo);
         buttonNo.setOnClickListener(new OnClickListener() {
-  
+
             @Override
             public void onClick(View v) {
                 // TODO Auto-generated method stub
@@ -132,7 +130,7 @@ public class ShowGeoCacheInfo extends Activity implements OnCheckedChangeListene
         });
         dialog.show();
     }
-    
+
     @Override
     protected void onResume() {
         if (htmlTextGeoCache.equals("")) {
@@ -298,7 +296,7 @@ public class ShowGeoCacheInfo extends Activity implements OnCheckedChangeListene
                     webView.loadData("<?xml version='1.0' encoding='utf-8'?>" + "<center>" + getString(R.string.notebook_geocache_not_internet_and_not_in_DB) + "</center>", "text/html", "utf-8");
                 else
                     webView.loadDataWithBaseURL(HTTP_PDA_GEOCACHING_SU, htmlTextNotebookGeoCache, "text/html", "utf-8", "");
-      
+
             } else {
                 isPageNoteBook = false;
                 item.setTitle(R.string.menu_show_web_notebook_cache);

@@ -1,19 +1,23 @@
 package su.geocaching.android.ui.searchgeocache;
 
-import java.util.ArrayList;
-import java.util.List;
-
-import su.geocaching.android.controller.CompassManager;
-import su.geocaching.android.controller.ConnectionManager;
-import su.geocaching.android.controller.Controller;
-import su.geocaching.android.controller.GeoCacheLocationManager;
-import su.geocaching.android.controller.GpsStatusManager;
-import su.geocaching.android.controller.ICompassAware;
-import su.geocaching.android.controller.IGpsStatusAware;
-import su.geocaching.android.controller.IInternetAware;
-import su.geocaching.android.controller.ILocationAware;
-import su.geocaching.android.controller.LogManager;
-import su.geocaching.android.controller.UiHelper;
+import android.app.Dialog;
+import android.content.Intent;
+import android.graphics.Point;
+import android.graphics.Rect;
+import android.graphics.drawable.AnimationDrawable;
+import android.graphics.drawable.Drawable;
+import android.location.Location;
+import android.location.LocationManager;
+import android.location.LocationProvider;
+import android.net.Uri;
+import android.os.Bundle;
+import android.view.*;
+import android.widget.ImageView;
+import android.widget.TextView;
+import android.widget.Toast;
+import com.google.android.apps.analytics.GoogleAnalyticsTracker;
+import com.google.android.maps.*;
+import su.geocaching.android.controller.*;
 import su.geocaching.android.controller.compass.CompassPreferenceManager;
 import su.geocaching.android.controller.compass.CompassSpeed;
 import su.geocaching.android.controller.compass.SmoothCompassThread;
@@ -29,37 +33,13 @@ import su.geocaching.android.ui.geocachemap.SearchCacheOverlay;
 import su.geocaching.android.ui.searchgeocache.stepbystep.CheckpointDialog;
 import su.geocaching.android.ui.searchgeocache.stepbystep.StepByStepTabActivity;
 import su.geocaching.android.utils.GpsHelper;
-import android.app.Dialog;
-import android.content.Intent;
-import android.graphics.Point;
-import android.graphics.Rect;
-import android.graphics.drawable.AnimationDrawable;
-import android.graphics.drawable.Drawable;
-import android.location.Location;
-import android.location.LocationManager;
-import android.location.LocationProvider;
-import android.net.Uri;
-import android.os.Bundle;
-import android.view.Gravity;
-import android.view.Menu;
-import android.view.MenuInflater;
-import android.view.MenuItem;
-import android.view.View;
-import android.widget.ImageView;
-import android.widget.TextView;
-import android.widget.Toast;
 
-import com.google.android.apps.analytics.GoogleAnalyticsTracker;
-import com.google.android.maps.GeoPoint;
-import com.google.android.maps.MapActivity;
-import com.google.android.maps.MapController;
-import com.google.android.maps.MapView;
-import com.google.android.maps.Overlay;
-import com.google.android.maps.Projection;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Search GeoCache with the map
- * 
+ *
  * @author Android-Geocaching.su student project team
  * @since October 2010
  */
@@ -432,11 +412,9 @@ public class SearchGeoCacheMap extends MapActivity implements IInternetAware, IL
 
     /**
      * Show message string to user
-     * 
-     * @param status
-     *            string with information about device status
-     * @param type
-     *            type of message(GPS, Internet, etc)
+     *
+     * @param status string with information about device status
+     * @param type   type of message(GPS, Internet, etc)
      */
     public void updateStatus(String status, StatusType type) {
         if (!mLocationManager.hasLocation()) {

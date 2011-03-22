@@ -1,21 +1,22 @@
 <?xml version="1.0" encoding="utf-8"?>
 <PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
-	<PreferenceCategory android:title="@string/main_category_title">
+    <PreferenceCategory android:title="@string/main_category_title">
 
-		<Preference android:title="@string/map_preference_title"
-			android:summary="" android:key="mapPreference" />
-		<Preference android:title="@string/compass_preference_title"
-			android:summary="" android:key="compassPreference" />
-		<Preference android:title="@string/energy_saving_title"
-			android:summary="" android:key="energySavingPreference" />
-		<Preference android:title="@string/internet_and_gps_preference_title"
-			android:summary="Настройки интернета и GPS" android:key="internetAndGpsPreference" />
+        <Preference android:title="@string/map_preference_title"
+                    android:summary="" android:key="mapPreference"/>
+        <Preference android:title="@string/compass_preference_title"
+                    android:summary="" android:key="compassPreference"/>
+        <Preference android:title="@string/energy_saving_title"
+                    android:summary="" android:key="energySavingPreference"/>
+        <Preference android:title="@string/internet_and_gps_preference_title"
+                    android:summary="Настройки интернета и GPS" android:key="internetAndGpsPreference"/>
 
-		<CheckBoxPreference android:title="@string/save_notebook_alwayse_title"
-			android:key="@string/save_notebook_alwayse_key" android:defaultValue="@string/save_notebook_alwayse_value"
-			android:summary="@string/save_notebook_alwayse_summary" />
+        <CheckBoxPreference android:title="@string/save_notebook_alwayse_title"
+                            android:key="@string/save_notebook_alwayse_key"
+                            android:defaultValue="@string/save_notebook_alwayse_value"
+                            android:summary="@string/save_notebook_alwayse_summary"/>
 
-	</PreferenceCategory>
+    </PreferenceCategory>
 
 
 </PreferenceScreen>

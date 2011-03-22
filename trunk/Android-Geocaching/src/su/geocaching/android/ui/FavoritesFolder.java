@@ -68,7 +68,7 @@ public class FavoritesFolder extends Activity implements OnItemClickListener {
     protected void onStart() {
         mass = dbm.getArrayGeoCache();
         if (mass != null) {
-            SimpleAdapter ap = new SimpleAdapter(this, createGeoCacheList(mass), R.layout.row_in_favorit_rolder, new String[] { "type", "name", "typeText", "statusText" }, new int[] {
+            SimpleAdapter ap = new SimpleAdapter(this, createGeoCacheList(mass), R.layout.row_in_favorit_rolder, new String[]{"type", "name", "typeText", "statusText"}, new int[]{
                     R.id.favorite_list_image_button_type, R.id.favorite_list_text_view_name, R.id.favorites_row_type_text, R.id.favorites_row_status_text});
             lvListShowCache.setAdapter(ap);
             lvListShowCache.setOnItemClickListener(this);

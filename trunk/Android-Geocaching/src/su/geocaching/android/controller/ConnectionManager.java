@@ -14,7 +14,7 @@ import java.util.List;
 
 /**
  * This class manage classes (named subscribers) which want to get messages about InternetConnectionState
- * 
+ *
  * @author Grigory Kalabin. grigory.kalabin@gmail.com
  * @since December 2010
  */
@@ -31,8 +31,7 @@ public class ConnectionManager {
     private URL pingUrl;
 
     /**
-     * @param context
-     *            //TODO describe it
+     * @param context //TODO describe it
      */
     public ConnectionManager(Context context) {
         this.connectivityManager = (ConnectivityManager) context.getSystemService(Context.CONNECTIVITY_SERVICE);
@@ -51,8 +50,7 @@ public class ConnectionManager {
     }
 
     /**
-     * @param activity
-     *            which will be added
+     * @param activity which will be added
      */
     public void addSubscriber(IInternetAware activity) {
         if (subscribers.contains(activity)) {
@@ -67,8 +65,7 @@ public class ConnectionManager {
     }
 
     /**
-     * @param activity
-     *            which will be removed
+     * @param activity which will be removed
      * @return true if that activity has been contain in list of subscribers
      */
     public boolean removeSubscriber(IInternetAware activity) {

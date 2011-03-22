@@ -6,7 +6,7 @@ import su.geocaching.android.ui.R;
 
 /**
  * Alternative appearance of compass. (With white compass rose)
- * 
+ *
  * @author Nikita Bumakov
  */
 public class WhiteStandardCompassDrawing extends StandardCompassDrawing {
