@@ -63,8 +63,7 @@ public class CheckpointCacheOverlay extends ItemizedOverlay<OverlayItem> {
     public void addOverlayItem(GeoCacheOverlayItem overlayItem) {
         if (!contains(overlayItem.getGeoCache())) {
             checkpointNumber++;
-            overlayItem.getGeoCache().setName(activity.getString(R.string.checkpoint_dialog_title) + " " + checkpointNumber);
-            overlayItem.getGeoCache().setId(overlayItem.getGeoCache().getId()*1000+checkpointNumber);
+            overlayItem.getGeoCache().setName(String.format("%s %d",activity.getString(R.string.checkpoint_dialog_title), checkpointNumber));
             dbm.addCheckpointGeoCache(overlayItem.getGeoCache());
             items.add(overlayItem);
             setLastFocusedIndex(-1);
@@ -74,7 +73,7 @@ public class CheckpointCacheOverlay extends ItemizedOverlay<OverlayItem> {
 
     public void removeOverlayItem(int index) {
         GeoCache gc = items.get(index).getGeoCache();
-        dbm.deleteCheckpointCacheById(gc.getId());
+        dbm.deleteCheckpointCache(gc.getName(), gc.getId());
         items.remove(index);
         setLastFocusedIndex(-1);
         populate();
