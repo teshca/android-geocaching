@@ -123,8 +123,8 @@ public class CompassView extends SurfaceView implements SurfaceHolder.Callback, 
     }
 
     /**
-     * @param helper
-     *            the helper to set
+     * @param string
+     *          //TODO describe it
      */
     // TODO too many objects
     public void setHelper(String string) {

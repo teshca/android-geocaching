@@ -11,7 +11,7 @@ import su.geocaching.android.controller.LogManager;
  * This class is subset of common method, which we often use
  *
  * @author Grigory Kalabin. grigory.kalabin@gmail.com
- * @Nov 12, 2010
+ * @since Nov 12, 2010
  */
 public class GpsHelper {
     // if distance(m)
@@ -22,8 +22,8 @@ public class GpsHelper {
 
     private static final DecimalFormat BIG_DISTANCE_NUMBER_FORMAT = new DecimalFormat("0.0");
     private static final DecimalFormat SMALL_DISTANCE_NUMBER_FORMAT = new DecimalFormat("0");
-    private static final String BIG_DISTANCE_VALUE_NAME = "êì"; // TODO move constant to xml
-    private static final String SMALL_DISTANCE_VALUE_NAME = "ì";
+    private static final String BIG_DISTANCE_VALUE_NAME = "ï¿½ï¿½"; // TODO move constant to xml
+    private static final String SMALL_DISTANCE_VALUE_NAME = "ï¿½";
     private static final float BIG_DISTANCE_COEFFICIENT = (float) 0.001;
     private static final float SMALL_DISTANCE_COEFFICIENT = 1;
 

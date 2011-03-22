@@ -22,6 +22,8 @@ public class UiHelper {
 
     /**
      * Invoke "home" action, returning to DashBoardActivity
+     * @param context
+     *          //TODO describe it
      */
     public static void goHome(Context context) {
         final Intent intent = new Intent(context, DashboardActivity.class);
@@ -50,6 +52,10 @@ public class UiHelper {
 
     /**
      * Open GeoCache info activity
+     * @param context
+     *          //TODO describe it
+     * @param geoCache
+     *          //TODO describe it
      */
     public static void showGeoCacheInfo(Context context, GeoCache geoCache) {
         Intent intent = new Intent(context, ShowGeoCacheInfo.class);
@@ -59,6 +65,10 @@ public class UiHelper {
 
     /**F
      * Starts SearchGeoCacheMap activity and finish this
+     * @param context
+     *          //TODO describe it
+     * @param geoCache
+     *          //TODO describe it
      */
     public static void startMapView(Context context, GeoCache geoCache) {
         Intent intent = new Intent(context, SearchGeoCacheMap.class);
