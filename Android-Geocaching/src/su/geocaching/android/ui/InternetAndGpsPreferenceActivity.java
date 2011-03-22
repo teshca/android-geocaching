@@ -20,7 +20,7 @@ public class InternetAndGpsPreferenceActivity extends PreferenceActivity {
         setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
 
         
-        Preference internetPreference = (Preference) findPreference("internetPreference");
+        Preference internetPreference = findPreference("internetPreference");
         internetPreference.setOnPreferenceClickListener(new OnPreferenceClickListener() {
             
             public boolean onPreferenceClick(Preference preference) {
@@ -29,7 +29,7 @@ public class InternetAndGpsPreferenceActivity extends PreferenceActivity {
             }
         });
         
-        Preference gpsPreference = (Preference) findPreference("gpsPreference");
+        Preference gpsPreference = findPreference("gpsPreference");
         gpsPreference.setOnPreferenceClickListener(new OnPreferenceClickListener() {
             
             public boolean onPreferenceClick(Preference preference) {

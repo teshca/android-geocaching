@@ -23,8 +23,8 @@ public class AboutActivity extends Activity {
         
         try {
             String versionName = getPackageManager().getPackageInfo(getPackageName(), 0).versionName;
-            String aboutTitle = "Геокешинг версия " + versionName;
-            this.setTitle((CharSequence) aboutTitle);
+            String aboutTitle = "пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ " + versionName;
+            this.setTitle(aboutTitle);
         } catch (NameNotFoundException e) {
             // TODO Auto-generated catch block
             e.printStackTrace();

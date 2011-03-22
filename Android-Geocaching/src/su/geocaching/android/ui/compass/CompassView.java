@@ -26,12 +26,8 @@ public class CompassView extends SurfaceView implements SurfaceHolder.Callback, 
     private boolean ready = false;
     private boolean isLocationFixed = false;
 
-    public CompassView(Context context) {
-        this(context, null);
-    }
-
-    public CompassView(Context context, AttributeSet attrs) {
-        super(context, attrs);
+    public CompassView(Context context, AttributeSet attributeSet) {
+        super(context, attributeSet);
         LogManager.d(TAG, "new CompassView");
 
         helper = new StandardCompassDrawing();
@@ -64,10 +60,10 @@ public class CompassView extends SurfaceView implements SurfaceHolder.Callback, 
     @Override
     public boolean setDirection(float direction) {
         northDirection = -direction;
-        return doAnim();
+        return doAnimation();
     }
 
-    private boolean doAnim() {
+    private boolean doAnimation() {
         boolean success = false;
         Canvas c = null;
         SurfaceHolder holder = this.getHolder();
@@ -108,7 +104,7 @@ public class CompassView extends SurfaceView implements SurfaceHolder.Callback, 
         LogManager.d(TAG, "Compass View - setDirectionToGeoCache ");
         cacheDirection = direction;
         isLocationFixed = true;
-        doAnim();
+        doAnimation();
     }
 
     public void setLocationFix(boolean isLocationFix) {

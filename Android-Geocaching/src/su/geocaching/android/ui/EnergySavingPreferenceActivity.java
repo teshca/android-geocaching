@@ -24,7 +24,7 @@ public class EnergySavingPreferenceActivity extends PreferenceActivity implement
         addPreferencesFromResource(R.xml.energy_saving_preference);
         setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
 
-        Preference preference = (Preference) findPreference(getString(R.string.gps_update_frequency_key));
+        Preference preference = findPreference(getString(R.string.gps_update_frequency_key));
         preference.setOnPreferenceChangeListener(this);
     }
 
