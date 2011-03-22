@@ -9,8 +9,8 @@ import java.util.List;
  */
 
 public class KMeans {
-    private List<Centroid> centroids;
-    private List<GeoCacheView> points;
+    private final List<Centroid> centroids;
+    private final List<GeoCacheView> points;
     private boolean ready;
     private int iterations = 0;
 

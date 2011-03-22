@@ -13,10 +13,10 @@ import java.util.List;
  * @since: 19.02.11
  */
 public class GroupCacheTask extends AsyncTask<Void, Integer, List<GeoCacheOverlayItem>> {
-    private SelectGeoCacheMap map;
-    private GeoCacheListAnalyzer analyzer;
-    private static final String TAG = "GroupCacheTask";
-    private List<GeoCache> geoCacheList;
+    private final SelectGeoCacheMap map;
+    private final GeoCacheListAnalyzer analyzer;
+    private final String TAG = "GroupCacheTask";
+    private final List<GeoCache> geoCacheList;
 
     public GroupCacheTask(SelectGeoCacheMap map, List<GeoCache> geoCacheList) {
         this.map = map;

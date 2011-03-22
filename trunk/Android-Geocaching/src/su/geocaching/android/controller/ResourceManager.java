@@ -13,7 +13,7 @@ import su.geocaching.android.ui.R;
  * @since March 2011
  */
 public class ResourceManager {
-    private Context context;
+    private final Context context;
 
     public ResourceManager(Context context) {
         this.context = context;

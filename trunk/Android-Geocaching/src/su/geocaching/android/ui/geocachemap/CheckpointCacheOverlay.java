@@ -27,13 +27,13 @@ import com.google.android.maps.OverlayItem;
  */
 public class CheckpointCacheOverlay extends ItemizedOverlay<OverlayItem> {
 
-    private GestureDetector gestureDetector;
+    private final GestureDetector gestureDetector;
 
-    private List<GeoCacheOverlayItem> items;
-    private Activity activity;
+    private final List<GeoCacheOverlayItem> items;
+    private final Activity activity;
     private int checkpointNumber;
     
-    private DbManager dbm;
+    private final DbManager dbm;
 
     public CheckpointCacheOverlay(Drawable defaultMarker, Activity context, final MapView map) {
         super(defaultMarker);

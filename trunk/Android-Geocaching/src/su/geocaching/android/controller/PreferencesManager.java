@@ -22,10 +22,10 @@ import java.util.EnumSet;
 public class PreferencesManager {
     private static final String TAG = PreferencesManager.class.getCanonicalName();
 
-    private Context context;
-    private SharedPreferences preferences;
-    private DbManager dbManager;
-    private Resources resources;
+    private final Context context;
+    private final SharedPreferences preferences;
+    private final DbManager dbManager;
+    private final Resources resources;
 
     public PreferencesManager(Context context) {
         this.context = context;

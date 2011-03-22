@@ -13,8 +13,8 @@ import java.util.TimerTask;
 public class CheckMapStateTimerTask extends TimerTask {
     private GeoPoint lastCenter;
     private int lastZoom;
-    private SelectGeoCacheMap map;
-    private State state;
+    private final SelectGeoCacheMap map;
+    private final State state;
 
     private boolean mapUpdateRunning;
 

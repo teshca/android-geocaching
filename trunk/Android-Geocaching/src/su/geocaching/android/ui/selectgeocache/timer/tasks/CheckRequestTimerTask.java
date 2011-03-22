@@ -9,7 +9,7 @@ import java.util.TimerTask;
  * @since 25.11.10
  */
 public class CheckRequestTimerTask extends TimerTask {
-    private State state;
+    private final State state;
 
     public CheckRequestTimerTask(State state) {
         this.state = state;

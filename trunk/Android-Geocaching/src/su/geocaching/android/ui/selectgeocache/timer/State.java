@@ -10,7 +10,7 @@ import su.geocaching.android.ui.selectgeocache.SelectGeoCacheMap;
 public class State {
     private boolean mapUpdated;
     private boolean requestSent;
-    private SelectGeoCacheMap gcMap;
+    private final SelectGeoCacheMap gcMap;
 
 
     public State(SelectGeoCacheMap gcMap) {
