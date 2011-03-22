@@ -218,7 +218,7 @@ public class ShowGeoCacheInfo extends Activity implements OnCheckedChangeListene
     @Override
     public void onWindowFocusChanged(boolean hasFocus) {
 
-    };
+    }
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {

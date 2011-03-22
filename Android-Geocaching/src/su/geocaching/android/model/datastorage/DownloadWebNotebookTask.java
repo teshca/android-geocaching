@@ -30,7 +30,8 @@ public class DownloadWebNotebookTask extends AsyncTask<String, Void, String> {
         progressDialog = new ProgressDialog(context);
         progressDialog.setMessage(context.getString(R.string.download_notebook));
         progressDialog.show();
-    };
+    }
+
     @Override
     protected String doInBackground(String... params) {
         if (params[0] == null || params[0] == "") {
