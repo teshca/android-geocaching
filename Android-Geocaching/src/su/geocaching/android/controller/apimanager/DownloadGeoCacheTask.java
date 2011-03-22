@@ -18,9 +18,9 @@ import java.util.ListIterator;
  * @author Nikita Bumakov
  */
 public class DownloadGeoCacheTask extends AsyncTask<GeoPoint, Integer, List<GeoCache>> {
-    private SelectGeoCacheMap map;
-    private IApiManager apiManager;
-    private Controller controller;
+    private final SelectGeoCacheMap map;
+    private final IApiManager apiManager;
+    private final Controller controller;
 
 
     public DownloadGeoCacheTask(IApiManager apiManager, SelectGeoCacheMap map) {
