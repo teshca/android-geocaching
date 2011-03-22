@@ -29,13 +29,12 @@
         <item>SATELLITE</item>
     </string-array>
     <string name="prefer_map_type_title">Тип карты</string>
-    <string name="prefer_map_type_default_value">MAP</string>
     <string name="prefer_map_type_key">map.type</string>
+    <string name="prefer_map_type_default_value">MAP</string>
     <string name="prefer_map_type_summary">Выберите тип отображаемой карты</string>
 
     <string name="way_cache_adding_key">map.addWay</string>
     <string name="way_cache_adding_title">Группировка тайников</string>
-    <string name="way_cache_adding_default_value">true</string>
     <string name="way_cache_adding_summary">Включить группировку близких тайников (beta)</string>
 
     <string name="map_filters_title">Фильтры</string>
@@ -49,12 +48,5 @@
     <string name="cache_filter_event">filter.event</string>
     <string name="map_preference_title">Настройки карты</string>
     <string name="map_preference_key">map.preference</string>
-    <string name="cache_filter_traditional_default_value">true</string>
-    <string name="cache_filter_virtual_default_value">true</string>
-    <string name="cache_filter_stepbystepl_default_value">true</string>
-    <string name="cache_filter_extreme_default_value">true</string>
-    <string name="cache_filter_event_default_value">true</string>
-    <string name="cache_filter_valid_default_value">true</string>
-    <string name="cache_filter_not_valid_default_value">true</string>
-    <string name="cache_filter_not_confirmed_default_value">true</string>
+
 </resources>

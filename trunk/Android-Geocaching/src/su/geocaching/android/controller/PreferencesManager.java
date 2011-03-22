@@ -2,6 +2,7 @@ package su.geocaching.android.controller;
 
 import android.content.Context;
 import android.content.SharedPreferences;
+import android.content.res.Resources;
 import android.preference.PreferenceManager;
 import su.geocaching.android.model.datastorage.DbManager;
 import su.geocaching.android.model.datatype.GeoCache;
@@ -24,9 +25,11 @@ public class PreferencesManager {
     private Context context;
     private SharedPreferences preferences;
     private DbManager dbManager;
+    private Resources resources;
 
     public PreferencesManager(Context context) {
         this.context = context;
+        resources = context.getResources();
         preferences = PreferenceManager.getDefaultSharedPreferences(context);
         dbManager = Controller.getInstance().getDbManager();
     }
@@ -98,14 +101,22 @@ public class PreferencesManager {
         return preferences.getBoolean(context.getString(R.string.keep_screen_on_key), String.valueOf(R.string.keep_screen_on_default_value).equals("false"));
     }
 
-    public String getMapTypeString() {
+    public boolean useSatelliteMap() {
         // keys located in resources, because settings logic described in xml and write it automatically to SharedPreferences
-        return preferences.getString(context.getString(R.string.prefer_map_type_key), String.valueOf(R.string.prefer_map_type_default_value));
+        String str;
+        if(context.getString(R.string.prefer_map_type_key).equals("MAP")) {
+            str = "true";
+        } else {
+            str = "false";
+        }
+        return preferences.getBoolean(str,
+                resources.getBoolean(R.bool.use_satellite_map_type_default_value));
     }
 
     public Boolean getAddingCacheWayString() {
         // keys located in resources, because settings logic described in xml and write it automatically to SharedPreferences
-        return preferences.getBoolean(context.getString(R.string.way_cache_adding_key), String.valueOf(R.string.way_cache_adding_default_value).equals("true"));
+        return preferences.getBoolean(context.getString(R.string.way_cache_adding_key),
+                resources.getBoolean(R.bool.use_group_cache_default_value));
     }
 
     public GpsUpdateFrequency getGpsUpdateFrequency() {
@@ -115,13 +126,16 @@ public class PreferencesManager {
 
     public EnumSet<GeoCacheStatus> getStatusFilter() {
         EnumSet<GeoCacheStatus> set = EnumSet.noneOf(GeoCacheStatus.class);
-        if (preferences.getBoolean(context.getString(R.string.cache_filter_valid), String.valueOf(R.string.cache_filter_valid_default_value).equals("true"))) {
+        if (preferences.getBoolean(context.getString(R.string.cache_filter_valid),
+                resources.getBoolean(R.bool.cache_filter_valid_default_value))) {
             set.add(GeoCacheStatus.VALID);
         }
-        if (preferences.getBoolean(context.getString(R.string.cache_filter_not_valid), String.valueOf(R.string.cache_filter_not_valid_default_value).equals("true"))) {
+        if (preferences.getBoolean(context.getString(R.string.cache_filter_not_valid),
+                resources.getBoolean(R.bool.cache_filter_not_valid_default_value))) {
             set.add(GeoCacheStatus.NOT_VALID);
         }
-        if (preferences.getBoolean(context.getString(R.string.cache_filter_not_confirmed), String.valueOf(R.string.cache_filter_not_confirmed_default_value).equals("true"))) {
+        if (preferences.getBoolean(context.getString(R.string.cache_filter_not_confirmed),
+                resources.getBoolean(R.bool.cache_filter_not_confirmed_default_value))) {
             set.add(GeoCacheStatus.NOT_CONFIRMED);
         }
         return set;
@@ -129,19 +143,24 @@ public class PreferencesManager {
 
     public EnumSet<GeoCacheType> getTypeFilter() {
         EnumSet<GeoCacheType> set = EnumSet.noneOf(GeoCacheType.class);
-        if (preferences.getBoolean(context.getString(R.string.cache_filter_traditional), String.valueOf(R.string.cache_filter_traditional_default_value).equals("true"))) {
+        if (preferences.getBoolean(context.getString(R.string.cache_filter_traditional),
+                resources.getBoolean(R.bool.cache_filter_traditional_default_value))) {
             set.add(GeoCacheType.TRADITIONAL);
         }
-        if (preferences.getBoolean(context.getString(R.string.cache_filter_extreme), String.valueOf(R.string.cache_filter_extreme_default_value).equals("true"))) {
+        if (preferences.getBoolean(context.getString(R.string.cache_filter_extreme),
+                resources.getBoolean(R.bool.cache_filter_extreme_default_value))) {
             set.add(GeoCacheType.EXTREME);
         }
-        if (preferences.getBoolean(context.getString(R.string.cache_filter_stepbystep), String.valueOf(R.string.cache_filter_stepbystepl_default_value).equals("true"))) {
+        if (preferences.getBoolean(context.getString(R.string.cache_filter_stepbystep),
+                resources.getBoolean(R.bool.cache_filter_stepbystep_default_value))) {
             set.add(GeoCacheType.STEP_BY_STEP);
         }
-        if (preferences.getBoolean(context.getString(R.string.cache_filter_virtual), String.valueOf(R.string.cache_filter_virtual_default_value).equals("true"))) {
+        if (preferences.getBoolean(context.getString(R.string.cache_filter_virtual),
+                resources.getBoolean(R.bool.cache_filter_virtual_default_value))) {
             set.add(GeoCacheType.VIRTUAL);
         }
-        if (preferences.getBoolean(context.getString(R.string.cache_filter_event), String.valueOf(R.string.cache_filter_event_default_value).equals("true"))) {
+        if (preferences.getBoolean(context.getString(R.string.cache_filter_event),
+                resources.getBoolean(R.bool.cache_filter_event_default_value))) {
             set.add(GeoCacheType.VIRTUAL);
         }
         return set;
