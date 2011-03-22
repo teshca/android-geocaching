@@ -55,7 +55,7 @@ public class ApiManager implements IApiManager {
             return new LinkedList<GeoCache>();
         }
 
-        GeoCacheSaxHandler handler = null;
+        GeoCacheSaxHandler handler;
         HttpURLConnection connection = null;
         try {
             SAXParserFactory factory = SAXParserFactory.newInstance();
