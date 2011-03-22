@@ -28,7 +28,6 @@ public class FavoritesFolder extends Activity implements OnItemClickListener {
     private ListView lvListShowCache;
     private DbManager dbm = null;
     private TextView tvTitle;
-    private GoogleAnalyticsTracker tracker;
 
     /**
      * Called when the activity is first created.
@@ -36,7 +35,7 @@ public class FavoritesFolder extends Activity implements OnItemClickListener {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        tracker = GoogleAnalyticsTracker.getInstance();
+        GoogleAnalyticsTracker tracker = GoogleAnalyticsTracker.getInstance();
         tracker.start(getString(R.string.id_Google_Analytics), this);
         tracker.trackPageView(getString(R.string.favorites_activity_folder));
         tracker.dispatch();
@@ -48,12 +47,12 @@ public class FavoritesFolder extends Activity implements OnItemClickListener {
     }
 
     private List<Map<String, ?>> createGeoCacheList(ArrayList<GeoCache> t) {
-        GeoCache localGeoCache = new GeoCache();
+        GeoCache localGeoCache;
         List<Map<String, ?>> ExitList = new ArrayList<Map<String, ?>>();
 
-        for (int i = 0; i < t.size(); i++) {
+        for (GeoCache aT : t) {
             Map<String, Object> map = new HashMap<String, Object>();
-            localGeoCache = t.get(i);
+            localGeoCache = aT;
             map.put("statusText", Controller.getInstance().getResourceManager().getGeoCacheStatus(localGeoCache));
             map.put("typeText", Controller.getInstance().getResourceManager().getGeoCacheType(localGeoCache));
             map.put("type", Controller.getInstance().getResourceManager().getMarkerResId(localGeoCache));

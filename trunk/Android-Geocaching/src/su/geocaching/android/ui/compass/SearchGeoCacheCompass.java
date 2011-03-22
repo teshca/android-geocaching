@@ -44,7 +44,6 @@ public class SearchGeoCacheCompass extends Activity {
     private AnimationDrawable progressBarAnim;
 
     private Controller controller;
-    private GoogleAnalyticsTracker tracker;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -65,7 +64,7 @@ public class SearchGeoCacheCompass extends Activity {
         locationListener = new LocationListener(this);
         gpsListener = new GpsStatusListener();
 
-        tracker = GoogleAnalyticsTracker.getInstance();
+        GoogleAnalyticsTracker tracker = GoogleAnalyticsTracker.getInstance();
         tracker.start(getString(R.string.id_Google_Analytics), this);
         tracker.trackPageView(getString(R.string.compass_activity_folder));
         tracker.dispatch();
@@ -138,7 +137,7 @@ public class SearchGeoCacheCompass extends Activity {
             animationThread.setRunning(false);
             try {
                 animationThread.join(150); // TODO Is it need?
-            } catch (InterruptedException e) {
+            } catch (InterruptedException ignored) {
             }
             animationThread = null;
         }

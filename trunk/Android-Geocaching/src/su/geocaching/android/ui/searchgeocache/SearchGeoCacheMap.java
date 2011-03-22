@@ -65,9 +65,7 @@ import com.google.android.maps.Projection;
  */
 public class SearchGeoCacheMap extends MapActivity implements IInternetAware, ILocationAware, ICompassAware, IGpsStatusAware {
     private final static String TAG = SearchGeoCacheMap.class.getCanonicalName();
-    private final String dislocation = "Ваше месторасположение не определено.Повторите попытку позже.";
-    private GeoCacheOverlayItem cacheOverlayItem;
-    private SearchCacheOverlay searchCacheOverlay;
+    private final String dislocation = "Р’Р°С€Рµ РјРµСЃС‚РѕРїРѕР»РѕР¶РµРЅРёРµ РЅРµ РѕРїСЂРµРґРµР»РµРЅРѕ. РџРѕРІС‚РѕСЂРёС‚Рµ РїРѕРїС‹С‚РєСѓ РїРѕР·Р¶Рµ.";
     private CheckpointCacheOverlay checkpointCacheOverlay;
     private Drawable cacheMarker;
     private DistanceToGeoCacheOverlay distanceOverlay;
@@ -78,7 +76,7 @@ public class SearchGeoCacheMap extends MapActivity implements IInternetAware, IL
 
     private TextView waitingLocationFixText;
     private ImageView progressBarView;
-    private AnimationDrawable progressBarAnim;
+    private AnimationDrawable progressBarAnimation;
 
     private ConnectionManager internetManager;
     private CompassManager mCompassManager;
@@ -108,7 +106,7 @@ public class SearchGeoCacheMap extends MapActivity implements IInternetAware, IL
         waitingLocationFixText = (TextView) findViewById(R.id.waitingLocationFixText);
         progressBarView = (ImageView) findViewById(R.id.progressCircle);
         progressBarView.setBackgroundResource(R.anim.earth_anim);
-        progressBarAnim = (AnimationDrawable) progressBarView.getBackground();
+        progressBarAnimation = (AnimationDrawable) progressBarView.getBackground();
 
         map = (MapView) findViewById(R.id.searchGeocacheMap);
         mapOverlays = map.getOverlays();
@@ -128,8 +126,8 @@ public class SearchGeoCacheMap extends MapActivity implements IInternetAware, IL
 
         if (geoCache != null) {
             cacheMarker = mController.getResourceManager().getMarker(mController.getSearchingGeoCache());
-            searchCacheOverlay = new SearchCacheOverlay(cacheMarker, this);
-            cacheOverlayItem = new GeoCacheOverlayItem(mController.getSearchingGeoCache(), "", "");
+            SearchCacheOverlay searchCacheOverlay = new SearchCacheOverlay(cacheMarker, this);
+            GeoCacheOverlayItem cacheOverlayItem = new GeoCacheOverlayItem(mController.getSearchingGeoCache(), "", "");
             searchCacheOverlay.addOverlayItem(cacheOverlayItem);
             mapOverlays.add(searchCacheOverlay);
         }
@@ -498,7 +496,7 @@ public class SearchGeoCacheMap extends MapActivity implements IInternetAware, IL
      */
     public void onWindowFocusChanged(boolean hasFocus) {
         super.onWindowFocusChanged(hasFocus);
-        progressBarAnim.start();
+        progressBarAnimation.start();
     }
 
     public void onHomeClick(View v) {
@@ -593,7 +591,7 @@ public class SearchGeoCacheMap extends MapActivity implements IInternetAware, IL
             animationThread.setRunning(false);
             try {
                 animationThread.join(150); // TODO Is it need?
-            } catch (InterruptedException e) {
+            } catch (InterruptedException ignored) {
             }
             animationThread = null;
         }
