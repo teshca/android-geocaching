@@ -133,18 +133,6 @@ public class SelectGeoCacheMap extends MapActivity implements IInternetAware {
     }
 
     @Override
-    protected void onSaveInstanceState(Bundle savedInstanceState) {
-        super.onSaveInstanceState(savedInstanceState);
-
-    }
-
-    @Override
-    protected void onRestoreInstanceState(Bundle savedInstanceState) {
-        super.onRestoreInstanceState(savedInstanceState);
-        mapController.setZoom(savedInstanceState.getInt("zoom"));
-    }
-
-    @Override
     protected void onResume() {
         super.onResume();
         askTurnOnInternet();

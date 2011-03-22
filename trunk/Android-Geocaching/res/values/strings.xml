@@ -103,6 +103,7 @@
 	<string name="search_activity_folder">/SearchActivity</string>
 	<string name="select_activity_folder">/SelectActivity</string>
 
+    <string name="dislocation">"Ваше местоположение не определено. Повторите попытку позже."</string>
 	<string name="add_stepbystep">Добавить checkpoint</string>
 	<string name="latitude">Широта :</string>
 	<string name="longitude">Долгота :</string>
