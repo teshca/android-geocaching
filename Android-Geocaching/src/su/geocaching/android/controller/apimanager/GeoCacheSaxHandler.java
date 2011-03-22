@@ -70,7 +70,7 @@ public class GeoCacheSaxHandler extends DefaultHandler {
         if (localName.equalsIgnoreCase(C)) {
             geoCache = new GeoCache();
         } else {
-            text = new String();
+            text = "";
         }
         super.startElement(uri, localName, name, attributes);
     }
