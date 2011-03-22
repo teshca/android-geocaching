@@ -10,13 +10,13 @@ import su.geocaching.android.ui.R;
  * 
  * @author Nikita Bumakov
  */
-public class StandartCompassDrawning extends CompassDrawningHelper {
+public class StandardCompassDrawing extends CompassDrawingHelper {
 
     protected Paint bitmapPaint = new Paint();
     protected Paint textPaint = new Paint();
     protected Bitmap roseBitmap, needleBitmap, arrowBitmap;
 
-    public StandartCompassDrawning() {
+    public StandardCompassDrawing() {
         super();
 
         roseBitmap = BitmapFactory.decodeResource(Controller.getInstance().getResourceManager().getResources(), R.drawable.compass_rose_yellow);

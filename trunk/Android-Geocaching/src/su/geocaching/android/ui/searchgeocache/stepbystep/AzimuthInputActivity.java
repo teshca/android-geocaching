@@ -10,10 +10,10 @@ import su.geocaching.android.model.datatype.GeoCache;
 import su.geocaching.android.ui.R;
 import su.geocaching.android.utils.GpsHelper;
 
-public class AzimutInputActivity extends Activity {
+public class AzimuthInputActivity extends Activity {
 
     private EditText azimuth, distance;
-    GeoPoint currentGeoPoint;
+    private GeoPoint currentGeoPoint;
 
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);

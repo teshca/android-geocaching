@@ -95,7 +95,7 @@
         <activity android:name=".searchgeocache.stepbystep.StepByStepTabActivity"></activity>
         <activity android:name=".searchgeocache.stepbystep.SexagesimalInputActivity"></activity>
         <activity android:name=".searchgeocache.stepbystep.DecimalInputActivity"></activity>
-        <activity android:name=".searchgeocache.stepbystep.AzimutInputActivity"></activity>
+        <activity android:name=".searchgeocache.stepbystep.AzimuthInputActivity"></activity>
     </application>
 
     <uses-sdk android:minSdkVersion="4"></uses-sdk>

@@ -31,34 +31,30 @@ public class CheckpointCacheOverlay extends ItemizedOverlay<OverlayItem> {
 
     private List<GeoCacheOverlayItem> items;
     private Activity activity;
-    private MapView map;
     private int checkpointNumber;
     
     private DbManager dbm;
 
-    public CheckpointCacheOverlay(Drawable defaultMarker, Activity context, MapView map) {
+    public CheckpointCacheOverlay(Drawable defaultMarker, Activity context, final MapView map) {
         super(defaultMarker);
         
         dbm = Controller.getInstance().getDbManager();
 
         items = Collections.synchronizedList(new LinkedList<GeoCacheOverlayItem>());
+        GestureDetector.SimpleOnGestureListener sogl = new GestureDetector.SimpleOnGestureListener() {
+            public void onLongPress(MotionEvent e) {
+                GeoCache gc = new GeoCache();
+                gc.setType(GeoCacheType.CHECKPOINT);
+                gc.setLocationGeoPoint(map.getProjection().fromPixels((int) e.getX(), (int) e.getY()));
+                UiHelper.startStepByStepForResult(activity, gc);
+            }
+        };
         gestureDetector = new GestureDetector(context, sogl);
 
         this.activity = context;
-        this.map = map;
 
         populate();
     }
-
-    GestureDetector.SimpleOnGestureListener sogl = new GestureDetector.SimpleOnGestureListener() {
-
-        public void onLongPress(MotionEvent e) {
-            GeoCache gc = new GeoCache();
-            gc.setType(GeoCacheType.CHECKPOINT);
-            gc.setLocationGeoPoint(map.getProjection().fromPixels((int) e.getX(), (int) e.getY()));
-            UiHelper.startStepByStepForResult(activity, gc);
-        }
-    };
 
     public void addOverlayItem(GeoCacheOverlayItem overlayItem) {
         if (!contains(overlayItem.getGeoCache())) {

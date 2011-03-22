@@ -6,10 +6,9 @@ import android.util.AttributeSet;
 import android.view.SurfaceHolder;
 import android.view.SurfaceView;
 import su.geocaching.android.controller.LogManager;
-import su.geocaching.android.controller.compass.CompassDrawningHelper;
-import su.geocaching.android.controller.compass.ICompassAnimation;
-import su.geocaching.android.controller.compass.StandartCompassDrawning;
-import su.geocaching.android.controller.compass.WhiteStandartCompassDrawning;
+import su.geocaching.android.controller.compass.*;
+import su.geocaching.android.controller.compass.CompassDrawingHelper;
+import su.geocaching.android.controller.compass.StandardCompassDrawing;
 
 /**
  * View which displays compass contains of bitmaps for searching geocache.
@@ -20,7 +19,7 @@ public class CompassView extends SurfaceView implements SurfaceHolder.Callback, 
 
     private static final String TAG = CompassView.class.getCanonicalName();
 
-    private CompassDrawningHelper helper;
+    private CompassDrawingHelper helper;
 
     private float northDirection; // in degrees
     private float cacheDirection;
@@ -35,7 +34,7 @@ public class CompassView extends SurfaceView implements SurfaceHolder.Callback, 
         super(context, attrs);
         LogManager.d(TAG, "new CompassView");
 
-        helper = new StandartCompassDrawning();
+        helper = new StandardCompassDrawing();
         ready = true; // Is it need?
 
         setMinimumWidth(240);
@@ -119,7 +118,7 @@ public class CompassView extends SurfaceView implements SurfaceHolder.Callback, 
     /**
      * @return the helper
      */
-    public CompassDrawningHelper getHelper() {
+    public CompassDrawingHelper getHelper() {
         return helper;
     }
 
@@ -130,9 +129,9 @@ public class CompassView extends SurfaceView implements SurfaceHolder.Callback, 
     // TODO too many objects
     public void setHelper(String string) {
         if (string.equals("CLASSIC")) {
-            helper = new StandartCompassDrawning();
+            helper = new StandardCompassDrawing();
         } else if (string.equals("PALE")) {
-            helper = new WhiteStandartCompassDrawning();
+            helper = new WhiteStandardCompassDrawing();
         }
         if (getWidth() > 0) {
             helper.onSizeChanged(getWidth(), getHeight());
