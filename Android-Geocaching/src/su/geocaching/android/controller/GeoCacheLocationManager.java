@@ -25,7 +25,7 @@ public class GeoCacheLocationManager implements LocationListener {
     private LocationManager locationManager;
     private Location lastLocation;
     private String provider;
-    private List<ILocationAware> subsribers;
+    private List<ILocationAware> subscribers;
     private Timer removeUpdatesTimer;
     private RemoveUpdatesTask removeUpdatesTask;
     private boolean isUpdating;
@@ -39,7 +39,7 @@ public class GeoCacheLocationManager implements LocationListener {
     public GeoCacheLocationManager(LocationManager locationManager) {
         this.locationManager = locationManager;
         updateFrequency = Controller.getInstance().getPreferencesManager().getGpsUpdateFrequency();
-        subsribers = new ArrayList<ILocationAware>();
+        subscribers = new ArrayList<ILocationAware>();
         provider = "none";
         isUpdating = false;
         removeUpdatesTimer = new Timer(TIMER_NAME);
@@ -48,40 +48,40 @@ public class GeoCacheLocationManager implements LocationListener {
     }
 
     /**
-     * @param subsriber
+     * @param subscriber
      *            activity which will be listen location updates
      */
-    public void addSubscriber(ILocationAware subsriber) {
+    public void addSubscriber(ILocationAware subscriber) {
         removeUpdatesTask.cancel();
 
-        LogManager.d(TAG, "addSubscriber: remove task cancelled;\n	isUpdating=" + Boolean.toString(isUpdating) + ";\n	subscribers=" + Integer.toString(subsribers.size()));
+        LogManager.d(TAG, "addSubscriber: remove task cancelled;\n	isUpdating=" + Boolean.toString(isUpdating) + ";\n	subscribers=" + Integer.toString(subscribers.size()));
 
-        if ((subsribers.size() == 0) && (!isUpdating)) {
+        if ((subscribers.size() == 0) && (!isUpdating)) {
             addUpdates();
         }
-        if (!subsribers.contains(subsriber)) {
-            subsribers.add(subsriber);
+        if (!subscribers.contains(subscriber)) {
+            subscribers.add(subscriber);
         }
-        LogManager.d(TAG, "	Count of subsribers became " + Integer.toString(subsribers.size()));
+        LogManager.d(TAG, "	Count of subscribers became " + Integer.toString(subscribers.size()));
     }
 
     /**
-     * @param subsriber
+     * @param subscriber
      *            activity which no need to listen location updates
-     * @return true if activity was subsribed on location updates
+     * @return true if activity was subscribed on location updates
      */
-    public boolean removeSubsriber(ILocationAware subsriber) {
-        boolean res = subsribers.remove(subsriber);
+    public boolean removeSubscriber(ILocationAware subscriber) {
+        boolean res = subscribers.remove(subscriber);
         if (!res) {
             return res;
         }
-        if (subsribers.size() == 0) {
+        if (subscribers.size() == 0) {
             removeUpdatesTask.cancel();
             removeUpdatesTask = new RemoveUpdatesTask(this);
             removeUpdatesTimer.schedule(removeUpdatesTask, REMOVE_UPDATES_DELAY);
             LogManager.d(TAG, "none subscribers. wait " + Long.toString(REMOVE_UPDATES_DELAY / 1000) + " s from " + Long.toString(System.currentTimeMillis()));
         }
-        LogManager.d(TAG, "remove subsriber. Count of subsribers became " + Integer.toString(subsribers.size()));
+        LogManager.d(TAG, "remove subscriber. Count of subscribers became " + Integer.toString(subscribers.size()));
         return res;
     }
 
@@ -93,9 +93,9 @@ public class GeoCacheLocationManager implements LocationListener {
     @Override
     public void onLocationChanged(Location location) {
         lastLocation = location;
-        LogManager.d(TAG, "Location changed: send msg to " + Integer.toString(subsribers.size()) + " activity(es)");
+        LogManager.d(TAG, "Location changed: send msg to " + Integer.toString(subscribers.size()) + " activity(es)");
         boolean isCompassAvailable = Controller.getInstance().getCompassManager().isCompassAvailable();
-        for (ILocationAware subsriber : subsribers) {
+        for (ILocationAware subsriber : subscribers) {
             if ((subsriber instanceof ICompassAware) && (!isCompassAvailable)) {
                 ((ICompassAware) subsriber).updateBearing((int) location.getBearing());
                 LogManager.d(TAG, "update location: send bearing to " + subsriber.getClass().getCanonicalName());
@@ -111,8 +111,8 @@ public class GeoCacheLocationManager implements LocationListener {
      */
     @Override
     public void onProviderDisabled(String provider) {
-        LogManager.d(TAG, "Provider (" + provider + ") disabled: send msg to " + Integer.toString(subsribers.size()) + " activity(es)");
-        for (ILocationAware subsriber : subsribers) {
+        LogManager.d(TAG, "Provider (" + provider + ") disabled: send msg to " + Integer.toString(subscribers.size()) + " activity(es)");
+        for (ILocationAware subsriber : subscribers) {
             subsriber.onProviderDisabled(provider);
         }
     }
@@ -124,8 +124,8 @@ public class GeoCacheLocationManager implements LocationListener {
      */
     @Override
     public void onProviderEnabled(String provider) {
-        LogManager.d(TAG, "Provider (" + provider + ") enabled: send msg to " + Integer.toString(subsribers.size()) + " activity(es)");
-        for (ILocationAware subsriber : subsribers) {
+        LogManager.d(TAG, "Provider (" + provider + ") enabled: send msg to " + Integer.toString(subscribers.size()) + " activity(es)");
+        for (ILocationAware subsriber : subscribers) {
             subsriber.onProviderEnabled(provider);
         }
     }
@@ -137,8 +137,8 @@ public class GeoCacheLocationManager implements LocationListener {
      */
     @Override
     public void onStatusChanged(String provider, int status, Bundle extras) {
-        LogManager.d(TAG, "Provider (" + provider + ") status changed (new status is " + Integer.toString(status) + "): send msg to " + Integer.toString(subsribers.size()) + " activity(es)");
-        for (ILocationAware subsriber : subsribers) {
+        LogManager.d(TAG, "Provider (" + provider + ") status changed (new status is " + Integer.toString(status) + "): send msg to " + Integer.toString(subscribers.size()) + " activity(es)");
+        for (ILocationAware subsriber : subscribers) {
             subsriber.onStatusChanged(provider, status, extras);
         }
     }

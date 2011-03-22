@@ -162,9 +162,9 @@ public class SearchGeoCacheMap extends MapActivity implements IInternetAware, IL
         }
 
         internetManager.removeSubscriber(this);
-        mLocationManager.removeSubsriber(this);
+        mLocationManager.removeSubscriber(this);
         mCompassManager.removeSubscriber(this);
-        mGpsStatusManager.removeSubsriber(this);
+        mGpsStatusManager.removeSubscriber(this);
 
         tracker.stop();
     }
