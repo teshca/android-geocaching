@@ -61,6 +61,8 @@ public class DashboardActivity extends Activity {
 
     /**
      * Starting activity to select GeoCache
+     * @param v
+     *          //TODO describe it
      */
     public void onSelectClick(View v) {
         tracker.trackEvent("Click", "Button", "from DashBoardActivity to SelesctActivity ", 0);
@@ -72,6 +74,8 @@ public class DashboardActivity extends Activity {
 
     /**
      * Starting activity to search GeoCache
+     * @param v
+     *          //TODO describe it
      */
     public void onSearchClick(View v) {
         tracker.trackEvent("Click", "Button", "from DashBoardActivity to SearchActivity ", 0);
@@ -87,6 +91,8 @@ public class DashboardActivity extends Activity {
 
     /**
      * Starting about activity
+     * @param v
+     *          //TODO describe it
      */
     public void onAboutClick(View v) {
         tracker.trackEvent("Click", "Button", "from DashBoardActivity to AboutActivity ", 0);
@@ -97,6 +103,8 @@ public class DashboardActivity extends Activity {
 
     /**
      * Starting activity with favorites geocaches
+     * @param v
+     *          //TODO describe it
      */
     public void onFavoriteClick(View v) {
         tracker.trackEvent("Click", "Button", "from DashBoardActivity to FavoriteActivity ", 0);
