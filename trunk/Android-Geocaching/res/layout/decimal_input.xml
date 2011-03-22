@@ -5,43 +5,43 @@
 
     <TextView android:text="@string/geographical_coordinates"
               android:textSize="@dimen/text_size_big" android:layout_width="wrap_content"
-              android:layout_height="wrap_content"></TextView>
+              android:layout_height="wrap_content"/>
 
     <LinearLayout android:layout_width="fill_parent"
                   android:layout_height="wrap_content" android:orientation="horizontal">
         <TextView android:text="@string/latitude" android:minWidth="@dimen/coordinate_label_width"
                   android:textSize="@dimen/text_size_big" android:layout_width="wrap_content"
-                  android:layout_height="wrap_content"></TextView>
+                  android:layout_height="wrap_content"/>
         <EditText android:text="00" android:id="@+id/dLatDegrees"
                   android:maxLines="1" android:numeric="signed" android:maxLength="4"
-                  android:layout_width="50dip" android:layout_height="wrap_content"></EditText>
+                  android:layout_width="50dip" android:layout_height="wrap_content"/>
         <TextView android:text="." android:layout_width="wrap_content"
-                  android:textSize="@dimen/text_size_big" android:layout_height="wrap_content"></TextView>
+                  android:textSize="@dimen/text_size_big" android:layout_height="wrap_content"/>
         <EditText android:text="00" android:id="@+id/dLatFraction"
                   android:maxLines="1" android:numeric="integer" android:maxLength="6"
-                  android:layout_width="100dip" android:layout_height="wrap_content"></EditText>
+                  android:layout_width="100dip" android:layout_height="wrap_content"/>
         <TextView android:text="°" android:layout_width="wrap_content"
-                  android:textSize="@dimen/text_size_big" android:layout_height="wrap_content"></TextView>
+                  android:textSize="@dimen/text_size_big" android:layout_height="wrap_content"/>
     </LinearLayout>
 
     <LinearLayout android:layout_width="fill_parent"
                   android:layout_height="wrap_content" android:orientation="horizontal">
         <TextView android:text="@string/longitude" android:minWidth="@dimen/coordinate_label_width"
                   android:textSize="@dimen/text_size_big" android:layout_width="wrap_content"
-                  android:layout_height="wrap_content"></TextView>
+                  android:layout_height="wrap_content"/>
         <EditText android:text="00" android:id="@+id/dLngDegrees"
                   android:maxLines="1" android:numeric="signed" android:maxLength="4"
-                  android:layout_width="50dip" android:layout_height="wrap_content"></EditText>
+                  android:layout_width="50dip" android:layout_height="wrap_content"/>
         <TextView android:text="." android:layout_width="wrap_content"
-                  android:textSize="@dimen/text_size_big" android:layout_height="wrap_content"></TextView>
+                  android:textSize="@dimen/text_size_big" android:layout_height="wrap_content"/>
         <EditText android:text="00" android:id="@+id/dLngFraction"
                   android:maxLines="1" android:numeric="integer" android:maxLength="6"
-                  android:layout_width="100dip" android:layout_height="wrap_content"></EditText>
+                  android:layout_width="100dip" android:layout_height="wrap_content"/>
         <TextView android:text="°" android:layout_width="wrap_content"
-                  android:textSize="@dimen/text_size_big" android:layout_height="wrap_content"></TextView>
+                  android:textSize="@dimen/text_size_big" android:layout_height="wrap_content"/>
     </LinearLayout>
 
     <Button android:text="@string/enter" android:id="@+id/EnterButton"
             android:layout_width="wrap_content" android:layout_height="wrap_content"
-            android:onClick="onEnterClick"></Button>
+            android:onClick="onEnterClick"/>
 </LinearLayout>

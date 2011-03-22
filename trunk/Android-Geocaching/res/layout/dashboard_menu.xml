@@ -4,9 +4,9 @@
               android:background="@color/menu_background">
     <LinearLayout style="@style/TitleBar" android:id="@+id/title_bar">
         <ImageView android:src="@drawable/geologo" style="@style/TitleBarLogo"
-                   android:id="@+id/title_logo"></ImageView>
-        <View style="@style/TitleBarSpring"></View>
-        <ImageView style="@style/TitleBarSeparator"></ImageView>
+                   android:id="@+id/title_logo"/>
+        <View style="@style/TitleBarSpring"/>
+        <ImageView style="@style/TitleBarSeparator"/>
 
     </LinearLayout>
     <LinearLayout android:layout_height="wrap_content"
@@ -18,10 +18,10 @@
 
             <Button style="@style/MenuButton" android:onClick="onSelectClick"
                     android:drawableTop="@drawable/ic_menu_select" android:text="@string/select_geocache"
-                    android:id="@+id/SelectButton"></Button>
+                    android:id="@+id/SelectButton"/>
             <Button style="@style/MenuButton" android:onClick="onSearchClick"
                     android:drawableTop="@drawable/ic_menu_search" android:text="@string/search_geocache"
-                    android:id="@+id/SearchButton"></Button>
+                    android:id="@+id/SearchButton"/>
         </LinearLayout>
         <LinearLayout android:layout_height="wrap_content"
                       android:layout_weight="1" android:layout_width="fill_parent"
@@ -29,10 +29,10 @@
 
             <Button android:drawableTop="@drawable/ic_menu_favorites"
                     style="@style/MenuButton" android:text="@string/favorites"
-                    android:id="@+id/FavoritesButton" android:onClick="onFavoriteClick"></Button>
+                    android:id="@+id/FavoritesButton" android:onClick="onFavoriteClick"/>
             <Button android:drawableTop="@drawable/ic_menu_about" style="@style/MenuButton"
                     android:id="@+id/AboutButton" android:text="@string/about"
-                    android:onClick="onAboutClick"></Button>
+                    android:onClick="onAboutClick"/>
         </LinearLayout>
     </LinearLayout>
 </LinearLayout>

@@ -80,23 +80,23 @@
 
         <uses-library android:name="com.google.android.maps"/>
 
-        <activity android:name=".selectgeocache.MapPreferenceActivity"></activity>
-        <activity android:name=".DashboardPreferenceActivity"></activity>
-        <activity android:name=".EnergySavingPreferenceActivity"></activity>
-        <activity android:name=".InternetAndGpsPreferenceActivity"></activity>
+        <activity android:name=".selectgeocache.MapPreferenceActivity"/>
+        <activity android:name=".DashboardPreferenceActivity"/>
+        <activity android:name=".EnergySavingPreferenceActivity"/>
+        <activity android:name=".InternetAndGpsPreferenceActivity"/>
         
         <activity android:name=".selectgeocache.MapFilterTypePreferenceActivity"
-        android:theme="@android:style/Theme.Dialog"></activity>
+        android:theme="@android:style/Theme.Dialog"/>
         <activity android:name=".selectgeocache.MapFilterStatusPreferenceActivity"
-        android:theme="@android:style/Theme.Dialog"></activity>
+        android:theme="@android:style/Theme.Dialog"/>
         
 
-        <activity android:name=".compass.CompassPreferenceActivity"></activity>
-        <activity android:name=".searchgeocache.stepbystep.StepByStepTabActivity"></activity>
-        <activity android:name=".searchgeocache.stepbystep.SexagesimalInputActivity"></activity>
-        <activity android:name=".searchgeocache.stepbystep.DecimalInputActivity"></activity>
-        <activity android:name=".searchgeocache.stepbystep.AzimuthInputActivity"></activity>
+        <activity android:name=".compass.CompassPreferenceActivity"/>
+        <activity android:name=".searchgeocache.stepbystep.StepByStepTabActivity"/>
+        <activity android:name=".searchgeocache.stepbystep.SexagesimalInputActivity"/>
+        <activity android:name=".searchgeocache.stepbystep.DecimalInputActivity"/>
+        <activity android:name=".searchgeocache.stepbystep.AzimuthInputActivity"/>
     </application>
 
-    <uses-sdk android:minSdkVersion="4"></uses-sdk>
+    <uses-sdk android:minSdkVersion="4"/>
 </manifest>

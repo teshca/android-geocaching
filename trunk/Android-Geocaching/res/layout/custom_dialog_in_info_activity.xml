@@ -4,18 +4,18 @@
 	android:layout_height="fill_parent">
 
 	<TextView android:text="@string/ask_download_notebook_title" android:layout_gravity ="center" android:layout_height="wrap_content"
-		android:layout_width="wrap_content" android:id="@+id/TextViewDownloadNoteBook"></TextView>
+		android:layout_width="wrap_content" android:id="@+id/TextViewDownloadNoteBook"/>
 	<CheckBox android:text="@string/always_keep" android:id="@+id/downloadNoteBookAlways"
-		android:layout_height="wrap_content" android:layout_width="wrap_content"></CheckBox>
+		android:layout_height="wrap_content" android:layout_width="wrap_content"/>
 
 
 	<LinearLayout android:orientation="horizontal"
 		android:layout_width="wrap_content" android:layout_height="fill_parent">
 		<Button android:text="@string/yes" android:layout_height="wrap_content"
-			android:id="@+id/ButtonYes" android:layout_width="140dip" ></Button>
+			android:id="@+id/ButtonYes" android:layout_width="140dip" />
 		
 		<Button android:text="@string/no" android:layout_height="wrap_content"
-			android:id="@+id/ButtonNo" android:layout_width="140dip"></Button>
+			android:id="@+id/ButtonNo" android:layout_width="140dip"/>
 
 	</LinearLayout>
 
