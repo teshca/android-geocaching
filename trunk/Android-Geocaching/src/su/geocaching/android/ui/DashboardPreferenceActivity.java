@@ -21,7 +21,7 @@ public class DashboardPreferenceActivity extends PreferenceActivity {
         addPreferencesFromResource(R.xml.dashboard_preference);
         setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
         
-        Preference mapPreference = (Preference) findPreference("mapPreference");
+        Preference mapPreference = findPreference("mapPreference");
         mapPreference.setOnPreferenceClickListener(new OnPreferenceClickListener() {
             
             public boolean onPreferenceClick(Preference preference) {
@@ -30,7 +30,7 @@ public class DashboardPreferenceActivity extends PreferenceActivity {
             }
         });
         
-        Preference compassPreference = (Preference) findPreference("compassPreference");
+        Preference compassPreference = findPreference("compassPreference");
         compassPreference.setOnPreferenceClickListener(new OnPreferenceClickListener() {
             
             public boolean onPreferenceClick(Preference preference) {
@@ -39,7 +39,7 @@ public class DashboardPreferenceActivity extends PreferenceActivity {
             }
         });
         
-        Preference energySavingPreference = (Preference) findPreference("energySavingPreference");
+        Preference energySavingPreference = findPreference("energySavingPreference");
         energySavingPreference.setOnPreferenceClickListener(new OnPreferenceClickListener() {
             
             public boolean onPreferenceClick(Preference preference) {
@@ -48,7 +48,7 @@ public class DashboardPreferenceActivity extends PreferenceActivity {
             }
         });
         
-        Preference internetAndGpsPreference = (Preference) findPreference("internetAndGpsPreference");
+        Preference internetAndGpsPreference = findPreference("internetAndGpsPreference");
         internetAndGpsPreference.setOnPreferenceClickListener(new OnPreferenceClickListener() {
             
             public boolean onPreferenceClick(Preference preference) {
