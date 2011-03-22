@@ -2,9 +2,10 @@ package su.geocaching.android.ui.geocachemap;
 
 import android.content.Context;
 import android.graphics.drawable.Drawable;
+import android.view.GestureDetector;
+import android.view.MotionEvent;
 import com.google.android.maps.MapView;
 import com.google.android.maps.OverlayItem;
-
 import su.geocaching.android.controller.UiHelper;
 import su.geocaching.android.model.datatype.GeoCache;
 
@@ -20,13 +21,24 @@ public class SelectCacheOverlay extends com.google.android.maps.ItemizedOverlay<
     private List<GeoCacheOverlayItem> items;
     private Context context;
     private MapView map;
+    private boolean touchFlag;
+    private GestureDetector gestureDetector;
 
-    public SelectCacheOverlay(Drawable defaultMarker, Context context, MapView map) {
+    public SelectCacheOverlay(Drawable defaultMarker, Context context, final MapView map) {
         super(defaultMarker);
         items = Collections.synchronizedList(new LinkedList<GeoCacheOverlayItem>());
         this.context = context;
         this.map = map;
         populate();
+
+        touchFlag = false;
+        gestureDetector = new GestureDetector(context,
+                new GestureDetector.SimpleOnGestureListener() {
+                    public boolean onDoubleTap(MotionEvent e) {
+                        map.getController().zoomIn();
+                        return true;
+                    }
+                });
     }
 
     public synchronized void addOverlayItem(GeoCacheOverlayItem overlayItem) {
@@ -68,14 +80,26 @@ public class SelectCacheOverlay extends com.google.android.maps.ItemizedOverlay<
     }
 
     @Override
+    public boolean onTouchEvent(MotionEvent event, MapView map) {
+        if(event.getPointerCount() > 1) {
+            touchFlag = true;
+        }
+        return gestureDetector.onTouchEvent(event);
+    }
+
+    @Override
     public boolean onTap(int index) {
-        GeoCacheOverlayItem gcItem = items.get(index);
-        if (!gcItem.getTitle().equals("Group")) {
-            UiHelper.showGeoCacheInfo(context, gcItem.getGeoCache());
+        if (!touchFlag) {
+            GeoCacheOverlayItem gcItem = items.get(index);
+            if (!gcItem.getTitle().equals("Group")) {
+                UiHelper.showGeoCacheInfo(context, gcItem.getGeoCache());
+            } else {
+                map.getController().animateTo(gcItem.getGeoCache().getLocationGeoPoint());
+                map.getController().zoomIn();
+                map.invalidate();
+            }
         } else {
-            map.getController().animateTo(gcItem.getGeoCache().getLocationGeoPoint());
-            map.getController().zoomIn();
-            map.invalidate();
+            touchFlag = false;
         }
         return true;
     }
