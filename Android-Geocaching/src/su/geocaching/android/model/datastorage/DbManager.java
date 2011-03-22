@@ -24,7 +24,7 @@ public class DbManager extends SQLiteOpenHelper {
     private static final String TAG = DbManager.class.getCanonicalName();
 
     // Name, version and name table
-    public static final String DATABASE_NAME_BASE = "CacheBase.db";
+    private static final String DATABASE_NAME_BASE = "CacheBase.db";
     private static final String DATABASE_NAME_TABLE = "cache";
     private static final String DATABASE_CHECKPOINT_NAME_TABLE = "chekpoints";
     private static final int DATABASE_VERSION = 3;
@@ -151,6 +151,8 @@ public class DbManager extends SQLiteOpenHelper {
      *            GeoCache for add in database
      * @param webText
      *            html text for description GeoCache
+     * @param webNotebookText
+     *            text for web notebook
      */
     public void addGeoCache(GeoCache geoCacheForAdd, String webText, String webNotebookText) {
         ContentValues values = new ContentValues();
@@ -161,7 +163,7 @@ public class DbManager extends SQLiteOpenHelper {
         values.put(COLUMN_LAT, geoCacheForAdd.getLocationGeoPoint().getLatitudeE6());
         values.put(COLUMN_LON, geoCacheForAdd.getLocationGeoPoint().getLongitudeE6());
         values.put(COLUMN_WEB_TEXT, webText);
-        if (webNotebookText != null && webNotebookText != "")
+        if (webNotebookText != null && webNotebookText.equals(""))
             values.put(COLUMN_NOTEBOOK_TEXT, webNotebookText);
         openDB();
         db.insert(DATABASE_NAME_TABLE, null, values);
@@ -226,7 +228,7 @@ public class DbManager extends SQLiteOpenHelper {
      * @return String if GeoCache in database. Empty string if in database haven't GeoCache
      */
     public String getWebTextById(int id) {
-        String exitString = "";
+        String exitString;
         openDB();
         Cursor c = db.rawQuery(String.format("select %s from %s where %s=%d", COLUMN_WEB_TEXT, DATABASE_NAME_TABLE, COLUMN_ID, id), null);
         if (c.getCount() == 0) {
@@ -242,7 +244,7 @@ public class DbManager extends SQLiteOpenHelper {
     }
 
     public String getWebNotebookTextById(int id) {
-        String exitString = "";
+        String exitString;
         openDB();
         Cursor c = db.rawQuery(String.format("select %s from %s where %s=%d", COLUMN_NOTEBOOK_TEXT, DATABASE_NAME_TABLE, COLUMN_ID, id), null);
         if (c != null) {

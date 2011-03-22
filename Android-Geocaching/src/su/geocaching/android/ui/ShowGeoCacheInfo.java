@@ -42,7 +42,6 @@ public class ShowGeoCacheInfo extends Activity implements OnCheckedChangeListene
     private DbManager dbm;
     private int webViewScrollPositionY = 0;
     private int webViewScrollPositionX = 0;
-    private Menu menuInfo;
     private GeoCache GeoCacheForShowInfo;
     private String htmlTextGeoCache = null;
     private String htmlTextNotebookGeoCache = null;
@@ -84,7 +83,7 @@ public class ShowGeoCacheInfo extends Activity implements OnCheckedChangeListene
         if (isChecked) {
             isCacheStoredInDataBase = true;
             if (!Controller.getInstance().getPreferencesManager().getDownloadNoteBookAlways()){
-                if (htmlTextNotebookGeoCache == null || htmlTextNotebookGeoCache == "") {
+                if (htmlTextNotebookGeoCache == null || htmlTextNotebookGeoCache.equals("")) {
                     createDownloadNotebookDialog();
                 }
             }
@@ -136,7 +135,7 @@ public class ShowGeoCacheInfo extends Activity implements OnCheckedChangeListene
     
     @Override
     protected void onResume() {
-        if (htmlTextGeoCache != "") {
+        if (htmlTextGeoCache.equals("")) {
             webView.loadDataWithBaseURL(HTTP_PDA_GEOCACHING_SU, htmlTextGeoCache, "text/html", "utf-8", "");
         } else {
             if (!connectManager.isInternetConnected() && !isCacheStoredInDataBase)

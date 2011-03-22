@@ -51,7 +51,7 @@ public class CheckpointDialog extends Dialog {
         super.show();
     }
 
-    class ButtonClickListener implements android.view.View.OnClickListener {
+    private class ButtonClickListener implements android.view.View.OnClickListener {
 
         @Override
         public void onClick(View v) {

@@ -36,7 +36,7 @@ public class StepByStepTabActivity extends TabActivity {
         spec.setContent(intent);
         tabHost.addTab(spec);
 
-        intent = new Intent(this, AzimutInputActivity.class);
+        intent = new Intent(this, AzimuthInputActivity.class);
         intent.putExtras(getIntent().getExtras());
 
         spec = tabHost.newTabSpec("tab3");
