@@ -101,14 +101,8 @@ public class PreferencesManager {
 
     public boolean useSatelliteMap() {
         // keys located in resources, because settings logic described in xml and write it automatically to SharedPreferences
-        String str;
-        if (context.getString(R.string.prefer_map_type_key).equals("MAP")) {
-            str = "true";
-        } else {
-            str = "false";
-        }
-        return preferences.getBoolean(str,
-                resources.getBoolean(R.bool.use_satellite_map_type_default_value));
+        return (!preferences.getString(context.getString(R.string.prefer_map_type_key),
+                "MAP").equals("MAP"));
     }
 
     public Boolean getAddingCacheWayString() {
