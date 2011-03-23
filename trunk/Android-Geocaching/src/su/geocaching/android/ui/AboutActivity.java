@@ -20,7 +20,7 @@ public class AboutActivity extends Activity {
 
         try {
             String versionName = getPackageManager().getPackageInfo(getPackageName(), 0).versionName;
-            String aboutTitle = "��������� ������ " + versionName;
+            String aboutTitle = getString(R.string.application_version) + versionName;
             this.setTitle(aboutTitle);
         } catch (NameNotFoundException e) {
             // TODO Auto-generated catch block
