@@ -1,6 +1,4 @@
 <resources>
-    <bool name="use_satellite_map_type_default_value">false</bool>
-
     <bool name="cache_filter_traditional_default_value">true</bool>
     <bool name="cache_filter_virtual_default_value">true</bool>
     <bool name="cache_filter_stepbystep_default_value">true</bool>
