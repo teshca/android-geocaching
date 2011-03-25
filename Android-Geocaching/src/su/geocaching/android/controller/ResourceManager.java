@@ -113,7 +113,7 @@ public class ResourceManager {
             case GROUP:
                 return R.drawable.ic_cache_group;
             case CHECKPOINT:
-                return R.drawable.cache;
+                return R.drawable.ic_cache_checkpoint;
         }
         return -1;
     }

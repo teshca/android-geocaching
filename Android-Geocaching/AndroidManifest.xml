@@ -96,7 +96,8 @@
         <activity android:name=".searchgeocache.stepbystep.SexagesimalInputActivity"/>
         <activity android:name=".searchgeocache.stepbystep.DecimalInputActivity"/>
         <activity android:name=".searchgeocache.stepbystep.AzimuthInputActivity"/>
-    </application>
+    <activity android:name="CheckpointsFolder" android:theme="@android:style/Theme.Light.NoTitleBar"></activity>
+</application>
 
     <uses-sdk android:minSdkVersion="4"/>
 </manifest>

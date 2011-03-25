@@ -16,7 +16,7 @@ import java.util.ArrayList;
 
 /**
  * This class contains method for working with database.
- *
+ * 
  * @author Alekseenko Vladimir
  */
 public class DbManager extends SQLiteOpenHelper {
@@ -45,7 +45,8 @@ public class DbManager extends SQLiteOpenHelper {
             DATABASE_CHECKPOINT_NAME_TABLE, COLUMN_ID, CACHE_ID, COLUMN_NAME, COLUMN_LAT, COLUMN_LON);
 
     /**
-     * @param context this activivty
+     * @param context
+     *            this activivty
      */
     public DbManager(Context context) {
         super(context, DATABASE_NAME_BASE, null, DATABASE_VERSION);
@@ -145,9 +146,12 @@ public class DbManager extends SQLiteOpenHelper {
     }
 
     /**
-     * @param geoCacheForAdd  GeoCache for add in database
-     * @param webText         html text for description GeoCache
-     * @param webNotebookText text for web notebook
+     * @param geoCacheForAdd
+     *            GeoCache for add in database
+     * @param webText
+     *            html text for description GeoCache
+     * @param webNotebookText
+     *            text for web notebook
      */
     public void addGeoCache(GeoCache geoCacheForAdd, String webText, String webNotebookText) {
         ContentValues values = new ContentValues();
@@ -166,7 +170,8 @@ public class DbManager extends SQLiteOpenHelper {
     }
 
     /**
-     * @param geoCache GeoCache for add in database
+     * @param geoCache
+     *            GeoCache for add in database
      */
     public void addCheckpointGeoCache(GeoCache geoCache) {
         LogManager.d(TAG, "addCheckpointGeoCache " + geoCache.getId());
@@ -182,7 +187,8 @@ public class DbManager extends SQLiteOpenHelper {
     }
 
     /**
-     * @param id ID geocache for delete from database
+     * @param id
+     *            ID geocache for delete from database
      */
     public void deleteCacheById(int id) {
         openDB();
@@ -192,8 +198,10 @@ public class DbManager extends SQLiteOpenHelper {
     }
 
     /**
-     * @param name name of checkpoint geocache
-     * @param id   geocache id for delete from database
+     * @param name
+     *            name of checkpoint geocache
+     * @param id
+     *            geocache id for delete from database
      */
     public void deleteCheckpointCache(String name, int id) {
         openDB();
@@ -215,7 +223,8 @@ public class DbManager extends SQLiteOpenHelper {
     }
 
     /**
-     * @param id ID GeoCache for taking his html description
+     * @param id
+     *            ID GeoCache for taking his html description
      * @return String if GeoCache in database. Empty string if in database haven't GeoCache
      */
     public String getWebTextById(int id) {
@@ -263,7 +272,8 @@ public class DbManager extends SQLiteOpenHelper {
     }
 
     /**
-     * @param id ID GeoCache for taking from database
+     * @param id
+     *            ID GeoCache for taking from database
      * @return GeoCache if database have GeoCache. Null if database haven't GeoCache
      */
     public GeoCache getCacheByID(int id) {
