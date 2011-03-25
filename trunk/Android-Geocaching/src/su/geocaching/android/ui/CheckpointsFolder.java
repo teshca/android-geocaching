@@ -7,6 +7,9 @@ import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
 import android.widget.SimpleAdapter;
 
+/**
+ * Class for create ListActivity with checkpoints caches
+ */
 public class CheckpointsFolder extends AbstractCacheFolder implements OnItemClickListener {
 
     public static String CACHE_ID = "cacheId";
@@ -28,8 +31,8 @@ public class CheckpointsFolder extends AbstractCacheFolder implements OnItemClic
             tvNoCache.setText(getString(R.string.favorit_folder_In_DB_not_cache)); // TODO Replace
             LogManager.d(TAG, "checkpoints DB empty");
         } else {
-            SimpleAdapter simpleAdapter = new SimpleAdapter(this, createGeoCacheList(favoritesList), R.layout.row_in_favorit_rolder, new String[] { "type", "name", "typeText", "statusText" },
-                    new int[] { R.id.favorite_list_image_button_type, R.id.favorite_list_text_view_name, R.id.favorites_row_type_text, R.id.favorites_row_status_text });
+            SimpleAdapter simpleAdapter = new SimpleAdapter(this, createGeoCacheList(favoritesList), R.layout.row_in_favorit_rolder, keys, new int[] { R.id.favorite_list_image_button_type,
+                    R.id.favorite_list_text_view_name, R.id.favorites_row_type_text, R.id.favorites_row_status_text });
 
             lvListShowCache.setAdapter(simpleAdapter);
         }
