@@ -1,93 +1,37 @@
 package su.geocaching.android.ui;
 
-import android.app.Activity;
+import su.geocaching.android.controller.LogManager;
+import su.geocaching.android.model.datatype.GeoCache;
 import android.content.Intent;
-import android.os.Bundle;
 import android.view.View;
 import android.widget.AdapterView;
-import android.widget.AdapterView.OnItemClickListener;
-import android.widget.ListView;
 import android.widget.SimpleAdapter;
-import android.widget.TextView;
-import com.google.android.apps.analytics.GoogleAnalyticsTracker;
-import su.geocaching.android.controller.Controller;
-import su.geocaching.android.controller.LogManager;
-import su.geocaching.android.controller.UiHelper;
-import su.geocaching.android.model.datastorage.DbManager;
-import su.geocaching.android.model.datatype.GeoCache;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-
-public class FavoritesFolder extends Activity implements OnItemClickListener {
+public class FavoritesFolder extends AbstractCacheFolder {
 
     private static final String TAG = FavoritesFolder.class.getCanonicalName();
-    private ArrayList<GeoCache> mass = new ArrayList<GeoCache>();
-    private ListView lvListShowCache;
-    private DbManager dbm = null;
-    private TextView tvTitle;
-
-    /**
-     * Called when the activity is first created.
-     */
-    @Override
-    public void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        GoogleAnalyticsTracker tracker = GoogleAnalyticsTracker.getInstance();
-        tracker.start(getString(R.string.id_Google_Analytics), this);
-        tracker.trackPageView(getString(R.string.favorites_activity_folder));
-        tracker.dispatch();
-        setContentView(R.layout.favorit_list);
-        lvListShowCache = (ListView) findViewById(R.id.favorit_folder_listCach);
-        tvTitle = (TextView) findViewById(R.id.favorit_foldet_title_text);
-        dbm = Controller.getInstance().getDbManager();
-
-    }
-
-    private List<Map<String, ?>> createGeoCacheList(ArrayList<GeoCache> t) {
-        GeoCache localGeoCache;
-        List<Map<String, ?>> ExitList = new ArrayList<Map<String, ?>>();
-
-        for (GeoCache aT : t) {
-            Map<String, Object> map = new HashMap<String, Object>();
-            localGeoCache = aT;
-            map.put("statusText", Controller.getInstance().getResourceManager().getGeoCacheStatus(localGeoCache));
-            map.put("typeText", Controller.getInstance().getResourceManager().getGeoCacheType(localGeoCache));
-            map.put("type", Controller.getInstance().getResourceManager().getMarkerResId(localGeoCache));
-            map.put("name", localGeoCache.getName());
-            ExitList.add(map);
-        }
-
-        return ExitList;
-    }
-
 
     @Override
-    protected void onStart() {
-        mass = dbm.getArrayGeoCache();
-        if (mass != null) {
-            SimpleAdapter ap = new SimpleAdapter(this, createGeoCacheList(mass), R.layout.row_in_favorit_rolder, new String[]{"type", "name", "typeText", "statusText"}, new int[]{
-                    R.id.favorite_list_image_button_type, R.id.favorite_list_text_view_name, R.id.favorites_row_type_text, R.id.favorites_row_status_text});
-            lvListShowCache.setAdapter(ap);
-            lvListShowCache.setOnItemClickListener(this);
-        } else {
+    protected void onResume() {
+        favoritesList = dbm.getArrayGeoCache();
+        if (favoritesList.isEmpty()) {
             lvListShowCache.setAdapter(null);
-            tvTitle.setText(tvTitle.getText() + "\n" + getString(R.string.favorit_folder_In_DB_not_cache));
+            // tvNoCache.setText(tvNoCache.getText() + "\n" + getString(R.string.favorit_folder_In_DB_not_cache));
+            tvNoCache.setText(getString(R.string.favorit_folder_In_DB_not_cache));
             LogManager.d(TAG, "DB empty");
+        } else {
+            SimpleAdapter simpleAdapter = new SimpleAdapter(this, createGeoCacheList(favoritesList), R.layout.row_in_favorit_rolder, new String[] { "type", "name", "typeText", "statusText" },
+                    new int[] { R.id.favorite_list_image_button_type, R.id.favorite_list_text_view_name, R.id.favorites_row_type_text, R.id.favorites_row_status_text });
+
+            lvListShowCache.setAdapter(simpleAdapter);
         }
-        super.onStart();
+        super.onResume();
     }
 
     @Override
     public void onItemClick(AdapterView<?> arg0, View arg1, int arg2, long arg3) {
         Intent intent = new Intent(this, ShowGeoCacheInfo.class);
-        intent.putExtra(GeoCache.class.getCanonicalName(), mass.get(arg2));
+        intent.putExtra(GeoCache.class.getCanonicalName(), favoritesList.get(arg2));
         startActivity(intent);
-    }
-
-    public void onHomeClick(View v) {
-        UiHelper.goHome(this);
     }
 }
