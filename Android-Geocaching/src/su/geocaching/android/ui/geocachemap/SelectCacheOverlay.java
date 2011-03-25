@@ -9,6 +9,8 @@ import com.google.android.maps.OverlayItem;
 import su.geocaching.android.controller.UiHelper;
 import su.geocaching.android.model.datatype.GeoCache;
 
+import java.lang.reflect.InvocationTargetException;
+import java.lang.reflect.Method;
 import java.util.Collections;
 import java.util.LinkedList;
 import java.util.List;
@@ -81,9 +83,20 @@ public class SelectCacheOverlay extends com.google.android.maps.ItemizedOverlay<
 
     @Override
     public boolean onTouchEvent(MotionEvent event, MapView map) {
-        if (event.getPointerCount() > 1) {
-            touchFlag = true;
+        try {
+            Method getPointer = MotionEvent.class.getMethod("getPointerCount");
+            if (Integer.parseInt(getPointer.invoke(event, new Class[]{}).toString()) > 1) {
+                touchFlag = true;
+            }
+            /* success, this is a newer device */
+        } catch (NoSuchMethodException e) {
+            /* failure, must be older device */
+        } catch (InvocationTargetException e) {
+            e.printStackTrace();
+        } catch (IllegalAccessException e) {
+            e.printStackTrace();
         }
+
         return gestureDetector.onTouchEvent(event);
     }
 
