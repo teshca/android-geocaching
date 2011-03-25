@@ -20,12 +20,17 @@ import android.widget.AdapterView.OnItemClickListener;
 import android.widget.ListView;
 import android.widget.TextView;
 
+/**
+ * Abstract class for create ListActivity with caches
+ */
 abstract class AbstractCacheFolder extends Activity implements OnItemClickListener {
 
     protected ArrayList<GeoCache> favoritesList = new ArrayList<GeoCache>();
     protected DbManager dbm;
     protected ListView lvListShowCache;
     protected TextView tvNoCache;
+
+    protected String[] keys = new String[] { "type", "name", "typeText", "statusText" };
 
     public AbstractCacheFolder() {
         super();
@@ -54,13 +59,12 @@ abstract class AbstractCacheFolder extends Activity implements OnItemClickListen
         for (GeoCache localGeoCache : cacheList) {
             Map<String, Object> map = new HashMap<String, Object>();
             ResourceManager rm = Controller.getInstance().getResourceManager();
-            map.put("statusText", rm.getGeoCacheStatus(localGeoCache));
-            map.put("typeText", rm.getGeoCacheType(localGeoCache));
-            map.put("type", rm.getMarkerResId(localGeoCache));
-            map.put("name", localGeoCache.getName());
+            map.put(keys[0], rm.getMarkerResId(localGeoCache));
+            map.put(keys[1], localGeoCache.getName());
+            map.put(keys[2], rm.getGeoCacheType(localGeoCache));
+            map.put(keys[3], rm.getGeoCacheStatus(localGeoCache));
             exitList.add(map);
         }
-
         return exitList;
     }
 

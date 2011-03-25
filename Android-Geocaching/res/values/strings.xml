@@ -105,7 +105,7 @@
 
     <string name="application_version">Геокэшинг версия</string>
     <string name="dislocation">"Ваше местоположение не определено. Повторите попытку позже."</string>
-    <string name="add_stepbystep">Добавить checkpoint</string>
+    <string name="add_stepbystep">Крнтрольные точки</string>
     <string name="latitude">Широта :</string>
     <string name="longitude">Долгота :</string>
     <string name="geographical_coordinates">Географические координаты</string>
@@ -118,7 +118,7 @@
     <string name="distance">Расстояние:</string>
     <string name="meter">m</string>
     <string name="checkpoint_dialog_title">Контрольная точка</string>
-    <string name="active">Активировать</string>
+    <string name="active">Выбрать</string>
     <string name="delete">Удалить</string>
 
 
