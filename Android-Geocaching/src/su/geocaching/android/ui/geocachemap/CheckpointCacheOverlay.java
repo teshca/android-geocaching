@@ -21,7 +21,7 @@ import java.util.List;
 
 /**
  * Overlay with checkpoints
- *
+ * 
  * @author Nikita Bumakov
  */
 public class CheckpointCacheOverlay extends ItemizedOverlay<OverlayItem> {
@@ -134,7 +134,8 @@ public class CheckpointCacheOverlay extends ItemizedOverlay<OverlayItem> {
     }
 
     /**
-     * @param activeItem the activeItem to set
+     * @param activeItem
+     *            the activeItem to set
      */
     public void setActiveItem(int activeItem) {
         for (GeoCacheOverlayItem item : items) {
