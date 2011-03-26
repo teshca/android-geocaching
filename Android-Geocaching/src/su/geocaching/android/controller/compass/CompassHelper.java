@@ -12,14 +12,14 @@ public class CompassHelper {
      * 
      * @param angle
      *            - bearing to north
-     * @return azimuth string (122.2Â° for example)
+     * @return azimuth string (122.2° for example)
      */
     public static String degreesToString(float angle) {
         angle = normalizeAngle(angle);
         if (angle < 0) {
             angle = 360 + angle;
         }
-        return String.format("%d°", 360 - angle);
+        return String.format("%.1f°", 360 - angle);
     }
 
     /**
