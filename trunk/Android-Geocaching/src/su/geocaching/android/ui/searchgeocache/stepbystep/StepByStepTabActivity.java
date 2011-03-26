@@ -24,7 +24,7 @@ public class StepByStepTabActivity extends TabActivity {
         intent.putExtras(getIntent().getExtras());
 
         spec = tabHost.newTabSpec("tab1");
-        spec.setIndicator(getString(R.string.sexagesimal));
+        spec.setIndicator(getString(R.string.sexagestimal_template));
         spec.setContent(intent);
         tabHost.addTab(spec);
 
@@ -32,7 +32,7 @@ public class StepByStepTabActivity extends TabActivity {
         intent.putExtras(getIntent().getExtras());
 
         spec = tabHost.newTabSpec("tab2");
-        spec.setIndicator(getString(R.string.decimal));
+        spec.setIndicator(getString(R.string.decimal_template));
         spec.setContent(intent);
         tabHost.addTab(spec);
 
@@ -40,7 +40,7 @@ public class StepByStepTabActivity extends TabActivity {
         intent.putExtras(getIntent().getExtras());
 
         spec = tabHost.newTabSpec("tab3");
-        spec.setIndicator(getString(R.string.on_azimuth));
+        spec.setIndicator(getString(R.string.azimuth_template));
         spec.setContent(intent);
         tabHost.addTab(spec);
     }
