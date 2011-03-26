@@ -48,5 +48,9 @@
     <string name="cache_filter_event">filter.event</string>
     <string name="map_preference_title">Настройки карты</string>
     <string name="map_preference_key">map.preference</string>
+    <string name="ne_template" formatted="false">%d° %d,%d\' с.ш. | %d° %d,%d\' в.д.</string>
+    <string name="se_template" formatted="false">%d° %d,%d\' ю.ш. | %d° %d,%d\' в.д.</string>
+    <string name="nw_template" formatted="false">%d° %d,%d\' с.ш. | %d° %d,%d\' з.д.</string>
+    <string name="sw_template" formatted="false">%d° %d,%d\' с.ш. | %d° %d,%d\' з.д.</string>
 
 </resources>

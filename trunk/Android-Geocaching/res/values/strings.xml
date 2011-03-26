@@ -116,10 +116,12 @@
     <string name="error_stepbystep_input">Неверный формат введенных данных</string>
     <string name="azimuth">Азимут:</string>
     <string name="distance">Расстояние:</string>
-    <string name="meter">m</string>
+    <string name="meter">м</string>
+     <string name="kilometer">км</string>
     <string name="checkpoint_dialog_title">Контрольная точка</string>
     <string name="active">Выбрать</string>
     <string name="delete">Удалить</string>
+    
 
 
 </resources>
