@@ -48,13 +48,16 @@ public class Controller {
 
     /**
      * Request for caches in the visible region
-     *
-     * @param map              - links to maps, which will be added caches
-     * @param upperLeftCorner  - upper left corner of the visible area
-     * @param lowerRightCorner - lower right corner of the visible area
+     * 
+     * @param map
+     *            - links to maps, which will be added caches
+     * @param upperLeftCorner
+     *            - upper left corner of the visible area
+     * @param lowerRightCorner
+     *            - lower right corner of the visible area
      */
     public void updateSelectedGeoCaches(SelectGeoCacheMap map, GeoPoint upperLeftCorner, GeoPoint lowerRightCorner) {
-        GeoPoint[] d = {upperLeftCorner, lowerRightCorner};
+        GeoPoint[] d = { upperLeftCorner, lowerRightCorner };
         new DownloadGeoCacheTask(apiManager, map).execute(d);
     }
 
@@ -129,7 +132,8 @@ public class Controller {
     }
 
     /**
-     * @param context for init manager
+     * @param context
+     *            for init manager
      * @return location manager which can send to ILocationAware location updates
      */
     public synchronized GeoCacheLocationManager getLocationManager(Context context) {
@@ -141,7 +145,8 @@ public class Controller {
     }
 
     /**
-     * @param context for init manager
+     * @param context
+     *            for init manager
      * @return compass manager which can send to ICompassAware updates of bearing
      */
     public synchronized CompassManager getCompassManager(Context context) {
@@ -153,7 +158,8 @@ public class Controller {
     }
 
     /**
-     * @param context for init manager
+     * @param context
+     *            for init manager
      * @return gps status manager which can send to IGpsStatusAware updates of status gps engine
      */
     public synchronized GpsStatusManager getGpsStatusManager(Context context) {
@@ -165,7 +171,8 @@ public class Controller {
     }
 
     /**
-     * @param context for init manager
+     * @param context
+     *            for init manager
      * @return connection manager which can send to IInternetAware updates of internet connection status
      */
     public synchronized ConnectionManager getConnectionManager(Context context) {
@@ -177,7 +184,8 @@ public class Controller {
     }
 
     /**
-     * @param context for init manager
+     * @param context
+     *            for init manager
      * @return resource manager which can give you application resources
      */
     public synchronized ResourceManager getResourceManager(Context context) {
@@ -189,7 +197,8 @@ public class Controller {
     }
 
     /**
-     * @param context for init manager
+     * @param context
+     *            for init manager
      * @return resource manager which can give you application preferences
      */
     public synchronized PreferencesManager getPreferencesManager(Context context) {
@@ -201,7 +210,8 @@ public class Controller {
     }
 
     /**
-     * @param context for init manager
+     * @param context
+     *            for init manager
      * @return resource manager which can give you interface to working with database
      */
     public synchronized DbManager getDbManager(Context context) {
@@ -222,8 +232,9 @@ public class Controller {
 
     /**
      * Initialize all managers with fixed context
-     *
-     * @param context which will be used in all managers
+     * 
+     * @param context
+     *            which will be used in all managers
      */
     public void initManagers(Context context) {
         if (dbManager == null) {

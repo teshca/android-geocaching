@@ -71,7 +71,7 @@ public class CheckpointsFolder extends AbstractCacheFolder implements OnItemClic
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        //UiHelper.
+        // UiHelper.
         return true;
     }
 
