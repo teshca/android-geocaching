@@ -57,7 +57,7 @@ public class CheckpointCacheOverlay extends ItemizedOverlay<OverlayItem> {
     }
 
     public void addOverlayItem(GeoCacheOverlayItem overlayItem) {
-        if (!contains(overlayItem.getGeoCache())) {                      
+        if (!contains(overlayItem.getGeoCache())) {
             items.add(overlayItem);
             int number = overlayItem.getGeoCache().getId();
             if (checkpointNumber < number) {
@@ -69,34 +69,47 @@ public class CheckpointCacheOverlay extends ItemizedOverlay<OverlayItem> {
     }
 
     public void addCheckpoint(int latitudeE6, int longitudeE6) {
-        checkpointNumber++;  
+        checkpointNumber++;
         Controller controller = Controller.getInstance();
         deactivateCheckpoints();
-        GeoCache gc = new GeoCache();    
+        GeoCache gc = new GeoCache();
         gc.setName(String.format("%s %d", activity.getString(R.string.checkpoint_dialog_title), checkpointNumber));
         gc.setLocationGeoPoint(new GeoPoint(latitudeE6, longitudeE6));
         gc.setType(GeoCacheType.CHECKPOINT);
         gc.setStatus(GeoCacheStatus.ACTIVE_CHECKPOINT);
-        
+
         gc.setId(checkpointNumber);
         GeoCacheOverlayItem checkpoint = new GeoCacheOverlayItem(gc, "", "");
         addOverlayItem(checkpoint);
         dbm.addCheckpointGeoCache(gc, Controller.getInstance().getPreferencesManager().getLastSearchedGeoCache().getId());
         controller.setSearchingGeoCache(gc);
     }
-    
-    private void deactivateCheckpoints(){
+
+    private void deactivateCheckpoints() {
         for (GeoCacheOverlayItem item : items) {
-            item.getGeoCache().setStatus(GeoCacheStatus.NOT_ACTIVE_CHECKPOINT);
+            if (item.getGeoCache().getStatus() == GeoCacheStatus.ACTIVE_CHECKPOINT) {
+                item.getGeoCache().setStatus(GeoCacheStatus.NOT_ACTIVE_CHECKPOINT);
+                dbm.ubdateCheckpointCacheStatus(Controller.getInstance().getPreferencesManager().getLastSearchedGeoCache().getId(), item.getGeoCache().getId(), GeoCacheStatus.NOT_ACTIVE_CHECKPOINT);
+            }
         }
     }
 
     public void removeOverlayItem(int index) {
         GeoCache gc = items.get(index).getGeoCache();
+        if (gc.getStatus() == GeoCacheStatus.ACTIVE_CHECKPOINT) {
+            Controller.getInstance().setSearchingGeoCache(Controller.getInstance().getPreferencesManager().getLastSearchedGeoCache());
+        }
         dbm.deleteCheckpointCache(Controller.getInstance().getPreferencesManager().getLastSearchedGeoCache().getId(), gc.getId());
         items.remove(index);
         setLastFocusedIndex(-1);
         populate();
+    }
+
+    public void removeOverlayItemById(int id) {
+        int index = findItemById(id);
+        if (id != -1) {
+            removeOverlayItem(index);
+        }
     }
 
     private boolean contains(GeoCache geoCache) {
@@ -121,12 +134,13 @@ public class CheckpointCacheOverlay extends ItemizedOverlay<OverlayItem> {
     public int size() {
         return items.size();
     }
-//
-//    public void clear() {
-//        items.clear();
-//        setLastFocusedIndex(-1);
-//        populate();
-//    }
+
+    //
+    // public void clear() {
+    // items.clear();
+    // setLastFocusedIndex(-1);
+    // populate();
+    // }
 
     @Override
     public void draw(android.graphics.Canvas canvas, MapView mapView, boolean shadow) {
@@ -165,5 +179,28 @@ public class CheckpointCacheOverlay extends ItemizedOverlay<OverlayItem> {
     public void setActiveItem(int activeItem) {
         deactivateCheckpoints();
         items.get(activeItem).getGeoCache().setStatus(GeoCacheStatus.ACTIVE_CHECKPOINT);
+        Controller.getInstance().setSearchingGeoCache(items.get(activeItem).getGeoCache());
+        dbm.ubdateCheckpointCacheStatus(Controller.getInstance().getPreferencesManager().getLastSearchedGeoCache().getId(), items.get(activeItem).getGeoCache().getId(),
+                GeoCacheStatus.ACTIVE_CHECKPOINT);
+    }
+
+    /**
+     * @param id
+     *            the Id of active item
+     */
+    public void setActiveItemById(int id) {
+        int index = findItemById(id);
+        if (id != -1) {
+            setActiveItem(index);
+        }
+    }
+
+    private int findItemById(int id) {
+        for (GeoCacheOverlayItem item : items) {
+            if (item.getGeoCache().getId() == id) {
+                return items.indexOf(item);
+            }
+        }
+        return -1;
     }
 }
