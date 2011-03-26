@@ -1,127 +1,130 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="app_name">Геокэшинг</string>
+	<string name="app_name">Геокэшинг</string>
 
-    <string name="waiting_location_fix_message">Инициализация</string>
-    <string name="device_without_gps_alert">Внимание!\n\r На Вашем устройстве отстутствует
-        GPS.\n\rВаше положение может определяться не точно
+	<string name="waiting_location_fix_message">Инициализация</string>
+	<string name="device_without_gps_alert">Внимание!\n\r На Вашем устройстве отстутствует
+		GPS.\n\rВаше положение может определяться не точно
     </string>
-    <string name="ask_enable_internet_text">Для дальнейшей работы необходим Интернет. Включить?
+	<string name="ask_enable_internet_text">Для дальнейшей работы необходим Интернет. Включить?
+	</string>
+	<string name="ask_enable_gps_text">Для дальнейшей работы необходим GPS. Включить?
+	</string>
+	<string name="download_info">Скачивание информации</string>
+	<string name="download_notebook">Скачивание блокнота тайника</string>
+	<string name="yes">Да</string>
+	<string name="no">Нет</string>
+	<string name="ask_download_notebook_title">Сохранить вместе с интернет-блокнотом?</string>
+	<string name="save_notebook_alwayse_title">Сохранять блокнот</string>
+	<string name="save_notebook_alwayse_key">downloadNoteBookAlways</string>
+	<string name="save_notebook_alwayse_text"></string>
+	<string name="save_notebook_alwayse_value">false</string>
+	<string name="save_notebook_alwayse_summary">Всегда сохранять блокнот тайника</string>
+	<string name="search_geocache_error_no_geocache">Ошибка!\n\rНечего искать!</string>
+	<string name="search_geocache_start_without_geocache">Перед поиском выберите тайник</string>
+	<string name="search_geocache_internet_lost">Подключение к интернету отсутствует. Могут
+		возникнуть проблемы с обновлением карты
     </string>
-    <string name="ask_enable_gps_text">Для дальнейшей работы необходим GPS. Включить?
+	<string name="search_geocache_best_provider_lost">Обновление координат в данный момент недоступно
+	</string>
+	<string name="select_geocache_status_without_internet">Сеть не найдена. Попробуйте позже</string>
+	<string name="revert_center_to_location">Мое местоположение</string>
+	<string name="status_null_last_location">Местоположение не определено</string>
+	<string name="too_small_zoom">Слишком маленький масштаб карты. Будут показаны 100
+		тайников из
     </string>
-    <string name="download_info">Скачивание информации</string>
-    <string name="download_notebook">Скачивание блокнота тайника</string>
-    <string name="yes">Да</string>
-    <string name="no">Нет</string>
-    <string name="ask_download_notebook_title">Сохранить вместе с интернет-блокнотом?</string>
-    <string name="save_notebook_alwayse_title">Сохранять блокнот</string>
-    <string name="save_notebook_alwayse_key">downloadNoteBookAlways</string>
-    <string name="save_notebook_alwayse_text"></string>
-    <string name="save_notebook_alwayse_value">false</string>
-    <string name="save_notebook_alwayse_summary">Всегда сохранять блокнот тайника</string>
-    <string name="search_geocache_error_no_geocache">Ошибка!\n\rНечего искать!</string>
-    <string name="search_geocache_start_without_geocache">Перед поиском выберите тайник</string>
-    <string name="search_geocache_internet_lost">Подключение к интернету отсутствует. Могут
-        возникнуть проблемы с обновлением карты
-    </string>
-    <string name="search_geocache_best_provider_lost">Обновление координат в данный момент недоступно
-    </string>
-    <string name="select_geocache_status_without_internet">Сеть не найдена. Попробуйте позже</string>
-    <string name="revert_center_to_location">Мое местоположение</string>
-    <string name="status_null_last_location">Местоположение не определено</string>
-    <string name="too_small_zoom">Слишком маленький масштаб карты. Будут показаны 100
-        тайников из
-    </string>
-    <string name="gps_status_started">GPS: Запущен</string>
-    <string name="gps_status_stopped">GPS: Связь потеряна</string>
-    <string name="gps_status_first_fix">GPS: Координаты получены</string>
-    <string name="gps_status_satellite_status">GPS: Спутники</string>
-    <string name="menu_default_zoom">Вместить всё</string>
-    <string name="menu_toggle_shortest_way">Убрать/показать путь</string>
-    <string name="menu_start_compass">Компас</string>
-    <string name="menu_start_map">Карта</string>
-    <string name="menu_main_menu">Главное меню</string>
-    <string name="menu_geocache_info">Инфо</string>
-    <string name="menu_directive_way">Путь с направлением</string>
-    <string name="menu_quit">Exit</string>
-    <string name="type_geocache_traditional">Традиционный</string>
-    <string name="type_geocache_virtua">Виртуальный</string>
-    <string name="type_geocache_step_by_step">Пошаговый</string>
-    <string name="type_geocache_event">Встреча</string>
-    <string name="type_geocache_extreme">Экстримальный</string>
-    <string name="type_geocache_checkpoint">Контрольная точка</string>
+	<string name="gps_status_started">GPS: Запущен</string>
+	<string name="gps_status_stopped">GPS: Связь потеряна</string>
+	<string name="gps_status_first_fix">GPS: Координаты получены</string>
+	<string name="gps_status_satellite_status">GPS: Спутники</string>
+	<string name="menu_default_zoom">Вместить всё</string>
+	<string name="menu_toggle_shortest_way">Убрать/показать путь</string>
+	<string name="menu_start_compass">Компас</string>
+	<string name="menu_start_map">Карта</string>
+	<string name="menu_main_menu">Главное меню</string>
+	<string name="menu_geocache_info">Инфо</string>
+	<string name="menu_directive_way">Путь с направлением</string>
+	<string name="menu_quit">Exit</string>
+	<string name="type_geocache_traditional">Традиционный</string>
+	<string name="type_geocache_virtua">Виртуальный</string>
+	<string name="type_geocache_step_by_step">Пошаговый</string>
+	<string name="type_geocache_event">Встреча</string>
+	<string name="type_geocache_extreme">Экстримальный</string>
+	<string name="type_geocache_checkpoint">Контрольная точка</string>
 
-    <string name="status_geocache_valid">Доступнен</string>
-    <string name="status_geocache_no_valid">Недоступен</string>
-    <string name="status_geocache_no_confirmed">Возможно недоступен</string>
-    <string name="status_geocache_unknown">Неизвестен</string>
-    <string name="status_geocache_active_checkpoint">Активна</string>
-    <string name="status_geocache_not_active_checkpoint">Не активна</string>
+	<string name="status_geocache_valid">Доступнен</string>
+	<string name="status_geocache_no_valid">Недоступен</string>
+	<string name="status_geocache_no_confirmed">Возможно недоступен</string>
+	<string name="status_geocache_unknown">Неизвестен</string>
+	<string name="status_geocache_active_checkpoint">Активна</string>
+	<string name="status_geocache_not_active_checkpoint">Не активна</string>
 
-    <string name="menu_show_web_notebook_cache">Блокнот</string>
-    <string name="menu_show_web_add_cache">Добавить</string>
-    <string name="menu_show_web_delete_cache">Удалить</string>
-    <string name="menu_show_web_search_cache">Искать</string>
-    <string name="menu_show_info_cache">Инфо</string>
-    <string name="always_keep">сохранять всегда</string>
-    <string name="favorit_folder_In_DB_not_cache">В базе нет ни одного тайника</string>
-    <string name="info_geocach_not_internet_and_not_in_DB">Невозможно показать информацию о тайнике, поскольку
-        тайника нет в локальной базе, а так же отсутствует соединение с интернетом
+	<string name="menu_show_web_notebook_cache">Блокнот</string>
+	<string name="menu_show_web_add_cache">Добавить</string>
+	<string name="menu_show_web_delete_cache">Удалить</string>
+	<string name="menu_show_web_search_cache">Искать</string>
+	<string name="menu_show_info_cache">Инфо</string>
+	<string name="always_keep">сохранять всегда</string>
+	<string name="favorit_folder_In_DB_not_cache">В базе нет ни одного тайника</string>
+	<string name="info_geocach_not_internet_and_not_in_DB">Невозможно показать информацию о тайнике, поскольку
+		тайника нет в локальной базе, а так же отсутствует соединение с
+		интернетом
     </string>
-    <string name="notebook_geocache_not_internet_and_not_in_DB">Невозможно показать блокнот тайника, поскольку
-        блокнота нет в локальной базе, а так же отсутствует соединение с интернетом
+	<string name="notebook_geocache_not_internet_and_not_in_DB">Невозможно показать блокнот тайника, поскольку
+		блокнота нет в локальной базе, а так же отсутствует соединение с
+		интернетом
     </string>
-    <string name="menu_keep_screen">Не выключать экран</string>
-    <string name="about">О программе</string>
-    <string name="about_title">Геокешинг версия 0.0.1b</string>
+	<string name="menu_keep_screen">Не выключать экран</string>
+	<string name="about">О программе</string>
+	<string name="about_title">Геокешинг версия 0.0.1b</string>
 
-    <string name="about_programm_text">Геокешинг - это мобильный клиент для работы с
-        порталом\nhttp://geocaching.su
+	<string name="about_programm_text">Геокешинг - это мобильный клиент для работы с
+		порталом\nhttp://geocaching.su
     </string>
-    <string name="about_leaders_text">Артамонов Николай\nКичинский Дмитрий</string>
-    <string name="about_developers_text">Алексеенко Владимир\nБумаков Никита\nДенисон
-        Юрий\nКалабин Григорий\nНятин Анатолий\nСергеев Владислав\nФилатов
-        Владимир
+	<string name="about_leaders_text">Артамонов Николай\nКичинский Дмитрий</string>
+	<string name="about_developers_text">Алексеенко Владимир\nБумаков Никита\nДенисон
+		Юрий\nКалабин Григорий\nНятин Анатолий\nСергеев Владислав\nФилатов
+		Владимир
     </string>
-    <string name="about_email_text">Все вопросы и предложения присылайте на наш
-        email\nandroid.geocaching.su@gmail.com
+	<string name="about_email_text">Все вопросы и предложения присылайте на наш
+		email\nandroid.geocaching.su@gmail.com
     </string>
-
-
-    <string name="about_exit_button_text">Закрыть</string>
-
-    <string name="about_google_code">Подробную информацию о проекте вы можете найти на
-        сайте http://code.google.com/p/android-geocaching/
-    </string>
-    <string name="id_Google_Analytics">UA-20327116-3</string>
-    <string name="dashboard_activity_folder">/DashboardActivity</string>
-    <string name="about_activity_folder">/AboutActivity</string>
-    <string name="geocache_info_activity_folder">/GeocCacheInfoActivity</string>
-    <string name="favorites_activity_folder">/FavoritesActivity</string>
-    <string name="compass_activity_folder">/CompassActivity</string>
-    <string name="search_activity_folder">/SearchActivity</string>
-    <string name="select_activity_folder">/SelectActivity</string>
-
-    <string name="application_version">Геокэшинг версия</string>
-    <string name="dislocation">"Ваше местоположение не определено. Повторите попытку позже."</string>
-    <string name="add_stepbystep">Крнтрольные точки</string>
-    <string name="latitude">Широта :</string>
-    <string name="longitude">Долгота :</string>
-    <string name="geographical_coordinates">Географические координаты</string>
-    <string name="enter">Добавить точку</string>
-    <string name="sexagesimal">Шестидесятеричный</string>
-    <string name="decimal">Десятичный</string>
-    <string name="on_azimuth">По азимуту</string>
-    <string name="error_stepbystep_input">Неверный формат введенных данных</string>
-    <string name="azimuth">Азимут:</string>
-    <string name="distance">Расстояние:</string>
-    <string name="meter">м</string>
-     <string name="kilometer">км</string>
-    <string name="checkpoint_dialog_title">Контрольная точка</string>
-    <string name="active">Выбрать</string>
-    <string name="delete">Удалить</string>
-    
 
 
+	<string name="about_exit_button_text">Закрыть</string>
+
+	<string name="about_google_code">Подробную информацию о проекте вы можете найти на
+		сайте http://code.google.com/p/android-geocaching/
+    </string>
+	<string name="id_Google_Analytics">UA-20327116-3</string>
+	<string name="dashboard_activity_folder">/DashboardActivity</string>
+	<string name="about_activity_folder">/AboutActivity</string>
+	<string name="geocache_info_activity_folder">/GeocCacheInfoActivity</string>
+	<string name="favorites_activity_folder">/FavoritesActivity</string>
+	<string name="compass_activity_folder">/CompassActivity</string>
+	<string name="search_activity_folder">/SearchActivity</string>
+	<string name="select_activity_folder">/SelectActivity</string>
+
+	<string name="application_version">Геокэшинг версия</string>
+	<string name="dislocation">"Ваше местоположение не определено. Повторите
+		попытку позже."</string>
+	<string name="add_stepbystep">Крнтрольные точки</string>
+	<string name="latitude">Широта :</string>
+	<string name="longitude">Долгота :</string>
+	<string name="geographical_coordinates">Географические координаты</string>
+	<string name="enter">Добавить точку</string>
+	<string name="sexagesimal">Шестидесятеричный</string>
+	<string name="decimal">Десятичный</string>
+	<string name="on_azimuth">По азимуту</string>
+	<string name="error_stepbystep_input">Неверный формат введенных данных</string>
+	<string name="azimuth">Азимут:</string>
+	<string name="distance">Расстояние:</string>
+	<string name="meter">м</string>
+	<string name="kilometer">км</string>
+	<string name="checkpoint_dialog_title">Контрольная точка</string>
+	<string name="active">Выбрать</string>
+	<string name="delete">Удалить</string>
+	<string name="sexagestimal_template">Г°,М,МММ\'</string>
+	<string name="decimal_template">ГГ,ГГГГ°</string>
+	<string name="azimuth_template">ГГ° DDкм</string>
 </resources>
