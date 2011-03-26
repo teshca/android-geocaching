@@ -1,14 +1,18 @@
 package su.geocaching.android.utils;
 
+import android.content.res.Resources;
 import android.location.Location;
 import com.google.android.maps.GeoPoint;
+
+import su.geocaching.android.controller.Controller;
 import su.geocaching.android.controller.LogManager;
+import su.geocaching.android.ui.R;
 
 import java.text.DecimalFormat;
 
 /**
  * This class is subset of common method, which we often use
- *
+ * 
  * @author Grigory Kalabin. grigory.kalabin@gmail.com
  * @since Nov 12, 2010
  */
@@ -21,14 +25,16 @@ public class GpsHelper {
 
     private static final DecimalFormat BIG_DISTANCE_NUMBER_FORMAT = new DecimalFormat("0.0");
     private static final DecimalFormat SMALL_DISTANCE_NUMBER_FORMAT = new DecimalFormat("0");
-    private static final String BIG_DISTANCE_VALUE_NAME = "ÐºÐ¼";
-    private static final String SMALL_DISTANCE_VALUE_NAME = "Ð¼";
-    private static final float BIG_DISTANCE_COEFFICIENT = (float) 0.001;
-    private static final float SMALL_DISTANCE_COEFFICIENT = 1;
+    private static final String BIG_DISTANCE_VALUE_NAME = Controller.getInstance().getResourceManager().getString(R.string.kilometer);
+    private static final String SMALL_DISTANCE_VALUE_NAME = Controller.getInstance().getResourceManager().getString(R.string.meter);;
+    private static final float BIG_DISTANCE_COEFFICIENT = 0.001f;
+    private static final float SMALL_DISTANCE_COEFFICIENT = 1f;
 
     /**
-     * @param l1 first location
-     * @param l2 second location
+     * @param l1
+     *            first location
+     * @param l2
+     *            second location
      * @return distance between locations in meters
      */
     public static float getDistanceBetween(Location l1, Location l2) {
@@ -38,8 +44,10 @@ public class GpsHelper {
     }
 
     /**
-     * @param l1 location
-     * @param l2 GeoPoint
+     * @param l1
+     *            location
+     * @param l2
+     *            GeoPoint
      * @return distance between locations in meters
      */
     public static float getDistanceBetween(Location l1, GeoPoint l2) {
@@ -49,8 +57,10 @@ public class GpsHelper {
     }
 
     /**
-     * @param l1 GeoPoint
-     * @param l2 location
+     * @param l1
+     *            GeoPoint
+     * @param l2
+     *            location
      * @return distance between locations in meters
      */
     public static float getDistanceBetween(GeoPoint l1, Location l2) {
@@ -58,8 +68,10 @@ public class GpsHelper {
     }
 
     /**
-     * @param l1 first GeoPoint
-     * @param l2 second GeoPoint
+     * @param l1
+     *            first GeoPoint
+     * @param l2
+     *            second GeoPoint
      * @return distance between locations in meters
      */
     public static float getDistanceBetween(GeoPoint l1, GeoPoint l2) {
@@ -69,8 +81,10 @@ public class GpsHelper {
     }
 
     /**
-     * @param l1 location from
-     * @param l2 location to
+     * @param l1
+     *            location from
+     * @param l2
+     *            location to
      * @return bearing of direction from l1 to l2 in degrees
      */
     public static float getBearingBetween(Location l1, GeoPoint l2) {
@@ -80,7 +94,8 @@ public class GpsHelper {
     }
 
     /**
-     * @param dist distance (suggested to geocache in meters)
+     * @param dist
+     *            distance (suggested to geocache in meters)
      * @return String of distance formatted value and measure
      */
     public static String distanceToString(float dist) {
@@ -94,7 +109,8 @@ public class GpsHelper {
     }
 
     /**
-     * @param location - Location object
+     * @param location
+     *            - Location object
      * @return location coverted to GeoPoint object
      */
     public static GeoPoint locationToGeoPoint(Location location) {
@@ -138,14 +154,38 @@ public class GpsHelper {
         return coordinateE6;
     }
 
+    /**
+     * Formatting coordinate in accordance with standard
+     * 
+     * @param location
+     *            - coordinates
+     * @return formating string (for example: "60° 12,123' ñ.ø. | 30° 32,321'" â.ä.)
+     */
     public static String coordinateToString(GeoPoint location) {
         int[] latitude = coordinateE6ToSexagesimal(location.getLatitudeE6());
         int[] longitude = coordinateE6ToSexagesimal(location.getLatitudeE6());
-        return String.format("%d' %d,%d / %d' %d,%d", latitude[0], latitude[1], latitude[2], longitude[0], longitude[1], longitude[2]);
+
+        Resources res = Controller.getInstance().getResourceManager().getResources();
+        String format;
+
+        if (latitude[0] > 0) {
+            if (longitude[0] > 0) {
+                format = res.getString(R.string.ne_template);
+            } else {
+                format = res.getString(R.string.nw_template);
+            }
+        } else {
+            if (longitude[0] > 0) {
+                format = res.getString(R.string.se_template);
+            } else {
+                format = res.getString(R.string.sw_template);
+            }
+        }
+        return String.format(format, latitude[0], latitude[1], latitude[2], longitude[0], longitude[1], longitude[2]);
 
     }
 
-    //TODO still not work
+    // TODO still not work
     public static GeoPoint distanceBearingToGeoPoint(GeoPoint currentGeoPoint, int bearing, int distance) {
         double latitude = currentGeoPoint.getLatitudeE6() / 1E6;
         double longitude = currentGeoPoint.getLatitudeE6() / 1E6;
