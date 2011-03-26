@@ -19,7 +19,9 @@ import su.geocaching.android.controller.compass.CompassSpeed;
 import su.geocaching.android.controller.compass.SmoothCompassThread;
 import su.geocaching.android.model.datastorage.DbManager;
 import su.geocaching.android.model.datatype.GeoCache;
+import su.geocaching.android.model.datatype.GeoCacheStatus;
 import su.geocaching.android.model.datatype.GeoCacheType;
+import su.geocaching.android.ui.CheckpointsFolder;
 import su.geocaching.android.ui.R;
 import su.geocaching.android.ui.compass.SearchGeoCacheCompass;
 import su.geocaching.android.ui.geocachemap.CheckpointCacheOverlay;
@@ -94,6 +96,7 @@ public class SearchGeoCacheMap extends MapActivity implements IInternetAware, IL
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        LogManager.d(TAG, "onCreate");
         setContentView(R.layout.search_geocache_map);
 
         tracker = GoogleAnalyticsTracker.getInstance();
@@ -137,10 +140,11 @@ public class SearchGeoCacheMap extends MapActivity implements IInternetAware, IL
         dbm = Controller.getInstance().getDbManager();
         checkpointCacheOverlay = new CheckpointCacheOverlay(cacheMarker, this, map);
         ArrayList<GeoCache> checkpoints = dbm.getCheckpointsArrayById(mController.getSearchingGeoCache().getId());
-        LogManager.d("Geocaching.su", "checkpoints " + checkpoints.size());
-        LogManager.d("Geocaching.su", "mController.getSearchingGeoCache().getId() " + mController.getSearchingGeoCache().getId());
-        for (GeoCache item : checkpoints) {
-            checkpointCacheOverlay.addOverlayItem(new GeoCacheOverlayItem(item, "", ""));
+        for (GeoCache checkpoint : checkpoints) {
+            checkpointCacheOverlay.addOverlayItem(new GeoCacheOverlayItem(checkpoint, "", ""));
+            if (checkpoint.getStatus() == GeoCacheStatus.ACTIVE_CHECKPOINT) {
+                mController.setSearchingGeoCache(checkpoint);
+            }
         }
         mapOverlays.add(checkpointCacheOverlay);
     }
@@ -379,8 +383,8 @@ public class SearchGeoCacheMap extends MapActivity implements IInternetAware, IL
             case R.id.driving_directions:
                 onDrivingDirectionsSelected();
                 return true;
-            case R.id.stepByStep:                
-                UiHelper.startCheckpointsFolder(this, Controller.getInstance().getSearchingGeoCache().getId());
+            case R.id.stepByStep:
+                UiHelper.startCheckpointsFolderForResult(this, mController.getPreferencesManager().getLastSearchedGeoCache().getId());
                 return true;
             default:
                 return super.onOptionsItemSelected(item);
@@ -412,13 +416,25 @@ public class SearchGeoCacheMap extends MapActivity implements IInternetAware, IL
                 if (resultCode == RESULT_OK && data != null) {
                     int latitude = data.getIntExtra(StepByStepTabActivity.LATITUDE, 0);
                     int longitude = data.getIntExtra(StepByStepTabActivity.LONGITUDE, 0);
-                    checkpointCacheOverlay.addCheckpoint(latitude, longitude);             
+                    checkpointCacheOverlay.addCheckpoint(latitude, longitude);
+                    map.invalidate();
+                }
+                break;
+            case UiHelper.CHECKPOINT_FOLDER_REQUEST:
+                if (resultCode == RESULT_OK && data != null) {
+                    int id = data.getIntExtra(CheckpointsFolder.CACHE_ID, 0);
+                    int action = data.getIntExtra(CheckpointsFolder.ACTION_KEY, 0);
+                    if (action == 1) {
+                        checkpointCacheOverlay.setActiveItemById(id);
+                    }
+                    if (action == 2) {
+                        checkpointCacheOverlay.removeOverlayItemById(id);
+                    }
                     map.invalidate();
                 }
                 break;
         }
-    }    
-    
+    }
 
     /**
      * Show message string to user

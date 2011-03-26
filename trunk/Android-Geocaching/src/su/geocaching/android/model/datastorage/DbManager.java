@@ -43,8 +43,8 @@ public class DbManager extends SQLiteOpenHelper {
     private static final String SQL_CREATE_DATABASE_TABLE = String.format("create table %s (%s integer, %s string, %s integer,%s integer, %s integer, %s integer, %s string, %s string);",
             DATABASE_NAME_TABLE, COLUMN_ID, COLUMN_NAME, COLUMN_TYPE, COLUMN_STATUS, COLUMN_LAT, COLUMN_LON, COLUMN_WEB_TEXT, COLUMN_NOTEBOOK_TEXT);
     private static final String SQL_CREATE_DATABASE_CHECKPOINT_TABLE = String.format(
-            "CREATE TABLE %s (%s INTEGER PRIMARY KEY AUTOINCREMENT, %s INTEGER, %s INTEGER, %s STRING, %s INTEGER,%s INTEGER);", DATABASE_CHECKPOINT_NAME_TABLE, COLUMN_ID, CACHE_ID, CHECKPOINT_ID,
-            COLUMN_NAME, COLUMN_LAT, COLUMN_LON);
+            "CREATE TABLE %s (%s INTEGER PRIMARY KEY AUTOINCREMENT, %s INTEGER, %s INTEGER, %s STRING, %s INTEGER, %s INTEGER, %s INTEGER);", DATABASE_CHECKPOINT_NAME_TABLE, COLUMN_ID, CACHE_ID,
+            CHECKPOINT_ID, COLUMN_NAME, COLUMN_LAT, COLUMN_LON, COLUMN_STATUS);
 
     /**
      * @param context
@@ -123,11 +123,17 @@ public class DbManager extends SQLiteOpenHelper {
         return exitCollection;
     }
 
+    /**
+     * @param id
+     *            id of GeoCache
+     * @return list of checkpoints corresponding to a given cache
+     */
     public ArrayList<GeoCache> getCheckpointsArrayById(int id) {
         LogManager.d(TAG, "getCheckpointsArrayById " + id);
         ArrayList<GeoCache> exitCollection = new ArrayList<GeoCache>();
         db = getReadableDatabase();
-        Cursor cur = db.rawQuery(String.format("SELECT %s,%s,%s,%s FROM %s WHERE %s=%d", CHECKPOINT_ID, COLUMN_NAME, COLUMN_LAT, COLUMN_LON, DATABASE_CHECKPOINT_NAME_TABLE, CACHE_ID, id), null);
+        Cursor cur = db.rawQuery(
+                String.format("SELECT %s,%s,%s,%s,%s FROM %s WHERE %s=%d", CHECKPOINT_ID, COLUMN_NAME, COLUMN_LAT, COLUMN_LON, COLUMN_STATUS, DATABASE_CHECKPOINT_NAME_TABLE, CACHE_ID, id), null);
 
         cur.moveToFirst();
 
@@ -137,6 +143,7 @@ public class DbManager extends SQLiteOpenHelper {
             geocache.setName(cur.getString(cur.getColumnIndex(COLUMN_NAME)));
             geocache.setLocationGeoPoint(new GeoPoint(cur.getInt(cur.getColumnIndex(COLUMN_LAT)), cur.getInt(cur.getColumnIndex(COLUMN_LON))));
             geocache.setType(GeoCacheType.CHECKPOINT);
+            geocache.setStatus(GeoCacheStatus.values()[cur.getInt(cur.getColumnIndex(COLUMN_STATUS))]);
             exitCollection.add(geocache);
 
             cur.moveToNext();
@@ -164,8 +171,9 @@ public class DbManager extends SQLiteOpenHelper {
         values.put(COLUMN_LAT, geoCacheForAdd.getLocationGeoPoint().getLatitudeE6());
         values.put(COLUMN_LON, geoCacheForAdd.getLocationGeoPoint().getLongitudeE6());
         values.put(COLUMN_WEB_TEXT, webText);
-        if (webNotebookText != null && webNotebookText.equals(""))
+        if (webNotebookText != null && webNotebookText.equals("")) {
             values.put(COLUMN_NOTEBOOK_TEXT, webNotebookText);
+        }
         openDB();
         db.insert(DATABASE_NAME_TABLE, null, values);
         closeDB();
@@ -183,13 +191,15 @@ public class DbManager extends SQLiteOpenHelper {
         values.put(COLUMN_NAME, checkpoint.getName());
         values.put(COLUMN_LAT, checkpoint.getLocationGeoPoint().getLatitudeE6());
         values.put(COLUMN_LON, checkpoint.getLocationGeoPoint().getLongitudeE6());
-
+        values.put(COLUMN_STATUS, checkpoint.getStatus().ordinal());
         openDB();
         db.insert(DATABASE_CHECKPOINT_NAME_TABLE, null, values);
         closeDB();
     }
 
     /**
+     * Remove geocache from DB, also remove all checkpointc corresponding to a geocache
+     * 
      * @param id
      *            ID geocache for delete from database
      */
@@ -203,25 +213,26 @@ public class DbManager extends SQLiteOpenHelper {
     /**
      * @param name
      *            name of checkpoint geocache
-     * @param id
+     * @param checkpointId
      *            geocache id for delete from database
      */
-    public void deleteCheckpointCache(int cacheId, int id) {
+    public void deleteCheckpointCache(int cacheId, int checkpointId) {
         openDB();
+        db.execSQL(String.format("DELETE FROM %s WHERE %s=%d AND %s=%d;", DATABASE_CHECKPOINT_NAME_TABLE, CACHE_ID, cacheId, CHECKPOINT_ID, checkpointId));
+        closeDB();
+    }
 
-        Cursor cur = db.rawQuery(String.format("SELECT %s,%s FROM %s WHERE %s=%d", COLUMN_ID, CHECKPOINT_ID, DATABASE_CHECKPOINT_NAME_TABLE, CACHE_ID, cacheId), null);
-        cur.moveToFirst();
-
-        while (!cur.isAfterLast()) {
-            int columnId = cur.getInt(cur.getColumnIndex(COLUMN_ID));
-            if (id == cur.getInt(cur.getColumnIndex(CHECKPOINT_ID))) {
-                db.execSQL(String.format("DELETE FROM %s WHERE %s=%s;", DATABASE_CHECKPOINT_NAME_TABLE, COLUMN_ID, columnId));
-                break;
-            }
-            cur.moveToNext();
-        }
-
-        cur.close();
+    /**
+     * @param cacheId
+     *            id of Searching GeoCache
+     * @param checkpointId
+     *            id of checkpoint
+     * @param status
+     *            checkpoint status
+     */
+    public void ubdateCheckpointCacheStatus(int cacheId, int checkpointId, GeoCacheStatus status) {
+        openDB();
+        db.execSQL(String.format("UPDATE %s SET %s=%d WHERE %s=%d AND %s=%d", DATABASE_CHECKPOINT_NAME_TABLE, COLUMN_STATUS, status.ordinal(), CACHE_ID, cacheId, CHECKPOINT_ID, checkpointId));
         closeDB();
     }
 

@@ -1,5 +1,17 @@
 package su.geocaching.android.ui.compass;
 
+import su.geocaching.android.controller.Controller;
+import su.geocaching.android.controller.GeoCacheLocationManager;
+import su.geocaching.android.controller.GpsStatusManager;
+import su.geocaching.android.controller.IGpsStatusAware;
+import su.geocaching.android.controller.ILocationAware;
+import su.geocaching.android.controller.LogManager;
+import su.geocaching.android.controller.UiHelper;
+import su.geocaching.android.controller.compass.CompassPreferenceManager;
+import su.geocaching.android.controller.compass.CompassSpeed;
+import su.geocaching.android.controller.compass.SmoothCompassThread;
+import su.geocaching.android.ui.R;
+import su.geocaching.android.utils.GpsHelper;
 import android.app.Activity;
 import android.content.Intent;
 import android.graphics.drawable.AnimationDrawable;
@@ -14,17 +26,12 @@ import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
+
 import com.google.android.apps.analytics.GoogleAnalyticsTracker;
-import su.geocaching.android.controller.*;
-import su.geocaching.android.controller.compass.CompassPreferenceManager;
-import su.geocaching.android.controller.compass.CompassSpeed;
-import su.geocaching.android.controller.compass.SmoothCompassThread;
-import su.geocaching.android.ui.R;
-import su.geocaching.android.utils.GpsHelper;
 
 /**
  * Search GeoCache with the compass.
- *
+ * 
  * @author Android-Geocaching.su student project team
  * @since October 2010
  */
@@ -165,9 +172,9 @@ public class SearchGeoCacheCompass extends Activity {
             case R.id.menuGeoCacheInfo:
                 UiHelper.showGeoCacheInfo(this, controller.getSearchingGeoCache());
                 return true;
-            /*
-            * case R.id.menuKeepScreen: keepScreenOn(item); return true;
-            */
+            case R.id.stepByStep:
+                UiHelper.startCheckpointsFolderForResult(this, controller.getPreferencesManager().getLastSearchedGeoCache().getId());
+                return true;
             case R.id.compassSettings:
                 showCompassPreferences();
                 return true;
@@ -176,15 +183,33 @@ public class SearchGeoCacheCompass extends Activity {
         }
     }
 
-    /*
-     * private void keepScreenOn(MenuItem item) { if (compassView.getKeepScreenOn()) { compassView.setKeepScreenOn(false); item.setIcon(R.drawable.ic_menu_screen_off); } else {
-     * compassView.setKeepScreenOn(true); item.setIcon(R.drawable.ic_menu_screen_on); } }
-     */
-
     private void showCompassPreferences() {
         stopAnimation();
         Intent intent = new Intent(this, CompassPreferenceActivity.class);
         startActivity(intent);
+    }
+
+    // TODO
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+
+        // switch (requestCode) {
+        // case UiHelper.CHECKPOINT_FOLDER_REQUEST:
+        // if (resultCode == RESULT_OK && data != null) {
+        // int id = data.getIntExtra(CheckpointsFolder.CACHE_ID, 0);
+        // int action = data.getIntExtra(CheckpointsFolder.ACTION_KEY, 0);
+        // if (action == 1) {
+        // // checkpointCacheOverlay.setActiveItemById(id);
+        // }
+        // if (action == 2) {
+        // // checkpointCacheOverlay.removeOverlayItemById(id);
+        // }
+        //
+        // // map.invalidate();
+        // }
+        // break;
+        // }
     }
 
     private void onBestProviderUnavailable() {

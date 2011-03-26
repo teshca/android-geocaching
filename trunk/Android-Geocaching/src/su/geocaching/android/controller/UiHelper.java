@@ -20,6 +20,7 @@ import su.geocaching.android.ui.searchgeocache.stepbystep.StepByStepTabActivity;
 public class UiHelper {
 
     public static final int STEP_BY_STEP_REQUEST = 100;
+    public static final int CHECKPOINT_FOLDER_REQUEST = 101;
 
     /**
      * Invoke "home" action, returning to DashBoardActivity
@@ -85,9 +86,9 @@ public class UiHelper {
         activity.startActivityForResult(intent, STEP_BY_STEP_REQUEST);
     }
 
-    public static void startCheckpointsFolder(Context context, int cacheId) {
+    public static void startCheckpointsFolderForResult(Activity context, int cacheId) {
         Intent intent = new Intent(context, CheckpointsFolder.class);
         intent.putExtra(CheckpointsFolder.CACHE_ID, cacheId);
-        context.startActivity(intent);
+        context.startActivityForResult(intent, CHECKPOINT_FOLDER_REQUEST);
     }
 }
