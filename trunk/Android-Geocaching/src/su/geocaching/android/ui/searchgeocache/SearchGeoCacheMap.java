@@ -19,7 +19,6 @@ import su.geocaching.android.controller.compass.CompassSpeed;
 import su.geocaching.android.controller.compass.SmoothCompassThread;
 import su.geocaching.android.model.datastorage.DbManager;
 import su.geocaching.android.model.datatype.GeoCache;
-import su.geocaching.android.model.datatype.GeoCacheStatus;
 import su.geocaching.android.model.datatype.GeoCacheType;
 import su.geocaching.android.ui.R;
 import su.geocaching.android.ui.compass.SearchGeoCacheCompass;
@@ -375,13 +374,12 @@ public class SearchGeoCacheMap extends MapActivity implements IInternetAware, IL
                 this.startCompassView();
                 return true;
             case R.id.menuGeoCacheInfo:
-                UiHelper.showGeoCacheInfo(this, mController.getSearchingGeoCache());
+                UiHelper.showGeoCacheInfo(this, mController.getPreferencesManager().getLastSearchedGeoCache());
                 return true;
             case R.id.driving_directions:
                 onDrivingDirectionsSelected();
                 return true;
-            case R.id.stepByStep:
-                // UiHelper.startStepByStepForResult(this, mController.getSearchingGeoCache());
+            case R.id.stepByStep:                
                 UiHelper.startCheckpointsFolder(this, Controller.getInstance().getSearchingGeoCache().getId());
                 return true;
             default:
@@ -414,22 +412,13 @@ public class SearchGeoCacheMap extends MapActivity implements IInternetAware, IL
                 if (resultCode == RESULT_OK && data != null) {
                     int latitude = data.getIntExtra(StepByStepTabActivity.LATITUDE, 0);
                     int longitude = data.getIntExtra(StepByStepTabActivity.LONGITUDE, 0);
-                    GeoCache gc = new GeoCache();
-                    gc.setLocationGeoPoint(new GeoPoint(latitude, longitude));
-                    gc.setType(GeoCacheType.CHECKPOINT);
-
-                    GeoCacheOverlayItem checkpoint = new GeoCacheOverlayItem(gc, "", "");
-                    gc.setId(mController.getSearchingGeoCache().getId());
-
-                    gc.setStatus(GeoCacheStatus.ACTIVE_CHECKPOINT);
-                    checkpointCacheOverlay.addOverlayItem(checkpoint);
-                    mController.setSearchingGeoCache(gc);
-
+                    checkpointCacheOverlay.addCheckpoint(latitude, longitude);             
                     map.invalidate();
                 }
                 break;
         }
-    }
+    }    
+    
 
     /**
      * Show message string to user

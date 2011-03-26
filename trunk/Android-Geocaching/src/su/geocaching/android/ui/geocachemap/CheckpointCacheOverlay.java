@@ -1,12 +1,8 @@
 package su.geocaching.android.ui.geocachemap;
 
-import android.app.Activity;
-import android.graphics.drawable.Drawable;
-import android.view.GestureDetector;
-import android.view.MotionEvent;
-import com.google.android.maps.ItemizedOverlay;
-import com.google.android.maps.MapView;
-import com.google.android.maps.OverlayItem;
+import java.util.LinkedList;
+import java.util.List;
+
 import su.geocaching.android.controller.Controller;
 import su.geocaching.android.controller.UiHelper;
 import su.geocaching.android.model.datastorage.DbManager;
@@ -14,10 +10,15 @@ import su.geocaching.android.model.datatype.GeoCache;
 import su.geocaching.android.model.datatype.GeoCacheStatus;
 import su.geocaching.android.model.datatype.GeoCacheType;
 import su.geocaching.android.ui.R;
+import android.app.Activity;
+import android.graphics.drawable.Drawable;
+import android.view.GestureDetector;
+import android.view.MotionEvent;
 
-import java.util.Collections;
-import java.util.LinkedList;
-import java.util.List;
+import com.google.android.maps.GeoPoint;
+import com.google.android.maps.ItemizedOverlay;
+import com.google.android.maps.MapView;
+import com.google.android.maps.OverlayItem;
 
 /**
  * Overlay with checkpoints
@@ -39,7 +40,7 @@ public class CheckpointCacheOverlay extends ItemizedOverlay<OverlayItem> {
 
         dbm = Controller.getInstance().getDbManager();
 
-        items = Collections.synchronizedList(new LinkedList<GeoCacheOverlayItem>());
+        items = new LinkedList<GeoCacheOverlayItem>();
         GestureDetector.SimpleOnGestureListener sogl = new GestureDetector.SimpleOnGestureListener() {
             public void onLongPress(MotionEvent e) {
                 GeoCache gc = new GeoCache();
@@ -56,19 +57,43 @@ public class CheckpointCacheOverlay extends ItemizedOverlay<OverlayItem> {
     }
 
     public void addOverlayItem(GeoCacheOverlayItem overlayItem) {
-        if (!contains(overlayItem.getGeoCache())) {
-            checkpointNumber++;
-            overlayItem.getGeoCache().setName(String.format("%s %d", activity.getString(R.string.checkpoint_dialog_title), checkpointNumber));
-            dbm.addCheckpointGeoCache(overlayItem.getGeoCache());
+        if (!contains(overlayItem.getGeoCache())) {                      
             items.add(overlayItem);
+            int number = overlayItem.getGeoCache().getId();
+            if (checkpointNumber < number) {
+                checkpointNumber = number;
+            }
             setLastFocusedIndex(-1);
             populate();
         }
     }
 
+    public void addCheckpoint(int latitudeE6, int longitudeE6) {
+        checkpointNumber++;  
+        Controller controller = Controller.getInstance();
+        deactivateCheckpoints();
+        GeoCache gc = new GeoCache();    
+        gc.setName(String.format("%s %d", activity.getString(R.string.checkpoint_dialog_title), checkpointNumber));
+        gc.setLocationGeoPoint(new GeoPoint(latitudeE6, longitudeE6));
+        gc.setType(GeoCacheType.CHECKPOINT);
+        gc.setStatus(GeoCacheStatus.ACTIVE_CHECKPOINT);
+        
+        gc.setId(checkpointNumber);
+        GeoCacheOverlayItem checkpoint = new GeoCacheOverlayItem(gc, "", "");
+        addOverlayItem(checkpoint);
+        dbm.addCheckpointGeoCache(gc, Controller.getInstance().getPreferencesManager().getLastSearchedGeoCache().getId());
+        controller.setSearchingGeoCache(gc);
+    }
+    
+    private void deactivateCheckpoints(){
+        for (GeoCacheOverlayItem item : items) {
+            item.getGeoCache().setStatus(GeoCacheStatus.NOT_ACTIVE_CHECKPOINT);
+        }
+    }
+
     public void removeOverlayItem(int index) {
         GeoCache gc = items.get(index).getGeoCache();
-        dbm.deleteCheckpointCache(gc.getName(), gc.getId());
+        dbm.deleteCheckpointCache(Controller.getInstance().getPreferencesManager().getLastSearchedGeoCache().getId(), gc.getId());
         items.remove(index);
         setLastFocusedIndex(-1);
         populate();
@@ -96,12 +121,12 @@ public class CheckpointCacheOverlay extends ItemizedOverlay<OverlayItem> {
     public int size() {
         return items.size();
     }
-
-    public void clear() {
-        items.clear();
-        setLastFocusedIndex(-1);
-        populate();
-    }
+//
+//    public void clear() {
+//        items.clear();
+//        setLastFocusedIndex(-1);
+//        populate();
+//    }
 
     @Override
     public void draw(android.graphics.Canvas canvas, MapView mapView, boolean shadow) {
@@ -130,7 +155,7 @@ public class CheckpointCacheOverlay extends ItemizedOverlay<OverlayItem> {
             }
             i++;
         }
-        return i;
+        return i >= items.size() ? -1 : i;
     }
 
     /**
@@ -138,11 +163,7 @@ public class CheckpointCacheOverlay extends ItemizedOverlay<OverlayItem> {
      *            the activeItem to set
      */
     public void setActiveItem(int activeItem) {
-        for (GeoCacheOverlayItem item : items) {
-            item.getGeoCache().setStatus(GeoCacheStatus.NOT_ACTIVE_CHECKPOINT);
-        }
-
-        int i = getActiveItem();
-        items.get(i).getGeoCache().setStatus(GeoCacheStatus.ACTIVE_CHECKPOINT);
+        deactivateCheckpoints();
+        items.get(activeItem).getGeoCache().setStatus(GeoCacheStatus.ACTIVE_CHECKPOINT);
     }
 }
