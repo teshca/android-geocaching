@@ -45,8 +45,7 @@ public class SearchGeoCacheCompass extends Activity {
     private GpsStatusListener gpsListener;
 
     private CompassView compassView;
-    private TextView distanceToCache;
-    private TextView statusText;
+    private TextView statusText, targetCoordinates, currentCoordinates;
     private ImageView progressBarView;
     private AnimationDrawable progressBarAnim;
 
@@ -59,7 +58,9 @@ public class SearchGeoCacheCompass extends Activity {
         setContentView(R.layout.search_geocache_compass);
 
         compassView = (CompassView) findViewById(R.id.compassView);
-        distanceToCache = (TextView) findViewById(R.id.DistanceValue);
+        // distanceToCache = (TextView) findViewById(R.id.DistanceValue);
+        targetCoordinates = (TextView) findViewById(R.id.targetCoordinates);
+        currentCoordinates = (TextView) findViewById(R.id.currentCoordinates);
         progressBarView = (ImageView) findViewById(R.id.progressCircle);
         progressBarView.setBackgroundResource(R.anim.earth_anim);
         progressBarAnim = (AnimationDrawable) progressBarView.getBackground();
@@ -82,6 +83,10 @@ public class SearchGeoCacheCompass extends Activity {
         super.onResume();
         LogManager.d(TAG, "onResume");
         compassView.setKeepScreenOn(Controller.getInstance().getPreferencesManager().getKeepScreenOnPreference());
+        targetCoordinates.setText(GpsHelper.coordinateToString(controller.getSearchingGeoCache().getLocationGeoPoint()));
+        if (locationManager.hasLocation()) {
+            currentCoordinates.setText(GpsHelper.coordinateToString(GpsHelper.locationToGeoPoint(locationManager.getLastKnownLocation())));
+        }
         runLogic();
         startAnimation();
     }
@@ -251,7 +256,8 @@ public class SearchGeoCacheCompass extends Activity {
                 progressBarView.setVisibility(View.GONE);
             }
             compassView.setCacheDirection(GpsHelper.getBearingBetween(location, controller.getSearchingGeoCache().getLocationGeoPoint()));
-            setDistance(GpsHelper.getDistanceBetween(location, controller.getSearchingGeoCache().getLocationGeoPoint()));
+            currentCoordinates.setText(GpsHelper.coordinateToString(GpsHelper.locationToGeoPoint(location)));
+            compassView.setDistance(GpsHelper.getDistanceBetween(location, controller.getSearchingGeoCache().getLocationGeoPoint()));
         }
 
         @Override
@@ -283,15 +289,6 @@ public class SearchGeoCacheCompass extends Activity {
                 LogManager.d(TAG, "onStatusChanged: best provider (" + locationManager.getBestProvider() + ") disabled. Ask turn on.");
                 onBestProviderUnavailable();
                 UiHelper.askTurnOnGps(activity);
-            }
-        }
-
-        private void setDistance(float distance) {
-            if (!locationManager.hasLocation()) {
-                distanceToCache.setText(R.string.distance_unknown);
-                Toast.makeText(activity, R.string.search_geocache_best_provider_lost, Toast.LENGTH_LONG).show();
-            } else {
-                distanceToCache.setText(GpsHelper.distanceToString(distance));
             }
         }
     }

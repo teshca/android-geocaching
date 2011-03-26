@@ -13,7 +13,7 @@ import su.geocaching.android.controller.compass.WhiteStandardCompassDrawing;
 
 /**
  * View which displays compass contains of bitmaps for searching geocache.
- *
+ * 
  * @author Nikita Bumakov
  */
 public class CompassView extends SurfaceView implements SurfaceHolder.Callback, ICompassAnimation {
@@ -33,9 +33,6 @@ public class CompassView extends SurfaceView implements SurfaceHolder.Callback, 
 
         helper = new StandardCompassDrawing();
         ready = true; // Is it need?
-
-        setMinimumWidth(240);
-        setMinimumHeight(240);
     }
 
     @Override
@@ -98,13 +95,17 @@ public class CompassView extends SurfaceView implements SurfaceHolder.Callback, 
     }
 
     /**
-     * @param direction - direction to geocache in degrees
+     * @param direction
+     *            - direction to geocache in degrees
      */
     public void setCacheDirection(float direction) {
-        LogManager.d(TAG, "Compass View - setDirectionToGeoCache ");
         cacheDirection = direction;
         isLocationFixed = true;
         doAnimation();
+    }
+
+    public void setDistance(float distance) {
+        helper.setDistance(distance);
     }
 
     public void setLocationFix(boolean isLocationFix) {
@@ -119,7 +120,8 @@ public class CompassView extends SurfaceView implements SurfaceHolder.Callback, 
     }
 
     /**
-     * @param string //TODO describe it
+     * @param string
+     *            //TODO describe it
      */
     // TODO too many objects
     public void setHelper(String string) {

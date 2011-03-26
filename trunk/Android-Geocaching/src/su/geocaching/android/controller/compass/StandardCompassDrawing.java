@@ -4,10 +4,11 @@ import android.graphics.*;
 import android.graphics.Paint.Style;
 import su.geocaching.android.controller.Controller;
 import su.geocaching.android.ui.R;
+import su.geocaching.android.utils.GpsHelper;
 
 /**
  * Default appearance of the compass
- *
+ * 
  * @author Nikita Bumakov
  */
 public class StandardCompassDrawing extends CompassDrawingHelper {
@@ -46,16 +47,21 @@ public class StandardCompassDrawing extends CompassDrawingHelper {
         canvas.translate(center, center); // !!!
         drawNeedle(canvas, northDirection);
         drawAzimuthLabel(canvas, northDirection);
-    }
-
-    private void drawAzimuthLabel(Canvas canvas, float direction) {
-        canvas.drawText(CompassHelper.degreesToString(direction), 5 - center, -center * 0.8f, textPaint);
+        drawDistanceLabel(canvas);
     }
 
     private void drawNeedle(Canvas canvas, float direction) {
         canvas.rotate(direction);
         canvas.drawBitmap(needleBitmap, -needleBitmap.getWidth() / 2, -needleBitmap.getHeight() / 2, bitmapPaint);
         canvas.rotate(-direction);
+    }
+
+    private void drawAzimuthLabel(Canvas canvas, float direction) {
+        canvas.drawText(CompassHelper.degreesToString(direction), -center * 0.98f, -center * 0.8f, textPaint);
+    }
+
+    private void drawDistanceLabel(Canvas canvas) {
+        canvas.drawText(GpsHelper.distanceToString(distance), center * 0.5f, -center * 0.8f, textPaint);
     }
 
     @Override
