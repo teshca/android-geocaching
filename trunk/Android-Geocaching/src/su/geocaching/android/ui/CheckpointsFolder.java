@@ -33,12 +33,12 @@ public class CheckpointsFolder extends AbstractCacheFolder implements OnItemClic
 
         // TODO
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
-        builder.setMessage("Контрольная точка").setCancelable(false).setPositiveButton("Выбрать", new DialogInterface.OnClickListener() {
+        builder.setMessage("РљРѕРЅС‚СЂРѕР»СЊРЅР°СЏ С‚РѕС‡РєР°").setPositiveButton("Р’С‹Р±СЂР°С‚СЊ", new DialogInterface.OnClickListener() {
             public void onClick(DialogInterface dialog, int id) {
                 intent.putExtra(ACTION_KEY, 1);
                 finish();
             }
-        }).setNegativeButton("Удалить", new DialogInterface.OnClickListener() {
+        }).setNegativeButton("РЈРґР°Р»РёС‚СЊ", new DialogInterface.OnClickListener() {
             public void onClick(DialogInterface dialog, int id) {
                 intent.putExtra(ACTION_KEY, 2);
                 finish();

@@ -10,6 +10,7 @@ import su.geocaching.android.controller.UiHelper;
 import su.geocaching.android.controller.compass.CompassPreferenceManager;
 import su.geocaching.android.controller.compass.CompassSpeed;
 import su.geocaching.android.controller.compass.SmoothCompassThread;
+import su.geocaching.android.model.datatype.GeoCache;
 import su.geocaching.android.ui.R;
 import su.geocaching.android.utils.GpsHelper;
 import android.app.Activity;
@@ -170,15 +171,16 @@ public class SearchGeoCacheCompass extends Activity {
      */
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
+        GeoCache searchingGC = controller.getPreferencesManager().getLastSearchedGeoCache();
         switch (item.getItemId()) {
             case R.id.menuStartMap:
-                UiHelper.startMapView(this, controller.getSearchingGeoCache());
+                UiHelper.startMapView(this, searchingGC);
                 return true;
             case R.id.menuGeoCacheInfo:
-                UiHelper.showGeoCacheInfo(this, controller.getSearchingGeoCache());
+                UiHelper.showGeoCacheInfo(this,searchingGC);
                 return true;
             case R.id.stepByStep:
-                UiHelper.startCheckpointsFolderForResult(this, controller.getPreferencesManager().getLastSearchedGeoCache().getId());
+                UiHelper.startCheckpointsFolderForResult(this, searchingGC.getId());
                 return true;
             case R.id.compassSettings:
                 showCompassPreferences();
