@@ -17,16 +17,19 @@ public class DistanceToGeoCacheOverlay extends com.google.android.maps.Overlay {
     private GeoPoint cachePoint;
     private Paint paintLine;
     private boolean withShortestWay;
+    private Point to;
+    private Point from;
 
     public DistanceToGeoCacheOverlay(GeoPoint userPoint, GeoPoint cachePoint) {
         this.userPoint = userPoint;
         this.cachePoint = cachePoint;
         withShortestWay = true;
-
+        from = new Point();
+        to = new Point();
         paintLine = new Paint();
         paintLine.setARGB(100, 100, 20, 100);
 
-        paintLine.setStyle(Style.FILL_AND_STROKE);
+        paintLine.setStyle(Paint.Style.STROKE);
         paintLine.setAntiAlias(true);
         paintLine.setStrokeWidth(4);
     }
@@ -36,8 +39,7 @@ public class DistanceToGeoCacheOverlay extends com.google.android.maps.Overlay {
         super.draw(canvas, mapView, shadow);
 
         if (withShortestWay) {
-            Point from = new Point();
-            Point to = new Point();
+
             Projection proj = mapView.getProjection();
             proj.toPixels(userPoint, from);
             proj.toPixels(cachePoint, to);
