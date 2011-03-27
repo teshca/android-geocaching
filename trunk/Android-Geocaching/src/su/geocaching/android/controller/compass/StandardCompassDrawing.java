@@ -60,7 +60,7 @@ public class StandardCompassDrawing extends CompassDrawingHelper {
         canvas.drawText(CompassHelper.degreesToString(direction), center * 0.45f, -center * 0.8f, textPaint);
     }
 
-    private void drawDistanceLabel(Canvas canvas) {      
+    private void drawDistanceLabel(Canvas canvas) {
         canvas.drawText(GpsHelper.distanceToString(distance), -center * 0.98f, -center * 0.8f, textPaint);
     }
 

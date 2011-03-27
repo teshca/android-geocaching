@@ -1,7 +1,9 @@
 package su.geocaching.android.ui.searchgeocache.stepbystep;
 
+import su.geocaching.android.controller.Controller;
 import su.geocaching.android.ui.R;
 import su.geocaching.android.ui.geocachemap.CheckpointCacheOverlay;
+import su.geocaching.android.ui.searchgeocache.DistanceToGeoCacheOverlay;
 import su.geocaching.android.utils.GpsHelper;
 import android.app.Dialog;
 import android.content.Context;
@@ -18,14 +20,16 @@ public class CheckpointDialog extends Dialog {
     private TextView coordinates;
 
     private CheckpointCacheOverlay checkpointOverlay;
+    private DistanceToGeoCacheOverlay distanceOverlay;
     private MapView map;
     private int index;
 
-    public CheckpointDialog(Context context, int index, CheckpointCacheOverlay checkpointCacheOverlay, MapView map) {
+    public CheckpointDialog(Context context, int index, CheckpointCacheOverlay checkpointCacheOverlay, DistanceToGeoCacheOverlay distanceOverlay, MapView map) {
         super(context);
 
         this.index = index;
         this.checkpointOverlay = checkpointCacheOverlay;
+        this.distanceOverlay = distanceOverlay;
         this.map = map;
     }
 
@@ -58,6 +62,9 @@ public class CheckpointDialog extends Dialog {
                 checkpointOverlay.setActiveItem(index);
             } else if (v.equals(delete)) {
                 checkpointOverlay.removeOverlayItem(index);
+            }
+            if (distanceOverlay != null) {
+                distanceOverlay.setCachePoint(Controller.getInstance().getSearchingGeoCache().getLocationGeoPoint());
             }
             map.invalidate();
             dismiss();
