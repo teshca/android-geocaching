@@ -126,5 +126,5 @@
 	<string name="delete">Удалить</string>
 	<string name="sexagestimal_template">Г°,М,МММ\'</string>
 	<string name="decimal_template">ГГ,ГГГГ°</string>
-	<string name="azimuth_template">ГГ° DDкм</string>
+	<string name="azimuth_template">ГГ° NNкм</string>
 </resources>
