@@ -293,7 +293,7 @@ public class SearchGeoCacheMap extends MapActivity implements IInternetAware, IL
 
     @Override
     protected Dialog onCreateDialog(int index) {
-        return new CheckpointDialog(this, index, checkpointCacheOverlay, map);
+        return new CheckpointDialog(this, index, checkpointCacheOverlay, distanceOverlay, map);
     }
 
     /*
@@ -421,7 +421,6 @@ public class SearchGeoCacheMap extends MapActivity implements IInternetAware, IL
         super.onActivityResult(requestCode, resultCode, data);
 
         switch (requestCode) {
-
             case UiHelper.STEP_BY_STEP_REQUEST:
                 if (resultCode == RESULT_OK && data != null) {
                     int latitude = data.getIntExtra(StepByStepTabActivity.LATITUDE, 0);
@@ -444,16 +443,13 @@ public class SearchGeoCacheMap extends MapActivity implements IInternetAware, IL
                     if (action == 2) {
                         checkpointCacheOverlay.removeOverlayItemById(id);
                     }
-
-                    if (distanceOverlay != null) {
-                        distanceOverlay.setCachePoint(mController.getSearchingGeoCache().getLocationGeoPoint());
-                        // distanceOverlay.
-                    }
-                    map.invalidate();
                 }
                 break;
         }
-
+        if (distanceOverlay != null) {
+            distanceOverlay.setCachePoint(mController.getSearchingGeoCache().getLocationGeoPoint());
+        }
+        map.invalidate();
     }
 
     /**
