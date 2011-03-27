@@ -276,7 +276,6 @@ public class SearchGeoCacheMap extends MapActivity implements IInternetAware, IL
 
             return;
         }
-        distanceOverlay.setCachePoint(mController.getSearchingGeoCache().getLocationGeoPoint());
         distanceOverlay.setUserPoint(GpsHelper.locationToGeoPoint(location));
 
         map.invalidate();
@@ -417,6 +416,10 @@ public class SearchGeoCacheMap extends MapActivity implements IInternetAware, IL
                     int latitude = data.getIntExtra(StepByStepTabActivity.LATITUDE, 0);
                     int longitude = data.getIntExtra(StepByStepTabActivity.LONGITUDE, 0);
                     checkpointCacheOverlay.addCheckpoint(latitude, longitude);
+                    if (distanceOverlay != null) {
+                        distanceOverlay.setCachePoint(mController.getSearchingGeoCache().getLocationGeoPoint());
+                        //distanceOverlay.
+                    }                    
                     map.invalidate();
                 }
                 break;
@@ -430,10 +433,16 @@ public class SearchGeoCacheMap extends MapActivity implements IInternetAware, IL
                     if (action == 2) {
                         checkpointCacheOverlay.removeOverlayItemById(id);
                     }
+                    
+                    if (distanceOverlay != null) {
+                        distanceOverlay.setCachePoint(mController.getSearchingGeoCache().getLocationGeoPoint());
+                        //distanceOverlay.
+                    }                    
                     map.invalidate();
                 }
                 break;
         }
+      
     }
 
     /**
@@ -498,10 +507,6 @@ public class SearchGeoCacheMap extends MapActivity implements IInternetAware, IL
     public void onWindowFocusChanged(boolean hasFocus) {
         super.onWindowFocusChanged(hasFocus);
         progressBarAnimation.start();
-    }
-
-    public void onHomeClick(View v) {
-        UiHelper.goHome(this);
     }
 
     /*
@@ -596,5 +601,9 @@ public class SearchGeoCacheMap extends MapActivity implements IInternetAware, IL
             }
             animationThread = null;
         }
+    }
+
+    public void onHomeClick(View v) {
+        UiHelper.goHome(this);
     }
 }

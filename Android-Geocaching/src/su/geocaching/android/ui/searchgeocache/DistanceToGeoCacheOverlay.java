@@ -1,17 +1,17 @@
 package su.geocaching.android.ui.searchgeocache;
 
 import android.graphics.Canvas;
-import android.graphics.Color;
 import android.graphics.Paint;
 import android.graphics.Paint.Style;
 import android.graphics.Point;
+
 import com.google.android.maps.GeoPoint;
 import com.google.android.maps.MapView;
 import com.google.android.maps.Projection;
 
 public class DistanceToGeoCacheOverlay extends com.google.android.maps.Overlay {
 
-    private static final int LINE_COLOR = Color.BLUE;
+    //private static final int LINE_COLOR = Color.BLUE;
 
     private GeoPoint userPoint;
     private GeoPoint cachePoint;
@@ -24,20 +24,18 @@ public class DistanceToGeoCacheOverlay extends com.google.android.maps.Overlay {
         withShortestWay = true;
 
         paintLine = new Paint();
-        paintLine.setARGB(55, 100, 20, 100);
+        paintLine.setARGB(100, 100, 20, 100);
 
         paintLine.setStyle(Style.FILL_AND_STROKE);
         paintLine.setAntiAlias(true);
-        paintLine.setStrokeWidth(5);
+        paintLine.setStrokeWidth(4);
     }
 
     @Override
-    public boolean draw(Canvas canvas, MapView mapView, boolean shadow, long when) {
-        super.draw(canvas, mapView, shadow, when);
+    public void draw(Canvas canvas, MapView mapView, boolean shadow) {
+        super.draw(canvas, mapView, shadow);
 
         if (withShortestWay) {
-
-            paintLine.setAlpha(120);
             Point from = new Point();
             Point to = new Point();
             Projection proj = mapView.getProjection();
@@ -45,9 +43,7 @@ public class DistanceToGeoCacheOverlay extends com.google.android.maps.Overlay {
             proj.toPixels(cachePoint, to);
 
             canvas.drawLine(from.x, from.y, to.x, to.y, paintLine);
-        }
-
-        return true;
+        }       
     }
 
     protected void setUserPoint(GeoPoint userPoint) {

@@ -57,11 +57,11 @@ public class StandardCompassDrawing extends CompassDrawingHelper {
     }
 
     private void drawAzimuthLabel(Canvas canvas, float direction) {
-        canvas.drawText(CompassHelper.degreesToString(direction), -center * 0.98f, -center * 0.8f, textPaint);
+        canvas.drawText(CompassHelper.degreesToString(direction), center * 0.45f, -center * 0.8f, textPaint);
     }
 
-    private void drawDistanceLabel(Canvas canvas) {
-        canvas.drawText(GpsHelper.distanceToString(distance), center * 0.5f, -center * 0.8f, textPaint);
+    private void drawDistanceLabel(Canvas canvas) {      
+        canvas.drawText(GpsHelper.distanceToString(distance), -center * 0.98f, -center * 0.8f, textPaint);
     }
 
     @Override

@@ -101,9 +101,9 @@ public class GpsHelper {
     public static String distanceToString(float dist) {
         String textDistance;
         if (dist >= BIG_DISTANCE_VALUE) {
-            textDistance = BIG_DISTANCE_NUMBER_FORMAT.format(dist * BIG_DISTANCE_COEFFICIENT) + " " + BIG_DISTANCE_VALUE_NAME;
+            textDistance = BIG_DISTANCE_NUMBER_FORMAT.format(dist * BIG_DISTANCE_COEFFICIENT) + BIG_DISTANCE_VALUE_NAME;
         } else {
-            textDistance = SMALL_DISTANCE_NUMBER_FORMAT.format(dist * SMALL_DISTANCE_COEFFICIENT) + " " + SMALL_DISTANCE_VALUE_NAME;
+            textDistance = SMALL_DISTANCE_NUMBER_FORMAT.format(dist * SMALL_DISTANCE_COEFFICIENT) + SMALL_DISTANCE_VALUE_NAME;
         }
         return textDistance;
     }
@@ -159,7 +159,7 @@ public class GpsHelper {
      * 
      * @param location
      *            - coordinates
-     * @return formating string (for example: "60° 12,123' ñ.ø. | 30° 32,321'" â.ä.)
+     * @return formating string (for example: "60ï¿½ 12,123' ï¿½.ï¿½. | 30ï¿½ 32,321'" ï¿½.ï¿½.)
      */
     public static String coordinateToString(GeoPoint location) {
         int[] latitude = coordinateE6ToSexagesimal(location.getLatitudeE6());
