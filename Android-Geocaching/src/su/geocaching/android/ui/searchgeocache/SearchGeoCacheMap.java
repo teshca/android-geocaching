@@ -8,6 +8,7 @@ import su.geocaching.android.controller.ConnectionManager;
 import su.geocaching.android.controller.Controller;
 import su.geocaching.android.controller.GeoCacheLocationManager;
 import su.geocaching.android.controller.GpsStatusManager;
+import su.geocaching.android.controller.GpsUpdateFrequency;
 import su.geocaching.android.controller.ICompassAware;
 import su.geocaching.android.controller.IGpsStatusAware;
 import su.geocaching.android.controller.IInternetAware;
@@ -66,6 +67,8 @@ import com.google.android.maps.Projection;
  */
 public class SearchGeoCacheMap extends MapActivity implements IInternetAware, ILocationAware, ICompassAware, IGpsStatusAware {
     private final static String TAG = SearchGeoCacheMap.class.getCanonicalName();
+    private final static float CLOSE_DISTANCE_TO_GC_VALUE = 30; // if we nearly than this distance in meters to geocache - gps will be work maximal often
+
     private CheckpointCacheOverlay checkpointCacheOverlay;
     private Drawable cacheMarker;
     private DistanceToGeoCacheOverlay distanceOverlay;
@@ -262,6 +265,12 @@ public class SearchGeoCacheMap extends MapActivity implements IInternetAware, IL
         if (progressBarView.getVisibility() == View.VISIBLE) {
             progressBarView.setVisibility(View.GONE);
         }
+        if (GpsHelper.getDistanceBetween(location, Controller.getInstance().getSearchingGeoCache().getLocationGeoPoint()) < CLOSE_DISTANCE_TO_GC_VALUE) {
+            //TODO: may be need make special preference? 
+            mLocationManager.updateFrequency(GpsUpdateFrequency.MAXIMAL);
+        } else {
+            mLocationManager.updateFrequencyFromPreferences();
+        }
         waitingLocationFixText.setText(GpsHelper.distanceToString(GpsHelper.getDistanceBetween(mController.getSearchingGeoCache().getLocationGeoPoint(), location)));
         if (distanceOverlay == null) {
             // It's really first run of update location
@@ -418,8 +427,8 @@ public class SearchGeoCacheMap extends MapActivity implements IInternetAware, IL
                     checkpointCacheOverlay.addCheckpoint(latitude, longitude);
                     if (distanceOverlay != null) {
                         distanceOverlay.setCachePoint(mController.getSearchingGeoCache().getLocationGeoPoint());
-                        //distanceOverlay.
-                    }                    
+                        // distanceOverlay.
+                    }
                     map.invalidate();
                 }
                 break;
@@ -433,16 +442,16 @@ public class SearchGeoCacheMap extends MapActivity implements IInternetAware, IL
                     if (action == 2) {
                         checkpointCacheOverlay.removeOverlayItemById(id);
                     }
-                    
+
                     if (distanceOverlay != null) {
                         distanceOverlay.setCachePoint(mController.getSearchingGeoCache().getLocationGeoPoint());
-                        //distanceOverlay.
-                    }                    
+                        // distanceOverlay.
+                    }
                     map.invalidate();
                 }
                 break;
         }
-      
+
     }
 
     /**
@@ -534,7 +543,8 @@ public class SearchGeoCacheMap extends MapActivity implements IInternetAware, IL
                 break;
             case LocationProvider.TEMPORARILY_UNAVAILABLE:
                 statusString += "Status: temporarily unavailable. ";
-                onBestProviderUnavailable();
+                // TODO: check when it happens. i'm almost sure that it call then gps 'go to sleep'(power saving)
+                // onBestProviderUnavailable();
                 LogManager.d(TAG, "     Status: temporarily unavailable.");
                 break;
             case LocationProvider.AVAILABLE:

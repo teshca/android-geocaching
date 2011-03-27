@@ -11,13 +11,15 @@
     <string name="gps_update_frequency_key">energy_saving.gps</string>
     <string name="gps_update_frequency_default_value">NORMAL</string>
     <string name="gps_update_frequency_dialog_title">Частота обновления GPS</string>
-    <string name="gps_update_frequency_summary">Как часто обновлять координаты от GPS</string>
+    <string name="gps_update_frequency_summary">Как часто обновлять координаты от GPS. Максимально часто не рекоммендуется.</string>
     <string-array name="gps_update_frequency_entries">
+        <item>Максимально часто</item>
         <item>Часто</item>
         <item>Нормально</item>
         <item>Редко</item>
     </string-array>
     <string-array name="gps_update_frequency_values">
+        <item>MAXIMAL</item>
         <item>OFTEN</item>
         <item>NORMAL</item>
         <item>RARELY</item>
