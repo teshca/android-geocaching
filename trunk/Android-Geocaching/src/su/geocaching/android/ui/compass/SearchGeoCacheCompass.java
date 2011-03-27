@@ -3,6 +3,7 @@ package su.geocaching.android.ui.compass;
 import su.geocaching.android.controller.Controller;
 import su.geocaching.android.controller.GeoCacheLocationManager;
 import su.geocaching.android.controller.GpsStatusManager;
+import su.geocaching.android.controller.GpsUpdateFrequency;
 import su.geocaching.android.controller.IGpsStatusAware;
 import su.geocaching.android.controller.ILocationAware;
 import su.geocaching.android.controller.LogManager;
@@ -177,7 +178,7 @@ public class SearchGeoCacheCompass extends Activity {
                 UiHelper.startMapView(this, searchingGC);
                 return true;
             case R.id.menuGeoCacheInfo:
-                UiHelper.showGeoCacheInfo(this,searchingGC);
+                UiHelper.showGeoCacheInfo(this, searchingGC);
                 return true;
             case R.id.stepByStep:
                 UiHelper.startCheckpointsFolderForResult(this, searchingGC.getId());
@@ -242,6 +243,8 @@ public class SearchGeoCacheCompass extends Activity {
      *
      */
     class LocationListener implements ILocationAware {
+        private final static float CLOSE_DISTANCE_TO_GC_VALUE = 30; // if we nearly than this distance in meters to geocache - gps will be work maximal often
+
         Activity activity;
 
         LocationListener(Activity activity) {
@@ -256,6 +259,12 @@ public class SearchGeoCacheCompass extends Activity {
             // }
             if (progressBarView.getVisibility() == View.VISIBLE) {
                 progressBarView.setVisibility(View.GONE);
+            }
+            if (GpsHelper.getDistanceBetween(location, Controller.getInstance().getSearchingGeoCache().getLocationGeoPoint()) < CLOSE_DISTANCE_TO_GC_VALUE) {
+                // TODO: may be need make special preference?
+                Controller.getInstance().getLocationManager().updateFrequency(GpsUpdateFrequency.MAXIMAL);
+            } else {
+                Controller.getInstance().getLocationManager().updateFrequencyFromPreferences();
             }
             compassView.setCacheDirection(GpsHelper.getBearingBetween(location, controller.getSearchingGeoCache().getLocationGeoPoint()));
             currentCoordinates.setText(GpsHelper.coordinateToString(GpsHelper.locationToGeoPoint(location)));
