@@ -2,6 +2,7 @@ package su.geocaching.android.ui.searchgeocache;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Locale;
 
 import su.geocaching.android.controller.CompassManager;
 import su.geocaching.android.controller.ConnectionManager;
@@ -266,7 +267,7 @@ public class SearchGeoCacheMap extends MapActivity implements IInternetAware, IL
             progressBarView.setVisibility(View.GONE);
         }
         if (GpsHelper.getDistanceBetween(location, Controller.getInstance().getSearchingGeoCache().getLocationGeoPoint()) < CLOSE_DISTANCE_TO_GC_VALUE) {
-            //TODO: may be need make special preference? 
+            // TODO: may be need make special preference?
             mLocationManager.updateFrequency(GpsUpdateFrequency.MAXIMAL);
         } else {
             mLocationManager.updateFrequencyFromPreferences();
@@ -400,13 +401,14 @@ public class SearchGeoCacheMap extends MapActivity implements IInternetAware, IL
     }
 
     private void onDrivingDirectionsSelected() {
-
         if (mLocationManager.getLastKnownLocation() != null) {
-            GeoPoint first = GpsHelper.locationToGeoPoint(mLocationManager.getLastKnownLocation()), second = mController.getSearchingGeoCache().getLocationGeoPoint();
-            int firstlat = first.getLatitudeE6(), firstlon = first.getLongitudeE6();
-            int seclat = second.getLatitudeE6(), seclong = second.getLongitudeE6();
-            double a = firstlat / 1E06, b = firstlon / 1E06, c = seclat / 1E06, d = seclong / 1E06;
-            Intent intent = new Intent(android.content.Intent.ACTION_VIEW, Uri.parse("http://maps.google.com/maps?saddr=" + a + "," + b + "&daddr=" + c + "," + d + "&ie=UTF8&om=0&output=kml"));
+            GeoPoint second = mController.getSearchingGeoCache().getLocationGeoPoint();
+            double firstLat = mLocationManager.getLastKnownLocation().getLatitude();
+            double firstLng = mLocationManager.getLastKnownLocation().getLongitude();
+            double secondLat = second.getLatitudeE6() / 1E6;
+            double secondLng = second.getLongitudeE6() / 1E6;
+            Intent intent = new Intent(android.content.Intent.ACTION_VIEW, Uri.parse(String.format(Locale.ENGLISH, "http://maps.google.com/maps?saddr=%f,%f&daddr=%f,%f&ie=UTF8&om=0&output=kml",
+                    firstLat, firstLng, secondLat, secondLng)));
             startActivity(intent);
         } else {
             Toast.makeText(getBaseContext(), getString(R.string.dislocation), Toast.LENGTH_LONG).show();
