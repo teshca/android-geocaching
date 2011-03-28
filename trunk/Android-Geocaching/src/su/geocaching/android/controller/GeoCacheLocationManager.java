@@ -242,7 +242,7 @@ public class GeoCacheLocationManager implements LocationListener {
                 minDistance = 0;
                 break;
             case MAXIMAL:
-                minTime = 0;
+                minTime = 800;
                 minDistance = 0;
                 break;
         }
