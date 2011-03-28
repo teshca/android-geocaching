@@ -1,5 +1,6 @@
 package su.geocaching.android.ui.searchgeocache.stepbystep;
 
+import su.geocaching.android.controller.CheckpointManager;
 import su.geocaching.android.controller.Controller;
 import su.geocaching.android.ui.R;
 import su.geocaching.android.ui.geocachemap.CheckpointCacheOverlay;
@@ -21,13 +22,15 @@ public class CheckpointDialog extends Dialog {
 
     private CheckpointCacheOverlay checkpointOverlay;
     private DistanceToGeoCacheOverlay distanceOverlay;
+    private CheckpointManager checkpointManager;
     private MapView map;
     private int index;
 
-    public CheckpointDialog(Context context, int index, CheckpointCacheOverlay checkpointCacheOverlay, DistanceToGeoCacheOverlay distanceOverlay, MapView map) {
+    public CheckpointDialog(Context context, int index, CheckpointManager checkpointManager, CheckpointCacheOverlay checkpointCacheOverlay, DistanceToGeoCacheOverlay distanceOverlay, MapView map) {
         super(context);
 
         this.index = index;
+        this.checkpointManager = checkpointManager;
         this.checkpointOverlay = checkpointCacheOverlay;
         this.distanceOverlay = distanceOverlay;
         this.map = map;
@@ -36,10 +39,9 @@ public class CheckpointDialog extends Dialog {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.checkpoint_dialog);
+        setContentView(R.layout.checkpoint_dialog);      
 
-        coordinates = (TextView) findViewById(R.id.checkpointCoordinate);
-
+        coordinates = (TextView) findViewById(R.id.checkpointCoordinate);       
         active = (Button) findViewById(R.id.checkpointActiveButton);
         delete = (Button) findViewById(R.id.checkpointDeleteButton);
         ButtonClickListener clickListener = new ButtonClickListener();
@@ -49,8 +51,8 @@ public class CheckpointDialog extends Dialog {
 
     @Override
     public void show() {
-        setTitle(checkpointOverlay.getGeoCache(index).getName());
-        coordinates.setText(GpsHelper.coordinateToString(checkpointOverlay.getGeoCache(index).getLocationGeoPoint()));
+        setTitle(checkpointManager.getGeoCache(index).getName());
+        coordinates.setText(GpsHelper.coordinateToString(checkpointManager.getGeoCache(index).getLocationGeoPoint()));
         super.show();
     }
 
@@ -59,8 +61,9 @@ public class CheckpointDialog extends Dialog {
         @Override
         public void onClick(View v) {
             if (v.equals(active)) {
-                checkpointOverlay.setActiveItem(index);
+                checkpointManager.setActiveItem(index);
             } else if (v.equals(delete)) {
+                checkpointManager.removeCheckpointByIndex(index);
                 checkpointOverlay.removeOverlayItem(index);
             }
             if (distanceOverlay != null) {

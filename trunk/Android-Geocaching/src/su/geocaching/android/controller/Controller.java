@@ -29,6 +29,7 @@ public class Controller {
     private ResourceManager resourceManager;
     private PreferencesManager preferencesManager;
     private DbManager dbManager;
+    private CheckpointManager checkpointManager;
     private GeoCache searchingGeoCache;
 
     private Controller() {
@@ -220,6 +221,17 @@ public class Controller {
             dbManager = new DbManager(context);
         }
         return dbManager;
+    }
+
+    /**
+     * @return the checkpointManager
+     */
+    public CheckpointManager getCheckpointManager(int id) {
+        if (checkpointManager == null) {
+            LogManager.d(TAG, "checkpoint manager wasn't init yet. init");
+            checkpointManager = new CheckpointManager(id);
+        }
+        return checkpointManager;
     }
 
     public GeoCache getSearchingGeoCache() {
