@@ -159,11 +159,11 @@ public class GpsHelper {
      * 
      * @param location
      *            - coordinates
-     * @return formating string (for example: "60� 12,123' �.�. | 30� 32,321'" �.�.)
+     * @return formating string (for example: "60° 12,123' с.ш. | 30° 32,321'" в.д.)
      */
     public static String coordinateToString(GeoPoint location) {
         int[] latitude = coordinateE6ToSexagesimal(location.getLatitudeE6());
-        int[] longitude = coordinateE6ToSexagesimal(location.getLatitudeE6());
+        int[] longitude = coordinateE6ToSexagesimal(location.getLongitudeE6());
 
         Resources res = Controller.getInstance().getResourceManager().getResources();
         String format;
@@ -182,7 +182,6 @@ public class GpsHelper {
             }
         }
         return String.format(format, latitude[0], latitude[1], latitude[2], longitude[0], longitude[1], longitude[2]);
-
     }
 
     // TODO still not work
