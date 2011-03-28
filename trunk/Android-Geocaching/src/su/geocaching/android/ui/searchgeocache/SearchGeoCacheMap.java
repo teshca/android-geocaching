@@ -130,7 +130,7 @@ public class SearchGeoCacheMap extends MapActivity implements IInternetAware, IL
 
         if (geoCache != null) {
             cacheMarker = mController.getResourceManager().getMarker(mController.getSearchingGeoCache());
-            SearchCacheOverlay searchCacheOverlay = new SearchCacheOverlay(cacheMarker, this);
+            SearchCacheOverlay searchCacheOverlay = new SearchCacheOverlay(cacheMarker, this, map);
             GeoCacheOverlayItem cacheOverlayItem = new GeoCacheOverlayItem(mController.getSearchingGeoCache(), "", "");
             searchCacheOverlay.addOverlayItem(cacheOverlayItem);
             mapOverlays.add(searchCacheOverlay);
