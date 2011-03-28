@@ -222,17 +222,18 @@ public class Controller {
         }
         return dbManager;
     }
-
+    
     /**
      * @return the checkpointManager
      */
     public CheckpointManager getCheckpointManager(int id) {
-        if (checkpointManager == null) {
+        if (checkpointManager == null || checkpointManager.getCacheId() != id) {
             LogManager.d(TAG, "checkpoint manager wasn't init yet. init");
             checkpointManager = new CheckpointManager(id);
-        }
+        }    
         return checkpointManager;
     }
+
 
     public GeoCache getSearchingGeoCache() {
         return searchingGeoCache;
