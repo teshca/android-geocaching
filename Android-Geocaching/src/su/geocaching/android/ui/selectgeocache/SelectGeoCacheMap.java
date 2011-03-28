@@ -56,6 +56,7 @@ public class SelectGeoCacheMap extends MapActivity implements IInternetAware {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        LogManager.d(TAG, "onCreate");
         setContentView(R.layout.select_geocache_map);
         map = (MapView) findViewById(R.id.selectGeocacheMap);
         map.getOverlays().clear();
@@ -90,6 +91,7 @@ public class SelectGeoCacheMap extends MapActivity implements IInternetAware {
         map.setBuiltInZoomControls(true);
         map.getOverlays().add(userOverlay);
         map.invalidate();
+        LogManager.d(TAG, "onCreate Done");
     }
 
     private synchronized void updateProgressStart() {

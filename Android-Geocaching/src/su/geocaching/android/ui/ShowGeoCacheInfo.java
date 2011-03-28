@@ -17,6 +17,7 @@ import com.google.android.apps.analytics.GoogleAnalyticsTracker;
 import su.geocaching.android.controller.ConnectionManager;
 import su.geocaching.android.controller.Controller;
 import su.geocaching.android.controller.IInternetAware;
+import su.geocaching.android.controller.LogManager;
 import su.geocaching.android.controller.UiHelper;
 import su.geocaching.android.model.datastorage.DbManager;
 import su.geocaching.android.model.datastorage.DownloadInfoCacheTask;
@@ -52,7 +53,9 @@ public class ShowGeoCacheInfo extends Activity implements OnCheckedChangeListene
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.info_geocach_activity);
+        LogManager.d(TAG, "onCreate");
+
+        setContentView(R.layout.info_geocache_activity);
         dbm = Controller.getInstance().getDbManager();
         connectManager = Controller.getInstance().getConnectionManager();
         webView = (WebView) findViewById(R.id.info_web_brouse);
@@ -71,6 +74,7 @@ public class ShowGeoCacheInfo extends Activity implements OnCheckedChangeListene
 
         });
         isPageNoteBook = false;
+
         tracker = GoogleAnalyticsTracker.getInstance();
         tracker.start(getString(R.string.id_Google_Analytics), this);
         tracker.trackPageView(getString(R.string.geocache_info_activity_folder));
@@ -274,7 +278,6 @@ public class ShowGeoCacheInfo extends Activity implements OnCheckedChangeListene
     public boolean onPrepareOptionsMenu(Menu menu) {
 
         if (cbAddDelCache.isChecked()) {
-
             menu.getItem(1).setTitle(R.string.menu_show_web_delete_cache);
         } else {
             menu.getItem(1).setTitle(R.string.menu_show_web_add_cache);
@@ -284,34 +287,32 @@ public class ShowGeoCacheInfo extends Activity implements OnCheckedChangeListene
     }
 
     public void changeMenuItem(MenuItem item) {
-        if (!connectManager.isInternetConnected() && !isCacheStoredInDataBase) {
-            webView.loadData("<?xml version='1.0' encoding='utf-8'?>" + "<center>" + getString(R.string.info_geocach_not_internet_and_not_in_DB) + "</center>", "text/html", "utf-8");
-        } else {
-
-            if (!isPageNoteBook) {
-                item.setTitle(R.string.menu_show_info_cache);
-                isPageNoteBook = true;
-                htmlTextNotebookGeoCache = getHtmlString(isPageNoteBook);
-                if (htmlTextNotebookGeoCache == null)
-                    webView.loadData("<?xml version='1.0' encoding='utf-8'?>" + "<center>" + getString(R.string.notebook_geocache_not_internet_and_not_in_DB) + "</center>", "text/html", "utf-8");
-                else
-                    webView.loadDataWithBaseURL(HTTP_PDA_GEOCACHING_SU, htmlTextNotebookGeoCache, "text/html", "utf-8", "");
-
-            } else {
+        if (connectManager.isInternetConnected() || isCacheStoredInDataBase) {
+            if (isPageNoteBook) {
                 isPageNoteBook = false;
                 item.setTitle(R.string.menu_show_web_notebook_cache);
                 htmlTextGeoCache = getHtmlString(isPageNoteBook);
                 webView.loadDataWithBaseURL(HTTP_PDA_GEOCACHING_SU, htmlTextGeoCache, "text/html", "utf-8", "");
+            } else {
+                item.setTitle(R.string.menu_show_info_cache);
+                isPageNoteBook = true;
+                htmlTextNotebookGeoCache = getHtmlString(isPageNoteBook);
+                if (htmlTextNotebookGeoCache == null) {
+                    webView.loadData("<?xml version='1.0' encoding='utf-8'?>" + "<center>" + getString(R.string.notebook_geocache_not_internet_and_not_in_DB) + "</center>", "text/html", "utf-8");
+                } else {
+                    webView.loadDataWithBaseURL(HTTP_PDA_GEOCACHING_SU, htmlTextNotebookGeoCache, "text/html", "utf-8", "");
+                }
             }
-
+        } else {
+            webView.loadData("<?xml version='1.0' encoding='utf-8'?>" + "<center>" + getString(R.string.info_geocach_not_internet_and_not_in_DB) + "</center>", "text/html", "utf-8");
         }
     }
 
     private String getHtmlString(boolean isPageNoteBook) {
         String exString = "";
-        if (!isPageNoteBook)
+        if (isPageNoteBook) {
             try {
-                exString = new DownloadInfoCacheTask(dbm, isCacheStoredInDataBase, GeoCacheForShowInfo.getId(), this).execute(htmlTextGeoCache).get();
+                exString = new DownloadWebNotebookTask(dbm, isCacheStoredInDataBase, GeoCacheForShowInfo.getId(), this).execute(htmlTextNotebookGeoCache).get();
             } catch (InterruptedException e) {
                 // TODO Auto-generated catch block
                 e.printStackTrace();
@@ -319,9 +320,9 @@ public class ShowGeoCacheInfo extends Activity implements OnCheckedChangeListene
                 // TODO Auto-generated catch block
                 e.printStackTrace();
             }
-        else {
+        } else {
             try {
-                exString = new DownloadWebNotebookTask(dbm, isCacheStoredInDataBase, GeoCacheForShowInfo.getId(), this).execute(htmlTextNotebookGeoCache).get();
+                exString = new DownloadInfoCacheTask(dbm, isCacheStoredInDataBase, GeoCacheForShowInfo.getId(), this).execute(htmlTextGeoCache).get();
             } catch (InterruptedException e) {
                 // TODO Auto-generated catch block
                 e.printStackTrace();
