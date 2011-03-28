@@ -2,6 +2,9 @@ package su.geocaching.android.ui.geocachemap;
 
 import android.app.Activity;
 import android.graphics.drawable.Drawable;
+import android.view.GestureDetector;
+import android.view.MotionEvent;
+
 import com.google.android.maps.ItemizedOverlay;
 import com.google.android.maps.MapView;
 import com.google.android.maps.OverlayItem;
@@ -20,15 +23,27 @@ public class SearchCacheOverlay extends ItemizedOverlay<OverlayItem> {
 
     private List<GeoCacheOverlayItem> items;
     private Activity activity;
+    private final GestureDetector gestureDetector;
 
-    public SearchCacheOverlay(Drawable defaultMarker, Activity context) {
+    public SearchCacheOverlay(Drawable defaultMarker, Activity context, final MapView map) {
         super(defaultMarker);
 
         items = Collections.synchronizedList(new LinkedList<GeoCacheOverlayItem>());
         this.activity = context;
         populate();
+        gestureDetector = new GestureDetector(context, new GestureDetector.SimpleOnGestureListener() {
+            public boolean onDoubleTap(MotionEvent e) {
+                map.getController().zoomIn();
+                return true;
+            }
+        });
     }
 
+    @Override
+    public boolean onTouchEvent(MotionEvent event, MapView map) {
+        return gestureDetector.onTouchEvent(event);
+    }
+    
     public synchronized void addOverlayItem(GeoCacheOverlayItem overlay) {
         if (!contains(overlay.getGeoCache())) {
             items.add(overlay);
