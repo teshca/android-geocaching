@@ -16,6 +16,7 @@ public class CheckpointManager {
 
     private List<GeoCache> checkpoints;
     private int checkpointNumber = 1;
+    private int cacheId;
 
     private DbManager dbm;
     private Controller controller;
@@ -28,12 +29,20 @@ public class CheckpointManager {
 
     public CheckpointManager(int id) {
         this();
+        cacheId = id;
         checkpoints = dbm.getCheckpointsArrayById(id);
         for (GeoCache checkpoint : checkpoints) {
             if (checkpoint.getId() > checkpointNumber) {
                 checkpointNumber = checkpoint.getId();
             }
         }
+    }
+
+    /**
+     * @return the cacheId
+     */
+    public int getCacheId() {
+        return cacheId;
     }
 
     /**
