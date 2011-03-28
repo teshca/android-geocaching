@@ -33,6 +33,7 @@ public class StandardCompassDrawing extends CompassDrawingHelper {
         int size = Math.min(h, w);
         center = size / 2;
         needleWidth = size / 30;
+        textPaint.setStrokeWidth((float) size / 300);
         roseBitmap = Bitmap.createScaledBitmap(roseBitmap, size, size, true);
         needleBitmap = createNeedle();
         arrowBitmap = createCacheArrow();
@@ -110,10 +111,10 @@ public class StandardCompassDrawing extends CompassDrawingHelper {
         paint.setStrokeWidth(1);
 
         float top = center * 0.85f;
-        canvas.translate(10, center);
-        arrowPath.moveTo(-10, 0);
+        canvas.translate(needleWidth * 1.5f, center);
+        arrowPath.moveTo(-needleWidth, 0);
         arrowPath.lineTo(0, -top);
-        arrowPath.lineTo(10, 0);
+        arrowPath.lineTo(needleWidth, 0);
         arrowPath.close();
 
         paint.setARGB(200, 60, 200, 90);
