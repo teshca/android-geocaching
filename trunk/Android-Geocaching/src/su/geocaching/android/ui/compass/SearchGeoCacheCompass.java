@@ -1,5 +1,6 @@
 package su.geocaching.android.ui.compass;
 
+import su.geocaching.android.controller.CheckpointManager;
 import su.geocaching.android.controller.Controller;
 import su.geocaching.android.controller.GeoCacheLocationManager;
 import su.geocaching.android.controller.GpsStatusManager;
@@ -12,6 +13,7 @@ import su.geocaching.android.controller.compass.CompassPreferenceManager;
 import su.geocaching.android.controller.compass.CompassSpeed;
 import su.geocaching.android.controller.compass.SmoothCompassThread;
 import su.geocaching.android.model.datatype.GeoCache;
+import su.geocaching.android.ui.CheckpointsFolder;
 import su.geocaching.android.ui.R;
 import su.geocaching.android.utils.GpsHelper;
 import android.app.Activity;
@@ -45,6 +47,7 @@ public class SearchGeoCacheCompass extends Activity {
     private LocationListener locationListener;
     private GpsStatusManager gpsManager;
     private GpsStatusListener gpsListener;
+    private CheckpointManager checkpointManager;
 
     private CompassView compassView;
     private TextView statusText, targetCoordinates, currentCoordinates;
@@ -84,6 +87,7 @@ public class SearchGeoCacheCompass extends Activity {
     protected void onResume() {
         super.onResume();
         LogManager.d(TAG, "onResume");
+        checkpointManager = controller.getCheckpointManager(controller.getPreferencesManager().getLastSearchedGeoCache().getId());
         compassView.setKeepScreenOn(Controller.getInstance().getPreferencesManager().getKeepScreenOnPreference());
         targetCoordinates.setText(GpsHelper.coordinateToString(controller.getSearchingGeoCache().getLocationGeoPoint()));
         if (locationManager.hasLocation()) {
@@ -202,22 +206,20 @@ public class SearchGeoCacheCompass extends Activity {
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
 
-        // switch (requestCode) {
-        // case UiHelper.CHECKPOINT_FOLDER_REQUEST:
-        // if (resultCode == RESULT_OK && data != null) {
-        // int id = data.getIntExtra(CheckpointsFolder.CACHE_ID, 0);
-        // int action = data.getIntExtra(CheckpointsFolder.ACTION_KEY, 0);
-        // if (action == 1) {
-        // // checkpointCacheOverlay.setActiveItemById(id);
-        // }
-        // if (action == 2) {
-        // // checkpointCacheOverlay.removeOverlayItemById(id);
-        // }
-        //
-        // // map.invalidate();
-        // }
-        // break;
-        // }
+         switch (requestCode) {
+             case UiHelper.CHECKPOINT_FOLDER_REQUEST:
+                 if (resultCode == RESULT_OK && data != null) {
+                     int id = data.getIntExtra(CheckpointsFolder.CACHE_ID, 0);
+                     int action = data.getIntExtra(CheckpointsFolder.ACTION_KEY, 0);
+                     if (action == 1) {
+                         checkpointManager.setActiveItemById(id);
+                     }
+                     if (action == 2) {
+                         checkpointManager.removeCheckpoint(id);
+                     }
+                 }
+                 break;
+         }       
     }
 
     private void onBestProviderUnavailable() {

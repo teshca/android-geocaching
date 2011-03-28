@@ -5,7 +5,7 @@
           android:title="@string/menu_default_zoom"/>
     <item android:id="@+id/menuStartCompass" android:icon="@drawable/ic_menu_compass"
           android:title="@string/menu_start_compass"/>
-    <item android:id="@+id/stepByStep" android:title="@string/add_stepbystep"
+    <item android:id="@+id/stepByStep" android:title="@string/checkpoints"
           android:icon="@drawable/ic_menu_checkpoint"/>
     <item android:id="@+id/driving_directions" android:title="@string/driving_directions" android:icon="@drawable/ic_menu_directions"/>
 </menu>

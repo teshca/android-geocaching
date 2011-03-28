@@ -1,6 +1,10 @@
 package su.geocaching.android.ui;
 
+import su.geocaching.android.controller.CheckpointManager;
+import su.geocaching.android.controller.Controller;
 import su.geocaching.android.controller.LogManager;
+import su.geocaching.android.controller.UiHelper;
+import su.geocaching.android.ui.searchgeocache.stepbystep.StepByStepTabActivity;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -71,8 +75,23 @@ public class CheckpointsFolder extends AbstractCacheFolder implements OnItemClic
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        // UiHelper.
+        UiHelper.startStepByStepForResult(this, Controller.getInstance().getPreferencesManager().getLastSearchedGeoCache());
         return true;
+    }
+
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+
+        CheckpointManager checkpointManager = Controller.getInstance().getCheckpointManager(cacheid);
+        switch (requestCode) {
+            case UiHelper.STEP_BY_STEP_REQUEST:
+                if (resultCode == RESULT_OK && data != null) {
+                    int latitude = data.getIntExtra(StepByStepTabActivity.LATITUDE, 0);
+                    int longitude = data.getIntExtra(StepByStepTabActivity.LONGITUDE, 0);
+                    checkpointManager.addCheckpoint(latitude, longitude);
+                }
+                break;
+        }
     }
 
     @Override
