@@ -38,7 +38,6 @@ public class StandardCompassDrawing extends CompassDrawingHelper {
         needleBitmap = createNeedle();
         arrowBitmap = createCacheArrow();
         textPaint.setTextSize(center * 0.2f);
-
     }
 
     @Override
