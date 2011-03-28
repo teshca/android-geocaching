@@ -10,11 +10,12 @@ import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.List;
 
 /**
  * This class manage classes (named subscribers) which want to get messages about InternetConnectionState
- *
+ * 
  * @author Grigory Kalabin. grigory.kalabin@gmail.com
  * @since December 2010
  */
@@ -22,6 +23,8 @@ public class ConnectionManager {
     private static final String TAG = ConnectionManager.class.getCanonicalName();
 
     private static final String PING_URL = "http://pda.geocaching.su";
+    private static final int PING_URL_TIMEOUT = 3000; // timeout for checking reachable of PING_URL
+    private static final int SEND_MESSAGE_MIN_INTERVAL = 1000; // sending message rarely than this interval in milliseconds
 
     private List<IInternetAware> subscribers;
     private ConnectivityManager connectivityManager;
@@ -29,13 +32,16 @@ public class ConnectionManager {
     private IntentFilter intentFilter;
     private Context context;
     private URL pingUrl;
+    private long lastMessageTime;
 
     /**
-     * @param context //TODO describe it
+     * @param context
+     *            which can give ConnectivityManager
      */
     public ConnectionManager(Context context) {
         this.connectivityManager = (ConnectivityManager) context.getSystemService(Context.CONNECTIVITY_SERVICE);
         this.context = context;
+        lastMessageTime = -1;
         subscribers = new ArrayList<IInternetAware>();
         receiver = new ConnectionStateReceiver();
         intentFilter = new IntentFilter();
@@ -50,7 +56,8 @@ public class ConnectionManager {
     }
 
     /**
-     * @param activity which will be added
+     * @param activity
+     *            which will be added
      */
     public void addSubscriber(IInternetAware activity) {
         if (subscribers.contains(activity)) {
@@ -65,7 +72,8 @@ public class ConnectionManager {
     }
 
     /**
-     * @param activity which will be removed
+     * @param activity
+     *            which will be removed
      * @return true if that activity has been contain in list of subscribers
      */
     public boolean removeSubscriber(IInternetAware activity) {
@@ -85,6 +93,11 @@ public class ConnectionManager {
      * Send messages to all activities when internet has been found
      */
     public void onInternetFound() {
+        if (Calendar.getInstance().getTimeInMillis() - lastMessageTime < SEND_MESSAGE_MIN_INTERVAL) {
+            LogManager.d(TAG, "get very often message about connection. Message haven't send");
+            return;
+        }
+        lastMessageTime = Calendar.getInstance().getTimeInMillis();
         LogManager.d(TAG, "internet found. Send msg to " + Integer.toString(subscribers.size()) + " subscribers");
         for (IInternetAware subscriber : subscribers) {
             subscriber.onInternetFound();
@@ -95,6 +108,11 @@ public class ConnectionManager {
      * Send messages to all activities when internet has been lost
      */
     public void onInternetLost() {
+        if (Calendar.getInstance().getTimeInMillis() - lastMessageTime < SEND_MESSAGE_MIN_INTERVAL) {
+            LogManager.d(TAG, "get very often message about connection. Message haven't send");
+            return;
+        }
+        lastMessageTime = Calendar.getInstance().getTimeInMillis();
         LogManager.d(TAG, "internet lost. Send msg to " + Integer.toString(subscribers.size()) + " subscribers");
         for (IInternetAware subscriber : subscribers) {
             subscriber.onInternetLost();
@@ -113,6 +131,8 @@ public class ConnectionManager {
         HttpURLConnection connection = null;
         try {
             connection = (HttpURLConnection) pingUrl.openConnection();
+            connection.setConnectTimeout(PING_URL_TIMEOUT);
+            connection.setReadTimeout(PING_URL_TIMEOUT);
             if (connection.getResponseCode() != HttpURLConnection.HTTP_OK) {
                 isConnected = false;
                 LogManager.d(TAG, "Check connection: not reachable (" + PING_URL + ") Response: " + connection.getResponseCode());
