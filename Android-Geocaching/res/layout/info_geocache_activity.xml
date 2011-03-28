@@ -10,11 +10,11 @@
 		<View style="@style/TitleBarSpring" />
 		<CheckBox android:id="@+id/info_geocache_add_del"
 			android:layout_width="wrap_content" android:layout_height="fill_parent"
-			style="?android:attr/starStyle" android:layout_marginRight="12dip" />
+			style="?android:attr/starStyle" android:layout_marginRight="15dip"/>
 		<ImageView android:id="@+id/info_geocach_Go_button"
 			android:src="@drawable/icon_search" android:layout_width="wrap_content"
 			android:layout_height="fill_parent" android:layout_gravity="center"
-			android:padding="5dip" android:scaleType="center" />
+			android:scaleType="center" android:padding="8dip"/>
 	</LinearLayout>
 
 	<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
