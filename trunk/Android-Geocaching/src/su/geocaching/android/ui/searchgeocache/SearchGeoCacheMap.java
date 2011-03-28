@@ -121,6 +121,7 @@ public class SearchGeoCacheMap extends MapActivity implements IInternetAware, IL
 
         mController = Controller.getInstance();
         mController.setSearchingGeoCache(geoCache);
+        mController.getPreferencesManager().setLastSearchedGeoCache(mController.getSearchingGeoCache());
 
         internetManager = mController.getConnectionManager();
         mLocationManager = mController.getLocationManager();
@@ -176,11 +177,6 @@ public class SearchGeoCacheMap extends MapActivity implements IInternetAware, IL
     protected void onResume() {
         super.onResume();
         LogManager.d(TAG, "on resume");
-
-        // Save last searched geocache
-        if (mController.getSearchingGeoCache().getType() != GeoCacheType.CHECKPOINT) {
-            Controller.getInstance().getPreferencesManager().setLastSearchedGeoCache(mController.getSearchingGeoCache());
-        }
 
         if (checkpointCacheOverlay.size() == 0) {
             checkpointManager = mController.getCheckpointManager(mController.getPreferencesManager().getLastSearchedGeoCache().getId());
@@ -522,12 +518,14 @@ public class SearchGeoCacheMap extends MapActivity implements IInternetAware, IL
         updateStatus(status, StatusType.GPS);
     }
 
-    /* (non-Javadoc)
+    /*
+     * (non-Javadoc)
+     * 
      * @see su.geocaching.android.controller.ILocationAware#onStatusChanged(java.lang.String, int, android.os.Bundle)
      */
     @Override
     public void onStatusChanged(String provider, int status, Bundle extras) {
-        //it is only write message to log and call onBestProviderUnavailable when gps out_of_service
+        // it is only write message to log and call onBestProviderUnavailable when gps out_of_service
         LogManager.d(TAG, "onStatusChanged:");
         String statusString = "Location fixed: " + Boolean.toString(mLocationManager.hasLocation()) + ". Provider: " + provider + ". ";
         LogManager.d(TAG, "     " + statusString);
