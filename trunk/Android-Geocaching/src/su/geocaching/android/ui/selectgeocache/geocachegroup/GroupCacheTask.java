@@ -32,8 +32,10 @@ public class GroupCacheTask extends AsyncTask<Void, Integer, List<GeoCacheOverla
 
     @Override
     protected void onPostExecute(List<GeoCacheOverlayItem> items) {
-        LogManager.d(TAG, "start add OItems, items = " + items.size());
-        map.addOverlayItemList(items);
-        LogManager.d(TAG, "finish add OItems");
+        if (!isCancelled()) {
+            LogManager.d(TAG, "start add OItems, items = " + items.size());
+            map.addOverlayItemList(items);
+            LogManager.d(TAG, "finish add OItems");
+        }
     }
 }
