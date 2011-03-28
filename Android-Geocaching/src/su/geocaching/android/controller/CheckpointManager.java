@@ -15,7 +15,7 @@ import com.google.android.maps.GeoPoint;
 public class CheckpointManager {
 
     private List<GeoCache> checkpoints;
-    private int checkpointNumber = 1;
+    private int checkpointNumber = 0;
     private int cacheId;
 
     private DbManager dbm;
@@ -52,12 +52,13 @@ public class CheckpointManager {
      */
     public GeoCacheOverlayItem addCheckpoint(int latitudeE6, int longitudeE6) {
         deactivateCheckpoints();
+        checkpointNumber++;
         GeoCache gc = new GeoCache();
         gc.setName(String.format("%s %d", controller.getResourceManager().getString(R.string.checkpoint_dialog_title), checkpointNumber));
         gc.setLocationGeoPoint(new GeoPoint(latitudeE6, longitudeE6));
         gc.setType(GeoCacheType.CHECKPOINT);
         gc.setStatus(GeoCacheStatus.ACTIVE_CHECKPOINT);
-        gc.setId(checkpointNumber++);
+        gc.setId(checkpointNumber);
         checkpoints.add(gc);
 
         dbm.addCheckpointGeoCache(gc, controller.getPreferencesManager().getLastSearchedGeoCache().getId());

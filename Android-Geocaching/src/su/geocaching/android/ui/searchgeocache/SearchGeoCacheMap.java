@@ -181,8 +181,8 @@ public class SearchGeoCacheMap extends MapActivity implements IInternetAware, IL
         if (checkpointCacheOverlay.size() == 0) {
             checkpointManager = mController.getCheckpointManager(mController.getPreferencesManager().getLastSearchedGeoCache().getId());
 
-            for (GeoCache item : checkpointManager.getCheckpoints()) {
-                checkpointCacheOverlay.addOverlayItem(new GeoCacheOverlayItem(item, "", ""));
+            for (GeoCache checkpoint : checkpointManager.getCheckpoints()) {
+                checkpointCacheOverlay.addOverlayItem(new GeoCacheOverlayItem(checkpoint, "", ""));
             }
         }
 
