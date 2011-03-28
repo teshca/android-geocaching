@@ -139,7 +139,6 @@ public class SearchGeoCacheMap extends MapActivity implements IInternetAware, IL
         gc.setType(GeoCacheType.CHECKPOINT);
         cacheMarker = Controller.getInstance().getResourceManager().getMarker(gc);
 
-        // dbm = Controller.getInstance().getDbManager();
         checkpointManager = mController.getCheckpointManager(geoCache.getId());
         checkpointCacheOverlay = new CheckpointCacheOverlay(cacheMarker, this, map);
         for (GeoCache checkpoint : checkpointManager.getCheckpoints()) {
@@ -177,7 +176,7 @@ public class SearchGeoCacheMap extends MapActivity implements IInternetAware, IL
     protected void onResume() {
         super.onResume();
         LogManager.d(TAG, "on resume");
-        
+
         // Save last searched geocache
         if (mController.getSearchingGeoCache().getType() != GeoCacheType.CHECKPOINT) {
             Controller.getInstance().getPreferencesManager().setLastSearchedGeoCache(mController.getSearchingGeoCache());
@@ -185,7 +184,7 @@ public class SearchGeoCacheMap extends MapActivity implements IInternetAware, IL
 
         if (checkpointCacheOverlay.size() == 0) {
             checkpointManager = mController.getCheckpointManager(mController.getPreferencesManager().getLastSearchedGeoCache().getId());
-          
+
             for (GeoCache item : checkpointManager.getCheckpoints()) {
                 checkpointCacheOverlay.addOverlayItem(new GeoCacheOverlayItem(item, "", ""));
             }
@@ -207,8 +206,6 @@ public class SearchGeoCacheMap extends MapActivity implements IInternetAware, IL
                 this.finish();
                 return;
             }
-
-          
 
             if (!mLocationManager.hasLocation()) {
                 onBestProviderUnavailable();
@@ -492,9 +489,11 @@ public class SearchGeoCacheMap extends MapActivity implements IInternetAware, IL
      */
     @Override
     public void onInternetFound() {
-        // TODO: do smthng?
     }
 
+    /**
+     * Show progressbar and send message when location updates from provider unavailable
+     */
     public void onBestProviderUnavailable() {
         if (progressBarView.getVisibility() == View.GONE) {
             progressBarView.setVisibility(View.VISIBLE);
@@ -523,9 +522,12 @@ public class SearchGeoCacheMap extends MapActivity implements IInternetAware, IL
         updateStatus(status, StatusType.GPS);
     }
 
+    /* (non-Javadoc)
+     * @see su.geocaching.android.controller.ILocationAware#onStatusChanged(java.lang.String, int, android.os.Bundle)
+     */
     @Override
     public void onStatusChanged(String provider, int status, Bundle extras) {
-        // TODO: send code of event to activity
+        //it is only write message to log and call onBestProviderUnavailable when gps out_of_service
         LogManager.d(TAG, "onStatusChanged:");
         String statusString = "Location fixed: " + Boolean.toString(mLocationManager.hasLocation()) + ". Provider: " + provider + ". ";
         LogManager.d(TAG, "     " + statusString);
@@ -573,7 +575,6 @@ public class SearchGeoCacheMap extends MapActivity implements IInternetAware, IL
         LogManager.d(TAG, "onProviderDisabled");
         if (!mLocationManager.isBestProviderEnabled()) {
             LogManager.d(TAG, "onStatusChanged: best provider (" + mLocationManager.getBestProvider() + ") disabled. Ask turn on.");
-            onBestProviderUnavailable();
             UiHelper.askTurnOnGps(this);
         }
     }

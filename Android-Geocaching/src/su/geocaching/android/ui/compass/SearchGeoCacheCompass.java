@@ -260,6 +260,7 @@ public class SearchGeoCacheCompass extends Activity {
             if (progressBarView.getVisibility() == View.VISIBLE) {
                 progressBarView.setVisibility(View.GONE);
             }
+            statusText.setText(GpsHelper.distanceToString(GpsHelper.getDistanceBetween(Controller.getInstance().getSearchingGeoCache().getLocationGeoPoint(), location)));
             if (GpsHelper.getDistanceBetween(location, Controller.getInstance().getSearchingGeoCache().getLocationGeoPoint()) < CLOSE_DISTANCE_TO_GC_VALUE) {
                 // TODO: may be need make special preference?
                 Controller.getInstance().getLocationManager().updateFrequency(GpsUpdateFrequency.MAXIMAL);
@@ -271,21 +272,38 @@ public class SearchGeoCacheCompass extends Activity {
             compassView.setDistance(GpsHelper.getDistanceBetween(location, controller.getSearchingGeoCache().getLocationGeoPoint()));
         }
 
+        /*
+         * (non-Javadoc)
+         * 
+         * @see su.geocaching.android.controller.ILocationAware#onStatusChanged(java.lang.String, int, android.os.Bundle)
+         */
         @Override
         public void onStatusChanged(String provider, int status, Bundle extras) {
+            // it is only write message to log and call onBestProviderUnavailable when gps out_of_service
             LogManager.d(TAG, "onStatusChanged:");
+            String statusString = "Location fixed: " + Boolean.toString(Controller.getInstance().getLocationManager().hasLocation()) + ". Provider: " + provider + ". ";
+            LogManager.d(TAG, "     " + statusString);
             switch (status) {
+
                 case LocationProvider.OUT_OF_SERVICE:
+                    statusString += "Status: out of service. ";
                     onBestProviderUnavailable();
+                    LogManager.d(TAG, "     Status: out of service.");
                     break;
                 case LocationProvider.TEMPORARILY_UNAVAILABLE:
-                    onBestProviderUnavailable();
+                    statusString += "Status: temporarily unavailable. ";
+                    // TODO: check when it happens. i'm almost sure that it call then gps 'go to sleep'(power saving)
+                    // onBestProviderUnavailable();
+                    LogManager.d(TAG, "     Status: temporarily unavailable.");
                     break;
                 case LocationProvider.AVAILABLE:
+                    statusString += "Status: available. ";
+                    LogManager.d(TAG, "     Status: available.");
                     break;
             }
             if (provider.equals(LocationManager.GPS_PROVIDER)) {
-
+                statusString += "Satellites: " + Integer.toString(extras.getInt("satellites"));
+                LogManager.d(TAG, "     Satellites: " + Integer.toString(extras.getInt("satellites")));
             }
         }
 
@@ -313,7 +331,9 @@ public class SearchGeoCacheCompass extends Activity {
         public void updateStatus(String status) {
             compassView.setLocationFix(locationManager.hasLocation());
 
-            statusText.setText(status);
+            if (!locationManager.hasLocation()) {
+                statusText.setText(status);
+            }
         }
 
     }
