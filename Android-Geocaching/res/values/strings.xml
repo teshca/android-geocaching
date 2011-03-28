@@ -108,14 +108,11 @@
 	<string name="application_version">Геокэшинг версия</string>
 	<string name="dislocation">"Ваше местоположение не определено. Повторите
 		попытку позже."</string>
-	<string name="add_stepbystep">Крнтрольные точки</string>
+	<string name="checkpoints">Крнтрольные точки</string>
 	<string name="latitude">Широта :</string>
 	<string name="longitude">Долгота :</string>
 	<string name="geographical_coordinates">Географические координаты</string>
-	<string name="enter">Добавить точку</string>
-	<string name="sexagesimal">Шестидесятеричный</string>
-	<string name="decimal">Десятичный</string>
-	<string name="on_azimuth">По азимуту</string>
+	<string name="add_checkpoint">Добавить точку</string>
 	<string name="error_stepbystep_input">Неверный формат введенных данных</string>
 	<string name="azimuth">Азимут:</string>
 	<string name="distance">Расстояние:</string>

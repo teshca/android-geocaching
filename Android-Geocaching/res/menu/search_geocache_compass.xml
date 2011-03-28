@@ -3,7 +3,7 @@
 		android:title="@string/menu_geocache_info" />
 	<item android:id="@+id/menuStartMap" android:icon="@drawable/ic_menu_mapmode"
 		android:title="@string/menu_start_map" />
-	<item android:id="@+id/stepByStep" android:title="@string/add_stepbystep"
+	<item android:id="@+id/stepByStep" android:title="@string/checkpoints"
 		android:icon="@drawable/ic_menu_checkpoint" />
 	<item android:id="@+id/compassSettings" android:titleCondensed="@string/compass_settings"
 		android:icon="@drawable/ic_menu_settings" />

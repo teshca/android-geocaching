@@ -51,7 +51,7 @@
                   android:textSize="@dimen/text_size_big" android:layout_height="wrap_content"/>
     </LinearLayout>
 
-    <Button android:text="@string/enter" android:id="@+id/EnterButton"
+    <Button android:text="@string/add_checkpoint" android:id="@+id/EnterButton"
             android:textSize="@dimen/text_size_big" android:layout_width="wrap_content"
             android:layout_height="wrap_content" android:onClick="onEnterClick"/>
 </LinearLayout>
