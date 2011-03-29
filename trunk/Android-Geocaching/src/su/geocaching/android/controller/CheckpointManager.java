@@ -75,7 +75,7 @@ public class CheckpointManager {
         }
     }
 
-    public void removeCheckpointByIndex(int index) {
+    private void removeCheckpointByIndex(int index) {
         GeoCache gc = checkpoints.get(index);
         if (gc.getStatus() == GeoCacheStatus.ACTIVE_CHECKPOINT) {
             controller.setSearchingGeoCache(controller.getPreferencesManager().getLastSearchedGeoCache());
@@ -92,8 +92,8 @@ public class CheckpointManager {
         return index;
     }
 
-    public GeoCache getGeoCache(int index) {
-        return checkpoints.get(index);
+    public GeoCache getGeoCache(int id) {
+        return checkpoints.get(findItemById(id));
     }
 
     /**
@@ -114,7 +114,8 @@ public class CheckpointManager {
      * @param activeItem
      *            the activeItem to set
      */
-    public void setActiveItem(int activeItem) {
+    public void setActiveItem(int id) {
+        int activeItem = findItemById(id);
         deactivateCheckpoints();
         checkpoints.get(activeItem).setStatus(GeoCacheStatus.ACTIVE_CHECKPOINT);
         controller.setSearchingGeoCache(checkpoints.get(activeItem));

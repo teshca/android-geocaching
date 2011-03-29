@@ -29,8 +29,10 @@ public class Controller {
     private ResourceManager resourceManager;
     private PreferencesManager preferencesManager;
     private DbManager dbManager;
-    // private CheckpointManager checkpointManager;
+    private CheckpointManager checkpointManager;
     private GeoCache searchingGeoCache;
+
+   
 
     private Controller() {
         apiManager = new ApiManager();
@@ -227,10 +229,10 @@ public class Controller {
      * @return the checkpointManager
      */
     public CheckpointManager getCheckpointManager(int id) {
-        // if (checkpointManager == null || checkpointManager.getCacheId() != id) {
-        // LogManager.d(TAG, "checkpoint manager wasn't init yet. init");
-        // checkpointManager = new CheckpointManager(id);
-        // }
+        if (checkpointManager == null || checkpointManager.getCacheId() != id) {
+            LogManager.d(TAG, "checkpoint manager wasn't init yet. init");
+            checkpointManager = new CheckpointManager(id);
+        }
         return new CheckpointManager(id);
     }
 

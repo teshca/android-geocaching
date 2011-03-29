@@ -1,16 +1,16 @@
 package su.geocaching.android.ui.searchgeocache.stepbystep;
 
+import su.geocaching.android.controller.Controller;
+import su.geocaching.android.controller.LogManager;
+import su.geocaching.android.model.datatype.GeoCache;
+import su.geocaching.android.ui.R;
+import su.geocaching.android.utils.GpsHelper;
 import android.app.Activity;
-import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.TextView.BufferType;
 import android.widget.Toast;
-import su.geocaching.android.controller.LogManager;
-import su.geocaching.android.model.datatype.GeoCache;
-import su.geocaching.android.ui.R;
-import su.geocaching.android.utils.GpsHelper;
 
 public class SexagesimalInputActivity extends Activity {
 
@@ -46,17 +46,14 @@ public class SexagesimalInputActivity extends Activity {
 
     }
 
-    // TODO
+
     public void onEnterClick(View v) {
         try {
             int latitudeE6 = GpsHelper.sexagesimalToCoordinateE6(Integer.parseInt(latDegrees.getText().toString()), Integer.parseInt(latMinutes.getText().toString()),
                     Integer.parseInt(latmMinutes.getText().toString()));
             int longitudeE6 = GpsHelper.sexagesimalToCoordinateE6(Integer.parseInt(lngDegrees.getText().toString()), Integer.parseInt(lngMinutes.getText().toString()),
                     Integer.parseInt(lngmMinutes.getText().toString()));
-            Intent intent = new Intent();
-            intent.putExtra(StepByStepTabActivity.LATITUDE, latitudeE6);
-            intent.putExtra(StepByStepTabActivity.LONGITUDE, longitudeE6);
-            getParent().setResult(RESULT_OK, intent);
+            Controller.getInstance().getCheckpointManager(Controller.getInstance().getPreferencesManager().getLastSearchedGeoCache().getId()).addCheckpoint(latitudeE6, longitudeE6);
         } catch (Exception e) {
             LogManager.e(TAG, e.getMessage(), e);
             Toast.makeText(this, getString(R.string.error_stepbystep_input), Toast.LENGTH_SHORT).show();
