@@ -23,15 +23,15 @@ public class CheckpointDialog extends Activity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.checkpoint_dialog);      
+        setContentView(R.layout.checkpoint_dialog);
 
-        coordinates = (TextView) findViewById(R.id.checkpointCoordinate);       
+        coordinates = (TextView) findViewById(R.id.checkpointCoordinate);
         active = (Button) findViewById(R.id.checkpointActiveButton);
         delete = (Button) findViewById(R.id.checkpointDeleteButton);
         ButtonClickListener clickListener = new ButtonClickListener();
         active.setOnClickListener(clickListener);
         delete.setOnClickListener(clickListener);
-        
+
         Intent intent = getIntent();
         checkpointId = intent.getIntExtra(UiHelper.CACHE_ID, 0);
         checkpointManager = Controller.getInstance().getCheckpointManager(Controller.getInstance().getPreferencesManager().getLastSearchedGeoCache().getId());
@@ -45,9 +45,9 @@ public class CheckpointDialog extends Activity {
             if (v.equals(active)) {
                 checkpointManager.setActiveItem(checkpointId);
             } else if (v.equals(delete)) {
-                checkpointManager.removeCheckpoint(checkpointId);           
-            }          
-          finish();
+                checkpointManager.removeCheckpoint(checkpointId);
+            }
+            finish();
         }
     }
 }

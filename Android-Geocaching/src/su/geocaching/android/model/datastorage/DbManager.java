@@ -222,6 +222,12 @@ public class DbManager extends SQLiteOpenHelper {
         closeDB();
     }
 
+    public void deleteCheckpointCache(int id) {
+        openDB();
+        db.execSQL(String.format("DELETE FROM %s WHERE %s=%d;", DATABASE_CHECKPOINT_NAME_TABLE, CACHE_ID, id));
+        closeDB();
+    }
+
     /**
      * @param cacheId
      *            id of Searching GeoCache
@@ -329,4 +335,5 @@ public class DbManager extends SQLiteOpenHelper {
         LogManager.d(TAG, "closeDB");
         db.close();
     }
+
 }

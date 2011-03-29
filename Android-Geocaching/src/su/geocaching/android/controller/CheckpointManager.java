@@ -148,4 +148,9 @@ public class CheckpointManager {
     public List<GeoCache> getCheckpoints() {
         return checkpoints;
     }
+
+    public void clear() {
+       dbm.deleteCheckpointCache(cacheId);
+       checkpoints.clear();       
+    }
 }

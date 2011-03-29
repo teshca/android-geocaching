@@ -10,7 +10,7 @@ import su.geocaching.android.model.datatype.GeoCache;
 import su.geocaching.android.ui.CheckpointsFolder;
 import su.geocaching.android.ui.DashboardActivity;
 import su.geocaching.android.ui.R;
-import su.geocaching.android.ui.ShowGeoCacheInfo;
+import su.geocaching.android.ui.GeoCacheInfoActivity;
 import su.geocaching.android.ui.searchgeocache.SearchGeoCacheMap;
 import su.geocaching.android.ui.searchgeocache.stepbystep.CheckpointDialog;
 import su.geocaching.android.ui.searchgeocache.stepbystep.StepByStepTabActivity;
@@ -61,7 +61,7 @@ public class UiHelper {
      *            //TODO describe it
      */
     public static void showGeoCacheInfo(Context context, GeoCache geoCache) {
-        Intent intent = new Intent(context, ShowGeoCacheInfo.class);
+        Intent intent = new Intent(context, GeoCacheInfoActivity.class);
         intent.putExtra(GeoCache.class.getCanonicalName(), geoCache);
         context.startActivity(intent);
     }

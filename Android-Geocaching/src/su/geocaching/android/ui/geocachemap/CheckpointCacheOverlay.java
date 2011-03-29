@@ -69,10 +69,6 @@ public class CheckpointCacheOverlay extends ItemizedOverlay<OverlayItem> {
         return false;
     }
 
-    // public GeoCache getGeoCache(int index) {
-    // return items.get(index).getGeoCache();
-    // }
-
     @Override
     protected OverlayItem createItem(int i) {
         return items.get(i);
@@ -95,8 +91,7 @@ public class CheckpointCacheOverlay extends ItemizedOverlay<OverlayItem> {
     }
 
     @Override
-    public boolean onTap(int index) {       
-        //activity.showDialog(index); 
+    public boolean onTap(int index) {
         UiHelper.startCheckpointDialog(activity, items.get(index).getGeoCache().getId());
         return true;
     }
