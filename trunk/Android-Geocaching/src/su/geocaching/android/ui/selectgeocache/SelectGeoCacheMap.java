@@ -299,7 +299,11 @@ public class SelectGeoCacheMap extends MapActivity implements IInternetAware {
         if (hasFocus) {
             updateCacheOverlay();
         }
-        progressBarAnimation.start();
+        if (!progressBarAnimation.isRunning()) {
+            progressBarAnimation.start();
+        } else {
+            progressBarAnimation.stop();
+        }
     }
 
     public void onHomeClick(View v) {
