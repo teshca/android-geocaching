@@ -66,6 +66,7 @@
 	<string name="menu_show_info_cache">Инфо</string>
 	<string name="always_keep">сохранять всегда</string>
 	<string name="favorit_folder_In_DB_not_cache">В базе нет ни одного тайника</string>
+	<string name="checkpoint_folder_not_cache_in_db">Контрольных точек нет</string>
 	<string name="info_geocach_not_internet_and_not_in_DB">Невозможно показать информацию о тайнике, поскольку
 		тайника нет в локальной базе, а так же отсутствует соединение с
 		интернетом
@@ -121,6 +122,7 @@
 	<string name="checkpoint_dialog_title">Контрольная точка</string>
 	<string name="active">Выбрать</string>
 	<string name="delete">Удалить</string>
+	<string name="delete_all">Удалить все</string>
 	<string name="sexagestimal_template">Г°,М,МММ\'</string>
 	<string name="decimal_template">ГГ,ГГГГ°</string>
 	<string name="azimuth_template">ГГ° NNкм</string>

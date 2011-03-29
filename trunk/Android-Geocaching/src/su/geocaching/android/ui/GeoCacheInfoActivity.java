@@ -30,8 +30,8 @@ import java.util.concurrent.ExecutionException;
 /**
  * @author Alekseenko Vladimir
  */
-public class ShowGeoCacheInfo extends Activity implements OnCheckedChangeListener, OnClickListener, IInternetAware {
-    private static final String TAG = ShowGeoCacheInfo.class.getCanonicalName();
+public class GeoCacheInfoActivity extends Activity implements OnCheckedChangeListener, OnClickListener, IInternetAware {
+    private static final String TAG = GeoCacheInfoActivity.class.getCanonicalName();
     private static final String HTTP_PDA_GEOCACHING_SU = "http://pda.geocaching.su/";
     private WebView webView;
     private TextView tvNameText;
