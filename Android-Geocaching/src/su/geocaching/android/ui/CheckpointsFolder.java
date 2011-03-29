@@ -1,13 +1,8 @@
 package su.geocaching.android.ui;
 
-import su.geocaching.android.controller.CheckpointManager;
 import su.geocaching.android.controller.Controller;
 import su.geocaching.android.controller.LogManager;
 import su.geocaching.android.controller.UiHelper;
-import su.geocaching.android.ui.searchgeocache.stepbystep.StepByStepTabActivity;
-import android.app.AlertDialog;
-import android.content.DialogInterface;
-import android.content.Intent;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -26,29 +21,12 @@ public class CheckpointsFolder extends AbstractCacheFolder implements OnItemClic
     public static final String ACTION_KEY = "action";
 
     private static final String TAG = FavoritesFolder.class.getCanonicalName();
-    private final Intent intent = new Intent();
-    private AlertDialog alert;
     private int cacheid;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         cacheid = getIntent().getIntExtra(CACHE_ID, 0);
-
-        // TODO
-        AlertDialog.Builder builder = new AlertDialog.Builder(this);
-        builder.setMessage("Контрольная точка").setPositiveButton("Выбрать", new DialogInterface.OnClickListener() {
-            public void onClick(DialogInterface dialog, int id) {
-                intent.putExtra(ACTION_KEY, 1);
-                finish();
-            }
-        }).setNegativeButton("Удалить", new DialogInterface.OnClickListener() {
-            public void onClick(DialogInterface dialog, int id) {
-                intent.putExtra(ACTION_KEY, 2);
-                finish();
-            }
-        });
-        alert = builder.create();
     }
 
     @Override
@@ -75,29 +53,12 @@ public class CheckpointsFolder extends AbstractCacheFolder implements OnItemClic
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        UiHelper.startStepByStepForResult(this, Controller.getInstance().getPreferencesManager().getLastSearchedGeoCache());
+        UiHelper.startStepByStep(this, Controller.getInstance().getPreferencesManager().getLastSearchedGeoCache());
         return true;
-    }
-
-    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-        super.onActivityResult(requestCode, resultCode, data);
-
-        CheckpointManager checkpointManager = Controller.getInstance().getCheckpointManager(cacheid);
-        switch (requestCode) {
-            case UiHelper.STEP_BY_STEP_REQUEST:
-                if (resultCode == RESULT_OK && data != null) {
-                    int latitude = data.getIntExtra(StepByStepTabActivity.LATITUDE, 0);
-                    int longitude = data.getIntExtra(StepByStepTabActivity.LONGITUDE, 0);
-                    checkpointManager.addCheckpoint(latitude, longitude);
-                }
-                break;
-        }
     }
 
     @Override
     public void onItemClick(AdapterView<?> arg0, View arg1, int arg2, long arg3) {
-        alert.show();
-        intent.putExtra(CACHE_ID, favoritesList.get(arg2).getId());
-        setResult(RESULT_OK, intent);
+        UiHelper.startCheckpointDialog(this, favoritesList.get(arg2).getId());
     }
 }

@@ -25,36 +25,36 @@ public class CheckpointCacheOverlay extends ItemizedOverlay<OverlayItem> {
     private final GestureDetector gestureDetector;
 
     private final List<GeoCacheOverlayItem> items;
-    private final Activity activity;    
+    private final Activity activity;
 
     public CheckpointCacheOverlay(Drawable defaultMarker, Activity context, final MapView map) {
         super(defaultMarker);
-        
-        this.activity = context;        
+
+        this.activity = context;
         items = new LinkedList<GeoCacheOverlayItem>();
-        
+
         GestureDetector.SimpleOnGestureListener sogl = new GestureDetector.SimpleOnGestureListener() {
             public void onLongPress(MotionEvent e) {
                 GeoCache gc = new GeoCache();
                 gc.setType(GeoCacheType.CHECKPOINT);
                 gc.setLocationGeoPoint(map.getProjection().fromPixels((int) e.getX(), (int) e.getY()));
-                UiHelper.startStepByStepForResult(activity, gc);
+                UiHelper.startStepByStep(activity, gc);
             }
         };
         gestureDetector = new GestureDetector(context, sogl);
-        
+
         populate();
     }
 
     public void addOverlayItem(GeoCacheOverlayItem overlayItem) {
         if (!contains(overlayItem.getGeoCache())) {
-            items.add(overlayItem);    
+            items.add(overlayItem);
             setLastFocusedIndex(-1);
             populate();
         }
     }
 
-    public void removeOverlayItem(int index) {       
+    public void removeOverlayItem(int index) {
         items.remove(index);
         setLastFocusedIndex(-1);
         populate();
@@ -69,9 +69,9 @@ public class CheckpointCacheOverlay extends ItemizedOverlay<OverlayItem> {
         return false;
     }
 
-//    public GeoCache getGeoCache(int index) {
-//        return items.get(index).getGeoCache();
-//    }
+    // public GeoCache getGeoCache(int index) {
+    // return items.get(index).getGeoCache();
+    // }
 
     @Override
     protected OverlayItem createItem(int i) {
@@ -83,12 +83,11 @@ public class CheckpointCacheOverlay extends ItemizedOverlay<OverlayItem> {
         return items.size();
     }
 
-    //
-    // public void clear() {
-    // items.clear();
-    // setLastFocusedIndex(-1);
-    // populate();
-    // }
+    public void clear() {
+        items.clear();
+        setLastFocusedIndex(-1);
+        populate();
+    }
 
     @Override
     public void draw(android.graphics.Canvas canvas, MapView mapView, boolean shadow) {
@@ -96,8 +95,9 @@ public class CheckpointCacheOverlay extends ItemizedOverlay<OverlayItem> {
     }
 
     @Override
-    public boolean onTap(int index) {
-        activity.showDialog(index);
+    public boolean onTap(int index) {       
+        //activity.showDialog(index); 
+        UiHelper.startCheckpointDialog(activity, items.get(index).getGeoCache().getId());
         return true;
     }
 

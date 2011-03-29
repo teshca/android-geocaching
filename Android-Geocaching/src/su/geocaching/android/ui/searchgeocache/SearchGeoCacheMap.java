@@ -22,16 +22,12 @@ import su.geocaching.android.controller.compass.SmoothCompassThread;
 import su.geocaching.android.model.datatype.GeoCache;
 import su.geocaching.android.model.datatype.GeoCacheStatus;
 import su.geocaching.android.model.datatype.GeoCacheType;
-import su.geocaching.android.ui.CheckpointsFolder;
 import su.geocaching.android.ui.R;
 import su.geocaching.android.ui.compass.SearchGeoCacheCompass;
 import su.geocaching.android.ui.geocachemap.CheckpointCacheOverlay;
 import su.geocaching.android.ui.geocachemap.GeoCacheOverlayItem;
 import su.geocaching.android.ui.geocachemap.SearchCacheOverlay;
-import su.geocaching.android.ui.searchgeocache.stepbystep.CheckpointDialog;
-import su.geocaching.android.ui.searchgeocache.stepbystep.StepByStepTabActivity;
 import su.geocaching.android.utils.GpsHelper;
-import android.app.Dialog;
 import android.content.Intent;
 import android.graphics.Point;
 import android.graphics.Rect;
@@ -178,12 +174,14 @@ public class SearchGeoCacheMap extends MapActivity implements IInternetAware, IL
         super.onResume();
         LogManager.d(TAG, "on resume");
 
-        if (checkpointCacheOverlay.size() == 0) {
-            checkpointManager = mController.getCheckpointManager(mController.getPreferencesManager().getLastSearchedGeoCache().getId());
+        if (distanceOverlay != null) {
+            distanceOverlay.setCachePoint(mController.getSearchingGeoCache().getLocationGeoPoint());
+        }
 
-            for (GeoCache checkpoint : checkpointManager.getCheckpoints()) {
-                checkpointCacheOverlay.addOverlayItem(new GeoCacheOverlayItem(checkpoint, "", ""));
-            }
+        checkpointManager = mController.getCheckpointManager(mController.getPreferencesManager().getLastSearchedGeoCache().getId());
+        checkpointCacheOverlay.clear();
+        for (GeoCache checkpoint : checkpointManager.getCheckpoints()) {
+            checkpointCacheOverlay.addOverlayItem(new GeoCacheOverlayItem(checkpoint, "", ""));
         }
 
         map.setKeepScreenOn(Controller.getInstance().getPreferencesManager().getKeepScreenOnPreference());
@@ -280,11 +278,6 @@ public class SearchGeoCacheMap extends MapActivity implements IInternetAware, IL
         distanceOverlay.setUserPoint(GpsHelper.locationToGeoPoint(location));
 
         map.invalidate();
-    }
-
-    @Override
-    protected Dialog onCreateDialog(int index) {
-        return new CheckpointDialog(this, index, checkpointManager, checkpointCacheOverlay, distanceOverlay, map);
     }
 
     /*
@@ -384,7 +377,7 @@ public class SearchGeoCacheMap extends MapActivity implements IInternetAware, IL
                 onDrivingDirectionsSelected();
                 return true;
             case R.id.stepByStep:
-                UiHelper.startCheckpointsFolderForResult(this, mController.getPreferencesManager().getLastSearchedGeoCache().getId());
+                UiHelper.startCheckpointsFolder(this, mController.getPreferencesManager().getLastSearchedGeoCache().getId());
                 return true;
             default:
                 return super.onOptionsItemSelected(item);
@@ -404,42 +397,6 @@ public class SearchGeoCacheMap extends MapActivity implements IInternetAware, IL
         } else {
             Toast.makeText(getBaseContext(), getString(R.string.dislocation), Toast.LENGTH_LONG).show();
         }
-    }
-
-    // TODO
-    @Override
-    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-        super.onActivityResult(requestCode, resultCode, data);
-
-        switch (requestCode) {
-            case UiHelper.STEP_BY_STEP_REQUEST:
-                if (resultCode == RESULT_OK && data != null) {
-                    int latitude = data.getIntExtra(StepByStepTabActivity.LATITUDE, 0);
-                    int longitude = data.getIntExtra(StepByStepTabActivity.LONGITUDE, 0);
-                    checkpointCacheOverlay.addOverlayItem(checkpointManager.addCheckpoint(latitude, longitude));
-                    if (distanceOverlay != null) {
-                        distanceOverlay.setCachePoint(mController.getSearchingGeoCache().getLocationGeoPoint());
-                    }
-                    map.invalidate();
-                }
-                break;
-            case UiHelper.CHECKPOINT_FOLDER_REQUEST:
-                if (resultCode == RESULT_OK && data != null) {
-                    int id = data.getIntExtra(CheckpointsFolder.CACHE_ID, 0);
-                    int action = data.getIntExtra(CheckpointsFolder.ACTION_KEY, 0);
-                    if (action == 1) {
-                        checkpointManager.setActiveItemById(id);
-                    }
-                    if (action == 2) {
-                        checkpointCacheOverlay.removeOverlayItem(checkpointManager.removeCheckpoint(id));
-                    }
-                }
-                break;
-        }
-        if (distanceOverlay != null) {
-            distanceOverlay.setCachePoint(mController.getSearchingGeoCache().getLocationGeoPoint());
-        }
-        map.invalidate();
     }
 
     /**

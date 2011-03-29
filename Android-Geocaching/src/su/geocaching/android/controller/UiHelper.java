@@ -12,6 +12,7 @@ import su.geocaching.android.ui.DashboardActivity;
 import su.geocaching.android.ui.R;
 import su.geocaching.android.ui.ShowGeoCacheInfo;
 import su.geocaching.android.ui.searchgeocache.SearchGeoCacheMap;
+import su.geocaching.android.ui.searchgeocache.stepbystep.CheckpointDialog;
 import su.geocaching.android.ui.searchgeocache.stepbystep.StepByStepTabActivity;
 
 /**
@@ -19,8 +20,7 @@ import su.geocaching.android.ui.searchgeocache.stepbystep.StepByStepTabActivity;
  */
 public class UiHelper {
 
-    public static final int STEP_BY_STEP_REQUEST = 100;
-    public static final int CHECKPOINT_FOLDER_REQUEST = 101;
+    public static final String CACHE_ID = "cache_id";
 
     /**
      * Invoke "home" action, returning to DashBoardActivity
@@ -80,15 +80,21 @@ public class UiHelper {
         context.startActivity(intent);
     }
 
-    public static void startStepByStepForResult(Activity activity, GeoCache geoCache) {
-        Intent intent = new Intent(activity, StepByStepTabActivity.class);
+    public static void startStepByStep(Context context, GeoCache geoCache) {
+        Intent intent = new Intent(context, StepByStepTabActivity.class);
         intent.putExtra(GeoCache.class.getCanonicalName(), geoCache);
-        activity.startActivityForResult(intent, STEP_BY_STEP_REQUEST);
+        context.startActivity(intent);
     }
 
-    public static void startCheckpointsFolderForResult(Activity context, int cacheId) {
+    public static void startCheckpointsFolder(Context context, int cacheId) {
         Intent intent = new Intent(context, CheckpointsFolder.class);
         intent.putExtra(CheckpointsFolder.CACHE_ID, cacheId);
-        context.startActivityForResult(intent, CHECKPOINT_FOLDER_REQUEST);
+        context.startActivity(intent);
+    }
+
+    public static void startCheckpointDialog(Context context, int id) {
+        Intent intent = new Intent(context, CheckpointDialog.class);
+        intent.putExtra(CACHE_ID, id);
+        context.startActivity(intent);
     }
 }
