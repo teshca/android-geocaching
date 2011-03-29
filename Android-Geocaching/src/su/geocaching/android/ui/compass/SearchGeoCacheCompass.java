@@ -209,7 +209,11 @@ public class SearchGeoCacheCompass extends Activity {
     @Override
     public void onWindowFocusChanged(boolean hasFocus) {
         super.onWindowFocusChanged(hasFocus);
-        progressBarAnim.start();
+        if (!progressBarAnim.isRunning()) {
+            progressBarAnim.start();
+        } else {
+            progressBarAnim.stop();
+        }
     }
 
     public void onHomeClick(View v) {

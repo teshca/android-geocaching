@@ -462,7 +462,11 @@ public class SearchGeoCacheMap extends MapActivity implements IInternetAware, IL
      */
     public void onWindowFocusChanged(boolean hasFocus) {
         super.onWindowFocusChanged(hasFocus);
-        progressBarAnimation.start();
+        if (!progressBarAnimation.isRunning()) {
+            progressBarAnimation.start();
+        } else {
+            progressBarAnimation.stop();
+        }
     }
 
     /*
