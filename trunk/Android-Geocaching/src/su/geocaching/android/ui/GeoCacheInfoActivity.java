@@ -103,7 +103,6 @@ public class GeoCacheInfoActivity extends Activity implements OnCheckedChangeLis
         // }
         // });
     }
-    
 
     @Override
     protected void onPostCreate(Bundle savedInstanceState) {
@@ -121,7 +120,7 @@ public class GeoCacheInfoActivity extends Activity implements OnCheckedChangeLis
         super.onRestoreInstanceState(savedInstanceState);
 
         pageType = PageType.values()[savedInstanceState.getInt(PAGE_TYPE)];
-       
+
         webViewScrollY = savedInstanceState.getInt("scrollY");
         webViewScrollX = savedInstanceState.getInt("scrollX");
         // webView.scrollTo(webViewScrollX, webViewScrollY);
@@ -221,7 +220,7 @@ public class GeoCacheInfoActivity extends Activity implements OnCheckedChangeLis
 
         switch (item.getItemId()) {
             case R.id.show_web_notebook_cache:
-                changeMenuItem(item);
+                changePageType();
                 return true;
             case R.id.show_web_add_delete_cache:
                 cbFavoriteCache.setChecked(!isCacheStoredInDataBase);
@@ -236,24 +235,34 @@ public class GeoCacheInfoActivity extends Activity implements OnCheckedChangeLis
 
     @Override
     public boolean onPrepareOptionsMenu(Menu menu) {
+
+        if (pageType == PageType.INFO) {
+            menu.getItem(0).setTitle(R.string.menu_show_web_notebook_cache);
+            menu.getItem(0).setIcon(R.drawable.ic_menu_notebook);
+        } else {
+            menu.getItem(0).setTitle(R.string.menu_show_info_cache);
+            menu.getItem(0).setIcon(R.drawable.ic_menu_info_details);
+        }
+
         if (isCacheStoredInDataBase) {
             menu.getItem(1).setTitle(R.string.menu_show_web_delete_cache);
+            menu.getItem(1).setIcon(R.drawable.ic_menu_off);
         } else {
             menu.getItem(1).setTitle(R.string.menu_show_web_add_cache);
+            menu.getItem(1).setIcon(R.drawable.ic_menu_ok);
         }
+
         return super.onPrepareOptionsMenu(menu);
     }
 
-    private void changeMenuItem(MenuItem item) {
+    private void changePageType() {
 
         switch (pageType) {
             case INFO:
                 pageType = PageType.NOTEBOOK;
-                item.setTitle(R.string.menu_show_web_notebook_cache);
                 break;
             case NOTEBOOK:
                 pageType = PageType.INFO;
-                item.setTitle(R.string.menu_show_info_cache);
                 break;
         }
         loadWebView(pageType);
