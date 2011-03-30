@@ -8,9 +8,6 @@ import su.geocaching.android.ui.R;
 
 public class StepByStepTabActivity extends TabActivity {
 
-    public static final String LATITUDE = "latitude";
-    public static final String LONGITUDE = "longitude";
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);

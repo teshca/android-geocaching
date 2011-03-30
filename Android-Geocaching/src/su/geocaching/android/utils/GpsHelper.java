@@ -185,18 +185,20 @@ public class GpsHelper {
     }
 
     // TODO still not work
-    public static GeoPoint distanceBearingToGeoPoint(GeoPoint currentGeoPoint, int bearing, int distance) {
+    public static GeoPoint distanceBearingToGeoPoint(GeoPoint currentGeoPoint, float bearing, double distance) {
         double latitude = currentGeoPoint.getLatitudeE6() / 1E6;
-        double longitude = currentGeoPoint.getLatitudeE6() / 1E6;
+        double longitude = currentGeoPoint.getLongitudeE6() / 1E6;
         double radianBearing = bearing * Math.PI / 180;
-        LogManager.d("Geocaching.su", "radianBearing = " + radianBearing);
-        double distanceDivRadius = (double) distance / EARTH_RADIUS;
+
+        double distanceDivRadius = distance / EARTH_RADIUS;
 
         // Calculating goal Location
-        double goalLatitude = Math.asin(Math.sin(latitude) * Math.cos(distanceDivRadius) + Math.cos(latitude) * Math.sin(distanceDivRadius) * Math.cos(radianBearing));
-        double goalLonitude = longitude
+        double goalLatitude = latitude + Math.asin(Math.sin(latitude) * Math.cos(distanceDivRadius) + Math.cos(latitude) * Math.sin(distanceDivRadius) * Math.cos(radianBearing));
+        double goalLongitude = longitude
                 + Math.atan2(Math.sin(radianBearing) * Math.sin(distanceDivRadius) * Math.cos(latitude), Math.cos(distanceDivRadius) - Math.sin(latitude) * Math.sin(goalLatitude));
 
-        return new GeoPoint((int) (goalLatitude * 1E6), (int) (goalLonitude * 1E6));
+        LogManager.d("Geocaching.su", "goalLatitude = " + goalLatitude);
+        LogManager.d("Geocaching.su", "goalLonitude = " + goalLongitude);
+        return new GeoPoint((int) (goalLatitude * 1E6), (int) (goalLongitude * 1E6));
     }
 }
