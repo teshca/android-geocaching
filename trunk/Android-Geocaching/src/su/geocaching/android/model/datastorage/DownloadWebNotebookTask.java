@@ -25,7 +25,7 @@ public class DownloadWebNotebookTask extends AsyncTask<Void, Void, String> {
     private ProgressDialog progressDialog;
     private WebView webView;
 
-    // private int scroolX, scroolY;
+    private int scroolX, scroolY;
 
     public DownloadWebNotebookTask(Context context, int cacheId, int scroolX, int scroolY, WebView webView) {
         Controller controller = Controller.getInstance();
@@ -33,6 +33,8 @@ public class DownloadWebNotebookTask extends AsyncTask<Void, Void, String> {
         isCacheStoredInDataBase = dbManager.isCacheStored(cacheId);
 
         this.cacheId = cacheId;
+        this.scroolX = scroolX;
+        this.scroolY = scroolY;
         this.context = context;
         this.webView = webView;
     }
@@ -50,7 +52,7 @@ public class DownloadWebNotebookTask extends AsyncTask<Void, Void, String> {
     @Override
     protected String doInBackground(Void... params) {
         String result = null;
-      
+
         if (isCacheStoredInDataBase) {
             result = dbManager.getWebNotebookTextById(cacheId);
         }
@@ -91,6 +93,13 @@ public class DownloadWebNotebookTask extends AsyncTask<Void, Void, String> {
         LogManager.d(TAG, "TestTime onPreExecute - Stop");
         if (webView != null) {
             webView.loadDataWithBaseURL(GeoCacheInfoActivity.HTTP_PDA_GEOCACHING_SU, result, "text/html", GeoCacheInfoActivity.HTML_ENCODING, null);
+            webView.postDelayed(new Runnable() {
+                @Override
+                public void run() {
+                    webView.scrollTo(scroolX, scroolY);
+                }
+
+            }, 1000);
         }
         if (!isCacheStoredInDataBase) {
             progressDialog.dismiss();

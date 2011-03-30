@@ -1,18 +1,18 @@
 package su.geocaching.android.model.datastorage;
 
-import android.app.ProgressDialog;
-import android.content.Context;
-import android.os.AsyncTask;
-import android.webkit.WebView;
-import su.geocaching.android.controller.Controller;
-import su.geocaching.android.controller.LogManager;
-import su.geocaching.android.ui.GeoCacheInfoActivity;
-import su.geocaching.android.ui.R;
-
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.net.URL;
+
+import su.geocaching.android.controller.Controller;
+import su.geocaching.android.controller.LogManager;
+import su.geocaching.android.ui.GeoCacheInfoActivity;
+import su.geocaching.android.ui.R;
+import android.app.ProgressDialog;
+import android.content.Context;
+import android.os.AsyncTask;
+import android.webkit.WebView;
 
 public class DownloadInfoCacheTask extends AsyncTask<Void, Void, String> {
 
@@ -25,7 +25,7 @@ public class DownloadInfoCacheTask extends AsyncTask<Void, Void, String> {
     private Context context;
     private WebView webView;
 
-    // private int scroolX, scroolY;
+    private int scroolX, scroolY;
 
     public DownloadInfoCacheTask(Context context, int cacheId, int scroolX, int scroolY, WebView webView) {
         Controller controller = Controller.getInstance();
@@ -33,8 +33,8 @@ public class DownloadInfoCacheTask extends AsyncTask<Void, Void, String> {
         isCacheStoredInDataBase = dbManager.isCacheStored(cacheId);
 
         this.cacheId = cacheId;
-        // this.scroolX = scroolX;
-        // this.scroolY = scroolY;
+        this.scroolX = scroolX;
+        this.scroolY = scroolY;
         this.context = context;
         this.webView = webView;
     }
@@ -87,8 +87,13 @@ public class DownloadInfoCacheTask extends AsyncTask<Void, Void, String> {
         LogManager.d(TAG, "TestTime onPreExecute - Stop");
         if (webView != null) {
             webView.loadDataWithBaseURL(GeoCacheInfoActivity.HTTP_PDA_GEOCACHING_SU, result, "text/html", GeoCacheInfoActivity.HTML_ENCODING, null);
-            // webView.scrollTo(scroolX, scroolY);
-            // webView.computeScroll();
+            webView.postDelayed(new Runnable() {
+                @Override
+                public void run() {
+                    webView.scrollTo(scroolX, scroolY);
+                }
+
+            }, 1000);
         }
         if (!isCacheStoredInDataBase) {
             progressDialog.dismiss();

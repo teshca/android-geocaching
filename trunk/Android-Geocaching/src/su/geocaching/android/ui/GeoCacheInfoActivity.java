@@ -36,7 +36,7 @@ public class GeoCacheInfoActivity extends Activity implements OnCheckedChangeLis
     private static final String TAG = GeoCacheInfoActivity.class.getCanonicalName();
     public static final String HTTP_PDA_GEOCACHING_SU = "http://pda.geocaching.su/";
     public static final String HTML_ENCODING = "UTF-8";
-    public static final String PAGE_TYPE = "page type";
+    public static final String PAGE_TYPE = "page type", SCROOLX = "scrollX", SCROOLY = "scrollY";
 
     private enum PageType {
         INFO, NOTEBOOK
@@ -68,6 +68,10 @@ public class GeoCacheInfoActivity extends Activity implements OnCheckedChangeLis
         dbManager = controller.getDbManager();
         connectManager = controller.getConnectionManager();
         geoCache = getIntent().getParcelableExtra(GeoCache.class.getCanonicalName());
+
+        if (savedInstanceState != null) {
+            pageType = PageType.values()[savedInstanceState.getInt(PAGE_TYPE, PageType.INFO.ordinal())];
+        }
         initViews();
 
         isCacheStoredInDataBase = dbManager.isCacheStored(geoCache.getId());
@@ -95,18 +99,12 @@ public class GeoCacheInfoActivity extends Activity implements OnCheckedChangeLis
         cbFavoriteCache = (CheckBox) findViewById(R.id.info_geocache_add_del);
 
         webView.getSettings().setJavaScriptEnabled(true);
-        // webView.setWebViewClient(new WebViewClient() {
-        // @Override
-        // public void onPageFinished(WebView view, String url) {
-        // webView.scrollTo(webViewScrollX, webViewScrollY);
-        // super.onPageFinished(view, url);
-        // }
-        // });
     }
 
     @Override
     protected void onPostCreate(Bundle savedInstanceState) {
         loadWebView(pageType);
+
         super.onPostCreate(savedInstanceState);
     }
 
@@ -118,20 +116,17 @@ public class GeoCacheInfoActivity extends Activity implements OnCheckedChangeLis
     @Override
     protected void onRestoreInstanceState(Bundle savedInstanceState) {
         super.onRestoreInstanceState(savedInstanceState);
-
         pageType = PageType.values()[savedInstanceState.getInt(PAGE_TYPE)];
-
-        webViewScrollY = savedInstanceState.getInt("scrollY");
-        webViewScrollX = savedInstanceState.getInt("scrollX");
-        // webView.scrollTo(webViewScrollX, webViewScrollY);
+        webViewScrollX = savedInstanceState.getInt(SCROOLX, 0);
+        webViewScrollY = savedInstanceState.getInt(SCROOLY, 0);
     }
 
     @Override
     protected void onSaveInstanceState(Bundle outState) {
-        super.onSaveInstanceState(outState); // To change body of overridden methods use File | Settings | File Templates.
-        outState.putInt("scrollY", webView.getScrollY());
-        outState.putInt("scrollX", webView.getScrollX());
-        outState.putInt(PAGE_TYPE, pageType.ordinal());
+        super.onSaveInstanceState(outState);
+        outState.putInt(PAGE_TYPE, pageType.ordinal());        
+        outState.putInt(SCROOLX, webView.getScrollX());
+        outState.putInt(SCROOLY, webView.getScrollY());
     }
 
     @Override
@@ -174,7 +169,7 @@ public class GeoCacheInfoActivity extends Activity implements OnCheckedChangeLis
         }
     }
 
-    // TODO
+    // TODO rewrite it
     private void createDownloadNotebookDialog() {
         final Dialog dialog = new Dialog(this);
         dialog.setContentView(R.layout.custom_dialog_in_info_activity);
