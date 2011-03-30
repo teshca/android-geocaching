@@ -88,8 +88,6 @@
 	<string name="about_email_text">Все вопросы и предложения присылайте на наш
 		email\nandroid.geocaching.su@gmail.com
     </string>
-
-
 	<string name="about_exit_button_text">Закрыть</string>
 
 	<string name="about_google_code">Подробную информацию о проекте вы можете найти на
@@ -110,6 +108,7 @@
 	<string name="checkpoints">Крнтрольные точки</string>
 	<string name="latitude">Широта :</string>
 	<string name="longitude">Долгота :</string>
+	<string name="status">Статус :</string>
 	<string name="geographical_coordinates">Географические координаты</string>
 	<string name="add_checkpoint">Добавить точку</string>
 	<string name="error_stepbystep_input">Неверный формат введенных данных</string>
