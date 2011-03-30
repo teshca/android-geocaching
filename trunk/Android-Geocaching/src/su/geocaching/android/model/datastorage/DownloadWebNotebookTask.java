@@ -1,81 +1,95 @@
 package su.geocaching.android.model.datastorage;
 
-import android.app.ProgressDialog;
-import android.content.Context;
-import android.os.AsyncTask;
-import su.geocaching.android.ui.R;
-
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.net.URL;
 
-public class DownloadWebNotebookTask extends AsyncTask<String, Void, String> {
+import su.geocaching.android.controller.Controller;
+import su.geocaching.android.controller.LogManager;
+import su.geocaching.android.ui.GeoCacheInfoActivity;
+import su.geocaching.android.ui.R;
+import android.app.ProgressDialog;
+import android.content.Context;
+import android.os.AsyncTask;
+import android.webkit.WebView;
+
+public class DownloadWebNotebookTask extends AsyncTask<Integer, Void, String> {
+
+    private static final String TAG = DownloadWebNotebookTask.class.getCanonicalName();
+
     private DbManager dbManager;
     private boolean isCacheStoredInDataBase;
-    private int idCache;
+    private int cacheId;
     private Context context;
     private ProgressDialog progressDialog;
+    private WebView webView;
 
-    public DownloadWebNotebookTask(DbManager db, boolean isCacheStoredInDataBase, int idCache, Context context) {
-        this.dbManager = db;
-        this.isCacheStoredInDataBase = isCacheStoredInDataBase;
-        this.idCache = idCache;
+    // private int scroolX, scroolY;
+
+    public DownloadWebNotebookTask(Context context, int scroolX, int scroolY, WebView webView) {
+        Controller controller = Controller.getInstance();
+        dbManager = controller.getDbManager();
+
         this.context = context;
+        this.webView = webView;
     }
 
     @Override
     protected void onPreExecute() {
+        LogManager.d(TAG, "TestTime onPreExecute - Start");
         progressDialog = new ProgressDialog(context);
         progressDialog.setMessage(context.getString(R.string.download_notebook));
         progressDialog.show();
     }
 
     @Override
-    protected String doInBackground(String... params) {
-        if (params[0] == null || params[0].equals("")) {
-            if (isCacheStoredInDataBase) {
-                params[0] = dbManager.getWebNotebookTextById(idCache);
-            }
-            if (params[0] == null || params[0].equals("")) {
-                try {
-                    params[0] = getWebText(idCache);
-                    if (isCacheStoredInDataBase) {
-                        dbManager.ubdateNotebookText(idCache, params[0]);
-                    }
-                } catch (IOException e) {
-                    // TODO Auto-generated catch block
-                    e.printStackTrace();
-                }
+    protected String doInBackground(Integer... params) {
+        String result = null;
+        cacheId = params[0];
+        isCacheStoredInDataBase = dbManager.isCacheStored(cacheId);
 
+        if (isCacheStoredInDataBase) {
+            result = dbManager.getWebNotebookTextById(cacheId);
+        }
+
+        if (result == null) {
+            try {
+                result = getWebText(cacheId);
+                if (isCacheStoredInDataBase) {
+                    dbManager.ubdateNotebookText(cacheId, result);
+                }
+            } catch (IOException e) {
+                LogManager.e(TAG, "IOException getWebText", e);
             }
         }
-        return params[0];
-
-
+        return result == null ? "" : result;
     }
 
     private String getWebText(int id) throws IOException {
         StringBuilder html = new StringBuilder();
-        String html2;
-        URL url = new URL("http://pda.geocaching.su/note.php?cid=" + id + "&mode=0");
+        char[] buffer = new char[1024];
+        URL url = new URL(String.format("http://pda.geocaching.su/note.php?cid=%d&mode=0", id));
         BufferedReader in = new BufferedReader(new InputStreamReader(url.openStream(), "windows-1251"));
 
         html.append(in.readLine());
         html.append(in.readLine());
         html.append(in.readLine().replace("windows-1251", "utf-8"));
 
-        while ((html2 = in.readLine()) != null) {
-            html.append(html2);
+        int size;
+        while ((size = in.read(buffer)) != -1) {
+            html.append(buffer, 0, size);
         }
 
         return html.toString();
-
     }
 
     @Override
     protected void onPostExecute(String result) {
-        // TODO Auto-generated method stub
+        LogManager.d(TAG, "TestTime onPreExecute - Stop");
+        if (webView != null) {
+            webView.loadDataWithBaseURL(GeoCacheInfoActivity.HTTP_PDA_GEOCACHING_SU, result, "text/html", GeoCacheInfoActivity.HTML_ENCODING, null);
+        }
         progressDialog.dismiss();
         super.onPostExecute(result);
     }

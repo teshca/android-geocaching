@@ -175,7 +175,7 @@ public class SearchGeoCacheCompass extends Activity {
         GeoCache searchingGC = controller.getPreferencesManager().getLastSearchedGeoCache();
         switch (item.getItemId()) {
             case R.id.menuStartMap:
-                UiHelper.startMapView(this, searchingGC);
+                UiHelper.startSearchMapActivity(this, searchingGC);
                 return true;
             case R.id.menuGeoCacheInfo:
                 UiHelper.showGeoCacheInfo(this, searchingGC);

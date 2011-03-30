@@ -177,7 +177,7 @@ public class SearchGeoCacheMap extends MapActivity implements IInternetAware, IL
         if (distanceOverlay != null) {
             distanceOverlay.setCachePoint(mController.getSearchingGeoCache().getLocationGeoPoint());
         }
-
+       
         checkpointManager = mController.getCheckpointManager(mController.getPreferencesManager().getLastSearchedGeoCache().getId());
         checkpointCacheOverlay.clear();
         for (GeoCache checkpoint : checkpointManager.getCheckpoints()) {

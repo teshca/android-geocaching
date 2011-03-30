@@ -67,9 +67,7 @@
 	<string name="always_keep">сохранять всегда</string>
 	<string name="favorit_folder_In_DB_not_cache">В базе нет ни одного тайника</string>
 	<string name="checkpoint_folder_not_cache_in_db">Контрольных точек нет</string>
-	<string name="info_geocach_not_internet_and_not_in_DB">Невозможно показать информацию о тайнике, поскольку
-		тайника нет в локальной базе, а так же отсутствует соединение с
-		интернетом
+	<string name="info_geocach_not_internet_and_not_in_DB">Невозможно показать информацию о тайнике, поскольку тайника нет в локальной базе, а так же отсутствует соединение с интернетом
     </string>
 	<string name="notebook_geocache_not_internet_and_not_in_DB">Невозможно показать блокнот тайника, поскольку
 		блокнота нет в локальной базе, а так же отсутствует соединение с
