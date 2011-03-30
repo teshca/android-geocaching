@@ -8,6 +8,6 @@
     <bool name="cache_filter_not_valid_default_value">true</bool>
     <bool name="cache_filter_not_confirmed_default_value">true</bool>
     <bool name="use_group_cache_default_value">true</bool>
-
-
+    <bool name="cache_marker_use_default_value">true</bool>
+    <bool name="cache_marker_use_custom_value">false</bool>
 </resources>

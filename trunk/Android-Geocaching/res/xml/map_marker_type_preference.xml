@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
+    <PreferenceCategory
+            android:title="@string/map_category_title">
+
+        <CheckBoxPreference android:title="По умолчанию"
+                            android:key="@string/default_marker"
+                            android:defaultValue="@bool/cache_marker_use_default_value"/>
+
+        <CheckBoxPreference android:title="Выборочные"
+                            android:key="@string/custom_marker"
+                            android:defaultValue="@bool/cache_marker_use_custom_value"/>
+
+        
+    </PreferenceCategory>
+
+
+</PreferenceScreen>

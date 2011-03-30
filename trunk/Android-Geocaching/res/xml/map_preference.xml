@@ -18,5 +18,11 @@
                     android:summary="" android:key="mapFilterType"/>
         <Preference android:title="Статус"
                     android:summary="" android:key="mapFilterStatus"/>
+        
+    </PreferenceCategory>
+    <PreferenceCategory android:title="@string/map_markers_title">
+       
+        <Preference android:title="Тип иконок"
+                    android:summary="" android:key="mapMarkerType"/>
     </PreferenceCategory>
 </PreferenceScreen>

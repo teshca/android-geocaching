@@ -31,7 +31,8 @@ public class Controller {
     private DbManager dbManager;
     private CheckpointManager checkpointManager;
     private GeoCache searchingGeoCache;
-
+    private boolean notDefoultIconType;
+    
    
 
     private Controller() {
@@ -194,7 +195,7 @@ public class Controller {
     public synchronized ResourceManager getResourceManager(Context context) {
         if (resourceManager == null) {
             LogManager.d(TAG, "resource manager wasn't init yet. init.");
-            resourceManager = new ResourceManager(context);
+            resourceManager = new ResourceManager(context/*,notDefoultIconType*/);
         }
         return resourceManager;
     }
@@ -255,6 +256,7 @@ public class Controller {
             dbManager = new DbManager(context);
         }
         if (resourceManager == null) {
+            //resourceManager = new ResourceManager(context,notDefoultIconType);
             resourceManager = new ResourceManager(context);
         }
         if (preferencesManager == null) {
