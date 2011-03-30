@@ -51,7 +51,7 @@ public class GeoCacheInfoActivity extends Activity implements OnCheckedChangeLis
     private GoogleAnalyticsTracker tracker;
 
     private GeoCache geoCache;
-    private AsyncTask<Integer, Void, String> infoTask, notebookTask;
+    private AsyncTask<Void, Void, String> infoTask, notebookTask;
 
     private PageType pageType = PageType.INFO;
     private int webViewScrollY;
@@ -155,10 +155,10 @@ public class GeoCacheInfoActivity extends Activity implements OnCheckedChangeLis
 
             LogManager.d("Geocaching.su", "Test Start");
             if (notebookTask == null) {
-                notebookTask = new DownloadWebNotebookTask(this, webViewScrollX, webViewScrollY, null).execute(geoCache.getId());
+                notebookTask = new DownloadWebNotebookTask(this, geoCache.getId(), webViewScrollX, webViewScrollY, null).execute();
             }
             if (infoTask == null) {
-                infoTask = new DownloadInfoCacheTask(this, webViewScrollX, webViewScrollY, null).execute(geoCache.getId());
+                infoTask = new DownloadInfoCacheTask(this, geoCache.getId(), webViewScrollX, webViewScrollY, null).execute();
             }
             try {
                 dbManager.addGeoCache(geoCache, infoTask.get(), notebookTask.get());
@@ -274,10 +274,10 @@ public class GeoCacheInfoActivity extends Activity implements OnCheckedChangeLis
 
             switch (type) {
                 case INFO:
-                    infoTask = new DownloadInfoCacheTask(this, webViewScrollX, webViewScrollY, webView).execute(geoCache.getId());
+                    infoTask = new DownloadInfoCacheTask(this, geoCache.getId(), webViewScrollX, webViewScrollY, webView).execute();
                     break;
                 case NOTEBOOK:
-                    notebookTask = new DownloadWebNotebookTask(this, webViewScrollX, webViewScrollY, webView).execute(geoCache.getId());
+                    notebookTask = new DownloadWebNotebookTask(this, geoCache.getId(), webViewScrollX, webViewScrollY, webView).execute();
                     break;
             }
         } else {
