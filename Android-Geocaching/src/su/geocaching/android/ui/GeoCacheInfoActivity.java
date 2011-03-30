@@ -103,6 +103,13 @@ public class GeoCacheInfoActivity extends Activity implements OnCheckedChangeLis
         // }
         // });
     }
+    
+
+    @Override
+    protected void onPostCreate(Bundle savedInstanceState) {
+        loadWebView(pageType);
+        super.onPostCreate(savedInstanceState);
+    }
 
     @Override
     protected void onStart() {
@@ -114,8 +121,7 @@ public class GeoCacheInfoActivity extends Activity implements OnCheckedChangeLis
         super.onRestoreInstanceState(savedInstanceState);
 
         pageType = PageType.values()[savedInstanceState.getInt(PAGE_TYPE)];
-        loadWebView(pageType);
-
+       
         webViewScrollY = savedInstanceState.getInt("scrollY");
         webViewScrollX = savedInstanceState.getInt("scrollX");
         // webView.scrollTo(webViewScrollX, webViewScrollY);
