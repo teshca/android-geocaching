@@ -171,7 +171,7 @@ public class DbManager extends SQLiteOpenHelper {
         values.put(COLUMN_LAT, geoCacheForAdd.getLocationGeoPoint().getLatitudeE6());
         values.put(COLUMN_LON, geoCacheForAdd.getLocationGeoPoint().getLongitudeE6());
         values.put(COLUMN_WEB_TEXT, webText);
-        if (webNotebookText != null && webNotebookText.equals("")) {
+        if (webNotebookText != null) {
             values.put(COLUMN_NOTEBOOK_TEXT, webNotebookText);
         }
         openDB();
@@ -248,39 +248,34 @@ public class DbManager extends SQLiteOpenHelper {
      * @return String if GeoCache in database. Empty string if in database haven't GeoCache
      */
     public String getWebTextById(int id) {
-        String exitString;
+        String exitString = null;
         openDB();
-        Cursor c = db.rawQuery(String.format("select %s from %s where %s=%d", COLUMN_WEB_TEXT, DATABASE_NAME_TABLE, COLUMN_ID, id), null);
-        if (c.getCount() == 0) {
-            c.close();
-            closeDB();
-            return null;
-        }
-        c.moveToFirst();
-        exitString = c.getString(0);
-        c.close();
+        Cursor cursor = db.rawQuery(String.format("select %s from %s where %s=%d", COLUMN_WEB_TEXT, DATABASE_NAME_TABLE, COLUMN_ID, id), null);
+      
+        if (cursor != null && cursor.getCount() != 0) {        
+            cursor.moveToFirst();    
+            exitString = cursor.getString(cursor.getColumnIndex(COLUMN_WEB_TEXT));                 
+        }        
+        cursor.close();
         closeDB();
+        
         return exitString;
     }
 
     public String getWebNotebookTextById(int id) {
-        String exitString;
+        String exitString = null;
         openDB();
-        Cursor c = db.rawQuery(String.format("select %s from %s where %s=%d", COLUMN_NOTEBOOK_TEXT, DATABASE_NAME_TABLE, COLUMN_ID, id), null);
-        if (c != null) {
-            if (c.getCount() == 0) {
-                c.close();
-                closeDB();
-                return null;
-            }
-            c.moveToFirst();
-
-            exitString = c.getString(0);
-            c.close();
-            closeDB();
-            return exitString;
-        }
-        return null;
+        Cursor cursor = db.rawQuery(String.format("select %s from %s where %s=%d", COLUMN_NOTEBOOK_TEXT, DATABASE_NAME_TABLE, COLUMN_ID, id), null);
+      
+        if (cursor != null && cursor.getCount() != 0) {        
+            cursor.moveToFirst();    
+            exitString = cursor.getString(cursor.getColumnIndex(COLUMN_NOTEBOOK_TEXT));       
+            if (exitString.equals("")) exitString = null;
+        }        
+        cursor.close();
+        closeDB();
+        
+        return exitString;
     }
 
     public void ubdateNotebookText(int cacheId, String htmlNotebookText) {
@@ -318,6 +313,17 @@ public class DbManager extends SQLiteOpenHelper {
         c.close();
         closeDB();
         return exitCache;
+    }
+
+    public boolean isCacheStored(int id) {
+        openDB();
+        String[] selectionArgs = new String[] { Integer.toString(id) };
+        Cursor c = db.query(DATABASE_NAME_TABLE, null, COLUMN_ID + "=?", selectionArgs, null, null, null);
+        int count = c.getCount();
+        c.close();
+        closeDB();
+        LogManager.d(TAG, "isCacheStored id="+id+" " + (count > 0));
+        return count > 0;
     }
 
     /**

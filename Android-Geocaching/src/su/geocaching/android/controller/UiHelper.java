@@ -74,7 +74,7 @@ public class UiHelper {
      * @param geoCache
      *            //TODO describe it
      */
-    public static void startMapView(Context context, GeoCache geoCache) {
+    public static void startSearchMapActivity(Context context, GeoCache geoCache) {
         Intent intent = new Intent(context, SearchGeoCacheMap.class);
         intent.putExtra(GeoCache.class.getCanonicalName(), geoCache);
         context.startActivity(intent);
