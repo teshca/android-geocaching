@@ -14,7 +14,7 @@ import android.content.Context;
 import android.os.AsyncTask;
 import android.webkit.WebView;
 
-public class DownloadWebNotebookTask extends AsyncTask<Integer, Void, String> {
+public class DownloadWebNotebookTask extends AsyncTask<Void, Void, String> {
 
     private static final String TAG = DownloadWebNotebookTask.class.getCanonicalName();
 
@@ -27,10 +27,12 @@ public class DownloadWebNotebookTask extends AsyncTask<Integer, Void, String> {
 
     // private int scroolX, scroolY;
 
-    public DownloadWebNotebookTask(Context context, int scroolX, int scroolY, WebView webView) {
+    public DownloadWebNotebookTask(Context context, int cacheId, int scroolX, int scroolY, WebView webView) {
         Controller controller = Controller.getInstance();
         dbManager = controller.getDbManager();
+        isCacheStoredInDataBase = dbManager.isCacheStored(cacheId);
 
+        this.cacheId = cacheId;
         this.context = context;
         this.webView = webView;
     }
@@ -38,17 +40,17 @@ public class DownloadWebNotebookTask extends AsyncTask<Integer, Void, String> {
     @Override
     protected void onPreExecute() {
         LogManager.d(TAG, "TestTime onPreExecute - Start");
-        progressDialog = new ProgressDialog(context);
-        progressDialog.setMessage(context.getString(R.string.download_notebook));
-        progressDialog.show();
+        if (!isCacheStoredInDataBase) {
+            progressDialog = new ProgressDialog(context);
+            progressDialog.setMessage(context.getString(R.string.download_notebook));
+            progressDialog.show();
+        }
     }
 
     @Override
-    protected String doInBackground(Integer... params) {
+    protected String doInBackground(Void... params) {
         String result = null;
-        cacheId = params[0];
-        isCacheStoredInDataBase = dbManager.isCacheStored(cacheId);
-
+      
         if (isCacheStoredInDataBase) {
             result = dbManager.getWebNotebookTextById(cacheId);
         }
@@ -90,7 +92,9 @@ public class DownloadWebNotebookTask extends AsyncTask<Integer, Void, String> {
         if (webView != null) {
             webView.loadDataWithBaseURL(GeoCacheInfoActivity.HTTP_PDA_GEOCACHING_SU, result, "text/html", GeoCacheInfoActivity.HTML_ENCODING, null);
         }
-        progressDialog.dismiss();
+        if (!isCacheStoredInDataBase) {
+            progressDialog.dismiss();
+        }
         super.onPostExecute(result);
     }
 }

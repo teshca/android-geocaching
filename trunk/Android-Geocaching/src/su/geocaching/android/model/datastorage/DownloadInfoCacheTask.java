@@ -14,7 +14,7 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.net.URL;
 
-public class DownloadInfoCacheTask extends AsyncTask<Integer, Void, String> {
+public class DownloadInfoCacheTask extends AsyncTask<Void, Void, String> {
 
     private static final String TAG = DownloadInfoCacheTask.class.getCanonicalName();
 
@@ -27,9 +27,12 @@ public class DownloadInfoCacheTask extends AsyncTask<Integer, Void, String> {
 
     // private int scroolX, scroolY;
 
-    public DownloadInfoCacheTask(Context context, int scroolX, int scroolY, WebView webView) {
+    public DownloadInfoCacheTask(Context context, int cacheId, int scroolX, int scroolY, WebView webView) {
         Controller controller = Controller.getInstance();
         dbManager = controller.getDbManager();
+        isCacheStoredInDataBase = dbManager.isCacheStored(cacheId);
+
+        this.cacheId = cacheId;
         // this.scroolX = scroolX;
         // this.scroolY = scroolY;
         this.context = context;
@@ -39,16 +42,17 @@ public class DownloadInfoCacheTask extends AsyncTask<Integer, Void, String> {
     @Override
     protected void onPreExecute() {
         LogManager.d(TAG, "TestTime onPreExecute - Start");
-        progressDialog = new ProgressDialog(context);
-        progressDialog.setMessage(context.getString(R.string.download_info));
-        progressDialog.show();
+        if (!isCacheStoredInDataBase) {
+            progressDialog = new ProgressDialog(context);
+            progressDialog.setMessage(context.getString(R.string.download_info));
+            progressDialog.show();
+        }
     }
 
     @Override
-    protected String doInBackground(Integer... params) {
+    protected String doInBackground(Void... params) {
         String result = "";
-        cacheId = params[0];
-        isCacheStoredInDataBase = dbManager.isCacheStored(cacheId);
+
         if (isCacheStoredInDataBase) {
             result = dbManager.getWebTextById(cacheId);
         } else
@@ -86,7 +90,9 @@ public class DownloadInfoCacheTask extends AsyncTask<Integer, Void, String> {
             // webView.scrollTo(scroolX, scroolY);
             // webView.computeScroll();
         }
-        progressDialog.dismiss();
+        if (!isCacheStoredInDataBase) {
+            progressDialog.dismiss();
+        }
         super.onPostExecute(result);
     }
 
