@@ -88,6 +88,10 @@
 			android:theme="@android:style/Theme.Dialog" />
 		<activity android:name=".selectgeocache.MapFilterStatusPreferenceActivity"
 			android:theme="@android:style/Theme.Dialog" />
+		<activity android:name=".selectgeocache.MapIconTypeActivity"
+			android:theme="@android:style/Theme.Dialog" />
+		
+		
 		<activity android:name=".compass.CompassPreferenceActivity" />
 		<activity android:name=".searchgeocache.stepbystep.StepByStepTabActivity" />
 		<activity android:name=".searchgeocache.stepbystep.SexagesimalInputActivity" />

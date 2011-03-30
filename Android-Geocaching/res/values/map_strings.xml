@@ -38,10 +38,13 @@
     <string name="way_cache_adding_summary">Включить группировку близких тайников (beta)</string>
 
     <string name="map_filters_title">Фильтры</string>
+    <string name="map_markers_title">Иконки</string>
+    <string name="default_marker">default marker</string>
+    <string name="custom_marker">custom marker</string>
     <string name="cache_filter_valid">filter.valid</string>
     <string name="cache_filter_not_valid">filter.notValid</string>
     <string name="cache_filter_not_confirmed">filter.notConfirmed</string>
-    <string name="cache_filter_traditional">filer.traditional</string>
+    <string name="cache_filter_traditional">filter.traditional</string>
     <string name="cache_filter_extreme">filter.extreme</string>
     <string name="cache_filter_stepbystep">filter.stepbystep</string>
     <string name="cache_filter_virtual">filter.virtual</string>
