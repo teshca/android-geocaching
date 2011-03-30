@@ -1,5 +1,7 @@
 package su.geocaching.android.ui.geocachemap;
 
+import su.geocaching.android.controller.UiHelper;
+import su.geocaching.android.model.datatype.GeoCache;
 import android.app.Activity;
 import android.graphics.drawable.Drawable;
 import android.view.GestureDetector;
@@ -8,12 +10,6 @@ import android.view.MotionEvent;
 import com.google.android.maps.ItemizedOverlay;
 import com.google.android.maps.MapView;
 import com.google.android.maps.OverlayItem;
-import su.geocaching.android.controller.UiHelper;
-import su.geocaching.android.model.datatype.GeoCache;
-
-import java.util.Collections;
-import java.util.LinkedList;
-import java.util.List;
 
 /**
  * @author Android-Geocaching.su student project team
@@ -21,16 +17,15 @@ import java.util.List;
  */
 public class SearchCacheOverlay extends ItemizedOverlay<OverlayItem> {
 
-    private List<GeoCacheOverlayItem> items;
+    private GeoCacheOverlayItem item;
     private Activity activity;
     private final GestureDetector gestureDetector;
 
     public SearchCacheOverlay(Drawable defaultMarker, Activity context, final MapView map) {
         super(defaultMarker);
-
-        items = Collections.synchronizedList(new LinkedList<GeoCacheOverlayItem>());
         this.activity = context;
         populate();
+
         gestureDetector = new GestureDetector(context, new GestureDetector.SimpleOnGestureListener() {
             public boolean onDoubleTap(MotionEvent e) {
                 map.getController().zoomIn();
@@ -43,44 +38,29 @@ public class SearchCacheOverlay extends ItemizedOverlay<OverlayItem> {
     public boolean onTouchEvent(MotionEvent event, MapView map) {
         return gestureDetector.onTouchEvent(event);
     }
-    
-    public synchronized void addOverlayItem(GeoCacheOverlayItem overlay) {
-        if (!contains(overlay.getGeoCache())) {
-            items.add(overlay);
-            setLastFocusedIndex(-1);
-            populate();
-        }
-    }
 
-    public void removeOverlayItem(int index) {
-        items.remove(index);
-    }
-
-    private boolean contains(GeoCache geoCache) {
-        for (GeoCacheOverlayItem item : items) {
-            if (item.getGeoCache().equals(geoCache)) {
-                return true;
-            }
-        }
-        return false;
+    public void addOverlayItem(GeoCacheOverlayItem overlayItem) {
+        item = overlayItem;
+        setLastFocusedIndex(-1);
+        populate();
     }
 
     public GeoCache getGeoCache(int index) {
-        return items.get(index).getGeoCache();
+        return item.getGeoCache();
     }
 
     @Override
     protected OverlayItem createItem(int i) {
-        return items.get(i);
+        return item;
     }
 
     @Override
     public int size() {
-        return items.size();
+        return item == null ? 0 : 1;
     }
 
-    public synchronized void clear() {
-        items.clear();
+    public void clear() {
+        item = null;
         setLastFocusedIndex(-1);
         populate();
     }
@@ -92,7 +72,7 @@ public class SearchCacheOverlay extends ItemizedOverlay<OverlayItem> {
 
     @Override
     public boolean onTap(int index) {
-        GeoCache gc = items.get(index).getGeoCache();
+        GeoCache gc = item.getGeoCache();
         UiHelper.showGeoCacheInfo(activity, gc);
         return true;
     }
