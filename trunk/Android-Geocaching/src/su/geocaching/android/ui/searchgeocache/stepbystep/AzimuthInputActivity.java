@@ -1,14 +1,16 @@
 package su.geocaching.android.ui.searchgeocache.stepbystep;
 
-import android.app.Activity;
-import android.content.Intent;
-import android.os.Bundle;
-import android.view.View;
-import android.widget.EditText;
-import com.google.android.maps.GeoPoint;
+import su.geocaching.android.controller.Controller;
 import su.geocaching.android.model.datatype.GeoCache;
 import su.geocaching.android.ui.R;
 import su.geocaching.android.utils.GpsHelper;
+import android.app.Activity;
+import android.os.Bundle;
+import android.view.View;
+import android.widget.EditText;
+import android.widget.Toast;
+
+import com.google.android.maps.GeoPoint;
 
 public class AzimuthInputActivity extends Activity {
 
@@ -29,15 +31,13 @@ public class AzimuthInputActivity extends Activity {
     public void onEnterClick(View v) {
         int azimuth = Integer.parseInt(this.azimuth.getText().toString());
         if (azimuth > 360) {
-            // TODO
+            Toast.makeText(this, getString(R.string.error_stepbystep_input), Toast.LENGTH_SHORT).show();
             return;
         }
         int distance = Integer.parseInt(this.distance.getText().toString());
         GeoPoint goalGP = GpsHelper.distanceBearingToGeoPoint(currentGeoPoint, azimuth, distance);
-        Intent intent = new Intent();
-        intent.putExtra(StepByStepTabActivity.LATITUDE, goalGP.getLatitudeE6());
-        intent.putExtra(StepByStepTabActivity.LONGITUDE, goalGP.getLongitudeE6());
-        getParent().setResult(RESULT_OK, intent);
+        Controller.getInstance().getCheckpointManager(Controller.getInstance().getPreferencesManager().getLastSearchedGeoCache().getId())
+                .addCheckpoint(goalGP.getLatitudeE6(), goalGP.getLongitudeE6());
         finish();
     }
 }
