@@ -56,6 +56,15 @@ public class CompassView extends SurfaceView implements SurfaceHolder.Callback, 
     }
 
     @Override
+    protected void onMeasure(int widthMeasureSpec, int heightMeasureSpec) {
+        super.onMeasure(widthMeasureSpec, heightMeasureSpec);
+        // int parentWidth = MeasureSpec.getSize(widthMeasureSpec);
+        // int parentHeight = MeasureSpec.getSize(heightMeasureSpec);
+        // LogManager.d("Geocaching.su", "parentWidth " + parentWidth + " parentHeight "+ parentHeight);
+        // this.setMeasuredDimension(parentWidth, parentWidth);
+    }
+
+    @Override
     public boolean setDirection(float direction) {
         northDirection = -direction;
         return doAnimation();
