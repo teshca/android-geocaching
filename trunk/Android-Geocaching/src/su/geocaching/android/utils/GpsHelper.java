@@ -20,14 +20,14 @@ public class GpsHelper {
     // if distance(m)
     // greater than this
     // show (x/1000) km else x m
-    private static final int BIG_DISTANCE_VALUE = 10000;
+    private static final int BIG_DISTANCE_VALUE = 1000; // distance in meters which mean "big distance"
     private static final int EARTH_RADIUS = 6371000;
 
     private static final DecimalFormat BIG_DISTANCE_NUMBER_FORMAT = new DecimalFormat("0.0");
     private static final DecimalFormat SMALL_DISTANCE_NUMBER_FORMAT = new DecimalFormat("0");
     private static final String BIG_DISTANCE_VALUE_NAME = Controller.getInstance().getResourceManager().getString(R.string.kilometer);
     private static final String SMALL_DISTANCE_VALUE_NAME = Controller.getInstance().getResourceManager().getString(R.string.meter);;
-    private static final float BIG_DISTANCE_COEFFICIENT = 0.001f;
+    private static final float BIG_DISTANCE_COEFFICIENT = 0.001f; // how many small_distance_name units in big_distance_units
     private static final float SMALL_DISTANCE_COEFFICIENT = 1f;
 
     /**
@@ -101,9 +101,9 @@ public class GpsHelper {
     public static String distanceToString(float dist) {
         String textDistance;
         if (dist >= BIG_DISTANCE_VALUE) {
-            textDistance = BIG_DISTANCE_NUMBER_FORMAT.format(dist * BIG_DISTANCE_COEFFICIENT) + BIG_DISTANCE_VALUE_NAME;
+            textDistance = BIG_DISTANCE_NUMBER_FORMAT.format(dist * BIG_DISTANCE_COEFFICIENT) + " " + BIG_DISTANCE_VALUE_NAME;
         } else {
-            textDistance = SMALL_DISTANCE_NUMBER_FORMAT.format(dist * SMALL_DISTANCE_COEFFICIENT) + SMALL_DISTANCE_VALUE_NAME;
+            textDistance = SMALL_DISTANCE_NUMBER_FORMAT.format(dist * SMALL_DISTANCE_COEFFICIENT) + " " + SMALL_DISTANCE_VALUE_NAME;
         }
         return textDistance;
     }
