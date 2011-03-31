@@ -228,7 +228,7 @@ public class SearchGeoCacheCompass extends Activity {
      *
      */
     class LocationListener implements ILocationAware {
-        private final static float CLOSE_DISTANCE_TO_GC_VALUE = 30; // if we nearly than this distance in meters to geocache - gps will be work maximal often
+        private final static float CLOSE_DISTANCE_TO_GC_VALUE = 100; // if we nearly than this distance in meters to geocache - gps will be work maximal often
 
         Activity activity;
 
@@ -249,6 +249,7 @@ public class SearchGeoCacheCompass extends Activity {
                 progressBarView.setVisibility(View.GONE);
             }
             statusText.setText(GpsHelper.distanceToString(GpsHelper.getDistanceBetween(controller.getSearchingGeoCache().getLocationGeoPoint(), location)));
+            statusText.setTextSize(getResources().getDimension(R.dimen.text_size_big));
             if (GpsHelper.getDistanceBetween(location, controller.getSearchingGeoCache().getLocationGeoPoint()) < CLOSE_DISTANCE_TO_GC_VALUE) {
                 // TODO: may be need make special preference?
                 controller.getLocationManager().updateFrequency(GpsUpdateFrequency.MAXIMAL);

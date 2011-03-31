@@ -63,7 +63,7 @@ import com.google.android.maps.Projection;
  */
 public class SearchGeoCacheMap extends MapActivity implements IInternetAware, ILocationAware, ICompassAware, IGpsStatusAware {
     private final static String TAG = SearchGeoCacheMap.class.getCanonicalName();
-    private final static float CLOSE_DISTANCE_TO_GC_VALUE = 30; // if we nearly than this distance in meters to geocache - gps will be work maximal often
+    private final static float CLOSE_DISTANCE_TO_GC_VALUE = 100; // if we nearly than this distance in meters to geocache - gps will be work maximal often
 
     private CheckpointCacheOverlay checkpointCacheOverlay;
     private Drawable cacheMarker;
@@ -266,6 +266,7 @@ public class SearchGeoCacheMap extends MapActivity implements IInternetAware, IL
             // It's really first run of update location
             LogManager.d(TAG, "update location: first run of this activity");
             waitingLocationFixText.setGravity(Gravity.CENTER);
+            waitingLocationFixText.setTextSize(getResources().getDimension(R.dimen.text_size_big));
             distanceOverlay = new DistanceToGeoCacheOverlay(GpsHelper.locationToGeoPoint(location), mController.getSearchingGeoCache().getLocationGeoPoint());
             mapOverlays.add(distanceOverlay);
             mapOverlays.add(userOverlay);
