@@ -3,6 +3,7 @@ package su.geocaching.android.controller;
 import android.content.Context;
 import android.content.res.Resources;
 import android.graphics.drawable.Drawable;
+import android.preference.PreferenceManager;
 import su.geocaching.android.model.datatype.GeoCache;
 import su.geocaching.android.ui.R;
 
@@ -14,11 +15,12 @@ import su.geocaching.android.ui.R;
  */
 public class ResourceManager {
     private final Context context;
-    private boolean notDefaultIconType;
+   
 
-    public ResourceManager(Context context/*, boolean iconTypeNotDefoult*/) {
+    public ResourceManager(Context context) {
         this.context = context;
-        //this.notDefoultIconType=iconTypeNotDefoult;
+       
+    
     }
 
     public Drawable getDrawable(int id) {
@@ -64,8 +66,12 @@ public class ResourceManager {
      * @return Drawable for this geoCache depends on it's parameters
      */
     public int getMarkerResId(GeoCache geoCache) {
-     if(!notDefaultIconType){
-        
+     if(PreferenceManager.getDefaultSharedPreferences(context).getBoolean(context.getString(R.string.default_marker), true)
+     
+     
+     ){
+         
+
         switch (geoCache.getType()) {
             case TRADITIONAL:
                 switch (geoCache.getStatus()) {
