@@ -47,11 +47,13 @@ public class SearchGeoCacheCompass extends Activity {
     private GpsStatusListener gpsListener;
 
     private CompassView compassView;
-    private TextView statusText, targetCoordinates, currentCoordinates;
+    private TextView tvOdometer, statusText, targetCoordinates, currentCoordinates;
     private ImageView progressBarView;
     private AnimationDrawable progressBarAnim;
 
     private Controller controller;
+    
+    
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -59,8 +61,8 @@ public class SearchGeoCacheCompass extends Activity {
         LogManager.d(TAG, "on create");
         setContentView(R.layout.search_geocache_compass);
 
-        compassView = (CompassView) findViewById(R.id.compassView);
-        // distanceToCache = (TextView) findViewById(R.id.DistanceValue);
+        compassView = (CompassView) findViewById(R.id.compassView);       
+        tvOdometer = (TextView) findViewById(R.id.tvOdometer);
         targetCoordinates = (TextView) findViewById(R.id.targetCoordinates);
         currentCoordinates = (TextView) findViewById(R.id.currentCoordinates);
         progressBarView = (ImageView) findViewById(R.id.progressCircle);
@@ -84,7 +86,7 @@ public class SearchGeoCacheCompass extends Activity {
     protected void onResume() {
         super.onResume();
         LogManager.d(TAG, "onResume");
-        compassView.setKeepScreenOn(Controller.getInstance().getPreferencesManager().getKeepScreenOnPreference());
+        compassView.setKeepScreenOn(controller.getPreferencesManager().getKeepScreenOnPreference());
         targetCoordinates.setText(GpsHelper.coordinateToString(controller.getSearchingGeoCache().getLocationGeoPoint()));
         if (locationManager.hasLocation()) {
             currentCoordinates.setText(GpsHelper.coordinateToString(GpsHelper.locationToGeoPoint(locationManager.getLastKnownLocation())));
@@ -220,6 +222,8 @@ public class SearchGeoCacheCompass extends Activity {
         UiHelper.goHome(this);
     }
 
+    private int odometeDistance;
+    private Location lastLocation;
     /**
      *
      */
@@ -231,22 +235,25 @@ public class SearchGeoCacheCompass extends Activity {
         LocationListener(Activity activity) {
             this.activity = activity;
         }
-
+        
         @Override
         public void updateLocation(Location location) {
-            // TODO is it need?
-            // if (!locationManager.hasLocation()) {
-            // return;
-            // }
+   
+            if(lastLocation != null){
+                odometeDistance += GpsHelper.getDistanceBetween(location, lastLocation);              
+                tvOdometer.setText(GpsHelper.distanceToString(odometeDistance)); 
+            }
+            lastLocation = location;
+            
             if (progressBarView.getVisibility() == View.VISIBLE) {
                 progressBarView.setVisibility(View.GONE);
             }
-            statusText.setText(GpsHelper.distanceToString(GpsHelper.getDistanceBetween(Controller.getInstance().getSearchingGeoCache().getLocationGeoPoint(), location)));
-            if (GpsHelper.getDistanceBetween(location, Controller.getInstance().getSearchingGeoCache().getLocationGeoPoint()) < CLOSE_DISTANCE_TO_GC_VALUE) {
+            statusText.setText(GpsHelper.distanceToString(GpsHelper.getDistanceBetween(controller.getSearchingGeoCache().getLocationGeoPoint(), location)));
+            if (GpsHelper.getDistanceBetween(location, controller.getSearchingGeoCache().getLocationGeoPoint()) < CLOSE_DISTANCE_TO_GC_VALUE) {
                 // TODO: may be need make special preference?
-                Controller.getInstance().getLocationManager().updateFrequency(GpsUpdateFrequency.MAXIMAL);
+                controller.getLocationManager().updateFrequency(GpsUpdateFrequency.MAXIMAL);
             } else {
-                Controller.getInstance().getLocationManager().updateFrequencyFromPreferences();
+                controller.getLocationManager().updateFrequencyFromPreferences();
             }
             compassView.setCacheDirection(GpsHelper.getBearingBetween(location, controller.getSearchingGeoCache().getLocationGeoPoint()));
             currentCoordinates.setText(GpsHelper.coordinateToString(GpsHelper.locationToGeoPoint(location)));
@@ -262,7 +269,7 @@ public class SearchGeoCacheCompass extends Activity {
         public void onStatusChanged(String provider, int status, Bundle extras) {
             // it is only write message to log and call onBestProviderUnavailable when gps out_of_service
             LogManager.d(TAG, "onStatusChanged:");
-            String statusString = "Location fixed: " + Boolean.toString(Controller.getInstance().getLocationManager().hasLocation()) + ". Provider: " + provider + ". ";
+            String statusString = "Location fixed: " + Boolean.toString(controller.getLocationManager().hasLocation()) + ". Provider: " + provider + ". ";
             LogManager.d(TAG, "     " + statusString);
             switch (status) {
 
@@ -316,6 +323,5 @@ public class SearchGeoCacheCompass extends Activity {
                 statusText.setText(status);
             }
         }
-
     }
 }
