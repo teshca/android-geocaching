@@ -16,8 +16,6 @@ import su.geocaching.android.controller.IInternetAware;
 import su.geocaching.android.controller.ILocationAware;
 import su.geocaching.android.controller.LogManager;
 import su.geocaching.android.controller.UiHelper;
-import su.geocaching.android.controller.compass.CompassPreferenceManager;
-import su.geocaching.android.controller.compass.CompassSpeed;
 import su.geocaching.android.controller.compass.SmoothCompassThread;
 import su.geocaching.android.model.datatype.GeoCache;
 import su.geocaching.android.model.datatype.GeoCacheStatus;
@@ -177,7 +175,7 @@ public class SearchGeoCacheMap extends MapActivity implements IInternetAware, IL
         if (distanceOverlay != null) {
             distanceOverlay.setCachePoint(mController.getSearchingGeoCache().getLocationGeoPoint());
         }
-       
+
         checkpointManager = mController.getCheckpointManager(mController.getPreferencesManager().getLastSearchedGeoCache().getId());
         checkpointCacheOverlay.clear();
         for (GeoCache checkpoint : checkpointManager.getCheckpoints()) {
@@ -546,11 +544,6 @@ public class SearchGeoCacheMap extends MapActivity implements IInternetAware, IL
         if (animationThread == null) {
             animationThread = new SmoothCompassThread(userOverlay);
             animationThread.setRunning(true);
-
-            CompassPreferenceManager preferManager = CompassPreferenceManager.getPreference(this);
-            String speed = preferManager.getString(CompassPreferenceManager.PREFS_COMPASS_SPEED_KEY, CompassSpeed.NORMAL.name());
-            animationThread.setSpeed(CompassSpeed.valueOf(speed));
-
             animationThread.start();
         }
     }
@@ -562,7 +555,7 @@ public class SearchGeoCacheMap extends MapActivity implements IInternetAware, IL
         if (animationThread != null) {
             animationThread.setRunning(false);
             try {
-                animationThread.join(150); // TODO Is it need?
+                animationThread.join(150);
             } catch (InterruptedException ignored) {
             }
             animationThread = null;

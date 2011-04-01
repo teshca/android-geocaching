@@ -28,23 +28,29 @@ public class StandardCompassDrawing extends CompassDrawingHelper {
         textPaint.setStrokeWidth(0.8f);
     }
 
+    int bitmapX, bitmapY;
+
     @Override
     public void onSizeChanged(int w, int h) {
         int size = Math.min(h, w);
-        center = size / 2;
+        centerX = w / 2;
+        centerY = h / 2;
         needleWidth = size / 30;
         textPaint.setStrokeWidth((float) size / 300);
         roseBitmap = Bitmap.createScaledBitmap(roseBitmap, size, size, true);
+        bitmapX = -roseBitmap.getWidth() / 2;
+        bitmapY = -roseBitmap.getHeight() / 2;
         needleBitmap = createNeedle();
         arrowBitmap = createCacheArrow();
-        textPaint.setTextSize(center * 0.2f);
+        textPaint.setTextSize(size * 0.1f);
     }
 
     @Override
     public void draw(Canvas canvas, float northDirection) {
         canvas.drawColor(bgColor);
-        canvas.drawBitmap(roseBitmap, 0, 0, bitmapPaint);
-        canvas.translate(center, center); // !!!
+        canvas.translate(centerX, centerY); // !!!
+        canvas.drawBitmap(roseBitmap, bitmapX, bitmapY, bitmapPaint);
+
         drawNeedle(canvas, northDirection);
         drawAzimuthLabel(canvas, northDirection);
         drawDistanceLabel(canvas);
@@ -57,11 +63,11 @@ public class StandardCompassDrawing extends CompassDrawingHelper {
     }
 
     private void drawAzimuthLabel(Canvas canvas, float direction) {
-        canvas.drawText(CompassHelper.degreesToString(direction), center * 0.45f, -center * 0.8f, textPaint);
+        canvas.drawText(CompassHelper.degreesToString(direction), centerX * 0.4f, -centerY * 0.8f, textPaint);
     }
 
     private void drawDistanceLabel(Canvas canvas) {
-        canvas.drawText(GpsHelper.distanceToString(distance), -center * 0.98f, -center * 0.8f, textPaint);
+        canvas.drawText(GpsHelper.distanceToString(distance), -centerX * 0.95f, -centerY * 0.8f, textPaint);
     }
 
     @Override
@@ -72,7 +78,7 @@ public class StandardCompassDrawing extends CompassDrawingHelper {
     }
 
     private Bitmap createNeedle() {
-        Bitmap bitmap = Bitmap.createBitmap(needleWidth * 3, center * 2, Bitmap.Config.ARGB_8888);
+        Bitmap bitmap = Bitmap.createBitmap(needleWidth * 3, centerY * 2, Bitmap.Config.ARGB_8888);
         Canvas canvas = new Canvas(bitmap);
         Path needlePath = new Path();
         Paint paint = new Paint();
@@ -80,8 +86,8 @@ public class StandardCompassDrawing extends CompassDrawingHelper {
         paint.setStyle(Style.FILL_AND_STROKE);
         paint.setStrokeWidth(1);
 
-        float top = center * 0.85f;
-        canvas.translate(needleWidth * 1.5f, center);
+        float top = centerY * 0.85f;
+        canvas.translate(needleWidth * 1.5f, centerY);
         needlePath.moveTo(-needleWidth, 0);
         needlePath.lineTo(0, -top);
         needlePath.lineTo(needleWidth, 0);
@@ -101,7 +107,7 @@ public class StandardCompassDrawing extends CompassDrawingHelper {
     }
 
     private Bitmap createCacheArrow() {
-        Bitmap bitmap = Bitmap.createBitmap(20, center * 2, Bitmap.Config.ARGB_8888);
+        Bitmap bitmap = Bitmap.createBitmap(needleWidth * 3, centerY * 2, Bitmap.Config.ARGB_8888);
         Canvas canvas = new Canvas(bitmap);
         Path arrowPath = new Path();
         Paint paint = new Paint();
@@ -109,8 +115,8 @@ public class StandardCompassDrawing extends CompassDrawingHelper {
         paint.setStyle(Style.FILL_AND_STROKE);
         paint.setStrokeWidth(1);
 
-        float top = center * 0.85f;
-        canvas.translate(needleWidth * 1.5f, center);
+        float top = centerX * 0.85f;
+        canvas.translate(needleWidth * 1.5f, centerX);
         arrowPath.moveTo(-needleWidth, 0);
         arrowPath.lineTo(0, -top);
         arrowPath.lineTo(needleWidth, 0);

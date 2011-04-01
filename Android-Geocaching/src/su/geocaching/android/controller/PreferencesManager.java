@@ -113,6 +113,19 @@ public class PreferencesManager {
         // keys located in resources, because settings logic described in xml and write it automatically to SharedPreferences
         return GpsUpdateFrequency.valueOf(preferences.getString(context.getString(R.string.gps_update_frequency_key), context.getString(R.string.gps_update_frequency_default_value)));
     }
+    
+    public boolean getOdometerOnPreference() {
+        // keys located in resources, because settings logic described in xml and write it automatically to SharedPreferences
+        return preferences.getBoolean(context.getString(R.string.prefer_odometer_key),  resources.getBoolean(R.bool.odometer_default_value));
+    }
+    
+    public String getCompassSpeed(){
+        return preferences.getString(context.getString(R.string.prefs_speed_key), context.getString(R.string.prefer_speed_default_value));
+    }
+    
+    public String getCompassAppearence(){
+        return preferences.getString(context.getString(R.string.prefs_appearance_key), context.getString(R.string.prefer_appearance_default_value));
+    }
 
     public EnumSet<GeoCacheStatus> getStatusFilter() {
         EnumSet<GeoCacheStatus> set = EnumSet.noneOf(GeoCacheStatus.class);

@@ -14,7 +14,7 @@ public abstract class CompassDrawingHelper {
 
     protected static final int DEFAULT_NEEDLE_WIDTH = 8;
 
-    protected int center;
+    protected int centerX, centerY;
     protected int bgColor; // background color, taken from the xml
     protected int needleWidth = DEFAULT_NEEDLE_WIDTH;
     protected float distance;

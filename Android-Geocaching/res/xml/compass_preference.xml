@@ -12,5 +12,6 @@
                         android:title="@string/prefer_appearance_title" android:key="@string/prefs_appearance_key"
                         android:summary="@string/prefer_appearance_summary"
                         android:defaultValue="@string/prefer_appearance_default_value"/>
+        <CheckBoxPreference android:summaryOn="@string/prefer_odometer_on" android:summaryOff="@string/prefer_odometer_off" android:key="@string/prefer_odometer_key" android:title="@string/prefer_odometer_title" android:disableDependentsState="false" android:defaultValue="@bool/odometer_default_value"></CheckBoxPreference>
     </PreferenceCategory>
 </PreferenceScreen>
