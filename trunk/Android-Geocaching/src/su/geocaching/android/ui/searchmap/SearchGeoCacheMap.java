@@ -200,7 +200,7 @@ public class SearchGeoCacheMap extends MapActivity implements IInternetAware, IL
 
             if (!mLocationManager.hasLocation()) {
                 onBestProviderUnavailable();
-                mapController.animateTo(mController.getSearchingGeoCache().getLocationGeoPoint());
+                resetZoom();
                 progressBarView.setVisibility(View.VISIBLE);
                 LogManager.d(TAG, "runLogic: location not fixed. Send msg.");
             } else {
@@ -292,51 +292,102 @@ public class SearchGeoCacheMap extends MapActivity implements IInternetAware, IL
      * Set map zoom which can show userPoint and GeoCachePoint
      */
     private void resetZoom() {
-        GeoPoint currentGeoPoint = GpsHelper.locationToGeoPoint(mLocationManager.getLastKnownLocation());
-        // Calculating max and min lat and lon
-        int minLat = Math.min(mController.getSearchingGeoCache().getLocationGeoPoint().getLatitudeE6(), currentGeoPoint.getLatitudeE6());
-        int maxLat = Math.max(mController.getSearchingGeoCache().getLocationGeoPoint().getLatitudeE6(), currentGeoPoint.getLatitudeE6());
-        int minLon = Math.min(mController.getSearchingGeoCache().getLocationGeoPoint().getLongitudeE6(), currentGeoPoint.getLongitudeE6());
-        int maxLon = Math.max(mController.getSearchingGeoCache().getLocationGeoPoint().getLongitudeE6(), currentGeoPoint.getLongitudeE6());
+        // Calculate min/max latitude & longitude
+        int minLat = Integer.MAX_VALUE;
+        int maxLat = Integer.MIN_VALUE;
+        int minLon = Integer.MAX_VALUE;
+        int maxLon = Integer.MIN_VALUE;
+        GeoCache gc = (GeoCache) getIntent().getParcelableExtra(GeoCache.class.getCanonicalName());
+
+        if (mLocationManager.hasLocation()) {
+            minLat = GpsHelper.locationToGeoPoint(mLocationManager.getLastKnownLocation()).getLatitudeE6();
+            maxLat = GpsHelper.locationToGeoPoint(mLocationManager.getLastKnownLocation()).getLatitudeE6();
+            minLon = GpsHelper.locationToGeoPoint(mLocationManager.getLastKnownLocation()).getLongitudeE6();
+            maxLon = GpsHelper.locationToGeoPoint(mLocationManager.getLastKnownLocation()).getLongitudeE6();
+        }
+        minLat = Math.min(gc.getLocationGeoPoint().getLatitudeE6(), minLat);
+        maxLat = Math.max(gc.getLocationGeoPoint().getLatitudeE6(), maxLat);
+        minLon = Math.min(gc.getLocationGeoPoint().getLongitudeE6(), minLon);
+        maxLon = Math.max(gc.getLocationGeoPoint().getLongitudeE6(), maxLon);
+
+        for (GeoCache i : mController.getCheckpointManager(gc.getId()).getCheckpoints()) {
+            minLat = Math.min(i.getLocationGeoPoint().getLatitudeE6(), minLat);
+            maxLat = Math.max(i.getLocationGeoPoint().getLatitudeE6(), maxLat);
+            minLon = Math.min(i.getLocationGeoPoint().getLongitudeE6(), minLon);
+            maxLon = Math.max(i.getLocationGeoPoint().getLongitudeE6(), maxLon);
+        }
 
         // Calculate span
         int latSpan = maxLat - minLat;
         int lonSpan = maxLon - minLon;
 
         // Set zoom
-        mapController.zoomToSpan(latSpan, lonSpan);
+        if (latSpan != 0 && lonSpan != 0) {
+            mapController.zoomToSpan(latSpan, lonSpan);
+        }
 
         // Calculate new center of map
-        GeoPoint center = new GeoPoint((mController.getSearchingGeoCache().getLocationGeoPoint().getLatitudeE6() + currentGeoPoint.getLatitudeE6()) / 2, (mController.getSearchingGeoCache()
-                .getLocationGeoPoint().getLongitudeE6() + currentGeoPoint.getLongitudeE6()) / 2);
+        GeoPoint center = new GeoPoint((minLat + maxLat) / 2, (minLon + maxLon) / 2);
 
         // Set new center of map
         mapController.setCenter(center);
-        map.invalidate();
-        Projection proj = map.getProjection();
-        // calculate padding
-        int userPadding = (int) proj.metersToEquatorPixels(mLocationManager.getLastKnownLocation().getAccuracy());
-        Rect cacheBounds = cacheMarker.getBounds();
-        // Get points of user and cache on screen
-        Point userPoint = new Point();
-        Point cachePoint = new Point();
-        proj.toPixels(currentGeoPoint, userPoint);
-        proj.toPixels(mController.getSearchingGeoCache().getLocationGeoPoint(), cachePoint);
+
+        // if markers not in map - zoom out. logic below
+
         // Get map boundaries
         int mapRight = map.getRight();
         int mapBottom = map.getBottom();
         int mapLeft = map.getLeft();
         int mapTop = map.getTop();
-        // Check contains markers in visible part of map
-        boolean isCacheMarkerNotInMapX = (cachePoint.x + cacheBounds.left < mapLeft) || (cachePoint.x + cacheBounds.right > mapRight);
-        boolean isCacheMarkerNotInMapY = (cachePoint.y + cacheBounds.top < mapTop) || (cachePoint.y + cacheBounds.bottom > mapBottom);
-        boolean isUserMarkerNotInMapX = (userPoint.x - userPadding < mapLeft) || (userPoint.x + userPadding > mapRight);
-        boolean isUserMarkerNotInMapY = (userPoint.y - userPadding < mapTop) || (userPoint.y + userPadding > mapBottom);
-        boolean isMapDimensionsZeroes = mapRight == 0 && mapLeft == 0 && mapTop == 0 && mapBottom == 0;
+        // if map not init - go out of here!
+        if (mapRight == 0 && mapLeft == 0 && mapTop == 0 && mapBottom == 0) {
+            map.invalidate();
+            return;
+        }
+
+        boolean needZoomOut = false;
+        Projection proj = map.getProjection();
+        Rect rect = new Rect();
+        Point point = new Point();
+
+        if (mLocationManager.hasLocation()) {
+            // is user marker in visible map
+            GeoPoint currentGeoPoint = GpsHelper.locationToGeoPoint(mLocationManager.getLastKnownLocation());
+            int userPadding = (int) proj.metersToEquatorPixels(mLocationManager.getLastKnownLocation().getAccuracy());
+            proj.toPixels(currentGeoPoint, point);
+            needZoomOut = needZoomOut || (point.x - userPadding < mapLeft) || (point.x + userPadding > mapRight) || (point.y - userPadding < mapTop) || (point.y + userPadding > mapBottom);
+
+        }
+        if (!needZoomOut) {
+            // still not need zoom out
+            // calculate padding
+            rect = cacheMarker.getBounds();
+            // Get points on screen
+            proj.toPixels(gc.getLocationGeoPoint(), point);
+            // Check contains markers in visible part of map
+            needZoomOut = needZoomOut || (point.x + rect.left < mapLeft) || (point.x + rect.right > mapRight) || (point.y + rect.top < mapTop) || (point.y + rect.bottom > mapBottom);
+        }
+
+        // check contains checkpoints markers in visible part of map if still not need zoom out
+        if (!needZoomOut) {
+            // Get marker of checkpoint
+            gc.setType(GeoCacheType.CHECKPOINT);
+            rect = mController.getResourceManager().getMarker(gc).getBounds();
+
+            for (GeoCache i : mController.getCheckpointManager(gc.getId()).getCheckpoints()) {
+                proj.toPixels(i.getLocationGeoPoint(), point);
+                needZoomOut = needZoomOut || (point.x + rect.left < mapLeft) || (point.x + rect.right > mapRight) || (point.y + rect.top < mapTop) || (point.y + rect.bottom > mapBottom);
+                if (needZoomOut) {
+                    // already need zoom out
+                    break;
+                }
+            }
+        }
+
         // if markers are not visible then zoomOut
-        if ((isCacheMarkerNotInMapX || isCacheMarkerNotInMapY || isUserMarkerNotInMapX || isUserMarkerNotInMapY) && (!isMapDimensionsZeroes)) {
+        if (needZoomOut) {
             LogManager.d(TAG, "markers not in the visible part of map. Zoom out.");
-            mapController.zoomOut();
+            mapController.setZoom(map.getZoomLevel() - 1);
         }
     }
 
@@ -357,12 +408,7 @@ public class SearchGeoCacheMap extends MapActivity implements IInternetAware, IL
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
             case R.id.menuDefaultZoom:
-                if (mLocationManager.hasLocation()) {
-                    resetZoom();
-                } else {
-                    //TODO: show all checkpoints
-                    mapController.animateTo(mController.getSearchingGeoCache().getLocationGeoPoint());
-                }
+                resetZoom();
                 return true;
             case R.id.menuStartCompass:
                 this.startCompassView();
@@ -377,7 +423,7 @@ public class SearchGeoCacheMap extends MapActivity implements IInternetAware, IL
                 UiHelper.startCheckpointsFolder(this, mController.getPreferencesManager().getLastSearchedGeoCache().getId());
                 return true;
             case R.id.searchMapSettings:
-                startActivity(new Intent(this, SearchGeoCacheMapPreferenceActivity.class));
+                startActivity(new Intent(this, SearchMapPreference.class));
                 return true;
             default:
                 return super.onOptionsItemSelected(item);
@@ -499,8 +545,6 @@ public class SearchGeoCacheMap extends MapActivity implements IInternetAware, IL
                 break;
             case LocationProvider.TEMPORARILY_UNAVAILABLE:
                 statusString += "Status: temporarily unavailable. ";
-                // TODO: check when it happens. i'm almost sure that it call then gps 'go to sleep'(power saving)
-                // onBestProviderUnavailable();
                 LogManager.d(TAG, "     Status: temporarily unavailable.");
                 break;
             case LocationProvider.AVAILABLE:
