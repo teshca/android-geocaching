@@ -86,7 +86,7 @@ public class SelectCacheOverlay extends com.google.android.maps.ItemizedOverlay<
     public boolean onTouchEvent(MotionEvent event, MapView map) {
         try {
             Method getPointer = MotionEvent.class.getMethod("getPointerCount");
-            if (Integer.parseInt(getPointer.invoke(event, new Class[]{}).toString()) > 1) {
+            if (Integer.parseInt(getPointer.invoke(event).toString()) > 1) {
                 touchFlag = true;
             }
             /* success, this is a newer device */
