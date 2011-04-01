@@ -14,7 +14,7 @@ import su.geocaching.android.ui.selectgeocache.MapIconTypeActivity;
  * @since Apr 1, 2011
  *
  */
-public class SearchGeoCacheMapPreferenceActivity extends PreferenceActivity {
+public class SearchMapPreference extends PreferenceActivity {
     /* (non-Javadoc)
      * @see android.preference.PreferenceActivity#onCreate(android.os.Bundle)
      */

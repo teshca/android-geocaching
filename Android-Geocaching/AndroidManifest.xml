@@ -29,7 +29,7 @@
 			</intent-filter>
 		</activity>
 
-		<activity android:name=".searchgeocache.SearchGeoCacheMap"
+		<activity android:name=".searchmap.SearchGeoCacheMap"
 			android:label="@string/app_name" android:theme="@android:style/Theme.NoTitleBar">
 			<intent-filter>
 				<action android:name="android.intent.action.RUN" />
@@ -80,7 +80,7 @@
 		<uses-library android:name="com.google.android.maps" />
 
         <activity android:name=".selectgeocache.SelectGeoCacheMapPreferenceActivity" />
-        <activity android:name=".searchgeocache.SearchGeoCacheMapPreferenceActivity" />
+        <activity android:name=".searchmap.SearchMapPreference" />
 		<activity android:name=".DashboardPreferenceActivity" />
 		<activity android:name=".EnergySavingPreferenceActivity" />
 		<activity android:name=".InternetAndGpsPreferenceActivity" />
@@ -94,13 +94,13 @@
 		
 		
 		<activity android:name=".compass.CompassPreferenceActivity" />
-		<activity android:name=".searchgeocache.stepbystep.StepByStepTabActivity" />
-		<activity android:name=".searchgeocache.stepbystep.SexagesimalInputActivity" />
-		<activity android:name=".searchgeocache.stepbystep.DecimalInputActivity" />
-		<activity android:name=".searchgeocache.stepbystep.AzimuthInputActivity" />
+		<activity android:name=".searchmap.stepbystep.StepByStepTabActivity" />
+		<activity android:name=".searchmap.stepbystep.SexagesimalInputActivity" />
+		<activity android:name=".searchmap.stepbystep.DecimalInputActivity" />
+		<activity android:name=".searchmap.stepbystep.AzimuthInputActivity" />
 		<activity android:name="CheckpointsFolder"
 			android:theme="@android:style/Theme.Light.NoTitleBar"></activity>
-		<activity android:name="searchmap.stepbystep.CheckpointDialog"
+		<activity android:name=".searchmap.stepbystep.CheckpointDialog"
 			android:theme="@android:style/Theme.Dialog"></activity>
 	</application>
 
