@@ -1,4 +1,4 @@
-package su.geocaching.android.ui.searchgeocache;
+package su.geocaching.android.ui.searchmap;
 
 /**
  * Type of engine which status is updating

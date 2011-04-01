@@ -105,7 +105,7 @@
 	<string name="application_version">Геокэшинг версия</string>
 	<string name="dislocation">"Ваше местоположение не определено. Повторите
 		попытку позже."</string>
-	<string name="checkpoints">Крнтрольные точки</string>
+	<string name="checkpoints">Контрольные точки</string>
 	<string name="latitude">Широта :</string>
 	<string name="longitude">Долгота :</string>
 	<string name="status">Статус :</string>

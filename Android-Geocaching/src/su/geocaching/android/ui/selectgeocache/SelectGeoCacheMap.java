@@ -22,11 +22,8 @@ import su.geocaching.android.controller.*;
 import su.geocaching.android.model.datatype.GeoCache;
 import su.geocaching.android.ui.R;
 import su.geocaching.android.ui.geocachemap.GeoCacheOverlayItem;
-import su.geocaching.android.ui.geocachemap.MapInfo;
-import su.geocaching.android.ui.geocachemap.SelectCacheOverlay;
 import su.geocaching.android.ui.selectgeocache.geocachegroup.GroupCacheTask;
 import su.geocaching.android.ui.selectgeocache.timer.MapUpdateTimer;
-import su.geocaching.android.utils.GpsHelper;
 
 import java.util.List;
 

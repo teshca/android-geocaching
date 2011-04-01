@@ -11,9 +11,9 @@ import su.geocaching.android.ui.CheckpointsFolder;
 import su.geocaching.android.ui.DashboardActivity;
 import su.geocaching.android.ui.R;
 import su.geocaching.android.ui.GeoCacheInfoActivity;
-import su.geocaching.android.ui.searchgeocache.SearchGeoCacheMap;
-import su.geocaching.android.ui.searchgeocache.stepbystep.CheckpointDialog;
-import su.geocaching.android.ui.searchgeocache.stepbystep.StepByStepTabActivity;
+import su.geocaching.android.ui.searchmap.SearchGeoCacheMap;
+import su.geocaching.android.ui.searchmap.stepbystep.CheckpointDialog;
+import su.geocaching.android.ui.searchmap.stepbystep.StepByStepTabActivity;
 
 /**
  * @author Nikita Bumakov

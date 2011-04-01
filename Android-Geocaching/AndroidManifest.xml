@@ -100,7 +100,7 @@
 		<activity android:name=".searchgeocache.stepbystep.AzimuthInputActivity" />
 		<activity android:name="CheckpointsFolder"
 			android:theme="@android:style/Theme.Light.NoTitleBar"></activity>
-		<activity android:name=".searchgeocache.stepbystep.CheckpointDialog"
+		<activity android:name="searchmap.stepbystep.CheckpointDialog"
 			android:theme="@android:style/Theme.Dialog"></activity>
 	</application>
 
