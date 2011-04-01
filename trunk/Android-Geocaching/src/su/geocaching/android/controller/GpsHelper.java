@@ -1,11 +1,9 @@
-package su.geocaching.android.utils;
+package su.geocaching.android.controller;
 
 import android.content.res.Resources;
 import android.location.Location;
 import com.google.android.maps.GeoPoint;
 
-import su.geocaching.android.controller.Controller;
-import su.geocaching.android.controller.LogManager;
 import su.geocaching.android.ui.R;
 
 import java.text.DecimalFormat;

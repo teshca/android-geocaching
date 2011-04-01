@@ -1,4 +1,4 @@
-package su.geocaching.android.ui.searchgeocache.stepbystep;
+package su.geocaching.android.ui.searchmap.stepbystep;
 
 import su.geocaching.android.controller.Controller;
 import su.geocaching.android.controller.LogManager;

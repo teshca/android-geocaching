@@ -1,4 +1,4 @@
-package su.geocaching.android.ui.searchgeocache;
+package su.geocaching.android.ui.searchmap;
 
 import android.content.Intent;
 import android.content.pm.ActivityInfo;

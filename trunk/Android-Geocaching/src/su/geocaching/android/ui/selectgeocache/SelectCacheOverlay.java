@@ -1,4 +1,4 @@
-package su.geocaching.android.ui.geocachemap;
+package su.geocaching.android.ui.selectgeocache;
 
 import android.content.Context;
 import android.graphics.drawable.Drawable;
@@ -8,6 +8,7 @@ import com.google.android.maps.MapView;
 import com.google.android.maps.OverlayItem;
 import su.geocaching.android.controller.UiHelper;
 import su.geocaching.android.model.datatype.GeoCache;
+import su.geocaching.android.ui.geocachemap.GeoCacheOverlayItem;
 
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;

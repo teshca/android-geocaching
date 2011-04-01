@@ -3,8 +3,8 @@ package su.geocaching.android.controller.compass;
 import android.graphics.*;
 import android.graphics.Paint.Style;
 import su.geocaching.android.controller.Controller;
+import su.geocaching.android.controller.GpsHelper;
 import su.geocaching.android.ui.R;
-import su.geocaching.android.utils.GpsHelper;
 
 /**
  * Default appearance of the compass

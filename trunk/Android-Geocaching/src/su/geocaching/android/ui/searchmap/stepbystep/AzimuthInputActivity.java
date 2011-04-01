@@ -1,9 +1,9 @@
-package su.geocaching.android.ui.searchgeocache.stepbystep;
+package su.geocaching.android.ui.searchmap.stepbystep;
 
 import su.geocaching.android.controller.Controller;
+import su.geocaching.android.controller.GpsHelper;
 import su.geocaching.android.model.datatype.GeoCache;
 import su.geocaching.android.ui.R;
-import su.geocaching.android.utils.GpsHelper;
 import android.app.Activity;
 import android.os.Bundle;
 import android.view.View;

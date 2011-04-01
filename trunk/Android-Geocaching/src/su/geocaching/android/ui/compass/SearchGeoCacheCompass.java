@@ -2,6 +2,7 @@ package su.geocaching.android.ui.compass;
 
 import su.geocaching.android.controller.Controller;
 import su.geocaching.android.controller.GeoCacheLocationManager;
+import su.geocaching.android.controller.GpsHelper;
 import su.geocaching.android.controller.GpsStatusManager;
 import su.geocaching.android.controller.GpsUpdateFrequency;
 import su.geocaching.android.controller.IGpsStatusAware;
@@ -13,7 +14,6 @@ import su.geocaching.android.controller.compass.CompassSpeed;
 import su.geocaching.android.controller.compass.SmoothCompassThread;
 import su.geocaching.android.model.datatype.GeoCache;
 import su.geocaching.android.ui.R;
-import su.geocaching.android.utils.GpsHelper;
 import android.app.Activity;
 import android.content.Intent;
 import android.graphics.drawable.AnimationDrawable;

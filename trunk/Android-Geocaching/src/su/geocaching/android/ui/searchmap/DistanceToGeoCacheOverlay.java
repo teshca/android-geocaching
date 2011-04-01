@@ -1,4 +1,4 @@
-package su.geocaching.android.ui.searchgeocache;
+package su.geocaching.android.ui.searchmap;
 
 import android.graphics.Canvas;
 import android.graphics.Paint;

@@ -1,4 +1,4 @@
-package su.geocaching.android.ui.searchgeocache;
+package su.geocaching.android.ui.searchmap;
 
 import java.util.List;
 import java.util.Locale;
@@ -8,6 +8,7 @@ import su.geocaching.android.controller.CompassManager;
 import su.geocaching.android.controller.ConnectionManager;
 import su.geocaching.android.controller.Controller;
 import su.geocaching.android.controller.GeoCacheLocationManager;
+import su.geocaching.android.controller.GpsHelper;
 import su.geocaching.android.controller.GpsStatusManager;
 import su.geocaching.android.controller.GpsUpdateFrequency;
 import su.geocaching.android.controller.ICompassAware;
@@ -22,10 +23,7 @@ import su.geocaching.android.model.datatype.GeoCacheStatus;
 import su.geocaching.android.model.datatype.GeoCacheType;
 import su.geocaching.android.ui.R;
 import su.geocaching.android.ui.compass.SearchGeoCacheCompass;
-import su.geocaching.android.ui.geocachemap.CheckpointCacheOverlay;
 import su.geocaching.android.ui.geocachemap.GeoCacheOverlayItem;
-import su.geocaching.android.ui.geocachemap.SearchCacheOverlay;
-import su.geocaching.android.utils.GpsHelper;
 import android.content.Intent;
 import android.graphics.Point;
 import android.graphics.Rect;

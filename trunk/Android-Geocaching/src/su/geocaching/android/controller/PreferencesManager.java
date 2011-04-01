@@ -9,7 +9,7 @@ import su.geocaching.android.model.datatype.GeoCache;
 import su.geocaching.android.model.datatype.GeoCacheStatus;
 import su.geocaching.android.model.datatype.GeoCacheType;
 import su.geocaching.android.ui.R;
-import su.geocaching.android.ui.geocachemap.MapInfo;
+import su.geocaching.android.ui.selectgeocache.MapInfo;
 
 import java.util.EnumSet;
 

@@ -1,4 +1,4 @@
-package su.geocaching.android.ui.searchgeocache.stepbystep;
+package su.geocaching.android.ui.searchmap.stepbystep;
 
 import android.app.TabActivity;
 import android.content.Intent;

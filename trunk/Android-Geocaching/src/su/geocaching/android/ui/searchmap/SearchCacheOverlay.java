@@ -1,7 +1,8 @@
-package su.geocaching.android.ui.geocachemap;
+package su.geocaching.android.ui.searchmap;
 
 import su.geocaching.android.controller.UiHelper;
 import su.geocaching.android.model.datatype.GeoCache;
+import su.geocaching.android.ui.geocachemap.GeoCacheOverlayItem;
 import android.app.Activity;
 import android.graphics.drawable.Drawable;
 import android.view.GestureDetector;
