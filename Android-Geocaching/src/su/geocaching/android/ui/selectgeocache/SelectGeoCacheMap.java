@@ -192,7 +192,7 @@ public class SelectGeoCacheMap extends MapActivity implements IInternetAware {
                 }
                 return true;
             case R.id.mapSettings:
-                startActivity(new Intent(this, MapPreferenceActivity.class));
+                startActivity(new Intent(this, SelectGeoCacheMapPreferenceActivity.class));
                 return true;
             default:
                 return super.onOptionsItemSelected(item);

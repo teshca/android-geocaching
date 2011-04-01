@@ -12,11 +12,11 @@ import su.geocaching.android.ui.R;
  * @author: Yuri Denison
  * @since: 23.02.11
  */
-public class MapPreferenceActivity extends PreferenceActivity {
+public class SelectGeoCacheMapPreferenceActivity extends PreferenceActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        addPreferencesFromResource(R.xml.map_preference);
+        addPreferencesFromResource(R.xml.select_gc_map_preference);
         setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
 
         Preference mapFilterTypePreference = findPreference("mapFilterType");

@@ -115,9 +115,6 @@ public class SearchGeoCacheCompass extends Activity {
             return;
         }
 
-        // Save last searched geocache
-        // controller.setLastSearchedGeoCache(geoCache, this);
-
         if (locationManager.hasLocation()) {
             LogManager.d(TAG, "runLogic: location fixed. Update location with last known location");
             locationListener.updateLocation(locationManager.getLastKnownLocation());
