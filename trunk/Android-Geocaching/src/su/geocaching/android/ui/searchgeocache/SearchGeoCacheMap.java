@@ -183,6 +183,7 @@ public class SearchGeoCacheMap extends MapActivity implements IInternetAware, IL
         }
 
         map.setKeepScreenOn(Controller.getInstance().getPreferencesManager().getKeepScreenOnPreference());
+        map.setSatellite(Controller.getInstance().getPreferencesManager().useSatelliteMap());
 
         if (!mLocationManager.isBestProviderEnabled()) {
             if (!mLocationManager.isBestProviderGps()) {
@@ -357,13 +358,12 @@ public class SearchGeoCacheMap extends MapActivity implements IInternetAware, IL
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
-
             case R.id.menuDefaultZoom:
                 if (mLocationManager.hasLocation()) {
                     resetZoom();
                 } else {
+                    //TODO: show all checkpoints
                     mapController.animateTo(mController.getSearchingGeoCache().getLocationGeoPoint());
-                    Toast.makeText(getBaseContext(), R.string.status_null_last_location, Toast.LENGTH_SHORT).show();
                 }
                 return true;
             case R.id.menuStartCompass:
@@ -377,6 +377,9 @@ public class SearchGeoCacheMap extends MapActivity implements IInternetAware, IL
                 return true;
             case R.id.stepByStep:
                 UiHelper.startCheckpointsFolder(this, mController.getPreferencesManager().getLastSearchedGeoCache().getId());
+                return true;
+            case R.id.searchMapSettings:
+                startActivity(new Intent(this, SearchGeoCacheMapPreferenceActivity.class));
                 return true;
             default:
                 return super.onOptionsItemSelected(item);

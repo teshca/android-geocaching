@@ -79,7 +79,8 @@
 
 		<uses-library android:name="com.google.android.maps" />
 
-		<activity android:name=".selectgeocache.MapPreferenceActivity" />
+        <activity android:name=".selectgeocache.SelectGeoCacheMapPreferenceActivity" />
+        <activity android:name=".searchgeocache.SearchGeoCacheMapPreferenceActivity" />
 		<activity android:name=".DashboardPreferenceActivity" />
 		<activity android:name=".EnergySavingPreferenceActivity" />
 		<activity android:name=".InternetAndGpsPreferenceActivity" />

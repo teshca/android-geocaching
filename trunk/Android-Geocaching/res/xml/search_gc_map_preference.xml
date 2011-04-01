@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
+    <PreferenceCategory android:title="@string/map_category_title">
+        <ListPreference android:entries="@array/requests_map_type_entries"
+                        android:entryValues="@array/requests_map_type_values"
+                        android:title="@string/prefer_map_type_title"
+                        android:summary="@string/prefer_map_type_summary" android:key="@string/prefer_map_type_key"
+                        android:defaultValue="@string/prefer_map_type_default_value"/>
+    </PreferenceCategory>
+
+    <PreferenceCategory android:title="@string/map_markers_title">
+        <Preference android:title="Тип иконок"
+                    android:summary="" android:key="mapMarkerType"/>
+    </PreferenceCategory>
+</PreferenceScreen>

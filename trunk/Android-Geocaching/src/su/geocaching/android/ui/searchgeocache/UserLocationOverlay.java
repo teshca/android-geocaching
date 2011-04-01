@@ -5,6 +5,7 @@ import android.graphics.Paint.Style;
 import com.google.android.maps.GeoPoint;
 import com.google.android.maps.MapView;
 import su.geocaching.android.controller.Controller;
+import su.geocaching.android.controller.LogManager;
 import su.geocaching.android.controller.compass.ICompassAnimation;
 import su.geocaching.android.ui.R;
 
@@ -134,7 +135,8 @@ public class UserLocationOverlay extends com.google.android.maps.Overlay impleme
      */
     @Override
     public boolean onTap(GeoPoint p, MapView map) {
-        if ((!Controller.getInstance().getLocationManager().hasLocation()) || (!Controller.getInstance().getCompassManager().isCompassAvailable())) {
+        LogManager.d(UserLocationOverlay.class.getCanonicalName(), "yep!");
+        if (!Controller.getInstance().getLocationManager().hasLocation()) {
             return super.onTap(p, map);
         }
         map.getProjection().toPixels(p, tapPoint);
