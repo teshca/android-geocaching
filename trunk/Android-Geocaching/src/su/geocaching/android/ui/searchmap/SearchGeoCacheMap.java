@@ -61,6 +61,7 @@ public class SearchGeoCacheMap extends MapActivity implements IInternetAware, IL
     private final static float CLOSE_DISTANCE_TO_GC_VALUE = 100; // if we nearly than this distance in meters to geocache - gps will be work maximal often
 
     private CheckpointCacheOverlay checkpointCacheOverlay;
+    private SearchCacheOverlay searchCacheOverlay;
     private Drawable cacheMarker;
     private DistanceToGeoCacheOverlay distanceOverlay;
     private UserLocationOverlay userOverlay;
@@ -119,19 +120,8 @@ public class SearchGeoCacheMap extends MapActivity implements IInternetAware, IL
         mCompassManager = mController.getCompassManager();
         mGpsStatusManager = mController.getGpsStatusManager(getApplicationContext());
 
-        if (geoCache != null) {
-
-            cacheMarker = mController.getResourceManager().getMarker(geoCache.getType(), geoCache.getStatus());
-            SearchCacheOverlay searchCacheOverlay = new SearchCacheOverlay(cacheMarker, this, map);
-            GeoCacheOverlayItem cacheOverlayItem = new GeoCacheOverlayItem(mController.getSearchingGeoCache(), "", "");
-            searchCacheOverlay.addOverlayItem(cacheOverlayItem);
-            mapOverlays.add(searchCacheOverlay);
-        }
-
-        cacheMarker = mController.getResourceManager().getMarker(GeoCacheType.CHECKPOINT, null);
-
         checkpointManager = mController.getCheckpointManager(geoCache.getId());
-        checkpointCacheOverlay = new CheckpointCacheOverlay(cacheMarker, this, map);
+        checkpointCacheOverlay = new CheckpointCacheOverlay(mController.getResourceManager().getMarker(GeoCacheType.CHECKPOINT, null), this, map);
         for (GeoCache checkpoint : checkpointManager.getCheckpoints()) {
             checkpointCacheOverlay.addOverlayItem(new GeoCacheOverlayItem(checkpoint, "", ""));
             if (checkpoint.getStatus() == GeoCacheStatus.ACTIVE_CHECKPOINT) {
@@ -180,6 +170,15 @@ public class SearchGeoCacheMap extends MapActivity implements IInternetAware, IL
 
         map.setKeepScreenOn(Controller.getInstance().getPreferencesManager().getKeepScreenOnPreference());
         map.setSatellite(Controller.getInstance().getPreferencesManager().useSatelliteMap());
+        mapOverlays.remove(searchCacheOverlay);
+        GeoCache geoCache = (GeoCache) getIntent().getParcelableExtra(GeoCache.class.getCanonicalName());
+        if (geoCache != null) {
+            cacheMarker = mController.getResourceManager().getMarker(geoCache.getType(), geoCache.getStatus());
+            searchCacheOverlay = new SearchCacheOverlay(cacheMarker, this, map);
+            GeoCacheOverlayItem cacheOverlayItem = new GeoCacheOverlayItem(geoCache, "", "");
+            searchCacheOverlay.addOverlayItem(cacheOverlayItem);
+            mapOverlays.add(searchCacheOverlay);
+        }
 
         if (!mLocationManager.isBestProviderEnabled()) {
             if (!mLocationManager.isBestProviderGps()) {
