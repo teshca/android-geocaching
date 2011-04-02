@@ -17,7 +17,7 @@ import su.geocaching.android.ui.R;
  */
 public class ResourceManager {
     private final Context context;
-
+    
     public ResourceManager(Context context) {
         this.context = context;
 
@@ -64,7 +64,7 @@ public class ResourceManager {
      * @return Drawable for this geoCache depends on it's parameters
      */
     public int getMarkerResId(GeoCacheType type, GeoCacheStatus status) {
-        if (PreferenceManager.getDefaultSharedPreferences(context).getBoolean(context.getString(R.string.default_marker), true)) {
+        if (PreferenceManager.getDefaultSharedPreferences(context).getString("map.icon", "CUSTOM").contains("DEFAULT")) {
 
             switch (type) {
                 case TRADITIONAL:

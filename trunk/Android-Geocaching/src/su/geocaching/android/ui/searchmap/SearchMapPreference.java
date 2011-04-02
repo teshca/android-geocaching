@@ -7,7 +7,6 @@ import android.preference.Preference;
 import android.preference.Preference.OnPreferenceClickListener;
 import android.preference.PreferenceActivity;
 import su.geocaching.android.ui.R;
-import su.geocaching.android.ui.selectgeocache.MapIconTypeActivity;
 
 /**
  * @author Grigory Kalabin. grigory.kalabin@gmail.com
@@ -24,14 +23,6 @@ public class SearchMapPreference extends PreferenceActivity {
         addPreferencesFromResource(R.xml.search_gc_map_preference);
         setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
 
-        Preference mapMarkerFilterPreference = findPreference("mapMarkerType");
-        mapMarkerFilterPreference.setOnPreferenceClickListener(new OnPreferenceClickListener() {
-
-            public boolean onPreferenceClick(Preference preference) {
-                startActivity(new Intent(getBaseContext(), MapIconTypeActivity.class));
-                return true;
-            }
-        });
-
+        
     }
 }

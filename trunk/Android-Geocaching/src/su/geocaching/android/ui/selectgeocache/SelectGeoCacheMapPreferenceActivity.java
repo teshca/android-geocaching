@@ -36,14 +36,14 @@ public class SelectGeoCacheMapPreferenceActivity extends PreferenceActivity {
                 return true;
             }
         });
-        Preference mapMarkerFilterPreference = findPreference("mapMarkerType");
-        mapMarkerFilterPreference.setOnPreferenceClickListener(new OnPreferenceClickListener() {
-
-            public boolean onPreferenceClick(Preference preference) {
-                startActivity(new Intent(getBaseContext(), MapIconTypeActivity.class));
-                return true;
-            }
-        });
+//        Preference mapMarkerTypePreference = findPreference("mapMarkerType");
+//       mapMarkerTypePreference.setOnPreferenceClickListener(new OnPreferenceClickListener() {
+//
+//            public boolean onPreferenceClick(Preference preference) {
+//                startActivity(new Intent(getBaseContext(), MapIconTypeActivity.class));
+//                return true;
+//            }
+//        });
 
     }
 }
