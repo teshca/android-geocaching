@@ -64,6 +64,7 @@ public class CheckpointsFolder extends AbstractCacheFolder implements OnItemClic
             case R.id.removeAllCheckpointMenu:
                 checkpointManager.clear();
                 lvListShowCache.setAdapter(null);
+                tvNoCache.setVisibility(View.VISIBLE);
                 break;
         }
         return true;
