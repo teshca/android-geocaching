@@ -95,6 +95,7 @@
 		<activity android:name=".searchmap.stepbystep.CheckpointDialog"
 			android:theme="@android:style/Theme.Dialog"></activity>
 		<activity android:label="@string/app_name" android:theme="@android:style/Theme.NoTitleBar" android:name=".searchmap.SearchGeoCacheMap"></activity>
+		<activity android:name=".searchmap.stepbystep.SexagestimalSecondsInputActivity"></activity>
 	</application>
 
 	<uses-sdk android:minSdkVersion="4" />

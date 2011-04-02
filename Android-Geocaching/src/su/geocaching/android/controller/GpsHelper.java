@@ -115,31 +115,28 @@ public class GpsHelper {
         return new GeoPoint((int) (location.getLatitude() * 1E6), (int) (location.getLongitude() * 1E6));
     }
 
-    // public static int[] decimalToSexagesimal(double coordinate) throws Exception {
-    // if (Math.abs(coordinate) > 180) {
-    // throw new Exception("invalid value");
-    // }
-    //
-    // int[] sexagesimal = new int[3];
-    // sexagesimal[0] = (int) coordinate;
-    // coordinate -= sexagesimal[0];
-    // coordinate = Math.abs(coordinate * 60);
-    // sexagesimal[1] = (int) coordinate;
-    // coordinate -= sexagesimal[1];
-    // coordinate *= 1000;
-    // sexagesimal[2] = (int) coordinate;
-    // return sexagesimal;
-    // }
-
-    public static int[] coordinateE6ToSexagesimal(int coordinate) {
+    public static int[] coordinateE6ToSexagesimal(double coordinate) {
 
         int[] sexagesimal = new int[3];
-        sexagesimal[0] = coordinate / 1000000;
+        sexagesimal[0] = (int) (coordinate / 1000000);
         coordinate %= 1000000;
         coordinate = Math.abs(coordinate * 6 / 10);
-        sexagesimal[1] = coordinate / 10000;
+        sexagesimal[1] = (int) (coordinate / 10000);
         coordinate %= 10000;
         sexagesimal[2] = (int) Math.round((double) coordinate / 10);
+        return sexagesimal;
+    }
+
+    public static float[] coordinateE6ToSecSexagesimal(int coordinateE6) {       
+        double coordinate = coordinateE6; 
+        float[] sexagesimal = new float[3];
+        sexagesimal[0] = (int) (coordinate / 1000000);
+        coordinate %= 1000000;
+        coordinate = Math.abs(coordinate * 6 / 10);
+        sexagesimal[1] = (int) (coordinate / 10000);
+        coordinate %= 10000;
+        coordinate /= 100;
+        sexagesimal[2] = (float) Math.abs(coordinate * 6 / 10);
         return sexagesimal;
     }
 
@@ -149,6 +146,16 @@ public class GpsHelper {
         }
         int coordinateE6 = (int) (degrees * 1E6);
         coordinateE6 += (minutes * 1E3 + mMinutes) * 100 / 6;
+        return coordinateE6;
+    }
+
+    public static int secSexagesimalToCoordinateE6(int degrees, int minutes, float seconds) throws Exception {
+        if (Math.abs(degrees) > 180 || minutes >= 60 || seconds >= 60) {
+            throw new Exception("Invalid data format");
+        }
+        int coordinateE6 = (int) (degrees * 1E6);
+        coordinateE6 += (minutes * 1E4) * 10 / 6;
+        coordinateE6 += (seconds) * 100 / 36;
         return coordinateE6;
     }
 
@@ -199,4 +206,5 @@ public class GpsHelper {
         LogManager.d("Geocaching.su", "goalLonitude = " + goalLongitude);
         return new GeoPoint((int) (goalLatitude * 1E6), (int) (goalLongitude * 1E6));
     }
+
 }
