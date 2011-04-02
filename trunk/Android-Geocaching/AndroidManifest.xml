@@ -89,7 +89,7 @@
 
 		<activity android:name=".compass.CompassPreferenceActivity" />
 		<activity android:name=".searchmap.stepbystep.StepByStepTabActivity"
-			android:theme="@android:style/Theme.Dialog" />
+			android:theme="@android:style/Theme.Light.NoTitleBar" />
 		<activity android:name=".searchmap.stepbystep.SexagesimalInputActivity" />
 		<activity android:name=".searchmap.stepbystep.SexagestimalSecondsInputActivity"></activity>
 		<activity android:name=".searchmap.stepbystep.DecimalInputActivity" />
