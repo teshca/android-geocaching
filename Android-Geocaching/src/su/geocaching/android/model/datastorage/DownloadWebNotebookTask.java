@@ -14,9 +14,10 @@ import android.content.Context;
 import android.os.AsyncTask;
 import android.webkit.WebView;
 
-public class DownloadWebNotebookTask extends AsyncTask<Void, Void, String> {
+public class DownloadWebNotebookTask extends AsyncTask<String, Void, String> {
 
     private static final String TAG = DownloadWebNotebookTask.class.getCanonicalName();
+    public static final String HTML_ENCODING = "UTF-8";
 
     private DbManager dbManager;
     private boolean isCacheStoredInDataBase;
@@ -39,35 +40,40 @@ public class DownloadWebNotebookTask extends AsyncTask<Void, Void, String> {
         this.webView = webView;
     }
 
+    @SuppressWarnings("static-access")
     @Override
     protected void onPreExecute() {
         LogManager.d(TAG, "TestTime onPreExecute - Start");
-        if (!isCacheStoredInDataBase) {
-            progressDialog = new ProgressDialog(context);
-            progressDialog.setMessage(context.getString(R.string.download_notebook));
+        progressDialog = new ProgressDialog(context);
+        progressDialog.setMessage(context.getString(R.string.download_notebook));
+        if (!isCacheStoredInDataBase)
             progressDialog.show();
-        }
     }
 
     @Override
-    protected String doInBackground(Void... params) {
+    protected String doInBackground(String... params) {
         String result = null;
+        if (params[0] == "") {
 
-        if (isCacheStoredInDataBase) {
-            result = dbManager.getWebNotebookTextById(cacheId);
-        }
-
-        if (result == null) {
-            try {
-                result = getWebText(cacheId);
-                if (isCacheStoredInDataBase) {
-                    dbManager.ubdateNotebookText(cacheId, result);
-                }
-            } catch (IOException e) {
-                LogManager.e(TAG, "IOException getWebText", e);
+            if (isCacheStoredInDataBase) {
+                result = dbManager.getWebNotebookTextById(cacheId);
             }
+            if (Controller.getInstance().getConnectionManager().isInternetConnected()) {
+                if (result == null || result == "") {
+                    try {
+                        result = getWebText(cacheId);
+                        if (isCacheStoredInDataBase) {
+                            dbManager.ubdateNotebookText(cacheId, result);
+                        }
+                    } catch (IOException e) {
+                        LogManager.e(TAG, "IOException getWebText", e);
+                    }
+                }
+            }
+            return result == null ? "" : result;
+        } else {
+            return params[0];
         }
-        return result == null ? "" : result;
     }
 
     private String getWebText(int id) throws IOException {
@@ -92,7 +98,11 @@ public class DownloadWebNotebookTask extends AsyncTask<Void, Void, String> {
     protected void onPostExecute(String result) {
         LogManager.d(TAG, "TestTime onPreExecute - Stop");
         if (webView != null) {
-            webView.loadDataWithBaseURL(GeoCacheInfoActivity.HTTP_PDA_GEOCACHING_SU, result, "text/html", GeoCacheInfoActivity.HTML_ENCODING, null);
+            if (result != "") {
+                webView.loadDataWithBaseURL(GeoCacheInfoActivity.HTTP_PDA_GEOCACHING_SU, result, "text/html", GeoCacheInfoActivity.HTML_ENCODING, null);
+            } else {
+                webView.loadData("<?xml version='1.0' encoding='utf-8'?><center>" + context.getString(R.string.notebook_geocache_not_internet_and_not_in_DB) + "</center>", "text/html", HTML_ENCODING);
+            }
             webView.postDelayed(new Runnable() {
                 @Override
                 public void run() {

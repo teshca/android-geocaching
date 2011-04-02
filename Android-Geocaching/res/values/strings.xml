@@ -14,7 +14,7 @@
 	<string name="download_notebook">Скачивание блокнота тайника</string>
 	<string name="yes">Да</string>
 	<string name="no">Нет</string>
-	<string name="ask_download_notebook_title">Сохранить вместе с интернет-блокнотом?</string>
+	<string name="ask_download_notebook_title">Сохранить вместе с блокнотом?</string>
 	<string name="save_notebook_alwayse_title">Сохранять блокнот</string>
 	<string name="save_notebook_alwayse_key">downloadNoteBookAlways</string>
 	<string name="save_notebook_alwayse_text"></string>
@@ -60,7 +60,7 @@
 	<string name="status_geocache_not_active_checkpoint">Неактивна</string>
 
 	<string name="menu_show_web_notebook_cache">Блокнот</string>
-	<string name="menu_show_web_add_cache">Добавить</string>
+	<string name="menu_show_web_add_cache">Сохранить</string>
 	<string name="menu_show_web_delete_cache">Удалить</string>
 	<string name="menu_show_web_search_cache">Искать</string>
 	<string name="menu_show_info_cache">Инфо</string>
