@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
 	android:layout_width="fill_parent" android:layout_height="fill_parent"
-	android:orientation="vertical" android:paddingLeft="4dip">
+	android:paddingLeft="2dip" android:orientation="vertical">
 
 	<TextView android:text="@string/geographical_coordinates"
 		android:textSize="@dimen/text_size_big" android:layout_width="wrap_content"
@@ -14,17 +14,17 @@
 			android:layout_height="wrap_content" />
 		<EditText android:text="00" android:id="@+id/sLatDegrees"
 			android:maxLines="1" android:numeric="signed" android:maxLength="4"
-			android:layout_width="50dip" android:layout_height="wrap_content" />
+			android:layout_width="45dip" android:layout_height="wrap_content" />
 		<TextView android:text="°" android:layout_width="wrap_content"
 			android:textSize="@dimen/text_size_big" android:layout_height="wrap_content" />
 		<EditText android:text="00" android:id="@+id/sLatMinutes"
 			android:maxLines="1" android:numeric="integer" android:maxLength="2"
-			android:layout_width="50dip" android:layout_height="wrap_content" />
+			android:layout_width="45dip" android:layout_height="wrap_content" />
 		<TextView android:text="." android:layout_width="wrap_content"
 			android:textSize="@dimen/text_size_big" android:layout_height="wrap_content" />
 		<EditText android:text="000" android:id="@+id/sLatmMinutes"
 			android:maxLines="1" android:numeric="integer" android:maxLength="4"
-			android:layout_width="60dip" android:layout_height="wrap_content" />
+			android:layout_width="55dip" android:layout_height="wrap_content" />
 		<TextView android:text="'" android:layout_width="wrap_content"
 			android:textSize="@dimen/text_size_big" android:layout_height="wrap_content" />
 	</LinearLayout>
@@ -36,22 +36,23 @@
 			android:layout_height="wrap_content" />
 		<EditText android:text="00" android:id="@+id/sLngDegrees"
 			android:maxLines="1" android:numeric="signed" android:maxLength="4"
-			android:layout_width="50dip" android:layout_height="wrap_content" />
+			android:layout_width="45dip" android:layout_height="wrap_content" />
 		<TextView android:text="°" android:layout_width="wrap_content"
 			android:textSize="@dimen/text_size_big" android:layout_height="wrap_content" />
 		<EditText android:text="00" android:id="@+id/sLngMinutes"
 			android:maxLines="1" android:numeric="integer" android:maxLength="2"
-			android:layout_width="50dip" android:layout_height="wrap_content" />
+			android:layout_width="45dip" android:layout_height="wrap_content" />
 		<TextView android:text="." android:layout_width="wrap_content"
 			android:textSize="@dimen/text_size_big" android:layout_height="wrap_content" />
 		<EditText android:text="000" android:id="@+id/sLngmMinutes"
 			android:maxLines="1" android:numeric="integer" android:maxLength="4"
-			android:layout_width="60dip" android:layout_height="wrap_content" />
+			android:layout_width="55dip" android:layout_height="wrap_content" />
 		<TextView android:text="'" android:layout_width="wrap_content"
 			android:textSize="@dimen/text_size_big" android:layout_height="wrap_content" />
 	</LinearLayout>
 
 	<Button android:text="@string/add_checkpoint" android:id="@+id/EnterButton"
-		android:textSize="@dimen/text_size_big" android:layout_width="wrap_content"
-		android:layout_height="wrap_content" android:onClick="onEnterClick" />
+		android:textSize="@dimen/text_size_big" android:layout_height="wrap_content"
+		android:onClick="onEnterClick" android:gravity="center"
+		android:layout_width="fill_parent" android:layout_marginTop="10dip" />
 </LinearLayout>
