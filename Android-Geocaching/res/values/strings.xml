@@ -107,8 +107,8 @@
 	<string name="dislocation">"Ваше местоположение не определено. Повторите
 		попытку позже."</string>
 	<string name="checkpoints">Контрольные точки</string>
-	<string name="latitude">Широта:</string>
-	<string name="longitude">Долгота:</string>
+	<string name="latitude">Широта :</string>
+	<string name="longitude">Долгота :</string>
 	<string name="status">Статус :</string>
 	<string name="geographical_coordinates">Географические координаты</string>
 	<string name="add_checkpoint">Добавить</string>

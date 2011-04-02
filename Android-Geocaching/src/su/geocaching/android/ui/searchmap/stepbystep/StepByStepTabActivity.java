@@ -3,7 +3,9 @@ package su.geocaching.android.ui.searchmap.stepbystep;
 import android.app.TabActivity;
 import android.content.Intent;
 import android.os.Bundle;
+import android.view.View;
 import android.widget.TabHost;
+import su.geocaching.android.controller.UiHelper;
 import su.geocaching.android.ui.R;
 
 public class StepByStepTabActivity extends TabActivity {
@@ -50,5 +52,9 @@ public class StepByStepTabActivity extends TabActivity {
         spec.setIndicator(getString(R.string.azimuth_template));
         spec.setContent(intent);
         tabHost.addTab(spec);
+    }
+    
+    public void onHomeClick(View v) {
+        UiHelper.goHome(this);
     }
 }
