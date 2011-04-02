@@ -22,7 +22,6 @@ import su.geocaching.android.model.datatype.GeoCache;
 import su.geocaching.android.model.datatype.GeoCacheStatus;
 import su.geocaching.android.model.datatype.GeoCacheType;
 import su.geocaching.android.ui.R;
-import su.geocaching.android.ui.compass.SearchGeoCacheCompass;
 import su.geocaching.android.ui.geocachemap.GeoCacheOverlayItem;
 import android.content.Intent;
 import android.graphics.Point;
@@ -113,7 +112,7 @@ public class SearchGeoCacheMap extends MapActivity implements IInternetAware, IL
 
         mController = Controller.getInstance();
         mController.setSearchingGeoCache(geoCache);
-        mController.getPreferencesManager().setLastSearchedGeoCache(mController.getSearchingGeoCache());
+        mController.getPreferencesManager().setLastSearchedGeoCache(geoCache);
 
         internetManager = mController.getConnectionManager();
         mLocationManager = mController.getLocationManager();
@@ -121,16 +120,15 @@ public class SearchGeoCacheMap extends MapActivity implements IInternetAware, IL
         mGpsStatusManager = mController.getGpsStatusManager(getApplicationContext());
 
         if (geoCache != null) {
-            cacheMarker = mController.getResourceManager().getMarker(mController.getSearchingGeoCache());
+
+            cacheMarker = mController.getResourceManager().getMarker(geoCache.getType(), geoCache.getStatus());
             SearchCacheOverlay searchCacheOverlay = new SearchCacheOverlay(cacheMarker, this, map);
             GeoCacheOverlayItem cacheOverlayItem = new GeoCacheOverlayItem(mController.getSearchingGeoCache(), "", "");
             searchCacheOverlay.addOverlayItem(cacheOverlayItem);
             mapOverlays.add(searchCacheOverlay);
         }
 
-        GeoCache gc = new GeoCache();
-        gc.setType(GeoCacheType.CHECKPOINT);
-        cacheMarker = Controller.getInstance().getResourceManager().getMarker(gc);
+        cacheMarker = mController.getResourceManager().getMarker(GeoCacheType.CHECKPOINT, null);
 
         checkpointManager = mController.getCheckpointManager(geoCache.getId());
         checkpointCacheOverlay = new CheckpointCacheOverlay(cacheMarker, this, map);
@@ -224,19 +222,6 @@ public class SearchGeoCacheMap extends MapActivity implements IInternetAware, IL
             LogManager.w(TAG, "internet not connected");
         }
 
-    }
-
-    /**
-     * Start SearchGeoCacheCompass activity
-     */
-    public void startCompassView() {
-        LogManager.d(TAG, "start compass activity");
-
-        Intent intent = new Intent(this, SearchGeoCacheCompass.class);
-        if (mController.getSearchingGeoCache() != null) {
-            intent.putExtra(GeoCache.class.getCanonicalName(), mController.getSearchingGeoCache());
-        }
-        startActivity(intent);
     }
 
     /*
@@ -371,8 +356,8 @@ public class SearchGeoCacheMap extends MapActivity implements IInternetAware, IL
         // check contains checkpoints markers in visible part of map if still not need zoom out
         if (!needZoomOut) {
             // Get marker of checkpoint
-            gc.setType(GeoCacheType.CHECKPOINT);
-            rect = mController.getResourceManager().getMarker(gc).getBounds();
+            // gc.setType(GeoCacheType.CHECKPOINT); //No!, never set checkpoint to Intent
+            rect = mController.getResourceManager().getMarker(GeoCacheType.CHECKPOINT, null).getBounds();
 
             for (GeoCache i : mController.getCheckpointManager(gc.getId()).getCheckpoints()) {
                 proj.toPixels(i.getLocationGeoPoint(), point);
@@ -411,10 +396,10 @@ public class SearchGeoCacheMap extends MapActivity implements IInternetAware, IL
                 resetZoom();
                 return true;
             case R.id.menuStartCompass:
-                this.startCompassView();
+                UiHelper.startCompassActivity(this);
                 return true;
             case R.id.menuGeoCacheInfo:
-                UiHelper.showGeoCacheInfo(this, mController.getPreferencesManager().getLastSearchedGeoCache());
+                UiHelper.startGeoCacheInfo(this, mController.getPreferencesManager().getLastSearchedGeoCache());
                 return true;
             case R.id.driving_directions:
                 onDrivingDirectionsSelected();

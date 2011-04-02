@@ -11,6 +11,7 @@ import su.geocaching.android.ui.CheckpointsFolder;
 import su.geocaching.android.ui.DashboardActivity;
 import su.geocaching.android.ui.R;
 import su.geocaching.android.ui.GeoCacheInfoActivity;
+import su.geocaching.android.ui.compass.SearchGeoCacheCompass;
 import su.geocaching.android.ui.searchmap.SearchGeoCacheMap;
 import su.geocaching.android.ui.searchmap.stepbystep.CheckpointDialog;
 import su.geocaching.android.ui.searchmap.stepbystep.StepByStepTabActivity;
@@ -60,7 +61,7 @@ public class UiHelper {
      * @param geoCache
      *            //TODO describe it
      */
-    public static void showGeoCacheInfo(Context context, GeoCache geoCache) {
+    public static void startGeoCacheInfo(Context context, GeoCache geoCache) {
         Intent intent = new Intent(context, GeoCacheInfoActivity.class);
         intent.putExtra(GeoCache.class.getCanonicalName(), geoCache);
         context.startActivity(intent);
@@ -79,7 +80,12 @@ public class UiHelper {
         intent.putExtra(GeoCache.class.getCanonicalName(), geoCache);
         context.startActivity(intent);
     }
-
+    
+    public static void startCompassActivity(Context context) {
+        Intent intent = new Intent(context, SearchGeoCacheCompass.class);      
+        context.startActivity(intent);
+    }
+    
     public static void startStepByStep(Context context, GeoCache geoCache) {
         Intent intent = new Intent(context, StepByStepTabActivity.class);
         intent.putExtra(GeoCache.class.getCanonicalName(), geoCache);

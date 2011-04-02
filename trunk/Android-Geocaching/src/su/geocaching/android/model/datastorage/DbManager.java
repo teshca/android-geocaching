@@ -251,14 +251,14 @@ public class DbManager extends SQLiteOpenHelper {
         String exitString = null;
         openDB();
         Cursor cursor = db.rawQuery(String.format("select %s from %s where %s=%d", COLUMN_WEB_TEXT, DATABASE_NAME_TABLE, COLUMN_ID, id), null);
-      
-        if (cursor != null && cursor.getCount() != 0) {        
-            cursor.moveToFirst();    
-            exitString = cursor.getString(cursor.getColumnIndex(COLUMN_WEB_TEXT));                 
-        }        
+
+        if (cursor != null && cursor.getCount() != 0) {
+            cursor.moveToFirst();
+            exitString = cursor.getString(cursor.getColumnIndex(COLUMN_WEB_TEXT));
+        }
         cursor.close();
         closeDB();
-        
+
         return exitString;
     }
 
@@ -266,15 +266,16 @@ public class DbManager extends SQLiteOpenHelper {
         String exitString = null;
         openDB();
         Cursor cursor = db.rawQuery(String.format("select %s from %s where %s=%d", COLUMN_NOTEBOOK_TEXT, DATABASE_NAME_TABLE, COLUMN_ID, id), null);
-      
-        if (cursor != null && cursor.getCount() != 0) {        
-            cursor.moveToFirst();    
-            exitString = cursor.getString(cursor.getColumnIndex(COLUMN_NOTEBOOK_TEXT));       
-            if (exitString.equals("")) exitString = null;
-        }        
+
+        if (cursor != null && cursor.getCount() != 0) {
+            cursor.moveToFirst();
+            exitString = cursor.getString(cursor.getColumnIndex(COLUMN_NOTEBOOK_TEXT));
+            if (exitString.equals(""))
+                exitString = null;
+        }
         cursor.close();
         closeDB();
-        
+
         return exitString;
     }
 
@@ -322,7 +323,7 @@ public class DbManager extends SQLiteOpenHelper {
         int count = c.getCount();
         c.close();
         closeDB();
-        LogManager.d(TAG, "isCacheStored id="+id+" " + (count > 0));
+        LogManager.d(TAG, "isCacheStored id=" + id + " " + (count > 0));
         return count > 0;
     }
 

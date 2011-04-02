@@ -20,6 +20,8 @@ import com.google.android.apps.analytics.GoogleAnalyticsTracker;
 import com.google.android.maps.*;
 import su.geocaching.android.controller.*;
 import su.geocaching.android.model.datatype.GeoCache;
+import su.geocaching.android.model.datatype.GeoCacheStatus;
+import su.geocaching.android.model.datatype.GeoCacheType;
 import su.geocaching.android.ui.R;
 import su.geocaching.android.ui.geocachemap.GeoCacheOverlayItem;
 import su.geocaching.android.ui.selectgeocache.geocachegroup.GroupCacheTask;
@@ -66,7 +68,7 @@ public class SelectGeoCacheMap extends MapActivity implements IInternetAware {
         countDownloadTask = 0;
         handler = new Handler();
 
-        selectCacheOverlay = new SelectCacheOverlay(Controller.getInstance().getResourceManager().getMarker(new GeoCache()), this, map);
+        selectCacheOverlay = new SelectCacheOverlay(Controller.getInstance().getResourceManager().getMarker(GeoCacheType.TRADITIONAL, GeoCacheStatus.VALID), this, map);
         map.getOverlays().add(selectCacheOverlay);
 
         connectionManager = Controller.getInstance().getConnectionManager();
