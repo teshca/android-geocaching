@@ -4,12 +4,14 @@ import android.test.AndroidTestCase;
 import android.util.Log;
 import org.xml.sax.InputSource;
 import su.geocaching.android.controller.apimanager.GeoCacheSaxHandler;
+import su.geocaching.android.model.datatype.GeoCache;
 
 import javax.xml.parsers.SAXParser;
 import javax.xml.parsers.SAXParserFactory;
 import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.URL;
+import java.util.List;
 
 
 /**
@@ -52,5 +54,28 @@ public class GeoCacheSaxHandlerTest extends AndroidTestCase {
         expectedid = 62;
         actualId = handler.getGeoCaches().get(66).getId();
         assertEquals(expectedid, actualId);
+    }
+    
+    public void testParse2() {
+
+        URL url;
+        try {
+            url = new URL("http://www.google.com");
+            HttpURLConnection connection = (HttpURLConnection) url.openConnection();
+            geoCacheXml = new InputSource(new InputStreamReader(connection.getInputStream(), ENCODING));
+
+            SAXParserFactory factory = SAXParserFactory.newInstance();
+            handler = new GeoCacheSaxHandler();
+
+            parser = factory.newSAXParser();
+            parser.parse(geoCacheXml, handler);
+        } catch (Exception e) {
+            Log.e(CompassHelperTest.LOG_TAG, "error", e);
+            e.printStackTrace();
+        }
+
+     
+        List<GeoCache> gcList = handler.getGeoCaches();
+        assertEquals(gcList.size(), 0);
     }
 }

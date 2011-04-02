@@ -1,14 +1,5 @@
 package su.geocaching.android.controller.apimanager;
 
-import com.google.android.maps.GeoPoint;
-import org.xml.sax.InputSource;
-import org.xml.sax.SAXException;
-import su.geocaching.android.controller.LogManager;
-import su.geocaching.android.model.datatype.GeoCache;
-
-import javax.xml.parsers.ParserConfigurationException;
-import javax.xml.parsers.SAXParser;
-import javax.xml.parsers.SAXParserFactory;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
@@ -18,9 +9,22 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.Locale;
 
+import javax.xml.parsers.ParserConfigurationException;
+import javax.xml.parsers.SAXParser;
+import javax.xml.parsers.SAXParserFactory;
+
+import org.xml.sax.InputSource;
+import org.xml.sax.SAXException;
+
+import su.geocaching.android.controller.Controller;
+import su.geocaching.android.controller.LogManager;
+import su.geocaching.android.model.datatype.GeoCache;
+
+import com.google.android.maps.GeoPoint;
+
 /**
  * Class for getting data from Geocaching.su. This class implements IApiManager
- *
+ * 
  * @author Nikita Bumakov
  */
 public class ApiManager implements IApiManager {
@@ -29,14 +33,12 @@ public class ApiManager implements IApiManager {
     private static final String URL = "http://www.geocaching.su/pages/1031.ajax.php";
     private static final String ENCODING = "windows-1251";
 
-    private List<GeoCache> geoCaches;
-    private Locale rusLocale;
+    private List<GeoCache> geoCaches = new LinkedList<GeoCache>();;
+    private Locale rusLocale = new Locale("ru");;
     private int id;
 
     public ApiManager() {
         id = (int) (Math.random() * 1E6);
-        geoCaches = new LinkedList<GeoCache>();
-        rusLocale = new Locale("ru");
         LogManager.d(TAG, "new ApiManager Created");
     }
 
@@ -48,6 +50,10 @@ public class ApiManager implements IApiManager {
         double minLatitude = (double) lowerRightCorner.getLatitudeE6() / 1E6;
         double maxLongitude = (double) lowerRightCorner.getLongitudeE6() / 1E6;
         double minLongitude = (double) upperLeftCorner.getLongitudeE6() / 1E6;
+
+        if (!Controller.getInstance().getConnectionManager().isInternetConnected()) {
+            return filterGeoCaches(maxLatitude, minLatitude, maxLongitude, minLongitude);
+        }
 
         if (maxLatitude == minLatitude && maxLongitude == minLongitude) {
             LogManager.d(TAG, "Size of obtained listGeoCaches: 0");
@@ -64,6 +70,7 @@ public class ApiManager implements IApiManager {
 
             if (connection.getResponseCode() != HttpURLConnection.HTTP_OK) {
                 LogManager.e(TAG, "Can't connect to geocaching.su. Response: " + connection.getResponseCode());
+                return filterGeoCaches(maxLatitude, minLatitude, maxLongitude, minLongitude);
             }
 
             InputSource geoCacheXml = new InputSource(new InputStreamReader(connection.getInputStream(), ENCODING));
