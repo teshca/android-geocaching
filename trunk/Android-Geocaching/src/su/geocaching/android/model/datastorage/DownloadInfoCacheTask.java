@@ -14,7 +14,7 @@ import android.content.Context;
 import android.os.AsyncTask;
 import android.webkit.WebView;
 
-public class DownloadInfoCacheTask extends AsyncTask<Void, Void, String> {
+public class DownloadInfoCacheTask extends AsyncTask<String, Void, String> {
 
     private static final String TAG = DownloadInfoCacheTask.class.getCanonicalName();
 
@@ -50,18 +50,20 @@ public class DownloadInfoCacheTask extends AsyncTask<Void, Void, String> {
     }
 
     @Override
-    protected String doInBackground(Void... params) {
+    protected String doInBackground(String... params) {
         String result = "";
-
-        if (isCacheStoredInDataBase) {
-            result = dbManager.getWebTextById(cacheId);
-        } else
-            try {
-                result = getWebText(cacheId);
-            } catch (IOException e) {
-                LogManager.e(TAG, "IOException getWebText", e);
-            }
-        return result;
+        if (params[0] == "") {
+            if (isCacheStoredInDataBase) {
+                result = dbManager.getWebTextById(cacheId);
+            } else
+                try {
+                    result = getWebText(cacheId);
+                } catch (IOException e) {
+                    LogManager.e(TAG, "IOException getWebText", e);
+                }
+            return result;
+        }
+        return params[0];
     }
 
     private String getWebText(int id) throws IOException {
