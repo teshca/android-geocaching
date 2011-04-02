@@ -60,12 +60,22 @@ public class DecimalInputActivity extends Activity {
 
         super.onResume();
     }
+    
+    @Override
+    protected void onPause() {
+        latDegrees.removeTextChangedListener(textWacher);
+        latFraction.removeTextChangedListener(textWacher);
+        lngDegrees.removeTextChangedListener(textWacher);
+        lngFraction.removeTextChangedListener(textWacher);
+        super.onPause();
+    }
 
     public void onEnterClick(View v) {
         try {
             int latitudeE6 = Integer.parseInt(latDegrees.getText().toString()) * 1000000 + Integer.parseInt(latFraction.getText().toString());
             int longitudeE6 = Integer.parseInt(lngDegrees.getText().toString()) * 1000000 + Integer.parseInt(lngFraction.getText().toString());
-            Controller.getInstance().getCheckpointManager(Controller.getInstance().getPreferencesManager().getLastSearchedGeoCache().getId()).addCheckpoint(latitudeE6, longitudeE6);
+            checkpointManager.addCheckpoint(latitudeE6, longitudeE6);
+            checkpointManager.setLastInputGeoPoint(null);
             finish();
         } catch (Exception e) {
             LogManager.e(TAG, e.getMessage(), e);

@@ -120,7 +120,8 @@
 	<string name="active">Выбрать</string>
 	<string name="delete">Удалить</string>
 	<string name="delete_all">Удалить все</string>
-	<string name="sexagestimal_template">Г°,М,МММ\'</string>
+	<string name="sexagestimal_template">Г°,М,ММ\'</string>
+	<string name="sexagestimal_seconds__template">Г°,М\'C.CC\"</string>
 	<string name="decimal_template">ГГ,ГГГГ°</string>
 	<string name="azimuth_template">ГГ° NNкм</string>
 </resources>

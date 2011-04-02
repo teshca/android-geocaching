@@ -17,25 +17,25 @@ import android.widget.Toast;
 
 import com.google.android.maps.GeoPoint;
 
-public class SexagesimalInputActivity extends Activity {
+public class SexagestimalSecondsInputActivity extends Activity {
 
     private static final String TAG = SexagesimalInputActivity.class.getCanonicalName();
-    private EditText latDegrees, latMinutes, latmMinutes;
-    private EditText lngDegrees, lngMinutes, lngmMinutes;
+    private EditText latDegrees, latMinutes, latSeconds;
+    private EditText lngDegrees, lngMinutes, lngSeconds;
     private CheckpointManager checkpointManager;
     private TextWatcher textWacher;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.sexagestimal_input);
+        setContentView(R.layout.sexagestimal_with_seconds);
 
-        latDegrees = (EditText) findViewById(R.id.sLatDegrees);
-        latMinutes = (EditText) findViewById(R.id.sLatMinutes);
-        latmMinutes = (EditText) findViewById(R.id.sLatmMinutes);
-        lngDegrees = (EditText) findViewById(R.id.sLngDegrees);
-        lngMinutes = (EditText) findViewById(R.id.sLngMinutes);
-        lngmMinutes = (EditText) findViewById(R.id.sLngmMinutes);
+        latDegrees = (EditText) findViewById(R.id.ssLatDegrees);
+        latMinutes = (EditText) findViewById(R.id.ssLatMinutes);
+        latSeconds = (EditText) findViewById(R.id.ssLatSeconds);
+        lngDegrees = (EditText) findViewById(R.id.ssLngDegrees);
+        lngMinutes = (EditText) findViewById(R.id.ssLngMinutes);
+        lngSeconds = (EditText) findViewById(R.id.ssLngSeconds);
 
         textWacher = new TextChangeListener();
     }
@@ -53,43 +53,43 @@ public class SexagesimalInputActivity extends Activity {
         int lat = gp.getLatitudeE6();
         int lng = gp.getLongitudeE6();
 
-        int[] sexagesimal = GpsHelper.coordinateE6ToSexagesimal(lat);
-        latDegrees.setText(Integer.toString(sexagesimal[0]), BufferType.EDITABLE);
-        latMinutes.setText(Integer.toString(sexagesimal[1]), BufferType.EDITABLE);
-        latmMinutes.setText(Integer.toString(sexagesimal[2]), BufferType.EDITABLE);
+        float[] sexagesimal = GpsHelper.coordinateE6ToSecSexagesimal(lat);
+        latDegrees.setText(Integer.toString((int) sexagesimal[0]), BufferType.EDITABLE);
+        latMinutes.setText(Integer.toString((int) sexagesimal[1]), BufferType.EDITABLE);
+        latSeconds.setText(Float.toString(sexagesimal[2]), BufferType.EDITABLE);
 
-        sexagesimal = GpsHelper.coordinateE6ToSexagesimal(lng);
-        lngDegrees.setText(Integer.toString(sexagesimal[0]), BufferType.EDITABLE);
-        lngMinutes.setText(Integer.toString(sexagesimal[1]), BufferType.EDITABLE);
-        lngmMinutes.setText(Integer.toString(sexagesimal[2]), BufferType.EDITABLE);
+        sexagesimal = GpsHelper.coordinateE6ToSecSexagesimal(lng);
+        lngDegrees.setText(Integer.toString((int) sexagesimal[0]), BufferType.EDITABLE);
+        lngMinutes.setText(Integer.toString((int) sexagesimal[1]), BufferType.EDITABLE);
+        lngSeconds.setText(Float.toString(sexagesimal[2]), BufferType.EDITABLE);
 
+       
         latDegrees.addTextChangedListener(textWacher);
         latMinutes.addTextChangedListener(textWacher);
-        latmMinutes.addTextChangedListener(textWacher);
+        latSeconds.addTextChangedListener(textWacher);
         lngDegrees.addTextChangedListener(textWacher);
         lngMinutes.addTextChangedListener(textWacher);
-        lngmMinutes.addTextChangedListener(textWacher);
+        lngSeconds.addTextChangedListener(textWacher);
         super.onResume();
     }
-    
+
     @Override
     protected void onPause() {
         latDegrees.removeTextChangedListener(textWacher);
         latMinutes.removeTextChangedListener(textWacher);
-        latmMinutes.removeTextChangedListener(textWacher);
+        latSeconds.removeTextChangedListener(textWacher);
         lngDegrees.removeTextChangedListener(textWacher);
         lngMinutes.removeTextChangedListener(textWacher);
-        lngmMinutes.removeTextChangedListener(textWacher);
+        lngSeconds.removeTextChangedListener(textWacher);
         super.onPause();
     }
 
-
     public void onEnterClick(View v) {
         try {
-            int latitudeE6 = GpsHelper.sexagesimalToCoordinateE6(Integer.parseInt(latDegrees.getText().toString()), Integer.parseInt(latMinutes.getText().toString()),
-                    Integer.parseInt(latmMinutes.getText().toString()));
-            int longitudeE6 = GpsHelper.sexagesimalToCoordinateE6(Integer.parseInt(lngDegrees.getText().toString()), Integer.parseInt(lngMinutes.getText().toString()),
-                    Integer.parseInt(lngmMinutes.getText().toString()));
+            int latitudeE6 = GpsHelper.secSexagesimalToCoordinateE6(Integer.parseInt(latDegrees.getText().toString()), Integer.parseInt(latMinutes.getText().toString()),
+                    Float.parseFloat(latSeconds.getText().toString()));
+            int longitudeE6 = GpsHelper.secSexagesimalToCoordinateE6(Integer.parseInt(lngDegrees.getText().toString()), Integer.parseInt(lngMinutes.getText().toString()),
+                    Float.parseFloat(lngSeconds.getText().toString()));
             checkpointManager.addCheckpoint(latitudeE6, longitudeE6);
             checkpointManager.setLastInputGeoPoint(null);
             finish();
@@ -97,6 +97,7 @@ public class SexagesimalInputActivity extends Activity {
             LogManager.e(TAG, e.getMessage(), e);
             Toast.makeText(this, getString(R.string.error_stepbystep_input), Toast.LENGTH_SHORT).show();
         }
+
     }
 
     class TextChangeListener implements TextWatcher {
@@ -104,10 +105,10 @@ public class SexagesimalInputActivity extends Activity {
         @Override
         public void afterTextChanged(Editable s) {
             try {
-                int latitudeE6 = GpsHelper.sexagesimalToCoordinateE6(Integer.parseInt(latDegrees.getText().toString()), Integer.parseInt(latMinutes.getText().toString()),
-                        Integer.parseInt(latmMinutes.getText().toString()));
-                int longitudeE6 = GpsHelper.sexagesimalToCoordinateE6(Integer.parseInt(lngDegrees.getText().toString()), Integer.parseInt(lngMinutes.getText().toString()),
-                        Integer.parseInt(lngmMinutes.getText().toString()));
+                int latitudeE6 = GpsHelper.secSexagesimalToCoordinateE6(Integer.parseInt(latDegrees.getText().toString()), Integer.parseInt(latMinutes.getText().toString()),
+                        Float.parseFloat(latSeconds.getText().toString()));
+                int longitudeE6 = GpsHelper.secSexagesimalToCoordinateE6(Integer.parseInt(lngDegrees.getText().toString()), Integer.parseInt(lngMinutes.getText().toString()),
+                        Float.parseFloat(lngSeconds.getText().toString()));
                 checkpointManager.setLastInputGeoPoint(new GeoPoint(latitudeE6, longitudeE6));
             } catch (Exception e) {
                 LogManager.e(TAG, e.getMessage(), e);
