@@ -5,5 +5,5 @@
 	<dimen name="text_size_medium">15sp</dimen>
 	<dimen name="text_size_small">12sp</dimen>
 	<dimen name="text_size_big">18sp</dimen>
-	<dimen name="coordinate_label_width">80dip</dimen>
+	<dimen name="coordinate_label_width">75dip</dimen>
 </resources>

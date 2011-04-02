@@ -12,6 +12,8 @@ public class StepByStepTabActivity extends TabActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.step_by_step);
+        
+        setTitle(R.string.converter);
         // Resources res = getResources();
         TabHost tabHost = getTabHost();
         TabHost.TabSpec spec;
