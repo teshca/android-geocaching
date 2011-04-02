@@ -115,8 +115,8 @@ public class StandardCompassDrawing extends CompassDrawingHelper {
         paint.setStyle(Style.FILL_AND_STROKE);
         paint.setStrokeWidth(1);
 
-        float top = centerX * 0.85f;
-        canvas.translate(needleWidth * 1.5f, centerX);
+        float top = centerY * 0.85f;
+        canvas.translate(needleWidth * 1.5f, centerY);
         arrowPath.moveTo(-needleWidth, 0);
         arrowPath.lineTo(0, -top);
         arrowPath.lineTo(needleWidth, 0);
