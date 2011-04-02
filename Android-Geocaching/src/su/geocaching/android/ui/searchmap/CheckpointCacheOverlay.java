@@ -3,6 +3,7 @@ package su.geocaching.android.ui.searchmap;
 import java.util.LinkedList;
 import java.util.List;
 
+import su.geocaching.android.controller.Controller;
 import su.geocaching.android.controller.UiHelper;
 import su.geocaching.android.model.datatype.GeoCache;
 import su.geocaching.android.model.datatype.GeoCacheType;
@@ -23,7 +24,7 @@ import com.google.android.maps.OverlayItem;
  */
 public class CheckpointCacheOverlay extends ItemizedOverlay<OverlayItem> {
 
-    private final GestureDetector gestureDetector;
+    private GestureDetector gestureDetector;
 
     private final List<GeoCacheOverlayItem> items;
     private final Activity activity;
@@ -33,16 +34,16 @@ public class CheckpointCacheOverlay extends ItemizedOverlay<OverlayItem> {
 
         this.activity = context;
         items = new LinkedList<GeoCacheOverlayItem>();
-
-        GestureDetector.SimpleOnGestureListener sogl = new GestureDetector.SimpleOnGestureListener() {
+     
+        gestureDetector = new GestureDetector(context, new GestureDetector.SimpleOnGestureListener() {
             public void onLongPress(MotionEvent e) {
                 GeoCache gc = new GeoCache();
                 gc.setType(GeoCacheType.CHECKPOINT);
+                gc.setId(Controller.getInstance().getPreferencesManager().getLastSearchedGeoCache().getId());
                 gc.setLocationGeoPoint(map.getProjection().fromPixels((int) e.getX(), (int) e.getY()));
                 UiHelper.startStepByStep(activity, gc);
             }
-        };
-        gestureDetector = new GestureDetector(context, sogl);
+        });
 
         populate();
     }
