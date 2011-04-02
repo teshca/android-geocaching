@@ -8,8 +8,12 @@
                         android:defaultValue="@string/prefer_map_type_default_value"/>
     </PreferenceCategory>
 
-    <PreferenceCategory android:title="@string/map_markers_title">
-        <Preference android:title="Тип иконок"
-                    android:summary="" android:key="mapMarkerType"/>
+   <PreferenceCategory android:title="@string/map_markers_title">
+       
+        <ListPreference android:entries="@array/requests_icon_type_entries"
+                        android:entryValues="@array/requests_icon_type_values"
+                        android:title="@string/map_markers_title"
+                        android:key="map.icon"
+                        />
     </PreferenceCategory>
 </PreferenceScreen>
