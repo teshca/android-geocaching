@@ -15,6 +15,7 @@ import com.google.android.maps.GeoPoint;
 public class CheckpointManager {
 
     private List<GeoCache> checkpoints;
+    private GeoPoint lastInputGP;
     private int checkpointNumber = 0;
     private int cacheId;
 
@@ -111,7 +112,7 @@ public class CheckpointManager {
     }
 
     /**
-     * @param activeItem
+     * @param activeItemS
      *            the activeItem to set
      */
     public void setActiveItem(int id) {
@@ -150,7 +151,15 @@ public class CheckpointManager {
     }
 
     public void clear() {
-       dbm.deleteCheckpointCache(cacheId);
-       checkpoints.clear();       
+        dbm.deleteCheckpointCache(cacheId);
+        checkpoints.clear();
+    }
+
+    public void setLastInputGeoPoint(GeoPoint geoPoint) {
+        lastInputGP = geoPoint;
+    }
+
+    public GeoPoint getLastInputGeoPoint() {
+        return lastInputGP;
     }
 }

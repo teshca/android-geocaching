@@ -31,9 +31,6 @@ public class Controller {
     private DbManager dbManager;
     private CheckpointManager checkpointManager;
     private GeoCache searchingGeoCache;
-   
-    
-   
 
     private Controller() {
         apiManager = new ApiManager();
@@ -234,7 +231,7 @@ public class Controller {
             LogManager.d(TAG, "checkpoint manager wasn't init yet. init");
             checkpointManager = new CheckpointManager(id);
         }
-        return new CheckpointManager(id);
+        return checkpointManager;
     }
 
     public GeoCache getSearchingGeoCache() {
