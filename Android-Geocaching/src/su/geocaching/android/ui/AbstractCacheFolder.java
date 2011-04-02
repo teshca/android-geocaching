@@ -59,7 +59,7 @@ abstract class AbstractCacheFolder extends Activity implements OnItemClickListen
         for (GeoCache localGeoCache : cacheList) {
             Map<String, Object> map = new HashMap<String, Object>();
             ResourceManager rm = Controller.getInstance().getResourceManager();
-            map.put(keys[0], rm.getMarkerResId(localGeoCache));
+            map.put(keys[0], rm.getMarkerResId(localGeoCache.getType(), localGeoCache.getStatus()));
             map.put(keys[1], localGeoCache.getName());
             map.put(keys[2], rm.getGeoCacheType(localGeoCache));
             map.put(keys[3], rm.getGeoCacheStatus(localGeoCache));

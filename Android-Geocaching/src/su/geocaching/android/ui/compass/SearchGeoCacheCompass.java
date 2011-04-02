@@ -182,7 +182,7 @@ public class SearchGeoCacheCompass extends Activity {
                 UiHelper.startSearchMapActivity(this, searchingGC);
                 return true;
             case R.id.menuGeoCacheInfo:
-                UiHelper.showGeoCacheInfo(this, searchingGC);
+                UiHelper.startGeoCacheInfo(this, searchingGC);
                 return true;
             case R.id.stepByStep:
                 UiHelper.startCheckpointsFolder(this, searchingGC.getId());

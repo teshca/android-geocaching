@@ -5,6 +5,8 @@ import android.content.res.Resources;
 import android.graphics.drawable.Drawable;
 import android.preference.PreferenceManager;
 import su.geocaching.android.model.datatype.GeoCache;
+import su.geocaching.android.model.datatype.GeoCacheStatus;
+import su.geocaching.android.model.datatype.GeoCacheType;
 import su.geocaching.android.ui.R;
 
 /**
@@ -44,15 +46,14 @@ public class ResourceManager {
     /**
      * Return marker for map of input geoCache
      * 
-     * @param geoCache
-     *            we want to draw on the map
      * @return Drawable for this geoCache depends on it's parameters
      */
-    public Drawable getMarker(GeoCache geoCache) {
-        if (getMarkerResId(geoCache) == -1) {
+    public Drawable getMarker(GeoCacheType type, GeoCacheStatus status) {
+        int resId;
+        if ((resId = getMarkerResId(type, status)) == -1) {
             return null;
         }
-        return getMarker(getMarkerResId(geoCache));
+        return getMarker(resId);
     }
 
     /**
@@ -62,12 +63,12 @@ public class ResourceManager {
      *            we want to draw on the map
      * @return Drawable for this geoCache depends on it's parameters
      */
-    public int getMarkerResId(GeoCache geoCache) {
+    public int getMarkerResId(GeoCacheType type, GeoCacheStatus status) {
         if (PreferenceManager.getDefaultSharedPreferences(context).getBoolean(context.getString(R.string.default_marker), true)) {
 
-            switch (geoCache.getType()) {
+            switch (type) {
                 case TRADITIONAL:
-                    switch (geoCache.getStatus()) {
+                    switch (status) {
                         case VALID:
                             return R.drawable.ic_cache_traditional_valid;
                         case NOT_VALID:
@@ -77,7 +78,7 @@ public class ResourceManager {
                     }
                     break;
                 case VIRTUAL:
-                    switch (geoCache.getStatus()) {
+                    switch (status) {
                         case VALID:
                             return R.drawable.ic_cache_virtual_valid;
                         case NOT_VALID:
@@ -87,7 +88,7 @@ public class ResourceManager {
                     }
                     break;
                 case STEP_BY_STEP:
-                    switch (geoCache.getStatus()) {
+                    switch (status) {
                         case VALID:
                             return R.drawable.ic_cache_stepbystep_valid;
                         case NOT_VALID:
@@ -97,7 +98,7 @@ public class ResourceManager {
                     }
                     break;
                 case EXTREME:
-                    switch (geoCache.getStatus()) {
+                    switch (status) {
                         case VALID:
                             return R.drawable.ic_cache_extreme_valid;
                         case NOT_VALID:
@@ -107,7 +108,7 @@ public class ResourceManager {
                     }
                     break;
                 case EVENT:
-                    switch (geoCache.getStatus()) {
+                    switch (status) {
                         case VALID:
                             return R.drawable.ic_cache_event_valid;
                         case NOT_VALID:
@@ -124,9 +125,9 @@ public class ResourceManager {
             }
 
         } else {
-            switch (geoCache.getType()) {
+            switch (type) {
                 case TRADITIONAL:
-                    switch (geoCache.getStatus()) {
+                    switch (status) {
                         case VALID:
                             return R.drawable.ic_traditional_valid;
                         case NOT_VALID:
@@ -136,7 +137,7 @@ public class ResourceManager {
                     }
                     break;
                 case VIRTUAL:
-                    switch (geoCache.getStatus()) {
+                    switch (status) {
                         case VALID:
                             return R.drawable.ic_virtual_valid;
                         case NOT_VALID:
@@ -146,7 +147,7 @@ public class ResourceManager {
                     }
                     break;
                 case STEP_BY_STEP:
-                    switch (geoCache.getStatus()) {
+                    switch (status) {
                         case VALID:
                             return R.drawable.ic_step_by_step_valid;
                         case NOT_VALID:
@@ -156,7 +157,7 @@ public class ResourceManager {
                     }
                     break;
                 case EXTREME:
-                    switch (geoCache.getStatus()) {
+                    switch (status) {
                         case VALID:
                             return R.drawable.ic_extrem_valid;
                         case NOT_VALID:
@@ -166,7 +167,7 @@ public class ResourceManager {
                     }
                     break;
                 case EVENT:
-                    switch (geoCache.getStatus()) {
+                    switch (status) {
                         case VALID:
                             return R.drawable.ic_cache_event_valid_second;
                         case NOT_VALID:

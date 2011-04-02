@@ -31,12 +31,10 @@ public class GeoCacheListAnalyzer {
             int num = centroid.getNumberOfView();
             if (num != 0) {
                 if (num < MINIMUM_GROUP_SIZE_TO_CREATE_CLUSTER) {
-                    //  we think minimum = 2
+                    // we think minimum = 2
                     overlayItemList.add(new GeoCacheOverlayItem(centroid.getCache(), "", "", map.getContext()));
                 } else {
-                    overlayItemList.add(new GeoCacheOverlayItem(map.getProjection().fromPixels(centroid.getX(), centroid.getY()),
-                            "Group", "",
-                            map.getContext()));
+                    overlayItemList.add(new GeoCacheOverlayItem(map.getProjection().fromPixels(centroid.getX(), centroid.getY()), "Group", "", map.getContext()));
                 }
             }
         }
@@ -49,11 +47,7 @@ public class GeoCacheListAnalyzer {
 
         for (int i = 0; i < sizeX; i++) {
             for (int j = 0; j < sizeY; j++) {
-                centroids.add(new Centroid(
-                        (int) ((i + 0.5) * FINGER_SIZE_X),
-                        (int) ((j + 0.5) * FINGER_SIZE_Y),
-                        null
-                ));
+                centroids.add(new Centroid((int) ((i + 0.5) * FINGER_SIZE_X), (int) ((j + 0.5) * FINGER_SIZE_Y), null));
             }
         }
         return centroids;

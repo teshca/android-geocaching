@@ -106,7 +106,7 @@ public class SelectCacheOverlay extends com.google.android.maps.ItemizedOverlay<
         if (!touchFlag) {
             GeoCacheOverlayItem gcItem = items.get(index);
             if (!gcItem.getTitle().equals("Group")) {
-                UiHelper.showGeoCacheInfo(context, gcItem.getGeoCache());
+                UiHelper.startGeoCacheInfo(context, gcItem.getGeoCache());
             } else {
                 map.getController().animateTo(gcItem.getGeoCache().getLocationGeoPoint());
                 map.getController().zoomIn();

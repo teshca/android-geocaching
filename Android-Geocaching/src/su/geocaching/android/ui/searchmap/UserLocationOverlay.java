@@ -6,6 +6,7 @@ import com.google.android.maps.GeoPoint;
 import com.google.android.maps.MapView;
 import su.geocaching.android.controller.Controller;
 import su.geocaching.android.controller.LogManager;
+import su.geocaching.android.controller.UiHelper;
 import su.geocaching.android.controller.compass.ICompassAnimation;
 import su.geocaching.android.ui.R;
 
@@ -33,7 +34,8 @@ public class UserLocationOverlay extends com.google.android.maps.Overlay impleme
     private int userBitmapHeight;
 
     /**
-     * @param context activity which use this overlay
+     * @param context
+     *            activity which use this overlay
      */
     public UserLocationOverlay(SearchGeoCacheMap context) {
         userGeoPoint = null;
@@ -66,11 +68,11 @@ public class UserLocationOverlay extends com.google.android.maps.Overlay impleme
      * @see com.google.android.maps.Overlay#draw(android.graphics.Canvas, com.google.android.maps.MapView, boolean, long)
      */
     @Override
-    public boolean draw(Canvas canvas, MapView mapView, boolean shadow, long when) {
-        super.draw(canvas, mapView, shadow, when);
+    public void draw(Canvas canvas, MapView mapView, boolean shadow) {
+        super.draw(canvas, mapView, shadow);
 
         if (userGeoPoint == null) {
-            return true;
+            return;
         }
 
         // Translate the GeoPoint to screen pixels
@@ -100,18 +102,19 @@ public class UserLocationOverlay extends com.google.android.maps.Overlay impleme
 
         // Draw default marker
         canvas.drawBitmap(userBitmapPoint, userPoint.x - userBitmapPoint.getWidth() / 2, userPoint.y - userBitmapPoint.getHeight() / 2, null);
-        return true;
     }
 
     /**
-     * @param point set user location
+     * @param point
+     *            set user location
      */
     public void setPoint(GeoPoint point) {
         this.userGeoPoint = point;
     }
 
     /**
-     * @param radius set accuracy radius of location point
+     * @param radius
+     *            set accuracy radius of location point
      */
     public void setAccuracy(float radius) {
         this.accuracyRadius = radius;
@@ -141,7 +144,7 @@ public class UserLocationOverlay extends com.google.android.maps.Overlay impleme
         }
         map.getProjection().toPixels(p, tapPoint);
         if ((Math.abs(tapPoint.x - userPoint.x) < userBitmapWidth / 2) && (Math.abs((tapPoint.y - userPoint.y)) < userBitmapHeight / 2)) {
-            context.startCompassView();
+            UiHelper.startCompassActivity(context);
             return true;
         }
         return false;
