@@ -6,7 +6,7 @@
     <string name="favorites">Избранное</string>
     <string name="enableGps">Настройки GPS</string>
     <string name="enableInternet">Настройки Интернета</string>
-    <string name="driving_directions">Подключить путь</string>
+    <string name="driving_directions">Проложить маршрут</string>
     <string name="preference">Настройки</string>
     <string name="energy_saving_title">Энегросбережение</string>
     <string name="energy_saving_key">energySaving.preference</string>
