@@ -10,7 +10,7 @@ import su.geocaching.android.controller.compass.CompassHelper;
  */
 public class CompassHelperTest extends AndroidTestCase {
 
-    public static final String LOG_TAG = "GeoCaching.su - Test";
+    public static final String LOG_TAG = "GeoCaching.su.Test";
 
     ContentResolver contentResolver;
 
