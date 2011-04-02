@@ -28,10 +28,13 @@
 		<item>MAP</item>
 		<item>SATELLITE</item>
 	</string-array>
+	
+	<string name="prefer_icon_key">map.icon</string>
+	<string name="prefer_icon_default_value">DEFAULT</string>
 	<string-array name="requests_icon_type_entries">
-		<item>По умолчанию</item>
-		<item>Выборочное</item>
-	</string-array>
+		<item>Стандартные</item>
+		<item>В стиле Geocaching.su</item>
+	</string-array>	
 	<string-array name="requests_icon_type_values">
 		<item>DEFAULT</item>
 		<item>CUSTOM</item>
@@ -47,7 +50,7 @@
 	</string>
 
 	<string name="map_filters_title">Фильтры</string>
-	<string name="map_markers_title">Иконки</string>
+	<string name="map_markers_title">Иконки тайников</string>
 	<string name="default_marker">default marker</string>
 	<string name="custom_marker">custom marker</string>
 	<string name="cache_filter_valid">filter.valid</string>

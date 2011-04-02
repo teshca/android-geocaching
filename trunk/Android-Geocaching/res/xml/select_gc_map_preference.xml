@@ -1,31 +1,23 @@
 <?xml version="1.0" encoding="utf-8"?>
 <PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
-    <PreferenceCategory android:title="@string/map_category_title">
+	<PreferenceCategory android:title="@string/map_category_title">
 
-        <ListPreference android:entries="@array/requests_map_type_entries"
-                        android:entryValues="@array/requests_map_type_values"
-                        android:title="@string/prefer_map_type_title"
-                        android:summary="@string/prefer_map_type_summary" android:key="@string/prefer_map_type_key"
-                        android:defaultValue="@string/prefer_map_type_default_value"/>
-        <CheckBoxPreference android:title="@string/way_cache_adding_title"
-                            android:key="@string/way_cache_adding_key"
-                            android:defaultValue="@bool/use_group_cache_default_value"
-                            android:summary="@string/way_cache_adding_summary"/>
-    </PreferenceCategory>
+		<ListPreference android:entries="@array/requests_map_type_entries"
+			android:entryValues="@array/requests_map_type_values" android:title="@string/prefer_map_type_title"
+			android:key="@string/prefer_map_type_key" android:defaultValue="@string/prefer_map_type_default_value" />
+		<ListPreference android:entries="@array/requests_icon_type_entries"
+			android:defaultValue="@string/prefer_icon_default_value"
+			android:entryValues="@array/requests_icon_type_values" android:title="@string/map_markers_title"
+			android:key="@string/prefer_icon_key" android:dialogIcon="@drawable/ic_cache_traditional_valid" />
+		<CheckBoxPreference android:title="@string/way_cache_adding_title"
+			android:key="@string/way_cache_adding_key" android:defaultValue="@bool/use_group_cache_default_value"
+			android:summary="@string/way_cache_adding_summary" />
+	</PreferenceCategory>
 
-    <PreferenceCategory android:title="@string/map_filters_title">
-        <Preference android:title="Тип"
-                    android:summary="" android:key="mapFilterType"/>
-        <Preference android:title="Статус"
-                    android:summary="" android:key="mapFilterStatus"/>
-        
-    </PreferenceCategory>
-    <PreferenceCategory android:title="@string/map_markers_title">
-       
-        <ListPreference android:entries="@array/requests_icon_type_entries"
-                        android:entryValues="@array/requests_icon_type_values"
-                        android:title="@string/map_markers_title"
-                        android:key="map.icon"
-                        />
-    </PreferenceCategory>
+	<PreferenceCategory android:title="@string/map_filters_title">
+		<Preference android:title="Тип" android:summary=""
+			android:key="mapFilterType" />
+		<Preference android:title="Статус" android:summary=""
+			android:key="mapFilterStatus" />
+	</PreferenceCategory>
 </PreferenceScreen>

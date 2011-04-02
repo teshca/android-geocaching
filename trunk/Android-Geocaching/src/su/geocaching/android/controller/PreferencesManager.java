@@ -126,6 +126,10 @@ public class PreferencesManager {
     public String getCompassAppearence(){
         return preferences.getString(context.getString(R.string.prefs_appearance_key), context.getString(R.string.prefer_appearance_default_value));
     }
+    
+    public String getIconType(){
+        return preferences.getString(context.getString(R.string.prefer_icon_key), context.getString(R.string.prefer_speed_default_value));
+    }
 
     public EnumSet<GeoCacheStatus> getStatusFilter() {
         EnumSet<GeoCacheStatus> set = EnumSet.noneOf(GeoCacheStatus.class);
