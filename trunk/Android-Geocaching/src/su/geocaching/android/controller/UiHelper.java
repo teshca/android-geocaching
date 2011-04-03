@@ -7,13 +7,13 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.provider.Settings;
 import su.geocaching.android.model.datatype.GeoCache;
-import su.geocaching.android.ui.CheckpointsFolder;
 import su.geocaching.android.ui.DashboardActivity;
 import su.geocaching.android.ui.R;
 import su.geocaching.android.ui.GeoCacheInfoActivity;
 import su.geocaching.android.ui.compass.SearchGeoCacheCompass;
 import su.geocaching.android.ui.searchmap.SearchGeoCacheMap;
 import su.geocaching.android.ui.searchmap.stepbystep.CheckpointDialog;
+import su.geocaching.android.ui.searchmap.stepbystep.CheckpointsFolder;
 import su.geocaching.android.ui.searchmap.stepbystep.StepByStepTabActivity;
 
 /**

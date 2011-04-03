@@ -67,7 +67,7 @@ public class CheckpointManager {
         return new GeoCacheOverlayItem(gc, "", "");
     }
 
-    private void deactivateCheckpoints() {
+    public void deactivateCheckpoints() {
         for (GeoCache checkpoint : checkpoints) {
             if (checkpoint.getStatus() == GeoCacheStatus.ACTIVE_CHECKPOINT) {
                 checkpoint.setStatus(GeoCacheStatus.NOT_ACTIVE_CHECKPOINT);

@@ -1,9 +1,14 @@
-package su.geocaching.android.ui;
+package su.geocaching.android.ui.searchmap.stepbystep;
 
 import su.geocaching.android.controller.CheckpointManager;
 import su.geocaching.android.controller.Controller;
 import su.geocaching.android.controller.LogManager;
 import su.geocaching.android.controller.UiHelper;
+import su.geocaching.android.ui.AbstractCacheFolder;
+import su.geocaching.android.ui.FavoritesFolder;
+import su.geocaching.android.ui.R;
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -22,6 +27,7 @@ public class CheckpointsFolder extends AbstractCacheFolder implements OnItemClic
 
     private static final String TAG = FavoritesFolder.class.getCanonicalName();
     private CheckpointManager checkpointManager;
+    private AlertDialog removeAlert;
     private int cacheid;
 
     @Override
@@ -30,6 +36,24 @@ public class CheckpointsFolder extends AbstractCacheFolder implements OnItemClic
         cacheid = getIntent().getIntExtra(CACHE_ID, 0);
         checkpointManager = Controller.getInstance().getCheckpointManager(cacheid);
         tvNoCache.setText(getString(R.string.checkpoint_folder_not_cache_in_db));
+        initRemoveDialog();
+    }
+
+    private void initRemoveDialog() {
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        builder.setMessage(getString(R.string.are_you_sure));               
+        builder.setPositiveButton(getString(R.string.yes), new DialogInterface.OnClickListener() {
+                   public void onClick(DialogInterface dialog, int id) {
+                       removeAllCheckpoints();
+                   }
+               });
+        
+        builder.setNegativeButton(getString(R.string.no), new DialogInterface.OnClickListener() {
+                   public void onClick(DialogInterface dialog, int id) {
+                        dialog.cancel();
+                   }
+               });
+        removeAlert = builder.create();        
     }
 
     @Override
@@ -61,13 +85,22 @@ public class CheckpointsFolder extends AbstractCacheFolder implements OnItemClic
             case R.id.addCheckpointMenu:
                 UiHelper.startStepByStep(this, Controller.getInstance().getPreferencesManager().getLastSearchedGeoCache());
                 break;
-            case R.id.removeAllCheckpointMenu:
-                checkpointManager.clear();
+            case R.id.searchMainCache:
+                checkpointManager.deactivateCheckpoints();
                 lvListShowCache.setAdapter(null);
-                tvNoCache.setVisibility(View.VISIBLE);
+                onResume();
+                break;
+            case R.id.removeAllCheckpointMenu:
+                removeAlert.show();
                 break;
         }
         return true;
+    }
+
+    private void removeAllCheckpoints() {
+        checkpointManager.clear();
+        lvListShowCache.setAdapter(null);
+        tvNoCache.setVisibility(View.VISIBLE);
     }
 
     @Override
