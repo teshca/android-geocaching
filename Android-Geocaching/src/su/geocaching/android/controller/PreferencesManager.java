@@ -128,7 +128,7 @@ public class PreferencesManager {
     }
     
     public String getIconType(){
-        return preferences.getString(context.getString(R.string.prefer_icon_key), context.getString(R.string.prefer_speed_default_value));
+        return preferences.getString(context.getString(R.string.prefer_icon_key), context.getString(R.string.prefer_icon_default_value));
     }
 
     public EnumSet<GeoCacheStatus> getStatusFilter() {
