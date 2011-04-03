@@ -53,6 +53,14 @@
 	<string name="map_markers_title">Иконки тайников</string>
 	<string name="default_marker">default marker</string>
 	<string name="custom_marker">custom marker</string>
+    <string name="cache_filter_traditional_title">Традиционный</string>
+    <string name="cache_filter_stepbystep_title">Пошаговый</string>
+    <string name="cache_filter_extreme_title">Экстрим</string>
+    <string name="cache_filter_event_title">Событие</string>
+    <string name="cache_filter_virtual_title">Виртуальный</string>
+    <string name="cache_filter_valid_title">Доступный</string>
+    <string name="cache_filter_not_valid_title">Недоступный</string>
+    <string name="cache_filter_not_confirmed_title">Возможно недоступный</string>
 	<string name="cache_filter_valid">filter.valid</string>
 	<string name="cache_filter_not_valid">filter.notValid</string>
 	<string name="cache_filter_not_confirmed">filter.notConfirmed</string>
