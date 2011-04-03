@@ -41,19 +41,19 @@ public class CheckpointsFolder extends AbstractCacheFolder implements OnItemClic
 
     private void initRemoveDialog() {
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
-        builder.setMessage(getString(R.string.are_you_sure));               
+        builder.setMessage(getString(R.string.are_you_sure));
         builder.setPositiveButton(getString(R.string.yes), new DialogInterface.OnClickListener() {
-                   public void onClick(DialogInterface dialog, int id) {
-                       removeAllCheckpoints();
-                   }
-               });
-        
+            public void onClick(DialogInterface dialog, int id) {
+                removeAllCheckpoints();
+            }
+        });
+
         builder.setNegativeButton(getString(R.string.no), new DialogInterface.OnClickListener() {
-                   public void onClick(DialogInterface dialog, int id) {
-                        dialog.cancel();
-                   }
-               });
-        removeAlert = builder.create();        
+            public void onClick(DialogInterface dialog, int id) {
+                dialog.cancel();
+            }
+        });
+        removeAlert = builder.create();
     }
 
     @Override
@@ -70,6 +70,18 @@ public class CheckpointsFolder extends AbstractCacheFolder implements OnItemClic
             lvListShowCache.setAdapter(simpleAdapter);
         }
         super.onResume();
+    }
+
+    @Override
+    public boolean onPrepareOptionsMenu(Menu menu) {
+        if (favoritesList.size() == 0) {
+            menu.getItem(1).setEnabled(false);
+            menu.getItem(2).setEnabled(false);
+        }else{
+            menu.getItem(1).setEnabled(true);
+            menu.getItem(2).setEnabled(true);
+        }
+        return super.onPrepareOptionsMenu(menu);
     }
 
     @Override
@@ -98,6 +110,7 @@ public class CheckpointsFolder extends AbstractCacheFolder implements OnItemClic
     }
 
     private void removeAllCheckpoints() {
+        favoritesList.clear();
         checkpointManager.clear();
         lvListShowCache.setAdapter(null);
         tvNoCache.setVisibility(View.VISIBLE);
