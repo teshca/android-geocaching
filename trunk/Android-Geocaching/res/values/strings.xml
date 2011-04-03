@@ -111,6 +111,9 @@
 	<string name="longitude">Долгота :</string>
 	<string name="status">Статус :</string>
 	<string name="geographical_coordinates">Географические координаты</string>
+	<string name="relative_to_current_location">Относительно текущего положения:</string>
+	<string name="relative_to_cache_location">Текущие координаты не определены.\nОтносительно
+		координат тайника:</string>
 	<string name="add_checkpoint">Добавить</string>
 	<string name="error_stepbystep_input">Неверный формат введенных данных</string>
 	<string name="azimuth">Азимут:</string>

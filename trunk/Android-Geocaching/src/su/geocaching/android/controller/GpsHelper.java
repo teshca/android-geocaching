@@ -127,8 +127,8 @@ public class GpsHelper {
         return sexagesimal;
     }
 
-    public static float[] coordinateE6ToSecSexagesimal(int coordinateE6) {       
-        double coordinate = coordinateE6; 
+    public static float[] coordinateE6ToSecSexagesimal(int coordinateE6) {
+        double coordinate = coordinateE6;
         float[] sexagesimal = new float[3];
         sexagesimal[0] = (int) (coordinate / 1000000);
         coordinate %= 1000000;
@@ -189,22 +189,21 @@ public class GpsHelper {
         return String.format(format, latitude[0], latitude[1], latitude[2], longitude[0], longitude[1], longitude[2]);
     }
 
-    // TODO still not work
-    public static GeoPoint distanceBearingToGeoPoint(GeoPoint currentGeoPoint, float bearing, double distance) {
-        double latitude = currentGeoPoint.getLatitudeE6() / 1E6;
-        double longitude = currentGeoPoint.getLongitudeE6() / 1E6;
+    public static GeoPoint distanceBearingToGeoPoint(GeoPoint currentGeoPoint, float bearing, float distance) {
+        double latitude = currentGeoPoint.getLatitudeE6() * Math.PI / 180E6;
+        double longitude = currentGeoPoint.getLongitudeE6() * Math.PI / 180E6;
         double radianBearing = bearing * Math.PI / 180;
 
         double distanceDivRadius = distance / EARTH_RADIUS;
 
         // Calculating goal Location
-        double goalLatitude = latitude + Math.asin(Math.sin(latitude) * Math.cos(distanceDivRadius) + Math.cos(latitude) * Math.sin(distanceDivRadius) * Math.cos(radianBearing));
+        double goalLatitude = Math.asin(Math.sin(latitude) * Math.cos(distanceDivRadius) + Math.cos(latitude) * Math.sin(distanceDivRadius) * Math.cos(radianBearing));
         double goalLongitude = longitude
                 + Math.atan2(Math.sin(radianBearing) * Math.sin(distanceDivRadius) * Math.cos(latitude), Math.cos(distanceDivRadius) - Math.sin(latitude) * Math.sin(goalLatitude));
 
-        LogManager.d("Geocaching.su", "goalLatitude = " + goalLatitude);
-        LogManager.d("Geocaching.su", "goalLonitude = " + goalLongitude);
-        return new GeoPoint((int) (goalLatitude * 1E6), (int) (goalLongitude * 1E6));
+        goalLatitude = goalLatitude * 180E6 / Math.PI;
+        goalLongitude = goalLongitude * 180E6 / Math.PI;
+        return new GeoPoint((int) (goalLatitude), (int) (goalLongitude));
     }
 
 }
