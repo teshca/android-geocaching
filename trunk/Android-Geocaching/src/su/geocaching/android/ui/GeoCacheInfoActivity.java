@@ -135,6 +135,12 @@ public class GeoCacheInfoActivity extends Activity implements OnCheckedChangeLis
         tracker.stop();
         super.onStop();
     }
+    
+
+    @Override
+    protected Dialog onCreateDialog(int id) {     
+        return new DialogDownloadNotebook(this, infoTask, geoCache);
+    }
 
     // TODO download notebook only when necessary
     @Override
@@ -147,7 +153,7 @@ public class GeoCacheInfoActivity extends Activity implements OnCheckedChangeLis
                 }
                 if (notebookTask == null) {
                     if (!controller.getPreferencesManager().getDownloadNoteBookAlways()) {
-                        new DialogDownloadNotebook(this, infoTask, geoCache, webViewScrollX, webViewScrollY).dialogShow();
+                       showDialog(0);
                     } else {
                         notebookTask = new DownloadWebNotebookTask(context, geoCache.getId(), webViewScrollX, webViewScrollY, null, "").execute();
                         dbManager.addGeoCache(geoCache, infoTask.get(), notebookTask.get());
@@ -157,6 +163,7 @@ public class GeoCacheInfoActivity extends Activity implements OnCheckedChangeLis
                     dbManager.addGeoCache(geoCache, infoTask.get(), notebookTask.get());
                 }
 
+                
             } else {
                 isCacheStoredInDataBase = false;
                 dbManager.deleteCacheById(geoCache.getId());
