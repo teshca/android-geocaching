@@ -31,7 +31,7 @@ public class DownloadInfoCacheTask extends AsyncTask<Void, Void, String> {
         Controller controller = Controller.getInstance();
         dbManager = controller.getDbManager();
         isCacheStoredInDataBase = dbManager.isCacheStored(cacheId);
-        
+
         this.infoText = infoText;
         this.cacheId = cacheId;
         this.scroolX = scroolX;
@@ -53,15 +53,22 @@ public class DownloadInfoCacheTask extends AsyncTask<Void, Void, String> {
     @Override
     protected String doInBackground(Void... params) {
         String result = "";
-        if (infoText.equals("")) {
+        if (infoText == null) {
             if (isCacheStoredInDataBase) {
                 result = dbManager.getWebTextById(cacheId);
-            } else
-                try {
-                    result = getWebText(cacheId);
-                } catch (IOException e) {
-                    LogManager.e(TAG, "IOException getWebText", e);
+            }
+            if (Controller.getInstance().getConnectionManager().isInternetConnected()) {
+                if (result.equals("")) {
+                    try {
+                        result = getWebText(cacheId);
+                    } catch (IOException e) {
+                        LogManager.e(TAG, "IOException getWebText", e);
+                    }
                 }
+                if (isCacheStoredInDataBase) {
+                    dbManager.updateInfoText(cacheId, result);
+                }
+            }
             return result;
         }
         return infoText;

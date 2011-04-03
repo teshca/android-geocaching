@@ -55,7 +55,7 @@ public class DownloadWebNotebookTask extends AsyncTask<Void, Void, String> {
     @Override
     protected String doInBackground(Void... params) {
         String result = null;
-        if (notebookText.equals("")) {
+        if (notebookText == null) {
 
             if (isCacheStoredInDataBase) {
                 result = dbManager.getWebNotebookTextById(cacheId);
