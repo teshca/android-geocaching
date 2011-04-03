@@ -68,7 +68,6 @@ public class DbManager extends SQLiteOpenHelper {
             db.endTransaction();
         }
     }
-
     @Override
     public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
         if (oldVersion < 2) {
@@ -312,6 +311,14 @@ public class DbManager extends SQLiteOpenHelper {
     public void ubdateNotebookText(int cacheId, String htmlNotebookText) {
         ContentValues values = new ContentValues();
         values.put(COLUMN_NOTEBOOK_TEXT, htmlNotebookText);
+        openWritableDB();
+        db.update(DATABASE_NAME_TABLE, values, COLUMN_ID + "=" + cacheId, null);
+        closeDB();
+    }
+    
+    public void updateInfoText(int cacheId, String htmlInfoText){
+        ContentValues values = new ContentValues();
+        values.put(COLUMN_WEB_TEXT, htmlInfoText);
         openWritableDB();
         db.update(DATABASE_NAME_TABLE, values, COLUMN_ID + "=" + cacheId, null);
         closeDB();
