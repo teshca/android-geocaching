@@ -48,11 +48,30 @@ public class DashboardPreferenceActivity extends PreferenceActivity {
             }
         });
 
-        Preference internetAndGpsPreference = findPreference("internetAndGpsPreference");
+       /* Preference internetAndGpsPreference = findPreference("internetAndGpsPreference");
         internetAndGpsPreference.setOnPreferenceClickListener(new OnPreferenceClickListener() {
 
             public boolean onPreferenceClick(Preference preference) {
                 startActivity(new Intent(getBaseContext(), InternetAndGpsPreferenceActivity.class));
+                return true;
+            }
+        });    */
+
+
+        Preference internetPreference = findPreference("internetPreference");
+        internetPreference.setOnPreferenceClickListener(new OnPreferenceClickListener() {
+
+            public boolean onPreferenceClick(Preference preference) {
+                startActivityForResult(new Intent(android.provider.Settings.ACTION_WIRELESS_SETTINGS), 0);
+                return true;
+            }
+        });
+
+        Preference gpsPreference = findPreference("gpsPreference");
+        gpsPreference.setOnPreferenceClickListener(new OnPreferenceClickListener() {
+
+            public boolean onPreferenceClick(Preference preference) {
+                startActivityForResult(new Intent(android.provider.Settings.ACTION_LOCATION_SOURCE_SETTINGS), 0);
                 return true;
             }
         });

@@ -8,13 +8,16 @@
                     android:summary="" android:key="compassPreference"/>
         <Preference android:title="@string/energy_saving_title"
                     android:summary="" android:key="energySavingPreference"/>
-        <Preference android:title="@string/internet_and_gps_preference_title"
-                    android:summary="Настройки интернета и GPS" android:key="internetAndGpsPreference"/>
 
-        <CheckBoxPreference android:title="@string/save_notebook_alwayse_title"
-                            android:key="@string/save_notebook_alwayse_key"
-                            android:defaultValue="@string/save_notebook_alwayse_value"
-                            android:summary="@string/save_notebook_alwayse_summary"/>
+        <Preference android:title="@string/enableInternet"
+                    android:summary="" android:key="internetPreference"/>
+        <Preference android:title="@string/enableGps"
+                    android:summary="" android:key="gpsPreference"/>
+
+        <CheckBoxPreference android:title="@string/save_notebook_always_title"
+                            android:key="@string/save_notebook_always_key"
+                            android:defaultValue="@string/save_notebook_always_value"
+                            android:summary="@string/save_notebook_always_summary"/>
 
     </PreferenceCategory>
 
