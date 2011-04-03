@@ -14,7 +14,7 @@ import android.content.Context;
 import android.os.AsyncTask;
 import android.webkit.WebView;
 
-public class DownloadInfoCacheTask extends AsyncTask<String, Void, String> {
+public class DownloadInfoCacheTask extends AsyncTask<Void, Void, String> {
 
     private static final String TAG = DownloadInfoCacheTask.class.getCanonicalName();
 
@@ -24,14 +24,15 @@ public class DownloadInfoCacheTask extends AsyncTask<String, Void, String> {
     private int cacheId;
     private Context context;
     private WebView webView;
-
+    private String infoText;
     private int scroolX, scroolY;
 
-    public DownloadInfoCacheTask(Context context, int cacheId, int scroolX, int scroolY, WebView webView) {
+    public DownloadInfoCacheTask(Context context, int cacheId, int scroolX, int scroolY, WebView webView, String infoText) {
         Controller controller = Controller.getInstance();
         dbManager = controller.getDbManager();
         isCacheStoredInDataBase = dbManager.isCacheStored(cacheId);
-
+        
+        this.infoText = infoText;
         this.cacheId = cacheId;
         this.scroolX = scroolX;
         this.scroolY = scroolY;
@@ -50,9 +51,9 @@ public class DownloadInfoCacheTask extends AsyncTask<String, Void, String> {
     }
 
     @Override
-    protected String doInBackground(String... params) {
+    protected String doInBackground(Void... params) {
         String result = "";
-        if (params[0] == "") {
+        if (infoText.equals("")) {
             if (isCacheStoredInDataBase) {
                 result = dbManager.getWebTextById(cacheId);
             } else
@@ -63,7 +64,7 @@ public class DownloadInfoCacheTask extends AsyncTask<String, Void, String> {
                 }
             return result;
         }
-        return params[0];
+        return infoText;
     }
 
     private String getWebText(int id) throws IOException {
