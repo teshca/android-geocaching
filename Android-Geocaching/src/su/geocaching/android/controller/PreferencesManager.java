@@ -76,12 +76,12 @@ public class PreferencesManager {
 
     public void setDownloadNoteBookAlways(boolean downloadAlways) {
         SharedPreferences.Editor editor = preferences.edit();
-        editor.putBoolean(context.getString(R.string.save_notebook_alwayse_key), downloadAlways);
+        editor.putBoolean(context.getString(R.string.save_notebook_always_key), downloadAlways);
         editor.commit();
     }
 
     public boolean getDownloadNoteBookAlways() {
-        return preferences.getBoolean(context.getString(R.string.save_notebook_alwayse_key), false);
+        return preferences.getBoolean(context.getString(R.string.save_notebook_always_key), false);
     }
 
     /**

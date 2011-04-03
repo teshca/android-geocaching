@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
     <PreferenceCategory
-            android:title="@string/internet_and_gps_preference_title">
+            android:title="">
         <Preference android:title="@string/enableInternet"
                     android:summary="" android:key="internetPreference"/>
         <Preference android:title="@string/enableGps"
