@@ -11,6 +11,7 @@
 	</string>
 	<string name="download_info">Скачивание информации</string>
 	<string name="download_notebook">Скачивание блокнота тайника</string>
+	<string name="are_you_sure">Вы уверены?</string>	
 	<string name="yes">Да</string>
 	<string name="no">Нет</string>
 	<string name="ask_download_notebook_title">Сохранить вместе с блокнотом?</string>
@@ -115,6 +116,7 @@
 	<string name="relative_to_cache_location">Текущие координаты не определены.\nОтносительно
 		координат тайника:</string>
 	<string name="add_checkpoint">Добавить</string>
+	<string name="search_main_cache">Выбрать основной</string>
 	<string name="error_stepbystep_input">Неверный формат введенных данных</string>
 	<string name="azimuth">Азимут:</string>
 	<string name="distance">Расстояние:</string>

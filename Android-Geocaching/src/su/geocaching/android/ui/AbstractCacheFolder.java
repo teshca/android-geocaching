@@ -23,7 +23,7 @@ import android.widget.TextView;
 /**
  * Abstract class for create ListActivity with caches
  */
-abstract class AbstractCacheFolder extends Activity implements OnItemClickListener {
+public abstract class AbstractCacheFolder extends Activity implements OnItemClickListener {
 
     protected ArrayList<GeoCache> favoritesList = new ArrayList<GeoCache>();
     protected DbManager dbm;
