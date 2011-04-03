@@ -3,9 +3,10 @@
 	android:layout_width="fill_parent" android:layout_height="fill_parent"
 	android:orientation="vertical" android:padding="10dip">
 
-	<TextView android:text="@string/geographical_coordinates"
-		android:textSize="@dimen/text_size_big" android:layout_width="fill_parent"
-		android:layout_height="wrap_content" android:gravity="center" android:layout_margin="10dip"/>
+	<TextView android:id="@+id/tvAzimuthInputInfo" android:text="@string/geographical_coordinates"
+		android:textSize="16sp" android:layout_width="fill_parent"
+		android:layout_height="wrap_content" android:gravity="center"
+		android:layout_margin="10dip" />
 
 	<LinearLayout android:layout_width="fill_parent"
 		android:layout_height="wrap_content" android:orientation="horizontal">
