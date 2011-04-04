@@ -35,7 +35,7 @@ import java.util.List;
  */
 public class SelectGeoCacheMap extends MapActivity implements IInternetAware {
     private static final String TAG = SelectGeoCacheMap.class.getCanonicalName();
-    private static final int MAX_CACHE_NUMBER = 100;
+    private static final int MAX_CACHE_NUMBER = 300;
 
     private MyLocationOverlay userOverlay;
     private MapView map;
@@ -214,13 +214,15 @@ public class SelectGeoCacheMap extends MapActivity implements IInternetAware {
             return;
         }
         if (geoCacheList.size() > MAX_CACHE_NUMBER) {
-            geoCacheList = geoCacheList.subList(0, MAX_CACHE_NUMBER);
+            Toast.makeText(this, R.string.too_many_caches, Toast.LENGTH_LONG).show();
+        } else {
+            selectCacheOverlay.clear();
+            for (GeoCache geoCache : geoCacheList) {
+                selectCacheOverlay.addOverlayItem(new GeoCacheOverlayItem(geoCache, "", "", this));
+            }
+            updateProgressStop();
+            map.invalidate();
         }
-        for (GeoCache geoCache : geoCacheList) {
-            selectCacheOverlay.addOverlayItem(new GeoCacheOverlayItem(geoCache, "", "", this));
-        }
-        updateProgressStop();
-        map.invalidate();
     }
 
     public void testAddGeoCacheList(List<GeoCache> geoCacheList) {
