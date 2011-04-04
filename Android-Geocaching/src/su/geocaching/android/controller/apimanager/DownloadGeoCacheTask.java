@@ -51,10 +51,12 @@ public class DownloadGeoCacheTask extends AsyncTask<GeoPoint, Integer, List<GeoC
 
     @Override
     protected void onPostExecute(List<GeoCache> gcList) {
-        if (Controller.getInstance().getPreferencesManager().getAddingCacheWayString()) {
-            map.testAddGeoCacheList(gcList);
-        } else {
-            map.addGeoCacheList(gcList);
+        if (!isCancelled()) {
+            if (Controller.getInstance().getPreferencesManager().getAddingCacheWayString()) {
+                map.testAddGeoCacheList(gcList);
+            } else {
+                map.addGeoCacheList(gcList);
+            }
         }
     }
 }
