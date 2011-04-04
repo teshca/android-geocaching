@@ -208,7 +208,7 @@ public class SelectGeoCacheMap extends MapActivity implements IInternetAware {
         updateProgressStart();
     }
 
-    public void addGeoCacheList(List<GeoCache> geoCacheList) {
+    public void simpleAddGeoCacheList(List<GeoCache> geoCacheList) {
         if (geoCacheList == null || geoCacheList.size() == 0) {
             updateProgressStop();
             return;
@@ -225,7 +225,7 @@ public class SelectGeoCacheMap extends MapActivity implements IInternetAware {
         }
     }
 
-    public void testAddGeoCacheList(List<GeoCache> geoCacheList) {
+    public void groupUseAddGeoCacheList(List<GeoCache> geoCacheList) {
         if (geoCacheList == null || geoCacheList.size() == 0) {
             updateProgressStop();
             return;

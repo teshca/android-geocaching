@@ -54,9 +54,9 @@ public class DownloadGeoCacheTask extends AsyncTask<GeoPoint, Integer, List<GeoC
     protected void onPostExecute(List<GeoCache> gcList) {
         if (!isCancelled()) {
             if (Controller.getInstance().getPreferencesManager().getAddingCacheWayString() && gcList.size() > MIN_GROUP_CACHE_NUMBER) {
-                map.testAddGeoCacheList(gcList);
+                map.groupUseAddGeoCacheList(gcList);
             } else {
-                map.addGeoCacheList(gcList);
+                map.simpleAddGeoCacheList(gcList);
             }
         }
     }
