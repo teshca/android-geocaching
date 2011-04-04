@@ -15,9 +15,9 @@
 	</PreferenceCategory>
 
 	<PreferenceCategory android:title="@string/map_filters_title">
-		<Preference android:title="Тип" android:summary=""
+		<Preference android:title="@string/cache_filter_type_title" android:summary=""
 			android:key="mapFilterType" />
-		<Preference android:title="Статус" android:summary=""
+		<Preference android:title="@string/cache_filter_status_title" android:summary=""
 			android:key="mapFilterStatus" />
 	</PreferenceCategory>
 </PreferenceScreen>
