@@ -76,6 +76,9 @@
 		блокнота нет в локальной базе, а так же отсутствует соединение с
 		интернетом
     </string>
+    <string name="info_not_save_but_cache_in_DB">Невозможно показать информацию о тайнике, поскольку возможно текст 
+               не сохранился, и отсутсвует соединение с интернетом
+    </string>
 	<string name="menu_keep_screen">Не выключать экран</string>
 	<string name="about">О программе</string>
 	<string name="about_title">Геокешинг версия 0.0.1b</string>
