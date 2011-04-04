@@ -17,7 +17,8 @@
 	<string name="ask_download_notebook_title">Сохранить вместе с блокнотом?</string>
 	<string name="save_notebook_always_title">Сохранять блокнот</string>
 	<string name="save_notebook_always_key">downloadNoteBookAlways</string>
-	<string name="save_notebook_always_text"></string>
+	<string name="save_notebook_always_text"/>
+    <string name="too_many_caches">Слишком много тайников. Увеличьте масштаб</string>
 	<string name="save_notebook_always_value">false</string>
 	<string name="save_notebook_always_summary">Всегда сохранять блокнот тайника</string>
 	<string name="search_geocache_error_no_geocache">Ошибка!\n\rНечего искать!</string>
