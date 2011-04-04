@@ -21,6 +21,7 @@ public class DownloadGeoCacheTask extends AsyncTask<GeoPoint, Integer, List<GeoC
     private final SelectGeoCacheMap map;
     private final IApiManager apiManager;
     private final Controller controller;
+    private static final int MIN_GROUP_CACHE_NUMBER = 10;
 
 
     public DownloadGeoCacheTask(IApiManager apiManager, SelectGeoCacheMap map) {
@@ -52,7 +53,7 @@ public class DownloadGeoCacheTask extends AsyncTask<GeoPoint, Integer, List<GeoC
     @Override
     protected void onPostExecute(List<GeoCache> gcList) {
         if (!isCancelled()) {
-            if (Controller.getInstance().getPreferencesManager().getAddingCacheWayString()) {
+            if (Controller.getInstance().getPreferencesManager().getAddingCacheWayString() && gcList.size() > MIN_GROUP_CACHE_NUMBER) {
                 map.testAddGeoCacheList(gcList);
             } else {
                 map.addGeoCacheList(gcList);
