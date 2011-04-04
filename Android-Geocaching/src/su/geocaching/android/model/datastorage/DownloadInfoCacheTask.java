@@ -17,7 +17,8 @@ import android.webkit.WebView;
 public class DownloadInfoCacheTask extends AsyncTask<Void, Void, String> {
 
     private static final String TAG = DownloadInfoCacheTask.class.getCanonicalName();
-
+    public static final String HTML_ENCODING = "UTF-8";
+    
     private DbManager dbManager;
     private boolean isCacheStoredInDataBase;
     private ProgressDialog progressDialog;
@@ -71,6 +72,7 @@ public class DownloadInfoCacheTask extends AsyncTask<Void, Void, String> {
             }
             return result;
         }
+        result = infoText;
         return infoText;
     }
 
@@ -96,7 +98,12 @@ public class DownloadInfoCacheTask extends AsyncTask<Void, Void, String> {
     protected void onPostExecute(String result) {
         LogManager.d(TAG, "TestTime onPreExecute - Stop");
         if (webView != null) {
+            if (result.equals("")){
+                webView.loadData("<?xml version='1.0' encoding='utf-8'?><center>" + context.getString(R.string.info_not_save_but_cache_in_DB) + "</center>", "text/html", HTML_ENCODING);   
+            }
+            else{
             webView.loadDataWithBaseURL(GeoCacheInfoActivity.HTTP_PDA_GEOCACHING_SU, result, "text/html", GeoCacheInfoActivity.HTML_ENCODING, null);
+            }
             webView.postDelayed(new Runnable() {
                 @Override
                 public void run() {

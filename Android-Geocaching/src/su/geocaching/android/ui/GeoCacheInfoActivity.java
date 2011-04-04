@@ -151,7 +151,6 @@ public class GeoCacheInfoActivity extends Activity implements OnCheckedChangeLis
                 if (infoTask == null) {
                     infoTask = new DownloadInfoCacheTask(this, geoCache.getId(), webViewScrollX, webViewScrollY, null, null).execute();
                 }
-                
                 if (notebookTask == null) {
                     if (!goToMap && connectManager.isInternetConnected()) {
                         if (!controller.getPreferencesManager().getDownloadNoteBookAlways()) {
@@ -212,6 +211,12 @@ public class GeoCacheInfoActivity extends Activity implements OnCheckedChangeLis
         if (pageType == PageType.INFO) {
             menu.getItem(0).setTitle(R.string.menu_show_web_notebook_cache);
             menu.getItem(0).setIcon(R.drawable.ic_menu_notebook);
+            if (!isCacheStoredInDataBase && !connectManager.isInternetConnected()) {
+                menu.getItem(0).setEnabled(false);
+            } else {
+                menu.getItem(0).setEnabled(true);
+            }
+
         } else {
             menu.getItem(0).setTitle(R.string.menu_show_info_cache);
             menu.getItem(0).setIcon(R.drawable.ic_menu_info_details);
