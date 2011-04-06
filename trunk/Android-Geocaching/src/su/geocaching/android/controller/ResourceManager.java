@@ -75,55 +75,55 @@ public class ResourceManager {
                     case TRADITIONAL:
                         switch (status) {
                             case VALID:
-                                return R.drawable.ic_traditional_valid;
+                                return R.drawable.ic_cache_custom_traditional_valid;
                             case NOT_VALID:
-                                return R.drawable.ic_traditional_not_valid;
+                                return R.drawable.ic_cache_custom_traditional_not_valid;
                             case NOT_CONFIRMED:
-                                return R.drawable.ic_traditional_not_confirmed;
+                                return R.drawable.ic_cache_custom_traditional_not_confirmed;
                         }
                         break;
                     case VIRTUAL:
                         switch (status) {
                             case VALID:
-                                return R.drawable.ic_virtual_valid;
+                                return R.drawable.ic_cache_custom_virtual_valid;
                             case NOT_VALID:
-                                return R.drawable.ic_virtual_not_valid;
+                                return R.drawable.ic_cache_custom_virtual_not_valid;
                             case NOT_CONFIRMED:
-                                return R.drawable.ic_virtual_not_confirmed;
+                                return R.drawable.ic_cache_custom_virtual_not_confirmed;
                         }
                         break;
                     case STEP_BY_STEP:
                         switch (status) {
                             case VALID:
-                                return R.drawable.ic_step_by_step_valid;
+                                return R.drawable.ic_cache_custom_step_by_step_valid;
                             case NOT_VALID:
-                                return R.drawable.ic_step_by_step_not_valid;
+                                return R.drawable.ic_cache_custom_step_by_step_not_valid;
                             case NOT_CONFIRMED:
-                                return R.drawable.ic_step_by_step_not_confirmed;
+                                return R.drawable.ic_cache_custom_step_by_step_not_confirmed;
                         }
                         break;
                     case EXTREME:
                         switch (status) {
                             case VALID:
-                                return R.drawable.ic_extrem_valid;
+                                return R.drawable.ic_cache_custom_extrem_valid;
                             case NOT_VALID:
-                                return R.drawable.ic_extrem_not_valid;
+                                return R.drawable.ic_cache_custom_extrem_not_valid;
                             case NOT_CONFIRMED:
-                                return R.drawable.ic_extrem_not_confirmed;
+                                return R.drawable.ic_cache_custom_extrem_not_confirmed;
                         }
                         break;
                     case EVENT:
                         switch (status) {
                             case VALID:
-                                return R.drawable.ic_cache_event_valid_second;
+                                return R.drawable.ic_cache_custom_event_valid_second;
                             case NOT_VALID:
-                                return R.drawable.ic_cache_event_not_valid_second;
+                                return R.drawable.ic_cache_custom_event_not_valid_second;
                             case NOT_CONFIRMED:
-                                return R.drawable.ic_cache_event_not_confirmed_second;
+                                return R.drawable.ic_cache_custom_event_not_confirmed_second;
                         }
                         break;
                     case GROUP:
-                        return R.drawable.ic_cache_group_second;
+                        return R.drawable.ic_cache_custom_group_second;
                     case CHECKPOINT:
                         return R.drawable.ic_cache_checkpoint;
                 }
@@ -134,55 +134,55 @@ public class ResourceManager {
                     case TRADITIONAL:
                         switch (status) {
                             case VALID:
-                                return R.drawable.ic_cache_traditional_valid;
+                                return R.drawable.ic_cache_default_traditional_valid;
                             case NOT_VALID:
-                                return R.drawable.ic_cache_traditional_not_valid;
+                                return R.drawable.ic_cache_default_traditional_not_valid;
                             case NOT_CONFIRMED:
-                                return R.drawable.ic_cache_traditional_not_confirmed;
+                                return R.drawable.ic_cache_default_traditional_not_confirmed;
                         }
                         break;
                     case VIRTUAL:
                         switch (status) {
                             case VALID:
-                                return R.drawable.ic_cache_virtual_valid;
+                                return R.drawable.ic_cache_default_virtual_valid;
                             case NOT_VALID:
-                                return R.drawable.ic_cache_virtual_not_valid;
+                                return R.drawable.ic_cache_default_virtual_not_valid;
                             case NOT_CONFIRMED:
-                                return R.drawable.ic_cache_virtual_not_confirmed;
+                                return R.drawable.ic_cache_default_virtual_not_confirmed;
                         }
                         break;
                     case STEP_BY_STEP:
                         switch (status) {
                             case VALID:
-                                return R.drawable.ic_cache_stepbystep_valid;
+                                return R.drawable.ic_cache_default_stepbystep_valid;
                             case NOT_VALID:
-                                return R.drawable.ic_cache_stepbystep_not_valid;
+                                return R.drawable.ic_cache_default_stepbystep_not_valid;
                             case NOT_CONFIRMED:
-                                return R.drawable.ic_cache_stepbystep_not_confirmed;
+                                return R.drawable.ic_cache_default_stepbystep_not_confirmed;
                         }
                         break;
                     case EXTREME:
                         switch (status) {
                             case VALID:
-                                return R.drawable.ic_cache_extreme_valid;
+                                return R.drawable.ic_cache_default_extreme_valid;
                             case NOT_VALID:
-                                return R.drawable.ic_cache_extreme_not_valid;
+                                return R.drawable.ic_cache_default_extreme_not_valid;
                             case NOT_CONFIRMED:
-                                return R.drawable.ic_cache_extreme_not_confirmed;
+                                return R.drawable.ic_cache_default_extreme_not_confirmed;
                         }
                         break;
                     case EVENT:
                         switch (status) {
                             case VALID:
-                                return R.drawable.ic_cache_event_valid;
+                                return R.drawable.ic_cache_default_event_valid;
                             case NOT_VALID:
-                                return R.drawable.ic_cache_event_not_valid;
+                                return R.drawable.ic_cache_default_event_not_valid;
                             case NOT_CONFIRMED:
-                                return R.drawable.ic_cache_event_not_confirmed;
+                                return R.drawable.ic_cache_default_event_not_confirmed;
                         }
                         break;
                     case GROUP:
-                        return R.drawable.ic_cache_group;
+                        return R.drawable.ic_cache_default_group;
                     case CHECKPOINT:
                         return R.drawable.ic_cache_checkpoint;
 
