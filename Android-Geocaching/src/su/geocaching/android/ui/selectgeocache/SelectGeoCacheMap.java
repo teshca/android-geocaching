@@ -51,6 +51,7 @@ public class SelectGeoCacheMap extends MapActivity implements IInternetAware {
     private Handler handler;
     private GoogleAnalyticsTracker tracker;
     private GroupCacheTask groupTask = null;
+    private boolean firstRun = true;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -297,8 +298,9 @@ public class SelectGeoCacheMap extends MapActivity implements IInternetAware {
     @Override
     public void onWindowFocusChanged(boolean hasFocus) {
         super.onWindowFocusChanged(hasFocus);
-        if (hasFocus) {
+        if (hasFocus && firstRun) {
             updateCacheOverlay();
+            firstRun = false;
         }
         if (!progressBarAnimation.isRunning()) {
             progressBarAnimation.start();
