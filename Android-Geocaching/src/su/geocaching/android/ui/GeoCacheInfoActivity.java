@@ -25,6 +25,7 @@ import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.CompoundButton;
 import android.widget.CompoundButton.OnCheckedChangeListener;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.google.android.apps.analytics.GoogleAnalyticsTracker;
@@ -66,7 +67,6 @@ public class GeoCacheInfoActivity extends Activity implements OnCheckedChangeLis
         super.onCreate(savedInstanceState);
         LogManager.d(TAG, "onCreate");
         setContentView(R.layout.info_geocache_activity);
-
         controller = Controller.getInstance();
         dbManager = controller.getDbManager();
         connectManager = controller.getConnectionManager();
@@ -97,6 +97,8 @@ public class GeoCacheInfoActivity extends Activity implements OnCheckedChangeLis
         tvName.setText(geoCache.getName());
         tvTypeGeoCache.setText(controller.getResourceManager().getGeoCacheType(geoCache));
         tvStatusGeoCache.setText(controller.getResourceManager().getGeoCacheStatus(geoCache));
+        ImageView image = (ImageView) findViewById(R.id.imageCache);
+        image.setImageDrawable(controller.getResourceManager(this).getMarker(geoCache.getType(), geoCache.getStatus()));
         webView = (WebView) findViewById(R.id.info_web_brouse);
         cbFavoriteCache = (CheckBox) findViewById(R.id.info_geocache_add_del);
 
