@@ -21,7 +21,7 @@ public class DownloadGeoCacheTask extends AsyncTask<GeoPoint, Integer, List<GeoC
     private final SelectGeoCacheMap map;
     private final IApiManager apiManager;
     private final Controller controller;
-    private static final int MIN_GROUP_CACHE_NUMBER = 10;
+    private static final int MIN_GROUP_CACHE_NUMBER = 8;
 
 
     public DownloadGeoCacheTask(IApiManager apiManager, SelectGeoCacheMap map) {
