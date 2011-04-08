@@ -7,8 +7,7 @@ import su.geocaching.android.controller.Controller;
 import su.geocaching.android.controller.LogManager;
 import su.geocaching.android.controller.UiHelper;
 import su.geocaching.android.model.datastorage.DbManager;
-import su.geocaching.android.model.datastorage.DownloadInfoCacheTask;
-import su.geocaching.android.model.datastorage.DownloadWebNotebookTask;
+import su.geocaching.android.model.datastorage.DownloadInfoOrNotebookCacheTask;
 import su.geocaching.android.model.datatype.GeoCache;
 import android.app.Activity;
 import android.app.Dialog;
@@ -19,9 +18,7 @@ import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
-import android.view.View.OnClickListener;
 import android.webkit.WebView;
-import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.CompoundButton;
 import android.widget.CompoundButton.OnCheckedChangeListener;
@@ -40,7 +37,7 @@ public class GeoCacheInfoActivity extends Activity implements OnCheckedChangeLis
     public static final String HTML_ENCODING = "UTF-8";
     public static final String PAGE_TYPE = "page type", SCROOLX = "scrollX", SCROOLY = "scrollY";
 
-    private enum PageType {
+    public enum PageType {
         INFO, NOTEBOOK
     }
 
@@ -151,7 +148,7 @@ public class GeoCacheInfoActivity extends Activity implements OnCheckedChangeLis
             if (isChecked) {
                 isCacheStoredInDataBase = true;
                 if (infoTask == null) {
-                    infoTask = new DownloadInfoCacheTask(this, geoCache.getId(), webViewScrollX, webViewScrollY, null, null).execute();
+                    infoTask = new DownloadInfoOrNotebookCacheTask(this, geoCache.getId(), webViewScrollX, webViewScrollY, null, null, PageType.INFO).execute();
                 }
                 if (notebookTask == null) {
                     if (!goToMap && connectManager.isInternetConnected()) {
@@ -160,7 +157,7 @@ public class GeoCacheInfoActivity extends Activity implements OnCheckedChangeLis
                                 showDialog(0);
                             }
                         } else {
-                            notebookTask = new DownloadWebNotebookTask(context, geoCache.getId(), webViewScrollX, webViewScrollY, null, null).execute();
+                            notebookTask = new DownloadInfoOrNotebookCacheTask(context, geoCache.getId(), webViewScrollX, webViewScrollY, null, null, PageType.NOTEBOOK).execute();
                             dbManager.addGeoCache(geoCache, infoTask.get(), notebookTask.get());
 
                         }
@@ -255,19 +252,19 @@ public class GeoCacheInfoActivity extends Activity implements OnCheckedChangeLis
                 switch (type) {
                     case INFO:
                         if (infoTask == null) {
-                            infoTask = new DownloadInfoCacheTask(this, geoCache.getId(), webViewScrollX, webViewScrollY, webView, null).execute();
+                            infoTask = new DownloadInfoOrNotebookCacheTask(this, geoCache.getId(), webViewScrollX, webViewScrollY, webView, null,PageType.INFO).execute();
                         } else {
                             String infoText = infoTask.get();
-                            infoTask = new DownloadInfoCacheTask(this, geoCache.getId(), webViewScrollX, webViewScrollY, webView, infoText).execute();
+                            infoTask = new DownloadInfoOrNotebookCacheTask(this, geoCache.getId(), webViewScrollX, webViewScrollY, webView, infoText, PageType.INFO).execute();
                         }
                         break;
                     case NOTEBOOK:
 
                         if (notebookTask == null) {
-                            notebookTask = new DownloadWebNotebookTask(this, geoCache.getId(), webViewScrollX, webViewScrollY, webView, null).execute();
+                            notebookTask = new DownloadInfoOrNotebookCacheTask(this, geoCache.getId(), webViewScrollX, webViewScrollY, webView, null, PageType.NOTEBOOK).execute();
                         } else {
                             String notebookText = notebookTask.get();
-                            notebookTask = new DownloadWebNotebookTask(this, geoCache.getId(), webViewScrollX, webViewScrollY, webView, notebookText).execute();
+                            notebookTask = new DownloadInfoOrNotebookCacheTask(this, geoCache.getId(), webViewScrollX, webViewScrollY, webView, notebookText, PageType.NOTEBOOK).execute();
                         }
                         break;
                 }
