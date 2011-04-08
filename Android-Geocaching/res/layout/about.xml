@@ -8,28 +8,28 @@
                     android:layout_height="260dip" android:padding="10dip">
             <LinearLayout android:orientation="vertical"
                           android:layout_width="wrap_content" android:layout_height="wrap_content">
-                <TextView android:id="@+id/about_content"
+                <TextView android:id="@+id/about_google_code"
                           android:layout_width="wrap_content" android:layout_height="wrap_content"
                           android:autoLink="web" android:textStyle="bold" android:textSize="15dip"
                           android:gravity="left" android:text="@string/about_google_code"/>
-                <TextView android:id="@+id/about_content"
+                <TextView android:id="@+id/about_program_text"
                           android:layout_marginTop="3dip" android:layout_width="wrap_content"
                           android:layout_height="wrap_content" android:autoLink="web"
                           android:textStyle="bold" android:textSize="15dip" android:gravity="left"
-                          android:text="@string/about_programm_text"/>
-                <TextView android:id="@+id/about_content"
+                          android:text="@string/about_program_text"/>
+                <TextView android:id="@+id/about_leaders_title"
                           android:layout_marginTop="3dip" android:layout_width="wrap_content"
                           android:layout_height="wrap_content" android:layout_marginLeft="5dip"
-                          android:textStyle="bold" android:text="Руководители проекта:"/>
-                <TextView android:id="@+id/about_autors"
+                          android:textStyle="bold" android:text="@string/about_leaders_title"/>
+                <TextView android:id="@+id/about_leaders_text"
                           android:layout_width="wrap_content" android:layout_height="wrap_content"
                           android:layout_marginLeft="15dip" android:gravity="left"
                           android:text="@string/about_leaders_text"/>
-                <TextView android:id="@+id/about_content"
+                <TextView android:id="@+id/about_developers_title"
                           android:layout_marginTop="3dip" android:layout_width="wrap_content"
                           android:layout_height="wrap_content" android:layout_marginLeft="5dip"
-                          android:textStyle="bold" android:text="Разработчики приложения:"/>
-                <TextView android:id="@+id/about_autors"
+                          android:textStyle="bold" android:text="@string/about_developers_title"/>
+                <TextView android:id="@+id/about_developers_text"
                           android:layout_width="wrap_content" android:layout_height="wrap_content"
                           android:layout_marginLeft="15dip" android:gravity="left"
                           android:text="@string/about_developers_text"/>

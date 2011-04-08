@@ -79,15 +79,19 @@
     <string name="info_not_save_but_cache_in_DB">Невозможно показать информацию о тайнике, поскольку возможно текст
         не сохранился, и отсутсвует соединение с интернетом
     </string>
-    <string name="menu_keep_screen">Не выключать экран</string>
-    <string name="about">О программе</string>
-    <string name="about_programm_text">Геокэшинг - это мобильный клиент для работы с
-        порталом\nhttp://geocaching.su
+	<string name="menu_keep_screen">Не выключать экран</string>
+	<string name="about">О программе</string>
+	<string name="about_title">Геокешинг версия 0.0.1b</string>
+
+	<string name="about_program_text">Геокешинг - это мобильный клиент для работы с
+		порталом\nhttp://geocaching.su
     </string>
-    <string name="about_leaders_text">Артамонов Николай\nКичинский Дмитрий</string>
-    <string name="about_developers_text">Алексеенко Владимир\nБумаков Никита\nДенисон
-        Юрий\nКалабин Григорий\nНятин Анатолий\nСергеев Владислав\nФилатов
-        Владимир
+    <string name="about_leaders_title">Руководители проекта:</string>
+    <string name="about_developers_title">Разработчики приложения:</string>
+	<string name="about_leaders_text">Артамонов Николай\nКичинский Дмитрий</string>
+	<string name="about_developers_text">Алексеенко Владимир\nБумаков Никита\nДенисон
+		Юрий\nКалабин Григорий\nНятин Анатолий\nСергеев Владислав\nФилатов
+		Владимир
     </string>
     <string name="about_email_text">Все вопросы и предложения присылайте на наш
         email\nandroid.geocaching.su@gmail.com
