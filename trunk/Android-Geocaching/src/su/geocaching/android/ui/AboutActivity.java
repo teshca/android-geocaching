@@ -19,12 +19,9 @@ public class AboutActivity extends Activity {
         setContentView(R.layout.about);
 
         try {
-            String versionName = getPackageManager().getPackageInfo(getPackageName(), 0).versionName;
-            String aboutTitle = getString(R.string.application_version) + " " + versionName;
-            this.setTitle(aboutTitle);
+            this.setTitle(String.format("%s %s", getString(R.string.application_version), getPackageManager().getPackageInfo(getPackageName(), 0).versionName));
         } catch (NameNotFoundException e) {
-            // TODO Auto-generated catch block
-            e.printStackTrace();
+            LogManager.e(TAG, e.getMessage(), e);
         }
 
         tracker = GoogleAnalyticsTracker.getInstance();
