@@ -11,7 +11,7 @@
     </string>
     <string name="download_info">Скачивание информации</string>
     <string name="download_notebook">Скачивание блокнота тайника</string>
-    <string name="are_you_sure">Вы уверены?</string>
+    <string name="are_you_sure">Удалить все контрольные точки.\nВы уверены?</string>
     <string name="yes">Да</string>
     <string name="no">Нет</string>
     <string name="ask_download_notebook_title">Сохранить вместе с блокнотом?</string>
