@@ -28,11 +28,11 @@ public class StandardCompassDrawing extends CompassDrawingHelper {
         textPaint.setStrokeWidth(0.8f);
     }
 
-    int bitmapX, bitmapY;
+    int bitmapX, bitmapY, size;
 
     @Override
     public void onSizeChanged(int w, int h) {
-        int size = Math.min(h, w);
+        size = Math.min(h, w);
         centerX = w / 2;
         centerY = h / 2;
         needleWidth = size / 30;
@@ -78,7 +78,7 @@ public class StandardCompassDrawing extends CompassDrawingHelper {
     }
 
     private Bitmap createNeedle() {
-        Bitmap bitmap = Bitmap.createBitmap(needleWidth * 3, centerY * 2, Bitmap.Config.ARGB_8888);
+        Bitmap bitmap = Bitmap.createBitmap(needleWidth * 3, size, Bitmap.Config.ARGB_8888);
         Canvas canvas = new Canvas(bitmap);
         Path needlePath = new Path();
         Paint paint = new Paint();
@@ -86,8 +86,8 @@ public class StandardCompassDrawing extends CompassDrawingHelper {
         paint.setStyle(Style.FILL_AND_STROKE);
         paint.setStrokeWidth(1);
 
-        float top = centerY * 0.85f;
-        canvas.translate(needleWidth * 1.5f, centerY);
+        float top = size / 2 * 0.85f;
+        canvas.translate(needleWidth * 1.5f, size / 2);
         needlePath.moveTo(-needleWidth, 0);
         needlePath.lineTo(0, -top);
         needlePath.lineTo(needleWidth, 0);
@@ -107,7 +107,7 @@ public class StandardCompassDrawing extends CompassDrawingHelper {
     }
 
     private Bitmap createCacheArrow() {
-        Bitmap bitmap = Bitmap.createBitmap(needleWidth * 3, centerY * 2, Bitmap.Config.ARGB_8888);
+        Bitmap bitmap = Bitmap.createBitmap(needleWidth * 3, size, Bitmap.Config.ARGB_8888);
         Canvas canvas = new Canvas(bitmap);
         Path arrowPath = new Path();
         Paint paint = new Paint();
@@ -115,8 +115,8 @@ public class StandardCompassDrawing extends CompassDrawingHelper {
         paint.setStyle(Style.FILL_AND_STROKE);
         paint.setStrokeWidth(1);
 
-        float top = centerY * 0.85f;
-        canvas.translate(needleWidth * 1.5f, centerY);
+        float top = size / 2 * 0.85f;
+        canvas.translate(needleWidth * 1.5f, size / 2);
         arrowPath.moveTo(-needleWidth, 0);
         arrowPath.lineTo(0, -top);
         arrowPath.lineTo(needleWidth, 0);
