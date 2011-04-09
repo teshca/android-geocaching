@@ -64,6 +64,7 @@ public class CheckpointsFolder extends AbstractCacheFolder implements OnItemClic
             lvListShowCache.setAdapter(null);
             LogManager.d(TAG, "checkpoints DB empty");
         } else {
+            favoritesList.add(0, Controller.getInstance().getPreferencesManager().getLastSearchedGeoCache());
             tvNoCache.setVisibility(View.GONE);
             SimpleAdapter simpleAdapter = new SimpleAdapter(this, createGeoCacheList(favoritesList), R.layout.row_in_favorit_rolder, keys, new int[] { R.id.favorite_list_image_button_type,
                     R.id.favorite_list_text_view_name, R.id.favorites_row_type_text, R.id.favorites_row_status_text });
@@ -76,10 +77,8 @@ public class CheckpointsFolder extends AbstractCacheFolder implements OnItemClic
     public boolean onPrepareOptionsMenu(Menu menu) {
         if (favoritesList.size() == 0) {
             menu.getItem(1).setEnabled(false);
-            menu.getItem(2).setEnabled(false);
-        }else{
+        } else {
             menu.getItem(1).setEnabled(true);
-            menu.getItem(2).setEnabled(true);
         }
         return super.onPrepareOptionsMenu(menu);
     }
@@ -96,11 +95,6 @@ public class CheckpointsFolder extends AbstractCacheFolder implements OnItemClic
         switch (item.getItemId()) {
             case R.id.addCheckpointMenu:
                 UiHelper.startStepByStep(this, Controller.getInstance().getPreferencesManager().getLastSearchedGeoCache());
-                break;
-            case R.id.searchMainCache:
-                checkpointManager.deactivateCheckpoints();
-                lvListShowCache.setAdapter(null);
-                onResume();
                 break;
             case R.id.removeAllCheckpointMenu:
                 removeAlert.show();

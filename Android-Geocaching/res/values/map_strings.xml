@@ -59,13 +59,13 @@
 		<item>MAP</item>
 		<item>SATELLITE</item>
 	</string-array>
-	
+
 	<string name="prefer_icon_key">map.icon</string>
 	<string name="prefer_icon_default_value">DEFAULT</string>
 	<string-array name="requests_icon_type_entries">
 		<item>Стандартные</item>
 		<item>В стиле Geocaching.su</item>
-	</string-array>	
+	</string-array>
 	<string-array name="requests_icon_type_values">
 		<item>DEFAULT</item>
 		<item>CUSTOM</item>
@@ -84,14 +84,14 @@
 	<string name="map_markers_title">Иконки тайников</string>
 	<string name="default_marker">default marker</string>
 	<string name="custom_marker">custom marker</string>
-    <string name="cache_filter_traditional_title">Традиционный</string>
-    <string name="cache_filter_stepbystep_title">Пошаговый</string>
-    <string name="cache_filter_extreme_title">Экстрим</string>
-    <string name="cache_filter_event_title">Событие</string>
-    <string name="cache_filter_virtual_title">Виртуальный</string>
-    <string name="cache_filter_valid_title">Доступный</string>
-    <string name="cache_filter_not_valid_title">Недоступный</string>
-    <string name="cache_filter_not_confirmed_title">Возможно недоступный</string>
+	<string name="cache_filter_traditional_title">Традиционный</string>
+	<string name="cache_filter_stepbystep_title">Пошаговый</string>
+	<string name="cache_filter_extreme_title">Экстрим</string>
+	<string name="cache_filter_event_title">Событие</string>
+	<string name="cache_filter_virtual_title">Виртуальный</string>
+	<string name="cache_filter_valid_title">Доступный</string>
+	<string name="cache_filter_not_valid_title">Недоступный</string>
+	<string name="cache_filter_not_confirmed_title">Возможно недоступный</string>
 	<string name="cache_filter_valid">filter.valid</string>
 	<string name="cache_filter_not_valid">filter.notValid</string>
 	<string name="cache_filter_not_confirmed">filter.notConfirmed</string>
@@ -102,8 +102,8 @@
 	<string name="cache_filter_event">filter.event</string>
 	<string name="map_preference_title">Настройки карты</string>
 	<string name="map_preference_key">map.preference</string>
-    <string name="cache_filter_type_title">Тип тайников</string>
-    <string name="cache_filter_status_title">Статус тайников</string>
+	<string name="cache_filter_type_title">Тип тайников</string>
+	<string name="cache_filter_status_title">Статус тайников</string>
     <string name="cache_filter_status">filter.status</string>
     <string name="cache_filter_type">filter.type</string>
     <string name="cache_filter_default_value">ALL</string>
