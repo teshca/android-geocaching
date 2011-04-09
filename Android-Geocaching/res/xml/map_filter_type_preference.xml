@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
     <PreferenceCategory
-            android:title="@string/map_category_title">
+            android:title="@string/cache_filter_type_title">
 
         <CheckBoxPreference android:title="@string/cache_filter_traditional_title"
                             android:key="@string/cache_filter_traditional"

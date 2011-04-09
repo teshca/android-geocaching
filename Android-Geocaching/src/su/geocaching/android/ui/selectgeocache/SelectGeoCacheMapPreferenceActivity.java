@@ -6,6 +6,7 @@ import android.os.Bundle;
 import android.preference.Preference;
 import android.preference.Preference.OnPreferenceClickListener;
 import android.preference.PreferenceActivity;
+import su.geocaching.android.ui.AboutActivity;
 import su.geocaching.android.ui.R;
 
 /**
@@ -19,24 +20,6 @@ public class SelectGeoCacheMapPreferenceActivity extends PreferenceActivity {
         addPreferencesFromResource(R.xml.select_gc_map_preference);
         setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
 
-        Preference mapFilterTypePreference = findPreference("mapFilterType");
-        mapFilterTypePreference.setOnPreferenceClickListener(new OnPreferenceClickListener() {
-
-            public boolean onPreferenceClick(Preference preference) {
-                startActivity(new Intent(getBaseContext(), MapFilterTypePreferenceActivity.class));
-                return true;
-            }
-        });
-
-        Preference mapFilterStatusPreference = findPreference("mapFilterStatus");
-        mapFilterStatusPreference.setOnPreferenceClickListener(new OnPreferenceClickListener() {
-
-            public boolean onPreferenceClick(Preference preference) {
-                startActivity(new Intent(getBaseContext(), MapFilterStatusPreferenceActivity.class));
-                return true;
-            }
-        });
-     
 
     }
 }

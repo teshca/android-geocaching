@@ -15,7 +15,7 @@ import java.util.EnumSet;
 
 /**
  * Manager which can get access to application preferences
- * 
+ *
  * @author Grigory Kalabin. grigory.kalabin@gmail.com
  * @since March 2011
  */
@@ -36,7 +36,7 @@ public class PreferencesManager {
 
     /**
      * Get id of last searched geocache from preferences and get GeoCache object from database
-     * 
+     *
      * @return last searched geocache by user saved in preferences
      */
     public synchronized GeoCache getLastSearchedGeoCache() {
@@ -46,9 +46,8 @@ public class PreferencesManager {
 
     /**
      * Save last searched geocache id in preferences
-     * 
-     * @param lastSearchedGeoCache
-     *            last searched geoCache
+     *
+     * @param lastSearchedGeoCache last searched geoCache
      */
     public synchronized void setLastSearchedGeoCache(GeoCache lastSearchedGeoCache) {
         if (lastSearchedGeoCache != null) {
@@ -60,8 +59,7 @@ public class PreferencesManager {
     }
 
     /**
-     * @param info
-     *            with data to save
+     * @param info with data to save
      */
     public synchronized void setLastMapInfo(MapInfo info) {
         if (info != null) {
@@ -113,54 +111,90 @@ public class PreferencesManager {
         // keys located in resources, because settings logic described in xml and write it automatically to SharedPreferences
         return GpsUpdateFrequency.valueOf(preferences.getString(context.getString(R.string.gps_update_frequency_key), context.getString(R.string.gps_update_frequency_default_value)));
     }
-    
+
     public boolean getOdometerOnPreference() {
         // keys located in resources, because settings logic described in xml and write it automatically to SharedPreferences
-        return preferences.getBoolean(context.getString(R.string.prefer_odometer_key),  resources.getBoolean(R.bool.odometer_default_value));
+        return preferences.getBoolean(context.getString(R.string.prefer_odometer_key), resources.getBoolean(R.bool.odometer_default_value));
     }
-    
-    public String getCompassSpeed(){
+
+    public String getCompassSpeed() {
         return preferences.getString(context.getString(R.string.prefs_speed_key), context.getString(R.string.prefer_speed_default_value));
     }
-    
-    public String getCompassAppearence(){
+
+    public String getCompassAppearence() {
         return preferences.getString(context.getString(R.string.prefs_appearance_key), context.getString(R.string.prefer_appearance_default_value));
     }
-    
-    public String getIconType(){
+
+    public String getIconType() {
         return preferences.getString(context.getString(R.string.prefer_icon_key), context.getString(R.string.prefer_icon_default_value));
     }
 
     public EnumSet<GeoCacheStatus> getStatusFilter() {
         EnumSet<GeoCacheStatus> set = EnumSet.noneOf(GeoCacheStatus.class);
-        if (preferences.getBoolean(context.getString(R.string.cache_filter_valid), resources.getBoolean(R.bool.cache_filter_valid_default_value))) {
-            set.add(GeoCacheStatus.VALID);
-        }
-        if (preferences.getBoolean(context.getString(R.string.cache_filter_not_valid), resources.getBoolean(R.bool.cache_filter_not_valid_default_value))) {
-            set.add(GeoCacheStatus.NOT_VALID);
-        }
-        if (preferences.getBoolean(context.getString(R.string.cache_filter_not_confirmed), resources.getBoolean(R.bool.cache_filter_not_confirmed_default_value))) {
-            set.add(GeoCacheStatus.NOT_CONFIRMED);
+        String rawval = preferences.getString(context.getString(R.string.cache_filter_status), context.getString(R.string.cache_filter_default_value));
+        String[] selected = ListMultiSelectPreference.parseStoredValue(rawval);
+        for (String i : selected) {
+            try {
+                GeoCacheStatus e = GeoCacheStatus.valueOf(i);
+                switch (e) {
+                    case VALID: {
+                        set.add(GeoCacheStatus.VALID);
+                        break;
+                    }
+                    case NOT_VALID: {
+                        set.add(GeoCacheStatus.NOT_VALID);
+                        break;
+                    }
+                    case NOT_CONFIRMED: {
+                        set.add(GeoCacheStatus.NOT_CONFIRMED);
+                        break;
+                    }
+                }
+            } catch (IllegalArgumentException iae) {
+                set.add(GeoCacheStatus.VALID);
+                set.add(GeoCacheStatus.NOT_VALID);
+                set.add(GeoCacheStatus.NOT_CONFIRMED);
+            }
         }
         return set;
     }
 
     public EnumSet<GeoCacheType> getTypeFilter() {
         EnumSet<GeoCacheType> set = EnumSet.noneOf(GeoCacheType.class);
-        if (preferences.getBoolean(context.getString(R.string.cache_filter_traditional), resources.getBoolean(R.bool.cache_filter_traditional_default_value))) {
-            set.add(GeoCacheType.TRADITIONAL);
-        }
-        if (preferences.getBoolean(context.getString(R.string.cache_filter_extreme), resources.getBoolean(R.bool.cache_filter_extreme_default_value))) {
-            set.add(GeoCacheType.EXTREME);
-        }
-        if (preferences.getBoolean(context.getString(R.string.cache_filter_stepbystep), resources.getBoolean(R.bool.cache_filter_stepbystep_default_value))) {
-            set.add(GeoCacheType.STEP_BY_STEP);
-        }
-        if (preferences.getBoolean(context.getString(R.string.cache_filter_virtual), resources.getBoolean(R.bool.cache_filter_virtual_default_value))) {
-            set.add(GeoCacheType.VIRTUAL);
-        }
-        if (preferences.getBoolean(context.getString(R.string.cache_filter_event), resources.getBoolean(R.bool.cache_filter_event_default_value))) {
-            set.add(GeoCacheType.EVENT);
+        String rawval = preferences.getString(context.getString(R.string.cache_filter_type), context.getString(R.string.cache_filter_default_value));
+        String[] selected = ListMultiSelectPreference.parseStoredValue(rawval);
+        for (String i : selected) {
+            try {
+                GeoCacheType e = GeoCacheType.valueOf(i);
+                switch (e) {
+                    case TRADITIONAL: {
+                        set.add(GeoCacheType.TRADITIONAL);
+                        break;
+                    }
+                    case VIRTUAL: {
+                        set.add(GeoCacheType.VIRTUAL);
+                        break;
+                    }
+                    case STEP_BY_STEP: {
+                        set.add(GeoCacheType.STEP_BY_STEP);
+                        break;
+                    }
+                    case EXTREME: {
+                        set.add(GeoCacheType.EXTREME);
+                        break;
+                    }
+                    case EVENT: {
+                        set.add(GeoCacheType.EVENT);
+                        break;
+                    }
+                }
+            } catch (IllegalArgumentException iae) {
+                set.add(GeoCacheType.TRADITIONAL);
+                set.add(GeoCacheType.VIRTUAL);
+                set.add(GeoCacheType.EXTREME);
+                set.add(GeoCacheType.STEP_BY_STEP);
+                set.add(GeoCacheType.EVENT);
+            }
         }
         return set;
     }

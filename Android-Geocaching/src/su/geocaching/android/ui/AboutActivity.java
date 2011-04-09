@@ -19,7 +19,7 @@ public class AboutActivity extends Activity {
         setContentView(R.layout.about);
 
         try {
-            this.setTitle(String.format("%s %s", getString(R.string.application_version), getPackageManager().getPackageInfo(getPackageName(), 0).versionName));
+            this.setTitle(String.format(getString(R.string.application_version), getPackageManager().getPackageInfo(getPackageName(), 0).versionName));
         } catch (NameNotFoundException e) {
             LogManager.e(TAG, e.getMessage(), e);
         }
