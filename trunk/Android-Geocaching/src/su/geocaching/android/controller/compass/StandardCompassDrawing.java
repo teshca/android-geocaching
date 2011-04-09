@@ -63,7 +63,7 @@ public class StandardCompassDrawing extends CompassDrawingHelper {
     }
 
     private void drawAzimuthLabel(Canvas canvas, float direction) {
-        canvas.drawText(CompassHelper.degreesToString(direction), centerX * 0.4f, -centerY * 0.8f, textPaint);
+        canvas.drawText(CompassHelper.degreesToString(direction, AZIMUTH_FORMAT), centerX * 0.4f, -centerY * 0.8f, textPaint);
     }
 
     private void drawDistanceLabel(Canvas canvas) {
