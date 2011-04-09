@@ -115,15 +115,15 @@ public class ResourceManager {
                     case EVENT:
                         switch (status) {
                             case VALID:
-                                return R.drawable.ic_cache_custom_event_valid_second;
+                                return R.drawable.ic_cache_custom_event_valid;
                             case NOT_VALID:
-                                return R.drawable.ic_cache_custom_event_not_valid_second;
+                                return R.drawable.ic_cache_custom_event_not_valid;
                             case NOT_CONFIRMED:
-                                return R.drawable.ic_cache_custom_event_not_confirmed_second;
+                                return R.drawable.ic_cache_custom_event_not_confirmed;
                         }
                         break;
                     case GROUP:
-                        return R.drawable.ic_cache_custom_group_second;
+                        return R.drawable.ic_cache_custom_group;
                     case CHECKPOINT:
                         return R.drawable.ic_cache_checkpoint;
                 }
