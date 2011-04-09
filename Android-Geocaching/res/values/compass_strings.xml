@@ -3,11 +3,11 @@
 	<string name="location_unknown">Координаты определяются...</string>
 	<string name="compass_settings">Настройки</string>
 	<string-array name="speed_preference_entries">
-		<item>Непосредственная</item>
+		<item>Без сглаживания</item>
 		<item>Медленная</item>
 		<item>Нормальная</item>
 		<item>Быстрая</item>
-		<item>Колеблющаяся</item>
+		<item>Инерционная</item>
 	</string-array>
 	<string-array name="speed_preference_values">
 		<item>DIRET</item>
@@ -27,7 +27,7 @@
 	<string name="prefs_appearance_key">appearance.speed</string>
 	<string-array name="appearance_preference_entries">
 		<item>Классический</item>
-		<item>Бледный</item>
+		<item>Светлый</item>
 	</string-array>
 	<string-array name="appearance_preference_values">
 		<item>CLASSIC</item>
