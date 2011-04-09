@@ -12,6 +12,7 @@ import su.geocaching.android.ui.R;
  */
 public abstract class CompassDrawingHelper {
 
+    public static final String AZIMUTH_FORMAT = "%.1f°";
     protected static final int DEFAULT_NEEDLE_WIDTH = 8;
 
     protected int centerX, centerY;

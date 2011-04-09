@@ -9,6 +9,7 @@ import android.app.Activity;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
+import android.view.KeyEvent;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.TextView.BufferType;
@@ -42,7 +43,7 @@ public class DecimalInputActivity extends Activity {
         checkpointManager = Controller.getInstance().getCheckpointManager(gc.getId());
         GeoPoint gp;
         if ((gp = checkpointManager.getLastInputGeoPoint()) == null) {
-            gp = gc.getLocationGeoPoint();
+            gp = gc.getLocationGeoPoint();        
         }
 
         int lat = gp.getLatitudeE6();
@@ -70,6 +71,14 @@ public class DecimalInputActivity extends Activity {
         super.onPause();
     }
 
+    @Override
+    public boolean onKeyDown(int keyCode, KeyEvent event) {
+        if (keyCode == KeyEvent.KEYCODE_BACK) {
+            checkpointManager.setLastInputGeoPoint(null);
+        }
+        return super.onKeyDown(keyCode, event);
+    }
+    
     public void onEnterClick(View v) {
         try {
             int latitudeE6 = Integer.parseInt(latDegrees.getText().toString()) * 1000000 + Integer.parseInt(latFraction.getText().toString());

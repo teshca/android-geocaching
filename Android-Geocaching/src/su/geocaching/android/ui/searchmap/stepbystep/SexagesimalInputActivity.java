@@ -10,6 +10,7 @@ import android.app.Activity;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
+import android.view.KeyEvent;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.TextView.BufferType;
@@ -48,6 +49,7 @@ public class SexagesimalInputActivity extends Activity {
         GeoPoint gp;
         if ((gp = checkpointManager.getLastInputGeoPoint()) == null) {
             gp = gc.getLocationGeoPoint();
+            checkpointManager.setLastInputGeoPoint(gp);
         }
 
         int lat = gp.getLatitudeE6();
@@ -71,7 +73,7 @@ public class SexagesimalInputActivity extends Activity {
         lngmMinutes.addTextChangedListener(textWacher);
         super.onResume();
     }
-    
+
     @Override
     protected void onPause() {
         latDegrees.removeTextChangedListener(textWacher);
@@ -83,6 +85,13 @@ public class SexagesimalInputActivity extends Activity {
         super.onPause();
     }
 
+    @Override
+    public boolean onKeyDown(int keyCode, KeyEvent event) {
+        if (keyCode == KeyEvent.KEYCODE_BACK) {
+            checkpointManager.setLastInputGeoPoint(null);
+        }
+        return super.onKeyDown(keyCode, event);
+    }
 
     public void onEnterClick(View v) {
         try {

@@ -13,9 +13,9 @@
 		<TextView android:text="@string/latitude" android:minWidth="@dimen/coordinate_label_width"
 			android:textSize="@dimen/text_size_big" android:layout_width="wrap_content"
 			android:layout_height="wrap_content" />
-		<EditText android:text="00" android:id="@+id/sLatDegrees"
+		<EditText android:text="000" android:id="@+id/sLatDegrees"
 			android:maxLines="1" android:numeric="signed" android:maxLength="4"
-			android:layout_width="45dip" android:layout_height="wrap_content" />
+			android:layout_width="55dip" android:layout_height="wrap_content" />
 		<TextView android:text="°" android:layout_width="wrap_content"
 			android:textSize="@dimen/text_size_big" android:layout_height="wrap_content" />
 		<EditText android:text="00" android:id="@+id/sLatMinutes"
@@ -37,7 +37,7 @@
 			android:layout_height="wrap_content" />
 		<EditText android:text="00" android:id="@+id/sLngDegrees"
 			android:maxLines="1" android:numeric="signed" android:maxLength="4"
-			android:layout_width="45dip" android:layout_height="wrap_content" />
+			android:layout_width="55dip" android:layout_height="wrap_content" />
 		<TextView android:text="°" android:layout_width="wrap_content"
 			android:textSize="@dimen/text_size_big" android:layout_height="wrap_content" />
 		<EditText android:text="00" android:id="@+id/sLngMinutes"

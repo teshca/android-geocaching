@@ -74,7 +74,7 @@ public class GpsHelper {
      */
     public static float getDistanceBetween(GeoPoint l1, GeoPoint l2) {
         float[] results = new float[1];
-        Location.distanceBetween(l1.getLatitudeE6() / 1E6, l1.getLongitudeE6() / 1E6, l2.getLatitudeE6() / 1E6, l2.getLongitudeE6() / 1E6, results);
+        Location.distanceBetween((double) l1.getLatitudeE6() / 1E6, (double) l1.getLongitudeE6() / 1E6, (double) l2.getLatitudeE6() / 1E6, (double) l2.getLongitudeE6() / 1E6, results);
         return results[0];
     }
 
@@ -88,6 +88,12 @@ public class GpsHelper {
     public static float getBearingBetween(Location l1, GeoPoint l2) {
         float[] results = new float[2];
         Location.distanceBetween(l1.getLatitude(), l1.getLongitude(), l2.getLatitudeE6() / 1E6, l2.getLongitudeE6() / 1E6, results);
+        return results[1];
+    }
+
+    public static float getBearingBetween(GeoPoint l1, GeoPoint l2) {
+        float[] results = new float[2];
+        Location.distanceBetween(l1.getLatitudeE6() / 1E6, l1.getLongitudeE6() / 1E6, l2.getLatitudeE6() / 1E6, l2.getLongitudeE6() / 1E6, results);
         return results[1];
     }
 
