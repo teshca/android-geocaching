@@ -124,7 +124,6 @@
         координат тайника:
     </string>
     <string name="add_checkpoint">Добавить</string>
-    <string name="search_main_cache">Выбрать основной</string>
     <string name="error_stepbystep_input">Неверный формат введенных данных</string>
     <string name="azimuth">Азимут:</string>
     <string name="distance">Расстояние:</string>

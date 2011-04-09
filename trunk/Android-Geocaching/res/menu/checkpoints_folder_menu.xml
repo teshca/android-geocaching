@@ -2,7 +2,6 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
 	<item android:id="@+id/addCheckpointMenu" android:title="@string/add_checkpoint"
 		android:icon="@drawable/ic_menu_flag"></item>
-	<item android:id="@+id/searchMainCache" android:title="@string/search_main_cache" android:icon="@drawable/ic_menu_main_cache"></item>
 	<item android:title="@string/delete_all" android:icon="@drawable/ic_menu_off"
 		android:id="@+id/removeAllCheckpointMenu"></item>
 
