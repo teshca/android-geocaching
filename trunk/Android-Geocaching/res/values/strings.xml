@@ -82,7 +82,6 @@
     </string>
 	<string name="menu_keep_screen">Не выключать экран</string>
 	<string name="about">О программе</string>
-	<string name="about_title">Геокешинг версия 0.0.1b</string>
 
 	<string name="about_program_text">Геокешинг - это мобильный клиент для работы с
 		порталом\nhttp://geocaching.su
@@ -111,7 +110,7 @@
     <string name="search_activity_folder">/SearchActivity</string>
     <string name="select_activity_folder">/SelectActivity</string>
 
-    <string name="application_version">Геокэшинг версия</string>
+    <string name="application_version" formatted="false">Геокэшинг версия %s</string>
     <string name="dislocation">Ваше местоположение не определено. Повторите
         попытку позже.
     </string>

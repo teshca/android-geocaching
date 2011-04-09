@@ -1,5 +1,6 @@
 package su.geocaching.android.ui.selectgeocache;
 
+
 import android.content.pm.ActivityInfo;
 import android.os.Bundle;
 import android.preference.PreferenceActivity;
@@ -16,5 +17,6 @@ public class MapFilterStatusPreferenceActivity extends PreferenceActivity {
         LogManager.d(TAG, "onCreate");
         addPreferencesFromResource(R.xml.map_filter_status_preference);
         setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
+        this.setTitleColor(1);
     }
 }
