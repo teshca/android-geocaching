@@ -1,30 +1,28 @@
 package su.geocaching.android.controller.apimanager;
 
+import com.google.android.maps.GeoPoint;
+import org.xml.sax.InputSource;
+import org.xml.sax.SAXException;
+import su.geocaching.android.controller.Controller;
+import su.geocaching.android.controller.LogManager;
+import su.geocaching.android.model.datatype.GeoCache;
+
+import javax.xml.parsers.ParserConfigurationException;
+import javax.xml.parsers.SAXParser;
+import javax.xml.parsers.SAXParserFactory;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.URL;
+import java.util.HashSet;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Locale;
 
-import javax.xml.parsers.ParserConfigurationException;
-import javax.xml.parsers.SAXParser;
-import javax.xml.parsers.SAXParserFactory;
-
-import org.xml.sax.InputSource;
-import org.xml.sax.SAXException;
-
-import su.geocaching.android.controller.Controller;
-import su.geocaching.android.controller.LogManager;
-import su.geocaching.android.model.datatype.GeoCache;
-
-import com.google.android.maps.GeoPoint;
-
 /**
  * Class for getting data from Geocaching.su. This class implements IApiManager
- * 
+ *
  * @author Nikita Bumakov
  */
 public class ApiManager implements IApiManager {
@@ -33,8 +31,8 @@ public class ApiManager implements IApiManager {
     private static final String URL = "http://www.geocaching.su/pages/1031.ajax.php";
     private static final String ENCODING = "windows-1251";
 
-    private List<GeoCache> geoCaches = new LinkedList<GeoCache>();;
-    private Locale rusLocale = new Locale("ru");;
+    private HashSet<GeoCache> geoCaches = new HashSet<GeoCache>();
+    private Locale rusLocale = new Locale("ru");
     private int id;
 
     public ApiManager() {
