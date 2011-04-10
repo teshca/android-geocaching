@@ -10,7 +10,8 @@
 		<View style="@style/TitleBarSpring" />
 		<CheckBox android:id="@+id/info_geocache_add_del"
 			android:layout_width="wrap_content" android:layout_height="fill_parent"
-			style="?android:attr/starStyle" android:layout_marginRight="15dip" />
+			style="?android:attr/starStyle" android:layout_marginRight="15dip"
+			android:onClick ="onAddDelCacheClick" />
 		<ImageView android:id="@+id/info_geocach_Go_button"
 			android:src="@drawable/icon_search" android:layout_width="wrap_content"
 			android:layout_height="fill_parent" android:layout_gravity="center"
