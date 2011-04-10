@@ -22,6 +22,7 @@
     <string name="save_notebook_always_value">false</string>
     <string name="save_notebook_always_summary">Всегда сохранять блокнот тайника</string>
     <string name="search_geocache_error_no_geocache">Ошибка!\n\rНечего искать!</string>
+    <string name="search_geocache_error_geocache_not_in_db">Тайник отсутствует в базе данных. Пожалуйста, добавьте его в избранные и попробуйте снова</string>
     <string name="search_geocache_start_without_geocache">Перед поиском выберите тайник</string>
     <string name="search_geocache_internet_lost">Подключение к интернету отсутствует. Могут
         возникнуть проблемы с обновлением карты
