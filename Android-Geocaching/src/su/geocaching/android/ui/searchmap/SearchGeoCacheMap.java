@@ -17,6 +17,7 @@ import su.geocaching.android.controller.IInternetAware;
 import su.geocaching.android.controller.ILocationAware;
 import su.geocaching.android.controller.LogManager;
 import su.geocaching.android.controller.UiHelper;
+import su.geocaching.android.controller.compass.CompassSpeed;
 import su.geocaching.android.controller.compass.SmoothCompassThread;
 import su.geocaching.android.model.datatype.GeoCache;
 import su.geocaching.android.model.datatype.GeoCacheStatus;
@@ -584,6 +585,7 @@ public class SearchGeoCacheMap extends MapActivity implements IInternetAware, IL
         if (animationThread == null) {
             animationThread = new SmoothCompassThread(userOverlay);
             animationThread.setRunning(true);
+            animationThread.setSpeed(CompassSpeed.valueOf(mController.getPreferencesManager().getCompassSpeed()));
             animationThread.start();
         }
     }
