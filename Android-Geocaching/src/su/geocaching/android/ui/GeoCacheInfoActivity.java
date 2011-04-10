@@ -20,8 +20,6 @@ import android.view.MenuItem;
 import android.view.View;
 import android.webkit.WebView;
 import android.widget.CheckBox;
-import android.widget.CompoundButton;
-import android.widget.CompoundButton.OnCheckedChangeListener;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -30,12 +28,12 @@ import com.google.android.apps.analytics.GoogleAnalyticsTracker;
 /**
  * @author Alekseenko Vladimir
  */
-public class GeoCacheInfoActivity extends Activity implements OnCheckedChangeListener {
+public class GeoCacheInfoActivity extends Activity {
 
     private static final String TAG = GeoCacheInfoActivity.class.getCanonicalName();
     public static final String HTTP_PDA_GEOCACHING_SU = "http://pda.geocaching.su/";
     public static final String HTML_ENCODING = "UTF-8";
-    public static final String PAGE_TYPE = "page type", SCROOLX = "scrollX", SCROOLY = "scrollY";
+    public static final String PAGE_TYPE = "page type", SCROOLX = "scrollX", SCROOLY = "scrollY", ZOOM = "zoom";
 
     public enum PageType {
         INFO, NOTEBOOK
@@ -79,8 +77,6 @@ public class GeoCacheInfoActivity extends Activity implements OnCheckedChangeLis
             cbFavoriteCache.setChecked(true);
         }
 
-        cbFavoriteCache.setOnCheckedChangeListener(this);
-
         tracker = GoogleAnalyticsTracker.getInstance();
         tracker.start(getString(R.string.id_Google_Analytics), this);
         tracker.trackPageView(getString(R.string.geocache_info_activity_folder));
@@ -120,6 +116,7 @@ public class GeoCacheInfoActivity extends Activity implements OnCheckedChangeLis
         pageType = PageType.values()[savedInstanceState.getInt(PAGE_TYPE)];
         webViewScrollX = savedInstanceState.getInt(SCROOLX, 0);
         webViewScrollY = savedInstanceState.getInt(SCROOLY, 0);
+    
     }
 
     @Override
@@ -141,42 +138,47 @@ public class GeoCacheInfoActivity extends Activity implements OnCheckedChangeLis
         return new DialogDownloadNotebook(this, infoTask, geoCache);
     }
 
-    // TODO download notebook only when necessary
-    @Override
-    public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+    private void saveCacheInDB() {
         try {
-            if (isChecked) {
-                isCacheStoredInDataBase = true;
-                if (infoTask == null) {
-                    infoTask = new DownloadInfoOrNotebookCacheTask(this, geoCache.getId(), webViewScrollX, webViewScrollY, null, null, PageType.INFO).execute();
-                }
-                if (notebookTask == null) {
-                    if (!goToMap && connectManager.isInternetConnected()) {
-                        if (!controller.getPreferencesManager().getDownloadNoteBookAlways()) {
-                            {
-                                showDialog(0);
-                            }
-                        } else {
-                            notebookTask = new DownloadInfoOrNotebookCacheTask(context, geoCache.getId(), webViewScrollX, webViewScrollY, null, null, PageType.NOTEBOOK).execute();
-                            dbManager.addGeoCache(geoCache, infoTask.get(), notebookTask.get());
-
+            isCacheStoredInDataBase = true;
+            if (infoTask == null) {
+                infoTask = new DownloadInfoOrNotebookCacheTask(this, geoCache.getId(), webViewScrollX, webViewScrollY, null, null, PageType.INFO).execute();
+            }
+            if (notebookTask == null) {
+                if (!goToMap && connectManager.isInternetConnected()) {
+                    if (!controller.getPreferencesManager().getDownloadNoteBookAlways()) {
+                        {
+                            showDialog(0);
                         }
                     } else {
-                        dbManager.addGeoCache(geoCache, infoTask.get(), "");
+                        notebookTask = new DownloadInfoOrNotebookCacheTask(context, geoCache.getId(), webViewScrollX, webViewScrollY, null, null, PageType.NOTEBOOK).execute();
+                        dbManager.addGeoCache(geoCache, infoTask.get(), notebookTask.get());
                     }
                 } else {
-                    dbManager.addGeoCache(geoCache, infoTask.get(), notebookTask.get());
+                    dbManager.addGeoCache(geoCache, infoTask.get(), "");
                 }
-
             } else {
-                isCacheStoredInDataBase = false;
-                dbManager.deleteCacheById(geoCache.getId());
+                dbManager.addGeoCache(geoCache, infoTask.get(), notebookTask.get());
             }
         } catch (InterruptedException e) {
             LogManager.e(TAG, "InterruptedException", e);
         } catch (ExecutionException e) {
             LogManager.e(TAG, "ExecutionException", e);
         }
+    }
+
+    private void delCacheFromDB() {
+        isCacheStoredInDataBase = false;
+        dbManager.deleteCacheById(geoCache.getId());
+    }
+
+    public void onAddDelGeoCacheInDatabaseClick(View v) {
+        if (!cbFavoriteCache.isChecked()) {
+            delCacheFromDB();
+        } else {
+            saveCacheInDB();
+        }
+
     }
 
     @Override
@@ -194,7 +196,7 @@ public class GeoCacheInfoActivity extends Activity implements OnCheckedChangeLis
                 changePageType();
                 return true;
             case R.id.show_web_add_delete_cache:
-                cbFavoriteCache.setChecked(!isCacheStoredInDataBase);
+                cbFavoriteCache.performClick();
                 return true;
             case R.id.show_web_search_cache:
                 goToMap();
@@ -252,7 +254,7 @@ public class GeoCacheInfoActivity extends Activity implements OnCheckedChangeLis
                 switch (type) {
                     case INFO:
                         if (infoTask == null) {
-                            infoTask = new DownloadInfoOrNotebookCacheTask(this, geoCache.getId(), webViewScrollX, webViewScrollY, webView, null,PageType.INFO).execute();
+                            infoTask = new DownloadInfoOrNotebookCacheTask(this, geoCache.getId(), webViewScrollX, webViewScrollY, webView, null, PageType.INFO).execute();
                         } else {
                             String infoText = infoTask.get();
                             infoTask = new DownloadInfoOrNotebookCacheTask(this, geoCache.getId(), webViewScrollX, webViewScrollY, webView, infoText, PageType.INFO).execute();
@@ -286,6 +288,7 @@ public class GeoCacheInfoActivity extends Activity implements OnCheckedChangeLis
         if (!isCacheStoredInDataBase) {
             goToMap = true;
             cbFavoriteCache.setChecked(true);
+            saveCacheInDB();
         }
         goToMap = false;
         UiHelper.startSearchMapActivity(this, geoCache);
