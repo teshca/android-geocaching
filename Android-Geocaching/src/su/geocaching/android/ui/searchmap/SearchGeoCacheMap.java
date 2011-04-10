@@ -21,6 +21,7 @@ import su.geocaching.android.controller.compass.SmoothCompassThread;
 import su.geocaching.android.model.datatype.GeoCache;
 import su.geocaching.android.model.datatype.GeoCacheStatus;
 import su.geocaching.android.model.datatype.GeoCacheType;
+import su.geocaching.android.ui.FavoritesFolder;
 import su.geocaching.android.ui.R;
 import su.geocaching.android.ui.geocachemap.GeoCacheOverlayItem;
 import android.content.Intent;
@@ -157,12 +158,29 @@ public class SearchGeoCacheMap extends MapActivity implements IInternetAware, IL
     protected void onResume() {
         super.onResume();
         LogManager.d(TAG, "on resume");
+        GeoCache geoCache = (GeoCache) getIntent().getParcelableExtra(GeoCache.class.getCanonicalName());
+
+        if (geoCache == null) {
+            LogManager.e(TAG, "null geocache. Finishing.");
+            Toast.makeText(this, getString(R.string.search_geocache_error_no_geocache), Toast.LENGTH_LONG).show();
+            this.finish();
+            return;
+        }
 
         if (distanceOverlay != null) {
             distanceOverlay.setCachePoint(mController.getSearchingGeoCache().getLocationGeoPoint());
         }
 
-        checkpointManager = mController.getCheckpointManager(mController.getPreferencesManager().getLastSearchedGeoCache().getId());
+        if (!mController.getDbManager().isCacheStored(geoCache.getId())) {
+            LogManager.e(TAG, "geocache not in db. Finishing.");
+            //mController.getDbManager().addGeoCache(geoCache, webText, webNotebookText);
+            Toast.makeText(this, getString(R.string.search_geocache_error_geocache_not_in_db), Toast.LENGTH_LONG).show();
+            this.finish();
+            startActivity(new Intent(this, FavoritesFolder.class));
+            return;
+        }
+
+            checkpointManager = mController.getCheckpointManager(mController.getPreferencesManager().getLastSearchedGeoCache().getId());
         checkpointCacheOverlay.clear();
         for (GeoCache checkpoint : checkpointManager.getCheckpoints()) {
             checkpointCacheOverlay.addOverlayItem(new GeoCacheOverlayItem(checkpoint, "", ""));
@@ -171,7 +189,6 @@ public class SearchGeoCacheMap extends MapActivity implements IInternetAware, IL
         map.setKeepScreenOn(Controller.getInstance().getPreferencesManager().getKeepScreenOnPreference());
         map.setSatellite(Controller.getInstance().getPreferencesManager().useSatelliteMap());
         mapOverlays.remove(searchCacheOverlay);
-        GeoCache geoCache = (GeoCache) getIntent().getParcelableExtra(GeoCache.class.getCanonicalName());
         if (geoCache != null) {
             cacheMarker = mController.getResourceManager().getMarker(geoCache.getType(), geoCache.getStatus());
             searchCacheOverlay = new SearchCacheOverlay(cacheMarker, this, map);
@@ -188,12 +205,6 @@ public class SearchGeoCacheMap extends MapActivity implements IInternetAware, IL
             LogManager.d(TAG, "resume: best provider (" + mLocationManager.getBestProvider() + ") disabled. Current provider is " + mLocationManager.getCurrentProvider());
         } else {
             LogManager.d(TAG, "resume: best provider (" + mLocationManager.getBestProvider() + ") enabled. Run logic");
-            if (mController.getSearchingGeoCache() == null) {
-                LogManager.e(TAG, "null geocache. Finishing.");
-                Toast.makeText(this, getString(R.string.search_geocache_error_no_geocache), Toast.LENGTH_LONG).show();
-                this.finish();
-                return;
-            }
 
             if (!mLocationManager.hasLocation()) {
                 onBestProviderUnavailable();
