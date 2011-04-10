@@ -5,10 +5,6 @@ import android.content.IntentFilter;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 
-import java.io.IOException;
-import java.net.HttpURLConnection;
-import java.net.MalformedURLException;
-import java.net.URL;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
@@ -22,8 +18,6 @@ import java.util.List;
 public class ConnectionManager {
     private static final String TAG = ConnectionManager.class.getCanonicalName();
 
-    private static final String PING_URL = "http://pda.geocaching.su";
-    private static final int PING_URL_TIMEOUT = 3000; // timeout for checking reachable of PING_URL
     private static final int SEND_MESSAGE_MIN_INTERVAL = 1000; // sending message rarely than this interval in milliseconds
 
     private List<IInternetAware> subscribers;
@@ -31,7 +25,6 @@ public class ConnectionManager {
     private ConnectionStateReceiver receiver;
     private IntentFilter intentFilter;
     private Context context;
-    private URL pingUrl;
     private long lastMessageTime;
 
     /**
@@ -46,12 +39,6 @@ public class ConnectionManager {
         receiver = new ConnectionStateReceiver();
         intentFilter = new IntentFilter();
         intentFilter.addAction("android.net.conn.CONNECTIVITY_CHANGE");
-        try {
-            pingUrl = new URL(PING_URL);
-        } catch (MalformedURLException e) {
-            LogManager.e(TAG, "ConnectionManager init: malformed url (" + PING_URL + ")");
-            e.printStackTrace();
-        }
         LogManager.d(TAG, "Init");
     }
 
@@ -124,30 +111,7 @@ public class ConnectionManager {
      */
     public boolean isInternetConnected() {
         NetworkInfo activeNetInfo = connectivityManager.getActiveNetworkInfo();
-        boolean isConnected = activeNetInfo != null && activeNetInfo.isConnected();
-        if (!isConnected) {
-            return false;
-        }
-        HttpURLConnection connection = null;
-        try {
-            connection = (HttpURLConnection) pingUrl.openConnection();
-            connection.setConnectTimeout(PING_URL_TIMEOUT);
-            connection.setReadTimeout(PING_URL_TIMEOUT);
-            if (connection.getResponseCode() != HttpURLConnection.HTTP_OK) {
-                isConnected = false;
-                LogManager.d(TAG, "Check connection: not reachable (" + PING_URL + ") Response: " + connection.getResponseCode());
-            } else {
-                LogManager.d(TAG, "Check connection: reachable (" + PING_URL + ")");
-            }
-        } catch (IOException e) {
-            isConnected = false;
-            LogManager.w(TAG, "Check connection: IO exception (" + PING_URL + ")", e);
-        } finally {
-            if (connection != null) {
-                connection.disconnect();
-            }
-        }
-        return isConnected;
+        return activeNetInfo != null && activeNetInfo.isConnected();
     }
 
     /**
