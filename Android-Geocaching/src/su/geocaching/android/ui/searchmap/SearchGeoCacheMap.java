@@ -174,14 +174,14 @@ public class SearchGeoCacheMap extends MapActivity implements IInternetAware, IL
 
         if (!mController.getDbManager().isCacheStored(geoCache.getId())) {
             LogManager.e(TAG, "geocache not in db. Finishing.");
-            //mController.getDbManager().addGeoCache(geoCache, webText, webNotebookText);
+            // mController.getDbManager().addGeoCache(geoCache, webText, webNotebookText);
             Toast.makeText(this, getString(R.string.search_geocache_error_geocache_not_in_db), Toast.LENGTH_LONG).show();
             this.finish();
             startActivity(new Intent(this, FavoritesFolder.class));
             return;
         }
 
-            checkpointManager = mController.getCheckpointManager(mController.getPreferencesManager().getLastSearchedGeoCache().getId());
+        checkpointManager = mController.getCheckpointManager(mController.getPreferencesManager().getLastSearchedGeoCache().getId());
         checkpointCacheOverlay.clear();
         for (GeoCache checkpoint : checkpointManager.getCheckpoints()) {
             checkpointCacheOverlay.addOverlayItem(new GeoCacheOverlayItem(checkpoint, "", ""));
