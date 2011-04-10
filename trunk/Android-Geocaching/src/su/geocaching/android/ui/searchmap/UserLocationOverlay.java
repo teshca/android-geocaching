@@ -5,7 +5,6 @@ import android.graphics.Paint.Style;
 import com.google.android.maps.GeoPoint;
 import com.google.android.maps.MapView;
 import su.geocaching.android.controller.Controller;
-import su.geocaching.android.controller.LogManager;
 import su.geocaching.android.controller.UiHelper;
 import su.geocaching.android.controller.compass.ICompassAnimation;
 import su.geocaching.android.ui.R;
@@ -68,13 +67,12 @@ public class UserLocationOverlay extends com.google.android.maps.Overlay impleme
      * @see com.google.android.maps.Overlay#draw(android.graphics.Canvas, com.google.android.maps.MapView, boolean, long)
      */
     @Override
-    public void draw(Canvas canvas, MapView mapView, boolean shadow) {
-        super.draw(canvas, mapView, shadow);
+    public boolean draw(Canvas canvas, MapView mapView, boolean shadow, long when) {
+        super.draw(canvas, mapView, shadow, when);
 
         if (userGeoPoint == null) {
-            return;
+            return true;
         }
-
         // Translate the GeoPoint to screen pixels
         mapView.getProjection().toPixels(userGeoPoint, userPoint);
 
@@ -102,6 +100,7 @@ public class UserLocationOverlay extends com.google.android.maps.Overlay impleme
 
         // Draw default marker
         canvas.drawBitmap(userBitmapPoint, userPoint.x - userBitmapPoint.getWidth() / 2, userPoint.y - userBitmapPoint.getHeight() / 2, null);
+        return true;
     }
 
     /**
@@ -138,7 +137,6 @@ public class UserLocationOverlay extends com.google.android.maps.Overlay impleme
      */
     @Override
     public boolean onTap(GeoPoint p, MapView map) {
-        LogManager.d(UserLocationOverlay.class.getCanonicalName(), "yep!");
         if (!Controller.getInstance().getLocationManager().hasLocation()) {
             return super.onTap(p, map);
         }
