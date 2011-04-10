@@ -123,4 +123,21 @@ public class GeoCache implements Parcelable {
             return new GeoCache[size];
         }
     };
+
+    @Override
+    public boolean equals(Object cache) {
+        if (this == cache) {
+            return true;
+        }
+        if (!(cache instanceof GeoCache)) {
+            return false;
+        }
+        GeoCache gc = (GeoCache) cache;
+        return id == gc.getId();
+    }
+
+    @Override
+    public int hashCode() {
+        return id;
+    }
 }
