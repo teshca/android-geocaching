@@ -68,11 +68,11 @@ public class UserLocationOverlay extends com.google.android.maps.Overlay impleme
      * @see com.google.android.maps.Overlay#draw(android.graphics.Canvas, com.google.android.maps.MapView, boolean, long)
      */
     @Override
-    public boolean draw(Canvas canvas, MapView mapView, boolean shadow, long when) {
-        super.draw(canvas, mapView, shadow, when);
+    public void draw(Canvas canvas, MapView mapView, boolean shadow) {
+        super.draw(canvas, mapView, shadow);
 
         if (userGeoPoint == null) {
-            return true;
+            return;
         }
 
         // Translate the GeoPoint to screen pixels
@@ -102,7 +102,6 @@ public class UserLocationOverlay extends com.google.android.maps.Overlay impleme
 
         // Draw default marker
         canvas.drawBitmap(userBitmapPoint, userPoint.x - userBitmapPoint.getWidth() / 2, userPoint.y - userBitmapPoint.getHeight() / 2, null);
-        return true;
     }
 
     /**
@@ -119,7 +118,6 @@ public class UserLocationOverlay extends com.google.android.maps.Overlay impleme
      */
     public void setAccuracy(float radius) {
         this.accuracyRadius = radius;
-        this.accuracyRadius = 800;
     }
 
     /*
