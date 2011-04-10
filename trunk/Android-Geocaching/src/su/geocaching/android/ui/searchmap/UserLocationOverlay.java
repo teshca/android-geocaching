@@ -15,9 +15,9 @@ import su.geocaching.android.ui.R;
  * @since November 2010
  */
 public class UserLocationOverlay extends com.google.android.maps.Overlay implements ICompassAnimation {
-    private static final int ACCURACY_CIRCLE_ALPHA = 50;
+    private static final int ACCURACY_CIRCLE_ALPHA = 25;
     private static final int ACCURACY_CIRCLE_COLOR = 0xff00aa00;
-    private static final int ACCURACY_CIRCLE_STROKE_COLOR = 0xff00ff00;
+    private static final int ACCURACY_CIRCLE_STROKE_COLOR = 0xff000a00;
 
     private GeoPoint userGeoPoint;
     private float bearing;
@@ -119,6 +119,7 @@ public class UserLocationOverlay extends com.google.android.maps.Overlay impleme
      */
     public void setAccuracy(float radius) {
         this.accuracyRadius = radius;
+        this.accuracyRadius = 800;
     }
 
     /*

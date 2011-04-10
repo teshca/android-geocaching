@@ -3,7 +3,6 @@
     <!-- Keep screen on preference section -->
     <string name="keep_screen_on_title">Не выключать экран</string>
     <string name="keep_screen_on_key">keepScreen</string>
-    <string name="keep_screen_on_default_value">false</string>
     <string name="keep_screen_on_summary">Не выключать экран при поиске</string>
 
     <!-- GPS power saving section -->
