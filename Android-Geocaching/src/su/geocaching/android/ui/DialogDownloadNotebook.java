@@ -4,7 +4,7 @@ import java.util.concurrent.ExecutionException;
 
 import su.geocaching.android.controller.Controller;
 import su.geocaching.android.controller.LogManager;
-import su.geocaching.android.model.datastorage.DownloadInfoOrNotebookCacheTask;
+import su.geocaching.android.model.datastorage.DownloadPageTask;
 import su.geocaching.android.model.datatype.GeoCache;
 import su.geocaching.android.ui.GeoCacheInfoActivity.PageType;
 import android.app.Dialog;
@@ -74,7 +74,7 @@ public class DialogDownloadNotebook extends Dialog {
         buttonYes.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                AsyncTask<Void, Void, String> notebookTask = new DownloadInfoOrNotebookCacheTask(thisContext, cache.getId(), 0, 0, null, "", PageType.NOTEBOOK).execute();
+                AsyncTask<Void, Void, String> notebookTask = new DownloadPageTask(thisContext, cache.getId(), 0, 0, null, "", PageType.NOTEBOOK).execute();
                 try {
                     Controller.getInstance().getDbManager().addGeoCache(cache, infoTask.get(), notebookTask.get());
                 } catch (InterruptedException e) {
