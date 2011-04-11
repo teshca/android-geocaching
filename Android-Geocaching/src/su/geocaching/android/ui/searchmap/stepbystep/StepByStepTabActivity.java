@@ -32,7 +32,7 @@ public class StepByStepTabActivity extends TabActivity {
         spec.setContent(intent);
         tabHost.addTab(spec);
         
-        intent = new Intent(this, SexagestimalSecondsInputActivity.class);
+        intent = new Intent(this, SexagesimalSecondsInputActivity.class);
         intent.putExtras(getIntent().getExtras());
 
         spec = tabHost.newTabSpec("tab2");

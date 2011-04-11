@@ -18,7 +18,7 @@ import android.widget.Toast;
 
 import com.google.android.maps.GeoPoint;
 
-public class SexagestimalSecondsInputActivity extends Activity {
+public class SexagesimalSecondsInputActivity extends Activity {
 
     private static final String TAG = SexagesimalInputActivity.class.getCanonicalName();
     private static final String SEXAGESTIMAL_SECONDS_INPUT_ACTIVITY_FOLDER = "/SexagesimalSecondsInputActivity";
