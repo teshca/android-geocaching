@@ -112,8 +112,8 @@
     <string name="select_activity_folder">/SelectActivity</string>
 
     <string name="application_version" formatted="false">Геокэшинг версия %s</string>
-    <string name="dislocation">Ваше местоположение не определено. Повторите
-        попытку позже.
+    <string name="dislocation">Ваше местоположение не определено.\nПовторите
+ попытку позже.
     </string>
     <string name="checkpoints">Контрольные точки</string>
     <string name="latitude">Широта :</string>

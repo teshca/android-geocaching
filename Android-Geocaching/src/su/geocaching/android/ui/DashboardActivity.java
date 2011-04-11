@@ -17,7 +17,7 @@ import su.geocaching.android.ui.selectgeocache.SelectGeoCacheMap;
 
 /**
  * Main activity in application
- *
+ * 
  * @author Android-Geocaching.su student project team
  * @since October 2010
  */
@@ -32,7 +32,7 @@ public class DashboardActivity extends Activity {
         LogManager.d(TAG, "onCreate");
         setContentView(R.layout.dashboard_menu);
 
-        Controller.getInstance().initManagers(this.getApplicationContext());
+        Controller.getInstance().initManagers(getApplicationContext());
 
         tracker = GoogleAnalyticsTracker.getInstance();
         tracker.start(getString(R.string.id_Google_Analytics), this);
@@ -43,7 +43,7 @@ public class DashboardActivity extends Activity {
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         MenuInflater inflater = getMenuInflater();
-        inflater.inflate(R.menu.home_option_menu, menu);
+        inflater.inflate(R.menu.dashboard_option_menu, menu);
         return true;
     }
 
@@ -52,7 +52,7 @@ public class DashboardActivity extends Activity {
         // Handle item selection
         switch (item.getItemId()) {
             case R.id.preference:
-                startActivity(new Intent(this, DashboardPreferenceActivity.class));
+                startActivity(new Intent(this, AboutActivity.class));
                 return true;
             default:
                 return super.onOptionsItemSelected(item);
@@ -61,8 +61,9 @@ public class DashboardActivity extends Activity {
 
     /**
      * Starting activity to select GeoCache
-     *
-     * @param v //TODO describe it
+     * 
+     * @param v
+     *            //TODO describe it
      */
     public void onSelectClick(View v) {
         tracker.trackEvent("Click", "Button", "from DashBoardActivity to SelesctActivity ", 0);
@@ -74,8 +75,9 @@ public class DashboardActivity extends Activity {
 
     /**
      * Starting activity to search GeoCache
-     *
-     * @param v //TODO describe it
+     * 
+     * @param v
+     *            //TODO describe it
      */
     public void onSearchClick(View v) {
         tracker.trackEvent("Click", "Button", "from DashBoardActivity to SearchActivity ", 0);
@@ -91,25 +93,24 @@ public class DashboardActivity extends Activity {
 
     /**
      * Starting about activity
-     *
-     * @param v //TODO describe it
+     * 
+     * @param v
+     *            //TODO describe it
      */
-    public void onAboutClick(View v) {
-        tracker.trackEvent("Click", "Button", "from DashBoardActivity to AboutActivity ", 0);
-        Intent intent = new Intent(this, AboutActivity.class);
-        startActivity(intent);
-
+    public void onSettingsClick(View v) {
+        tracker.trackEvent("Click", "Button", "from DashBoardActivity to SettingsActivity ", 0);
+        startActivity(new Intent(this, DashboardPreferenceActivity.class));
     }
 
     /**
      * Starting activity with favorites geocaches
-     *
-     * @param v //TODO describe it
+     * 
+     * @param v
+     *            //TODO describe it
      */
     public void onFavoriteClick(View v) {
         tracker.trackEvent("Click", "Button", "from DashBoardActivity to FavoriteActivity ", 0);
         Intent intent = new Intent(this, FavoritesFolder.class);
         startActivity(intent);
-
     }
 }
