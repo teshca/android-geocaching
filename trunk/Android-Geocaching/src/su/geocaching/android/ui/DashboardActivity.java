@@ -31,8 +31,7 @@ public class DashboardActivity extends Activity {
         LogManager.d(TAG, "onCreate");
         setContentView(R.layout.dashboard_menu);
 
-        Controller.getInstance().initManagers(getApplicationContext());
-        Controller.getInstance().getGoogleAnalyticsManager(this).trackPageView(DASHBOARD_ACTIVITY_FOLDER);
+        Controller.getInstance().getGoogleAnalyticsManager().trackPageView(DASHBOARD_ACTIVITY_FOLDER);
     }
 
     @Override

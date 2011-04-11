@@ -56,7 +56,7 @@ public class StepByStepTabActivity extends TabActivity {
         spec.setContent(intent);
         tabHost.addTab(spec);
         
-        Controller.getInstance().getGoogleAnalyticsManager(this).trackPageView(STEP_BY_STEP_TAB_ACTIVITY_FOLDER);
+        Controller.getInstance().getGoogleAnalyticsManager().trackPageView(STEP_BY_STEP_TAB_ACTIVITY_FOLDER);
     }
     
     public void onHomeClick(View v) {

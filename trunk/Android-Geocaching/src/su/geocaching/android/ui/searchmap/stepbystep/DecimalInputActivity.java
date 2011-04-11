@@ -36,7 +36,7 @@ public class DecimalInputActivity extends Activity {
         lngFraction = (EditText) findViewById(R.id.dLngFraction);
 
         textWacher = new TextChangeListener();
-        Controller.getInstance().getGoogleAnalyticsManager(this).trackPageView(DECIMAL_INPUT_ACTIVITY_FOLDER);
+        Controller.getInstance().getGoogleAnalyticsManager().trackPageView(DECIMAL_INPUT_ACTIVITY_FOLDER);
     }
 
     @Override

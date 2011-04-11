@@ -45,7 +45,7 @@ public class CheckpointDialog extends Activity {
             setTitle(String.format("%s %d", getString(R.string.checkpoint_dialog_title), checkpointId));
         }
         
-        Controller.getInstance().getGoogleAnalyticsManager(this).trackPageView(CHECKPOINT_DIALOG_ACTIVITY_FOLDER);
+        Controller.getInstance().getGoogleAnalyticsManager().trackPageView(CHECKPOINT_DIALOG_ACTIVITY_FOLDER);
     }
 
     public void onActiveClick(View v) {

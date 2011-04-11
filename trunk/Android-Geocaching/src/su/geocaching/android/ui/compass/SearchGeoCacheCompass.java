@@ -78,7 +78,7 @@ public class SearchGeoCacheCompass extends Activity {
         locationListener = new LocationListener(this);
         gpsListener = new GpsStatusListener();
 
-        controller.getGoogleAnalyticsManager(this).trackPageView(COMPASS_ACTIVITY);
+        controller.getGoogleAnalyticsManager().trackPageView(COMPASS_ACTIVITY);
     }
 
     @Override

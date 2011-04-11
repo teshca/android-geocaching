@@ -18,8 +18,9 @@ import su.geocaching.android.ui.selectgeocache.SelectGeoCacheMap;
 public class Controller {
     private static final String TAG = Controller.class.getCanonicalName();
     static final boolean DEBUG = true;// it is constant really need, because compiler can remove code blocks which cannot be execute
-    
+
     private static Controller instance;
+    private Context applicationContext;
 
     private IApiManager apiManager;
 
@@ -33,8 +34,7 @@ public class Controller {
     private CheckpointManager checkpointManager;
     private GoogleAnalyticsManager analyticsManager;
     private GeoCache searchingGeoCache;
-     
-    
+
     private Controller() {
         apiManager = new ApiManager();
     }
@@ -69,70 +69,49 @@ public class Controller {
      * @return location manager which can send to ILocationAware location updates
      */
     public synchronized GeoCacheLocationManager getLocationManager() {
-        if (locationManager == null) {
-            LogManager.e(TAG, "location manager wasn't init yet", new NullPointerException("location manager wasn't init yet"));
-        }
-        return locationManager;
+        return getLocationManager(applicationContext);
     }
 
     /**
      * @return compass manager which can send to ICompassAware updates of bearing
      */
     public synchronized CompassManager getCompassManager() {
-        if (compassManager == null) {
-            LogManager.e(TAG, "compass manager wasn't init yet", new NullPointerException("compass manager wasn't init yet"));
-        }
-        return compassManager;
+        return getCompassManager(applicationContext);
     }
 
     /**
      * @return gps status manager which can send to IGpsStatusAware updates of status gps engine
      */
     public synchronized GpsStatusManager getGpsStatusManager() {
-        if (gpsStatusManager == null) {
-            LogManager.e(TAG, "gps status manager wasn't init yet", new NullPointerException("gps status manager wasn't init yet"));
-        }
-        return gpsStatusManager;
+        return getGpsStatusManager(applicationContext);
     }
 
     /**
      * @return connection manager which can send to IInternetAware updates of internet connection status
      */
     public synchronized ConnectionManager getConnectionManager() {
-        if (connectionManager == null) {
-            LogManager.e(TAG, "connection manager wasn't init yet", new NullPointerException("connection manager wasn't init yet"));
-        }
-        return connectionManager;
+        return getConnectionManager(applicationContext);
     }
 
     /**
      * @return resource manager which can give you application resources
      */
     public synchronized ResourceManager getResourceManager() {
-        if (resourceManager == null) {
-            LogManager.e(TAG, "resource manager wasn't init yet", new NullPointerException("resource manager wasn't init yet"));
-        }
-        return resourceManager;
+        return getResourceManager(applicationContext);
     }
 
     /**
      * @return resource manager which can give you application preferences
      */
     public synchronized PreferencesManager getPreferencesManager() {
-        if (preferencesManager == null) {
-            LogManager.e(TAG, "preferences manager wasn't init yet", new NullPointerException("preferences manager wasn't init yet"));
-        }
-        return preferencesManager;
+        return getPreferencesManager(applicationContext);
     }
 
     /**
      * @return resource manager which can give you interface to working with database
      */
     public synchronized DbManager getDbManager() {
-        if (dbManager == null) {
-            LogManager.e(TAG, "db manager wasn't init yet", new NullPointerException("db manager wasn't init yet"));
-        }
-        return dbManager;
+        return getDbManager(applicationContext);
     }
 
     /**
@@ -226,13 +205,14 @@ public class Controller {
         return dbManager;
     }
 
-    public synchronized GoogleAnalyticsManager getGoogleAnalyticsManager(Context context){
-        if (analyticsManager == null){
+    public synchronized GoogleAnalyticsManager getGoogleAnalyticsManager() {
+        if (analyticsManager == null) {
             LogManager.d(TAG, "GoogleAnalyticsManager wasn't init yet. init");
-            analyticsManager = new GoogleAnalyticsManager(context);
+            analyticsManager = new GoogleAnalyticsManager(applicationContext);
         }
         return analyticsManager;
     }
+
     /**
      * @return the checkpointManager
      */
@@ -253,36 +233,12 @@ public class Controller {
     }
 
     /**
-     * Initialize all managers with fixed context
+     * Set global application context which will be used for initialize of managers
      * 
-     * @param context
-     *            which will be used in all managers
+     * @param applicationContext
+     *            global application context of application
      */
-    public void initManagers(Context context) {
-        if (dbManager == null) {
-            dbManager = new DbManager(context);
-        }
-        if (resourceManager == null) {
-
-            resourceManager = new ResourceManager(context);
-        }
-        if (preferencesManager == null) {
-            preferencesManager = new PreferencesManager(context);
-        }
-        if (compassManager == null) {
-            compassManager = new CompassManager((SensorManager) context.getSystemService(Context.SENSOR_SERVICE));
-        }
-        if (locationManager == null) {
-            locationManager = new GeoCacheLocationManager((LocationManager) context.getSystemService(Context.LOCATION_SERVICE));
-        }
-        if (gpsStatusManager == null) {
-            gpsStatusManager = new GpsStatusManager((LocationManager) context.getSystemService(Context.LOCATION_SERVICE));
-        }
-        if (connectionManager == null) {
-            connectionManager = new ConnectionManager(context);
-        }
-        if (analyticsManager == null){
-            analyticsManager = new GoogleAnalyticsManager(context);
-        }
+    protected void setApplicationContext(Context applicationContext) {
+        this.applicationContext = applicationContext;
     }
 }

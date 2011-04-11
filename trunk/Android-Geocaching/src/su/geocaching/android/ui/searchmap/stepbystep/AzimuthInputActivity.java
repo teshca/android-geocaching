@@ -50,7 +50,7 @@ public class AzimuthInputActivity extends Activity {
         }
         textWacher = new TextChangeListener();
         
-        Controller.getInstance().getGoogleAnalyticsManager(this).trackPageView(AZIMUTH_INPUT_ACTIVITY_FOLDER);
+        Controller.getInstance().getGoogleAnalyticsManager().trackPageView(AZIMUTH_INPUT_ACTIVITY_FOLDER);
     }
 
     @Override
