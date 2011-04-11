@@ -2,16 +2,14 @@ package su.geocaching.android.ui;
 
 import java.util.concurrent.ExecutionException;
 
-import su.geocaching.android.controller.ConnectionManager;
 import su.geocaching.android.controller.Controller;
 import su.geocaching.android.controller.LogManager;
 import su.geocaching.android.controller.UiHelper;
 import su.geocaching.android.model.datastorage.DbManager;
-import su.geocaching.android.model.datastorage.DownloadInfoOrNotebookCacheTask;
+import su.geocaching.android.model.datastorage.DownloadPageTask;
 import su.geocaching.android.model.datatype.GeoCache;
 import android.app.Activity;
 import android.app.Dialog;
-import android.content.Context;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.view.Menu;
@@ -23,17 +21,15 @@ import android.widget.CheckBox;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.google.android.apps.analytics.GoogleAnalyticsTracker;
-
 /**
  * @author Alekseenko Vladimir
  */
 public class GeoCacheInfoActivity extends Activity {
 
     private static final String TAG = GeoCacheInfoActivity.class.getCanonicalName();
-    public static final String HTTP_PDA_GEOCACHING_SU = "http://pda.geocaching.su/";
-    public static final String HTML_ENCODING = "UTF-8";
-    public static final String PAGE_TYPE = "page type", SCROOLX = "scrollX", SCROOLY = "scrollY", ZOOM = "zoom";
+    private static final String GEOCACHE_INFO_ACTIVITY_FOLDER = "/GeoCacheInfoActivity";
+    private static final String HTML_ENCODING = "UTF-8";
+    private static final String PAGE_TYPE = "page type", SCROOLX = "scrollX", SCROOLY = "scrollY"; 
 
     public enum PageType {
         INFO, NOTEBOOK
@@ -43,13 +39,10 @@ public class GeoCacheInfoActivity extends Activity {
     private CheckBox cbFavoriteCache;
     private Controller controller;
     private DbManager dbManager;
-    private ConnectionManager connectManager;
-    private GoogleAnalyticsTracker tracker;
-    private Context context;
     private GeoCache geoCache;
     private AsyncTask<Void, Void, String> infoTask;
     private AsyncTask<Void, Void, String> notebookTask;
-
+  
     private PageType pageType = PageType.INFO;
     private int webViewScrollY;
     private int webViewScrollX;
@@ -64,9 +57,7 @@ public class GeoCacheInfoActivity extends Activity {
         setContentView(R.layout.info_geocache_activity);
         controller = Controller.getInstance();
         dbManager = controller.getDbManager();
-        connectManager = controller.getConnectionManager();
         geoCache = getIntent().getParcelableExtra(GeoCache.class.getCanonicalName());
-        context = this;
         if (savedInstanceState != null) {
             pageType = PageType.values()[savedInstanceState.getInt(PAGE_TYPE, PageType.INFO.ordinal())];
         }
@@ -76,11 +67,7 @@ public class GeoCacheInfoActivity extends Activity {
         if (isCacheStoredInDataBase) {
             cbFavoriteCache.setChecked(true);
         }
-
-        tracker = GoogleAnalyticsTracker.getInstance();
-        tracker.start(getString(R.string.id_Google_Analytics), this);
-        tracker.trackPageView(getString(R.string.geocache_info_activity_folder));
-        tracker.dispatch();
+       
     }
 
     private void initViews() {
@@ -129,7 +116,6 @@ public class GeoCacheInfoActivity extends Activity {
 
     @Override
     protected void onStop() {
-        tracker.stop();
         super.onStop();
     }
 
@@ -142,16 +128,16 @@ public class GeoCacheInfoActivity extends Activity {
         try {
             isCacheStoredInDataBase = true;
             if (infoTask == null) {
-                infoTask = new DownloadInfoOrNotebookCacheTask(this, geoCache.getId(), webViewScrollX, webViewScrollY, null, null, PageType.INFO).execute();
+                infoTask = new DownloadPageTask(this, geoCache.getId(), webViewScrollX, webViewScrollY, null, null, PageType.INFO).execute();
             }
             if (notebookTask == null) {
-                if (!goToMap && connectManager.isInternetConnected()) {
+                if (!goToMap && controller.getConnectionManager().isInternetConnected()) {
                     if (!controller.getPreferencesManager().getDownloadNoteBookAlways()) {
                         {
                             showDialog(0);
                         }
                     } else {
-                        notebookTask = new DownloadInfoOrNotebookCacheTask(context, geoCache.getId(), webViewScrollX, webViewScrollY, null, null, PageType.NOTEBOOK).execute();
+                        notebookTask = new DownloadPageTask(this, geoCache.getId(), webViewScrollX, webViewScrollY, null, null, PageType.NOTEBOOK).execute();
                         dbManager.addGeoCache(geoCache, infoTask.get(), notebookTask.get());
                     }
                 } else {
@@ -193,7 +179,7 @@ public class GeoCacheInfoActivity extends Activity {
 
         switch (item.getItemId()) {
             case R.id.show_web_notebook_cache:
-                changePageType();
+                togglePageType();
                 return true;
             case R.id.show_web_add_delete_cache:
                 cbFavoriteCache.performClick();
@@ -212,7 +198,7 @@ public class GeoCacheInfoActivity extends Activity {
         if (pageType == PageType.INFO) {
             menu.getItem(0).setTitle(R.string.menu_show_web_notebook_cache);
             menu.getItem(0).setIcon(R.drawable.ic_menu_notebook);
-            if (!isCacheStoredInDataBase && !connectManager.isInternetConnected()) {
+            if (!isCacheStoredInDataBase && !controller.getConnectionManager().isInternetConnected()) {
                 menu.getItem(0).setEnabled(false);
             } else {
                 menu.getItem(0).setEnabled(true);
@@ -234,7 +220,7 @@ public class GeoCacheInfoActivity extends Activity {
         return super.onPrepareOptionsMenu(menu);
     }
 
-    private void changePageType() {
+    private void togglePageType() {
 
         switch (pageType) {
             case INFO:
@@ -249,24 +235,24 @@ public class GeoCacheInfoActivity extends Activity {
 
     private void loadWebView(PageType type) {
         LogManager.d(TAG, "loadWebView PageType " + type);
-        if (isCacheStoredInDataBase || connectManager.isInternetConnected()) {
+        if (isCacheStoredInDataBase || controller.getConnectionManager().isInternetConnected()) {
             try {
                 switch (type) {
                     case INFO:
                         if (infoTask == null) {
-                            infoTask = new DownloadInfoOrNotebookCacheTask(this, geoCache.getId(), webViewScrollX, webViewScrollY, webView, null, PageType.INFO).execute();
+                            infoTask = new DownloadPageTask(this, geoCache.getId(), webViewScrollX, webViewScrollY, webView, null, PageType.INFO).execute();
                         } else {
                             String infoText = infoTask.get();
-                            infoTask = new DownloadInfoOrNotebookCacheTask(this, geoCache.getId(), webViewScrollX, webViewScrollY, webView, infoText, PageType.INFO).execute();
+                            infoTask = new DownloadPageTask(this, geoCache.getId(), webViewScrollX, webViewScrollY, webView, infoText, PageType.INFO).execute();
                         }
                         break;
                     case NOTEBOOK:
 
                         if (notebookTask == null) {
-                            notebookTask = new DownloadInfoOrNotebookCacheTask(this, geoCache.getId(), webViewScrollX, webViewScrollY, webView, null, PageType.NOTEBOOK).execute();
+                            notebookTask = new DownloadPageTask(this, geoCache.getId(), webViewScrollX, webViewScrollY, webView, null, PageType.NOTEBOOK).execute();
                         } else {
                             String notebookText = notebookTask.get();
-                            notebookTask = new DownloadInfoOrNotebookCacheTask(this, geoCache.getId(), webViewScrollX, webViewScrollY, webView, notebookText, PageType.NOTEBOOK).execute();
+                            notebookTask = new DownloadPageTask(this, geoCache.getId(), webViewScrollX, webViewScrollY, webView, notebookText, PageType.NOTEBOOK).execute();
                         }
                         break;
                 }
