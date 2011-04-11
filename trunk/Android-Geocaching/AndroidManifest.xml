@@ -91,7 +91,7 @@
 		<activity android:name=".searchmap.stepbystep.StepByStepTabActivity"
 			android:theme="@android:style/Theme.Light.NoTitleBar" />
 		<activity android:name=".searchmap.stepbystep.SexagesimalInputActivity" />
-		<activity android:name=".searchmap.stepbystep.SexagestimalSecondsInputActivity"></activity>
+		<activity android:name=".searchmap.stepbystep.SexagesimalSecondsInputActivity"></activity>
 		<activity android:name=".searchmap.stepbystep.DecimalInputActivity" />
 		<activity android:name=".searchmap.stepbystep.AzimuthInputActivity" />
 		<activity android:theme="@android:style/Theme.Light.NoTitleBar" android:name=".searchmap.stepbystep.CheckpointsFolder"></activity>
