@@ -36,7 +36,7 @@ public class ApiManager implements IApiManager {
     private int id;
 
     public ApiManager() {
-        id = (int) (Math.random() * 1E6);
+        id = (int) (Math.random() * 1E7);
         LogManager.d(TAG, "new ApiManager Created");
     }
 
