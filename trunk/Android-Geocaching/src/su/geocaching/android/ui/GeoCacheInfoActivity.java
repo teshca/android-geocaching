@@ -67,6 +67,7 @@ public class GeoCacheInfoActivity extends Activity {
         if (isCacheStoredInDataBase) {
             cbFavoriteCache.setChecked(true);
         }
+        controller.getGoogleAnalyticsManager(this).trackPageView(GEOCACHE_INFO_ACTIVITY_FOLDER);
        
     }
 

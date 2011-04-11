@@ -9,7 +9,7 @@ import android.util.Log;
  * @since March 2011
  */
 public class LogManager {
-    private static final boolean DEBUG = true; // it is constant really need, because compiler can remove code blocks which cannot be execute
+    private static final boolean DEBUG = Controller.DEBUG; // it is constant really need, because compiler can remove code blocks which cannot be execute
 
     /**
      * Send a DEBUG log message.

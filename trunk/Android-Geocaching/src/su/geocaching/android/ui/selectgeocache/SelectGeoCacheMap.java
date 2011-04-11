@@ -16,7 +16,6 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.Toast;
-import com.google.android.apps.analytics.GoogleAnalyticsTracker;
 import com.google.android.maps.*;
 import su.geocaching.android.controller.*;
 import su.geocaching.android.model.datatype.GeoCache;
@@ -36,7 +35,7 @@ import java.util.List;
 public class SelectGeoCacheMap extends MapActivity implements IInternetAware {
     private static final String TAG = SelectGeoCacheMap.class.getCanonicalName();
     private static final int MAX_CACHE_NUMBER = 300;
-
+    private static final String SELECT_ACTIVITY_FOLDER = "/SelectActivity";
     private MyLocationOverlay userOverlay;
     private MapView map;
     private MapController mapController;
@@ -49,7 +48,6 @@ public class SelectGeoCacheMap extends MapActivity implements IInternetAware {
     private AnimationDrawable progressBarAnimation;
     private int countDownloadTask;
     private Handler handler;
-    private GoogleAnalyticsTracker tracker;
     private GroupCacheTask groupTask = null;
     private boolean firstRun = true;
 
@@ -83,15 +81,12 @@ public class SelectGeoCacheMap extends MapActivity implements IInternetAware {
             }
         };
 
-        tracker = GoogleAnalyticsTracker.getInstance();
-        tracker.start(getString(R.string.id_Google_Analytics), this);
-        tracker.trackPageView(getString(R.string.select_activity_folder));
-        tracker.dispatch();
-
         map.setBuiltInZoomControls(true);
         map.getOverlays().add(userOverlay);
         map.invalidate();
         LogManager.d(TAG, "onCreate Done");
+        
+        Controller.getInstance().getGoogleAnalyticsManager(this).trackPageView(SELECT_ACTIVITY_FOLDER);
     }
 
     private synchronized void updateProgressStart() {
@@ -158,7 +153,6 @@ public class SelectGeoCacheMap extends MapActivity implements IInternetAware {
         mapTimer.cancel();
         connectionManager.removeSubscriber(this);
         saveMapInfoToSettings();
-        tracker.stop();
         super.onPause();
     }
 

@@ -1,5 +1,6 @@
 package su.geocaching.android.ui;
 
+import su.geocaching.android.controller.Controller;
 import su.geocaching.android.controller.LogManager;
 import su.geocaching.android.model.datatype.GeoCache;
 import android.content.Intent;
@@ -14,12 +15,13 @@ import android.widget.SimpleAdapter;
 public class FavoritesFolder extends AbstractCacheFolder {
 
     private static final String TAG = FavoritesFolder.class.getCanonicalName();
-
+    private static final String FAVORITES_FOLDER = "/FavoritesActivity";
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         LogManager.d(TAG, "onCreate");
         tvNoCache.setText(getString(R.string.favorit_folder_In_DB_not_cache));
+        Controller.getInstance().getGoogleAnalyticsManager(this).trackPageView(FAVORITES_FOLDER);
     }
 
     @Override

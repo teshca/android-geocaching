@@ -8,7 +8,6 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Toast;
-import com.google.android.apps.analytics.GoogleAnalyticsTracker;
 import su.geocaching.android.controller.Controller;
 import su.geocaching.android.controller.LogManager;
 import su.geocaching.android.model.datatype.GeoCache;
@@ -24,7 +23,7 @@ import su.geocaching.android.ui.selectgeocache.SelectGeoCacheMap;
 public class DashboardActivity extends Activity {
 
     private static final String TAG = DashboardActivity.class.getCanonicalName();
-    private GoogleAnalyticsTracker tracker;
+    private static final String DASHBOARD_ACTIVITY_FOLDER = "/DashboardActivity";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -33,11 +32,7 @@ public class DashboardActivity extends Activity {
         setContentView(R.layout.dashboard_menu);
 
         Controller.getInstance().initManagers(getApplicationContext());
-
-        tracker = GoogleAnalyticsTracker.getInstance();
-        tracker.start(getString(R.string.id_Google_Analytics), this);
-        tracker.trackPageView(getString(R.string.dashboard_activity_folder));
-        tracker.dispatch();
+        Controller.getInstance().getGoogleAnalyticsManager(this).trackPageView(DASHBOARD_ACTIVITY_FOLDER);
     }
 
     @Override
@@ -66,8 +61,6 @@ public class DashboardActivity extends Activity {
      *            //TODO describe it
      */
     public void onSelectClick(View v) {
-        tracker.trackEvent("Click", "Button", "from DashBoardActivity to SelesctActivity ", 0);
-
         Intent intent = new Intent(this, SelectGeoCacheMap.class);
         startActivity(intent);
 
@@ -80,7 +73,6 @@ public class DashboardActivity extends Activity {
      *            //TODO describe it
      */
     public void onSearchClick(View v) {
-        tracker.trackEvent("Click", "Button", "from DashBoardActivity to SearchActivity ", 0);
         if (Controller.getInstance().getPreferencesManager().getLastSearchedGeoCache() == null) {
             Toast.makeText(this.getBaseContext(), getString(R.string.search_geocache_start_without_geocache), Toast.LENGTH_SHORT).show();
             return;
@@ -98,7 +90,6 @@ public class DashboardActivity extends Activity {
      *            //TODO describe it
      */
     public void onSettingsClick(View v) {
-        tracker.trackEvent("Click", "Button", "from DashBoardActivity to SettingsActivity ", 0);
         startActivity(new Intent(this, DashboardPreferenceActivity.class));
     }
 
@@ -109,7 +100,6 @@ public class DashboardActivity extends Activity {
      *            //TODO describe it
      */
     public void onFavoriteClick(View v) {
-        tracker.trackEvent("Click", "Button", "from DashBoardActivity to FavoriteActivity ", 0);
         Intent intent = new Intent(this, FavoritesFolder.class);
         startActivity(intent);
     }

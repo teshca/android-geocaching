@@ -18,8 +18,9 @@ import android.widget.Toast;
 import com.google.android.maps.GeoPoint;
 
 public class DecimalInputActivity extends Activity {
-
+  
     private static final String TAG = DecimalInputActivity.class.getCanonicalName();
+    private static final String DECIMAL_INPUT_ACTIVITY_FOLDER = "/DecimalInputActivity";
     private EditText latDegrees, latFraction;
     private EditText lngDegrees, lngFraction;
     private CheckpointManager checkpointManager;
@@ -35,6 +36,7 @@ public class DecimalInputActivity extends Activity {
         lngFraction = (EditText) findViewById(R.id.dLngFraction);
 
         textWacher = new TextChangeListener();
+        Controller.getInstance().getGoogleAnalyticsManager(this).trackPageView(DECIMAL_INPUT_ACTIVITY_FOLDER);
     }
 
     @Override

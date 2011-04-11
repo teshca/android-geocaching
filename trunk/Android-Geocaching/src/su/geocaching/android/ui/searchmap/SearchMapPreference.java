@@ -3,6 +3,7 @@ package su.geocaching.android.ui.searchmap;
 import android.content.pm.ActivityInfo;
 import android.os.Bundle;
 import android.preference.PreferenceActivity;
+import su.geocaching.android.controller.Controller;
 import su.geocaching.android.ui.R;
 
 /**
@@ -16,9 +17,12 @@ public class SearchMapPreference extends PreferenceActivity {
      * 
      * @see android.preference.PreferenceActivity#onCreate(android.os.Bundle)
      */
+    private static final String SEARCH_MAP_PREFERENCE_ACTIVITY_FOLDER = "/SearchMapPreference";
+    
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        Controller.getInstance().getGoogleAnalyticsManager(this).trackPageView(SEARCH_MAP_PREFERENCE_ACTIVITY_FOLDER);
         addPreferencesFromResource(R.xml.search_gc_map_preference);
         setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
     }
