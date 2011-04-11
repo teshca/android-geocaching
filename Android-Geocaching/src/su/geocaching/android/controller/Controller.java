@@ -17,7 +17,8 @@ import su.geocaching.android.ui.selectgeocache.SelectGeoCacheMap;
  */
 public class Controller {
     private static final String TAG = Controller.class.getCanonicalName();
-
+    static final boolean DEBUG = true;// it is constant really need, because compiler can remove code blocks which cannot be execute
+    
     private static Controller instance;
 
     private IApiManager apiManager;
@@ -30,8 +31,10 @@ public class Controller {
     private PreferencesManager preferencesManager;
     private DbManager dbManager;
     private CheckpointManager checkpointManager;
+    private GoogleAnalyticsManager analyticsManager;
     private GeoCache searchingGeoCache;
-
+     
+    
     private Controller() {
         apiManager = new ApiManager();
     }
@@ -223,6 +226,13 @@ public class Controller {
         return dbManager;
     }
 
+    public synchronized GoogleAnalyticsManager getGoogleAnalyticsManager(Context context){
+        if (analyticsManager == null){
+            LogManager.d(TAG, "GoogleAnalyticsManager wasn't init yet. init");
+            analyticsManager = new GoogleAnalyticsManager(context);
+        }
+        return analyticsManager;
+    }
     /**
      * @return the checkpointManager
      */
@@ -270,6 +280,9 @@ public class Controller {
         }
         if (connectionManager == null) {
             connectionManager = new ConnectionManager(context);
+        }
+        if (analyticsManager == null){
+            analyticsManager = new GoogleAnalyticsManager(context);
         }
     }
 }

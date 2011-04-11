@@ -30,8 +30,6 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.google.android.apps.analytics.GoogleAnalyticsTracker;
-
 /**
  * Search GeoCache with the compass.
  * 
@@ -40,6 +38,7 @@ import com.google.android.apps.analytics.GoogleAnalyticsTracker;
  */
 public class SearchGeoCacheCompass extends Activity {
     private static final String TAG = SearchGeoCacheCompass.class.getCanonicalName();
+    private static final String COMPASS_ACTIVITY = "/CompassActivity";
 
     private SmoothCompassThread animationThread;
     private GeoCacheLocationManager locationManager;
@@ -79,10 +78,7 @@ public class SearchGeoCacheCompass extends Activity {
         locationListener = new LocationListener(this);
         gpsListener = new GpsStatusListener();
 
-        GoogleAnalyticsTracker tracker = GoogleAnalyticsTracker.getInstance();
-        tracker.start(getString(R.string.id_Google_Analytics), this);
-        tracker.trackPageView(getString(R.string.compass_activity_folder));
-        tracker.dispatch();
+        controller.getGoogleAnalyticsManager(this).trackPageView(COMPASS_ACTIVITY);
     }
 
     @Override

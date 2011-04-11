@@ -14,7 +14,7 @@ import android.view.View;
 import android.widget.TextView;
 
 public class CheckpointDialog extends Activity {
-
+    private static final String CHECKPOINT_DIALOG_ACTIVITY_FOLDER ="/CheckpointDialog";
     private CheckpointManager checkpointManager;
     private int checkpointId, cacheId;
 
@@ -43,7 +43,9 @@ public class CheckpointDialog extends Activity {
             coordinates.setText(GpsHelper.coordinateToString(checkpointManager.getGeoCache(checkpointId).getLocationGeoPoint()));
             status.setText(rm.getGeoCacheStatus(checkpointManager.getGeoCache(checkpointId)));
             setTitle(String.format("%s %d", getString(R.string.checkpoint_dialog_title), checkpointId));
-        }        
+        }
+        
+        Controller.getInstance().getGoogleAnalyticsManager(this).trackPageView(CHECKPOINT_DIALOG_ACTIVITY_FOLDER);
     }
 
     public void onActiveClick(View v) {

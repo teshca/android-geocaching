@@ -21,6 +21,8 @@ import com.google.android.maps.GeoPoint;
 public class SexagestimalSecondsInputActivity extends Activity {
 
     private static final String TAG = SexagesimalInputActivity.class.getCanonicalName();
+    private static final String SEXAGESTIMAL_SECONDS_INPUT_ACTIVITY_FOLDER = "/SexagesimalSecondsInputActivity";
+
     private EditText latDegrees, latMinutes, latSeconds;
     private EditText lngDegrees, lngMinutes, lngSeconds;
     private CheckpointManager checkpointManager;
@@ -39,6 +41,7 @@ public class SexagestimalSecondsInputActivity extends Activity {
         lngSeconds = (EditText) findViewById(R.id.ssLngSeconds);
 
         textWacher = new TextChangeListener();
+        Controller.getInstance().getGoogleAnalyticsManager(this).trackPageView(SEXAGESTIMAL_SECONDS_INPUT_ACTIVITY_FOLDER);
     }
 
     @Override

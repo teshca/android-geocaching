@@ -11,7 +11,7 @@ import su.geocaching.android.controller.LogManager;
 public class EnergySavingPreferenceActivity extends PreferenceActivity implements Preference.OnPreferenceChangeListener {
 
     private static final String TAG = EnergySavingPreferenceActivity.class.getCanonicalName();
-
+    private static final String ENERGY_SAVING_ACTIVITY_FOLDER = "/EnergySavingPreferenceActivity";
     /*
      * (non-Javadoc)
      * 
@@ -26,6 +26,7 @@ public class EnergySavingPreferenceActivity extends PreferenceActivity implement
 
         Preference preference = findPreference(getString(R.string.gps_update_frequency_key));
         preference.setOnPreferenceChangeListener(this);
+        Controller.getInstance().getGoogleAnalyticsManager(this).trackPageView(ENERGY_SAVING_ACTIVITY_FOLDER);
     }
 
     /* (non-Javadoc)

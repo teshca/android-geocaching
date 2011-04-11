@@ -43,7 +43,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.google.android.apps.analytics.GoogleAnalyticsTracker;
+
 import com.google.android.maps.GeoPoint;
 import com.google.android.maps.MapActivity;
 import com.google.android.maps.MapController;
@@ -60,7 +60,8 @@ import com.google.android.maps.Projection;
 public class SearchGeoCacheMap extends MapActivity implements IInternetAware, ILocationAware, ICompassAware, IGpsStatusAware {
     private final static String TAG = SearchGeoCacheMap.class.getCanonicalName();
     private final static float CLOSE_DISTANCE_TO_GC_VALUE = 100; // if we nearly than this distance in meters to geocache - gps will be work maximal often
-
+    private final static String SEARCH_MAP_ACTIVITY_FOLDER = "/SearchMapActivity";
+    
     private CheckpointCacheOverlay checkpointCacheOverlay;
     private SearchCacheOverlay searchCacheOverlay;
     private Drawable cacheMarker;
@@ -79,7 +80,6 @@ public class SearchGeoCacheMap extends MapActivity implements IInternetAware, IL
     private GeoCacheLocationManager mLocationManager;
     private GpsStatusManager mGpsStatusManager;
     private Controller mController;
-    private GoogleAnalyticsTracker tracker;
     private SmoothCompassThread animationThread;
     private CheckpointManager checkpointManager;
 
@@ -93,11 +93,6 @@ public class SearchGeoCacheMap extends MapActivity implements IInternetAware, IL
         super.onCreate(savedInstanceState);
         LogManager.d(TAG, "onCreate");
         setContentView(R.layout.search_geocache_map);
-
-        tracker = GoogleAnalyticsTracker.getInstance();
-        tracker.start(getString(R.string.id_Google_Analytics), this);
-        tracker.trackPageView(getString(R.string.search_activity_folder));
-        tracker.dispatch();
 
         waitingLocationFixText = (TextView) findViewById(R.id.waitingLocationFixText);
         progressBarView = (ImageView) findViewById(R.id.progressCircle);
@@ -116,6 +111,8 @@ public class SearchGeoCacheMap extends MapActivity implements IInternetAware, IL
         mController.setSearchingGeoCache(geoCache);
         mController.getPreferencesManager().setLastSearchedGeoCache(geoCache);
 
+        mController.getGoogleAnalyticsManager(this).trackPageView(SEARCH_MAP_ACTIVITY_FOLDER);
+        
         internetManager = mController.getConnectionManager();
         mLocationManager = mController.getLocationManager();
         mCompassManager = mController.getCompassManager();
@@ -150,8 +147,6 @@ public class SearchGeoCacheMap extends MapActivity implements IInternetAware, IL
         mLocationManager.removeSubscriber(this);
         mCompassManager.removeSubscriber(this);
         mGpsStatusManager.removeSubscriber(this);
-
-        tracker.stop();
     }
 
     @Override

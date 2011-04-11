@@ -11,8 +11,6 @@ import su.geocaching.android.controller.UiHelper;
 import su.geocaching.android.model.datastorage.DbManager;
 import su.geocaching.android.model.datatype.GeoCache;
 
-import com.google.android.apps.analytics.GoogleAnalyticsTracker;
-
 import android.app.Activity;
 import android.os.Bundle;
 import android.view.View;
@@ -42,10 +40,6 @@ public abstract class AbstractCacheFolder extends Activity implements OnItemClic
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        GoogleAnalyticsTracker tracker = GoogleAnalyticsTracker.getInstance();
-        tracker.start(getString(R.string.id_Google_Analytics), this);
-        tracker.trackPageView(getString(R.string.favorites_activity_folder));
-        tracker.dispatch();
         setContentView(R.layout.favorit_list);
         lvListShowCache = (ListView) findViewById(R.id.favorit_folder_listCach);
         tvNoCache = (TextView) findViewById(R.id.favorit_foldet_title_text);

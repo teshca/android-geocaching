@@ -24,6 +24,7 @@ import com.google.android.maps.GeoPoint;
 public class AzimuthInputActivity extends Activity {
 
     private static final String TAG = SexagesimalInputActivity.class.getCanonicalName();
+    private static final String AZIMUTH_INPUT_ACTIVITY_FOLDER = "/AzimuthInputActivity";
     private EditText etAzimuth, etDistance;
     private GeoPoint currentLocation;
     private CheckpointManager checkpointManager;
@@ -48,6 +49,8 @@ public class AzimuthInputActivity extends Activity {
             info.setText(R.string.relative_to_cache_location);
         }
         textWacher = new TextChangeListener();
+        
+        Controller.getInstance().getGoogleAnalyticsManager(this).trackPageView(AZIMUTH_INPUT_ACTIVITY_FOLDER);
     }
 
     @Override
