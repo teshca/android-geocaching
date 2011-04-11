@@ -40,7 +40,7 @@ public class SexagesimalInputActivity extends Activity {
         lngmMinutes = (EditText) findViewById(R.id.sLngmMinutes);
 
         textWacher = new TextChangeListener();
-        Controller.getInstance().getGoogleAnalyticsManager(this).trackPageView(SEXAGESIMAL_INPUT_ACTIVITY_FOLDER);
+        Controller.getInstance().getGoogleAnalyticsManager().trackPageView(SEXAGESIMAL_INPUT_ACTIVITY_FOLDER);
     }
 
     @Override

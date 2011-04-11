@@ -22,7 +22,7 @@ public class AboutActivity extends Activity {
         } catch (NameNotFoundException e) {
             LogManager.e(TAG, e.getMessage(), e);
         }
-        Controller.getInstance().getGoogleAnalyticsManager(this).trackPageView(ABOUT_ACTIVITY_FOLDER);
+        Controller.getInstance().getGoogleAnalyticsManager().trackPageView(ABOUT_ACTIVITY_FOLDER);
     }
 
 

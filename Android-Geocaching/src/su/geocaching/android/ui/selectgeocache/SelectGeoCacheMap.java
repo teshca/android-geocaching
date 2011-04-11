@@ -86,7 +86,7 @@ public class SelectGeoCacheMap extends MapActivity implements IInternetAware {
         map.invalidate();
         LogManager.d(TAG, "onCreate Done");
         
-        Controller.getInstance().getGoogleAnalyticsManager(this).trackPageView(SELECT_ACTIVITY_FOLDER);
+        Controller.getInstance().getGoogleAnalyticsManager().trackPageView(SELECT_ACTIVITY_FOLDER);
     }
 
     private synchronized void updateProgressStart() {

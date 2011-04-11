@@ -11,7 +11,7 @@ public class CompassPreferenceActivity extends PreferenceActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        Controller.getInstance().getGoogleAnalyticsManager(this).trackPageView(COMPASS_PREFERENCE_ACTIVITY);
+        Controller.getInstance().getGoogleAnalyticsManager().trackPageView(COMPASS_PREFERENCE_ACTIVITY);
         addPreferencesFromResource(R.xml.compass_preference);
         setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
     }

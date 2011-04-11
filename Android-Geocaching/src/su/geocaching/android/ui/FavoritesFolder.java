@@ -21,7 +21,7 @@ public class FavoritesFolder extends AbstractCacheFolder {
         super.onCreate(savedInstanceState);
         LogManager.d(TAG, "onCreate");
         tvNoCache.setText(getString(R.string.favorit_folder_In_DB_not_cache));
-        Controller.getInstance().getGoogleAnalyticsManager(this).trackPageView(FAVORITES_FOLDER);
+        Controller.getInstance().getGoogleAnalyticsManager().trackPageView(FAVORITES_FOLDER);
     }
 
     @Override

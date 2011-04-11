@@ -11,7 +11,6 @@ package su.geocaching.android.controller;
 import android.app.AlertDialog.Builder;
 import android.content.Context;
 import android.content.DialogInterface;
-import android.content.DialogInterface.OnClickListener;
 import android.preference.ListPreference;
 import android.preference.Preference;
 import android.util.AttributeSet;

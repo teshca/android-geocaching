@@ -22,7 +22,7 @@ public class SearchMapPreference extends PreferenceActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        Controller.getInstance().getGoogleAnalyticsManager(this).trackPageView(SEARCH_MAP_PREFERENCE_ACTIVITY_FOLDER);
+        Controller.getInstance().getGoogleAnalyticsManager().trackPageView(SEARCH_MAP_PREFERENCE_ACTIVITY_FOLDER);
         addPreferencesFromResource(R.xml.search_gc_map_preference);
         setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
     }

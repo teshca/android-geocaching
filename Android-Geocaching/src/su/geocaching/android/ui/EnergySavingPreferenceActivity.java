@@ -26,7 +26,7 @@ public class EnergySavingPreferenceActivity extends PreferenceActivity implement
 
         Preference preference = findPreference(getString(R.string.gps_update_frequency_key));
         preference.setOnPreferenceChangeListener(this);
-        Controller.getInstance().getGoogleAnalyticsManager(this).trackPageView(ENERGY_SAVING_ACTIVITY_FOLDER);
+        Controller.getInstance().getGoogleAnalyticsManager().trackPageView(ENERGY_SAVING_ACTIVITY_FOLDER);
     }
 
     /* (non-Javadoc)

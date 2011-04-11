@@ -41,7 +41,7 @@ public class SexagesimalSecondsInputActivity extends Activity {
         lngSeconds = (EditText) findViewById(R.id.ssLngSeconds);
 
         textWacher = new TextChangeListener();
-        Controller.getInstance().getGoogleAnalyticsManager(this).trackPageView(SEXAGESTIMAL_SECONDS_INPUT_ACTIVITY_FOLDER);
+        Controller.getInstance().getGoogleAnalyticsManager().trackPageView(SEXAGESTIMAL_SECONDS_INPUT_ACTIVITY_FOLDER);
     }
 
     @Override
