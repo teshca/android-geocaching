@@ -14,6 +14,7 @@ import android.content.DialogInterface;
 import android.preference.ListPreference;
 import android.preference.Preference;
 import android.util.AttributeSet;
+import su.geocaching.android.ui.R;
 
 /**
  * A {@link Preference} that displays a list of entries as
@@ -28,6 +29,7 @@ public class ListMultiSelectPreference extends ListPreference {
     //Need to make sure the SEPARATOR is unique and weird enough that it doesn't match one of the entries.
     //Not using any fancy symbols because this is interpreted as a regex for splitting strings.
     private static final String SEPARATOR = "OV=I=XseparatorX=I=VO";
+    private static final String DEFAULT_VALUE = "ALL";
 
     private boolean[] mClickedDialogEntryIndices;
 
@@ -75,13 +77,19 @@ public class ListMultiSelectPreference extends ListPreference {
 
         String[] vals = parseStoredValue(getValue());
         if (vals != null) {
-            for (int j = 0; j < vals.length; j++) {
-                String val = vals[j].trim();
+            if (vals[0].trim().equals(DEFAULT_VALUE)) {
+                for (int i = 0; i < getEntries().length; i++) {
+                    mClickedDialogEntryIndices[i] = true;
+                }
+            } else {
                 for (int i = 0; i < entryValues.length; i++) {
-                    CharSequence entry = entryValues[i];
-                    if (entry.equals(val)) {
-                        mClickedDialogEntryIndices[i] = true;
-                        break;
+                    for (int j = 0; j < vals.length; j++) {
+                        if (entryValues[i].equals(vals[j].trim())) {
+                            mClickedDialogEntryIndices[i] = true;
+                            break;
+                        } else {
+                            mClickedDialogEntryIndices[i] = false;
+                        }
                     }
                 }
             }
