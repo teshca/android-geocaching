@@ -133,7 +133,7 @@ public class DownloadPageTask extends AsyncTask<Void, Void, String> {
     protected void onPostExecute(String result) {
         LogManager.d(TAG, "TestTime onPreExecute - Stop");
         if (webView != null) {
-            if (result.equals("")) {
+            if (result == null || result.equals("")) {
                 webView.loadData("<?xml version='1.0' encoding='utf-8'?><center>" + messageWebView + "</center>", "text/html", HTML_ENCODING);
             } else {
                 webView.loadDataWithBaseURL(HTTP_PDA_GEOCACHING_SU, result, "text/html", HTML_ENCODING, null);
