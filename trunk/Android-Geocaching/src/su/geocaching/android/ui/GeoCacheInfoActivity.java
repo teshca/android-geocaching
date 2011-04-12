@@ -67,8 +67,8 @@ public class GeoCacheInfoActivity extends Activity {
         if (isCacheStoredInDataBase) {
             cbFavoriteCache.setChecked(true);
         }
-        controller.getGoogleAnalyticsManager().trackPageView(GEOCACHE_INFO_ACTIVITY_FOLDER);
-       
+        Controller.getInstance().getGoogleAnalyticsManager().trackPageView(GEOCACHE_INFO_ACTIVITY_FOLDER);
+      
     }
 
     private void initViews() {
@@ -84,6 +84,7 @@ public class GeoCacheInfoActivity extends Activity {
         cbFavoriteCache = (CheckBox) findViewById(R.id.info_geocache_add_del);
 
         webView.getSettings().setJavaScriptEnabled(true);
+        //webView.set
     }
 
     @Override
