@@ -35,13 +35,13 @@ public class SelectCacheOverlay extends com.google.android.maps.ItemizedOverlay<
         populate();
 
         touchFlag = false;
-        gestureDetector = new GestureDetector(context,
-                new GestureDetector.SimpleOnGestureListener() {
-                    public boolean onDoubleTap(MotionEvent e) {
-                        map.getController().zoomIn();
-                        return true;
-                    }
-                });
+        gestureDetector = new GestureDetector(context, new GestureDetector.SimpleOnGestureListener() {
+            public boolean onDoubleTap(MotionEvent e) {
+                map.getController().animateTo(map.getProjection().fromPixels((int) e.getX(), (int) e.getY()));
+                map.getController().zoomIn();
+                return true;
+            }
+        });
     }
 
     public synchronized void addOverlayItem(GeoCacheOverlayItem overlayItem) {

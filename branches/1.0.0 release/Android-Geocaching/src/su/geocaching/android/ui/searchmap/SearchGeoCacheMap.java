@@ -7,7 +7,6 @@ import su.geocaching.android.controller.CheckpointManager;
 import su.geocaching.android.controller.Controller;
 import su.geocaching.android.controller.GpsHelper;
 import su.geocaching.android.controller.GpsUpdateFrequency;
-import su.geocaching.android.controller.ICompassAware;
 import su.geocaching.android.controller.IGpsStatusAware;
 import su.geocaching.android.controller.IInternetAware;
 import su.geocaching.android.controller.ILocationAware;
@@ -52,7 +51,7 @@ import com.google.android.maps.Projection;
  * @author Android-Geocaching.su student project team
  * @since October 2010
  */
-public class SearchGeoCacheMap extends MapActivity implements IInternetAware, ILocationAware, ICompassAware, IGpsStatusAware {
+public class SearchGeoCacheMap extends MapActivity implements IInternetAware, ILocationAware, IGpsStatusAware {
     private final static String TAG = SearchGeoCacheMap.class.getCanonicalName();
     private final static float CLOSE_DISTANCE_TO_GC_VALUE = 100; // if we nearly than this distance in meters to geocache - gps will be work maximal often
     private final static String SEARCH_MAP_ACTIVITY_FOLDER = "/SearchMapActivity";
@@ -92,9 +91,8 @@ public class SearchGeoCacheMap extends MapActivity implements IInternetAware, IL
         map = (MapView) findViewById(R.id.searchGeocacheMap);
         mapOverlays = map.getOverlays();
         mapController = map.getController();
-        userOverlay = new UserLocationOverlay(this);
+        userOverlay = new UserLocationOverlay(this, map);
         map.setBuiltInZoomControls(true);
-
         GeoCache geoCache = (GeoCache) getIntent().getParcelableExtra(GeoCache.class.getCanonicalName());
 
         Controller.getInstance().setSearchingGeoCache(geoCache);
@@ -128,7 +126,6 @@ public class SearchGeoCacheMap extends MapActivity implements IInternetAware, IL
 
         Controller.getInstance().getConnectionManager().removeSubscriber(this);
         Controller.getInstance().getLocationManager().removeSubscriber(this);
-        Controller.getInstance().getCompassManager().removeSubscriber(this);
         Controller.getInstance().getGpsStatusManager().removeSubscriber(this);
     }
 
@@ -180,7 +177,8 @@ public class SearchGeoCacheMap extends MapActivity implements IInternetAware, IL
                 LogManager.w(TAG, "resume: device without gps");
             }
             UiHelper.askTurnOnGps(this);
-            LogManager.d(TAG, "resume: best provider (" + Controller.getInstance().getLocationManager().getBestProvider() + ") disabled. Current provider is " + Controller.getInstance().getLocationManager().getCurrentProvider());
+            LogManager.d(TAG, "resume: best provider (" + Controller.getInstance().getLocationManager().getBestProvider() + ") disabled. Current provider is "
+                    + Controller.getInstance().getLocationManager().getCurrentProvider());
         } else {
             LogManager.d(TAG, "resume: best provider (" + Controller.getInstance().getLocationManager().getBestProvider() + ") enabled. Run logic");
 
@@ -198,7 +196,6 @@ public class SearchGeoCacheMap extends MapActivity implements IInternetAware, IL
 
             Controller.getInstance().getLocationManager().addSubscriber(this);
             Controller.getInstance().getLocationManager().enableBestProviderUpdates();
-            Controller.getInstance().getCompassManager().addSubscriber(this);
             Controller.getInstance().getGpsStatusManager().addSubscriber(this);
             Controller.getInstance().getConnectionManager().addSubscriber(this);
 
@@ -226,7 +223,6 @@ public class SearchGeoCacheMap extends MapActivity implements IInternetAware, IL
             progressBarView.setVisibility(View.GONE);
         }
         if (GpsHelper.getDistanceBetween(location, Controller.getInstance().getSearchingGeoCache().getLocationGeoPoint()) < CLOSE_DISTANCE_TO_GC_VALUE) {
-            // TODO: may be need make special preference?
             Controller.getInstance().getLocationManager().updateFrequency(GpsUpdateFrequency.MAXIMAL);
         } else {
             Controller.getInstance().getLocationManager().updateFrequencyFromPreferences();
@@ -249,16 +245,6 @@ public class SearchGeoCacheMap extends MapActivity implements IInternetAware, IL
         distanceOverlay.setUserPoint(GpsHelper.locationToGeoPoint(location));
 
         map.invalidate();
-    }
-
-    /*
-     * (non-Javadoc)
-     * 
-     * @see su.geocaching.android.controller.ICompassAware#updateBearing(float)
-     */
-    @Override
-    public void updateBearing(float bearing) {
-        userOverlay.setDirection(bearing);
     }
 
     /**
@@ -381,8 +367,7 @@ public class SearchGeoCacheMap extends MapActivity implements IInternetAware, IL
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
             case R.id.menuDefaultZoom:
-                // resetZoom();
-                map.invalidate();
+                resetZoom();
                 return true;
             case R.id.menuStartCompass:
                 UiHelper.startCompassActivity(this);

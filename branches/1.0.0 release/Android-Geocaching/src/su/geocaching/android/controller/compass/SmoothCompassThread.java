@@ -15,7 +15,7 @@ public class SmoothCompassThread extends Thread implements ICompassAware {
     private static final String TAG = SmoothCompassThread.class.getCanonicalName();
 
     private static final int LONG_SLEEP = 100;
-    private static final int STANDART_SLEEP = 20;
+    private static final int STANDART_SLEEP = 50;
 
     private static final float ARRIVED_EPS = 0.65f;
     private static final float LEAVED_EPS = 2.5f;
