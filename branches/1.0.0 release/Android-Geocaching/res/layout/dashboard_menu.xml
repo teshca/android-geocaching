@@ -1,0 +1,38 @@
+<LinearLayout android:layout_width="fill_parent"
+	android:layout_height="fill_parent" xmlns:android="http://schemas.android.com/apk/res/android"
+	android:id="@+id/menu_root" android:orientation="vertical"
+	android:background="@color/menu_background">
+	<LinearLayout style="@style/TitleBar" android:id="@+id/title_bar">
+		<ImageView android:src="@drawable/geologo" style="@style/TitleBarLogo"
+			android:id="@+id/title_logo" />
+		<View style="@style/TitleBarSpring" />
+		<ImageView style="@style/TitleBarSeparator" />
+
+	</LinearLayout>
+	<LinearLayout android:layout_height="wrap_content"
+		android:orientation="vertical" android:padding="10dip"
+		android:layout_width="fill_parent" android:layout_weight="1">
+		<LinearLayout android:layout_height="wrap_content"
+			android:layout_weight="1" android:layout_width="fill_parent"
+			android:orientation="horizontal">
+
+			<Button style="@style/MenuButton" android:onClick="onSelectClick"
+				android:drawableTop="@drawable/ic_menu_select" android:text="@string/select_geocache"
+				android:id="@+id/SelectButton" />
+			<Button style="@style/MenuButton" android:onClick="onSearchClick"
+				android:drawableTop="@drawable/ic_menu_search" android:text="@string/search_geocache"
+				android:id="@+id/SearchButton" />
+		</LinearLayout>
+		<LinearLayout android:layout_height="wrap_content"
+			android:layout_weight="1" android:layout_width="fill_parent"
+			android:orientation="horizontal">
+
+			<Button android:drawableTop="@drawable/ic_menu_favorites"
+				style="@style/MenuButton" android:text="@string/favorites"
+				android:id="@+id/FavoritesButton" android:onClick="onFavoriteClick" />
+			<Button android:drawableTop="@drawable/ic_dashboard_settings"
+				style="@style/MenuButton" android:id="@+id/AboutButton"
+				android:text="@string/settings" android:onClick="onSettingsClick" />
+		</LinearLayout>
+	</LinearLayout>
+</LinearLayout>

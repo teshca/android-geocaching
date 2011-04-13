@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+	android:orientation="vertical" android:layout_width="fill_parent"
+	android:layout_height="fill_parent" android:background="@color/menu_background"
+	android:id="@+id/compassLayout">
+	<LinearLayout style="@style/TitleBar" android:visibility="visible">
+		<ImageView android:src="@drawable/geologo" style="@style/TitleBarLogo"
+			android:id="@+id/title_logo" android:onClick="onHomeClick" />
+		<ImageView style="@style/TitleBarSeparator" />
+		<TextView android:id="@+id/waitingLocationFixText"
+			android:layout_width="wrap_content" android:layout_height="fill_parent"
+			android:textColor="#ffffffff" android:padding="3dip"
+			android:textSize="@dimen/text_size_small" />
+
+		<!-- It view need for right align -->
+		<View style="@style/TitleBarSpring" />
+
+		<ImageView android:layout_width="@dimen/header_progress_bar_size"
+			android:layout_height="@dimen/header_progress_bar_size"
+			android:layout_gravity="center_vertical" android:id="@+id/progressCircle"
+			android:layout_marginRight="5dip" />
+
+	</LinearLayout>
+
+
+	<TextView android:id="@+id/targetCoordinates"
+		android:layout_height="wrap_content" android:layout_width="fill_parent"
+		android:textColor="@color/menu_text_color" android:gravity="center"></TextView>
+	<su.geocaching.android.ui.compass.CompassView
+		android:id="@+id/compassView" android:layout_width="fill_parent"
+		android:layout_height="wrap_content" android:layout_weight="1"
+		android:gravity="center" />
+	<TextView android:id="@+id/currentCoordinates"
+		android:layout_height="wrap_content" android:layout_width="fill_parent"
+		android:textColor="@color/menu_text_color" android:gravity="top|center"
+		android:text="@string/location_unknown"></TextView>
+	<LinearLayout android:layout_width="fill_parent"
+		android:layout_height="wrap_content" android:orientation="horizontal"
+		android:layout_marginTop="2dip" android:layout_marginLeft="10dip" android:id="@+id/odometer_layout">
+		<TextView android:layout_height="wrap_content"
+			android:layout_width="wrap_content" android:textColor="@color/menu_text_color"
+			android:text="@string/odometer"></TextView>
+		<TextView android:id="@+id/tvOdometer" android:layout_height="wrap_content"
+			android:layout_width="wrap_content" android:textColor="@color/menu_text_color"
+			android:text="0" android:layout_marginLeft="10dip"></TextView>
+	</LinearLayout>
+</LinearLayout>

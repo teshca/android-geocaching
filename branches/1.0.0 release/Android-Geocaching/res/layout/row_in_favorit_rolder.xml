@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+	android:layout_width="fill_parent" android:orientation="horizontal"
+	android:layout_height="wrap_content">
+
+
+	<ImageView android:layout_width="wrap_content"
+		android:layout_height="fill_parent" android:id="@+id/favorite_list_image_button_type"
+		android:layout_gravity="center_vertical" android:layout_marginLeft="5dip" />
+	<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+		android:layout_width="fill_parent" android:orientation="vertical"
+		android:layout_marginLeft="10dip" android:layout_marginTop="2dip"
+		android:layout_height="wrap_content">
+		<TextView android:layout_width="wrap_content"
+			android:layout_height="wrap_content" android:id="@+id/favorite_list_text_view_name"
+			style="@style/FavoritesFolderRowTextStyle" android:textSize="16sp"
+			android:text="Name" />
+
+		<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+			android:layout_width="fill_parent" android:orientation="horizontal"
+			android:layout_marginTop="2dip" android:layout_marginBottom="5dip"
+			android:layout_height="wrap_content">
+			<TextView android:layout_width="wrap_content"
+				android:layout_height="wrap_content" android:id="@+id/favorites_row_type_text"
+				style="@style/FavoritesFolderRowTextStyle" android:text="Type" />
+			<TextView android:id="@+id/favorites_row_status_text"
+				android:text="Status" style="@style/FavoritesFolderRowTextStyle"
+				android:gravity="right" android:layout_height="wrap_content"
+				android:layout_width="wrap_content" android:layout_weight="1"
+				android:layout_marginRight="15dip" />
+		</LinearLayout>
+	</LinearLayout>
+</LinearLayout>
