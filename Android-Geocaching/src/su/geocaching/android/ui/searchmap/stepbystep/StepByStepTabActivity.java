@@ -10,16 +10,15 @@ import su.geocaching.android.controller.UiHelper;
 import su.geocaching.android.ui.R;
 
 public class StepByStepTabActivity extends TabActivity {
-    
-    private static final String STEP_BY_STEP_TAB_ACTIVITY_FOLDER = "/StepByStepTabActivity"; 
+
+    private static final String STEP_BY_STEP_TAB_ACTIVITY_FOLDER = "/StepByStepTabActivity";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.step_by_step);
-        
+
         setTitle(R.string.converter);
-        // Resources res = getResources();
         TabHost tabHost = getTabHost();
         TabHost.TabSpec spec;
         Intent intent;
@@ -31,7 +30,7 @@ public class StepByStepTabActivity extends TabActivity {
         spec.setIndicator(getString(R.string.sexagestimal_template));
         spec.setContent(intent);
         tabHost.addTab(spec);
-        
+
         intent = new Intent(this, SexagesimalSecondsInputActivity.class);
         intent.putExtras(getIntent().getExtras());
 
@@ -55,10 +54,10 @@ public class StepByStepTabActivity extends TabActivity {
         spec.setIndicator(getString(R.string.azimuth_template));
         spec.setContent(intent);
         tabHost.addTab(spec);
-        
+
         Controller.getInstance().getGoogleAnalyticsManager().trackPageView(STEP_BY_STEP_TAB_ACTIVITY_FOLDER);
     }
-    
+
     public void onHomeClick(View v) {
         UiHelper.goHome(this);
     }

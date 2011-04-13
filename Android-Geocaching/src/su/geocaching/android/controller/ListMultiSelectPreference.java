@@ -14,20 +14,17 @@ import android.content.DialogInterface;
 import android.preference.ListPreference;
 import android.preference.Preference;
 import android.util.AttributeSet;
-import su.geocaching.android.ui.R;
 
 /**
- * A {@link Preference} that displays a list of entries as
- * a dialog and allows multiple selections
+ * A {@link Preference} that displays a list of entries as a dialog and allows multiple selections
  * <p>
- * This preference will store a string into the SharedPreferences. This string will be the values selected
- * from the {@link #setEntryValues(CharSequence[])} array.
+ * This preference will store a string into the SharedPreferences. This string will be the values selected from the {@link #setEntryValues(CharSequence[])} array.
  * </p>
  */
 public class ListMultiSelectPreference extends ListPreference {
 
-    //Need to make sure the SEPARATOR is unique and weird enough that it doesn't match one of the entries.
-    //Not using any fancy symbols because this is interpreted as a regex for splitting strings.
+    // Need to make sure the SEPARATOR is unique and weird enough that it doesn't match one of the entries.
+    // Not using any fancy symbols because this is interpreted as a regex for splitting strings.
     private static final String SEPARATOR = "OV=I=XseparatorX=I=VO";
     private static final String DEFAULT_VALUE = "ALL";
 
@@ -38,7 +35,6 @@ public class ListMultiSelectPreference extends ListPreference {
 
         mClickedDialogEntryIndices = new boolean[getEntries().length];
     }
-
 
     @Override
     public void setEntries(CharSequence[] entries) {
@@ -52,17 +48,15 @@ public class ListMultiSelectPreference extends ListPreference {
         CharSequence[] entryValues = getEntryValues();
 
         if (entries == null || entryValues == null || entries.length != entryValues.length) {
-            throw new IllegalStateException(
-                    "ListPreference requires an entries array and an entryValues array which are both the same length");
+            throw new IllegalStateException("ListPreference requires an entries array and an entryValues array which are both the same length");
         }
 
         restoreCheckedEntries();
-        builder.setMultiChoiceItems(entries, mClickedDialogEntryIndices,
-                new DialogInterface.OnMultiChoiceClickListener() {
-                    public void onClick(DialogInterface dialog, int which, boolean val) {
-                        mClickedDialogEntryIndices[which] = val;
-                    }
-                });
+        builder.setMultiChoiceItems(entries, mClickedDialogEntryIndices, new DialogInterface.OnMultiChoiceClickListener() {
+            public void onClick(DialogInterface dialog, int which, boolean val) {
+                mClickedDialogEntryIndices[which] = val;
+            }
+        });
     }
 
     public static String[] parseStoredValue(CharSequence val) {
@@ -118,4 +112,3 @@ public class ListMultiSelectPreference extends ListPreference {
         }
     }
 }
-

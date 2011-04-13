@@ -1,18 +1,17 @@
 package su.geocaching.android.controller;
 
-import android.content.Context;
-import android.content.SharedPreferences;
-import android.content.res.Resources;
-import android.preference.PreferenceManager;
+import java.util.EnumSet;
+
 import su.geocaching.android.model.datastorage.DbManager;
 import su.geocaching.android.model.datatype.GeoCache;
 import su.geocaching.android.model.datatype.GeoCacheStatus;
 import su.geocaching.android.model.datatype.GeoCacheType;
 import su.geocaching.android.ui.R;
 import su.geocaching.android.ui.selectgeocache.MapInfo;
-
-import java.util.EnumSet;
-import java.util.ListIterator;
+import android.content.Context;
+import android.content.SharedPreferences;
+import android.content.res.Resources;
+import android.preference.PreferenceManager;
 
 /**
  * Manager which can get access to application preferences
