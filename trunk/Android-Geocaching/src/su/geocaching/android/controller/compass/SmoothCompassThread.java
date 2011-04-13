@@ -117,7 +117,7 @@ public class SmoothCompassThread extends Thread implements ICompassAware {
                 break;
             case NORMAL:
                 oldSpeed = oldSpeed * 0.75f;
-                oldSpeed += difference / 40.0f;
+                oldSpeed += difference / 25.0f;
                 break;
             case FAST:
                 oldSpeed = oldSpeed * 0.75f;

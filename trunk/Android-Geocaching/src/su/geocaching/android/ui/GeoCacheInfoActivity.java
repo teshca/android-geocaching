@@ -29,7 +29,7 @@ public class GeoCacheInfoActivity extends Activity {
     private static final String TAG = GeoCacheInfoActivity.class.getCanonicalName();
     private static final String GEOCACHE_INFO_ACTIVITY_FOLDER = "/GeoCacheInfoActivity";
     private static final String HTML_ENCODING = "UTF-8";
-    private static final String PAGE_TYPE = "page type", SCROOLX = "scrollX", SCROOLY = "scrollY"; 
+    private static final String PAGE_TYPE = "page type", SCROOLX = "scrollX", SCROOLY = "scrollY";
 
     public enum PageType {
         INFO, NOTEBOOK
@@ -42,7 +42,7 @@ public class GeoCacheInfoActivity extends Activity {
     private GeoCache geoCache;
     private AsyncTask<Void, Void, String> infoTask;
     private AsyncTask<Void, Void, String> notebookTask;
-  
+
     private PageType pageType = PageType.INFO;
     private int webViewScrollY;
     private int webViewScrollX;
@@ -68,7 +68,6 @@ public class GeoCacheInfoActivity extends Activity {
             cbFavoriteCache.setChecked(true);
         }
         Controller.getInstance().getGoogleAnalyticsManager().trackPageView(GEOCACHE_INFO_ACTIVITY_FOLDER);
-      
     }
 
     private void initViews() {
@@ -84,7 +83,6 @@ public class GeoCacheInfoActivity extends Activity {
         cbFavoriteCache = (CheckBox) findViewById(R.id.info_geocache_add_del);
 
         webView.getSettings().setJavaScriptEnabled(true);
-        //webView.set
     }
 
     @Override
@@ -105,7 +103,7 @@ public class GeoCacheInfoActivity extends Activity {
         pageType = PageType.values()[savedInstanceState.getInt(PAGE_TYPE)];
         webViewScrollX = savedInstanceState.getInt(SCROOLX, 0);
         webViewScrollY = savedInstanceState.getInt(SCROOLY, 0);
-    
+
     }
 
     @Override

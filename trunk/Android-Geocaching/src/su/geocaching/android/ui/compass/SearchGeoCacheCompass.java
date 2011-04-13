@@ -237,9 +237,11 @@ public class SearchGeoCacheCompass extends Activity {
         @Override
         public void updateLocation(Location location) {
 
-            if (lastLocation != null) {
+            if (tvOdometer.isShown() && lastLocation != null) {
                 odometeDistance += GpsHelper.getDistanceBetween(location, lastLocation);
                 tvOdometer.setText(GpsHelper.distanceToString(odometeDistance));
+            } else {
+                odometeDistance = 0;
             }
             lastLocation = location;
 
