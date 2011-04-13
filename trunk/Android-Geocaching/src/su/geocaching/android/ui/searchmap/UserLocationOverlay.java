@@ -6,10 +6,8 @@ import com.google.android.maps.GeoPoint;
 import com.google.android.maps.MapView;
 
 import su.geocaching.android.controller.Controller;
-import su.geocaching.android.controller.LogManager;
 import su.geocaching.android.controller.UiHelper;
 import su.geocaching.android.controller.compass.ICompassAnimation;
-import su.geocaching.android.ui.R;
 
 /**
  * @author Grigory Kalabin. grigory.kalabin@gmail.com
@@ -17,6 +15,8 @@ import su.geocaching.android.ui.R;
  */
 public class UserLocationOverlay extends com.google.android.maps.Overlay implements ICompassAnimation {
     private static final int ACCURACY_CIRCLE_ALPHA = 25;
+    private static final int COMPASS_ARROW_WIDTH = 28;
+    private static final int COMPASS_ARROW_HEIGHT = 34;
     private static final int ACCURACY_CIRCLE_COLOR = 0xff00aa00;
     private static final int ACCURACY_CIRCLE_STROKE_COLOR = 0xff000a00;
 
@@ -25,16 +25,13 @@ public class UserLocationOverlay extends com.google.android.maps.Overlay impleme
     private float accuracyRadius; // accuracy radius in meters
     private Paint paintCircle;
     private Paint paintStroke;
-    private Bitmap userArrowBmp;
-    private Bitmap userPointBmp;
-    private Matrix matrix;
+    private Paint paintCompassArrow;
+    private Path pathCompassArrow;
     private SearchGeoCacheMap context;
     private Point tapPoint;
     private Point userPoint;
-    private int userBitmapWidth;
-    private int userBitmapHeight;
     private MapView map;
-    private long lastTimeDrawing;
+    private long lastTimeInvalidate;
 
     /**
      * @param context
@@ -46,7 +43,7 @@ public class UserLocationOverlay extends com.google.android.maps.Overlay impleme
         accuracyRadius = Float.NaN;
 
         this.map = map;
-        lastTimeDrawing = -1;
+        lastTimeInvalidate = -1;
 
         this.context = context;
         tapPoint = new Point();
@@ -63,15 +60,19 @@ public class UserLocationOverlay extends com.google.android.maps.Overlay impleme
         paintStroke.setStyle(Style.STROKE);
         paintStroke.setAlpha(ACCURACY_CIRCLE_ALPHA);
 
-        userPointBmp = BitmapFactory.decodeResource(Controller.getInstance().getResourceManager().getResources(), R.drawable.userpoint);
-        userArrowBmp = BitmapFactory.decodeResource(Controller.getInstance().getResourceManager().getResources(), R.drawable.userarrow);
-        matrix = new Matrix();
+        paintCompassArrow = new Paint();
+        paintCompassArrow.setAntiAlias(true);
+        paintCompassArrow.setStyle(Style.FILL_AND_STROKE);
+        paintCompassArrow.setStrokeWidth(1);
+        paintCompassArrow.setARGB(200, 60, 200, 90);
+
+        pathCompassArrow = new Path();
     }
 
     /*
      * (non-Javadoc)
      * 
-     * @see com.google.android.maps.Overlay#draw(android.graphics.Canvas, com.google.android.maps.MapView, boolean, long)
+     * @see com.google.android.maps.Overlay#draw(android.graphics.Canvas, com.google.android.maps.MapView, boolean)
      */
     @Override
     public void draw(Canvas canvas, MapView mapView, boolean shadow) {
@@ -80,38 +81,23 @@ public class UserLocationOverlay extends com.google.android.maps.Overlay impleme
         if (userGeoPoint == null) {
             return;
         }
-        lastTimeDrawing = System.currentTimeMillis();
         // Translate the GeoPoint to screen pixels
         mapView.getProjection().toPixels(userGeoPoint, userPoint);
-
-        // Prepare to draw default marker
-        // Bitmap userBitmapPoint;
-        // if (Float.isNaN(bearing)) {
-        // userBitmapPoint = userPointBmp;
-        // } else {
-        // userBitmapPoint = userArrowBmp;
-        // Rotate default marker
-        // matrix.setRotate(bearing);
-        // userBitmapPoint = Bitmap.createBitmap(userBitmapPoint, 0, 0, userBitmapPoint.getWidth(), userBitmapPoint.getHeight(), matrix, true);
-        // }
-        // userBitmapWidth = userBitmapPoint.getWidth();
-        // userBitmapHeight = userBitmapPoint.getHeight();
 
         // Draw accuracy circle
         if (!Float.isNaN(accuracyRadius)) {
             float radiusInPixels = mapView.getProjection().metersToEquatorPixels(accuracyRadius);
-            // if ((radiusInPixels > userBitmapPoint.getWidth()) && (radiusInPixels > userBitmapPoint.getHeight())) {
-            canvas.drawCircle(userPoint.x, userPoint.y, radiusInPixels, paintCircle);
-            canvas.drawCircle(userPoint.x, userPoint.y, radiusInPixels, paintStroke);
-            // }
+            if ((radiusInPixels > COMPASS_ARROW_HEIGHT) && (radiusInPixels > COMPASS_ARROW_WIDTH)) {
+                canvas.drawCircle(userPoint.x, userPoint.y, radiusInPixels, paintCircle);
+                canvas.drawCircle(userPoint.x, userPoint.y, radiusInPixels, paintStroke);
+            }
         }
 
-        int h = 17; // h/2
-        int w = 14; // w/2
+        int h = COMPASS_ARROW_HEIGHT / 2; // h/2
+        int w = COMPASS_ARROW_WIDTH / 2; // w/2
         double s = Math.sin(-bearing * Math.PI / 180);
         double c = Math.cos(-bearing * Math.PI / 180);
 
-        Path arrowPath = new Path();
         float topX = (float) (-h * s + userPoint.x);
         float topY = (float) (-h * c + userPoint.y);
         float bottomLeftX = (float) (-w * c + h * s + userPoint.x);
@@ -119,23 +105,14 @@ public class UserLocationOverlay extends com.google.android.maps.Overlay impleme
         float bottomRightX = (float) (w * c + h * s + userPoint.x);
         float bottomRightY = (float) (-w * s + h * c + userPoint.y);
 
-        arrowPath.moveTo(userPoint.x, userPoint.y);
-        arrowPath.lineTo(bottomLeftX, bottomLeftY);
-        arrowPath.lineTo(topX, topY);
-        arrowPath.lineTo(bottomRightX, bottomRightY);
-        arrowPath.lineTo(userPoint.x, userPoint.y);
-        arrowPath.close();
-
-        Paint paint = new Paint();
-        paint.setAntiAlias(true);
-        paint.setStyle(Style.FILL_AND_STROKE);
-        paint.setStrokeWidth(1);
-
-        paint.setARGB(200, 60, 200, 90);
-        canvas.drawPath(arrowPath, paint);
-
-        // Draw default marker
-        // canvas.drawBitmap(userBitmapPoint, userPoint.x - userBitmapPoint.getWidth() / 2, userPoint.y - userBitmapPoint.getHeight() / 2, null);
+        pathCompassArrow.reset();
+        pathCompassArrow.moveTo(userPoint.x, userPoint.y);
+        pathCompassArrow.lineTo(bottomLeftX, bottomLeftY);
+        pathCompassArrow.lineTo(topX, topY);
+        pathCompassArrow.lineTo(bottomRightX, bottomRightY);
+        pathCompassArrow.lineTo(userPoint.x, userPoint.y);
+        pathCompassArrow.close();
+        canvas.drawPath(pathCompassArrow, paintCompassArrow);
         return;
     }
 
@@ -170,10 +147,13 @@ public class UserLocationOverlay extends com.google.android.maps.Overlay impleme
     }
 
     private void postInvalidate() {
-        if (userGeoPoint == null || System.currentTimeMillis() - lastTimeDrawing < 100) {
+        if (userGeoPoint == null || System.currentTimeMillis() - lastTimeInvalidate < 50) {
             return;
         }
-        map.postInvalidate();
+        map.getProjection().toPixels(userGeoPoint, userPoint);
+        int max = Math.max(COMPASS_ARROW_HEIGHT, COMPASS_ARROW_WIDTH);
+        map.postInvalidate(userPoint.x - max, userPoint.y - max, userPoint.x + max, userPoint.y + max);
+        lastTimeInvalidate = System.currentTimeMillis();
     }
 
     /*
@@ -187,7 +167,7 @@ public class UserLocationOverlay extends com.google.android.maps.Overlay impleme
             return super.onTap(p, map);
         }
         map.getProjection().toPixels(p, tapPoint);
-        if ((Math.abs(tapPoint.x - userPoint.x) < userBitmapWidth / 2) && (Math.abs((tapPoint.y - userPoint.y)) < userBitmapHeight / 2)) {
+        if ((Math.abs(tapPoint.x - userPoint.x) < COMPASS_ARROW_WIDTH / 2) && (Math.abs((tapPoint.y - userPoint.y)) < COMPASS_ARROW_HEIGHT / 2)) {
             UiHelper.startCompassActivity(context);
             return true;
         }
