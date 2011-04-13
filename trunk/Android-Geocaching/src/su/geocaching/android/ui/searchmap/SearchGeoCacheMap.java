@@ -92,7 +92,7 @@ public class SearchGeoCacheMap extends MapActivity implements IInternetAware, IL
         map = (MapView) findViewById(R.id.searchGeocacheMap);
         mapOverlays = map.getOverlays();
         mapController = map.getController();
-        userOverlay = new UserLocationOverlay(this);
+        userOverlay = new UserLocationOverlay(this, map);
         map.setBuiltInZoomControls(true);
 
         GeoCache geoCache = (GeoCache) getIntent().getParcelableExtra(GeoCache.class.getCanonicalName());
@@ -180,7 +180,8 @@ public class SearchGeoCacheMap extends MapActivity implements IInternetAware, IL
                 LogManager.w(TAG, "resume: device without gps");
             }
             UiHelper.askTurnOnGps(this);
-            LogManager.d(TAG, "resume: best provider (" + Controller.getInstance().getLocationManager().getBestProvider() + ") disabled. Current provider is " + Controller.getInstance().getLocationManager().getCurrentProvider());
+            LogManager.d(TAG, "resume: best provider (" + Controller.getInstance().getLocationManager().getBestProvider() + ") disabled. Current provider is "
+                    + Controller.getInstance().getLocationManager().getCurrentProvider());
         } else {
             LogManager.d(TAG, "resume: best provider (" + Controller.getInstance().getLocationManager().getBestProvider() + ") enabled. Run logic");
 
