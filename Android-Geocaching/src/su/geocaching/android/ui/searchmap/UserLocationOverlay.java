@@ -134,7 +134,7 @@ public class UserLocationOverlay extends com.google.android.maps.Overlay impleme
      */
     @Override
     public boolean setDirection(float direction) {
-        bearing = -direction;
+        bearing = direction;
         postInvalidate();
         return true;
     }
