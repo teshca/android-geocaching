@@ -4,7 +4,9 @@ import android.graphics.*;
 import android.graphics.Paint.Style;
 import com.google.android.maps.GeoPoint;
 import com.google.android.maps.MapView;
+
 import su.geocaching.android.controller.Controller;
+import su.geocaching.android.controller.LogManager;
 import su.geocaching.android.controller.UiHelper;
 import su.geocaching.android.controller.compass.ICompassAnimation;
 import su.geocaching.android.ui.R;
@@ -31,15 +33,20 @@ public class UserLocationOverlay extends com.google.android.maps.Overlay impleme
     private Point userPoint;
     private int userBitmapWidth;
     private int userBitmapHeight;
+    private MapView map;
+    private long lastTimeDrawing;
 
     /**
      * @param context
      *            activity which use this overlay
      */
-    public UserLocationOverlay(SearchGeoCacheMap context) {
+    public UserLocationOverlay(SearchGeoCacheMap context, MapView map) {
         userGeoPoint = null;
         bearing = Float.NaN;
         accuracyRadius = Float.NaN;
+
+        this.map = map;
+        lastTimeDrawing = -1;
 
         this.context = context;
         tapPoint = new Point();
@@ -67,40 +74,69 @@ public class UserLocationOverlay extends com.google.android.maps.Overlay impleme
      * @see com.google.android.maps.Overlay#draw(android.graphics.Canvas, com.google.android.maps.MapView, boolean, long)
      */
     @Override
-    public boolean draw(Canvas canvas, MapView mapView, boolean shadow, long when) {
-        super.draw(canvas, mapView, shadow, when);
+    public void draw(Canvas canvas, MapView mapView, boolean shadow) {
+        super.draw(canvas, mapView, shadow);
 
         if (userGeoPoint == null) {
-            return true;
+            return;
         }
+        lastTimeDrawing = System.currentTimeMillis();
         // Translate the GeoPoint to screen pixels
         mapView.getProjection().toPixels(userGeoPoint, userPoint);
 
         // Prepare to draw default marker
-        Bitmap userBitmapPoint;
-        if (Float.isNaN(bearing)) {
-            userBitmapPoint = userPointBmp;
-        } else {
-            userBitmapPoint = userArrowBmp;
-            // Rotate default marker
-            matrix.setRotate(bearing);
-            userBitmapPoint = Bitmap.createBitmap(userBitmapPoint, 0, 0, userBitmapPoint.getWidth(), userBitmapPoint.getHeight(), matrix, true);
-        }
-        userBitmapWidth = userBitmapPoint.getWidth();
-        userBitmapHeight = userBitmapPoint.getHeight();
+        // Bitmap userBitmapPoint;
+        // if (Float.isNaN(bearing)) {
+        // userBitmapPoint = userPointBmp;
+        // } else {
+        // userBitmapPoint = userArrowBmp;
+        // Rotate default marker
+        // matrix.setRotate(bearing);
+        // userBitmapPoint = Bitmap.createBitmap(userBitmapPoint, 0, 0, userBitmapPoint.getWidth(), userBitmapPoint.getHeight(), matrix, true);
+        // }
+        // userBitmapWidth = userBitmapPoint.getWidth();
+        // userBitmapHeight = userBitmapPoint.getHeight();
 
         // Draw accuracy circle
         if (!Float.isNaN(accuracyRadius)) {
             float radiusInPixels = mapView.getProjection().metersToEquatorPixels(accuracyRadius);
-            if ((radiusInPixels > userBitmapPoint.getWidth()) && (radiusInPixels > userBitmapPoint.getHeight())) {
-                canvas.drawCircle(userPoint.x, userPoint.y, radiusInPixels, paintCircle);
-                canvas.drawCircle(userPoint.x, userPoint.y, radiusInPixels, paintStroke);
-            }
+            // if ((radiusInPixels > userBitmapPoint.getWidth()) && (radiusInPixels > userBitmapPoint.getHeight())) {
+            canvas.drawCircle(userPoint.x, userPoint.y, radiusInPixels, paintCircle);
+            canvas.drawCircle(userPoint.x, userPoint.y, radiusInPixels, paintStroke);
+            // }
         }
 
+        int h = 17; // h/2
+        int w = 14; // w/2
+        double s = Math.sin(-bearing * Math.PI / 180);
+        double c = Math.cos(-bearing * Math.PI / 180);
+
+        Path arrowPath = new Path();
+        float topX = (float) (-h * s + userPoint.x);
+        float topY = (float) (-h * c + userPoint.y);
+        float bottomLeftX = (float) (-w * c + h * s + userPoint.x);
+        float bottomLeftY = (float) (w * s + h * c + userPoint.y);
+        float bottomRightX = (float) (w * c + h * s + userPoint.x);
+        float bottomRightY = (float) (-w * s + h * c + userPoint.y);
+
+        arrowPath.moveTo(userPoint.x, userPoint.y);
+        arrowPath.lineTo(bottomLeftX, bottomLeftY);
+        arrowPath.lineTo(topX, topY);
+        arrowPath.lineTo(bottomRightX, bottomRightY);
+        arrowPath.lineTo(userPoint.x, userPoint.y);
+        arrowPath.close();
+
+        Paint paint = new Paint();
+        paint.setAntiAlias(true);
+        paint.setStyle(Style.FILL_AND_STROKE);
+        paint.setStrokeWidth(1);
+
+        paint.setARGB(200, 60, 200, 90);
+        canvas.drawPath(arrowPath, paint);
+
         // Draw default marker
-        canvas.drawBitmap(userBitmapPoint, userPoint.x - userBitmapPoint.getWidth() / 2, userPoint.y - userBitmapPoint.getHeight() / 2, null);
-        return true;
+        // canvas.drawBitmap(userBitmapPoint, userPoint.x - userBitmapPoint.getWidth() / 2, userPoint.y - userBitmapPoint.getHeight() / 2, null);
+        return;
     }
 
     /**
@@ -109,6 +145,7 @@ public class UserLocationOverlay extends com.google.android.maps.Overlay impleme
      */
     public void setPoint(GeoPoint point) {
         this.userGeoPoint = point;
+        postInvalidate();
     }
 
     /**
@@ -117,6 +154,7 @@ public class UserLocationOverlay extends com.google.android.maps.Overlay impleme
      */
     public void setAccuracy(float radius) {
         this.accuracyRadius = radius;
+        postInvalidate();
     }
 
     /*
@@ -127,7 +165,15 @@ public class UserLocationOverlay extends com.google.android.maps.Overlay impleme
     @Override
     public boolean setDirection(float direction) {
         bearing = direction;
+        postInvalidate();
         return true;
+    }
+
+    private void postInvalidate() {
+        if (userGeoPoint == null || System.currentTimeMillis() - lastTimeDrawing < 100) {
+            return;
+        }
+        map.postInvalidate();
     }
 
     /*

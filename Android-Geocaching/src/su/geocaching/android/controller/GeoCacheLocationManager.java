@@ -230,20 +230,20 @@ public class GeoCacheLocationManager implements LocationListener {
         float minDistance = 5;
         switch (updateFrequency) {
             case RARELY:
-                minTime = 24000;
-                minDistance = 5;
+                minTime = 8000;
+                minDistance = 8;
                 break;
             case NORMAL:
-                minTime = 6000;
-                minDistance = 3;
+                minTime = 4000;
+                minDistance = 4;
                 break;
             case OFTEN:
-                minTime = 3000;
-                minDistance = 0;
+                minTime = 2000;
+                minDistance = 2;
                 break;
             case MAXIMAL:
-                minTime = 800;
-                minDistance = 0;
+                minTime = 1000;
+                minDistance = 1;
                 break;
         }
         LogManager.d(TAG, "update frequency: " + updateFrequency.toString());
