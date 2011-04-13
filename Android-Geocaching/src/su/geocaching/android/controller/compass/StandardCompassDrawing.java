@@ -26,6 +26,8 @@ public class StandardCompassDrawing extends CompassDrawingHelper {
         textPaint.setAntiAlias(true);
         textPaint.setStyle(Style.STROKE);
         textPaint.setStrokeWidth(0.8f);
+        
+        bitmapPaint.setFilterBitmap(true);
     }
 
     int bitmapX, bitmapY, size;
