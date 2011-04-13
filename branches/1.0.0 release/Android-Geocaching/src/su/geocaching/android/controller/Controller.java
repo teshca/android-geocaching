@@ -17,7 +17,7 @@ import su.geocaching.android.ui.selectgeocache.SelectGeoCacheMap;
  */
 public class Controller {
     private static final String TAG = Controller.class.getCanonicalName();
-    static final boolean DEBUG = true;// it is constant really need, because compiler can remove code blocks which cannot be execute
+    static final boolean DEBUG = false;// it is constant really need, because compiler can remove code blocks which cannot be execute
 
     private static Controller instance;
     private Context applicationContext;
