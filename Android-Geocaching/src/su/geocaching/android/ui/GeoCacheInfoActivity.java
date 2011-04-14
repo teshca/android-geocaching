@@ -40,12 +40,10 @@ public class GeoCacheInfoActivity extends Activity {
     private Controller controller;
     private DbManager dbManager;
     private GeoCache geoCache;
-    private AsyncTask<Void, Void, String> infoTask;
-    private AsyncTask<Void, Void, String> notebookTask;
+    private AsyncTask<Void, Void, String> infoTask, notebookTask;
 
     private PageType pageType = PageType.INFO;
-    private int webViewScrollY;
-    private int webViewScrollX;
+    private int webViewScrollY, webViewScrollX;
     private boolean isCacheStoredInDataBase;
 
     private boolean goToMap = false;
@@ -67,7 +65,7 @@ public class GeoCacheInfoActivity extends Activity {
         if (isCacheStoredInDataBase) {
             cbFavoriteCache.setChecked(true);
         }
-        Controller.getInstance().getGoogleAnalyticsManager().trackPageView(GEOCACHE_INFO_ACTIVITY_FOLDER);
+        controller.getGoogleAnalyticsManager().trackPageView(GEOCACHE_INFO_ACTIVITY_FOLDER);
     }
 
     private void initViews() {
@@ -88,13 +86,7 @@ public class GeoCacheInfoActivity extends Activity {
     @Override
     protected void onPostCreate(Bundle savedInstanceState) {
         loadWebView(pageType);
-
         super.onPostCreate(savedInstanceState);
-    }
-
-    @Override
-    protected void onStart() {
-        super.onStart();
     }
 
     @Override
@@ -159,12 +151,11 @@ public class GeoCacheInfoActivity extends Activity {
     }
 
     public void onAddDelGeoCacheInDatabaseClick(View v) {
-        if (!cbFavoriteCache.isChecked()) {
-            delCacheFromDB();
-        } else {
+        if (cbFavoriteCache.isChecked()) {
             saveCacheInDB();
+        } else {
+            delCacheFromDB();
         }
-
     }
 
     @Override
@@ -203,7 +194,6 @@ public class GeoCacheInfoActivity extends Activity {
             } else {
                 menu.getItem(0).setEnabled(true);
             }
-
         } else {
             menu.getItem(0).setTitle(R.string.menu_show_info_cache);
             menu.getItem(0).setIcon(R.drawable.ic_menu_info_details);
@@ -247,7 +237,6 @@ public class GeoCacheInfoActivity extends Activity {
                         }
                         break;
                     case NOTEBOOK:
-
                         if (notebookTask == null) {
                             notebookTask = new DownloadPageTask(this, geoCache.getId(), webViewScrollX, webViewScrollY, webView, null, PageType.NOTEBOOK).execute();
                         } else {

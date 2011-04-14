@@ -21,8 +21,7 @@ public class DownloadPageTask extends AsyncTask<Void, Void, String> {
     private static final String LINK_NOTEBOOK_TEXT = "http://pda.geocaching.su/note.php?cid=%d&mode=0";
     private static final String HTTP_PDA_GEOCACHING_SU = "http://pda.geocaching.su/";
     private static final String HTML_ENCODING = "UTF-8";
-    
-    
+
     private PageType pageType;
     private boolean isCacheStoredInDataBase;
     private ProgressDialog progressDialog;
@@ -34,7 +33,7 @@ public class DownloadPageTask extends AsyncTask<Void, Void, String> {
     private String messageProgress;
     private String linkPage;
     private String messageWebView;
-    
+
     public DownloadPageTask(Context context, int cacheId, int scroolX, int scroolY, WebView webView, String downloadedText, PageType pageType) {
         isCacheStoredInDataBase = Controller.getInstance().getDbManager().isCacheStored(cacheId);
         this.pageType = pageType;
@@ -57,7 +56,6 @@ public class DownloadPageTask extends AsyncTask<Void, Void, String> {
             progressDialog = new ProgressDialog(context);
             progressDialog.setMessage(messageProgress);
             progressDialog.show();
-            downloadedText = null;
         }
     }
 
@@ -66,11 +64,11 @@ public class DownloadPageTask extends AsyncTask<Void, Void, String> {
         String result = null;
         if (downloadedText == null) {
             if (Controller.getInstance().getConnectionManager().isInternetConnected()) {
-                    try {
-                        result = getWebText(cacheId);
-                    } catch (IOException e) {
-                        LogManager.e(TAG, "IOException getWebText", e);
-                    }
+                try {
+                    result = getWebText(cacheId);
+                } catch (IOException e) {
+                    LogManager.e(TAG, "IOException getWebText", e);
+                }
                 if (isCacheStoredInDataBase) {
                     updateTextInDataBase(pageType, result);
                 }
@@ -87,7 +85,6 @@ public class DownloadPageTask extends AsyncTask<Void, Void, String> {
             case INFO: {
                 res = Controller.getInstance().getDbManager().getWebTextById(cacheId);
                 break;
-
             }
             case NOTEBOOK: {
                 res = Controller.getInstance().getDbManager().getWebNotebookTextById(cacheId);
@@ -152,8 +149,7 @@ public class DownloadPageTask extends AsyncTask<Void, Void, String> {
         super.onPostExecute(result);
     }
 
-    private String[] getNeedStringSet() {
-        String[] needStringsSet = new String[3];
+    private void getNeedStringSet() {
         switch (pageType) {
             case INFO: {
                 messageProgress = context.getString(R.string.download_info);
@@ -168,6 +164,5 @@ public class DownloadPageTask extends AsyncTask<Void, Void, String> {
                 break;
             }
         }
-        return needStringsSet;
     }
 }
