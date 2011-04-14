@@ -116,7 +116,7 @@ public class SelectGeoCacheMap extends MapActivity implements IInternetAware {
     }
 
     private void updateMapInfoFromSettings() {
-        MapInfo lastMapInfo = Controller.getInstance().getPreferencesManager().getLastMapInfo();
+        MapInfo lastMapInfo = Controller.getInstance().getPreferencesManager().getLastSelectMapInfo();
         GeoPoint lastCenter = new GeoPoint(lastMapInfo.getCenterX(), lastMapInfo.getCenterY());
 
         mapController.setCenter(lastCenter);
@@ -126,7 +126,7 @@ public class SelectGeoCacheMap extends MapActivity implements IInternetAware {
     }
 
     private void saveMapInfoToSettings() {
-        Controller.getInstance().getPreferencesManager().setLastMapInfo(new MapInfo(map.getMapCenter().getLatitudeE6(), map.getMapCenter().getLongitudeE6(), map.getZoomLevel()));
+        Controller.getInstance().getPreferencesManager().setLastSelectMapInfo(new MapInfo(map.getMapCenter().getLatitudeE6(), map.getMapCenter().getLongitudeE6(), map.getZoomLevel()));
     }
 
     @Override
