@@ -19,6 +19,7 @@ import su.geocaching.android.model.datatype.GeoCacheType;
 import su.geocaching.android.ui.FavoritesFolder;
 import su.geocaching.android.ui.R;
 import su.geocaching.android.ui.geocachemap.GeoCacheOverlayItem;
+import su.geocaching.android.ui.selectgeocache.MapInfo;
 import android.content.Intent;
 import android.graphics.Point;
 import android.graphics.Rect;
@@ -119,6 +120,7 @@ public class SearchGeoCacheMap extends MapActivity implements IInternetAware, IL
     protected void onPause() {
         super.onPause();
         LogManager.d(TAG, "on pause");
+        saveMapInfoToSettings();
 
         if (Controller.getInstance().getLocationManager().hasLocation()) {
             stopAnimation();
@@ -162,6 +164,7 @@ public class SearchGeoCacheMap extends MapActivity implements IInternetAware, IL
         }
 
         map.setKeepScreenOn(Controller.getInstance().getPreferencesManager().getKeepScreenOnPreference());
+        updateMapInfoFromSettings();
         map.setSatellite(Controller.getInstance().getPreferencesManager().useSatelliteMap());
         mapOverlays.remove(searchCacheOverlay);
         if (geoCache != null) {
@@ -568,5 +571,19 @@ public class SearchGeoCacheMap extends MapActivity implements IInternetAware, IL
 
     public void onHomeClick(View v) {
         UiHelper.goHome(this);
+    }
+
+    private void updateMapInfoFromSettings() {
+        MapInfo lastMapInfo = Controller.getInstance().getPreferencesManager().getLastSearchMapInfo();
+        GeoPoint lastCenter = new GeoPoint(lastMapInfo.getCenterX(), lastMapInfo.getCenterY());
+
+        mapController.setCenter(lastCenter);
+        mapController.animateTo(lastCenter);
+        mapController.setZoom(lastMapInfo.getZoom());
+        map.invalidate();
+    }
+
+    private void saveMapInfoToSettings() {
+        Controller.getInstance().getPreferencesManager().setLastSearchMapInfo(new MapInfo(map.getMapCenter().getLatitudeE6(), map.getMapCenter().getLongitudeE6(), map.getZoomLevel()));
     }
 }

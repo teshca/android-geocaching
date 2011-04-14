@@ -15,7 +15,7 @@ import android.preference.PreferenceManager;
 
 /**
  * Manager which can get access to application preferences
- *
+ * 
  * @author Grigory Kalabin. grigory.kalabin@gmail.com
  * @since March 2011
  */
@@ -36,7 +36,7 @@ public class PreferencesManager {
 
     /**
      * Get id of last searched geocache from preferences and get GeoCache object from database
-     *
+     * 
      * @return last searched geocache by user saved in preferences
      */
     public synchronized GeoCache getLastSearchedGeoCache() {
@@ -46,8 +46,9 @@ public class PreferencesManager {
 
     /**
      * Save last searched geocache id in preferences
-     *
-     * @param lastSearchedGeoCache last searched geoCache
+     * 
+     * @param lastSearchedGeoCache
+     *            last searched geoCache
      */
     public synchronized void setLastSearchedGeoCache(GeoCache lastSearchedGeoCache) {
         if (lastSearchedGeoCache != null) {
@@ -59,17 +60,52 @@ public class PreferencesManager {
     }
 
     /**
-     * @param info with data to save
+     * @param info
+     *            with data to save
      */
-    public synchronized void setLastMapInfo(MapInfo info) {
+    public synchronized void setLastSelectMapInfo(MapInfo info) {
         if (info != null) {
             LogManager.d(TAG, "Save last map center (" + info.getCenterX() + ", " + info.getCenterY() + ") in settings");
             SharedPreferences.Editor editor = preferences.edit();
-            editor.putInt("center_x", info.getCenterX());
-            editor.putInt("center_y", info.getCenterY());
-            editor.putInt("zoom", info.getZoom());
+            editor.putInt("selectmap_center_x", info.getCenterX());
+            editor.putInt("selectmap_center_y", info.getCenterY());
+            editor.putInt("selectmap_zoom", info.getZoom());
             editor.commit();
         }
+    }
+
+    /**
+     * @param info
+     *            with data to save
+     */
+    public synchronized void setLastSearchMapInfo(MapInfo info) {
+        if (info != null) {
+            SharedPreferences.Editor editor = preferences.edit();
+            editor.putInt("searchmap_center_x", info.getCenterX());
+            editor.putInt("searchmap_center_y", info.getCenterY());
+            editor.putInt("searchmap_zoom", info.getZoom());
+            editor.commit();
+        }
+    }
+
+    /**
+     * @return MapInfo object with preferences
+     */
+    public synchronized MapInfo getLastSelectMapInfo() {
+        int center_x = preferences.getInt("selectmap_center_x", MapInfo.DEFAULT_CENTER_LATITUDE);
+        int center_y = preferences.getInt("selectmap_center_y", MapInfo.DEFAULT_CENTER_LONGITUDE);
+        int zoom = preferences.getInt("selectmap_zoom", MapInfo.DEFAULT_ZOOM);
+        return new MapInfo(center_x, center_y, zoom);
+    }
+
+    /**
+     * @return MapInfo object with preferences
+     */
+    public synchronized MapInfo getLastSearchMapInfo() {
+        int center_x = preferences.getInt("searchmap_center_x", MapInfo.DEFAULT_CENTER_LATITUDE);
+        int center_y = preferences.getInt("searchmap_center_y", MapInfo.DEFAULT_CENTER_LONGITUDE);
+        int zoom = preferences.getInt("searchmap_zoom", MapInfo.DEFAULT_ZOOM);
+        return new MapInfo(center_x, center_y, zoom);
     }
 
     public void setDownloadNoteBookAlways(boolean downloadAlways) {
@@ -80,16 +116,6 @@ public class PreferencesManager {
 
     public boolean getDownloadNoteBookAlways() {
         return preferences.getBoolean(context.getString(R.string.save_notebook_always_key), false);
-    }
-
-    /**
-     * @return MapInfo object with preferences
-     */
-    public synchronized MapInfo getLastMapInfo() {
-        int center_x = preferences.getInt("center_x", MapInfo.DEFAULT_CENTER_LATITUDE);
-        int center_y = preferences.getInt("center_y", MapInfo.DEFAULT_CENTER_LONGITUDE);
-        int zoom = preferences.getInt("zoom", MapInfo.DEFAULT_ZOOM);
-        return new MapInfo(center_x, center_y, zoom);
     }
 
     public boolean getKeepScreenOnPreference() {
