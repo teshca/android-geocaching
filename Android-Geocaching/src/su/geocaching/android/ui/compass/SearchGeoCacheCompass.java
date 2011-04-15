@@ -85,6 +85,13 @@ public class SearchGeoCacheCompass extends Activity {
     protected void onResume() {
         super.onResume();
         LogManager.d(TAG, "onResume");
+        if (controller.getSearchingGeoCache() == null) {
+            LogManager.e(TAG, "runLogic: null geocache. Finishing.");
+            Toast.makeText(this, this.getString(R.string.search_geocache_error_no_geocache), Toast.LENGTH_LONG).show();
+            finish();
+            return;
+        }
+        
         compassView.setKeepScreenOn(preferenceManager.getKeepScreenOnPreference());
         targetCoordinates.setText(GpsHelper.coordinateToString(controller.getSearchingGeoCache().getLocationGeoPoint()));
         if (locationManager.hasLocation()) {
@@ -103,13 +110,7 @@ public class SearchGeoCacheCompass extends Activity {
     /**
      * Run activity logic
      */
-    private void runLogic() {
-        if (controller.getSearchingGeoCache() == null) {
-            LogManager.e(TAG, "runLogic: null geocache. Finishing.");
-            Toast.makeText(this, this.getString(R.string.search_geocache_error_no_geocache), Toast.LENGTH_LONG).show();
-            finish();
-            return;
-        }
+    private void runLogic() {     
 
         if (locationManager.hasLocation()) {
             LogManager.d(TAG, "runLogic: location fixed. Update location with last known location");
@@ -208,10 +209,10 @@ public class SearchGeoCacheCompass extends Activity {
     @Override
     public void onWindowFocusChanged(boolean hasFocus) {
         super.onWindowFocusChanged(hasFocus);
-        if (!progressBarAnim.isRunning()) {
-            progressBarAnim.start();
-        } else {
+        if (progressBarAnim.isRunning()) {
             progressBarAnim.stop();
+        } else {
+            progressBarAnim.start();
         }
     }
 
@@ -248,9 +249,10 @@ public class SearchGeoCacheCompass extends Activity {
             if (progressBarView.getVisibility() == View.VISIBLE) {
                 progressBarView.setVisibility(View.GONE);
             }
-            statusText.setText(GpsHelper.distanceToString(GpsHelper.getDistanceBetween(controller.getSearchingGeoCache().getLocationGeoPoint(), location)));
+            float distance = GpsHelper.getDistanceBetween(controller.getSearchingGeoCache().getLocationGeoPoint(), location);
+            statusText.setText(GpsHelper.distanceToString(distance));
             statusText.setTextSize(getResources().getDimension(R.dimen.text_size_big));
-            if (GpsHelper.getDistanceBetween(location, controller.getSearchingGeoCache().getLocationGeoPoint()) < CLOSE_DISTANCE_TO_GC_VALUE) {
+            if (distance < CLOSE_DISTANCE_TO_GC_VALUE) {
                 // TODO: may be need make special preference?
                 controller.getLocationManager().updateFrequency(GpsUpdateFrequency.MAXIMAL);
             } else {
@@ -258,7 +260,7 @@ public class SearchGeoCacheCompass extends Activity {
             }
             compassView.setCacheDirection(GpsHelper.getBearingBetween(location, controller.getSearchingGeoCache().getLocationGeoPoint()));
             currentCoordinates.setText(GpsHelper.coordinateToString(GpsHelper.locationToGeoPoint(location)));
-            compassView.setDistance(GpsHelper.getDistanceBetween(location, controller.getSearchingGeoCache().getLocationGeoPoint()));
+            compassView.setDistance(distance);
         }
 
         @Override
