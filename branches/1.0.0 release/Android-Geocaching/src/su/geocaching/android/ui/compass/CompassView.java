@@ -125,9 +125,9 @@ public class CompassView extends SurfaceView implements SurfaceHolder.Callback, 
      */
     // TODO too many objects
     public void setHelper(String string) {
-        if (string.equals("CLASSIC")) {
+        if (string.equals("CLASSIC") && !(helper instanceof StandardCompassDrawing)) {
             helper = new StandardCompassDrawing();
-        } else if (string.equals("PALE")) {
+        } else if (string.equals("PALE") && !(helper instanceof WhiteStandardCompassDrawing)) {
             helper = new WhiteStandardCompassDrawing();
         }
         if (getWidth() > 0) {
