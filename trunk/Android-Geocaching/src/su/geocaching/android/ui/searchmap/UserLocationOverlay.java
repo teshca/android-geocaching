@@ -67,6 +67,15 @@ public class UserLocationOverlay extends com.google.android.maps.Overlay impleme
         paintCompassArrow.setARGB(200, 60, 200, 90);
 
         pathCompassArrow = new Path();
+        
+        int h = COMPASS_ARROW_HEIGHT / 2; // h/2
+        int w = COMPASS_ARROW_WIDTH / 2; // w/2
+
+        pathCompassArrow.lineTo(-w, h);
+        pathCompassArrow.lineTo(0, -h);
+        pathCompassArrow.lineTo(w, h);
+        pathCompassArrow.lineTo(0, 0);
+        pathCompassArrow.close();
     }
 
     /*
@@ -93,27 +102,11 @@ public class UserLocationOverlay extends com.google.android.maps.Overlay impleme
             }
         }
 
-        int h = COMPASS_ARROW_HEIGHT / 2; // h/2
-        int w = COMPASS_ARROW_WIDTH / 2; // w/2
-        double s = Math.sin(-bearing * Math.PI / 180);
-        double c = Math.cos(-bearing * Math.PI / 180);
-
-        float topX = (float) (-h * s + userPoint.x);
-        float topY = (float) (-h * c + userPoint.y);
-        float bottomLeftX = (float) (-w * c + h * s + userPoint.x);
-        float bottomLeftY = (float) (w * s + h * c + userPoint.y);
-        float bottomRightX = (float) (w * c + h * s + userPoint.x);
-        float bottomRightY = (float) (-w * s + h * c + userPoint.y);
-
-        pathCompassArrow.reset();
-        pathCompassArrow.moveTo(userPoint.x, userPoint.y);
-        pathCompassArrow.lineTo(bottomLeftX, bottomLeftY);
-        pathCompassArrow.lineTo(topX, topY);
-        pathCompassArrow.lineTo(bottomRightX, bottomRightY);
-        pathCompassArrow.lineTo(userPoint.x, userPoint.y);
-        pathCompassArrow.close();
+        canvas.save();
+        canvas.translate(userPoint.x, userPoint.y);
+        canvas.rotate(bearing);
         canvas.drawPath(pathCompassArrow, paintCompassArrow);
-        return;
+        canvas.restore();      
     }
 
     /**
