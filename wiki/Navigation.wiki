@@ -1,0 +1,3 @@
+*Главное*
+   * [ProjectDescription Описание приложения]
+   * [GeoCacheIcons Иконки тайников]
