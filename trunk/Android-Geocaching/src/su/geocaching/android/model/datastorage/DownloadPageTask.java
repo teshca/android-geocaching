@@ -52,7 +52,7 @@ public class DownloadPageTask extends AsyncTask<Void, Void, String> {
         if (isCacheStoredInDataBase && downloadedText == null) {
             downloadedText = dataBaseGetWebText(pageType);
         }
-        if (downloadedText == null) {
+        if (downloadedText == null || downloadedText.equals("")) {
             progressDialog = new ProgressDialog(context);
             progressDialog.setMessage(messageProgress);
             progressDialog.show();
@@ -62,7 +62,7 @@ public class DownloadPageTask extends AsyncTask<Void, Void, String> {
     @Override
     protected String doInBackground(Void... params) {
         String result = null;
-        if (downloadedText == null) {
+        if (downloadedText == null || downloadedText.equals("")) {
             if (Controller.getInstance().getConnectionManager().isInternetConnected()) {
                 try {
                     result = getWebText(cacheId);
@@ -143,7 +143,7 @@ public class DownloadPageTask extends AsyncTask<Void, Void, String> {
 
             }, 1000);
         }
-        if (downloadedText == null) {
+        if (downloadedText == null || downloadedText.equals("")) {
             progressDialog.dismiss();
         }
         super.onPostExecute(result);
