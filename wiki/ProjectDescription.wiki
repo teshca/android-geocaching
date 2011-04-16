@@ -36,7 +36,7 @@
 
 === Описание экрана выбора ===
 
-http://android-geocaching.googlecode.com/svn/trunk/files/wiki/images/select_cache_without_menu.png
+http://android-geocaching.googlecode.com/svn/trunk/files/wiki/images/screenshots1.0.0/screenshot2.png
 
 В верхней части экрана находится логотип российского геокэшинга, при нажатии на который будет совершен переход в главное меню приложения.
 
@@ -44,14 +44,14 @@ http://android-geocaching.googlecode.com/svn/trunk/files/wiki/images/select_cach
 
 Пролистав карту до нужного места, потребуется некоторое время для загрузки тайников из базы данных сайта [http://www.geocaching.su/ geocaching.su], в течении которого в правом верхнем углу будет крутиться иконка глобуса. По окончании загрузки, тайники будут отображены на карте иконками, соответствующими их параметрам. Подробнее об этом можно прочитать [http://code.google.com/p/android-geocaching/wiki/GeoCacheIcons здесь]. 
 
-При нажатии на иконку тайника произойдет переход на [http://code.google.com/p/android-geocaching/wiki/ShowGeoCacheInfo экран информации об этом тайнике].
+При нажатии на иконку тайника произойдет переход на экран информации об этом тайнике.
 
 Опция меню "Мое местоположение" быстро перенесет карту на текущее местоположение пользователя (может быть не точным: погрешность до 200м).
 
 === Настройки ===
 В меню настроек вам доступны несколько параметров:
 
-1. Тип карты - выбирайте между Спутником и Картой. Выбранный режим сохранится и для карты в режиме [http://code.google.com/p/android-geocaching/wiki/SearchGeoCacheMap Поиска тайника].
+1. Тип карты - выбирайте между Спутником и Картой. Выбранный режим сохранится и для карты в режиме Поиска тайника.
 
 2. Способ отображения тайников. В связи с тем, что при большом масштабе тайников на карте становится очень много и нажать пальцем на интересующий нас тайник становится невозможно, нами была реализована функция, которая группирует находящиеся рядом тайники и объединяет их под иконкой группы.
 Функция находится в режиме тестирования (beta)
@@ -62,7 +62,7 @@ http://android-geocaching.googlecode.com/svn/trunk/files/wiki/images/select_cach
 
 В этом режиме откроется карта с тайником.
 
-    http://android-geocaching.googlecode.com/svn/trunk/files/wiki/images/search_cache_with_menu.png 
+http://android-geocaching.googlecode.com/svn/trunk/files/wiki/images/screenshots1.0.0/screenshot3.png
 
 Нажатие на тайник откроет экран с [http://code.google.com/p/android-geocaching/wiki/ProjectDescription#3.Информация_о_тайнике информацией] о нем.
 
@@ -78,14 +78,13 @@ http://android-geocaching.googlecode.com/svn/trunk/files/wiki/images/select_cach
 
 ===2)Компас===
   
-    http://android-geocaching.googlecode.com/svn/trunk/files/wiki/images/compass_with_menu.png
+    http://android-geocaching.googlecode.com/svn/trunk/files/wiki/images/screenshots1.0.0/screenshot4.png
 
+Направление на тайник отображается зеленой стрелкой. Снизу показываются ваши текущие координаты, сверху - координаты цели.
 В меню компаса также доступны три опции:
  # Инфо - [http://code.google.com/p/android-geocaching/wiki/ProjectDescription#3.Информация_о_тайнике описание тайника]
  # [http://code.google.com/p/android-geocaching/wiki/ProjectDescription#1)Карта Карта] - перейти обратно на карту с поиском
  # Не выключать экран
-Чтобы точно по компасу идти в сторону тайника, необходимо совместить иконку тайника с синей  стрелкой так, чтобы она стала зеленой.
-  http://android-geocaching.googlecode.com/svn/trunk/files/wiki/images/compass_with_cache1.png http://android-geocaching.googlecode.com/svn/trunk/files/wiki/images/compass_with_cache2.png
 
 Компас нужен для того, чтобы точно определить, в какую сторону надо идти, а также для возможности поиска тайника при отсутствии интернета. Но карта также необходима. Так как на пути к тайнику может оказаться озеро, и по ней можно определить, с какой стороны его лучше обходить.
 
@@ -95,4 +94,4 @@ http://android-geocaching.googlecode.com/svn/trunk/files/wiki/images/select_cach
 
 После добавления тайника в "Избранное" тайник сохранится локально, и для просмотра [http://code.google.com/p/android-geocaching/wiki/ProjectDescription#3.Информация_о_тайнике информации] о нем, не нужен интернет. 
 
-    http://android-geocaching.googlecode.com/svn/trunk/files/wiki/images/Favorites.png
+    http://android-geocaching.googlecode.com/svn/trunk/files/wiki/images/screenshots1.0.0/screenshot6.png
