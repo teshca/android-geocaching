@@ -351,6 +351,13 @@ public class DbManager extends SQLiteOpenHelper {
         LogManager.d(TAG, "openDB");
         db = getWritableDatabase();
     }
+    
+    public void clearDB(){
+        openWritableDB();
+        LogManager.d(TAG, "clearDB");
+        db.delete(DATABASE_NAME_TABLE, null, null);
+        closeDB();
+    }
 
     /**
      * Method for close database
