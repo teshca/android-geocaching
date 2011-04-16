@@ -1,5 +1,9 @@
 package su.geocaching.android.ui;
 
+import java.net.MalformedURLException;
+import java.net.URI;
+import java.net.URL;
+import java.util.TooManyListenersException;
 import java.util.concurrent.ExecutionException;
 
 import su.geocaching.android.controller.Controller;
@@ -10,13 +14,17 @@ import su.geocaching.android.model.datastorage.DownloadPageTask;
 import su.geocaching.android.model.datatype.GeoCache;
 import android.app.Activity;
 import android.app.Dialog;
+import android.content.Intent;
+import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
+import android.webkit.DownloadListener;
 import android.webkit.WebView;
+import android.webkit.WebViewClient;
 import android.widget.CheckBox;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -36,6 +44,7 @@ public class GeoCacheInfoActivity extends Activity {
     }
 
     private WebView webView;
+    private WebViewClient webViewClient;
     private CheckBox cbFavoriteCache;
     private Controller controller;
     private DbManager dbManager;
@@ -77,10 +86,32 @@ public class GeoCacheInfoActivity extends Activity {
         tvStatusGeoCache.setText(controller.getResourceManager().getGeoCacheStatus(geoCache));
         ImageView image = (ImageView) findViewById(R.id.imageCache);
         image.setImageDrawable(controller.getResourceManager(this).getMarker(geoCache.getType(), geoCache.getStatus()));
+        webViewClient = new WebViewClient() {
+            @Override
+            public boolean shouldOverrideUrlLoading(WebView view, String url) {
+                String urlNotebook = String.format("http://pda.geocaching.su/note.php?cid=%d&mode=0", geoCache.getId());
+                String urlInfoGeocache = String.format("http://pda.geocaching.su/cache.php?cid=%d", geoCache.getId());
+                if (url.equals(urlNotebook)) {
+                    togglePageType();
+                    return true;
+                }
+                if (url.equals(urlInfoGeocache)) {
+                    togglePageType();
+                    return true;
+                }
+                Uri uri = Uri.parse(url);
+                startActivity(new Intent(Intent.ACTION_VIEW, uri));
+                return true;
+            };
+            @Override
+            public void onLoadResource(WebView view, String url) {
+                shouldOverrideUrlLoading(view, url);
+            }
+        };
         webView = (WebView) findViewById(R.id.info_web_brouse);
         cbFavoriteCache = (CheckBox) findViewById(R.id.info_geocache_add_del);
-
         webView.getSettings().setJavaScriptEnabled(true);
+        webView.setWebViewClient(webViewClient);
     }
 
     @Override
