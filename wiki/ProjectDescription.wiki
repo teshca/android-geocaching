@@ -1,9 +1,9 @@
 #summary Описание приложения
 #labels Featured
+#sidebar Navigation
 
 <wiki:toc max_depth="4" />
 
-#sidebar Navigation
 =О программе=
 
 Версия 1.0.0
