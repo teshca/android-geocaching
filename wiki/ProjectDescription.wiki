@@ -1,6 +1,6 @@
 #summary Описание приложения
 #labels Featured
-#sidebar Navigation
+#sidebar ProjectDescriptionNavigation
 
 <wiki:toc max_depth="4" />
 
