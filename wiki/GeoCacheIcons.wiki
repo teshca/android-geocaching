@@ -1,5 +1,5 @@
 #summary Иконки тайников
-#sidebar Navigation
+#sidebar ProjectDescriptionNavigation
 
 Данные иконки используются по всему приложению. Более подробно узнать о типах тайников можно на сайте [http://www.geocaching.su/?pn=15_1#2_1 геокешинга].
 * Стандартные иконки выполнены в стиле Google Maps.
