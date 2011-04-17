@@ -1,9 +1,5 @@
 package su.geocaching.android.ui;
 
-import java.net.MalformedURLException;
-import java.net.URI;
-import java.net.URL;
-import java.util.TooManyListenersException;
 import java.util.concurrent.ExecutionException;
 
 import su.geocaching.android.controller.Controller;
@@ -22,7 +18,6 @@ import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
-import android.webkit.DownloadListener;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
 import android.widget.CheckBox;
@@ -107,6 +102,11 @@ public class GeoCacheInfoActivity extends Activity {
             public void onLoadResource(WebView view, String url) {
                 shouldOverrideUrlLoading(view, url);
             }
+            @Override
+            public void onPageFinished(WebView view, String url) {
+                view.scrollTo(webViewScrollX, webViewScrollY);
+                super.onPageFinished(view, url);
+            };
         };
         webView = (WebView) findViewById(R.id.info_web_brouse);
         cbFavoriteCache = (CheckBox) findViewById(R.id.info_geocache_add_del);
@@ -131,10 +131,11 @@ public class GeoCacheInfoActivity extends Activity {
 
     @Override
     protected void onSaveInstanceState(Bundle outState) {
-        super.onSaveInstanceState(outState);
-        outState.putInt(PAGE_TYPE, pageType.ordinal());
+         outState.putInt(PAGE_TYPE, pageType.ordinal());
         outState.putInt(SCROOLX, webView.getScrollX());
         outState.putInt(SCROOLY, webView.getScrollY());
+        super.onSaveInstanceState(outState);
+        
     }
 
     @Override

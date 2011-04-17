@@ -135,13 +135,13 @@ public class DownloadPageTask extends AsyncTask<Void, Void, String> {
             } else {
                 webView.loadDataWithBaseURL(HTTP_PDA_GEOCACHING_SU, result, "text/html", HTML_ENCODING, null);
             }
-            webView.postDelayed(new Runnable() {
+          /*  webView.postDelayed(new Runnable() {
                 @Override
                 public void run() {
-                    webView.scrollTo(scroolX, scroolY);
+                   // webView.scrollTo(scroolX, scroolY);
                 }
 
-            }, 1000);
+            }, 1000);*/
         }
         if (downloadedText == null || downloadedText.equals("")) {
             progressDialog.dismiss();
