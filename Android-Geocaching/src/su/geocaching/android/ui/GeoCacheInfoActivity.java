@@ -33,6 +33,7 @@ public class GeoCacheInfoActivity extends Activity {
     private static final String GEOCACHE_INFO_ACTIVITY_FOLDER = "/GeoCacheInfoActivity";
     private static final String HTML_ENCODING = "UTF-8";
     private static final String PAGE_TYPE = "page type", SCROOLX = "scrollX", SCROOLY = "scrollY", ZOOM = "ZOOM";
+
     public enum PageType {
         INFO, NOTEBOOK
     }
@@ -44,7 +45,7 @@ public class GeoCacheInfoActivity extends Activity {
     private DbManager dbManager;
     private GeoCache geoCache;
     private AsyncTask<Void, Void, String> infoTask, notebookTask;
-    
+
     private PageType pageType = PageType.INFO;
     private float webViewZoom;
     private int webViewScrollY, webViewScrollX;
@@ -90,14 +91,21 @@ public class GeoCacheInfoActivity extends Activity {
                     togglePageType();
                     return true;
                 }
-                if (url.equals(urlInfoGeocache)) {
-                    togglePageType();
-                    return true;
+
+                if (url.regionMatches(0, urlNotebook, 0, urlNotebook.length() - 1)) {
+                    if (url.length() == urlNotebook.length()) {
+                        togglePageType();
+                        return true;
+                    }
+                    else{
+                        return false;
+                    }
                 }
                 Uri uri = Uri.parse(url);
                 startActivity(new Intent(Intent.ACTION_VIEW, uri));
                 return true;
             };
+
             @Override
             public void onLoadResource(WebView view, String url) {
                 shouldOverrideUrlLoading(view, url);
@@ -128,12 +136,12 @@ public class GeoCacheInfoActivity extends Activity {
 
     @Override
     protected void onSaveInstanceState(Bundle outState) {
-         outState.putInt(PAGE_TYPE, pageType.ordinal());
+        outState.putInt(PAGE_TYPE, pageType.ordinal());
         outState.putInt(SCROOLX, webView.getScrollX());
         outState.putInt(SCROOLY, webView.getScrollY());
         outState.putFloat(ZOOM, webView.getScale());
         super.onSaveInstanceState(outState);
-        
+
     }
 
     @Override
