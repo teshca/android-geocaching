@@ -22,6 +22,7 @@ public class FavoritesFolder extends AbstractCacheFolder {
 
     private static final String TAG = FavoritesFolder.class.getCanonicalName();
     private static final String FAVORITES_FOLDER = "/FavoritesActivity";
+
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -42,7 +43,7 @@ public class FavoritesFolder extends AbstractCacheFolder {
                     R.id.favorite_list_text_view_name, R.id.favorites_row_type_text, R.id.favorites_row_status_text });
             lvListShowCache.setAdapter(simpleAdapter);
         }
-       
+
         super.onResume();
     }
 
@@ -52,37 +53,36 @@ public class FavoritesFolder extends AbstractCacheFolder {
         intent.putExtra(GeoCache.class.getCanonicalName(), favoritesList.get(arg2));
         startActivity(intent);
     }
-    
+
     @Override
     public boolean onPrepareOptionsMenu(Menu menu) {
-        if (favoritesList.isEmpty()){
+        if (favoritesList.isEmpty()) {
             menu.getItem(0).setEnabled(false);
-        }
-        else{
+        } else {
             menu.getItem(0).setEnabled(true);
         }
         return super.onPrepareOptionsMenu(menu);
     }
-    
+
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         MenuInflater inflater = getMenuInflater();
         inflater.inflate(R.menu.favorites_menu, menu);
         return true;
     }
-    
+
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
-        case R.id.delete_all_cache_in_database:
-            createAlertDialog();
-            return true;
-        default:
-            return super.onOptionsItemSelected(item);
+            case R.id.delete_all_cache_in_database:
+                createAlertDialog();
+                return true;
+            default:
+                return super.onOptionsItemSelected(item);
         }
     }
-    
-    private void createAlertDialog(){
+
+    private void createAlertDialog() {
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
         builder.setMessage(this.getString(R.string.ask_delet_all_cache_in_database)).setPositiveButton(this.getString(R.string.yes), new DialogInterface.OnClickListener() {
             public void onClick(DialogInterface dialog, int id) {
@@ -99,5 +99,5 @@ public class FavoritesFolder extends AbstractCacheFolder {
         AlertDialog turnOnInternetAlert = builder.create();
         turnOnInternetAlert.show();
     }
-    
+
 }
