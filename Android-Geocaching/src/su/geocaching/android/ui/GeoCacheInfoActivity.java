@@ -32,8 +32,7 @@ public class GeoCacheInfoActivity extends Activity {
     private static final String TAG = GeoCacheInfoActivity.class.getCanonicalName();
     private static final String GEOCACHE_INFO_ACTIVITY_FOLDER = "/GeoCacheInfoActivity";
     private static final String HTML_ENCODING = "UTF-8";
-    private static final String PAGE_TYPE = "page type", SCROOLX = "scrollX", SCROOLY = "scrollY";
-
+    private static final String PAGE_TYPE = "page type", SCROOLX = "scrollX", SCROOLY = "scrollY", ZOOM = "ZOOM";
     public enum PageType {
         INFO, NOTEBOOK
     }
@@ -45,8 +44,9 @@ public class GeoCacheInfoActivity extends Activity {
     private DbManager dbManager;
     private GeoCache geoCache;
     private AsyncTask<Void, Void, String> infoTask, notebookTask;
-
+    
     private PageType pageType = PageType.INFO;
+    private float webViewZoom;
     private int webViewScrollY, webViewScrollX;
     private boolean isCacheStoredInDataBase;
 
@@ -107,6 +107,7 @@ public class GeoCacheInfoActivity extends Activity {
         cbFavoriteCache = (CheckBox) findViewById(R.id.info_geocache_add_del);
         webView.getSettings().setJavaScriptEnabled(true);
         webView.setWebViewClient(webViewClient);
+        webView.getSettings().setBuiltInZoomControls(true);
     }
 
     @Override
@@ -121,7 +122,8 @@ public class GeoCacheInfoActivity extends Activity {
         pageType = PageType.values()[savedInstanceState.getInt(PAGE_TYPE)];
         webViewScrollX = savedInstanceState.getInt(SCROOLX, 0);
         webViewScrollY = savedInstanceState.getInt(SCROOLY, 0);
-
+        webViewZoom = savedInstanceState.getFloat(ZOOM);
+        webView.setInitialScale(Math.round(100 * webViewZoom));
     }
 
     @Override
@@ -129,6 +131,7 @@ public class GeoCacheInfoActivity extends Activity {
          outState.putInt(PAGE_TYPE, pageType.ordinal());
         outState.putInt(SCROOLX, webView.getScrollX());
         outState.putInt(SCROOLY, webView.getScrollY());
+        outState.putFloat(ZOOM, webView.getScale());
         super.onSaveInstanceState(outState);
         
     }
