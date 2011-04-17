@@ -69,7 +69,7 @@ http://android-geocaching.googlecode.com/svn/trunk/files/wiki/images/screenshots
 
 http://android-geocaching.googlecode.com/svn/trunk/files/wiki/images/screenshots1.0.0/screenshot3.png
 
-Нажатие на тайник откроет экран с [http://code.google.com/p/android-geocaching/wiki/ProjectDescription#3.Информация_о_тайнике информацией] о нем. Нажатие на зелёную стрелку, обозначающую местоположение пользователя, откроет режим поиска по компасу. Двойной клик на карте приблизит карту с центром в точке клика.
+Нажатие на тайник откроет экран с [http://code.google.com/p/android-geocaching/wiki/ProjectDescription#3.Информация_о_тайнике информацией] о нем. Нажатие на зелёную стрелку, обозначающую местоположение пользователя, откроет режим поиска по компасу. Двойной клик на карте приблизит карту с центром в точке клика. Долгое нажатие на карте предложит создать в точке нажатия контрольную точку, она станет активной.
 
 В меню карты доступны шесть опций:
  # Инфо - [http://code.google.com/p/android-geocaching/wiki/ProjectDescription#3.Информация_о_тайнике информация] о тайнике, который вы ищете
