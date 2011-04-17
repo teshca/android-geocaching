@@ -2,8 +2,6 @@
 #labels Featured
 #sidebar ProjectDescriptionNavigation
 
-<wiki:toc max_depth="4" />
-
 =О программе=
 
 Версия 1.0.0
