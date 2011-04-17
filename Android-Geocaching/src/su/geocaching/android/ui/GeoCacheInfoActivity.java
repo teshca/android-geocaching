@@ -102,11 +102,6 @@ public class GeoCacheInfoActivity extends Activity {
             public void onLoadResource(WebView view, String url) {
                 shouldOverrideUrlLoading(view, url);
             }
-            @Override
-            public void onPageFinished(WebView view, String url) {
-                view.scrollTo(webViewScrollX, webViewScrollY);
-                super.onPageFinished(view, url);
-            };
         };
         webView = (WebView) findViewById(R.id.info_web_brouse);
         cbFavoriteCache = (CheckBox) findViewById(R.id.info_geocache_add_del);
