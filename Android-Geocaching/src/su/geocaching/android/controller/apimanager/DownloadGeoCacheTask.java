@@ -3,9 +3,9 @@ package su.geocaching.android.controller.apimanager;
 import android.os.AsyncTask;
 import com.google.android.maps.GeoPoint;
 import su.geocaching.android.controller.Controller;
-import su.geocaching.android.model.datatype.GeoCache;
-import su.geocaching.android.model.datatype.GeoCacheStatus;
-import su.geocaching.android.model.datatype.GeoCacheType;
+import su.geocaching.android.model.GeoCache;
+import su.geocaching.android.model.GeoCacheStatus;
+import su.geocaching.android.model.GeoCacheType;
 import su.geocaching.android.ui.selectgeocache.SelectGeoCacheMap;
 
 import java.util.EnumSet;

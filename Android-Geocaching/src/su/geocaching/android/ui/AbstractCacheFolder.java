@@ -6,10 +6,10 @@ import java.util.List;
 import java.util.Map;
 
 import su.geocaching.android.controller.Controller;
+import su.geocaching.android.controller.DbManager;
 import su.geocaching.android.controller.ResourceManager;
 import su.geocaching.android.controller.UiHelper;
-import su.geocaching.android.model.datastorage.DbManager;
-import su.geocaching.android.model.datatype.GeoCache;
+import su.geocaching.android.model.GeoCache;
 
 import android.app.Activity;
 import android.os.Bundle;

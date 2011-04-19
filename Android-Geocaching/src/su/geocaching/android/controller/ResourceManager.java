@@ -3,9 +3,9 @@ package su.geocaching.android.controller;
 import android.content.Context;
 import android.content.res.Resources;
 import android.graphics.drawable.Drawable;
-import su.geocaching.android.model.datatype.GeoCache;
-import su.geocaching.android.model.datatype.GeoCacheStatus;
-import su.geocaching.android.model.datatype.GeoCacheType;
+import su.geocaching.android.model.GeoCache;
+import su.geocaching.android.model.GeoCacheStatus;
+import su.geocaching.android.model.GeoCacheType;
 import su.geocaching.android.ui.R;
 
 /**

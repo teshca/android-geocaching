@@ -10,7 +10,7 @@ import android.view.View;
 import android.widget.Toast;
 import su.geocaching.android.controller.Controller;
 import su.geocaching.android.controller.LogManager;
-import su.geocaching.android.model.datatype.GeoCache;
+import su.geocaching.android.model.GeoCache;
 import su.geocaching.android.ui.searchmap.SearchGeoCacheMap;
 import su.geocaching.android.ui.selectgeocache.SelectGeoCacheMap;
 

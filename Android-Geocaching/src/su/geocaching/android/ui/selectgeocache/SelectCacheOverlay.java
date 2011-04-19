@@ -7,7 +7,7 @@ import android.view.MotionEvent;
 import com.google.android.maps.MapView;
 import com.google.android.maps.OverlayItem;
 import su.geocaching.android.controller.UiHelper;
-import su.geocaching.android.model.datatype.GeoCache;
+import su.geocaching.android.model.GeoCache;
 import su.geocaching.android.ui.geocachemap.GeoCacheOverlayItem;
 
 import java.lang.reflect.InvocationTargetException;

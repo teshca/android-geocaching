@@ -1,7 +1,8 @@
 package su.geocaching.android.controller.apimanager;
 
 import com.google.android.maps.GeoPoint;
-import su.geocaching.android.model.datatype.GeoCache;
+
+import su.geocaching.android.model.GeoCache;
 
 import java.util.List;
 

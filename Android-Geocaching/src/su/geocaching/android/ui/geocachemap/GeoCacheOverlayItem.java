@@ -4,8 +4,8 @@ import android.content.Context;
 import com.google.android.maps.GeoPoint;
 import com.google.android.maps.OverlayItem;
 import su.geocaching.android.controller.Controller;
-import su.geocaching.android.model.datatype.GeoCache;
-import su.geocaching.android.model.datatype.GeoCacheType;
+import su.geocaching.android.model.GeoCache;
+import su.geocaching.android.model.GeoCacheType;
 
 /**
  * Describes overlay item which contains GeoCache object

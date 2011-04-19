@@ -2,10 +2,9 @@ package su.geocaching.android.controller;
 
 import java.util.EnumSet;
 
-import su.geocaching.android.model.datastorage.DbManager;
-import su.geocaching.android.model.datatype.GeoCache;
-import su.geocaching.android.model.datatype.GeoCacheStatus;
-import su.geocaching.android.model.datatype.GeoCacheType;
+import su.geocaching.android.model.GeoCache;
+import su.geocaching.android.model.GeoCacheStatus;
+import su.geocaching.android.model.GeoCacheType;
 import su.geocaching.android.ui.R;
 import su.geocaching.android.ui.selectgeocache.MapInfo;
 import android.content.Context;

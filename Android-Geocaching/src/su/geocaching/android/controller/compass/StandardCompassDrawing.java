@@ -11,7 +11,7 @@ import su.geocaching.android.ui.R;
  * 
  * @author Nikita Bumakov
  */
-public class StandardCompassDrawing extends CompassDrawingHelper {
+public class StandardCompassDrawing extends AbstractCompassDrawing {
 
     protected Paint bitmapPaint = new Paint();
     protected Paint textPaint = new Paint();

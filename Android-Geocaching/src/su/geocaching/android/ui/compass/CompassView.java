@@ -6,7 +6,7 @@ import android.util.AttributeSet;
 import android.view.SurfaceHolder;
 import android.view.SurfaceView;
 import su.geocaching.android.controller.LogManager;
-import su.geocaching.android.controller.compass.CompassDrawingHelper;
+import su.geocaching.android.controller.compass.AbstractCompassDrawing;
 import su.geocaching.android.controller.compass.ICompassAnimation;
 import su.geocaching.android.controller.compass.StandardCompassDrawing;
 import su.geocaching.android.controller.compass.WhiteStandardCompassDrawing;
@@ -20,7 +20,7 @@ public class CompassView extends SurfaceView implements SurfaceHolder.Callback, 
 
     private static final String TAG = CompassView.class.getCanonicalName();
 
-    private CompassDrawingHelper helper;
+    private AbstractCompassDrawing helper;
 
     private float northDirection; // in degrees
     private float cacheDirection;
@@ -115,7 +115,7 @@ public class CompassView extends SurfaceView implements SurfaceHolder.Callback, 
     /**
      * @return the helper
      */
-    public CompassDrawingHelper getHelper() {
+    public AbstractCompassDrawing getHelper() {
         return helper;
     }
 

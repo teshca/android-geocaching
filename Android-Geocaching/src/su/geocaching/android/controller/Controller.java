@@ -7,8 +7,7 @@ import com.google.android.maps.GeoPoint;
 import su.geocaching.android.controller.apimanager.ApiManager;
 import su.geocaching.android.controller.apimanager.DownloadGeoCacheTask;
 import su.geocaching.android.controller.apimanager.IApiManager;
-import su.geocaching.android.model.datastorage.DbManager;
-import su.geocaching.android.model.datatype.GeoCache;
+import su.geocaching.android.model.GeoCache;
 import su.geocaching.android.ui.selectgeocache.SelectGeoCacheMap;
 
 /**

@@ -1,4 +1,4 @@
-package su.geocaching.android.model.datatype;
+package su.geocaching.android.model;
 
 import android.os.Parcel;
 import android.os.Parcelable;

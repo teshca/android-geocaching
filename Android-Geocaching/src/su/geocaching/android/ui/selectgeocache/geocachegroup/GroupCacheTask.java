@@ -2,7 +2,7 @@ package su.geocaching.android.ui.selectgeocache.geocachegroup;
 
 import android.os.AsyncTask;
 import su.geocaching.android.controller.LogManager;
-import su.geocaching.android.model.datatype.GeoCache;
+import su.geocaching.android.model.GeoCache;
 import su.geocaching.android.ui.geocachemap.GeoCacheOverlayItem;
 import su.geocaching.android.ui.selectgeocache.SelectGeoCacheMap;
 

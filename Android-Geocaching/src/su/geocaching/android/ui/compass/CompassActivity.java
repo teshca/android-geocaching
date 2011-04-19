@@ -12,7 +12,7 @@ import su.geocaching.android.controller.PreferencesManager;
 import su.geocaching.android.controller.UiHelper;
 import su.geocaching.android.controller.compass.CompassSpeed;
 import su.geocaching.android.controller.compass.SmoothCompassThread;
-import su.geocaching.android.model.datatype.GeoCache;
+import su.geocaching.android.model.GeoCache;
 import su.geocaching.android.ui.R;
 import android.app.Activity;
 import android.content.Intent;
@@ -36,8 +36,8 @@ import android.widget.Toast;
  * @author Android-Geocaching.su student project team
  * @since October 2010
  */
-public class SearchGeoCacheCompass extends Activity {
-    private static final String TAG = SearchGeoCacheCompass.class.getCanonicalName();
+public class CompassActivity extends Activity {
+    private static final String TAG = CompassActivity.class.getCanonicalName();
     private static final String COMPASS_ACTIVITY = "/CompassActivity";
 
     private SmoothCompassThread animationThread;
