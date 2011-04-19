@@ -3,10 +3,10 @@ package su.geocaching.android.ui;
 import java.util.concurrent.ExecutionException;
 
 import su.geocaching.android.controller.Controller;
+import su.geocaching.android.controller.DownloadPageTask;
 import su.geocaching.android.controller.LogManager;
-import su.geocaching.android.model.datastorage.DownloadPageTask;
-import su.geocaching.android.model.datatype.GeoCache;
-import su.geocaching.android.ui.GeoCacheInfoActivity.PageType;
+import su.geocaching.android.model.GeoCache;
+import su.geocaching.android.ui.InfoActivity.PageType;
 import android.app.Dialog;
 import android.content.Context;
 import android.os.AsyncTask;

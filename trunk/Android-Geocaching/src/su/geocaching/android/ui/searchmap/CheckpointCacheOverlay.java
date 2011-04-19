@@ -5,8 +5,8 @@ import java.util.List;
 
 import su.geocaching.android.controller.Controller;
 import su.geocaching.android.controller.UiHelper;
-import su.geocaching.android.model.datatype.GeoCache;
-import su.geocaching.android.model.datatype.GeoCacheType;
+import su.geocaching.android.model.GeoCache;
+import su.geocaching.android.model.GeoCacheType;
 import su.geocaching.android.ui.geocachemap.GeoCacheOverlayItem;
 import android.app.Activity;
 import android.graphics.drawable.Drawable;

@@ -4,7 +4,7 @@ import su.geocaching.android.controller.CheckpointManager;
 import su.geocaching.android.controller.Controller;
 import su.geocaching.android.controller.GpsHelper;
 import su.geocaching.android.controller.LogManager;
-import su.geocaching.android.model.datatype.GeoCache;
+import su.geocaching.android.model.GeoCache;
 import su.geocaching.android.ui.R;
 import android.app.Activity;
 import android.os.Bundle;

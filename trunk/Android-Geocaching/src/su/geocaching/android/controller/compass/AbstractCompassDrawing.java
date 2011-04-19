@@ -10,7 +10,7 @@ import su.geocaching.android.ui.R;
  * 
  * @author Nikita Bumakov
  */
-public abstract class CompassDrawingHelper {
+public abstract class AbstractCompassDrawing {
 
     public static final String AZIMUTH_FORMAT = "%.1f°";
     protected static final int DEFAULT_NEEDLE_WIDTH = 8;
@@ -28,7 +28,7 @@ public abstract class CompassDrawingHelper {
         this.distance = distance;
     }
 
-    public CompassDrawingHelper() {
+    public AbstractCompassDrawing() {
         bgColor = Color.parseColor(Controller.getInstance().getResourceManager().getString(R.color.menu_background));
     }
 

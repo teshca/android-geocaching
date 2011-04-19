@@ -5,7 +5,7 @@ import org.xml.sax.InputSource;
 import org.xml.sax.SAXException;
 import su.geocaching.android.controller.Controller;
 import su.geocaching.android.controller.LogManager;
-import su.geocaching.android.model.datatype.GeoCache;
+import su.geocaching.android.model.GeoCache;
 
 import javax.xml.parsers.ParserConfigurationException;
 import javax.xml.parsers.SAXParser;

@@ -1,13 +1,11 @@
-package su.geocaching.android.model.datastorage;
+package su.geocaching.android.controller;
 
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.net.URL;
 
-import su.geocaching.android.controller.Controller;
-import su.geocaching.android.controller.LogManager;
-import su.geocaching.android.ui.GeoCacheInfoActivity.PageType;
+import su.geocaching.android.ui.InfoActivity.PageType;
 import su.geocaching.android.ui.R;
 import android.app.ProgressDialog;
 import android.content.Context;

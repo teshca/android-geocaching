@@ -1,6 +1,6 @@
 package su.geocaching.android.ui.selectgeocache.geocachegroup;
 
-import su.geocaching.android.model.datatype.GeoCache;
+import su.geocaching.android.model.GeoCache;
 
 /**
  * @author Yuri Denison; yuri.denison@gmail.com

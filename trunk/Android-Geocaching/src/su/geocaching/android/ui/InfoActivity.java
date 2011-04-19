@@ -3,11 +3,11 @@ package su.geocaching.android.ui;
 import java.util.concurrent.ExecutionException;
 
 import su.geocaching.android.controller.Controller;
+import su.geocaching.android.controller.DbManager;
+import su.geocaching.android.controller.DownloadPageTask;
 import su.geocaching.android.controller.LogManager;
 import su.geocaching.android.controller.UiHelper;
-import su.geocaching.android.model.datastorage.DbManager;
-import su.geocaching.android.model.datastorage.DownloadPageTask;
-import su.geocaching.android.model.datatype.GeoCache;
+import su.geocaching.android.model.GeoCache;
 import android.app.Activity;
 import android.app.Dialog;
 import android.content.Intent;
@@ -27,9 +27,9 @@ import android.widget.TextView;
 /**
  * @author Alekseenko Vladimir
  */
-public class GeoCacheInfoActivity extends Activity {
+public class InfoActivity extends Activity {
 
-    private static final String TAG = GeoCacheInfoActivity.class.getCanonicalName();
+    private static final String TAG = InfoActivity.class.getCanonicalName();
     private static final String GEOCACHE_INFO_ACTIVITY_FOLDER = "/GeoCacheInfoActivity";
     private static final String HTML_ENCODING = "UTF-8";
     private static final String PAGE_TYPE = "page type", SCROOLX = "scrollX", SCROOLY = "scrollY", ZOOM = "ZOOM";

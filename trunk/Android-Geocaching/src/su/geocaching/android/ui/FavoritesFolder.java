@@ -2,7 +2,7 @@ package su.geocaching.android.ui;
 
 import su.geocaching.android.controller.Controller;
 import su.geocaching.android.controller.LogManager;
-import su.geocaching.android.model.datatype.GeoCache;
+import su.geocaching.android.model.GeoCache;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -49,7 +49,7 @@ public class FavoritesFolder extends AbstractCacheFolder {
 
     @Override
     public void onItemClick(AdapterView<?> arg0, View arg1, int arg2, long arg3) {
-        Intent intent = new Intent(this, GeoCacheInfoActivity.class);
+        Intent intent = new Intent(this, InfoActivity.class);
         intent.putExtra(GeoCache.class.getCanonicalName(), favoritesList.get(arg2));
         startActivity(intent);
     }
