@@ -1,4 +1,4 @@
-package su.geocaching.android.ui.selectgeocache.geocachegroup;
+package su.geocaching.android.controller.selectlogic.geocachegroup;
 
 import su.geocaching.android.model.GeoCache;
 

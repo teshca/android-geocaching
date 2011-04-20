@@ -6,25 +6,25 @@ import su.geocaching.android.controller.Controller;
 import su.geocaching.android.model.GeoCache;
 import su.geocaching.android.model.GeoCacheStatus;
 import su.geocaching.android.model.GeoCacheType;
-import su.geocaching.android.ui.selectgeocache.SelectGeoCacheMap;
+import su.geocaching.android.ui.selectmap.SelectMap;
 
 import java.util.EnumSet;
 import java.util.List;
 import java.util.ListIterator;
 
 /**
- * Class downloads List of GeoCaches and adds them to SelectGeoCacheMap
+ * Class downloads List of GeoCaches and adds them to SelectMap
  *
  * @author Nikita Bumakov
  */
 public class DownloadGeoCacheTask extends AsyncTask<GeoPoint, Integer, List<GeoCache>> {
-    private final SelectGeoCacheMap map;
+    private final SelectMap map;
     private final IApiManager apiManager;
     private final Controller controller;
     private static final int MIN_GROUP_CACHE_NUMBER = 8;
 
 
-    public DownloadGeoCacheTask(IApiManager apiManager, SelectGeoCacheMap map) {
+    public DownloadGeoCacheTask(IApiManager apiManager, SelectMap map) {
         this.apiManager = apiManager;
         this.map = map;
         controller = Controller.getInstance();

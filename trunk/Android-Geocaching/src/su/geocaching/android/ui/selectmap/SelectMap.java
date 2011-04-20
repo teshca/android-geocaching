@@ -1,4 +1,4 @@
-package su.geocaching.android.ui.selectgeocache;
+package su.geocaching.android.ui.selectmap;
 
 import android.app.Activity;
 import android.app.AlertDialog;
@@ -18,13 +18,13 @@ import android.widget.ImageView;
 import android.widget.Toast;
 import com.google.android.maps.*;
 import su.geocaching.android.controller.*;
+import su.geocaching.android.controller.selectlogic.geocachegroup.GroupCacheTask;
+import su.geocaching.android.controller.selectlogic.mapupdatetimer.MapUpdateTimer;
 import su.geocaching.android.model.GeoCache;
 import su.geocaching.android.model.GeoCacheStatus;
 import su.geocaching.android.model.GeoCacheType;
 import su.geocaching.android.ui.R;
 import su.geocaching.android.ui.geocachemap.GeoCacheOverlayItem;
-import su.geocaching.android.ui.selectgeocache.geocachegroup.GroupCacheTask;
-import su.geocaching.android.ui.selectgeocache.timer.MapUpdateTimer;
 
 import java.util.List;
 
@@ -32,8 +32,8 @@ import java.util.List;
  * @author Yuri Denison
  * @since 04.11.2010
  */
-public class SelectGeoCacheMap extends MapActivity implements IInternetAware {
-    private static final String TAG = SelectGeoCacheMap.class.getCanonicalName();
+public class SelectMap extends MapActivity implements IInternetAware {
+    private static final String TAG = SelectMap.class.getCanonicalName();
     private static final int MAX_CACHE_NUMBER = 300;
     private static final String SELECT_ACTIVITY_FOLDER = "/SelectActivity";
     private MyLocationOverlay userOverlay;
@@ -85,7 +85,7 @@ public class SelectGeoCacheMap extends MapActivity implements IInternetAware {
         map.getOverlays().add(userOverlay);
         map.invalidate();
         LogManager.d(TAG, "onCreate Done");
-        
+
         Controller.getInstance().getGoogleAnalyticsManager().trackPageView(SELECT_ACTIVITY_FOLDER);
     }
 
@@ -186,7 +186,7 @@ public class SelectGeoCacheMap extends MapActivity implements IInternetAware {
                 }
                 return true;
             case R.id.mapSettings:
-                startActivity(new Intent(this, SelectGeoCacheMapPreferenceActivity.class));
+                startActivity(new Intent(this, SelectMapPreference.class));
                 return true;
             default:
                 return super.onOptionsItemSelected(item);

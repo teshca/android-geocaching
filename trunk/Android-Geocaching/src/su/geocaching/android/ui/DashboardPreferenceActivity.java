@@ -9,11 +9,12 @@ import android.preference.PreferenceActivity;
 import su.geocaching.android.controller.Controller;
 import su.geocaching.android.controller.LogManager;
 import su.geocaching.android.ui.compass.CompassPreferenceActivity;
-import su.geocaching.android.ui.selectgeocache.SelectGeoCacheMapPreferenceActivity;
+import su.geocaching.android.ui.selectmap.SelectMapPreference;
 
 public class DashboardPreferenceActivity extends PreferenceActivity {
     private static final String TAG = DashboardPreferenceActivity.class.getCanonicalName();
-    private static final String DASHBOARD_PREFERENCE_ACTIVITY_FOLDER ="/DashboardPreferenceActivity";
+    private static final String DASHBOARD_PREFERENCE_ACTIVITY_FOLDER = "/DashboardPreferenceActivity";
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -24,9 +25,9 @@ public class DashboardPreferenceActivity extends PreferenceActivity {
 
         Preference mapPreference = findPreference("mapPreference");
         mapPreference.setOnPreferenceClickListener(new OnPreferenceClickListener() {
-            
+
             public boolean onPreferenceClick(Preference preference) {
-                startActivity(new Intent(getBaseContext(), SelectGeoCacheMapPreferenceActivity.class));
+                startActivity(new Intent(getBaseContext(), SelectMapPreference.class));
                 return true;
             }
         });
@@ -39,7 +40,7 @@ public class DashboardPreferenceActivity extends PreferenceActivity {
                 return true;
             }
         });
-        
+
         Preference energySavingPreference = findPreference("energySavingPreference");
         energySavingPreference.setOnPreferenceClickListener(new OnPreferenceClickListener() {
 
@@ -49,14 +50,14 @@ public class DashboardPreferenceActivity extends PreferenceActivity {
             }
         });
 
-       /* Preference internetAndGpsPreference = findPreference("internetAndGpsPreference");
-        internetAndGpsPreference.setOnPreferenceClickListener(new OnPreferenceClickListener() {
+        /* Preference internetAndGpsPreference = findPreference("internetAndGpsPreference");
+    internetAndGpsPreference.setOnPreferenceClickListener(new OnPreferenceClickListener() {
 
-            public boolean onPreferenceClick(Preference preference) {
-                startActivity(new Intent(getBaseContext(), InternetAndGpsPreferenceActivity.class));
-                return true;
-            }
-        });    */
+        public boolean onPreferenceClick(Preference preference) {
+            startActivity(new Intent(getBaseContext(), InternetAndGpsPreferenceActivity.class));
+            return true;
+        }
+    });    */
 
 
         Preference internetPreference = findPreference("internetPreference");

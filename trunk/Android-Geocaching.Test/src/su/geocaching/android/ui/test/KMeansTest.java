@@ -2,10 +2,10 @@ package su.geocaching.android.ui.test;
 
 import android.test.AndroidTestCase;
 import su.geocaching.android.controller.LogManager;
-import su.geocaching.android.model.datatype.GeoCache;
-import su.geocaching.android.ui.selectgeocache.geocachegroup.Centroid;
-import su.geocaching.android.ui.selectgeocache.geocachegroup.GeoCacheView;
-import su.geocaching.android.ui.selectgeocache.geocachegroup.KMeans;
+import su.geocaching.android.controller.selectlogic.geocachegroup.Centroid;
+import su.geocaching.android.controller.selectlogic.geocachegroup.GeoCacheView;
+import su.geocaching.android.controller.selectlogic.geocachegroup.KMeans;
+import su.geocaching.android.model.GeoCache;
 
 import java.util.LinkedList;
 import java.util.List;
