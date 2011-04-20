@@ -29,7 +29,7 @@ public class DashboardActivity extends Activity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         LogManager.d(TAG, "onCreate");
-        setContentView(R.layout.dashboard_menu);
+        setContentView(R.layout.dashboard_view);
 
         Controller.getInstance().getGoogleAnalyticsManager().trackPageView(DASHBOARD_ACTIVITY_FOLDER);
     }

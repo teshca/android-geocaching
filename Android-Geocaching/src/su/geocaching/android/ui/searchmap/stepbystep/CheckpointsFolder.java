@@ -66,7 +66,7 @@ public class CheckpointsFolder extends AbstractCacheFolder implements OnItemClic
         } else {
             favoritesList.add(0, Controller.getInstance().getPreferencesManager().getLastSearchedGeoCache());
             tvNoCache.setVisibility(View.GONE);
-            SimpleAdapter simpleAdapter = new SimpleAdapter(this, createGeoCacheList(favoritesList), R.layout.row_in_favorit_rolder, keys, new int[] { R.id.favorite_list_image_button_type,
+            SimpleAdapter simpleAdapter = new SimpleAdapter(this, createGeoCacheList(favoritesList), R.layout.row_in_favorite_folder, keys, new int[] { R.id.favorite_list_image_button_type,
                     R.id.favorite_list_text_view_name, R.id.favorites_row_type_text, R.id.favorites_row_status_text });
             lvListShowCache.setAdapter(simpleAdapter);
         }

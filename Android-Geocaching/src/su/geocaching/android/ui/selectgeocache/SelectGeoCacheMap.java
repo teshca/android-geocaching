@@ -167,7 +167,7 @@ public class SelectGeoCacheMap extends MapActivity implements IInternetAware {
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         MenuInflater inflater = getMenuInflater();
-        inflater.inflate(R.menu.select_geocache_map, menu);
+        inflater.inflate(R.menu.select_geocache_map_menu, menu);
         return true;
     }
 

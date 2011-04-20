@@ -164,7 +164,7 @@ public class CompassActivity extends Activity {
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         MenuInflater inflater = getMenuInflater();
-        inflater.inflate(R.menu.search_geocache_compass, menu);
+        inflater.inflate(R.menu.search_geocache_compass_menu, menu);
         return true;
     }
 

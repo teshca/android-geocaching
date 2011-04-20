@@ -40,7 +40,7 @@ public abstract class AbstractCacheFolder extends Activity implements OnItemClic
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.favorit_list);
+        setContentView(R.layout.favorite_list);
         lvListShowCache = (ListView) findViewById(R.id.favorit_folder_listCach);
         tvNoCache = (TextView) findViewById(R.id.favorit_foldet_title_text);
         dbm = Controller.getInstance().getDbManager();
