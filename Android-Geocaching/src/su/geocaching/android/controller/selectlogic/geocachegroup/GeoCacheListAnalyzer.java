@@ -1,8 +1,7 @@
-package su.geocaching.android.ui.selectgeocache.geocachegroup;
+package su.geocaching.android.controller.selectlogic.geocachegroup;
 
 import android.graphics.Point;
 import com.google.android.maps.MapView;
-
 import su.geocaching.android.model.GeoCache;
 import su.geocaching.android.ui.geocachemap.GeoCacheOverlayItem;
 

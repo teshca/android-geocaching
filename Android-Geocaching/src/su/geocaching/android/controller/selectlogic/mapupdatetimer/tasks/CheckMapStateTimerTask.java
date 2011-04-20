@@ -1,8 +1,8 @@
-package su.geocaching.android.ui.selectgeocache.timer.tasks;
+package su.geocaching.android.controller.selectlogic.mapupdatetimer.tasks;
 
 import com.google.android.maps.GeoPoint;
-import su.geocaching.android.ui.selectgeocache.SelectGeoCacheMap;
-import su.geocaching.android.ui.selectgeocache.timer.State;
+import su.geocaching.android.controller.selectlogic.mapupdatetimer.State;
+import su.geocaching.android.ui.selectmap.SelectMap;
 
 import java.util.TimerTask;
 
@@ -13,12 +13,12 @@ import java.util.TimerTask;
 public class CheckMapStateTimerTask extends TimerTask {
     private GeoPoint lastCenter;
     private int lastZoom;
-    private final SelectGeoCacheMap map;
+    private final SelectMap map;
     private final State state;
 
     private boolean mapUpdateRunning;
 
-    public CheckMapStateTimerTask(State state, SelectGeoCacheMap map, GeoPoint center, int zoom) {
+    public CheckMapStateTimerTask(State state, SelectMap map, GeoPoint center, int zoom) {
         lastZoom = zoom;
         lastCenter = center;
         mapUpdateRunning = false;

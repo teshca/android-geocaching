@@ -39,7 +39,7 @@
             </intent-filter>
         </activity>
 
-        <activity android:name=".selectgeocache.SelectGeoCacheMap"
+        <activity android:name=".selectmap.SelectMap"
                   android:theme="@android:style/Theme.Light.NoTitleBar">
             <intent-filter>
                 <action android:name="android.intent.action.RUN"/>
@@ -74,7 +74,7 @@
 
         <uses-library android:name="com.google.android.maps"/>
 
-        <activity android:name=".selectgeocache.SelectGeoCacheMapPreferenceActivity"/>
+        <activity android:name=".selectmap.SelectMapPreference"/>
         <activity android:name=".searchmap.SearchMapPreference"/>
         <activity android:name=".DashboardPreferenceActivity"/>
         <activity android:name=".EnergySavingPreferenceActivity"/>

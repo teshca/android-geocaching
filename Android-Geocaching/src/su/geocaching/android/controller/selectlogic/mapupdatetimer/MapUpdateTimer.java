@@ -1,8 +1,8 @@
-package su.geocaching.android.ui.selectgeocache.timer;
+package su.geocaching.android.controller.selectlogic.mapupdatetimer;
 
-import su.geocaching.android.ui.selectgeocache.SelectGeoCacheMap;
-import su.geocaching.android.ui.selectgeocache.timer.tasks.CheckMapStateTimerTask;
-import su.geocaching.android.ui.selectgeocache.timer.tasks.CheckRequestTimerTask;
+import su.geocaching.android.controller.selectlogic.mapupdatetimer.tasks.CheckMapStateTimerTask;
+import su.geocaching.android.controller.selectlogic.mapupdatetimer.tasks.CheckRequestTimerTask;
+import su.geocaching.android.ui.selectmap.SelectMap;
 
 import java.util.Timer;
 
@@ -16,18 +16,18 @@ public class MapUpdateTimer extends Timer {
     private static final int MAP_STATE_TIMER_DELAY = 0;
     private static final int MAP_STATE_TIMER_PERIOD = 400;
 
-    public MapUpdateTimer(SelectGeoCacheMap map) {
+    public MapUpdateTimer(SelectMap map) {
         State state = new State(map);
         scheduleTasks(map, state);
     }
 
-    public MapUpdateTimer(SelectGeoCacheMap map, int requestPeriod) {
+    public MapUpdateTimer(SelectMap map, int requestPeriod) {
         State state = new State(map);
         this.REQUEST_TIMER_PERIOD = requestPeriod;
         scheduleTasks(map, state);
     }
 
-    private void scheduleTasks(SelectGeoCacheMap map, State state) {
+    private void scheduleTasks(SelectMap map, State state) {
         this.schedule(new CheckRequestTimerTask(state), REQUEST_TIMER_DELAY, REQUEST_TIMER_PERIOD);
         this.schedule(new CheckMapStateTimerTask(state, map, map.getCenter(), map.getZoom()),
                 MAP_STATE_TIMER_DELAY, MAP_STATE_TIMER_PERIOD);

@@ -1,6 +1,6 @@
-package su.geocaching.android.ui.selectgeocache.timer;
+package su.geocaching.android.controller.selectlogic.mapupdatetimer;
 
-import su.geocaching.android.ui.selectgeocache.SelectGeoCacheMap;
+import su.geocaching.android.ui.selectmap.SelectMap;
 
 /**
  * @author Yuri Denison
@@ -9,10 +9,10 @@ import su.geocaching.android.ui.selectgeocache.SelectGeoCacheMap;
 public class State {
     private boolean mapUpdated;
     private boolean requestSent;
-    private final SelectGeoCacheMap gcMap;
+    private final SelectMap gcMap;
 
 
-    public State(SelectGeoCacheMap gcMap) {
+    public State(SelectMap gcMap) {
         this.mapUpdated = false;
         this.requestSent = false;
         this.gcMap = gcMap;

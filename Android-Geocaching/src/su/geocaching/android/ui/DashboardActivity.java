@@ -12,11 +12,11 @@ import su.geocaching.android.controller.Controller;
 import su.geocaching.android.controller.LogManager;
 import su.geocaching.android.model.GeoCache;
 import su.geocaching.android.ui.searchmap.SearchGeoCacheMap;
-import su.geocaching.android.ui.selectgeocache.SelectGeoCacheMap;
+import su.geocaching.android.ui.selectmap.SelectMap;
 
 /**
  * Main activity in application
- * 
+ *
  * @author Android-Geocaching.su student project team
  * @since October 2010
  */
@@ -55,21 +55,19 @@ public class DashboardActivity extends Activity {
 
     /**
      * Starting activity to select GeoCache
-     * 
-     * @param v
-     *            //TODO describe it
+     *
+     * @param v //TODO describe it
      */
     public void onSelectClick(View v) {
-        Intent intent = new Intent(this, SelectGeoCacheMap.class);
+        Intent intent = new Intent(this, SelectMap.class);
         startActivity(intent);
 
     }
 
     /**
      * Starting activity to search GeoCache
-     * 
-     * @param v
-     *            //TODO describe it
+     *
+     * @param v //TODO describe it
      */
     public void onSearchClick(View v) {
         if (Controller.getInstance().getPreferencesManager().getLastSearchedGeoCache() == null) {
@@ -84,9 +82,8 @@ public class DashboardActivity extends Activity {
 
     /**
      * Starting about activity
-     * 
-     * @param v
-     *            //TODO describe it
+     *
+     * @param v //TODO describe it
      */
     public void onSettingsClick(View v) {
         startActivity(new Intent(this, DashboardPreferenceActivity.class));
@@ -94,9 +91,8 @@ public class DashboardActivity extends Activity {
 
     /**
      * Starting activity with favorites geocaches
-     * 
-     * @param v
-     *            //TODO describe it
+     *
+     * @param v //TODO describe it
      */
     public void onFavoriteClick(View v) {
         Intent intent = new Intent(this, FavoritesFolder.class);

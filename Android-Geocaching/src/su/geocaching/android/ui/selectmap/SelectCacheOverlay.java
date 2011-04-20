@@ -1,4 +1,4 @@
-package su.geocaching.android.ui.selectgeocache;
+package su.geocaching.android.ui.selectmap;
 
 import android.content.Context;
 import android.graphics.drawable.Drawable;

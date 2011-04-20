@@ -1,4 +1,4 @@
-package su.geocaching.android.ui.selectgeocache;
+package su.geocaching.android.ui.selectmap;
 
 /**
  * Represent information about map center and map zoom
