@@ -359,7 +359,7 @@ public class SearchGeoCacheMap extends MapActivity implements IInternetAware, IL
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         MenuInflater inflater = getMenuInflater();
-        inflater.inflate(R.menu.search_geocache_map, menu);
+        inflater.inflate(R.menu.search_geocache_map_menu, menu);
         return true;
     }
 
