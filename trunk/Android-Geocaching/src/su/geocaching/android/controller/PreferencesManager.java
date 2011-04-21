@@ -191,9 +191,9 @@ public class PreferencesManager {
         String rawval = preferences.getString(context.getString(R.string.cache_filter_type), context.getString(R.string.cache_filter_default_value));
         String[] selected = ListMultiSelectPreference.parseStoredValue(rawval);
         if (selected != null) {
-            for (String i : selected) {
+            for (String cacheType : selected) {
                 try {
-                    GeoCacheType e = GeoCacheType.valueOf(i);
+                    GeoCacheType e = GeoCacheType.valueOf(cacheType);
                     switch (e) {
                         case TRADITIONAL: 
                             set.add(GeoCacheType.TRADITIONAL);
@@ -209,12 +209,12 @@ public class PreferencesManager {
                             break;                       
                         case EVENT:
                             set.add(GeoCacheType.EVENT);
-                            break;
+                            break;                            
                     }
                 } catch (IllegalArgumentException iae) {
                     set.add(GeoCacheType.TRADITIONAL);
                     set.add(GeoCacheType.VIRTUAL);
-                   // set.add(GeoCacheType.EXTREME);
+                    set.add(GeoCacheType.STEP_BY_STEP_VIRTUAL);
                     set.add(GeoCacheType.STEP_BY_STEP_TRADITIONAL);
                     set.add(GeoCacheType.EVENT);
                 }
