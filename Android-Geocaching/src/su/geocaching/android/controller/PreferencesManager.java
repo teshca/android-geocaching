@@ -14,7 +14,7 @@ import java.util.EnumSet;
 
 /**
  * Manager which can get access to application preferences
- *
+ * 
  * @author Grigory Kalabin. grigory.kalabin@gmail.com
  * @since March 2011
  */
@@ -35,7 +35,7 @@ public class PreferencesManager {
 
     /**
      * Get id of last searched geocache from preferences and get GeoCache object from database
-     *
+     * 
      * @return last searched geocache by user saved in preferences
      */
     public synchronized GeoCache getLastSearchedGeoCache() {
@@ -45,8 +45,9 @@ public class PreferencesManager {
 
     /**
      * Save last searched geocache id in preferences
-     *
-     * @param lastSearchedGeoCache last searched geoCache
+     * 
+     * @param lastSearchedGeoCache
+     *            last searched geoCache
      */
     public synchronized void setLastSearchedGeoCache(GeoCache lastSearchedGeoCache) {
         if (lastSearchedGeoCache != null) {
@@ -58,7 +59,8 @@ public class PreferencesManager {
     }
 
     /**
-     * @param info with data to save
+     * @param info
+     *            with data to save
      */
     public synchronized void setLastSelectMapInfo(MapInfo info) {
         if (info != null) {
@@ -72,7 +74,8 @@ public class PreferencesManager {
     }
 
     /**
-     * @param info with data to save
+     * @param info
+     *            with data to save
      */
     public synchronized void setLastSearchMapInfo(MapInfo info) {
         if (info != null) {
@@ -163,18 +166,15 @@ public class PreferencesManager {
                 try {
                     GeoCacheStatus e = GeoCacheStatus.valueOf(i);
                     switch (e) {
-                        case VALID: {
+                        case VALID:
                             set.add(GeoCacheStatus.VALID);
                             break;
-                        }
-                        case NOT_VALID: {
+                        case NOT_VALID:
                             set.add(GeoCacheStatus.NOT_VALID);
                             break;
-                        }
-                        case NOT_CONFIRMED: {
+                        case NOT_CONFIRMED:
                             set.add(GeoCacheStatus.NOT_CONFIRMED);
                             break;
-                        }
                     }
                 } catch (IllegalArgumentException iae) {
                     set.add(GeoCacheStatus.VALID);
@@ -195,21 +195,24 @@ public class PreferencesManager {
                 try {
                     GeoCacheType e = GeoCacheType.valueOf(cacheType);
                     switch (e) {
-                        case TRADITIONAL: 
+                        case TRADITIONAL:
                             set.add(GeoCacheType.TRADITIONAL);
                             break;
-                        case VIRTUAL: 
+                        case VIRTUAL:
                             set.add(GeoCacheType.VIRTUAL);
                             break;
-                        case STEP_BY_STEP_TRADITIONAL: 
+                        case STEP_BY_STEP_TRADITIONAL:
                             set.add(GeoCacheType.STEP_BY_STEP_TRADITIONAL);
                             break;
-                        case STEP_BY_STEP_VIRTUAL: 
+                        case STEP_BY_STEP_VIRTUAL:
                             set.add(GeoCacheType.STEP_BY_STEP_VIRTUAL);
-                            break;                       
+                            break;
                         case EVENT:
                             set.add(GeoCacheType.EVENT);
-                            break;                            
+                            break;
+                        case CONTEST:
+                            set.add(GeoCacheType.CONTEST);
+                            break;
                     }
                 } catch (IllegalArgumentException iae) {
                     set.add(GeoCacheType.TRADITIONAL);
