@@ -14,8 +14,7 @@
 		<TextView android:layout_width="wrap_content"
 			android:layout_height="wrap_content" android:id="@+id/favorite_list_text_view_name"
 			style="@style/FavoritesFolderRowTextStyle" android:textSize="16sp"
-			android:text="Name"
-			android:textColor="@drawable/favorites_text_color_selector"/>
+			android:text="Name" android:textColor="@drawable/favorites_text_color_selector" />
 
 		<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
 			android:layout_width="fill_parent" android:orientation="horizontal"
@@ -23,7 +22,8 @@
 			android:layout_height="wrap_content">
 			<TextView android:layout_width="wrap_content"
 				android:layout_height="wrap_content" android:id="@+id/favorites_row_type_text"
-				style="@style/FavoritesFolderRowTextStyle" android:text="Type" android:textColor="@drawable/favorites_text_color_selector"/>
+				style="@style/FavoritesFolderRowTextStyle" android:text="Type"
+				android:textColor="@drawable/favorites_text_color_selector" />
 			<TextView android:id="@+id/favorites_row_status_text"
 				android:text="Status" style="@style/FavoritesFolderRowTextStyle"
 				android:gravity="right" android:layout_height="wrap_content"
