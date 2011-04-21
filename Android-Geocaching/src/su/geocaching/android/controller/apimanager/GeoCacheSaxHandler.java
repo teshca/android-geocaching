@@ -16,6 +16,7 @@ import java.util.List;
  * Class for parsing data from geocaching.su and put it in the List of GeoCache. Parse XML file is as follows:
  * <p/>
  * <p/>
+ * 
  * <pre>
  *         {@code
  *         <c>
@@ -30,7 +31,7 @@ import java.util.List;
  *         </c>
  *         }
  * </pre>
- *
+ * 
  * @author Nikita Bumakov
  */
 public class GeoCacheSaxHandler extends DefaultHandler {
@@ -135,7 +136,7 @@ public class GeoCacheSaxHandler extends DefaultHandler {
                 geoCache.setType(GeoCacheType.TRADITIONAL);
                 break;
             case 2:
-                geoCache.setType(GeoCacheType.STEP_BY_STEP);
+                geoCache.setType(GeoCacheType.STEP_BY_STEP_TRADITIONAL);
                 break;
             case 3:
                 geoCache.setType(GeoCacheType.VIRTUAL);
@@ -143,8 +144,11 @@ public class GeoCacheSaxHandler extends DefaultHandler {
             case 4:
                 geoCache.setType(GeoCacheType.EVENT);
                 break;
-            case 6:
-                geoCache.setType(GeoCacheType.EXTREME);
+            case 7:
+                geoCache.setType(GeoCacheType.STEP_BY_STEP_VIRTUAL);
+                break;
+            default:
+                geoCache.setType(GeoCacheType.TRADITIONAL);
                 break;
         }
     }
@@ -159,6 +163,9 @@ public class GeoCacheSaxHandler extends DefaultHandler {
                 break;
             case 3:
                 geoCache.setStatus(GeoCacheStatus.NOT_CONFIRMED);
+                break;
+            default:
+                geoCache.setStatus(GeoCacheStatus.VALID);
                 break;
         }
     }
