@@ -17,20 +17,20 @@
 			android:orientation="horizontal">
 
 			<Button style="@style/MenuButton" android:onClick="onSelectClick"
-				android:drawableTop="@drawable/ic_menu_select" android:text="@string/select_geocache"
+				android:drawableTop="@drawable/dashboard_select" android:text="@string/select_geocache"
 				android:id="@+id/SelectButton" />
 			<Button style="@style/MenuButton" android:onClick="onSearchClick"
-				android:drawableTop="@drawable/ic_menu_search" android:text="@string/search_geocache"
+				android:drawableTop="@drawable/dashboard_search" android:text="@string/search_geocache"
 				android:id="@+id/SearchButton" />
 		</LinearLayout>
 		<LinearLayout android:layout_height="wrap_content"
 			android:layout_weight="1" android:layout_width="fill_parent"
 			android:orientation="horizontal">
 
-			<Button android:drawableTop="@drawable/ic_menu_favorites"
+			<Button android:drawableTop="@drawable/dashboard_favorites"
 				style="@style/MenuButton" android:text="@string/favorites"
 				android:id="@+id/FavoritesButton" android:onClick="onFavoriteClick" />
-			<Button android:drawableTop="@drawable/ic_dashboard_settings"
+			<Button android:drawableTop="@drawable/dashboard_settings"
 				style="@style/MenuButton" android:id="@+id/AboutButton"
 				android:text="@string/settings" android:onClick="onSettingsClick" />
 		</LinearLayout>
