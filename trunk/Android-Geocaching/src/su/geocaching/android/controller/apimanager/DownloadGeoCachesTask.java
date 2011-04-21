@@ -17,14 +17,14 @@ import java.util.ListIterator;
  *
  * @author Nikita Bumakov
  */
-public class DownloadGeoCacheTask extends AsyncTask<GeoPoint, Integer, List<GeoCache>> {
+public class DownloadGeoCachesTask extends AsyncTask<GeoPoint, Integer, List<GeoCache>> {
     private final SelectMap map;
     private final IApiManager apiManager;
     private final Controller controller;
     private static final int MIN_GROUP_CACHE_NUMBER = 8;
 
 
-    public DownloadGeoCacheTask(IApiManager apiManager, SelectMap map) {
+    public DownloadGeoCachesTask(IApiManager apiManager, SelectMap map) {
         this.apiManager = apiManager;
         this.map = map;
         controller = Controller.getInstance();

@@ -34,9 +34,9 @@ import java.util.List;
  * 
  * @author Nikita Bumakov
  */
-public class GeoCacheSaxHandler extends DefaultHandler {
+public class GeoCachesSaxHandler extends DefaultHandler {
 
-    private static final String TAG = GeoCacheSaxHandler.class.getCanonicalName();
+    private static final String TAG = GeoCachesSaxHandler.class.getCanonicalName();
 
     private final static String C = "c";
     private final static String ID = "id";
