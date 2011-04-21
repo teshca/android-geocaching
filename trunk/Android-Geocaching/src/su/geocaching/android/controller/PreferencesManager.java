@@ -195,32 +195,27 @@ public class PreferencesManager {
                 try {
                     GeoCacheType e = GeoCacheType.valueOf(i);
                     switch (e) {
-                        case TRADITIONAL: {
+                        case TRADITIONAL: 
                             set.add(GeoCacheType.TRADITIONAL);
                             break;
-                        }
-                        case VIRTUAL: {
+                        case VIRTUAL: 
                             set.add(GeoCacheType.VIRTUAL);
                             break;
-                        }
-                        case STEP_BY_STEP: {
-                            set.add(GeoCacheType.STEP_BY_STEP);
+                        case STEP_BY_STEP_TRADITIONAL: 
+                            set.add(GeoCacheType.STEP_BY_STEP_TRADITIONAL);
                             break;
-                        }
-                        case EXTREME: {
-                            set.add(GeoCacheType.EXTREME);
-                            break;
-                        }
-                        case EVENT: {
+                        case STEP_BY_STEP_VIRTUAL: 
+                            set.add(GeoCacheType.STEP_BY_STEP_VIRTUAL);
+                            break;                       
+                        case EVENT:
                             set.add(GeoCacheType.EVENT);
                             break;
-                        }
                     }
                 } catch (IllegalArgumentException iae) {
                     set.add(GeoCacheType.TRADITIONAL);
                     set.add(GeoCacheType.VIRTUAL);
-                    set.add(GeoCacheType.EXTREME);
-                    set.add(GeoCacheType.STEP_BY_STEP);
+                   // set.add(GeoCacheType.EXTREME);
+                    set.add(GeoCacheType.STEP_BY_STEP_TRADITIONAL);
                     set.add(GeoCacheType.EVENT);
                 }
             }

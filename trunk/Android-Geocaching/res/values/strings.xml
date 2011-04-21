@@ -49,9 +49,9 @@
     <string name="menu_quit">Exit</string>
     <string name="type_geocache_traditional">Традиционный</string>
     <string name="type_geocache_virtua">Виртуальный</string>
-    <string name="type_geocache_step_by_step">Пошаговый</string>
+    <string name="type_geocache_step_by_step">Пошаговый традиционный</string>
     <string name="type_geocache_event">Встреча</string>
-    <string name="type_geocache_extreme">Экстримальный</string>
+    <string name="type_geocache_step_by_step_virtual">Пошаговый виртуальный</string>
     <string name="type_geocache_checkpoint">Контрольная точка</string>
 
     <string name="status_geocache_valid">Доступнен</string>
