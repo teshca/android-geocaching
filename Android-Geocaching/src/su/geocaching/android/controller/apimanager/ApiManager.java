@@ -58,7 +58,7 @@ public class ApiManager implements IApiManager {
             return new LinkedList<GeoCache>();
         }
 
-        GeoCacheSaxHandler handler;
+        GeoCachesSaxHandler handler;
         HttpURLConnection connection = null;
         try {
             SAXParserFactory factory = SAXParserFactory.newInstance();
@@ -72,7 +72,7 @@ public class ApiManager implements IApiManager {
             }
 
             InputSource geoCacheXml = new InputSource(new InputStreamReader(connection.getInputStream(), ENCODING));
-            handler = new GeoCacheSaxHandler();
+            handler = new GeoCachesSaxHandler();
             parser.parse(geoCacheXml, handler);
             geoCaches.addAll(handler.getGeoCaches());
         } catch (MalformedURLException e) {

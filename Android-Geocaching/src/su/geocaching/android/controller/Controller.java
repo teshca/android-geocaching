@@ -5,7 +5,7 @@ import android.hardware.SensorManager;
 import android.location.LocationManager;
 import com.google.android.maps.GeoPoint;
 import su.geocaching.android.controller.apimanager.ApiManager;
-import su.geocaching.android.controller.apimanager.DownloadGeoCacheTask;
+import su.geocaching.android.controller.apimanager.DownloadGeoCachesTask;
 import su.geocaching.android.controller.apimanager.IApiManager;
 import su.geocaching.android.model.GeoCache;
 import su.geocaching.android.ui.selectmap.SelectMap;
@@ -58,7 +58,7 @@ public class Controller {
      */
     public void updateSelectedGeoCaches(SelectMap map, GeoPoint upperLeftCorner, GeoPoint lowerRightCorner) {
         GeoPoint[] d = {upperLeftCorner, lowerRightCorner};
-        new DownloadGeoCacheTask(apiManager, map).execute(d);
+        new DownloadGeoCachesTask(apiManager, map).execute(d);
     }
 
     /**
