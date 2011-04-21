@@ -32,9 +32,9 @@ public class GeoCacheListAnalyzer {
             if (num != 0) {
                 if (num < MINIMUM_GROUP_SIZE_TO_CREATE_CLUSTER) {
                     // we think minimum = 2
-                    overlayItemList.add(new GeoCacheOverlayItem(centroid.getCache(), "", "", map.getContext()));
+                    overlayItemList.add(new GeoCacheOverlayItem(centroid.getCache(), "", ""));
                 } else {
-                    overlayItemList.add(new GeoCacheOverlayItem(map.getProjection().fromPixels(centroid.getX(), centroid.getY()), "Group", "", map.getContext()));
+                    overlayItemList.add(new GeoCacheOverlayItem(map.getProjection().fromPixels(centroid.getX(), centroid.getY()), "Group", ""));
                 }
             }
         }

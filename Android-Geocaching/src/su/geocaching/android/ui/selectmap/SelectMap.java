@@ -213,7 +213,7 @@ public class SelectMap extends MapActivity implements IInternetAware {
         } else {
             selectCacheOverlay.clear();
             for (GeoCache geoCache : geoCacheList) {
-                selectCacheOverlay.addOverlayItem(new GeoCacheOverlayItem(geoCache, "", "", this));
+                selectCacheOverlay.addOverlayItem(new GeoCacheOverlayItem(geoCache, "", ""));
             }
             updateProgressStop();
             map.invalidate();
