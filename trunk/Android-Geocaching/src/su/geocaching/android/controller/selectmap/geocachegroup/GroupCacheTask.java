@@ -1,4 +1,4 @@
-package su.geocaching.android.controller.selectlogic.geocachegroup;
+package su.geocaching.android.controller.selectmap.geocachegroup;
 
 import android.os.AsyncTask;
 import su.geocaching.android.controller.LogManager;

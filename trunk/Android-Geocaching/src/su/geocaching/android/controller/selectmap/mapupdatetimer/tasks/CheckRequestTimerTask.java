@@ -1,6 +1,6 @@
-package su.geocaching.android.controller.selectlogic.mapupdatetimer.tasks;
+package su.geocaching.android.controller.selectmap.mapupdatetimer.tasks;
 
-import su.geocaching.android.controller.selectlogic.mapupdatetimer.State;
+import su.geocaching.android.controller.selectmap.mapupdatetimer.State;
 
 import java.util.TimerTask;
 

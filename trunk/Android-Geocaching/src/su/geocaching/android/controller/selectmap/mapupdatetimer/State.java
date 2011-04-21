@@ -1,4 +1,4 @@
-package su.geocaching.android.controller.selectlogic.mapupdatetimer;
+package su.geocaching.android.controller.selectmap.mapupdatetimer;
 
 import su.geocaching.android.ui.selectmap.SelectMap;
 

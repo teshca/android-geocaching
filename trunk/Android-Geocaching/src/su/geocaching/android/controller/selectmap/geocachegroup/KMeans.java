@@ -1,4 +1,4 @@
-package su.geocaching.android.controller.selectlogic.geocachegroup;
+package su.geocaching.android.controller.selectmap.geocachegroup;
 
 
 import java.util.List;
