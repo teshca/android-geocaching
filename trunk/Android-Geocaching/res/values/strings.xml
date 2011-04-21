@@ -52,11 +52,12 @@
     <string name="type_geocache_step_by_step">Пошаговый традиционный</string>
     <string name="type_geocache_event">Встреча</string>
     <string name="type_geocache_step_by_step_virtual">Пошаговый виртуальный</string>
+    <string name="type_geocache_contest">Конкурс</string>
     <string name="type_geocache_checkpoint">Контрольная точка</string>
 
-    <string name="status_geocache_valid">Доступнен</string>
-    <string name="status_geocache_no_valid">Недоступен</string>
-    <string name="status_geocache_no_confirmed">Возможно недоступен</string>
+    <string name="status_geocache_valid">Действующий</string>
+    <string name="status_geocache_no_valid">Недействующий</string>
+    <string name="status_geocache_no_confirmed">Сомнительный</string>
     <string name="status_geocache_unknown">Неизвестен</string>
     <string name="status_geocache_active_checkpoint">Активна</string>
     <string name="status_geocache_not_active_checkpoint">Неактивна</string>

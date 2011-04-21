@@ -147,6 +147,9 @@ public class GeoCacheSaxHandler extends DefaultHandler {
             case 7:
                 geoCache.setType(GeoCacheType.STEP_BY_STEP_VIRTUAL);
                 break;
+            case 8:
+                geoCache.setType(GeoCacheType.CONTEST);
+                break;
             default:
                 geoCache.setType(GeoCacheType.TRADITIONAL);
                 break;

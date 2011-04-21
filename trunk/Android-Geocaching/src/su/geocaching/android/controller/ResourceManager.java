@@ -242,13 +242,14 @@ public class ResourceManager {
                 return getString(R.string.type_geocache_traditional);
             case STEP_BY_STEP_TRADITIONAL:
                 return getString(R.string.type_geocache_step_by_step);
+            case STEP_BY_STEP_VIRTUAL:
+                return getString(R.string.type_geocache_step_by_step_virtual);       
             case VIRTUAL:
                 return getString(R.string.type_geocache_virtua);
             case EVENT:
                 return getString(R.string.type_geocache_event);
-            case STEP_BY_STEP_VIRTUAL:
-                return getString(R.string.type_geocache_step_by_step_virtual);
-           
+            case CONTEST:
+                return getString(R.string.type_geocache_contest);              
             case CHECKPOINT:
                 return getString(R.string.type_geocache_checkpoint);
             default:
