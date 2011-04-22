@@ -114,11 +114,11 @@ public class ResourceManager {
                     case WEBCAM:
                         switch (status) {
                             case VALID:
-                                return -1; // TODO draw icons
+                                return R.drawable.ic_cache_custom_virtual_valid;
                             case NOT_VALID:
-                                return -1; // TODO draw icons
+                                return R.drawable.ic_cache_custom_virtual_not_valid; 
                             case NOT_CONFIRMED:
-                                return -1; // TODO draw icons
+                                return R.drawable.ic_cache_custom_virtual_not_confirmed;
                         }
                         break;
                     case EXTREME:
@@ -195,11 +195,11 @@ public class ResourceManager {
                     case WEBCAM:
                         switch (status) {
                             case VALID:
-                                return -1; // TODO draw icons
+                                return R.drawable.ic_cache_default_virtual_valid; 
                             case NOT_VALID:
-                                return -1; // TODO draw icons
+                                return R.drawable.ic_cache_default_virtual_not_valid; 
                             case NOT_CONFIRMED:
-                                return -1; // TODO draw icons
+                                return R.drawable.ic_cache_default_virtual_not_confirmed;
                         }
                         break;
                     case EXTREME:
