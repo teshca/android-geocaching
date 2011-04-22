@@ -7,7 +7,7 @@ import android.preference.Preference;
 import android.preference.Preference.OnPreferenceClickListener;
 import android.preference.PreferenceActivity;
 import su.geocaching.android.controller.Controller;
-import su.geocaching.android.controller.LogManager;
+import su.geocaching.android.controller.managers.LogManager;
 
 public class InternetAndGpsPreferenceActivity extends PreferenceActivity {
 

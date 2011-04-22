@@ -20,14 +20,14 @@ import java.util.List;
  * @author Android-Geocaching.su student project team
  * @since October 2010 GeoCache Itemized Overlay for one or more caches
  */
-public class SelectCacheOverlay extends com.google.android.maps.ItemizedOverlay<OverlayItem> {
+public class SelectGeoCacheOverlay extends com.google.android.maps.ItemizedOverlay<OverlayItem> {
     private final List<GeoCacheOverlayItem> items;
     private final Context context;
     private final MapView map;
     private boolean touchFlag;
     private final GestureDetector gestureDetector;
 
-    public SelectCacheOverlay(Drawable defaultMarker, Context context, final MapView map) {
+    public SelectGeoCacheOverlay(Drawable defaultMarker, Context context, final MapView map) {
         super(defaultMarker);
         items = Collections.synchronizedList(new LinkedList<GeoCacheOverlayItem>());
         this.context = context;

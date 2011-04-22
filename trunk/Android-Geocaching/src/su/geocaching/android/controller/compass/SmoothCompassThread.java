@@ -1,9 +1,9 @@
 package su.geocaching.android.controller.compass;
 
-import su.geocaching.android.controller.CompassManager;
 import su.geocaching.android.controller.Controller;
-import su.geocaching.android.controller.ICompassAware;
-import su.geocaching.android.controller.LogManager;
+import su.geocaching.android.controller.managers.CompassManager;
+import su.geocaching.android.controller.managers.ICompassAware;
+import su.geocaching.android.controller.managers.LogManager;
 
 /**
  * The class provides a smooth rotation of compass

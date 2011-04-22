@@ -18,11 +18,15 @@ import android.widget.ImageView;
 import android.widget.Toast;
 import com.google.android.maps.*;
 import su.geocaching.android.controller.*;
-import su.geocaching.android.controller.selectmap.geocachegroup.GroupCacheTask;
+import su.geocaching.android.controller.managers.ConnectionManager;
+import su.geocaching.android.controller.managers.IInternetAware;
+import su.geocaching.android.controller.managers.LogManager;
+import su.geocaching.android.controller.selectmap.geocachegroup.GroupGeoCacheTask;
 import su.geocaching.android.controller.selectmap.mapupdatetimer.MapUpdateTimer;
 import su.geocaching.android.model.GeoCache;
 import su.geocaching.android.model.GeoCacheStatus;
 import su.geocaching.android.model.GeoCacheType;
+import su.geocaching.android.model.MapInfo;
 import su.geocaching.android.ui.R;
 import su.geocaching.android.ui.geocachemap.GeoCacheOverlayItem;
 
@@ -32,14 +36,14 @@ import java.util.List;
  * @author Yuri Denison
  * @since 04.11.2010
  */
-public class SelectMap extends MapActivity implements IInternetAware {
-    private static final String TAG = SelectMap.class.getCanonicalName();
+public class SelectMapActivity extends MapActivity implements IInternetAware {
+    private static final String TAG = SelectMapActivity.class.getCanonicalName();
     private static final int MAX_CACHE_NUMBER = 300;
     private static final String SELECT_ACTIVITY_FOLDER = "/SelectActivity";
     private MyLocationOverlay userOverlay;
     private MapView map;
     private MapController mapController;
-    private SelectCacheOverlay selectCacheOverlay;
+    private SelectGeoCacheOverlay selectGeoCacheOverlay;
     private MapUpdateTimer mapTimer;
     private ConnectionManager connectionManager;
     private Activity context;
@@ -48,7 +52,7 @@ public class SelectMap extends MapActivity implements IInternetAware {
     private AnimationDrawable progressBarAnimation;
     private int countDownloadTask;
     private Handler handler;
-    private GroupCacheTask groupTask = null;
+    private GroupGeoCacheTask groupTask = null;
     private boolean firstRun = true;
 
     @Override
@@ -67,8 +71,8 @@ public class SelectMap extends MapActivity implements IInternetAware {
         countDownloadTask = 0;
         handler = new Handler();
 
-        selectCacheOverlay = new SelectCacheOverlay(Controller.getInstance().getResourceManager().getMarker(GeoCacheType.TRADITIONAL, GeoCacheStatus.VALID), this, map);
-        map.getOverlays().add(selectCacheOverlay);
+        selectGeoCacheOverlay = new SelectGeoCacheOverlay(Controller.getInstance().getResourceManager().getMarker(GeoCacheType.TRADITIONAL, GeoCacheStatus.VALID), this, map);
+        map.getOverlays().add(selectGeoCacheOverlay);
 
         connectionManager = Controller.getInstance().getConnectionManager();
 
@@ -136,12 +140,12 @@ public class SelectMap extends MapActivity implements IInternetAware {
         map.setSatellite(Controller.getInstance().getPreferencesManager().useSatelliteMap());
         connectionManager.addSubscriber(this);
         userOverlay.enableMyLocation();
-        selectCacheOverlay.clear();
+        selectGeoCacheOverlay.clear();
         map.invalidate();
         updateMapInfoFromSettings();
         mapTimer = new MapUpdateTimer(this);
 
-        selectCacheOverlay.clear();
+        selectGeoCacheOverlay.clear();
         updateCacheOverlay();
 
         map.invalidate();
@@ -186,7 +190,7 @@ public class SelectMap extends MapActivity implements IInternetAware {
                 }
                 return true;
             case R.id.mapSettings:
-                startActivity(new Intent(this, SelectMapPreference.class));
+                startActivity(new Intent(this, SelectMapPreferenceActivity.class));
                 return true;
             default:
                 return super.onOptionsItemSelected(item);
@@ -211,9 +215,9 @@ public class SelectMap extends MapActivity implements IInternetAware {
         if (geoCacheList.size() > MAX_CACHE_NUMBER) {
             Toast.makeText(this, R.string.too_many_caches, Toast.LENGTH_LONG).show();
         } else {
-            selectCacheOverlay.clear();
+            selectGeoCacheOverlay.clear();
             for (GeoCache geoCache : geoCacheList) {
-                selectCacheOverlay.addOverlayItem(new GeoCacheOverlayItem(geoCache, "", ""));
+                selectGeoCacheOverlay.addOverlayItem(new GeoCacheOverlayItem(geoCache, "", ""));
             }
             updateProgressStop();
             map.invalidate();
@@ -229,15 +233,15 @@ public class SelectMap extends MapActivity implements IInternetAware {
             LogManager.d(TAG, "task canceled");
             groupTask.cancel(false);
         }
-        groupTask = new GroupCacheTask(this, geoCacheList);
+        groupTask = new GroupGeoCacheTask(this, geoCacheList);
         groupTask.execute();
         updateProgressStop();
     }
 
     public void addOverlayItemList(List<GeoCacheOverlayItem> overlayItemList) {
-        selectCacheOverlay.clear();
+        selectGeoCacheOverlay.clear();
         for (GeoCacheOverlayItem item : overlayItemList) {
-            selectCacheOverlay.addOverlayItem(item);
+            selectGeoCacheOverlay.addOverlayItem(item);
         }
         map.invalidate();
     }

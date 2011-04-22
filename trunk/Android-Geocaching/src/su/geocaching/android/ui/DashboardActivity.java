@@ -9,10 +9,10 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.Toast;
 import su.geocaching.android.controller.Controller;
-import su.geocaching.android.controller.LogManager;
+import su.geocaching.android.controller.managers.LogManager;
 import su.geocaching.android.model.GeoCache;
-import su.geocaching.android.ui.searchmap.SearchGeoCacheMap;
-import su.geocaching.android.ui.selectmap.SelectMap;
+import su.geocaching.android.ui.searchmap.SearchMapActivity;
+import su.geocaching.android.ui.selectmap.SelectMapActivity;
 
 /**
  * Main activity in application
@@ -59,7 +59,7 @@ public class DashboardActivity extends Activity {
      * @param v //TODO describe it
      */
     public void onSelectClick(View v) {
-        Intent intent = new Intent(this, SelectMap.class);
+        Intent intent = new Intent(this, SelectMapActivity.class);
         startActivity(intent);
 
     }
@@ -74,7 +74,7 @@ public class DashboardActivity extends Activity {
             Toast.makeText(this.getBaseContext(), getString(R.string.search_geocache_start_without_geocache), Toast.LENGTH_SHORT).show();
             return;
         }
-        Intent intent = new Intent(this, SearchGeoCacheMap.class);
+        Intent intent = new Intent(this, SearchMapActivity.class);
         intent.putExtra(GeoCache.class.getCanonicalName(), Controller.getInstance().getPreferencesManager().getLastSearchedGeoCache());
         startActivity(intent);
 
@@ -95,7 +95,7 @@ public class DashboardActivity extends Activity {
      * @param v //TODO describe it
      */
     public void onFavoriteClick(View v) {
-        Intent intent = new Intent(this, FavoritesFolder.class);
+        Intent intent = new Intent(this, FavoritesFolderActivity.class);
         startActivity(intent);
     }
 }

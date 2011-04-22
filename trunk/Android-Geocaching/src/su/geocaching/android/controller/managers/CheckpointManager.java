@@ -1,8 +1,9 @@
-package su.geocaching.android.controller;
+package su.geocaching.android.controller.managers;
 
 import java.util.LinkedList;
 import java.util.List;
 
+import su.geocaching.android.controller.Controller;
 import su.geocaching.android.model.GeoCache;
 import su.geocaching.android.model.GeoCacheStatus;
 import su.geocaching.android.model.GeoCacheType;

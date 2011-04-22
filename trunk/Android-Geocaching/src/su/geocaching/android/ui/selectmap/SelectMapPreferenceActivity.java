@@ -9,7 +9,7 @@ import su.geocaching.android.ui.R;
  * @author: Yuri Denison
  * @since: 23.02.11
  */
-public class SelectMapPreference extends PreferenceActivity {
+public class SelectMapPreferenceActivity extends PreferenceActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);

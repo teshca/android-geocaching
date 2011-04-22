@@ -1,10 +1,10 @@
 package su.geocaching.android.ui.searchmap.stepbystep;
 
-import su.geocaching.android.controller.CheckpointManager;
 import su.geocaching.android.controller.Controller;
 import su.geocaching.android.controller.GpsHelper;
-import su.geocaching.android.controller.ResourceManager;
 import su.geocaching.android.controller.UiHelper;
+import su.geocaching.android.controller.managers.CheckpointManager;
+import su.geocaching.android.controller.managers.ResourceManager;
 import su.geocaching.android.model.GeoCache;
 import su.geocaching.android.ui.R;
 import android.app.Activity;

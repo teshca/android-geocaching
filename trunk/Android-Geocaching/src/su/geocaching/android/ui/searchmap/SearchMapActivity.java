@@ -17,13 +17,18 @@ import android.widget.Toast;
 import com.google.android.maps.*;
 import su.geocaching.android.controller.*;
 import su.geocaching.android.controller.compass.SmoothCompassThread;
+import su.geocaching.android.controller.managers.CheckpointManager;
+import su.geocaching.android.controller.managers.IGpsStatusAware;
+import su.geocaching.android.controller.managers.IInternetAware;
+import su.geocaching.android.controller.managers.ILocationAware;
+import su.geocaching.android.controller.managers.LogManager;
 import su.geocaching.android.model.GeoCache;
 import su.geocaching.android.model.GeoCacheStatus;
 import su.geocaching.android.model.GeoCacheType;
-import su.geocaching.android.ui.FavoritesFolder;
+import su.geocaching.android.model.MapInfo;
+import su.geocaching.android.ui.FavoritesFolderActivity;
 import su.geocaching.android.ui.R;
 import su.geocaching.android.ui.geocachemap.GeoCacheOverlayItem;
-import su.geocaching.android.ui.selectmap.MapInfo;
 
 import java.util.List;
 import java.util.Locale;
@@ -34,13 +39,13 @@ import java.util.Locale;
  * @author Android-Geocaching.su student project team
  * @since October 2010
  */
-public class SearchGeoCacheMap extends MapActivity implements IInternetAware, ILocationAware, IGpsStatusAware {
-    private final static String TAG = SearchGeoCacheMap.class.getCanonicalName();
+public class SearchMapActivity extends MapActivity implements IInternetAware, ILocationAware, IGpsStatusAware {
+    private final static String TAG = SearchMapActivity.class.getCanonicalName();
     private final static float CLOSE_DISTANCE_TO_GC_VALUE = 100; // if we nearly than this distance in meters to geocache - gps will be work maximal often
     private final static String SEARCH_MAP_ACTIVITY_FOLDER = "/SearchMapActivity";
 
-    private CheckpointCacheOverlay checkpointCacheOverlay;
-    private SearchCacheOverlay searchCacheOverlay;
+    private CheckpointOverlay checkpointOverlay;
+    private SearchGeoCacheOverlay searchGeoCacheOverlay;
     private Drawable cacheMarker;
     private DistanceToGeoCacheOverlay distanceOverlay;
     private UserLocationOverlay userOverlay;
@@ -83,14 +88,14 @@ public class SearchGeoCacheMap extends MapActivity implements IInternetAware, IL
         Controller.getInstance().getGoogleAnalyticsManager().trackPageView(SEARCH_MAP_ACTIVITY_FOLDER);
 
         checkpointManager = Controller.getInstance().getCheckpointManager(geoCache.getId());
-        checkpointCacheOverlay = new CheckpointCacheOverlay(Controller.getInstance().getResourceManager().getMarker(GeoCacheType.CHECKPOINT, null), this, map);
+        checkpointOverlay = new CheckpointOverlay(Controller.getInstance().getResourceManager().getMarker(GeoCacheType.CHECKPOINT, null), this, map);
         for (GeoCache checkpoint : checkpointManager.getCheckpoints()) {
-            checkpointCacheOverlay.addOverlayItem(new GeoCacheOverlayItem(checkpoint, "", ""));
+            checkpointOverlay.addOverlayItem(new GeoCacheOverlayItem(checkpoint, "", ""));
             if (checkpoint.getStatus() == GeoCacheStatus.ACTIVE_CHECKPOINT) {
                 Controller.getInstance().setSearchingGeoCache(checkpoint);
             }
         }
-        mapOverlays.add(checkpointCacheOverlay);
+        mapOverlays.add(checkpointOverlay);
     }
 
     /*
@@ -135,26 +140,26 @@ public class SearchGeoCacheMap extends MapActivity implements IInternetAware, IL
             // mController.getDbManager().addGeoCache(geoCache, webText, webNotebookText);
             Toast.makeText(this, getString(R.string.search_geocache_error_geocache_not_in_db), Toast.LENGTH_LONG).show();
             this.finish();
-            startActivity(new Intent(this, FavoritesFolder.class));
+            startActivity(new Intent(this, FavoritesFolderActivity.class));
             return;
         }
 
         checkpointManager = Controller.getInstance().getCheckpointManager(Controller.getInstance().getPreferencesManager().getLastSearchedGeoCache().getId());
-        checkpointCacheOverlay.clear();
+        checkpointOverlay.clear();
         for (GeoCache checkpoint : checkpointManager.getCheckpoints()) {
-            checkpointCacheOverlay.addOverlayItem(new GeoCacheOverlayItem(checkpoint, "", ""));
+            checkpointOverlay.addOverlayItem(new GeoCacheOverlayItem(checkpoint, "", ""));
         }
 
         map.setKeepScreenOn(Controller.getInstance().getPreferencesManager().getKeepScreenOnPreference());
         updateMapInfoFromSettings();
         map.setSatellite(Controller.getInstance().getPreferencesManager().useSatelliteMap());
-        mapOverlays.remove(searchCacheOverlay);
+        mapOverlays.remove(searchGeoCacheOverlay);
         if (geoCache != null) {
             cacheMarker = Controller.getInstance().getResourceManager().getMarker(geoCache.getType(), geoCache.getStatus());
-            searchCacheOverlay = new SearchCacheOverlay(cacheMarker, this, map);
+            searchGeoCacheOverlay = new SearchGeoCacheOverlay(cacheMarker, this, map);
             GeoCacheOverlayItem cacheOverlayItem = new GeoCacheOverlayItem(geoCache, "", "");
-            searchCacheOverlay.addOverlayItem(cacheOverlayItem);
-            mapOverlays.add(searchCacheOverlay);
+            searchGeoCacheOverlay.addOverlayItem(cacheOverlayItem);
+            mapOverlays.add(searchGeoCacheOverlay);
         }
 
         if (!Controller.getInstance().getLocationManager().isBestProviderEnabled()) {
@@ -367,7 +372,7 @@ public class SearchGeoCacheMap extends MapActivity implements IInternetAware, IL
                 UiHelper.startCheckpointsFolder(this, Controller.getInstance().getPreferencesManager().getLastSearchedGeoCache().getId());
                 return true;
             case R.id.searchMapSettings:
-                startActivity(new Intent(this, SearchMapPreference.class));
+                startActivity(new Intent(this, SearchMapPreferenceActivity.class));
                 return true;
             default:
                 return super.onOptionsItemSelected(item);

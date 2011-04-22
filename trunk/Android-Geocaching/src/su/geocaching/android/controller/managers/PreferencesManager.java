@@ -1,14 +1,17 @@
-package su.geocaching.android.controller;
+package su.geocaching.android.controller.managers;
 
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.content.res.Resources;
 import android.preference.PreferenceManager;
+import su.geocaching.android.controller.Controller;
+import su.geocaching.android.controller.GpsUpdateFrequency;
+import su.geocaching.android.controller.ListMultiSelectPreference;
 import su.geocaching.android.model.GeoCache;
 import su.geocaching.android.model.GeoCacheStatus;
 import su.geocaching.android.model.GeoCacheType;
+import su.geocaching.android.model.MapInfo;
 import su.geocaching.android.ui.R;
-import su.geocaching.android.ui.selectmap.MapInfo;
 
 import java.util.EnumSet;
 

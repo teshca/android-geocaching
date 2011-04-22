@@ -1,8 +1,9 @@
-package su.geocaching.android.controller;
+package su.geocaching.android.controller.managers;
 
 import android.location.GpsSatellite;
 import android.location.GpsStatus;
 import android.location.LocationManager;
+import su.geocaching.android.controller.Controller;
 import su.geocaching.android.ui.R;
 
 import java.util.ArrayList;

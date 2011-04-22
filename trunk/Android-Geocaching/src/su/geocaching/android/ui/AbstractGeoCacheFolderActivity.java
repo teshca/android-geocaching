@@ -6,9 +6,9 @@ import java.util.List;
 import java.util.Map;
 
 import su.geocaching.android.controller.Controller;
-import su.geocaching.android.controller.DbManager;
-import su.geocaching.android.controller.ResourceManager;
 import su.geocaching.android.controller.UiHelper;
+import su.geocaching.android.controller.managers.DbManager;
+import su.geocaching.android.controller.managers.ResourceManager;
 import su.geocaching.android.model.GeoCache;
 
 import android.app.Activity;
@@ -21,7 +21,7 @@ import android.widget.TextView;
 /**
  * Abstract class for create ListActivity with caches
  */
-public abstract class AbstractCacheFolder extends Activity implements OnItemClickListener {
+public abstract class AbstractGeoCacheFolderActivity extends Activity implements OnItemClickListener {
 
     protected ArrayList<GeoCache> favoritesList = new ArrayList<GeoCache>();
     protected DbManager dbm;
@@ -30,7 +30,7 @@ public abstract class AbstractCacheFolder extends Activity implements OnItemClic
 
     protected String[] keys = new String[] { "type", "name", "typeText", "statusText" };
 
-    public AbstractCacheFolder() {
+    public AbstractGeoCacheFolderActivity() {
         super();
     }
 
