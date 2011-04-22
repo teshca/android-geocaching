@@ -206,24 +206,24 @@ public class SearchMapActivity extends MapActivity implements IInternetAware, IL
      */
     @Override
     public void updateLocation(Location location) {
-        userOverlay.setPoint(GpsHelper.locationToGeoPoint(location));
+        userOverlay.setPoint(CoordinateHelper.locationToGeoPoint(location));
         userOverlay.setAccuracy(location.getAccuracy());
         LogManager.d(TAG, "update location");
         if (progressBarView.getVisibility() == View.VISIBLE) {
             progressBarView.setVisibility(View.GONE);
         }
-        if (GpsHelper.getDistanceBetween(location, Controller.getInstance().getSearchingGeoCache().getLocationGeoPoint()) < CLOSE_DISTANCE_TO_GC_VALUE) {
+        if (CoordinateHelper.getDistanceBetween(location, Controller.getInstance().getSearchingGeoCache().getLocationGeoPoint()) < CLOSE_DISTANCE_TO_GC_VALUE) {
             Controller.getInstance().getLocationManager().updateFrequency(GpsUpdateFrequency.MAXIMAL);
         } else {
             Controller.getInstance().getLocationManager().updateFrequencyFromPreferences();
         }
-        waitingLocationFixText.setText(GpsHelper.distanceToString(GpsHelper.getDistanceBetween(Controller.getInstance().getSearchingGeoCache().getLocationGeoPoint(), location)));
+        waitingLocationFixText.setText(CoordinateHelper.distanceToString(CoordinateHelper.getDistanceBetween(Controller.getInstance().getSearchingGeoCache().getLocationGeoPoint(), location)));
         if (distanceOverlay == null) {
             // It's really first run of update location
             LogManager.d(TAG, "update location: first run of this activity");
             waitingLocationFixText.setGravity(Gravity.CENTER);
             waitingLocationFixText.setTextSize(getResources().getDimension(R.dimen.text_size_big));
-            distanceOverlay = new DistanceToGeoCacheOverlay(GpsHelper.locationToGeoPoint(location), Controller.getInstance().getSearchingGeoCache().getLocationGeoPoint());
+            distanceOverlay = new DistanceToGeoCacheOverlay(CoordinateHelper.locationToGeoPoint(location), Controller.getInstance().getSearchingGeoCache().getLocationGeoPoint());
             mapOverlays.add(distanceOverlay);
             mapOverlays.add(userOverlay);
             resetZoom();
@@ -232,7 +232,7 @@ public class SearchMapActivity extends MapActivity implements IInternetAware, IL
 
             return;
         }
-        distanceOverlay.setUserPoint(GpsHelper.locationToGeoPoint(location));
+        distanceOverlay.setUserPoint(CoordinateHelper.locationToGeoPoint(location));
 
         map.invalidate();
     }
@@ -249,10 +249,10 @@ public class SearchMapActivity extends MapActivity implements IInternetAware, IL
         GeoCache gc = (GeoCache) getIntent().getParcelableExtra(GeoCache.class.getCanonicalName());
 
         if (Controller.getInstance().getLocationManager().hasLocation()) {
-            minLat = GpsHelper.locationToGeoPoint(Controller.getInstance().getLocationManager().getLastKnownLocation()).getLatitudeE6();
-            maxLat = GpsHelper.locationToGeoPoint(Controller.getInstance().getLocationManager().getLastKnownLocation()).getLatitudeE6();
-            minLon = GpsHelper.locationToGeoPoint(Controller.getInstance().getLocationManager().getLastKnownLocation()).getLongitudeE6();
-            maxLon = GpsHelper.locationToGeoPoint(Controller.getInstance().getLocationManager().getLastKnownLocation()).getLongitudeE6();
+            minLat = CoordinateHelper.locationToGeoPoint(Controller.getInstance().getLocationManager().getLastKnownLocation()).getLatitudeE6();
+            maxLat = CoordinateHelper.locationToGeoPoint(Controller.getInstance().getLocationManager().getLastKnownLocation()).getLatitudeE6();
+            minLon = CoordinateHelper.locationToGeoPoint(Controller.getInstance().getLocationManager().getLastKnownLocation()).getLongitudeE6();
+            maxLon = CoordinateHelper.locationToGeoPoint(Controller.getInstance().getLocationManager().getLastKnownLocation()).getLongitudeE6();
         }
         minLat = Math.min(gc.getLocationGeoPoint().getLatitudeE6(), minLat);
         maxLat = Math.max(gc.getLocationGeoPoint().getLatitudeE6(), maxLat);
@@ -301,7 +301,7 @@ public class SearchMapActivity extends MapActivity implements IInternetAware, IL
 
         if (Controller.getInstance().getLocationManager().hasLocation()) {
             // is user marker in visible map
-            GeoPoint currentGeoPoint = GpsHelper.locationToGeoPoint(Controller.getInstance().getLocationManager().getLastKnownLocation());
+            GeoPoint currentGeoPoint = CoordinateHelper.locationToGeoPoint(Controller.getInstance().getLocationManager().getLastKnownLocation());
             int userPadding = (int) proj.metersToEquatorPixels(Controller.getInstance().getLocationManager().getLastKnownLocation().getAccuracy());
             proj.toPixels(currentGeoPoint, point);
             needZoomOut = needZoomOut || (point.x - userPadding < mapLeft) || (point.x + userPadding > mapRight) || (point.y - userPadding < mapTop) || (point.y + userPadding > mapBottom);

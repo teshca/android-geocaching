@@ -1,7 +1,7 @@
 package su.geocaching.android.ui.searchmap.stepbystep;
 
 import su.geocaching.android.controller.Controller;
-import su.geocaching.android.controller.GpsHelper;
+import su.geocaching.android.controller.CoordinateHelper;
 import su.geocaching.android.controller.UiHelper;
 import su.geocaching.android.controller.compass.CompassHelper;
 import su.geocaching.android.controller.managers.CheckpointManager;
@@ -105,7 +105,7 @@ public class ConverterActivity extends Activity {
         UserLocationManager locationManager = Controller.getInstance().getLocationManager();
 
         if (locationManager.hasLocation()) {
-            currentLocation = GpsHelper.locationToGeoPoint(locationManager.getLastKnownLocation());
+            currentLocation = CoordinateHelper.locationToGeoPoint(locationManager.getLastKnownLocation());
             info.setText(R.string.relative_to_current_location);
         } else {
             GeoCache gc = Controller.getInstance().getPreferencesManager().getLastSearchedGeoCache();
@@ -129,12 +129,12 @@ public class ConverterActivity extends Activity {
         int lat = currentInputGeoPoint.getLatitudeE6();
         int lng = currentInputGeoPoint.getLongitudeE6();
 
-        int[] sexagesimal = GpsHelper.coordinateE6ToSexagesimal(lat);
+        int[] sexagesimal = CoordinateHelper.coordinateE6ToSexagesimal(lat);
         latDegrees.setText(Integer.toString(sexagesimal[0]), BufferType.EDITABLE);
         latMinutes.setText(Integer.toString(sexagesimal[1]), BufferType.EDITABLE);
         latmMinutes.setText(Integer.toString(sexagesimal[2]), BufferType.EDITABLE);
 
-        sexagesimal = GpsHelper.coordinateE6ToSexagesimal(lng);
+        sexagesimal = CoordinateHelper.coordinateE6ToSexagesimal(lng);
         lngDegrees.setText(Integer.toString(sexagesimal[0]), BufferType.EDITABLE);
         lngMinutes.setText(Integer.toString(sexagesimal[1]), BufferType.EDITABLE);
         lngmMinutes.setText(Integer.toString(sexagesimal[2]), BufferType.EDITABLE);
@@ -143,12 +143,12 @@ public class ConverterActivity extends Activity {
     private void updateSexagesimalSeconds() {
         int lat = currentInputGeoPoint.getLatitudeE6();
         int lng = currentInputGeoPoint.getLongitudeE6();
-        float[] sSexagesimal = GpsHelper.coordinateE6ToSecSexagesimal(lat);
+        float[] sSexagesimal = CoordinateHelper.coordinateE6ToSecSexagesimal(lat);
         sLatDegrees.setText(Integer.toString((int) sSexagesimal[0]), BufferType.EDITABLE);
         sLatMinutes.setText(Integer.toString((int) sSexagesimal[1]), BufferType.EDITABLE);
         sLatSeconds.setText(Float.toString(sSexagesimal[2]), BufferType.EDITABLE);
 
-        sSexagesimal = GpsHelper.coordinateE6ToSecSexagesimal(lng);
+        sSexagesimal = CoordinateHelper.coordinateE6ToSecSexagesimal(lng);
         sLngDegrees.setText(Integer.toString((int) sSexagesimal[0]), BufferType.EDITABLE);
         sLngMinutes.setText(Integer.toString((int) sSexagesimal[1]), BufferType.EDITABLE);
         sLngSeconds.setText(Float.toString(sSexagesimal[2]), BufferType.EDITABLE);
@@ -169,8 +169,8 @@ public class ConverterActivity extends Activity {
     }
 
     private void updateAzimuth() {
-        etAzimuth.setText(CompassHelper.degreesToString(360 - GpsHelper.getBearingBetween(currentLocation, currentInputGeoPoint), "%.0f"), BufferType.EDITABLE);
-        etDistance.setText(Integer.toString((int) GpsHelper.getDistanceBetween(currentLocation, currentInputGeoPoint)), BufferType.EDITABLE);
+        etAzimuth.setText(CompassHelper.degreesToString(360 - CoordinateHelper.getBearingBetween(currentLocation, currentInputGeoPoint), "%.0f"), BufferType.EDITABLE);
+        etDistance.setText(Integer.toString((int) CoordinateHelper.getDistanceBetween(currentLocation, currentInputGeoPoint)), BufferType.EDITABLE);
     }
 
     private void startWatch() {
@@ -267,9 +267,9 @@ public class ConverterActivity extends Activity {
         @Override
         public void afterTextChanged(Editable s) {
             try {
-                int latitudeE6 = GpsHelper.sexagesimalToCoordinateE6(Integer.parseInt(latDegrees.getText().toString()), Integer.parseInt(latMinutes.getText().toString()),
+                int latitudeE6 = CoordinateHelper.sexagesimalToCoordinateE6(Integer.parseInt(latDegrees.getText().toString()), Integer.parseInt(latMinutes.getText().toString()),
                         Integer.parseInt(latmMinutes.getText().toString()));
-                int longitudeE6 = GpsHelper.sexagesimalToCoordinateE6(Integer.parseInt(lngDegrees.getText().toString()), Integer.parseInt(lngMinutes.getText().toString()),
+                int longitudeE6 = CoordinateHelper.sexagesimalToCoordinateE6(Integer.parseInt(lngDegrees.getText().toString()), Integer.parseInt(lngMinutes.getText().toString()),
                         Integer.parseInt(lngmMinutes.getText().toString()));
                 currentInputGeoPoint = new GeoPoint(latitudeE6, longitudeE6);
                 stopWatch();
@@ -288,9 +288,9 @@ public class ConverterActivity extends Activity {
         @Override
         public void afterTextChanged(Editable s) {
             try {
-                int latitudeE6 = GpsHelper.secSexagesimalToCoordinateE6(Integer.parseInt(sLatDegrees.getText().toString()), Integer.parseInt(sLatMinutes.getText().toString()),
+                int latitudeE6 = CoordinateHelper.secSexagesimalToCoordinateE6(Integer.parseInt(sLatDegrees.getText().toString()), Integer.parseInt(sLatMinutes.getText().toString()),
                         Float.parseFloat(sLatSeconds.getText().toString()));
-                int longitudeE6 = GpsHelper.secSexagesimalToCoordinateE6(Integer.parseInt(sLngDegrees.getText().toString()), Integer.parseInt(sLngMinutes.getText().toString()),
+                int longitudeE6 = CoordinateHelper.secSexagesimalToCoordinateE6(Integer.parseInt(sLngDegrees.getText().toString()), Integer.parseInt(sLngMinutes.getText().toString()),
                         Float.parseFloat(sLngSeconds.getText().toString()));
                 currentInputGeoPoint = new GeoPoint(latitudeE6, longitudeE6);
                 stopWatch();
@@ -333,7 +333,7 @@ public class ConverterActivity extends Activity {
                     return;
                 }
                 int distance = Integer.parseInt(etDistance.getText().toString());
-                GeoPoint goalGP = GpsHelper.distanceBearingToGeoPoint(currentLocation, azimuth, distance);
+                GeoPoint goalGP = CoordinateHelper.distanceBearingToGeoPoint(currentLocation, azimuth, distance);
                 currentInputGeoPoint = new GeoPoint(goalGP.getLatitudeE6(), goalGP.getLongitudeE6());
                 stopWatch();
                 updateDecimal();

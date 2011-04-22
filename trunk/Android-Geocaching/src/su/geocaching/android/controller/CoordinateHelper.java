@@ -14,7 +14,7 @@ import java.text.DecimalFormat;
  * @author Grigory Kalabin. grigory.kalabin@gmail.com
  * @since Nov 12, 2010
  */
-public class GpsHelper {
+public class CoordinateHelper {
     // if distance(m)
     // greater than this
     // show (x/1000) km else x m

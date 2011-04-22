@@ -1,7 +1,7 @@
 package su.geocaching.android.ui.compass;
 
 import su.geocaching.android.controller.Controller;
-import su.geocaching.android.controller.GpsHelper;
+import su.geocaching.android.controller.CoordinateHelper;
 import su.geocaching.android.controller.GpsUpdateFrequency;
 import su.geocaching.android.controller.UiHelper;
 import su.geocaching.android.controller.compass.CompassSpeed;
@@ -93,9 +93,9 @@ public class CompassActivity extends Activity {
         }
         
         compassView.setKeepScreenOn(preferenceManager.getKeepScreenOnPreference());
-        targetCoordinates.setText(GpsHelper.coordinateToString(controller.getSearchingGeoCache().getLocationGeoPoint()));
+        targetCoordinates.setText(CoordinateHelper.coordinateToString(controller.getSearchingGeoCache().getLocationGeoPoint()));
         if (locationManager.hasLocation()) {
-            currentCoordinates.setText(GpsHelper.coordinateToString(GpsHelper.locationToGeoPoint(locationManager.getLastKnownLocation())));
+            currentCoordinates.setText(CoordinateHelper.coordinateToString(CoordinateHelper.locationToGeoPoint(locationManager.getLastKnownLocation())));
         }
         if (preferenceManager.getOdometerOnPreference()) {
             odometerlayout.setVisibility(View.VISIBLE);
@@ -239,8 +239,8 @@ public class CompassActivity extends Activity {
         public void updateLocation(Location location) {
 
             if (tvOdometer.isShown() && lastLocation != null) {
-                odometeDistance += GpsHelper.getDistanceBetween(location, lastLocation);
-                tvOdometer.setText(GpsHelper.distanceToString(odometeDistance));
+                odometeDistance += CoordinateHelper.getDistanceBetween(location, lastLocation);
+                tvOdometer.setText(CoordinateHelper.distanceToString(odometeDistance));
             } else {
                 odometeDistance = 0;
             }
@@ -249,8 +249,8 @@ public class CompassActivity extends Activity {
             if (progressBarView.getVisibility() == View.VISIBLE) {
                 progressBarView.setVisibility(View.GONE);
             }
-            float distance = GpsHelper.getDistanceBetween(controller.getSearchingGeoCache().getLocationGeoPoint(), location);
-            statusText.setText(GpsHelper.distanceToString(distance));
+            float distance = CoordinateHelper.getDistanceBetween(controller.getSearchingGeoCache().getLocationGeoPoint(), location);
+            statusText.setText(CoordinateHelper.distanceToString(distance));
             statusText.setTextSize(getResources().getDimension(R.dimen.text_size_big));
             if (distance < CLOSE_DISTANCE_TO_GC_VALUE) {
                 // TODO: may be need make special preference?
@@ -258,8 +258,8 @@ public class CompassActivity extends Activity {
             } else {
                 controller.getLocationManager().updateFrequencyFromPreferences();
             }
-            compassView.setCacheDirection(GpsHelper.getBearingBetween(location, controller.getSearchingGeoCache().getLocationGeoPoint()));
-            currentCoordinates.setText(GpsHelper.coordinateToString(GpsHelper.locationToGeoPoint(location)));
+            compassView.setCacheDirection(CoordinateHelper.getBearingBetween(location, controller.getSearchingGeoCache().getLocationGeoPoint()));
+            currentCoordinates.setText(CoordinateHelper.coordinateToString(CoordinateHelper.locationToGeoPoint(location)));
             compassView.setDistance(distance);
         }
 

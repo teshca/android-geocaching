@@ -1,7 +1,7 @@
 package su.geocaching.android.ui.searchmap.stepbystep;
 
 import su.geocaching.android.controller.Controller;
-import su.geocaching.android.controller.GpsHelper;
+import su.geocaching.android.controller.CoordinateHelper;
 import su.geocaching.android.controller.UiHelper;
 import su.geocaching.android.controller.managers.CheckpointManager;
 import su.geocaching.android.controller.managers.ResourceManager;
@@ -35,12 +35,12 @@ public class CheckpointDialog extends Activity {
         if (checkpointId == cacheId) {
             findViewById(R.id.checkpointDeleteButton).setEnabled(false);
             GeoCache cache = Controller.getInstance().getPreferencesManager().getLastSearchedGeoCache();
-            coordinates.setText(GpsHelper.coordinateToString(cache.getLocationGeoPoint()));
+            coordinates.setText(CoordinateHelper.coordinateToString(cache.getLocationGeoPoint()));
             status.setText(rm.getGeoCacheStatus(cache));
             setTitle(cache.getName());
         }
         else {
-            coordinates.setText(GpsHelper.coordinateToString(checkpointManager.getGeoCache(checkpointId).getLocationGeoPoint()));
+            coordinates.setText(CoordinateHelper.coordinateToString(checkpointManager.getGeoCache(checkpointId).getLocationGeoPoint()));
             status.setText(rm.getGeoCacheStatus(checkpointManager.getGeoCache(checkpointId)));
             setTitle(String.format("%s %d", getString(R.string.checkpoint_dialog_title), checkpointId));
         }
