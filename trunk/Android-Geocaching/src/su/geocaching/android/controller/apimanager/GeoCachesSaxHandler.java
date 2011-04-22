@@ -144,6 +144,12 @@ public class GeoCachesSaxHandler extends DefaultHandler {
             case 4:
                 geoCache.setType(GeoCacheType.EVENT);
                 break;
+            case 5:
+                geoCache.setType(GeoCacheType.WEBCAM);
+                break;
+            case 6:
+                geoCache.setType(GeoCacheType.EXTREME);
+                break;
             case 7:
                 geoCache.setType(GeoCacheType.STEP_BY_STEP_VIRTUAL);
                 break;

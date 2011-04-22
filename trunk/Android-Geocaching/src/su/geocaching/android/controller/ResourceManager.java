@@ -111,6 +111,26 @@ public class ResourceManager {
                                 return R.drawable.ic_cache_custom_event_not_confirmed;
                         }
                         break;
+                    case WEBCAM:
+                        switch (status) {
+                            case VALID:
+                                return -1; // TODO draw icons
+                            case NOT_VALID:
+                                return -1; // TODO draw icons
+                            case NOT_CONFIRMED:
+                                return -1; // TODO draw icons
+                        }
+                        break;
+                    case EXTREME:
+                        switch (status) {
+                            case VALID:
+                                return R.drawable.ic_cache_custom_extreme_valid;
+                            case NOT_VALID:
+                                return R.drawable.ic_cache_custom_extreme_not_valid;
+                            case NOT_CONFIRMED:
+                                return R.drawable.ic_cache_custom_extreme_not_confirmed;
+                        }
+                        break;
                     case STEP_BY_STEP_VIRTUAL:
                         switch (status) {
                             case VALID:
@@ -172,7 +192,26 @@ public class ResourceManager {
                                 return R.drawable.ic_cache_default_event_not_confirmed;
                         }
                         break;
-
+                    case WEBCAM:
+                        switch (status) {
+                            case VALID:
+                                return -1; // TODO draw icons
+                            case NOT_VALID:
+                                return -1; // TODO draw icons
+                            case NOT_CONFIRMED:
+                                return -1; // TODO draw icons
+                        }
+                        break;
+                    case EXTREME:
+                        switch (status) {
+                            case VALID:
+                                return R.drawable.ic_cache_default_extreme_valid;
+                            case NOT_VALID:
+                                return R.drawable.ic_cache_default_extreme_not_valid;
+                            case NOT_CONFIRMED:
+                                return R.drawable.ic_cache_default_extreme_not_confirmed;
+                        }
+                        break;
                     case STEP_BY_STEP_VIRTUAL:
                         switch (status) {
                             case VALID:
@@ -243,13 +282,17 @@ public class ResourceManager {
             case STEP_BY_STEP_TRADITIONAL:
                 return getString(R.string.type_geocache_step_by_step);
             case STEP_BY_STEP_VIRTUAL:
-                return getString(R.string.type_geocache_step_by_step_virtual);       
+                return getString(R.string.type_geocache_step_by_step_virtual);
             case VIRTUAL:
                 return getString(R.string.type_geocache_virtua);
             case EVENT:
                 return getString(R.string.type_geocache_event);
+            case WEBCAM:
+                return getString(R.string.type_geocache_webcam);
+            case EXTREME:
+                return getString(R.string.type_geocache_extreme);
             case CONTEST:
-                return getString(R.string.type_geocache_contest);              
+                return getString(R.string.type_geocache_contest);
             case CHECKPOINT:
                 return getString(R.string.type_geocache_checkpoint);
             default:
