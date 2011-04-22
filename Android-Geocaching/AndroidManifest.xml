@@ -79,12 +79,7 @@
         <activity android:name=".EnergySavingPreferenceActivity"/>
         <activity android:name=".InternetAndGpsPreferenceActivity"/>
         <activity android:name=".compass.CompassPreferenceActivity"/>
-        <activity android:name=".searchmap.stepbystep.StepByStepTabActivity"
-                  android:theme="@android:style/Theme.Light.NoTitleBar"/>
-        <activity android:name=".searchmap.stepbystep.SexagesimalInputActivity"/>
-        <activity android:name=".searchmap.stepbystep.SexagesimalSecondsInputActivity"/>
-        <activity android:name=".searchmap.stepbystep.DecimalInputActivity"/>
-        <activity android:name=".searchmap.stepbystep.AzimuthInputActivity"/>
+        <activity android:theme="@android:style/Theme.Light.NoTitleBar" android:name=".searchmap.stepbystep.ConverterActivity"/>
         <activity android:theme="@android:style/Theme.Light.NoTitleBar"
                   android:name=".searchmap.stepbystep.CheckpointsFolder"/>
         <activity android:name=".searchmap.stepbystep.CheckpointDialog"
