@@ -11,13 +11,13 @@ import su.geocaching.android.ui.R;
  * @since Apr 1, 2011
  * 
  */
-public class SearchMapPreference extends PreferenceActivity {
+public class SearchMapPreferenceActivity extends PreferenceActivity {
     /*
      * (non-Javadoc)
      * 
      * @see android.preference.PreferenceActivity#onCreate(android.os.Bundle)
      */
-    private static final String SEARCH_MAP_PREFERENCE_ACTIVITY_FOLDER = "/SearchMapPreference";
+    private static final String SEARCH_MAP_PREFERENCE_ACTIVITY_FOLDER = "/SearchMapPreferenceActivity";
     
     @Override
     protected void onCreate(Bundle savedInstanceState) {

@@ -3,10 +3,10 @@ package su.geocaching.android.ui;
 import java.util.concurrent.ExecutionException;
 
 import su.geocaching.android.controller.Controller;
-import su.geocaching.android.controller.DbManager;
 import su.geocaching.android.controller.DownloadPageTask;
-import su.geocaching.android.controller.LogManager;
 import su.geocaching.android.controller.UiHelper;
+import su.geocaching.android.controller.managers.DbManager;
+import su.geocaching.android.controller.managers.LogManager;
 import su.geocaching.android.model.GeoCache;
 import android.app.Activity;
 import android.app.Dialog;
@@ -151,7 +151,7 @@ public class InfoActivity extends Activity {
 
     @Override
     protected Dialog onCreateDialog(int id) {
-        return new DialogDownloadNotebook(this, infoTask, geoCache);
+        return new DownloadNotebookDialog(this, infoTask, geoCache);
     }
 
     private void saveCacheInDB() {

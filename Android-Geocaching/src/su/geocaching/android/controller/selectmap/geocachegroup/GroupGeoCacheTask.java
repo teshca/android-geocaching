@@ -1,10 +1,10 @@
 package su.geocaching.android.controller.selectmap.geocachegroup;
 
 import android.os.AsyncTask;
-import su.geocaching.android.controller.LogManager;
+import su.geocaching.android.controller.managers.LogManager;
 import su.geocaching.android.model.GeoCache;
 import su.geocaching.android.ui.geocachemap.GeoCacheOverlayItem;
-import su.geocaching.android.ui.selectmap.SelectMap;
+import su.geocaching.android.ui.selectmap.SelectMapActivity;
 
 import java.util.List;
 
@@ -12,13 +12,13 @@ import java.util.List;
  * @author: Yuri Denison
  * @since: 19.02.11
  */
-public class GroupCacheTask extends AsyncTask<Void, Integer, List<GeoCacheOverlayItem>> {
-    private final SelectMap map;
+public class GroupGeoCacheTask extends AsyncTask<Void, Integer, List<GeoCacheOverlayItem>> {
+    private final SelectMapActivity map;
     private final GeoCacheListAnalyzer analyzer;
-    private final String TAG = "GroupCacheTask";
+    private final String TAG = "GroupGeoCacheTask";
     private final List<GeoCache> geoCacheList;
 
-    public GroupCacheTask(SelectMap map, List<GeoCache> geoCacheList) {
+    public GroupGeoCacheTask(SelectMapActivity map, List<GeoCache> geoCacheList) {
         this.map = map;
         this.geoCacheList = geoCacheList;
         analyzer = new GeoCacheListAnalyzer(map.getMapView());

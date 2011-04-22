@@ -1,12 +1,12 @@
 package su.geocaching.android.ui.searchmap.stepbystep;
 
-import su.geocaching.android.controller.CheckpointManager;
 import su.geocaching.android.controller.Controller;
-import su.geocaching.android.controller.GeoCacheLocationManager;
 import su.geocaching.android.controller.GpsHelper;
-import su.geocaching.android.controller.LogManager;
 import su.geocaching.android.controller.UiHelper;
 import su.geocaching.android.controller.compass.CompassHelper;
+import su.geocaching.android.controller.managers.CheckpointManager;
+import su.geocaching.android.controller.managers.LogManager;
+import su.geocaching.android.controller.managers.UserLocationManager;
 import su.geocaching.android.model.GeoCache;
 import su.geocaching.android.ui.R;
 import android.app.Activity;
@@ -102,7 +102,7 @@ public class ConverterActivity extends Activity {
         etAzimuth = (EditText) findViewById(R.id.azimuth);
         etDistance = (EditText) findViewById(R.id.distance);
 
-        GeoCacheLocationManager locationManager = Controller.getInstance().getLocationManager();
+        UserLocationManager locationManager = Controller.getInstance().getLocationManager();
 
         if (locationManager.hasLocation()) {
             currentLocation = GpsHelper.locationToGeoPoint(locationManager.getLastKnownLocation());

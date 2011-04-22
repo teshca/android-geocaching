@@ -5,11 +5,11 @@ import android.graphics.Canvas;
 import android.util.AttributeSet;
 import android.view.SurfaceHolder;
 import android.view.SurfaceView;
-import su.geocaching.android.controller.LogManager;
 import su.geocaching.android.controller.compass.AbstractCompassDrawing;
 import su.geocaching.android.controller.compass.ICompassAnimation;
 import su.geocaching.android.controller.compass.DefaultCompassDrawing;
 import su.geocaching.android.controller.compass.WhiteStandardCompassDrawing;
+import su.geocaching.android.controller.managers.LogManager;
 
 /**
  * View which displays compass contains of bitmaps for searching geocache.

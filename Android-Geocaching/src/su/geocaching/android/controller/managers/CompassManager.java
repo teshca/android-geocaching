@@ -1,4 +1,4 @@
-package su.geocaching.android.controller;
+package su.geocaching.android.controller.managers;
 
 import android.hardware.Sensor;
 import android.hardware.SensorEvent;

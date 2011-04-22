@@ -1,4 +1,4 @@
-package su.geocaching.android.controller;
+package su.geocaching.android.controller.managers;
 
 import android.location.Location;
 import android.os.Bundle;

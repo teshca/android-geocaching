@@ -1,4 +1,4 @@
-package su.geocaching.android.controller;
+package su.geocaching.android.controller.managers;
 
 import android.location.Criteria;
 import android.location.Location;
@@ -11,14 +11,17 @@ import java.util.List;
 import java.util.Timer;
 import java.util.TimerTask;
 
+import su.geocaching.android.controller.Controller;
+import su.geocaching.android.controller.GpsUpdateFrequency;
+
 /**
  * Location manager which get updates of location by GPS or GSM/Wi-Fi
  *
  * @author Grigory Kalabin. grigory.kalabin@gmail.com
  * @since fall, 2010
  */
-public class GeoCacheLocationManager implements LocationListener {
-    private static final String TAG = GeoCacheLocationManager.class.getCanonicalName();
+public class UserLocationManager implements LocationListener {
+    private static final String TAG = UserLocationManager.class.getCanonicalName();
     private static final String TIMER_NAME = "remove location updates mapupdatetimer";
     private static final long REMOVE_UPDATES_DELAY = 30000; // in milliseconds
 
@@ -35,7 +38,7 @@ public class GeoCacheLocationManager implements LocationListener {
     /**
      * @param locationManager manager which can add or remove updates of location services
      */
-    public GeoCacheLocationManager(LocationManager locationManager) {
+    public UserLocationManager(LocationManager locationManager) {
         this.locationManager = locationManager;
         updateFrequency = Controller.getInstance().getPreferencesManager().getGpsUpdateFrequency();
         subscribers = new ArrayList<ILocationAware>();
@@ -309,12 +312,12 @@ public class GeoCacheLocationManager implements LocationListener {
      * @author Grigory Kalabin. grigory.kalabin@gmail.com
      */
     private class RemoveUpdatesTask extends TimerTask {
-        private GeoCacheLocationManager parent;
+        private UserLocationManager parent;
 
         /**
          * @param parent listener which want remove updates
          */
-        public RemoveUpdatesTask(GeoCacheLocationManager parent) {
+        public RemoveUpdatesTask(UserLocationManager parent) {
             this.parent = parent;
         }
 

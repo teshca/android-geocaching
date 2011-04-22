@@ -7,8 +7,18 @@ import com.google.android.maps.GeoPoint;
 import su.geocaching.android.controller.apimanager.ApiManager;
 import su.geocaching.android.controller.apimanager.DownloadGeoCachesTask;
 import su.geocaching.android.controller.apimanager.IApiManager;
+import su.geocaching.android.controller.managers.CheckpointManager;
+import su.geocaching.android.controller.managers.CompassManager;
+import su.geocaching.android.controller.managers.ConnectionManager;
+import su.geocaching.android.controller.managers.DbManager;
+import su.geocaching.android.controller.managers.UserLocationManager;
+import su.geocaching.android.controller.managers.GoogleAnalyticsManager;
+import su.geocaching.android.controller.managers.GpsStatusManager;
+import su.geocaching.android.controller.managers.LogManager;
+import su.geocaching.android.controller.managers.PreferencesManager;
+import su.geocaching.android.controller.managers.ResourceManager;
 import su.geocaching.android.model.GeoCache;
-import su.geocaching.android.ui.selectmap.SelectMap;
+import su.geocaching.android.ui.selectmap.SelectMapActivity;
 
 /**
  * @author Yuri Denison
@@ -16,14 +26,15 @@ import su.geocaching.android.ui.selectmap.SelectMap;
  */
 public class Controller {
     private static final String TAG = Controller.class.getCanonicalName();
-    static final boolean DEBUG = true;// it is constant really need, because compiler can remove code blocks which cannot be execute
+    public static final boolean DEBUG = true;// it is constant really need, because compiler can remove code blocks which cannot be execute. Visibility is public because LogManager and
+                                             // AnalyticsManager use this constant
 
     private static Controller instance;
     private Context applicationContext;
 
     private IApiManager apiManager;
 
-    private GeoCacheLocationManager locationManager;
+    private UserLocationManager locationManager;
     private CompassManager compassManager;
     private GpsStatusManager gpsStatusManager;
     private ConnectionManager connectionManager;
@@ -51,20 +62,23 @@ public class Controller {
 
     /**
      * Request for caches in the visible region
-     *
-     * @param map              - links to maps, which will be added caches
-     * @param upperLeftCorner  - upper left corner of the visible area
-     * @param lowerRightCorner - lower right corner of the visible area
+     * 
+     * @param map
+     *            - links to maps, which will be added caches
+     * @param upperLeftCorner
+     *            - upper left corner of the visible area
+     * @param lowerRightCorner
+     *            - lower right corner of the visible area
      */
-    public void updateSelectedGeoCaches(SelectMap map, GeoPoint upperLeftCorner, GeoPoint lowerRightCorner) {
-        GeoPoint[] d = {upperLeftCorner, lowerRightCorner};
+    public void updateSelectedGeoCaches(SelectMapActivity map, GeoPoint upperLeftCorner, GeoPoint lowerRightCorner) {
+        GeoPoint[] d = { upperLeftCorner, lowerRightCorner };
         new DownloadGeoCachesTask(apiManager, map).execute(d);
     }
 
     /**
      * @return location manager which can send to ILocationAware location updates
      */
-    public synchronized GeoCacheLocationManager getLocationManager() {
+    public synchronized UserLocationManager getLocationManager() {
         return getLocationManager(applicationContext);
     }
 
@@ -111,19 +125,21 @@ public class Controller {
     }
 
     /**
-     * @param context for init manager
+     * @param context
+     *            for init manager
      * @return location manager which can send to ILocationAware location updates
      */
-    public synchronized GeoCacheLocationManager getLocationManager(Context context) {
+    public synchronized UserLocationManager getLocationManager(Context context) {
         if (locationManager == null) {
             LogManager.d(TAG, "location manager wasn't init yet. init.");
-            locationManager = new GeoCacheLocationManager((LocationManager) context.getSystemService(Context.LOCATION_SERVICE));
+            locationManager = new UserLocationManager((LocationManager) context.getSystemService(Context.LOCATION_SERVICE));
         }
         return locationManager;
     }
 
     /**
-     * @param context for init manager
+     * @param context
+     *            for init manager
      * @return compass manager which can send to ICompassAware updates of bearing
      */
     public synchronized CompassManager getCompassManager(Context context) {
@@ -135,7 +151,8 @@ public class Controller {
     }
 
     /**
-     * @param context for init manager
+     * @param context
+     *            for init manager
      * @return gps status manager which can send to IGpsStatusAware updates of status gps engine
      */
     public synchronized GpsStatusManager getGpsStatusManager(Context context) {
@@ -147,7 +164,8 @@ public class Controller {
     }
 
     /**
-     * @param context for init manager
+     * @param context
+     *            for init manager
      * @return connection manager which can send to IInternetAware updates of internet connection status
      */
     public synchronized ConnectionManager getConnectionManager(Context context) {
@@ -159,7 +177,8 @@ public class Controller {
     }
 
     /**
-     * @param context for init manager
+     * @param context
+     *            for init manager
      * @return resource manager which can give you application resources
      */
     public synchronized ResourceManager getResourceManager(Context context) {
@@ -171,7 +190,8 @@ public class Controller {
     }
 
     /**
-     * @param context for init manager
+     * @param context
+     *            for init manager
      * @return resource manager which can give you application preferences
      */
     public synchronized PreferencesManager getPreferencesManager(Context context) {
@@ -183,7 +203,8 @@ public class Controller {
     }
 
     /**
-     * @param context for init manager
+     * @param context
+     *            for init manager
      * @return resource manager which can give you interface to working with database
      */
     public synchronized DbManager getDbManager(Context context) {
@@ -223,8 +244,9 @@ public class Controller {
 
     /**
      * Set global application context which will be used for initialize of managers
-     *
-     * @param applicationContext global application context of application
+     * 
+     * @param applicationContext
+     *            global application context of application
      */
     protected void setApplicationContext(Context applicationContext) {
         this.applicationContext = applicationContext;

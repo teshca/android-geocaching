@@ -1,4 +1,4 @@
-package su.geocaching.android.controller;
+package su.geocaching.android.controller.managers;
 
 import android.content.Context;
 import android.content.IntentFilter;
@@ -8,6 +8,8 @@ import android.net.NetworkInfo;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
+
+import su.geocaching.android.controller.ConnectionStateReceiver;
 
 /**
  * This class manage classes (named subscribers) which want to get messages about InternetConnectionState

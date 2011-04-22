@@ -1,17 +1,17 @@
 package su.geocaching.android.ui.compass;
 
 import su.geocaching.android.controller.Controller;
-import su.geocaching.android.controller.GeoCacheLocationManager;
 import su.geocaching.android.controller.GpsHelper;
-import su.geocaching.android.controller.GpsStatusManager;
 import su.geocaching.android.controller.GpsUpdateFrequency;
-import su.geocaching.android.controller.IGpsStatusAware;
-import su.geocaching.android.controller.ILocationAware;
-import su.geocaching.android.controller.LogManager;
-import su.geocaching.android.controller.PreferencesManager;
 import su.geocaching.android.controller.UiHelper;
 import su.geocaching.android.controller.compass.CompassSpeed;
 import su.geocaching.android.controller.compass.SmoothCompassThread;
+import su.geocaching.android.controller.managers.UserLocationManager;
+import su.geocaching.android.controller.managers.GpsStatusManager;
+import su.geocaching.android.controller.managers.IGpsStatusAware;
+import su.geocaching.android.controller.managers.ILocationAware;
+import su.geocaching.android.controller.managers.LogManager;
+import su.geocaching.android.controller.managers.PreferencesManager;
 import su.geocaching.android.model.GeoCache;
 import su.geocaching.android.ui.R;
 import android.app.Activity;
@@ -41,7 +41,7 @@ public class CompassActivity extends Activity {
     private static final String COMPASS_ACTIVITY = "/CompassActivity";
 
     private SmoothCompassThread animationThread;
-    private GeoCacheLocationManager locationManager;
+    private UserLocationManager locationManager;
     private LocationListener locationListener;
     private GpsStatusManager gpsManager;
     private GpsStatusListener gpsListener;

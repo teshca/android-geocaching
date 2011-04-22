@@ -1,5 +1,7 @@
 package su.geocaching.android.controller;
 
+import su.geocaching.android.controller.managers.ConnectionManager;
+import su.geocaching.android.controller.managers.LogManager;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;

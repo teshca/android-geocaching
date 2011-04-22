@@ -1,11 +1,11 @@
 package su.geocaching.android.ui.searchmap.stepbystep;
 
-import su.geocaching.android.controller.CheckpointManager;
 import su.geocaching.android.controller.Controller;
-import su.geocaching.android.controller.LogManager;
 import su.geocaching.android.controller.UiHelper;
-import su.geocaching.android.ui.AbstractCacheFolder;
-import su.geocaching.android.ui.FavoritesFolder;
+import su.geocaching.android.controller.managers.CheckpointManager;
+import su.geocaching.android.controller.managers.LogManager;
+import su.geocaching.android.ui.AbstractGeoCacheFolderActivity;
+import su.geocaching.android.ui.FavoritesFolderActivity;
 import su.geocaching.android.ui.R;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
@@ -21,11 +21,11 @@ import android.widget.SimpleAdapter;
 /**
  * Class for create ListActivity with checkpoints caches
  */
-public class CheckpointsFolder extends AbstractCacheFolder implements OnItemClickListener {
+public class CheckpointsFolder extends AbstractGeoCacheFolderActivity implements OnItemClickListener {
 
     public static final String CACHE_ID = "cacheId";
 
-    private static final String TAG = FavoritesFolder.class.getCanonicalName();
+    private static final String TAG = FavoritesFolderActivity.class.getCanonicalName();
     private CheckpointManager checkpointManager;
     private AlertDialog removeAlert;
     private int cacheid;

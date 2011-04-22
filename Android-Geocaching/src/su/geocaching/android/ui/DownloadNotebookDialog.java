@@ -4,7 +4,7 @@ import java.util.concurrent.ExecutionException;
 
 import su.geocaching.android.controller.Controller;
 import su.geocaching.android.controller.DownloadPageTask;
-import su.geocaching.android.controller.LogManager;
+import su.geocaching.android.controller.managers.LogManager;
 import su.geocaching.android.model.GeoCache;
 import su.geocaching.android.ui.InfoActivity.PageType;
 import android.app.Dialog;
@@ -16,9 +16,9 @@ import android.widget.CheckBox;
 import android.widget.CompoundButton;
 import android.widget.CompoundButton.OnCheckedChangeListener;
 
-public class DialogDownloadNotebook extends Dialog {
+public class DownloadNotebookDialog extends Dialog {
 
-    private static final String TAG = DialogDownloadNotebook.class.getCanonicalName();
+    private static final String TAG = DownloadNotebookDialog.class.getCanonicalName();
 
     private CheckBox checkBox;
     private Context thisContext;
@@ -27,7 +27,7 @@ public class DialogDownloadNotebook extends Dialog {
     private Button buttonYes;
     private Button buttonNo;
 
-    public DialogDownloadNotebook(Context context) {
+    public DownloadNotebookDialog(Context context) {
         super(context);
         setContentView(R.layout.custom_dialog_in_info_activity);
         setCancelable(true);
@@ -47,7 +47,7 @@ public class DialogDownloadNotebook extends Dialog {
 
     }
 
-    public DialogDownloadNotebook(Context context, AsyncTask<Void, Void, String> infoTask, GeoCache cache) {
+    public DownloadNotebookDialog(Context context, AsyncTask<Void, Void, String> infoTask, GeoCache cache) {
         this(context);
         this.thisContext = context;
         this.cache = cache;

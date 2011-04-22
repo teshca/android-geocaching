@@ -7,9 +7,9 @@ import android.preference.Preference;
 import android.preference.Preference.OnPreferenceClickListener;
 import android.preference.PreferenceActivity;
 import su.geocaching.android.controller.Controller;
-import su.geocaching.android.controller.LogManager;
+import su.geocaching.android.controller.managers.LogManager;
 import su.geocaching.android.ui.compass.CompassPreferenceActivity;
-import su.geocaching.android.ui.selectmap.SelectMapPreference;
+import su.geocaching.android.ui.selectmap.SelectMapPreferenceActivity;
 
 public class DashboardPreferenceActivity extends PreferenceActivity {
     private static final String TAG = DashboardPreferenceActivity.class.getCanonicalName();
@@ -27,7 +27,7 @@ public class DashboardPreferenceActivity extends PreferenceActivity {
         mapPreference.setOnPreferenceClickListener(new OnPreferenceClickListener() {
 
             public boolean onPreferenceClick(Preference preference) {
-                startActivity(new Intent(getBaseContext(), SelectMapPreference.class));
+                startActivity(new Intent(getBaseContext(), SelectMapPreferenceActivity.class));
                 return true;
             }
         });

@@ -1,13 +1,12 @@
 package su.geocaching.android.ui;
 
 import su.geocaching.android.controller.Controller;
-import su.geocaching.android.controller.LogManager;
+import su.geocaching.android.controller.managers.LogManager;
 import su.geocaching.android.model.GeoCache;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
-import android.provider.Settings;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
@@ -18,9 +17,9 @@ import android.widget.SimpleAdapter;
 /**
  * Class for create ListActivity with favorites caches
  */
-public class FavoritesFolder extends AbstractCacheFolder {
+public class FavoritesFolderActivity extends AbstractGeoCacheFolderActivity {
 
-    private static final String TAG = FavoritesFolder.class.getCanonicalName();
+    private static final String TAG = FavoritesFolderActivity.class.getCanonicalName();
     private static final String FAVORITES_FOLDER = "/FavoritesActivity";
 
     @Override

@@ -11,7 +11,7 @@ import su.geocaching.android.ui.DashboardActivity;
 import su.geocaching.android.ui.R;
 import su.geocaching.android.ui.InfoActivity;
 import su.geocaching.android.ui.compass.CompassActivity;
-import su.geocaching.android.ui.searchmap.SearchGeoCacheMap;
+import su.geocaching.android.ui.searchmap.SearchMapActivity;
 import su.geocaching.android.ui.searchmap.stepbystep.CheckpointDialog;
 import su.geocaching.android.ui.searchmap.stepbystep.CheckpointsFolder;
 import su.geocaching.android.ui.searchmap.stepbystep.ConverterActivity;
@@ -68,7 +68,7 @@ public class UiHelper {
     }
 
     /**
-     * F Starts SearchGeoCacheMap activity and finish this
+     * F Starts SearchMapActivity activity and finish this
      * 
      * @param context
      *            //TODO describe it
@@ -76,7 +76,7 @@ public class UiHelper {
      *            //TODO describe it
      */
     public static void startSearchMapActivity(Context context, GeoCache geoCache) {
-        Intent intent = new Intent(context, SearchGeoCacheMap.class);
+        Intent intent = new Intent(context, SearchMapActivity.class);
         intent.putExtra(GeoCache.class.getCanonicalName(), geoCache);
         context.startActivity(intent);
     }

@@ -16,13 +16,13 @@ import com.google.android.maps.OverlayItem;
  * @author Android-Geocaching.su student project team
  * @since October 2010 GeoCache Itemized Overlay for one or more caches
  */
-public class SearchCacheOverlay extends ItemizedOverlay<OverlayItem> {
+public class SearchGeoCacheOverlay extends ItemizedOverlay<OverlayItem> {
 
     private GeoCacheOverlayItem item;
     private Activity activity;
     private final GestureDetector gestureDetector;
 
-    public SearchCacheOverlay(Drawable defaultMarker, Activity context, final MapView map) {
+    public SearchGeoCacheOverlay(Drawable defaultMarker, Activity context, final MapView map) {
         super(defaultMarker);
         this.activity = context;
         populate();

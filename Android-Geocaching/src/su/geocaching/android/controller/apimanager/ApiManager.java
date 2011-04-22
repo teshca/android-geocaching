@@ -4,7 +4,7 @@ import com.google.android.maps.GeoPoint;
 import org.xml.sax.InputSource;
 import org.xml.sax.SAXException;
 import su.geocaching.android.controller.Controller;
-import su.geocaching.android.controller.LogManager;
+import su.geocaching.android.controller.managers.LogManager;
 import su.geocaching.android.model.GeoCache;
 
 import javax.xml.parsers.ParserConfigurationException;
