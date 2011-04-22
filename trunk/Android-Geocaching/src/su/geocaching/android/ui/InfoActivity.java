@@ -87,7 +87,7 @@ public class InfoActivity extends Activity {
             public boolean shouldOverrideUrlLoading(WebView view, String url) {
                 String urlNotebook = String.format("http://pda.geocaching.su/note.php?cid=%d&mode=0", geoCache.getId());
                 String urlInfoGeocache = String.format("http://pda.geocaching.su/cache.php?cid=%d", geoCache.getId());
-                if (url.equals(urlNotebook)) {
+                if (url == null || url.equals(urlInfoGeocache) ) {
                     togglePageType();
                     return true;
                 }

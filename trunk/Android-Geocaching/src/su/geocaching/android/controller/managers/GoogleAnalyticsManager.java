@@ -22,4 +22,8 @@ public class GoogleAnalyticsManager {
             tracker.dispatch();
         }
     }
+    public void trackEvent(String category, String action, String opt_label, int opt_value){
+        tracker.trackEvent(category, action, opt_label, opt_value);
+        tracker.dispatch();
+    }
 }
