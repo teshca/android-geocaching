@@ -78,7 +78,7 @@
         <activity android:name=".EnergySavingPreferenceActivity"/>
         <activity android:name=".InternetAndGpsPreferenceActivity"/>
         <activity android:name=".compass.CompassPreferenceActivity"/>
-        <activity android:theme="@android:style/Theme.Light.NoTitleBar" android:name=".searchmap.stepbystep.ConverterActivity"/>
+        <activity android:theme="@android:style/Theme.Light.NoTitleBar" android:name=".searchmap.stepbystep.CreateCheckpointActivity"/>
         <activity android:theme="@android:style/Theme.Light.NoTitleBar"
                   android:name=".searchmap.stepbystep.CheckpointsFolder"/>
         <activity android:name=".searchmap.stepbystep.CheckpointDialog"
