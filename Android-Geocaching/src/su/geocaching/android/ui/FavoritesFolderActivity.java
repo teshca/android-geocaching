@@ -92,7 +92,6 @@ public class FavoritesFolderActivity extends AbstractGeoCacheFolderActivity {
         }).setNegativeButton(this.getString(R.string.no), new DialogInterface.OnClickListener() {
             public void onClick(DialogInterface dialog, int id) {
                 dialog.cancel();
-                finish();
             }
         });
         AlertDialog turnOnInternetAlert = builder.create();

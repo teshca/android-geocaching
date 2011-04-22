@@ -41,6 +41,7 @@ public class LogManager {
      * @param msg The message you would like logged.
      */
     public static void e(String tag, String msg) {
+        Controller.getInstance().getGoogleAnalyticsManager().trackEvent(tag, msg, null, 0);
         Log.e(tag, msg);
     }
 
