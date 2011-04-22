@@ -4,10 +4,9 @@
 !ConnectionManager (su.geocaching.android.ui.geocachemap.!ConnectionManager.java) предназначен для получения информации о состоянии подключения к сети. Если появляется или пропадает соединение с интернетом - все объекты, использующие !ConnectionManager, уведомляются.
 
 = Как с этим работать =
-Для того, чтобы пользоваться !ConnectionManager ваш класс должен реализовывать интерфейс [ConnectionManager#IInternetAware IInternetAware]. Создавать объект !ConnectionManager не нужно. Для того, чтобы получить !ConnectionManager следует вызвать метод Controller.getConnectionManager(Context context), где параметром передаётся контекст из которого можно получить !ConnectivityManager. Пример получения !ConnectionManager из Activity:
+Для того, чтобы пользоваться !ConnectionManager ваш класс должен реализовывать интерфейс [ConnectionManager#IInternetAware IInternetAware]. Создавать объект !ConnectionManager не нужно. Для того, чтобы получить !ConnectionManager следует вызвать метод Controller.getConnectionManager(). Пример:
 {{{
-Controller mController = Controller.getInstance();
-ConnectionManager mConnectionManager = mController.getConnectionManager(this);
+Controller.getInstance().getConnectionManager();
 }}}
 
 Для того, чтобы сообщить !ConnectionManager о том, что вы хотите (не) получать обновления о состоянии соединения с интернетом есть 2 метода:
