@@ -137,8 +137,8 @@
 	<string name="delete">Удалить</string>
 	<string name="delete_all">Удалить все</string>
 	<string name="converter">Конвертер координат</string>
-	<string name="sexagestimal_template">гг°,мм,мм\'</string>
-	<string name="sexagestimal_seconds__template">гг°,мм\'с.сс\"</string>
-	<string name="decimal_template">гг,гггг°</string>
+	<string name="sexagestimal_template">гг°,мм,ммм\'</string>
+	<string name="sexagestimal_seconds__template">гг°,мм\'сс.ссс\"</string>
+	<string name="decimal_template">гг,ггггг°</string>
 	<string name="azimuth_template">По азимуту</string>
 </resources>
