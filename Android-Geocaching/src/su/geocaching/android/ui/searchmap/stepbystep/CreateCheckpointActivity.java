@@ -28,9 +28,9 @@ import com.google.android.maps.GeoPoint;
  * @author Nikita Bumakov
  * 
  */
-public class ConverterActivity extends Activity {
+public class CreateCheckpointActivity extends Activity {
 
-    private static final String TAG = ConverterActivity.class.getCanonicalName();
+    private static final String TAG = CreateCheckpointActivity.class.getCanonicalName();
     private static final String STEP_BY_STEP_TAB_ACTIVITY_FOLDER = "/StepByStepTabActivity";
 
     private LinearLayout sexagesimal, sexagesimalSeconds, decimal, azimuth;
