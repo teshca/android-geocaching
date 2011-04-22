@@ -8,11 +8,10 @@
 = Как с этим работать =
 
 Для того, чтобы пользоваться !LocationManager ваш класс должен реализовывать интерфейс [LocationManager#ILocationAware ILocationAware].
-Создавать объект !LocationManager не нужно. Для того, чтобы получить !LocationManager следует вызвать метод getLocationManager(Context context), где параметром передаётся контекст из которого можно получить LocationManager. Пример получения !LocationManager из Activity:
+Создавать объект !LocationManager не нужно. Для того, чтобы получить !LocationManager следует вызвать метод getLocationManager(). Пример:
 
 {{{
-Controller mController = Controller.getInstance();
-LocationManager mLocationManager = mController.getLocationManager(this);
+Controller.getInstance().getLocationManager();
 }}}
 
 Для того, чтобы сообщить !LocationManager о том, что вы хотите (не) получать обновления положения есть 2 метода:
@@ -40,7 +39,7 @@ public interface ILocationAware {
     public void onProviderDisabled(String provider);
 }
 }}}
-ILocationAware - интерфейс с которым работает LocationManager. В тот момент, когда случается то или иное событие вызывается соответствующий метод. Почитать более подробно об этих методах можно здесь: http://developer.android.com/reference/android/location/LocationListener.html
+ILocationAware - интерфейс с которым работает LocationManager. В тот момент, когда случается то или иное событие вызывается соответствующий метод. Почитать более подробно об этих методах можно [http://developer.android.com/reference/android/location/LocationListener.html здесь].
 
 ===updateLocation===
 Случается тогда, когда получено новое положение пользователя. 
@@ -62,7 +61,7 @@ ILocationAware - интерфейс с которым работает LocationM
 Возможна ситуация, когда на устройстве отсутствует акселерометр и получать азимут пользователя с помощью встроенных механизмов невозможно. Если аппаратный компас недоступен и сущность, которая получает обновления положения, также реализует [CompassManager#ICompassAware ICompassAware], то в этом случае при вызове [LocationManager#updateLocation updateLocation] будет вызван метод updateBearing из интерфейса [CompassManager#ICompassAware ICompassAware]. Этот азимут определяется по направлению движения пользователя и стоит иметь в виду, что если положение определяется по GSM/!WiFi сетям этот азимут скорее всего будет неопределён(и равен нулю).
 
 =Как это работает=
-На протяжении работы приложения !LocationManager создаётся лишь один раз - в Controller'е при первом вызове Controller.getLocationManager(Context context). Класс !LocationManager хранит в себе список объектов, реализующих [LocationManager#ILocationAware ILocationAware], которые получают обновления положения пользователя (назовём их подписчики), и оперирует с ним при вызове методов !LocationManager.addSubscriber(ILocationAware subsriber) и !LocationManager.removeSubsriber(ILocationAware subsriber). 
+На протяжении работы приложения !LocationManager создаётся лишь один раз - в Controller'е при первом вызове Controller.getLocationManager(). Контекст, используемый для его создания, - глобальный контекст приложения. Класс !LocationManager хранит в себе список объектов, реализующих [LocationManager#ILocationAware ILocationAware], которые получают обновления положения пользователя (назовём их подписчики), и оперирует с ним при вызове методов !LocationManager.addSubscriber(ILocationAware subsriber) и !LocationManager.removeSubsriber(ILocationAware subsriber). 
 
 Как только появляется хотя бы один подписчик, делается запрос к системе для получения обновлений положения. В тот момент, когда обновилось положение или провайдер стал доступен/недоступен все подписчики уведомляются об этом событии, посредством вызова соответствующего метода интерфейса [LocationManager#ILocationAware ILocationAware].
 
