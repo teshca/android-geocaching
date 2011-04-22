@@ -183,7 +183,7 @@ public class SelectMapActivity extends MapActivity implements IInternetAware {
         switch (item.getItemId()) {
             case R.id.revertCenterToLocation:
                 if (currentLocation != null) {
-                    GeoPoint center = GpsHelper.locationToGeoPoint(currentLocation);
+                    GeoPoint center = CoordinateHelper.locationToGeoPoint(currentLocation);
                     mapController.animateTo(center);
                 } else {
                     Toast.makeText(getBaseContext(), R.string.status_null_last_location, Toast.LENGTH_SHORT).show();

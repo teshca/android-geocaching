@@ -3,7 +3,7 @@ package su.geocaching.android.controller.compass;
 import android.graphics.*;
 import android.graphics.Paint.Style;
 import su.geocaching.android.controller.Controller;
-import su.geocaching.android.controller.GpsHelper;
+import su.geocaching.android.controller.CoordinateHelper;
 import su.geocaching.android.ui.R;
 
 /**
@@ -69,7 +69,7 @@ public class DefaultCompassDrawing extends AbstractCompassDrawing {
     }
 
     private void drawDistanceLabel(Canvas canvas) {
-        canvas.drawText(GpsHelper.distanceToString(distance), -centerX * 0.95f, -centerY * 0.8f, textPaint);
+        canvas.drawText(CoordinateHelper.distanceToString(distance), -centerX * 0.95f, -centerY * 0.8f, textPaint);
     }
 
     @Override
