@@ -26,12 +26,12 @@
 		<Button android:id="@+id/checkpointActiveButton"
 			android:textColor="@color/menu_text_color" android:layout_height="wrap_content"
 			android:text="@string/active" android:onClick="onActiveClick"
-			android:drawableTop="@drawable/activate" android:layout_width="wrap_content"
+			android:drawableLeft="@drawable/activate" android:layout_width="wrap_content"
 			android:layout_weight="1" />
 		<Button android:id="@+id/checkpointDeleteButton"
 			android:textColor="@color/menu_text_color" android:layout_height="wrap_content"
 			android:text="@string/delete" android:onClick="onDeleteClick"
-			android:drawableTop="@drawable/delete" android:layout_width="wrap_content"
+			android:drawableLeft="@drawable/delete" android:layout_width="wrap_content"
 			android:layout_weight="1" />
 	</LinearLayout>
 </LinearLayout>

@@ -31,7 +31,7 @@ import com.google.android.maps.GeoPoint;
 public class CreateCheckpointActivity extends Activity {
 
     private static final String TAG = CreateCheckpointActivity.class.getCanonicalName();
-    private static final String STEP_BY_STEP_TAB_ACTIVITY_FOLDER = "/StepByStepTabActivity";
+    private static final String STEP_BY_STEP_TAB_ACTIVITY_FOLDER = "/CreateCheckpointActivity";
 
     private LinearLayout sexagesimal, sexagesimalSeconds, decimal, azimuth;
     private TextWatcher sexagesimalWatcher, sexagesimalSecondsWacher, decimalWatcher, azimuthWatcher;
@@ -56,7 +56,7 @@ public class CreateCheckpointActivity extends Activity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.converter);
+        setContentView(R.layout.create_checkpoint_activity);
 
         sexagesimal = (LinearLayout) findViewById(R.id.SexagesimalLayout);
         sexagesimalSeconds = (LinearLayout) findViewById(R.id.SexagesimalSeconsdLayout);
