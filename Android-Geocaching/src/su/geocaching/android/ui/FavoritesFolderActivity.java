@@ -1,9 +1,12 @@
 package su.geocaching.android.ui;
 
+import java.util.ArrayList;
+
 import su.geocaching.android.controller.Controller;
 import su.geocaching.android.controller.managers.LogManager;
 import su.geocaching.android.model.GeoCache;
 import android.app.AlertDialog;
+import android.app.SearchManager;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
@@ -32,7 +35,13 @@ public class FavoritesFolderActivity extends AbstractGeoCacheFolderActivity {
 
     @Override
     protected void onResume() {
+        
         favoritesList = dbm.getArrayGeoCache();
+        Intent intent = getIntent();
+        if (Intent.ACTION_SEARCH.equals(intent.getAction())){
+            String query = intent.getStringExtra(SearchManager.QUERY);
+            favoritesList = getFoundGeoCachesList(query);
+        }
         if (favoritesList.isEmpty()) {
             tvNoCache.setVisibility(View.VISIBLE);
             lvListShowCache.setAdapter(null);
@@ -46,6 +55,20 @@ public class FavoritesFolderActivity extends AbstractGeoCacheFolderActivity {
         super.onResume();
     }
 
+    private ArrayList<GeoCache> getFoundGeoCachesList(String searchString){
+        for (GeoCache cache : favoritesList){
+            searchString = searchString.toLowerCase();
+            String nameCache = cache.getName().toLowerCase();
+            if (!searchString.regionMatches(0, nameCache, 0, searchString.length())){
+                favoritesList.remove(cache);
+            }
+        }
+        if (favoritesList.isEmpty()){
+            tvNoCache.setText(getString(R.string.caches_with_appropriate_name_not_found));
+        }
+        return favoritesList;
+    }
+    
     @Override
     public void onItemClick(AdapterView<?> arg0, View arg1, int arg2, long arg3) {
         Intent intent = new Intent(this, InfoActivity.class);
@@ -57,8 +80,10 @@ public class FavoritesFolderActivity extends AbstractGeoCacheFolderActivity {
     public boolean onPrepareOptionsMenu(Menu menu) {
         if (favoritesList.isEmpty()) {
             menu.getItem(0).setEnabled(false);
+            menu.getItem(1).setEnabled(false);
         } else {
             menu.getItem(0).setEnabled(true);
+            menu.getItem(1).setEnabled(true);
         }
         return super.onPrepareOptionsMenu(menu);
     }
@@ -75,6 +100,9 @@ public class FavoritesFolderActivity extends AbstractGeoCacheFolderActivity {
         switch (item.getItemId()) {
             case R.id.delete_all_cache_in_database:
                 createAlertDialog();
+                return true;
+            case R.id.search_cache:
+                onSearchRequested();
                 return true;
             default:
                 return super.onOptionsItemSelected(item);
