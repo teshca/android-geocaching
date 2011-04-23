@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+<string name="cache_filter_type_title">Тип тайников</string>
+	<string name="cache_filter_status_title">Статус тайников</string>
+	<string name="cache_filter_status">filter.status</string>
+	<string name="cache_filter_type">filter.type</string>
+	<string name="cache_filter_default_value">ALL</string>
+	<string name="cache_filter_type_summary">Выберите типы отображаемых тайников</string>
+	<string name="cache_filter_status_summary">Выберите статусы отображаемых тайников</string>
+	<!-- 
+	<string name="cache_filter_traditional_title">Традиционный</string>
+	<string name="cache_filter_stepbystep_title">Пошаговый</string>
+	<string name="cache_filter_extreme_title">Экстрим</string>
+	<string name="cache_filter_event_title">Событие</string>
+	<string name="cache_filter_virtual_title">Виртуальный</string>
+	<string name="cache_filter_valid_title">Действующий</string>
+	<string name="cache_filter_not_valid_title">Недействующий</string>
+	<string name="cache_filter_not_confirmed_title">Сомнительный</string>
+	<string name="cache_filter_valid">filter.valid</string>
+	<string name="cache_filter_not_valid">filter.notValid</string>
+	<string name="cache_filter_not_confirmed">filter.notConfirmed</string>
+	<string name="cache_filter_traditional">filter.traditional</string>
+	<string name="cache_filter_extreme">filter.extreme</string>
+	<string name="cache_filter_stepbystep">filter.stepbystep</string>
+	<string name="cache_filter_virtual">filter.virtual</string>
+	<string name="cache_filter_event">filter.event</string>
+	-->
+	<string name="map_filters_title">Фильтры</string>
+</resources>
