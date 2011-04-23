@@ -18,7 +18,14 @@
 	<string name="info_activity_dialog_always_keep">сохранять всегда</string>
 	<string name="menu_keep_screen">Не выключать экран</string>
 
-
+	<string name="ne_template" formatted="false">%d° %d,%d\' с.ш. | %d°
+		%d,%d\' в.д.</string>
+	<string name="se_template" formatted="false">%d° %d,%d\' ю.ш. | %d°
+		%d,%d\' в.д.</string>
+	<string name="nw_template" formatted="false">%d° %d,%d\' с.ш. | %d°
+		%d,%d\' з.д.</string>
+	<string name="sw_template" formatted="false">%d° %d,%d\' с.ш. | %d°
+		%d,%d\' з.д.</string>
 
 
 
