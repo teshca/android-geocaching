@@ -86,6 +86,7 @@ public class PreferencesManager {
             editor.putInt("searchmap_center_x", info.getCenterX());
             editor.putInt("searchmap_center_y", info.getCenterY());
             editor.putInt("searchmap_zoom", info.getZoom());
+            editor.putInt("searchmap_cacheid", info.getGeoCacheId());
             editor.commit();
         }
     }
@@ -107,7 +108,8 @@ public class PreferencesManager {
         int center_x = preferences.getInt("searchmap_center_x", MapInfo.DEFAULT_CENTER_LATITUDE);
         int center_y = preferences.getInt("searchmap_center_y", MapInfo.DEFAULT_CENTER_LONGITUDE);
         int zoom = preferences.getInt("searchmap_zoom", MapInfo.DEFAULT_ZOOM);
-        return new MapInfo(center_x, center_y, zoom);
+        int cacheId = preferences.getInt("searchmap_cacheid", -1);
+        return new MapInfo(center_x, center_y, zoom, cacheId);
     }
 
     public void setDownloadNoteBookAlways(boolean downloadAlways) {

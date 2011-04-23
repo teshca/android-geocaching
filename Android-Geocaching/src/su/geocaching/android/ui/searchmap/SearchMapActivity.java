@@ -35,7 +35,7 @@ import java.util.Locale;
 
 /**
  * Search GeoCache with the map
- *
+ * 
  * @author Android-Geocaching.su student project team
  * @since October 2010
  */
@@ -174,7 +174,6 @@ public class SearchMapActivity extends MapActivity implements IInternetAware, IL
 
             if (!Controller.getInstance().getLocationManager().hasLocation()) {
                 onBestProviderUnavailable();
-                resetZoom();
                 progressBarView.setVisibility(View.VISIBLE);
                 LogManager.d(TAG, "runLogic: location not fixed. Send msg.");
             } else {
@@ -226,10 +225,14 @@ public class SearchMapActivity extends MapActivity implements IInternetAware, IL
             distanceOverlay = new DistanceToGeoCacheOverlay(CoordinateHelper.locationToGeoPoint(location), Controller.getInstance().getSearchingGeoCache().getLocationGeoPoint());
             mapOverlays.add(distanceOverlay);
             mapOverlays.add(userOverlay);
-            resetZoom();
+
+            Point point = new Point();
+            map.getProjection().toPixels(CoordinateHelper.locationToGeoPoint(location), point);
+            if (point.x < 0 || point.x > map.getWidth() || point.y < 0 || point.y > map.getHeight()) {
+                resetZoom();
+            }
 
             startAnimation();
-
             return;
         }
         distanceOverlay.setUserPoint(CoordinateHelper.locationToGeoPoint(location));
@@ -396,9 +399,11 @@ public class SearchMapActivity extends MapActivity implements IInternetAware, IL
 
     /**
      * Show message string to user
-     *
-     * @param status string with information about device status
-     * @param type   type of message(GPS, Internet, etc)
+     * 
+     * @param status
+     *            string with information about device status
+     * @param type
+     *            type of message(GPS, Internet, etc)
      */
     public void updateStatus(String status, StatusType type) {
         if (!Controller.getInstance().getLocationManager().hasLocation()) {
@@ -558,17 +563,30 @@ public class SearchMapActivity extends MapActivity implements IInternetAware, IL
         UiHelper.goHome(this);
     }
 
+    /**
+     * Set map center and zoom level from last using search geocache map
+     */
     private void updateMapInfoFromSettings() {
         MapInfo lastMapInfo = Controller.getInstance().getPreferencesManager().getLastSearchMapInfo();
-        GeoPoint lastCenter = new GeoPoint(lastMapInfo.getCenterX(), lastMapInfo.getCenterY());
-
-        mapController.setCenter(lastCenter);
-        mapController.animateTo(lastCenter);
-        mapController.setZoom(lastMapInfo.getZoom());
-        map.invalidate();
+        GeoCache geoCache = (GeoCache) getIntent().getParcelableExtra(GeoCache.class.getCanonicalName());
+        if (lastMapInfo.getGeoCacheId() != geoCache.getId()) {
+            resetZoom();
+        } else {
+            GeoPoint lastCenter = new GeoPoint(lastMapInfo.getCenterX(), lastMapInfo.getCenterY());
+            mapController.setCenter(lastCenter);
+            mapController.setZoom(lastMapInfo.getZoom());
+            map.invalidate();
+        }
     }
 
+    /**
+     * Save map center and zoom level to shared preferences
+     */
     private void saveMapInfoToSettings() {
-        Controller.getInstance().getPreferencesManager().setLastSearchMapInfo(new MapInfo(map.getMapCenter().getLatitudeE6(), map.getMapCenter().getLongitudeE6(), map.getZoomLevel()));
+        int centerX = map.getMapCenter().getLatitudeE6();
+        int centerY = map.getMapCenter().getLongitudeE6();
+        int zoom = map.getZoomLevel();
+        int geocacheId = ((GeoCache) getIntent().getParcelableExtra(GeoCache.class.getCanonicalName())).getId();
+        Controller.getInstance().getPreferencesManager().setLastSearchMapInfo(new MapInfo(centerX, centerY, zoom, geocacheId));
     }
 }
