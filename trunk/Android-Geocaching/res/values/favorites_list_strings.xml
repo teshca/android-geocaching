@@ -15,5 +15,6 @@
 		не сохранился, и отсутсвует соединение с интернетом
 	</string>
 	<string name="ask_delete_all_cache_in_database">Вы точно хотите удалить все тайники?</string>
-
+	
+	<string name="caches_with_appropriate_name_not_found">Не найдено тайников с подходящим именем</string>
 </resources>
