@@ -47,7 +47,7 @@
 					android:layout_height="wrap_content" android:id="@+id/info_GeoCache_status"
 					android:text="Status" style="@style/FavoritesFolderRowTextStyle"
 					android:layout_weight="1" android:gravity="right"
-					android:layout_marginRight="15dip" />
+					android:layout_marginRight="5dip" />
 			</LinearLayout>
 		</LinearLayout>
 	</LinearLayout>
