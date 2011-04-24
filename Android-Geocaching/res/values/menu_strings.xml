@@ -11,5 +11,4 @@
     <string name="energy_saving_title">Энегросбережение</string>
     <string name="energy_saving_key">energySaving.preference</string>
     <string name="main_category_title">Настройки</string>
-    <string name="find_geocache">Найти</string>
 </resources>
