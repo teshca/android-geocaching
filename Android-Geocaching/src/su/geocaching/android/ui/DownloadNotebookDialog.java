@@ -29,7 +29,7 @@ public class DownloadNotebookDialog extends Dialog {
 
     public DownloadNotebookDialog(Context context) {
         super(context);
-        setContentView(R.layout.custom_dialog_in_info_activity);
+        setContentView(R.layout.save_notebook_dialog);
         setCancelable(true);
         setTitle(R.string.ask_download_notebook_title);
         checkBox = (CheckBox) findViewById(R.id.downloadNoteBookAlways);
