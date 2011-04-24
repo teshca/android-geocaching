@@ -3,22 +3,20 @@ package su.geocaching.android.controller.managers;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.content.res.Resources;
+import android.location.Location;
+import android.location.LocationManager;
 import android.preference.PreferenceManager;
 import su.geocaching.android.controller.Controller;
 import su.geocaching.android.controller.GpsUpdateFrequency;
 import su.geocaching.android.controller.ListMultiSelectPreference;
-import su.geocaching.android.model.GeoCache;
-import su.geocaching.android.model.GeoCacheStatus;
-import su.geocaching.android.model.GeoCacheType;
-import su.geocaching.android.model.MapInfo;
-import su.geocaching.android.model.SearchMapInfo;
+import su.geocaching.android.model.*;
 import su.geocaching.android.ui.R;
 
 import java.util.EnumSet;
 
 /**
  * Manager which can get access to application preferences
- * 
+ *
  * @author Grigory Kalabin. grigory.kalabin@gmail.com
  * @since March 2011
  */
@@ -39,7 +37,7 @@ public class PreferencesManager {
 
     /**
      * Get id of last searched geocache from preferences and get GeoCache object from database
-     * 
+     *
      * @return last searched geocache by user saved in preferences
      */
     public synchronized GeoCache getLastSearchedGeoCache() {
@@ -49,9 +47,8 @@ public class PreferencesManager {
 
     /**
      * Save last searched geocache id in preferences
-     * 
-     * @param lastSearchedGeoCache
-     *            last searched geoCache
+     *
+     * @param lastSearchedGeoCache last searched geoCache
      */
     public synchronized void setLastSearchedGeoCache(GeoCache lastSearchedGeoCache) {
         if (lastSearchedGeoCache != null) {
@@ -63,8 +60,7 @@ public class PreferencesManager {
     }
 
     /**
-     * @param info
-     *            with data to save
+     * @param info with data to save
      */
     public synchronized void setLastSelectMapInfo(MapInfo info) {
         if (info != null) {
@@ -78,8 +74,7 @@ public class PreferencesManager {
     }
 
     /**
-     * @param info
-     *            with data to save
+     * @param info with data to save
      */
     public synchronized void setLastSearchMapInfo(SearchMapInfo info) {
         if (info != null) {
@@ -96,8 +91,19 @@ public class PreferencesManager {
      * @return MapInfo object with preferences
      */
     public synchronized MapInfo getLastSelectMapInfo() {
-        int center_x = preferences.getInt("selectmap_center_x", MapInfo.DEFAULT_CENTER_LATITUDE);
-        int center_y = preferences.getInt("selectmap_center_y", MapInfo.DEFAULT_CENTER_LONGITUDE);
+        LocationManager locationManager = ((LocationManager) context.getSystemService(Context.LOCATION_SERVICE));
+        int center_x = 0, center_y = 0;
+        for (String provider : locationManager.getProviders(true)) {
+            Location location = locationManager.getLastKnownLocation(provider);
+            if (location != null) {
+                center_x = (int) (location.getLatitude() * 1E6);
+                center_y = (int) (location.getLongitude() * 1E6);
+            }
+        }
+        if (center_x == 0 && center_y == 0) {
+            center_x = preferences.getInt("selectmap_center_x", MapInfo.DEFAULT_CENTER_LATITUDE);
+            center_y = preferences.getInt("selectmap_center_y", MapInfo.DEFAULT_CENTER_LONGITUDE);
+        }
         int zoom = preferences.getInt("selectmap_zoom", MapInfo.DEFAULT_ZOOM);
         return new MapInfo(center_x, center_y, zoom);
     }
