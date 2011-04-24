@@ -17,7 +17,9 @@ import android.view.View;
 import android.widget.ImageView;
 import android.widget.Toast;
 import com.google.android.maps.*;
-import su.geocaching.android.controller.*;
+import su.geocaching.android.controller.Controller;
+import su.geocaching.android.controller.CoordinateHelper;
+import su.geocaching.android.controller.UiHelper;
 import su.geocaching.android.controller.managers.ConnectionManager;
 import su.geocaching.android.controller.managers.IInternetAware;
 import su.geocaching.android.controller.managers.LogManager;
@@ -121,8 +123,13 @@ public class SelectMapActivity extends MapActivity implements IInternetAware {
 
     private void updateMapInfoFromSettings() {
         MapInfo lastMapInfo = Controller.getInstance().getPreferencesManager().getLastSelectMapInfo();
-        GeoPoint lastCenter = new GeoPoint(lastMapInfo.getCenterX(), lastMapInfo.getCenterY());
-
+        GeoPoint lastCenter;
+        GeoPoint userLocation = userOverlay.getMyLocation();
+        if (userLocation == null) {
+            lastCenter = new GeoPoint(lastMapInfo.getCenterX(), lastMapInfo.getCenterY());
+        } else {
+            lastCenter = userLocation;
+        }
         mapController.setCenter(lastCenter);
         mapController.animateTo(lastCenter);
         mapController.setZoom(lastMapInfo.getZoom());
