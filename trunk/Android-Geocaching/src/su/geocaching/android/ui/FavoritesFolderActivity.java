@@ -56,17 +56,18 @@ public class FavoritesFolderActivity extends AbstractGeoCacheFolderActivity {
     }
 
     private ArrayList<GeoCache> getFoundGeoCachesList(String searchString){
+        ArrayList<GeoCache> foundedCaches = new ArrayList<GeoCache>(); 
         for (GeoCache cache : favoritesList){
             searchString = searchString.toLowerCase();
             String nameCache = cache.getName().toLowerCase();
-            if (!searchString.regionMatches(0, nameCache, 0, searchString.length())){
-                favoritesList.remove(cache);
+            if (searchString.regionMatches(0, nameCache, 0, searchString.length())){
+                foundedCaches.add(cache);
             }
         }
-        if (favoritesList.isEmpty()){
+        if (foundedCaches.isEmpty()){
             tvNoCache.setText(getString(R.string.caches_with_appropriate_name_not_found));
         }
-        return favoritesList;
+        return foundedCaches;
     }
     
     @Override
@@ -80,10 +81,8 @@ public class FavoritesFolderActivity extends AbstractGeoCacheFolderActivity {
     public boolean onPrepareOptionsMenu(Menu menu) {
         if (favoritesList.isEmpty()) {
             menu.getItem(0).setEnabled(false);
-            menu.getItem(1).setEnabled(false);
         } else {
             menu.getItem(0).setEnabled(true);
-            menu.getItem(1).setEnabled(true);
         }
         return super.onPrepareOptionsMenu(menu);
     }
@@ -100,9 +99,6 @@ public class FavoritesFolderActivity extends AbstractGeoCacheFolderActivity {
         switch (item.getItemId()) {
             case R.id.delete_all_cache_in_database:
                 createAlertDialog();
-                return true;
-            case R.id.search_cache:
-                onSearchRequested();
                 return true;
             default:
                 return super.onOptionsItemSelected(item);
