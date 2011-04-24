@@ -11,6 +11,7 @@ import su.geocaching.android.model.GeoCache;
 import su.geocaching.android.model.GeoCacheStatus;
 import su.geocaching.android.model.GeoCacheType;
 import su.geocaching.android.model.MapInfo;
+import su.geocaching.android.model.SearchMapInfo;
 import su.geocaching.android.ui.R;
 
 import java.util.EnumSet;
@@ -80,7 +81,7 @@ public class PreferencesManager {
      * @param info
      *            with data to save
      */
-    public synchronized void setLastSearchMapInfo(MapInfo info) {
+    public synchronized void setLastSearchMapInfo(SearchMapInfo info) {
         if (info != null) {
             SharedPreferences.Editor editor = preferences.edit();
             editor.putInt("searchmap_center_x", info.getCenterX());
@@ -104,12 +105,12 @@ public class PreferencesManager {
     /**
      * @return MapInfo object with preferences
      */
-    public synchronized MapInfo getLastSearchMapInfo() {
+    public synchronized SearchMapInfo getLastSearchMapInfo() {
         int center_x = preferences.getInt("searchmap_center_x", MapInfo.DEFAULT_CENTER_LATITUDE);
         int center_y = preferences.getInt("searchmap_center_y", MapInfo.DEFAULT_CENTER_LONGITUDE);
         int zoom = preferences.getInt("searchmap_zoom", MapInfo.DEFAULT_ZOOM);
         int cacheId = preferences.getInt("searchmap_cacheid", -1);
-        return new MapInfo(center_x, center_y, zoom, cacheId);
+        return new SearchMapInfo(center_x, center_y, zoom, cacheId);
     }
 
     public void setDownloadNoteBookAlways(boolean downloadAlways) {
