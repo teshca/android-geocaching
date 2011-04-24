@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+	<string name="download_info">Скачивание информации</string>
+	<string name="download_notebook">Скачивание блокнота тайника</string>
+	<string name="are_you_sure">Удалить все контрольные точки.\nВы уверены?
+	</string>
+	<string name="yes">Да</string>
+	<string name="no">Нет</string>
+	<string name="ask_download_notebook_title">Сохранить вместе с блокнотом?</string>
+	<string name="save_notebook_always_title">Сохранять блокнот</string>
+	<string name="save_notebook_always_key">downloadNoteBookAlways</string>
+	<string name="save_notebook_always_text" />
+	<string name="save_notebook_always_value">false</string>
+	<string name="save_notebook_always_summary">Всегда сохранять блокнот тайника</string>
+
+
+
+</resources>

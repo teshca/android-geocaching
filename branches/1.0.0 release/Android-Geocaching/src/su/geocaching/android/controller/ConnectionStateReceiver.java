@@ -3,6 +3,8 @@ package su.geocaching.android.controller;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
+import su.geocaching.android.controller.managers.ConnectionManager;
+import su.geocaching.android.controller.managers.LogManager;
 
 /**
  * Used for listen broadcast messages for activities which uses internet. It

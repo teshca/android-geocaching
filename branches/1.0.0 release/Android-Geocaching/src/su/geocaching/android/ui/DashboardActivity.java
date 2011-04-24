@@ -9,14 +9,14 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.Toast;
 import su.geocaching.android.controller.Controller;
-import su.geocaching.android.controller.LogManager;
-import su.geocaching.android.model.datatype.GeoCache;
-import su.geocaching.android.ui.searchmap.SearchGeoCacheMap;
-import su.geocaching.android.ui.selectgeocache.SelectGeoCacheMap;
+import su.geocaching.android.controller.managers.LogManager;
+import su.geocaching.android.model.GeoCache;
+import su.geocaching.android.ui.searchmap.SearchMapActivity;
+import su.geocaching.android.ui.selectmap.SelectMapActivity;
 
 /**
  * Main activity in application
- * 
+ *
  * @author Android-Geocaching.su student project team
  * @since October 2010
  */
@@ -29,7 +29,7 @@ public class DashboardActivity extends Activity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         LogManager.d(TAG, "onCreate");
-        setContentView(R.layout.dashboard_menu);
+        setContentView(R.layout.dashboard_view);
 
         Controller.getInstance().getGoogleAnalyticsManager().trackPageView(DASHBOARD_ACTIVITY_FOLDER);
     }
@@ -55,28 +55,26 @@ public class DashboardActivity extends Activity {
 
     /**
      * Starting activity to select GeoCache
-     * 
-     * @param v
-     *            //TODO describe it
+     *
+     * @param v //TODO describe it
      */
     public void onSelectClick(View v) {
-        Intent intent = new Intent(this, SelectGeoCacheMap.class);
+        Intent intent = new Intent(this, SelectMapActivity.class);
         startActivity(intent);
 
     }
 
     /**
      * Starting activity to search GeoCache
-     * 
-     * @param v
-     *            //TODO describe it
+     *
+     * @param v //TODO describe it
      */
     public void onSearchClick(View v) {
         if (Controller.getInstance().getPreferencesManager().getLastSearchedGeoCache() == null) {
             Toast.makeText(this.getBaseContext(), getString(R.string.search_geocache_start_without_geocache), Toast.LENGTH_SHORT).show();
             return;
         }
-        Intent intent = new Intent(this, SearchGeoCacheMap.class);
+        Intent intent = new Intent(this, SearchMapActivity.class);
         intent.putExtra(GeoCache.class.getCanonicalName(), Controller.getInstance().getPreferencesManager().getLastSearchedGeoCache());
         startActivity(intent);
 
@@ -84,9 +82,8 @@ public class DashboardActivity extends Activity {
 
     /**
      * Starting about activity
-     * 
-     * @param v
-     *            //TODO describe it
+     *
+     * @param v //TODO describe it
      */
     public void onSettingsClick(View v) {
         startActivity(new Intent(this, DashboardPreferenceActivity.class));
@@ -94,12 +91,11 @@ public class DashboardActivity extends Activity {
 
     /**
      * Starting activity with favorites geocaches
-     * 
-     * @param v
-     *            //TODO describe it
+     *
+     * @param v //TODO describe it
      */
     public void onFavoriteClick(View v) {
-        Intent intent = new Intent(this, FavoritesFolder.class);
+        Intent intent = new Intent(this, FavoritesFolderActivity.class);
         startActivity(intent);
     }
 }

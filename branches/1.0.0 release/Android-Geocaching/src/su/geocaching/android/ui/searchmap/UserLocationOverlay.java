@@ -27,7 +27,7 @@ public class UserLocationOverlay extends com.google.android.maps.Overlay impleme
     private Paint paintStroke;
     private Paint paintCompassArrow;
     private Path pathCompassArrow;
-    private SearchGeoCacheMap context;
+    private SearchMapActivity context;
     private Point tapPoint;
     private Point userPoint;
     private MapView map;
@@ -39,7 +39,7 @@ public class UserLocationOverlay extends com.google.android.maps.Overlay impleme
      * @param context
      *            activity which use this overlay
      */
-    public UserLocationOverlay(SearchGeoCacheMap context, MapView map) {
+    public UserLocationOverlay(SearchMapActivity context, MapView map) {
         userGeoPoint = null;
         bearing = Float.NaN;
         accuracyRadius = Float.NaN;

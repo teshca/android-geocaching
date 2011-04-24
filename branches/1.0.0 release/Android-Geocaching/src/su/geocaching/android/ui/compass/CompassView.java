@@ -5,11 +5,11 @@ import android.graphics.Canvas;
 import android.util.AttributeSet;
 import android.view.SurfaceHolder;
 import android.view.SurfaceView;
-import su.geocaching.android.controller.LogManager;
-import su.geocaching.android.controller.compass.CompassDrawingHelper;
+import su.geocaching.android.controller.compass.AbstractCompassDrawing;
 import su.geocaching.android.controller.compass.ICompassAnimation;
-import su.geocaching.android.controller.compass.StandardCompassDrawing;
+import su.geocaching.android.controller.compass.DefaultCompassDrawing;
 import su.geocaching.android.controller.compass.WhiteStandardCompassDrawing;
+import su.geocaching.android.controller.managers.LogManager;
 
 /**
  * View which displays compass contains of bitmaps for searching geocache.
@@ -20,7 +20,7 @@ public class CompassView extends SurfaceView implements SurfaceHolder.Callback, 
 
     private static final String TAG = CompassView.class.getCanonicalName();
 
-    private CompassDrawingHelper helper;
+    private AbstractCompassDrawing compassDrawing;
 
     private float northDirection; // in degrees
     private float cacheDirection;
@@ -31,7 +31,7 @@ public class CompassView extends SurfaceView implements SurfaceHolder.Callback, 
         super(context, attributeSet);
         LogManager.d(TAG, "new CompassView");
 
-        helper = new StandardCompassDrawing();
+        compassDrawing = new DefaultCompassDrawing();
         ready = true; // Is it need?
     }
 
@@ -39,9 +39,9 @@ public class CompassView extends SurfaceView implements SurfaceHolder.Callback, 
     public void onDraw(Canvas canvas) {
         if (ready) {
             super.onDraw(canvas);
-            helper.draw(canvas, northDirection);
+            compassDrawing.draw(canvas, northDirection);
             if (isLocationFixed) {
-                helper.drawCacheArrow(canvas, cacheDirection + northDirection);
+                compassDrawing.drawCacheArrow(canvas, cacheDirection + northDirection);
             }
         } else {
             LogManager.w("draw", "not ready");
@@ -52,7 +52,7 @@ public class CompassView extends SurfaceView implements SurfaceHolder.Callback, 
     protected void onSizeChanged(int w, int h, int oldw, int oldh) {
         super.onSizeChanged(w, h, oldw, oldh);
         LogManager.d(TAG, "onSizeChanged" + w + " " + h);
-        helper.onSizeChanged(w, h);
+        compassDrawing.onSizeChanged(w, h);
     }
 
     @Override
@@ -105,7 +105,7 @@ public class CompassView extends SurfaceView implements SurfaceHolder.Callback, 
     }
 
     public void setDistance(float distance) {
-        helper.setDistance(distance);
+        compassDrawing.setDistance(distance);
     }
 
     public void setLocationFix(boolean isLocationFix) {
@@ -115,8 +115,8 @@ public class CompassView extends SurfaceView implements SurfaceHolder.Callback, 
     /**
      * @return the helper
      */
-    public CompassDrawingHelper getHelper() {
-        return helper;
+    public AbstractCompassDrawing getHelper() {
+        return compassDrawing;
     }
 
     /**
@@ -125,13 +125,13 @@ public class CompassView extends SurfaceView implements SurfaceHolder.Callback, 
      */
     // TODO too many objects
     public void setHelper(String string) {
-        if (string.equals("CLASSIC") && !(helper instanceof StandardCompassDrawing)) {
-            helper = new StandardCompassDrawing();
-        } else if (string.equals("PALE") && !(helper instanceof WhiteStandardCompassDrawing)) {
-            helper = new WhiteStandardCompassDrawing();
+        if (string.equals("CLASSIC") && !(compassDrawing instanceof DefaultCompassDrawing)) {
+            compassDrawing = new DefaultCompassDrawing();
+        } else if (string.equals("PALE") && !(compassDrawing instanceof WhiteStandardCompassDrawing)) {
+            compassDrawing = new WhiteStandardCompassDrawing();
         }
         if (getWidth() > 0) {
-            helper.onSizeChanged(getWidth(), getHeight());
+            compassDrawing.onSizeChanged(getWidth(), getHeight());
         }
     }
 
