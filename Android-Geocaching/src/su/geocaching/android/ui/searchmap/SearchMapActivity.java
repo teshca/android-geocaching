@@ -25,7 +25,7 @@ import su.geocaching.android.controller.managers.LogManager;
 import su.geocaching.android.model.GeoCache;
 import su.geocaching.android.model.GeoCacheStatus;
 import su.geocaching.android.model.GeoCacheType;
-import su.geocaching.android.model.MapInfo;
+import su.geocaching.android.model.SearchMapInfo;
 import su.geocaching.android.ui.FavoritesFolderActivity;
 import su.geocaching.android.ui.R;
 import su.geocaching.android.ui.geocachemap.GeoCacheOverlayItem;
@@ -567,7 +567,7 @@ public class SearchMapActivity extends MapActivity implements IInternetAware, IL
      * Set map center and zoom level from last using search geocache map
      */
     private void updateMapInfoFromSettings() {
-        MapInfo lastMapInfo = Controller.getInstance().getPreferencesManager().getLastSearchMapInfo();
+        SearchMapInfo lastMapInfo = Controller.getInstance().getPreferencesManager().getLastSearchMapInfo();
         GeoCache geoCache = (GeoCache) getIntent().getParcelableExtra(GeoCache.class.getCanonicalName());
         if (lastMapInfo.getGeoCacheId() != geoCache.getId()) {
             resetZoom();
@@ -587,6 +587,6 @@ public class SearchMapActivity extends MapActivity implements IInternetAware, IL
         int centerY = map.getMapCenter().getLongitudeE6();
         int zoom = map.getZoomLevel();
         int geocacheId = ((GeoCache) getIntent().getParcelableExtra(GeoCache.class.getCanonicalName())).getId();
-        Controller.getInstance().getPreferencesManager().setLastSearchMapInfo(new MapInfo(centerX, centerY, zoom, geocacheId));
+        Controller.getInstance().getPreferencesManager().setLastSearchMapInfo(new SearchMapInfo(centerX, centerY, zoom, geocacheId));
     }
 }
