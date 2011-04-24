@@ -6,6 +6,7 @@ package su.geocaching.android.ui.searchmap;
  * @author Grigory Kalabin. grigory.kalabin@gmail.com
  * @since Dec 2010
  */
+@Deprecated
 public enum StatusType {
     GPS, COMPASS, INTERNET
 }

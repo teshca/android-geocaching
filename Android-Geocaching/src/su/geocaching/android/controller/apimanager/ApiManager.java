@@ -4,8 +4,8 @@ import com.google.android.maps.GeoPoint;
 import org.xml.sax.InputSource;
 import org.xml.sax.SAXException;
 import su.geocaching.android.controller.Controller;
-import su.geocaching.android.controller.LogManager;
-import su.geocaching.android.model.datatype.GeoCache;
+import su.geocaching.android.controller.managers.LogManager;
+import su.geocaching.android.model.GeoCache;
 
 import javax.xml.parsers.ParserConfigurationException;
 import javax.xml.parsers.SAXParser;
@@ -58,7 +58,7 @@ public class ApiManager implements IApiManager {
             return new LinkedList<GeoCache>();
         }
 
-        GeoCacheSaxHandler handler;
+        GeoCachesSaxHandler handler;
         HttpURLConnection connection = null;
         try {
             SAXParserFactory factory = SAXParserFactory.newInstance();
@@ -72,7 +72,7 @@ public class ApiManager implements IApiManager {
             }
 
             InputSource geoCacheXml = new InputSource(new InputStreamReader(connection.getInputStream(), ENCODING));
-            handler = new GeoCacheSaxHandler();
+            handler = new GeoCachesSaxHandler();
             parser.parse(geoCacheXml, handler);
             geoCaches.addAll(handler.getGeoCaches());
         } catch (MalformedURLException e) {

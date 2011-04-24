@@ -1,11 +1,11 @@
 package su.geocaching.android.ui.searchmap.stepbystep;
 
-import su.geocaching.android.controller.CheckpointManager;
 import su.geocaching.android.controller.Controller;
-import su.geocaching.android.controller.LogManager;
 import su.geocaching.android.controller.UiHelper;
-import su.geocaching.android.ui.AbstractCacheFolder;
-import su.geocaching.android.ui.FavoritesFolder;
+import su.geocaching.android.controller.managers.CheckpointManager;
+import su.geocaching.android.controller.managers.LogManager;
+import su.geocaching.android.ui.AbstractGeoCacheFolderActivity;
+import su.geocaching.android.ui.FavoritesFolderActivity;
 import su.geocaching.android.ui.R;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
@@ -21,11 +21,11 @@ import android.widget.SimpleAdapter;
 /**
  * Class for create ListActivity with checkpoints caches
  */
-public class CheckpointsFolder extends AbstractCacheFolder implements OnItemClickListener {
+public class CheckpointsFolder extends AbstractGeoCacheFolderActivity implements OnItemClickListener {
 
     public static final String CACHE_ID = "cacheId";
 
-    private static final String TAG = FavoritesFolder.class.getCanonicalName();
+    private static final String TAG = FavoritesFolderActivity.class.getCanonicalName();
     private CheckpointManager checkpointManager;
     private AlertDialog removeAlert;
     private int cacheid;
@@ -35,7 +35,7 @@ public class CheckpointsFolder extends AbstractCacheFolder implements OnItemClic
         super.onCreate(savedInstanceState);
         cacheid = getIntent().getIntExtra(CACHE_ID, 0);
         checkpointManager = Controller.getInstance().getCheckpointManager(cacheid);
-        tvNoCache.setText(getString(R.string.checkpoint_folder_not_cache_in_db));
+        tvNoCache.setText(getString(R.string.checkpoint_list_not_cache_in_db));
         initRemoveDialog();
     }
 
@@ -66,7 +66,7 @@ public class CheckpointsFolder extends AbstractCacheFolder implements OnItemClic
         } else {
             favoritesList.add(0, Controller.getInstance().getPreferencesManager().getLastSearchedGeoCache());
             tvNoCache.setVisibility(View.GONE);
-            SimpleAdapter simpleAdapter = new SimpleAdapter(this, createGeoCacheList(favoritesList), R.layout.row_in_favorit_rolder, keys, new int[] { R.id.favorite_list_image_button_type,
+            SimpleAdapter simpleAdapter = new SimpleAdapter(this, createGeoCacheList(favoritesList), R.layout.row_in_favorite_list, keys, new int[] { R.id.favorite_list_image_button_type,
                     R.id.favorite_list_text_view_name, R.id.favorites_row_type_text, R.id.favorites_row_status_text });
             lvListShowCache.setAdapter(simpleAdapter);
         }

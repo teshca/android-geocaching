@@ -5,11 +5,20 @@ import android.hardware.SensorManager;
 import android.location.LocationManager;
 import com.google.android.maps.GeoPoint;
 import su.geocaching.android.controller.apimanager.ApiManager;
-import su.geocaching.android.controller.apimanager.DownloadGeoCacheTask;
+import su.geocaching.android.controller.apimanager.DownloadGeoCachesTask;
 import su.geocaching.android.controller.apimanager.IApiManager;
-import su.geocaching.android.model.datastorage.DbManager;
-import su.geocaching.android.model.datatype.GeoCache;
-import su.geocaching.android.ui.selectgeocache.SelectGeoCacheMap;
+import su.geocaching.android.controller.managers.CheckpointManager;
+import su.geocaching.android.controller.managers.CompassManager;
+import su.geocaching.android.controller.managers.ConnectionManager;
+import su.geocaching.android.controller.managers.DbManager;
+import su.geocaching.android.controller.managers.UserLocationManager;
+import su.geocaching.android.controller.managers.GoogleAnalyticsManager;
+import su.geocaching.android.controller.managers.GpsStatusManager;
+import su.geocaching.android.controller.managers.LogManager;
+import su.geocaching.android.controller.managers.PreferencesManager;
+import su.geocaching.android.controller.managers.ResourceManager;
+import su.geocaching.android.model.GeoCache;
+import su.geocaching.android.ui.selectmap.SelectMapActivity;
 
 /**
  * @author Yuri Denison
@@ -17,14 +26,14 @@ import su.geocaching.android.ui.selectgeocache.SelectGeoCacheMap;
  */
 public class Controller {
     private static final String TAG = Controller.class.getCanonicalName();
-    static final boolean DEBUG = false;// it is constant really need, because compiler can remove code blocks which cannot be execute
+    public static final boolean DEBUG = false;// it is constant really need, because compiler can remove code blocks which cannot be execute
 
     private static Controller instance;
     private Context applicationContext;
 
     private IApiManager apiManager;
 
-    private GeoCacheLocationManager locationManager;
+    private UserLocationManager locationManager;
     private CompassManager compassManager;
     private GpsStatusManager gpsStatusManager;
     private ConnectionManager connectionManager;
@@ -60,15 +69,15 @@ public class Controller {
      * @param lowerRightCorner
      *            - lower right corner of the visible area
      */
-    public void updateSelectedGeoCaches(SelectGeoCacheMap map, GeoPoint upperLeftCorner, GeoPoint lowerRightCorner) {
+    public void updateSelectedGeoCaches(SelectMapActivity map, GeoPoint upperLeftCorner, GeoPoint lowerRightCorner) {
         GeoPoint[] d = { upperLeftCorner, lowerRightCorner };
-        new DownloadGeoCacheTask(apiManager, map).execute(d);
+        new DownloadGeoCachesTask(apiManager, map).execute(d);
     }
 
     /**
      * @return location manager which can send to ILocationAware location updates
      */
-    public synchronized GeoCacheLocationManager getLocationManager() {
+    public synchronized UserLocationManager getLocationManager() {
         return getLocationManager(applicationContext);
     }
 
@@ -119,10 +128,10 @@ public class Controller {
      *            for init manager
      * @return location manager which can send to ILocationAware location updates
      */
-    public synchronized GeoCacheLocationManager getLocationManager(Context context) {
+    public synchronized UserLocationManager getLocationManager(Context context) {
         if (locationManager == null) {
             LogManager.d(TAG, "location manager wasn't init yet. init.");
-            locationManager = new GeoCacheLocationManager((LocationManager) context.getSystemService(Context.LOCATION_SERVICE));
+            locationManager = new UserLocationManager((LocationManager) context.getSystemService(Context.LOCATION_SERVICE));
         }
         return locationManager;
     }

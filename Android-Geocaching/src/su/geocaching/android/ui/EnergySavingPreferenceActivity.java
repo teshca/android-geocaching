@@ -6,7 +6,7 @@ import android.preference.Preference;
 import android.preference.PreferenceActivity;
 import su.geocaching.android.controller.Controller;
 import su.geocaching.android.controller.GpsUpdateFrequency;
-import su.geocaching.android.controller.LogManager;
+import su.geocaching.android.controller.managers.LogManager;
 
 public class EnergySavingPreferenceActivity extends PreferenceActivity implements Preference.OnPreferenceChangeListener {
 

@@ -9,7 +9,7 @@ import su.geocaching.android.ui.R;
  *
  * @author Nikita Bumakov
  */
-public class WhiteStandardCompassDrawing extends StandardCompassDrawing {
+public class WhiteStandardCompassDrawing extends DefaultCompassDrawing {
 
     public WhiteStandardCompassDrawing() {
         super();

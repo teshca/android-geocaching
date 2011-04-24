@@ -6,7 +6,7 @@ import android.os.Bundle;
 import android.view.View;
 
 import su.geocaching.android.controller.Controller;
-import su.geocaching.android.controller.LogManager;
+import su.geocaching.android.controller.managers.LogManager;
 
 public class AboutActivity extends Activity {
     private static final String TAG = AboutActivity.class.getCanonicalName();

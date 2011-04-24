@@ -1,0 +1,222 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+	android:layout_width="fill_parent" android:layout_height="fill_parent"
+	android:background="@color/menu_background" android:orientation="vertical">
+
+	<LinearLayout style="@style/TitleBar" android:background="@drawable/geologo_background">
+		<ImageView android:src="@drawable/geologo" style="@style/TitleBarLogo"
+			android:id="@+id/title_logo" android:onClick="onHomeClick" />
+	</LinearLayout>
+
+	<ScrollView android:layout_height="fill_parent" android:id="@+id/scrollView1"
+		android:layout_width="fill_parent">
+		<LinearLayout android:layout_width="fill_parent"
+			android:id="@+id/linearLayout1" android:layout_height="fill_parent"
+			android:orientation="vertical">
+
+			<Button android:layout_height="wrap_content" android:text="@string/sexagestimal_template"
+				android:layout_width="fill_parent" android:onClick="onSexagesimalClick"></Button>
+
+			<LinearLayout android:layout_width="fill_parent"
+				android:layout_height="wrap_content" android:orientation="vertical"
+				android:padding="5dip" android:id="@+id/SexagesimalLayout">
+
+				<LinearLayout android:layout_width="fill_parent"
+					android:layout_height="wrap_content" android:orientation="horizontal">
+					<TextView android:text="@string/latitude"
+						android:minWidth="@dimen/coordinate_label_width" android:textSize="@dimen/text_size_big"
+						android:layout_width="wrap_content" android:layout_height="wrap_content" />
+					<EditText android:text="000" android:id="@+id/sLatDegrees"
+						android:maxLines="1" android:numeric="signed" android:maxLength="4"
+						android:layout_width="55dip" android:layout_height="wrap_content" />
+					<TextView android:text="°" android:layout_width="wrap_content"
+						android:textSize="@dimen/text_size_big" android:layout_height="wrap_content" />
+					<EditText android:text="00" android:id="@+id/sLatMinutes"
+						android:maxLines="1" android:numeric="integer" android:maxLength="2"
+						android:layout_width="45dip" android:layout_height="wrap_content" />
+					<TextView android:text="." android:layout_width="wrap_content"
+						android:textSize="@dimen/text_size_big" android:layout_height="wrap_content" />
+					<EditText android:text="000" android:id="@+id/sLatmMinutes"
+						android:maxLines="1" android:numeric="integer" android:maxLength="4"
+						android:layout_width="55dip" android:layout_height="wrap_content" />
+					<TextView android:text="'" android:layout_width="wrap_content"
+						android:textSize="@dimen/text_size_big" android:layout_height="wrap_content" />
+				</LinearLayout>
+
+				<LinearLayout android:layout_width="fill_parent"
+					android:layout_height="wrap_content" android:orientation="horizontal">
+					<TextView android:text="@string/longitude"
+						android:minWidth="@dimen/coordinate_label_width" android:textSize="@dimen/text_size_big"
+						android:layout_width="wrap_content" android:layout_height="wrap_content" />
+					<EditText android:text="00" android:id="@+id/sLngDegrees"
+						android:maxLines="1" android:numeric="signed" android:maxLength="4"
+						android:layout_width="55dip" android:layout_height="wrap_content" />
+					<TextView android:text="°" android:layout_width="wrap_content"
+						android:textSize="@dimen/text_size_big" android:layout_height="wrap_content" />
+					<EditText android:text="00" android:id="@+id/sLngMinutes"
+						android:maxLines="1" android:numeric="integer" android:maxLength="2"
+						android:layout_width="45dip" android:layout_height="wrap_content" />
+					<TextView android:text="." android:layout_width="wrap_content"
+						android:textSize="@dimen/text_size_big" android:layout_height="wrap_content" />
+					<EditText android:text="000" android:id="@+id/sLngmMinutes"
+						android:maxLines="1" android:numeric="integer" android:maxLength="4"
+						android:layout_width="55dip" android:layout_height="wrap_content" />
+					<TextView android:text="'" android:layout_width="wrap_content"
+						android:textSize="@dimen/text_size_big" android:layout_height="wrap_content" />
+				</LinearLayout>
+			</LinearLayout>
+
+
+			<Button android:text="@string/sexagestimal_seconds__template"
+				android:layout_height="wrap_content" android:layout_width="fill_parent"
+				android:onClick="onSexagesimalSecondsClick"></Button>
+
+			<LinearLayout android:layout_width="fill_parent"
+				android:layout_height="wrap_content" android:orientation="vertical"
+				android:padding="10dip" android:visibility="gone"
+				android:id="@+id/SexagesimalSeconsdLayout">
+
+				<LinearLayout android:layout_width="fill_parent"
+					android:layout_height="wrap_content" android:orientation="horizontal">
+					<TextView android:text="@string/latitude"
+						android:minWidth="@dimen/coordinate_label_width" android:textSize="@dimen/text_size_big"
+						android:layout_width="wrap_content" android:layout_height="wrap_content" />
+					<EditText android:text="000" android:maxLines="1"
+						android:numeric="signed" android:maxLength="4"
+						android:layout_width="55dip" android:layout_height="wrap_content"
+						android:id="@+id/ssLatDegrees" />
+					<TextView android:text="°" android:layout_width="wrap_content"
+						android:textSize="@dimen/text_size_big" android:layout_height="wrap_content" />
+					<EditText android:text="00" android:maxLines="1"
+						android:numeric="integer" android:maxLength="2"
+						android:layout_width="45dip" android:layout_height="wrap_content"
+						android:id="@+id/ssLatMinutes" />
+					<TextView android:text="'" android:layout_width="wrap_content"
+						android:textSize="@dimen/text_size_big" android:layout_height="wrap_content" />
+					<EditText android:text="00.00" android:maxLines="1"
+						android:numeric="decimal" android:maxLength="5"
+						android:layout_width="69dip" android:layout_height="wrap_content"
+						android:id="@+id/ssLatSeconds" />
+					<TextView android:text='"' android:layout_width="wrap_content"
+						android:textSize="@dimen/text_size_big" android:layout_height="wrap_content" />
+				</LinearLayout>
+
+				<LinearLayout android:layout_width="fill_parent"
+					android:layout_height="wrap_content" android:orientation="horizontal">
+					<TextView android:text="@string/longitude"
+						android:minWidth="@dimen/coordinate_label_width" android:textSize="@dimen/text_size_big"
+						android:layout_width="wrap_content" android:layout_height="wrap_content" />
+					<EditText android:text="000" android:maxLines="1"
+						android:numeric="signed" android:maxLength="4"
+						android:layout_width="55dip" android:layout_height="wrap_content"
+						android:id="@+id/ssLngDegrees" />
+					<TextView android:text="°" android:layout_width="wrap_content"
+						android:textSize="@dimen/text_size_big" android:layout_height="wrap_content" />
+					<EditText android:text="00" android:maxLines="1"
+						android:numeric="integer" android:maxLength="2"
+						android:layout_width="45dip" android:layout_height="wrap_content"
+						android:id="@+id/ssLngMinutes" />
+					<TextView android:text="'" android:layout_width="wrap_content"
+						android:textSize="@dimen/text_size_big" android:layout_height="wrap_content" />
+					<EditText android:text="00.00" android:maxLines="1"
+						android:numeric="decimal" android:maxLength="5"
+						android:layout_width="69dip" android:layout_height="wrap_content"
+						android:id="@+id/ssLngSeconds" />
+					<TextView android:text='"' android:layout_width="wrap_content"
+						android:textSize="@dimen/text_size_big" android:layout_height="wrap_content" />
+				</LinearLayout>
+			</LinearLayout>
+
+
+			<Button android:text="@string/decimal_template"
+				android:layout_height="wrap_content" android:layout_width="fill_parent"
+				android:onClick="onDecimalClick"></Button>
+
+			<LinearLayout android:layout_width="fill_parent"
+				android:layout_height="wrap_content" android:orientation="vertical"
+				android:padding="10dip" android:visibility="gone" android:id="@+id/DecimalLayout">
+
+				<LinearLayout android:layout_width="fill_parent"
+					android:layout_height="wrap_content" android:orientation="horizontal">
+					<TextView android:text="@string/latitude"
+						android:minWidth="@dimen/coordinate_label_width" android:textSize="@dimen/text_size_big"
+						android:layout_width="wrap_content" android:layout_height="wrap_content" />
+					<EditText android:text="00" android:id="@+id/dLatDegrees"
+						android:maxLines="1" android:numeric="signed" android:maxLength="4"
+						android:layout_width="50dip" android:layout_height="wrap_content" />
+					<TextView android:text="." android:layout_width="wrap_content"
+						android:textSize="@dimen/text_size_big" android:layout_height="wrap_content" />
+					<EditText android:text="00" android:id="@+id/dLatFraction"
+						android:maxLines="1" android:numeric="integer" android:maxLength="6"
+						android:layout_width="100dip" android:layout_height="wrap_content" />
+					<TextView android:text="°" android:layout_width="wrap_content"
+						android:textSize="@dimen/text_size_big" android:layout_height="wrap_content" />
+				</LinearLayout>
+
+				<LinearLayout android:layout_width="fill_parent"
+					android:layout_height="wrap_content" android:orientation="horizontal">
+					<TextView android:text="@string/longitude"
+						android:minWidth="@dimen/coordinate_label_width" android:textSize="@dimen/text_size_big"
+						android:layout_width="wrap_content" android:layout_height="wrap_content" />
+					<EditText android:text="00" android:id="@+id/dLngDegrees"
+						android:maxLines="1" android:numeric="signed" android:maxLength="4"
+						android:layout_width="50dip" android:layout_height="wrap_content" />
+					<TextView android:text="." android:layout_width="wrap_content"
+						android:textSize="@dimen/text_size_big" android:layout_height="wrap_content" />
+					<EditText android:text="00" android:id="@+id/dLngFraction"
+						android:maxLines="1" android:numeric="integer" android:maxLength="6"
+						android:layout_width="100dip" android:layout_height="wrap_content" />
+					<TextView android:text="°" android:layout_width="wrap_content"
+						android:textSize="@dimen/text_size_big" android:layout_height="wrap_content" />
+				</LinearLayout>
+			</LinearLayout>
+
+			<Button android:layout_height="wrap_content"
+				android:layout_width="fill_parent" android:text="@string/azimuth_template"
+				android:onClick="onAzimuthClick"></Button>
+
+			<LinearLayout android:layout_width="fill_parent"
+				android:layout_height="fill_parent" android:orientation="vertical"
+				android:padding="10dip" android:id="@+id/AzimuthLayout"
+				android:visibility="gone">
+
+				<TextView android:id="@+id/tvAzimuthInputInfo"
+					android:text="@string/geographical_coordinates" android:textSize="16sp"
+					android:layout_width="fill_parent" android:layout_height="wrap_content"
+					android:gravity="center" android:layout_margin="10dip" />
+
+				<LinearLayout android:layout_width="fill_parent"
+					android:layout_height="wrap_content" android:orientation="horizontal">
+					<TextView android:text="@string/azimuth" android:minWidth="110dip"
+						android:textSize="@dimen/text_size_big" android:layout_width="wrap_content"
+						android:layout_height="wrap_content" />
+					<EditText android:text="0" android:id="@+id/azimuth"
+						android:maxLines="1" android:numeric="integer" android:maxLength="3"
+						android:layout_width="75dip" android:layout_height="wrap_content" />
+					<TextView android:text="°" android:layout_width="wrap_content"
+						android:textSize="@dimen/text_size_big" android:layout_height="wrap_content" />
+				</LinearLayout>
+
+				<LinearLayout android:layout_width="fill_parent"
+					android:layout_height="wrap_content" android:orientation="horizontal">
+					<TextView android:text="@string/distance"
+						android:minWidth="110dip" android:textSize="@dimen/text_size_big"
+						android:layout_width="wrap_content" android:layout_height="wrap_content" />
+					<EditText android:text="0" android:id="@+id/distance"
+						android:maxLines="1" android:numeric="integer" android:maxLength="5"
+						android:layout_width="75dip" android:layout_height="wrap_content" />
+					<TextView android:text="@string/meter"
+						android:layout_width="wrap_content" android:textSize="@dimen/text_size_big"
+						android:layout_height="wrap_content" />
+				</LinearLayout>
+			</LinearLayout>
+
+			<Button android:text="@string/add_checkpoint" android:id="@+id/EnterButton"
+				android:layout_width="wrap_content" android:layout_height="wrap_content"
+				android:textSize="@dimen/text_size_big"
+				android:onClick="onEnterClick" android:layout_margin="10dip"
+				android:layout_gravity="center_horizontal" android:drawableLeft="@drawable/ic_ok"/>
+
+		</LinearLayout>
+	</ScrollView>
+</LinearLayout>

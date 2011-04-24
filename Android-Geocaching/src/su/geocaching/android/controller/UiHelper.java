@@ -6,15 +6,15 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.provider.Settings;
-import su.geocaching.android.model.datatype.GeoCache;
+import su.geocaching.android.model.GeoCache;
 import su.geocaching.android.ui.DashboardActivity;
 import su.geocaching.android.ui.R;
-import su.geocaching.android.ui.GeoCacheInfoActivity;
-import su.geocaching.android.ui.compass.SearchGeoCacheCompass;
-import su.geocaching.android.ui.searchmap.SearchGeoCacheMap;
+import su.geocaching.android.ui.InfoActivity;
+import su.geocaching.android.ui.compass.CompassActivity;
+import su.geocaching.android.ui.searchmap.SearchMapActivity;
 import su.geocaching.android.ui.searchmap.stepbystep.CheckpointDialog;
 import su.geocaching.android.ui.searchmap.stepbystep.CheckpointsFolder;
-import su.geocaching.android.ui.searchmap.stepbystep.StepByStepTabActivity;
+import su.geocaching.android.ui.searchmap.stepbystep.CreateCheckpointActivity;
 
 /**
  * @author Nikita Bumakov
@@ -62,13 +62,13 @@ public class UiHelper {
      *            //TODO describe it
      */
     public static void startGeoCacheInfo(Context context, GeoCache geoCache) {
-        Intent intent = new Intent(context, GeoCacheInfoActivity.class);
+        Intent intent = new Intent(context, InfoActivity.class);
         intent.putExtra(GeoCache.class.getCanonicalName(), geoCache);
         context.startActivity(intent);
     }
 
     /**
-     * F Starts SearchGeoCacheMap activity and finish this
+     * F Starts SearchMapActivity activity and finish this
      * 
      * @param context
      *            //TODO describe it
@@ -76,18 +76,18 @@ public class UiHelper {
      *            //TODO describe it
      */
     public static void startSearchMapActivity(Context context, GeoCache geoCache) {
-        Intent intent = new Intent(context, SearchGeoCacheMap.class);
+        Intent intent = new Intent(context, SearchMapActivity.class);
         intent.putExtra(GeoCache.class.getCanonicalName(), geoCache);
         context.startActivity(intent);
     }
     
     public static void startCompassActivity(Context context) {
-        Intent intent = new Intent(context, SearchGeoCacheCompass.class);      
+        Intent intent = new Intent(context, CompassActivity.class);      
         context.startActivity(intent);
     }
     
     public static void startStepByStep(Context context, GeoCache geoCache) {
-        Intent intent = new Intent(context, StepByStepTabActivity.class);
+        Intent intent = new Intent(context, CreateCheckpointActivity.class);
         intent.putExtra(GeoCache.class.getCanonicalName(), geoCache);
         context.startActivity(intent);
     }
