@@ -92,18 +92,22 @@ public class PreferencesManager {
      */
     public synchronized MapInfo getLastSelectMapInfo() {
         LocationManager locationManager = ((LocationManager) context.getSystemService(Context.LOCATION_SERVICE));
-        int center_x = 0, center_y = 0;
-        for (String provider : locationManager.getProviders(true)) {
-            Location location = locationManager.getLastKnownLocation(provider);
-            if (location != null) {
-                center_x = (int) (location.getLatitude() * 1E6);
-                center_y = (int) (location.getLongitude() * 1E6);
+        int center_x, center_y;
+        Location gpsLocation = locationManager.getLastKnownLocation(LocationManager.GPS_PROVIDER);
+        if (gpsLocation == null) {
+            Location networkLocation = locationManager.getLastKnownLocation(LocationManager.NETWORK_PROVIDER);
+            if (networkLocation == null) {
+                center_x = preferences.getInt("selectmap_center_x", MapInfo.DEFAULT_CENTER_LATITUDE);
+                center_y = preferences.getInt("selectmap_center_y", MapInfo.DEFAULT_CENTER_LONGITUDE);
+            } else {
+                center_x = (int) (networkLocation.getLatitude() * 1E6);
+                center_y = (int) (networkLocation.getLongitude() * 1E6);
             }
+        } else {
+            center_x = (int) (gpsLocation.getLatitude() * 1E6);
+            center_y = (int) (gpsLocation.getLongitude() * 1E6);
         }
-        if (center_x == 0 && center_y == 0) {
-            center_x = preferences.getInt("selectmap_center_x", MapInfo.DEFAULT_CENTER_LATITUDE);
-            center_y = preferences.getInt("selectmap_center_y", MapInfo.DEFAULT_CENTER_LONGITUDE);
-        }
+
         int zoom = preferences.getInt("selectmap_zoom", MapInfo.DEFAULT_ZOOM);
         return new MapInfo(center_x, center_y, zoom);
     }
