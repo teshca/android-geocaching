@@ -84,11 +84,11 @@ public class ResourceManager {
                     case STEP_BY_STEP_TRADITIONAL:
                         switch (status) {
                             case VALID:
-                                return R.drawable.ic_cache_custom_stepbystep_valid;
+                                return R.drawable.ic_cache_custom_step_by_step_traditional_valid;
                             case NOT_VALID:
-                                return R.drawable.ic_cache_custom_stepbystep_not_valid;
+                                return R.drawable.ic_cache_custom_step_by_step_traditional_not_valid;
                             case NOT_CONFIRMED:
-                                return R.drawable.ic_cache_custom_stepbystep_not_confirmed;
+                                return R.drawable.ic_cache_custom_step_by_step_traditional_not_confirmed;
                         }
                     case VIRTUAL:
                         switch (status) {
@@ -133,11 +133,11 @@ public class ResourceManager {
                     case STEP_BY_STEP_VIRTUAL:
                         switch (status) {
                             case VALID:
-                                return R.drawable.ic_cache_custom_event_not_valid; // TODO draw icons
+                                return R.drawable.ic_cache_custom_step_by_step_virtual_valid; // TODO draw icons
                             case NOT_VALID:
-                                return R.drawable.ic_cache_custom_event_not_valid; // TODO draw icons
+                                return R.drawable.ic_cache_custom_step_by_step_virtual_not_valid; // TODO draw icons
                             case NOT_CONFIRMED:
-                                return R.drawable.ic_cache_custom_event_not_valid; // TODO draw icons
+                                return R.drawable.ic_cache_custom_step_by_step_virtual_not_confirmed; // TODO draw icons
                         }
                         break;
 
