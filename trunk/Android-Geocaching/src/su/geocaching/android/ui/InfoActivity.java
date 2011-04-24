@@ -57,7 +57,7 @@ public class InfoActivity extends Activity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         LogManager.d(TAG, "onCreate");
-        setContentView(R.layout.info_geocache_activity);
+        setContentView(R.layout.info_geocache_view);
         controller = Controller.getInstance();
         dbManager = controller.getDbManager();
         geoCache = getIntent().getParcelableExtra(GeoCache.class.getCanonicalName());
@@ -199,7 +199,7 @@ public class InfoActivity extends Activity {
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         MenuInflater inflater = getMenuInflater();
-        inflater.inflate(R.menu.info_about_cache_menu, menu);
+        inflater.inflate(R.menu.geocache_info_menu, menu);
         return true;
     }
 

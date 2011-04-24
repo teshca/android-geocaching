@@ -56,7 +56,7 @@ public class CreateCheckpointActivity extends Activity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.create_checkpoint_activity);
+        setContentView(R.layout.create_checkpoint_view);
 
         sexagesimal = (LinearLayout) findViewById(R.id.SexagesimalLayout);
         sexagesimalSeconds = (LinearLayout) findViewById(R.id.SexagesimalSeconsdLayout);
