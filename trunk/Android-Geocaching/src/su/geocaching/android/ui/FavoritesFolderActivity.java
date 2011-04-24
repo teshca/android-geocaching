@@ -61,7 +61,7 @@ public class FavoritesFolderActivity extends AbstractGeoCacheFolderActivity {
             searchString = searchString.toLowerCase();
             String nameCache = cache.getName().toLowerCase();
             
-            if ((searchString.indexOf(nameCache)) != -1){
+            if ((nameCache.indexOf(searchString)) != -1){
                 foundedCaches.add(cache);
             }
         }
