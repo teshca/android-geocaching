@@ -1,6 +1,7 @@
 package su.geocaching.android.ui.selectmap;
 
 import android.content.Context;
+import android.graphics.Point;
 import android.graphics.drawable.Drawable;
 import android.view.GestureDetector;
 import android.view.MotionEvent;
@@ -37,8 +38,7 @@ public class SelectGeoCacheOverlay extends com.google.android.maps.ItemizedOverl
         touchFlag = false;
         gestureDetector = new GestureDetector(context, new GestureDetector.SimpleOnGestureListener() {
             public boolean onDoubleTap(MotionEvent e) {
-                map.getController().animateTo(map.getProjection().fromPixels((int) e.getX(), (int) e.getY()));
-                map.getController().zoomIn();
+                map.getController().zoomInFixing((int) e.getX(), (int) e.getY());
                 return true;
             }
         });
@@ -108,8 +108,8 @@ public class SelectGeoCacheOverlay extends com.google.android.maps.ItemizedOverl
             if (!gcItem.getTitle().equals("Group")) {
                 UiHelper.startGeoCacheInfo(context, gcItem.getGeoCache());
             } else {
-                map.getController().animateTo(gcItem.getGeoCache().getLocationGeoPoint());
-                map.getController().zoomIn();
+                Point p = map.getProjection().toPixels(gcItem.getGeoCache().getLocationGeoPoint(), null);
+                map.getController().zoomInFixing(p.x, p.y);
                 map.invalidate();
             }
         } else {
