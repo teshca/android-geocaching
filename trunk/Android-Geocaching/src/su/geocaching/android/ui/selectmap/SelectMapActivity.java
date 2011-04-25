@@ -124,11 +124,15 @@ public class SelectMapActivity extends MapActivity implements IInternetAware {
     private void updateMapInfoFromSettings() {
         MapInfo lastMapInfo = Controller.getInstance().getPreferencesManager().getLastSelectMapInfo();
         GeoPoint lastCenter;
-        GeoPoint userLocation = userOverlay.getMyLocation();
-        if (userLocation == null) {
-            lastCenter = new GeoPoint(lastMapInfo.getCenterX(), lastMapInfo.getCenterY());
+        if (firstRun) {
+            GeoPoint userLocation = userOverlay.getMyLocation();
+            if (userLocation != null) {
+                lastCenter = userLocation;
+            } else {
+                lastCenter = new GeoPoint(lastMapInfo.getCenterX(), lastMapInfo.getCenterY());
+            }
         } else {
-            lastCenter = userLocation;
+            lastCenter = new GeoPoint(lastMapInfo.getCenterX(), lastMapInfo.getCenterY());
         }
         mapController.setCenter(lastCenter);
         mapController.animateTo(lastCenter);
