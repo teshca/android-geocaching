@@ -3,6 +3,8 @@ package su.geocaching.android.controller.managers;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.content.res.Resources;
+import android.location.Location;
+import android.location.LocationManager;
 import android.preference.PreferenceManager;
 import su.geocaching.android.controller.Controller;
 import su.geocaching.android.controller.GpsUpdateFrequency;
@@ -89,8 +91,24 @@ public class PreferencesManager {
      * @return MapInfo object with preferences
      */
     public synchronized MapInfo getLastSelectMapInfo() {
-        int center_x = preferences.getInt("selectmap_center_x", MapInfo.DEFAULT_CENTER_LATITUDE);
-        int center_y = preferences.getInt("selectmap_center_y", MapInfo.DEFAULT_CENTER_LONGITUDE);
+        LocationManager locationManager = ((LocationManager) context.getSystemService(Context.LOCATION_SERVICE));
+        int default_x, default_y;
+        Location gpsLocation = locationManager.getLastKnownLocation(LocationManager.GPS_PROVIDER);
+        if (gpsLocation == null) {
+            Location networkLocation = locationManager.getLastKnownLocation(LocationManager.NETWORK_PROVIDER);
+            if (networkLocation == null) {
+                default_x = MapInfo.DEFAULT_CENTER_LATITUDE;
+                default_y = MapInfo.DEFAULT_CENTER_LONGITUDE;
+            } else {
+                default_x = (int) (networkLocation.getLatitude() * 1E6);
+                default_y = (int) (networkLocation.getLongitude() * 1E6);
+            }
+        } else {
+            default_x = (int) (gpsLocation.getLatitude() * 1E6);
+            default_y = (int) (gpsLocation.getLongitude() * 1E6);
+        }
+        int center_x = preferences.getInt("selectmap_center_x", default_x);
+        int center_y = preferences.getInt("selectmap_center_y", default_y);
         int zoom = preferences.getInt("selectmap_zoom", MapInfo.DEFAULT_ZOOM);
         return new MapInfo(center_x, center_y, zoom);
     }
