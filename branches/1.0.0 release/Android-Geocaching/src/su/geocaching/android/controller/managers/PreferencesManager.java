@@ -16,7 +16,7 @@ import java.util.EnumSet;
 
 /**
  * Manager which can get access to application preferences
- * 
+ *
  * @author Grigory Kalabin. grigory.kalabin@gmail.com
  * @since March 2011
  */
@@ -37,7 +37,7 @@ public class PreferencesManager {
 
     /**
      * Get id of last searched geocache from preferences and get GeoCache object from database
-     * 
+     *
      * @return last searched geocache by user saved in preferences
      */
     public synchronized GeoCache getLastSearchedGeoCache() {
@@ -47,9 +47,8 @@ public class PreferencesManager {
 
     /**
      * Save last searched geocache id in preferences
-     * 
-     * @param lastSearchedGeoCache
-     *            last searched geoCache
+     *
+     * @param lastSearchedGeoCache last searched geoCache
      */
     public synchronized void setLastSearchedGeoCache(GeoCache lastSearchedGeoCache) {
         if (lastSearchedGeoCache != null) {
@@ -61,8 +60,7 @@ public class PreferencesManager {
     }
 
     /**
-     * @param info
-     *            with data to save
+     * @param info with data to save
      */
     public synchronized void setLastSelectMapInfo(MapInfo info) {
         if (info != null) {
@@ -76,8 +74,7 @@ public class PreferencesManager {
     }
 
     /**
-     * @param info
-     *            with data to save
+     * @param info with data to save
      */
     public synchronized void setLastSearchMapInfo(SearchMapInfo info) {
         if (info != null) {
@@ -95,22 +92,23 @@ public class PreferencesManager {
      */
     public synchronized MapInfo getLastSelectMapInfo() {
         LocationManager locationManager = ((LocationManager) context.getSystemService(Context.LOCATION_SERVICE));
-        int center_x, center_y;
+        int default_x, default_y;
         Location gpsLocation = locationManager.getLastKnownLocation(LocationManager.GPS_PROVIDER);
         if (gpsLocation == null) {
             Location networkLocation = locationManager.getLastKnownLocation(LocationManager.NETWORK_PROVIDER);
             if (networkLocation == null) {
-                center_x = preferences.getInt("selectmap_center_x", MapInfo.DEFAULT_CENTER_LATITUDE);
-                center_y = preferences.getInt("selectmap_center_y", MapInfo.DEFAULT_CENTER_LONGITUDE);
+                default_x = MapInfo.DEFAULT_CENTER_LATITUDE;
+                default_y = MapInfo.DEFAULT_CENTER_LONGITUDE;
             } else {
-                center_x = (int) (networkLocation.getLatitude() * 1E6);
-                center_y = (int) (networkLocation.getLongitude() * 1E6);
+                default_x = (int) (networkLocation.getLatitude() * 1E6);
+                default_y = (int) (networkLocation.getLongitude() * 1E6);
             }
         } else {
-            center_x = (int) (gpsLocation.getLatitude() * 1E6);
-            center_y = (int) (gpsLocation.getLongitude() * 1E6);
+            default_x = (int) (gpsLocation.getLatitude() * 1E6);
+            default_y = (int) (gpsLocation.getLongitude() * 1E6);
         }
-
+        int center_x = preferences.getInt("selectmap_center_x", default_x);
+        int center_y = preferences.getInt("selectmap_center_y", default_y);
         int zoom = preferences.getInt("selectmap_zoom", MapInfo.DEFAULT_ZOOM);
         return new MapInfo(center_x, center_y, zoom);
     }
