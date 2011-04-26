@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 	<string name="about">О программе</string>
-	<string name="about_program_text">Геокешинг - это мобильный клиент для работы с
+	<string name="about_program_text">Геокэшинг - это мобильный клиент для работы с
 		порталом\nhttp://geocaching.su
     </string>
 	<string name="about_leaders_title">Руководители проекта:</string>

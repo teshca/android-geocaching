@@ -13,18 +13,22 @@
 		<item>Спутник</item>
 	</string-array><string-array name="cache_filter_type_entries">
 		<item>Традиционный</item>
+		<item>Виртуальный</item>
 		<item>Пошаговый традиционный</item>
 		<item>Пошаговый виртуальный</item>
-		<item>Виртуальный</item>
+		<item>Экстрим</item>
 		<item>Событие</item>
 		<item>Конкурс</item>
+		<item>Веб-камера</item>
 	</string-array><string-array name="cache_filter_type_values">
 		<item>TRADITIONAL</item>
+		<item>VIRTUAL</item>
 		<item>STEP_BY_STEP_TRADITIONAL</item>
 		<item>STEP_BY_STEP_VIRTUAL</item>
-		<item>VIRTUAL</item>
+		<item>EXTREME</item>
 		<item>EVENT</item>
 		<item>CONTEST</item>
+		<item>WEBCAM</item>
 	</string-array><string-array name="cache_filter_status_entries">
 		<item>Действующий</item>
 		<item>Недействующий</item>
