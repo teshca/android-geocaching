@@ -14,9 +14,8 @@
 			android:id="@+id/linearLayout1" android:layout_height="fill_parent"
 			android:orientation="vertical">
 
-			<ToggleButton android:layout_height="wrap_content"
-				android:layout_width="fill_parent" android:onClick="onSexagesimalClick"
-				android:textOn="@string/sexagestimal_template" android:textOff="@string/sexagestimal_template" android:checked="true"></ToggleButton>
+			<Button android:layout_height="wrap_content" android:text="@string/sexagestimal_template"
+				android:layout_width="fill_parent" android:onClick="onSexagesimalClick"></Button>
 
 			<LinearLayout android:layout_width="fill_parent"
 				android:layout_height="wrap_content" android:orientation="vertical"
@@ -68,10 +67,9 @@
 			</LinearLayout>
 
 
-			<ToggleButton android:textOn="@string/sexagestimal_seconds__template"
-				android:textOff="@string/sexagestimal_seconds__template"
+			<Button android:text="@string/sexagestimal_seconds__template"
 				android:layout_height="wrap_content" android:layout_width="fill_parent"
-				android:onClick="onSexagesimalSecondsClick"></ToggleButton>
+				android:onClick="onSexagesimalSecondsClick"></Button>
 
 			<LinearLayout android:layout_width="fill_parent"
 				android:layout_height="wrap_content" android:orientation="vertical"
@@ -130,10 +128,9 @@
 			</LinearLayout>
 
 
-
-			<ToggleButton android:textOn="@string/decimal_template"
-				android:textOff="@string/decimal_template" android:layout_height="wrap_content"
-				android:layout_width="fill_parent" android:onClick="onDecimalClick"></ToggleButton>
+			<Button android:text="@string/decimal_template"
+				android:layout_height="wrap_content" android:layout_width="fill_parent"
+				android:onClick="onDecimalClick"></Button>
 
 			<LinearLayout android:layout_width="fill_parent"
 				android:layout_height="wrap_content" android:orientation="vertical"
@@ -174,10 +171,9 @@
 				</LinearLayout>
 			</LinearLayout>
 
-			<ToggleButton android:layout_height="wrap_content"
-				android:layout_width="fill_parent" android:textOn="@string/azimuth_template"
-				android:textOff="@string/azimuth_template"
-				android:onClick="onAzimuthClick"></ToggleButton>
+			<Button android:layout_height="wrap_content"
+				android:layout_width="fill_parent" android:text="@string/azimuth_template"
+				android:onClick="onAzimuthClick"></Button>
 
 			<LinearLayout android:layout_width="fill_parent"
 				android:layout_height="fill_parent" android:orientation="vertical"
@@ -217,10 +213,10 @@
 
 			<Button android:text="@string/add_checkpoint" android:id="@+id/EnterButton"
 				android:layout_width="wrap_content" android:layout_height="wrap_content"
-				android:textSize="@dimen/text_size_big" android:onClick="onEnterClick"
-				android:layout_margin="10dip" android:layout_gravity="center_horizontal"
-				android:drawableLeft="@drawable/ic_ok" />
-				
+				android:textSize="@dimen/text_size_big"
+				android:onClick="onEnterClick" android:layout_margin="10dip"
+				android:layout_gravity="center_horizontal" android:drawableLeft="@drawable/ic_ok"/>
+
 		</LinearLayout>
 	</ScrollView>
 </LinearLayout>
