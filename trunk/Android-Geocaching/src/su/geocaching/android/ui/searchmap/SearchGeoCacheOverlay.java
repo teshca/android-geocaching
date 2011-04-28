@@ -29,8 +29,7 @@ public class SearchGeoCacheOverlay extends ItemizedOverlay<OverlayItem> {
 
         gestureDetector = new GestureDetector(context, new GestureDetector.SimpleOnGestureListener() {
             public boolean onDoubleTap(MotionEvent e) {
-                map.getController().animateTo(map.getProjection().fromPixels((int) e.getX(), (int) e.getY()));
-                map.getController().zoomIn();
+                map.getController().zoomInFixing((int) e.getX(), (int) e.getY());
                 return true;
             }
         });

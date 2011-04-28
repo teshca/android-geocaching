@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-	<string name="waiting_location_fix_message">Инициализация</string>
 	<string name="device_without_gps_alert">Внимание!\n\r На Вашем устройстве отстутствует
 		GPS.\n\rВаше положение может определяться не точно
     </string>
@@ -24,9 +23,6 @@
 	<string name="too_small_zoom">Слишком маленький масштаб карты. Будут показаны 100
 		тайников из
     </string>
-	<string name="gps_status_started">GPS: Запущен</string>
-	<string name="gps_status_stopped">GPS: Связь потеряна</string>
-	<string name="gps_status_first_fix">GPS: Координаты получены</string>
 	<string name="gps_status_satellite_status">GPS: Спутники</string>
 	<string name="too_many_caches">Слишком много тайников. Увеличьте масштаб</string>
 	<string name="dislocation">Ваше местоположение не определено.\nПовторите
