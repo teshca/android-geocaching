@@ -1,5 +1,6 @@
 package su.geocaching.android.ui;
 
+import java.io.File;
 import java.util.concurrent.ExecutionException;
 
 import su.geocaching.android.controller.Controller;
@@ -18,6 +19,7 @@ import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
+import android.webkit.WebBackForwardList;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
 import android.widget.CheckBox;
@@ -32,7 +34,7 @@ public class InfoActivity extends Activity {
     private static final String TAG = InfoActivity.class.getCanonicalName();
     private static final String GEOCACHE_INFO_ACTIVITY_FOLDER = "/GeoCacheInfoActivity";
     private static final String HTML_ENCODING = "UTF-8";
-    private static final String PAGE_TYPE = "page type", SCROOLX = "scrollX", SCROOLY = "scrollY", ZOOM = "ZOOM";
+    private static final String PAGE_TYPE = "page type", SCROOLX = "scrollX", SCROOLY = "scrollY", ZOOM = "ZOOM", CURRENTPCTURE = "currentPicture", FileDir = "Android-Geocaching";
 
     public enum PageType {
         INFO, NOTEBOOK
@@ -64,16 +66,17 @@ public class InfoActivity extends Activity {
         if (savedInstanceState != null) {
             pageType = PageType.values()[savedInstanceState.getInt(PAGE_TYPE, PageType.INFO.ordinal())];
         }
-        initViews();
+        initViews(savedInstanceState);
 
         isCacheStoredInDataBase = dbManager.isCacheStored(geoCache.getId());
         if (isCacheStoredInDataBase) {
             cbFavoriteCache.setChecked(true);
         }
         controller.getGoogleAnalyticsManager().trackPageView(GEOCACHE_INFO_ACTIVITY_FOLDER);
+        loadWebView(pageType);
     }
 
-    private void initViews() {
+    private void initViews(Bundle savedInstanceState) {
         TextView tvName = (TextView) findViewById(R.id.info_text_name);
         TextView tvTypeGeoCache = (TextView) findViewById(R.id.info_GeoCache_type);
         TextView tvStatusGeoCache = (TextView) findViewById(R.id.info_GeoCache_status);
@@ -82,56 +85,58 @@ public class InfoActivity extends Activity {
         tvStatusGeoCache.setText(controller.getResourceManager().getGeoCacheStatus(geoCache));
         ImageView image = (ImageView) findViewById(R.id.imageCache);
         image.setImageDrawable(controller.getResourceManager(this).getMarker(geoCache.getType(), geoCache.getStatus()));
-        webViewClient = new WebViewClient() {
-            @Override
-            public boolean shouldOverrideUrlLoading(WebView view, String url) {
-                String urlNotebook = String.format("http://pda.geocaching.su/note.php?cid=%d&mode=0", geoCache.getId());
-                String urlInfoGeocache = String.format("http://pda.geocaching.su/cache.php?cid=%d", geoCache.getId());
-                if (url == null || url.equals(urlInfoGeocache) ) {
-                    togglePageType();
-                    return true;
-                }
-
-                if (url.regionMatches(0, urlNotebook, 0, urlNotebook.length() - 1)) {
-                    if (url.length() == urlNotebook.length()) {
+        cbFavoriteCache = (CheckBox) findViewById(R.id.info_geocache_add_del);
+       
+        webView = (WebView) findViewById(R.id.info_web_brouse);
+        if (savedInstanceState != null) {
+            if (savedInstanceState.containsKey(CURRENTPCTURE)) {
+                final File f = new File(savedInstanceState.getString(CURRENTPCTURE));
+                webView.restorePicture(savedInstanceState, f);
+                f.delete();
+            }
+            webView.restoreState(savedInstanceState);
+        } else {
+            webViewClient = new WebViewClient() {
+                @Override
+                public boolean shouldOverrideUrlLoading(WebView view, String url) {
+                    String urlNotebook = String.format("http://pda.geocaching.su/note.php?cid=%d&mode=0", geoCache.getId());
+                    String urlInfoGeocache = String.format("http://pda.geocaching.su/cache.php?cid=%d", geoCache.getId());
+                    if (url == null || url.equals(urlInfoGeocache)) {
                         togglePageType();
                         return true;
                     }
-                    else{
-                        return false;
+
+                    if (url.regionMatches(0, urlNotebook, 0, urlNotebook.length() - 1)) {
+                        if (url.length() == urlNotebook.length()) {
+                            togglePageType();
+                            return true;
+                        } else {
+                            return false;
+                        }
                     }
+                    Uri uri = Uri.parse(url);
+                    startActivity(new Intent(Intent.ACTION_VIEW, uri));
+                    return true;
+                };
+
+                @Override
+                public void onLoadResource(WebView view, String url) {
+                    shouldOverrideUrlLoading(view, url);
                 }
-                Uri uri = Uri.parse(url);
-                startActivity(new Intent(Intent.ACTION_VIEW, uri));
-                return true;
             };
 
-            @Override
-            public void onLoadResource(WebView view, String url) {
-                shouldOverrideUrlLoading(view, url);
-            }
-        };
-        webView = (WebView) findViewById(R.id.info_web_brouse);
-        cbFavoriteCache = (CheckBox) findViewById(R.id.info_geocache_add_del);
-        webView.getSettings().setJavaScriptEnabled(true);
-        webView.setWebViewClient(webViewClient);
-        webView.getSettings().setBuiltInZoomControls(true);
+            webView.getSettings().setJavaScriptEnabled(true);
+            webView.setWebViewClient(webViewClient);
+            webView.getSettings().setBuiltInZoomControls(true);
+        }
     }
 
     @Override
     protected void onPostCreate(Bundle savedInstanceState) {
-        loadWebView(pageType);
+        if (savedInstanceState != null) {
+            loadWebView(pageType);
+        }
         super.onPostCreate(savedInstanceState);
-    }
-
-    @Override
-    protected void onRestoreInstanceState(Bundle savedInstanceState) {
-        super.onRestoreInstanceState(savedInstanceState);
-        pageType = PageType.values()[savedInstanceState.getInt(PAGE_TYPE)];
-        webViewScrollX = savedInstanceState.getInt(SCROOLX, 0);
-        webViewScrollY = savedInstanceState.getInt(SCROOLY, 0);
-        webViewZoom = savedInstanceState.getFloat(ZOOM);
-        webView.setInitialScale(Math.round(100 * webViewZoom));
     }
 
     @Override
@@ -139,9 +144,17 @@ public class InfoActivity extends Activity {
         outState.putInt(PAGE_TYPE, pageType.ordinal());
         outState.putInt(SCROOLX, webView.getScrollX());
         outState.putInt(SCROOLY, webView.getScrollY());
-        outState.putFloat(ZOOM, webView.getScale());
-        super.onSaveInstanceState(outState);
 
+        final WebBackForwardList list = webView.saveState(outState);
+        File mThubnailDie = getDir(FileDir, 0);
+        if (list != null) {
+            final File f = new File(mThubnailDie, webView.hashCode() + "_picSave");
+            if (webView.savePicture(outState, f)) {
+                outState.putString(CURRENTPCTURE, f.getPath());
+            }
+        }
+
+        super.onSaveInstanceState(outState);
     }
 
     @Override

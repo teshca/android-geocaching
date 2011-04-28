@@ -36,11 +36,13 @@ public class FavoritesFolderActivity extends AbstractGeoCacheFolderActivity {
     @Override
     protected void onResume() {
         
-        favoritesList = dbm.getArrayGeoCache();
         Intent intent = getIntent();
         if (Intent.ACTION_SEARCH.equals(intent.getAction())){
             String query = intent.getStringExtra(SearchManager.QUERY);
             favoritesList = getFoundGeoCachesList(query);
+        }
+        else{
+            favoritesList = dbm.getArrayGeoCache();
         }
         if (favoritesList.isEmpty()) {
             tvNoCache.setVisibility(View.VISIBLE);
@@ -57,7 +59,9 @@ public class FavoritesFolderActivity extends AbstractGeoCacheFolderActivity {
 
     private ArrayList<GeoCache> getFoundGeoCachesList(String searchString){
         ArrayList<GeoCache> foundedCaches = new ArrayList<GeoCache>(); 
-        for (GeoCache cache : favoritesList){
+        ArrayList<GeoCache> allCaches = new ArrayList<GeoCache>();
+        allCaches = dbm.getArrayGeoCache();
+        for (GeoCache cache :  allCaches){
             searchString = searchString.toLowerCase();
             String nameCache = cache.getName().toLowerCase();
             
@@ -80,10 +84,14 @@ public class FavoritesFolderActivity extends AbstractGeoCacheFolderActivity {
 
     @Override
     public boolean onPrepareOptionsMenu(Menu menu) {
+        menu.getItem(0).setVisible(true);
         if (favoritesList.isEmpty()) {
             menu.getItem(0).setEnabled(false);
         } else {
             menu.getItem(0).setEnabled(true);
+        }
+        if (Intent.ACTION_SEARCH.equals(getIntent().getAction())){
+            menu.getItem(0).setVisible(false);
         }
         return super.onPrepareOptionsMenu(menu);
     }
