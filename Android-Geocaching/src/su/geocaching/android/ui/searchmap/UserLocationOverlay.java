@@ -15,8 +15,8 @@ import su.geocaching.android.controller.compass.ICompassAnimation;
  */
 public class UserLocationOverlay extends com.google.android.maps.Overlay implements ICompassAnimation {
     private static final int ACCURACY_CIRCLE_ALPHA = 25;
-    private static final double COMPASS_ARROW_WIDTH_COEFF = 28.0 / 320.0;
-    private static final double COMPASS_ARROW_HEIGHT_COEFF = 34.0 / 480.0;
+    private static final double COMPASS_ARROW_WIDTH_COEFF = 23.0 / 320.0;
+    private static final double COMPASS_ARROW_HEIGHT_COEFF = 32.0 / 480.0;
     private static final int ACCURACY_CIRCLE_COLOR = 0xff00aa00;
     private static final int ACCURACY_CIRCLE_STROKE_COLOR = 0xff000a00;
 
@@ -73,10 +73,11 @@ public class UserLocationOverlay extends com.google.android.maps.Overlay impleme
         compassArrowHeight = (int) (Math.max(context.getWindowManager().getDefaultDisplay().getWidth(), context.getWindowManager().getDefaultDisplay().getHeight()) * COMPASS_ARROW_HEIGHT_COEFF);
         int h = (int) (compassArrowHeight) / 2; // h/2
         int w = (int) (compassArrowWidth) / 2; // w/2
+        pathCompassArrow.moveTo(0, h / 2);
         pathCompassArrow.lineTo(-w, h);
         pathCompassArrow.lineTo(0, -h);
         pathCompassArrow.lineTo(w, h);
-        pathCompassArrow.lineTo(0, 0);
+        pathCompassArrow.lineTo(0, h / 2);
         pathCompassArrow.close();
     }
 
