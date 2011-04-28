@@ -27,7 +27,7 @@ public class CompassManager implements SensorEventListener {
     private SensorManager sensorManager;
     private int lastDirection;
     private boolean isCompassAvailable;
-    private List<ICompassAware> subscribers;
+    private List<IBearingAware> subscribers;
 
     /**
      * @param sensorManager manager which can add or remove updates of sensors
@@ -35,13 +35,13 @@ public class CompassManager implements SensorEventListener {
     public CompassManager(SensorManager sensorManager) {
         this.sensorManager = sensorManager;
         isCompassAvailable = sensorManager != null;
-        subscribers = new ArrayList<ICompassAware>();
+        subscribers = new ArrayList<IBearingAware>();
     }
 
     /**
      * @param subscriber activity which will be listen location updates
      */
-    public void addSubscriber(ICompassAware subscriber) {
+    public void addSubscriber(IBearingAware subscriber) {
         if (subscribers.size() == 0) {
             addUpdates();
         }
@@ -52,7 +52,7 @@ public class CompassManager implements SensorEventListener {
      * @param subscriber activity which no need to listen location updates
      * @return true if activity was subscribed on location updates
      */
-    public boolean removeSubscriber(ICompassAware subscriber) {
+    public boolean removeSubscriber(IBearingAware subscriber) {
         boolean res = subscribers.remove(subscriber);
         if (subscribers.size() == 0) {
             removeUpdates();
@@ -93,7 +93,7 @@ public class CompassManager implements SensorEventListener {
      * @param lastDirection current direction known to this listener
      */
     private void notifyObservers(int lastDirection) {
-        for (ICompassAware observer : subscribers) {
+        for (IBearingAware observer : subscribers) {
             observer.updateBearing(lastDirection);
         }
     }

@@ -96,8 +96,8 @@ public class UserLocationManager implements LocationListener {
         LogManager.d(TAG, "Location changed: send msg to " + Integer.toString(subscribers.size()) + " activity(es)");
         boolean isCompassAvailable = Controller.getInstance().getCompassManager().isCompassAvailable();
         for (ILocationAware subsriber : subscribers) {
-            if ((subsriber instanceof ICompassAware) && (!isCompassAvailable)) {
-                ((ICompassAware) subsriber).updateBearing((int) location.getBearing());
+            if ((subsriber instanceof IBearingAware) && (!isCompassAvailable)) {
+                ((IBearingAware) subsriber).updateBearing((int) location.getBearing());
                 LogManager.d(TAG, "update location: send bearing to " + subsriber.getClass().getCanonicalName());
             }
             subsriber.updateLocation(location);

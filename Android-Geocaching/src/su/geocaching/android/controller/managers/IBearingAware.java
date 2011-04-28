@@ -6,7 +6,7 @@ package su.geocaching.android.controller.managers;
  * @author Grigory Kalabin. grigory.kalabin@gmail.com
  * @since Nov 10, 2010
  */
-public interface ICompassAware {
+public interface IBearingAware {
     /**
      * @param bearing - new bearing in degrees
      */

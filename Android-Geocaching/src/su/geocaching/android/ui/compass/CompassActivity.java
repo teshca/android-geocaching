@@ -7,16 +7,17 @@ import su.geocaching.android.controller.UiHelper;
 import su.geocaching.android.controller.compass.CompassSpeed;
 import su.geocaching.android.controller.compass.SmoothCompassThread;
 import su.geocaching.android.controller.managers.UserLocationManager;
-import su.geocaching.android.controller.managers.GpsStatusManager;
-import su.geocaching.android.controller.managers.IGpsStatusAware;
 import su.geocaching.android.controller.managers.ILocationAware;
 import su.geocaching.android.controller.managers.LogManager;
 import su.geocaching.android.controller.managers.PreferencesManager;
 import su.geocaching.android.model.GeoCache;
 import su.geocaching.android.ui.R;
 import android.app.Activity;
+import android.content.Context;
 import android.content.Intent;
 import android.graphics.drawable.AnimationDrawable;
+import android.location.GpsSatellite;
+import android.location.GpsStatus;
 import android.location.Location;
 import android.location.LocationManager;
 import android.location.LocationProvider;
@@ -43,8 +44,6 @@ public class CompassActivity extends Activity {
     private SmoothCompassThread animationThread;
     private UserLocationManager locationManager;
     private LocationListener locationListener;
-    private GpsStatusManager gpsManager;
-    private GpsStatusListener gpsListener;
     private PreferencesManager preferenceManager;
 
     private CompassView compassView;
@@ -73,10 +72,8 @@ public class CompassActivity extends Activity {
 
         controller = Controller.getInstance();
         locationManager = controller.getLocationManager();
-        gpsManager = controller.getGpsStatusManager();
         preferenceManager = controller.getPreferencesManager();
         locationListener = new LocationListener(this);
-        gpsListener = new GpsStatusListener();
 
         controller.getGoogleAnalyticsManager().trackPageView(COMPASS_ACTIVITY);
     }
@@ -91,7 +88,7 @@ public class CompassActivity extends Activity {
             finish();
             return;
         }
-        
+
         compassView.setKeepScreenOn(preferenceManager.getKeepScreenOnPreference());
         targetCoordinates.setText(CoordinateHelper.coordinateToString(controller.getSearchingGeoCache().getLocationGeoPoint()));
         if (locationManager.hasLocation()) {
@@ -110,7 +107,7 @@ public class CompassActivity extends Activity {
     /**
      * Run activity logic
      */
-    private void runLogic() {     
+    private void runLogic() {
 
         if (locationManager.hasLocation()) {
             LogManager.d(TAG, "runLogic: location fixed. Update location with last known location");
@@ -124,14 +121,12 @@ public class CompassActivity extends Activity {
 
         locationManager.addSubscriber(locationListener);
         locationManager.enableBestProviderUpdates();
-        gpsManager.addSubscriber(gpsListener);
     }
 
     @Override
     protected void onPause() {
         LogManager.d(TAG, "onPause");
         locationManager.removeSubscriber(locationListener);
-        gpsManager.removeSubscriber(gpsListener);
         stopAnimation();
         super.onPause();
     }
@@ -202,7 +197,6 @@ public class CompassActivity extends Activity {
         if (progressBarView.getVisibility() == View.GONE) {
             progressBarView.setVisibility(View.VISIBLE);
         }
-        gpsListener.updateStatus(getString(R.string.waiting_location_fix_message));
         Toast.makeText(this, getString(R.string.search_geocache_best_provider_lost), Toast.LENGTH_LONG).show();
     }
 
@@ -265,31 +259,31 @@ public class CompassActivity extends Activity {
 
         @Override
         public void onStatusChanged(String provider, int status, Bundle extras) {
-            // it is only write message to log and call onBestProviderUnavailable when gps out_of_service
-            LogManager.d(TAG, "onStatusChanged:");
-            String statusString = "Location fixed: " + Boolean.toString(controller.getLocationManager().hasLocation()) + ". Provider: " + provider + ". ";
-            LogManager.d(TAG, "     " + statusString);
             switch (status) {
-
                 case LocationProvider.OUT_OF_SERVICE:
-                    statusString += "Status: out of service. ";
                     onBestProviderUnavailable();
-                    LogManager.d(TAG, "     Status: out of service.");
-                    break;
-                case LocationProvider.TEMPORARILY_UNAVAILABLE:
-                    statusString += "Status: temporarily unavailable. ";
-                    // TODO: check when it happens. i'm almost sure that it call then gps 'go to sleep'(power saving)
-                    // onBestProviderUnavailable();
-                    LogManager.d(TAG, "     Status: temporarily unavailable.");
+                    LogManager.d(TAG, "GpsStatus: out of service.");
                     break;
                 case LocationProvider.AVAILABLE:
-                    statusString += "Status: available. ";
-                    LogManager.d(TAG, "     Status: available.");
+                    LogManager.d(TAG, "GpsStatus: available.");
+                    GpsStatus gpsStatus = ((LocationManager) getSystemService(Context.LOCATION_SERVICE)).getGpsStatus(null);
+                    int usedInFix = 0;
+                    int count = 0;
+                    if (gpsStatus.getSatellites() == null) {
+                        LogManager.w(TAG, "     no satellites");
+                        break;
+                    }
+                    for (GpsSatellite satellite : gpsStatus.getSatellites()) {
+                        count++;
+                        if (satellite.usedInFix()) {
+                            usedInFix++;
+                        }
+                    }
+                    compassView.setLocationFix(locationManager.hasLocation());
+                    if (!locationManager.hasLocation()) {
+                        statusText.setText(String.format("%s %d/%d", Controller.getInstance().getResourceManager().getString(R.string.gps_status_satellite_status), usedInFix, count));
+                    }
                     break;
-            }
-            if (provider.equals(LocationManager.GPS_PROVIDER)) {
-                statusString += "Satellites: " + Integer.toString(extras.getInt("satellites"));
-                LogManager.d(TAG, "     Satellites: " + Integer.toString(extras.getInt("satellites")));
             }
         }
 
@@ -304,21 +298,6 @@ public class CompassActivity extends Activity {
                 LogManager.d(TAG, "onStatusChanged: best provider (" + locationManager.getBestProvider() + ") disabled. Ask turn on.");
                 onBestProviderUnavailable();
                 UiHelper.askTurnOnGps(activity);
-            }
-        }
-    }
-
-    /**
-     *
-     */
-    class GpsStatusListener implements IGpsStatusAware {
-
-        @Override
-        public void updateStatus(String status) {
-            compassView.setLocationFix(locationManager.hasLocation());
-
-            if (!locationManager.hasLocation()) {
-                statusText.setText(status);
             }
         }
     }

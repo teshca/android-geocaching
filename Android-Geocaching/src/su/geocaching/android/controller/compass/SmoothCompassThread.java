@@ -2,7 +2,7 @@ package su.geocaching.android.controller.compass;
 
 import su.geocaching.android.controller.Controller;
 import su.geocaching.android.controller.managers.CompassManager;
-import su.geocaching.android.controller.managers.ICompassAware;
+import su.geocaching.android.controller.managers.IBearingAware;
 import su.geocaching.android.controller.managers.LogManager;
 
 /**
@@ -10,7 +10,7 @@ import su.geocaching.android.controller.managers.LogManager;
  *
  * @author Nikita Bumakov
  */
-public class SmoothCompassThread extends Thread implements ICompassAware {
+public class SmoothCompassThread extends Thread implements IBearingAware {
 
     private static final String TAG = SmoothCompassThread.class.getCanonicalName();
 

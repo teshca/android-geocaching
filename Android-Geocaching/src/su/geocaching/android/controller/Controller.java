@@ -13,7 +13,6 @@ import su.geocaching.android.controller.managers.ConnectionManager;
 import su.geocaching.android.controller.managers.DbManager;
 import su.geocaching.android.controller.managers.UserLocationManager;
 import su.geocaching.android.controller.managers.GoogleAnalyticsManager;
-import su.geocaching.android.controller.managers.GpsStatusManager;
 import su.geocaching.android.controller.managers.LogManager;
 import su.geocaching.android.controller.managers.PreferencesManager;
 import su.geocaching.android.controller.managers.ResourceManager;
@@ -36,7 +35,6 @@ public class Controller {
 
     private UserLocationManager locationManager;
     private CompassManager compassManager;
-    private GpsStatusManager gpsStatusManager;
     private ConnectionManager connectionManager;
     private ResourceManager resourceManager;
     private PreferencesManager preferencesManager;
@@ -83,17 +81,10 @@ public class Controller {
     }
 
     /**
-     * @return compass manager which can send to ICompassAware updates of bearing
+     * @return compass manager which can send to IBearingAware updates of bearing
      */
     public synchronized CompassManager getCompassManager() {
         return getCompassManager(applicationContext);
-    }
-
-    /**
-     * @return gps status manager which can send to IGpsStatusAware updates of status gps engine
-     */
-    public synchronized GpsStatusManager getGpsStatusManager() {
-        return getGpsStatusManager(applicationContext);
     }
 
     /**
@@ -140,7 +131,7 @@ public class Controller {
     /**
      * @param context
      *            for init manager
-     * @return compass manager which can send to ICompassAware updates of bearing
+     * @return compass manager which can send to IBearingAware updates of bearing
      */
     public synchronized CompassManager getCompassManager(Context context) {
         if (compassManager == null) {
@@ -148,19 +139,6 @@ public class Controller {
             compassManager = new CompassManager((SensorManager) context.getSystemService(Context.SENSOR_SERVICE));
         }
         return compassManager;
-    }
-
-    /**
-     * @param context
-     *            for init manager
-     * @return gps status manager which can send to IGpsStatusAware updates of status gps engine
-     */
-    public synchronized GpsStatusManager getGpsStatusManager(Context context) {
-        if (gpsStatusManager == null) {
-            LogManager.d(TAG, "gps status manager wasn't init yet. init.");
-            gpsStatusManager = new GpsStatusManager((LocationManager) context.getSystemService(Context.LOCATION_SERVICE));
-        }
-        return gpsStatusManager;
     }
 
     /**
