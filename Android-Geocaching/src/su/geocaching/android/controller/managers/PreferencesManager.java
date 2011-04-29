@@ -22,6 +22,7 @@ import java.util.EnumSet;
  */
 public class PreferencesManager {
     private static final String TAG = PreferencesManager.class.getCanonicalName();
+    private static final String DEFAULT_VALUE = "ALL";
 
     private final Context context;
     private final SharedPreferences preferences;
@@ -177,26 +178,19 @@ public class PreferencesManager {
     public EnumSet<GeoCacheStatus> getStatusFilter() {
         EnumSet<GeoCacheStatus> set = EnumSet.noneOf(GeoCacheStatus.class);
         String rawval = preferences.getString(context.getString(R.string.cache_filter_status), context.getString(R.string.cache_filter_default_value));
-        String[] selected = ListMultiSelectPreference.parseStoredValue(rawval);
-        if (selected != null) {
-            for (String i : selected) {
-                try {
-                    GeoCacheStatus e = GeoCacheStatus.valueOf(i);
-                    switch (e) {
-                        case VALID:
-                            set.add(GeoCacheStatus.VALID);
-                            break;
-                        case NOT_VALID:
-                            set.add(GeoCacheStatus.NOT_VALID);
-                            break;
-                        case NOT_CONFIRMED:
-                            set.add(GeoCacheStatus.NOT_CONFIRMED);
-                            break;
+        if (rawval.equals(DEFAULT_VALUE)) {
+            for (GeoCacheStatus i : GeoCacheStatus.values()) {
+                set.add(i);
+            }
+        } else {
+            String[] selected = ListMultiSelectPreference.parseStoredValue(rawval);
+            if (selected != null) {
+                for (String cacheStatus : selected) {
+                    try {
+                        set.add(GeoCacheStatus.valueOf(cacheStatus));
+                    } catch (IllegalArgumentException e) {
+                        LogManager.e(TAG, e.getMessage(), e);
                     }
-                } catch (IllegalArgumentException iae) {
-                    set.add(GeoCacheStatus.VALID);
-                    set.add(GeoCacheStatus.NOT_VALID);
-                    set.add(GeoCacheStatus.NOT_CONFIRMED);
                 }
             }
         }
@@ -206,37 +200,19 @@ public class PreferencesManager {
     public EnumSet<GeoCacheType> getTypeFilter() {
         EnumSet<GeoCacheType> set = EnumSet.noneOf(GeoCacheType.class);
         String rawval = preferences.getString(context.getString(R.string.cache_filter_type), context.getString(R.string.cache_filter_default_value));
-        String[] selected = ListMultiSelectPreference.parseStoredValue(rawval);
-        if (selected != null) {
-            for (String cacheType : selected) {
-                try {
-                    GeoCacheType e = GeoCacheType.valueOf(cacheType);
-                    switch (e) {
-                        case TRADITIONAL:
-                            set.add(GeoCacheType.TRADITIONAL);
-                            break;
-                        case VIRTUAL:
-                            set.add(GeoCacheType.VIRTUAL);
-                            break;
-                        case STEP_BY_STEP_TRADITIONAL:
-                            set.add(GeoCacheType.STEP_BY_STEP_TRADITIONAL);
-                            break;
-                        case STEP_BY_STEP_VIRTUAL:
-                            set.add(GeoCacheType.STEP_BY_STEP_VIRTUAL);
-                            break;
-                        case EVENT:
-                            set.add(GeoCacheType.EVENT);
-                            break;
-                        case CONTEST:
-                            set.add(GeoCacheType.CONTEST);
-                            break;
+        if (rawval.equals(DEFAULT_VALUE)) {
+            for (GeoCacheType i : GeoCacheType.values()) {
+                set.add(i);
+            }
+        } else {
+            String[] selected = ListMultiSelectPreference.parseStoredValue(rawval);
+            if (selected != null) {
+                for (String cacheType : selected) {
+                    try {
+                        set.add(GeoCacheType.valueOf(cacheType));
+                    } catch (IllegalArgumentException e) {
+                        LogManager.e(TAG, e.getMessage(), e);
                     }
-                } catch (IllegalArgumentException iae) {
-                    set.add(GeoCacheType.TRADITIONAL);
-                    set.add(GeoCacheType.VIRTUAL);
-                    set.add(GeoCacheType.STEP_BY_STEP_VIRTUAL);
-                    set.add(GeoCacheType.STEP_BY_STEP_TRADITIONAL);
-                    set.add(GeoCacheType.EVENT);
                 }
             }
         }
