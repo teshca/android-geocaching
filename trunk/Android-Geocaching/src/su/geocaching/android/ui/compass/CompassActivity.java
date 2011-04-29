@@ -51,6 +51,7 @@ public class CompassActivity extends Activity {
     private ImageView progressBarView;
     private AnimationDrawable progressBarAnim;
     private LinearLayout odometerlayout;
+    private Toast providerUnavailableToast;
 
     private Controller controller;
 
@@ -100,6 +101,7 @@ public class CompassActivity extends Activity {
             odometerlayout.setVisibility(View.GONE);
         }
 
+        providerUnavailableToast = Toast.makeText(this, getString(R.string.search_geocache_best_provider_lost), Toast.LENGTH_LONG);
         runLogic();
         startAnimation();
     }
@@ -128,6 +130,7 @@ public class CompassActivity extends Activity {
         LogManager.d(TAG, "onPause");
         locationManager.removeSubscriber(locationListener);
         stopAnimation();
+        providerUnavailableToast.cancel();
         super.onPause();
     }
 
@@ -197,7 +200,7 @@ public class CompassActivity extends Activity {
         if (progressBarView.getVisibility() == View.GONE) {
             progressBarView.setVisibility(View.VISIBLE);
         }
-        Toast.makeText(this, getString(R.string.search_geocache_best_provider_lost), Toast.LENGTH_LONG).show();
+        providerUnavailableToast.show();
     }
 
     @Override
@@ -247,7 +250,6 @@ public class CompassActivity extends Activity {
             statusText.setText(CoordinateHelper.distanceToString(distance));
             statusText.setTextSize(getResources().getDimension(R.dimen.text_size_big));
             if (distance < CLOSE_DISTANCE_TO_GC_VALUE) {
-                // TODO: may be need make special preference?
                 controller.getLocationManager().updateFrequency(GpsUpdateFrequency.MAXIMAL);
             } else {
                 controller.getLocationManager().updateFrequencyFromPreferences();
