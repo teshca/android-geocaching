@@ -1,9 +1,12 @@
 package su.geocaching.android.controller.managers;
 
 import android.location.Criteria;
+import android.location.GpsSatellite;
 import android.location.Location;
 import android.location.LocationListener;
+import android.location.GpsStatus;
 import android.location.LocationManager;
+import android.location.LocationProvider;
 import android.os.Bundle;
 
 import java.util.ArrayList;
@@ -13,14 +16,15 @@ import java.util.TimerTask;
 
 import su.geocaching.android.controller.Controller;
 import su.geocaching.android.controller.GpsUpdateFrequency;
+import su.geocaching.android.ui.R;
 
 /**
  * Location manager which get updates of location by GPS or GSM/Wi-Fi
- *
+ * 
  * @author Grigory Kalabin. grigory.kalabin@gmail.com
  * @since fall, 2010
  */
-public class UserLocationManager implements LocationListener {
+public class UserLocationManager implements LocationListener, GpsStatus.Listener {
     private static final String TAG = UserLocationManager.class.getCanonicalName();
     private static final String TIMER_NAME = "remove location updates mapupdatetimer";
     private static final long REMOVE_UPDATES_DELAY = 30000; // in milliseconds
@@ -29,6 +33,7 @@ public class UserLocationManager implements LocationListener {
     private Location lastLocation;
     private String provider;
     private List<ILocationAware> subscribers;
+    private List<ILocationAware> statusSubscribers;
     private Timer removeUpdatesTimer;
     private RemoveUpdatesTask removeUpdatesTask;
     private boolean isUpdating;
@@ -36,12 +41,14 @@ public class UserLocationManager implements LocationListener {
     private GpsUpdateFrequency updateFrequency;
 
     /**
-     * @param locationManager manager which can add or remove updates of location services
+     * @param locationManager
+     *            manager which can add or remove updates of location services
      */
     public UserLocationManager(LocationManager locationManager) {
         this.locationManager = locationManager;
         updateFrequency = Controller.getInstance().getPreferencesManager().getGpsUpdateFrequency();
         subscribers = new ArrayList<ILocationAware>();
+        statusSubscribers = new ArrayList<ILocationAware>();
         provider = "none";
         isUpdating = false;
         removeUpdatesTimer = new Timer(TIMER_NAME);
@@ -50,9 +57,12 @@ public class UserLocationManager implements LocationListener {
     }
 
     /**
-     * @param subscriber activity which will be listen location updates
+     * @param subscriber
+     *            activity which will be listen location updates
+     * @param withStatus
+     *            true if subscriber want to recieve information about gps status
      */
-    public void addSubscriber(ILocationAware subscriber) {
+    public void addSubscriber(ILocationAware subscriber, boolean withStatus) {
         removeUpdatesTask.cancel();
 
         LogManager.d(TAG, "addSubscriber: remove task cancelled;\n	isUpdating=" + Boolean.toString(isUpdating) + ";\n	subscribers=" + Integer.toString(subscribers.size()));
@@ -63,26 +73,47 @@ public class UserLocationManager implements LocationListener {
         if (!subscribers.contains(subscriber)) {
             subscribers.add(subscriber);
         }
+        if (withStatus && statusSubscribers.size() == 0) {
+            addGpsStatusUpdates();
+        }
+        if (withStatus && !statusSubscribers.contains(subscriber)) {
+            statusSubscribers.add(subscriber);
+        }
         LogManager.d(TAG, "	Count of subscribers became " + Integer.toString(subscribers.size()));
     }
 
     /**
-     * @param subscriber activity which no need to listen location updates
+     * @param subscriber
+     *            activity which no need to listen location updates
      * @return true if activity was subscribed on location updates
      */
     public boolean removeSubscriber(ILocationAware subscriber) {
         boolean res = subscribers.remove(subscriber);
-        if (!res) {
-            return res;
-        }
-        if (subscribers.size() == 0) {
+        statusSubscribers.remove(subscriber);
+        if (subscribers.size() == 0 && res) {
             removeUpdatesTask.cancel();
             removeUpdatesTask = new RemoveUpdatesTask(this);
             removeUpdatesTimer.schedule(removeUpdatesTask, REMOVE_UPDATES_DELAY);
             LogManager.d(TAG, "none subscribers. wait " + Long.toString(REMOVE_UPDATES_DELAY / 1000) + " s from " + Long.toString(System.currentTimeMillis()));
         }
+        if (statusSubscribers.size() == 0) {
+            removeGpsStatusUpdates();
+        }
         LogManager.d(TAG, "remove subscriber. Count of subscribers became " + Integer.toString(subscribers.size()));
         return res;
+    }
+
+    /**
+     * Remove updates of gps status. Location updates remains
+     * 
+     * @param subscriber
+     *            activity which no need to listen gps status updates
+     */
+    public void removeStatusListening(ILocationAware subscriber) {
+        statusSubscribers.remove(subscriber);
+        if (statusSubscribers.size() == 0) {
+            removeGpsStatusUpdates();
+        }
     }
 
     /*
@@ -138,9 +169,19 @@ public class UserLocationManager implements LocationListener {
     @Override
     public void onStatusChanged(String provider, int status, Bundle extras) {
         LogManager.d(TAG, "Provider (" + provider + ") status changed (new status is " + Integer.toString(status) + "): send msg to " + Integer.toString(subscribers.size()) + " activity(es)");
-        for (ILocationAware subsriber : subscribers) {
+        for (ILocationAware subsriber : statusSubscribers) {
             subsriber.onStatusChanged(provider, status, extras);
         }
+    }
+
+    /*
+     * (non-Javadoc)
+     * 
+     * @see android.location.GpsStatus.Listener#onGpsStatusChanged(int)
+     */
+    @Override
+    public void onGpsStatusChanged(int arg0) {
+        onStatusChanged(provider, LocationProvider.AVAILABLE, null);
     }
 
     /**
@@ -165,6 +206,20 @@ public class UserLocationManager implements LocationListener {
         provider = locationManager.getBestProvider(criteria, true);
         requestLocationUpdates();
         LogManager.d(TAG, "add updates. Provider is " + provider);
+    }
+
+    /**
+     * Add updates of status gps engine
+     */
+    private void addGpsStatusUpdates() {
+        locationManager.addGpsStatusListener(this);
+    }
+
+    /**
+     * remove updates of gps engine status
+     */
+    private void removeGpsStatusUpdates() {
+        locationManager.removeGpsStatusListener(this);
     }
 
     /**
@@ -269,8 +324,9 @@ public class UserLocationManager implements LocationListener {
 
     /**
      * Refresh frequency of location updates and re-request location updates from current provider
-     *
-     * @param value frequency which need
+     * 
+     * @param value
+     *            frequency which need
      */
     public synchronized void updateFrequency(GpsUpdateFrequency value) {
         if (updateFrequency.equals(value)) {
@@ -288,8 +344,9 @@ public class UserLocationManager implements LocationListener {
 
     /**
      * Set frequency from preferences of location updates and re-request location updates from current provider
-     *
-     * @param value frequency which need
+     * 
+     * @param value
+     *            frequency which need
      */
     public synchronized void updateFrequencyFromPreferences() {
         GpsUpdateFrequency prefsFrequency = Controller.getInstance().getPreferencesManager().getGpsUpdateFrequency();
@@ -307,15 +364,37 @@ public class UserLocationManager implements LocationListener {
     }
 
     /**
+     * Return string like "satellites: 2/5" with info about satellites
+     * 
+     * @return string with localized info about satellites
+     */
+    public String getSatellitesStatusString() {
+        GpsStatus gpsStatus = locationManager.getGpsStatus(null);
+        int usedInFix = 0;
+        int count = 0;
+        if (gpsStatus.getSatellites() == null) {
+            return null;
+        }
+        for (GpsSatellite satellite : gpsStatus.getSatellites()) {
+            count++;
+            if (satellite.usedInFix()) {
+                usedInFix++;
+            }
+        }
+        return String.format("%s %d/%d", Controller.getInstance().getResourceManager().getString(R.string.gps_status_satellite_status), usedInFix, count);
+    }
+
+    /**
      * task which remove updates from LocationManager
-     *
+     * 
      * @author Grigory Kalabin. grigory.kalabin@gmail.com
      */
     private class RemoveUpdatesTask extends TimerTask {
         private UserLocationManager parent;
 
         /**
-         * @param parent listener which want remove updates
+         * @param parent
+         *            listener which want remove updates
          */
         public RemoveUpdatesTask(UserLocationManager parent) {
             this.parent = parent;
