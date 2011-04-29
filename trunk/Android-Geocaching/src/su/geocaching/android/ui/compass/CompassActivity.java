@@ -6,20 +6,16 @@ import su.geocaching.android.controller.GpsUpdateFrequency;
 import su.geocaching.android.controller.UiHelper;
 import su.geocaching.android.controller.compass.CompassSpeed;
 import su.geocaching.android.controller.compass.SmoothCompassThread;
-import su.geocaching.android.controller.managers.UserLocationManager;
 import su.geocaching.android.controller.managers.ILocationAware;
 import su.geocaching.android.controller.managers.LogManager;
 import su.geocaching.android.controller.managers.PreferencesManager;
+import su.geocaching.android.controller.managers.UserLocationManager;
 import su.geocaching.android.model.GeoCache;
 import su.geocaching.android.ui.R;
 import android.app.Activity;
-import android.content.Context;
 import android.content.Intent;
 import android.graphics.drawable.AnimationDrawable;
-import android.location.GpsSatellite;
-import android.location.GpsStatus;
 import android.location.Location;
-import android.location.LocationManager;
 import android.location.LocationProvider;
 import android.os.Bundle;
 import android.view.Menu;
@@ -102,6 +98,7 @@ public class CompassActivity extends Activity {
         }
 
         providerUnavailableToast = Toast.makeText(this, getString(R.string.search_geocache_best_provider_lost), Toast.LENGTH_LONG);
+        statusText.setText(R.string.gps_status_initialization);
         runLogic();
         startAnimation();
     }
@@ -117,11 +114,10 @@ public class CompassActivity extends Activity {
             progressBarView.setVisibility(View.GONE);
         } else {
             LogManager.d(TAG, "run logic: location not fixed. Show gps status");
-            onBestProviderUnavailable();
             progressBarView.setVisibility(View.VISIBLE);
         }
 
-        locationManager.addSubscriber(locationListener);
+        locationManager.addSubscriber(locationListener, true);
         locationManager.enableBestProviderUpdates();
     }
 
@@ -234,6 +230,8 @@ public class CompassActivity extends Activity {
 
         @Override
         public void updateLocation(Location location) {
+            controller.getLocationManager().removeStatusListening(this);
+            statusText.setText("");
 
             if (tvOdometer.isShown() && lastLocation != null) {
                 odometeDistance += CoordinateHelper.getDistanceBetween(location, lastLocation);
@@ -247,8 +245,6 @@ public class CompassActivity extends Activity {
                 progressBarView.setVisibility(View.GONE);
             }
             float distance = CoordinateHelper.getDistanceBetween(controller.getSearchingGeoCache().getLocationGeoPoint(), location);
-            statusText.setText(CoordinateHelper.distanceToString(distance));
-            statusText.setTextSize(getResources().getDimension(R.dimen.text_size_big));
             if (distance < CLOSE_DISTANCE_TO_GC_VALUE) {
                 controller.getLocationManager().updateFrequency(GpsUpdateFrequency.MAXIMAL);
             } else {
@@ -268,22 +264,9 @@ public class CompassActivity extends Activity {
                     break;
                 case LocationProvider.AVAILABLE:
                     LogManager.d(TAG, "GpsStatus: available.");
-                    GpsStatus gpsStatus = ((LocationManager) getSystemService(Context.LOCATION_SERVICE)).getGpsStatus(null);
-                    int usedInFix = 0;
-                    int count = 0;
-                    if (gpsStatus.getSatellites() == null) {
-                        LogManager.w(TAG, "     no satellites");
-                        break;
-                    }
-                    for (GpsSatellite satellite : gpsStatus.getSatellites()) {
-                        count++;
-                        if (satellite.usedInFix()) {
-                            usedInFix++;
-                        }
-                    }
-                    compassView.setLocationFix(locationManager.hasLocation());
-                    if (!locationManager.hasLocation()) {
-                        statusText.setText(String.format("%s %d/%d", Controller.getInstance().getResourceManager().getString(R.string.gps_status_satellite_status), usedInFix, count));
+                    String statusString = Controller.getInstance().getLocationManager().getSatellitesStatusString();
+                    if (!Controller.getInstance().getLocationManager().hasLocation() && statusString != null) {
+                        statusText.setText(statusString);
                     }
                     break;
             }

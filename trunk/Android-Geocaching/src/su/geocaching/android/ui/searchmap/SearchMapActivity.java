@@ -1,24 +1,12 @@
 package su.geocaching.android.ui.searchmap;
 
-import android.content.Context;
-import android.content.Intent;
-import android.graphics.Point;
-import android.graphics.Rect;
-import android.graphics.drawable.AnimationDrawable;
-import android.graphics.drawable.Drawable;
-import android.location.GpsSatellite;
-import android.location.GpsStatus;
-import android.location.Location;
-import android.location.LocationManager;
-import android.location.LocationProvider;
-import android.net.Uri;
-import android.os.Bundle;
-import android.view.*;
-import android.widget.ImageView;
-import android.widget.TextView;
-import android.widget.Toast;
-import com.google.android.maps.*;
-import su.geocaching.android.controller.*;
+import java.util.List;
+import java.util.Locale;
+
+import su.geocaching.android.controller.Controller;
+import su.geocaching.android.controller.CoordinateHelper;
+import su.geocaching.android.controller.GpsUpdateFrequency;
+import su.geocaching.android.controller.UiHelper;
 import su.geocaching.android.controller.compass.SmoothCompassThread;
 import su.geocaching.android.controller.managers.CheckpointManager;
 import su.geocaching.android.controller.managers.IInternetAware;
@@ -31,9 +19,30 @@ import su.geocaching.android.model.SearchMapInfo;
 import su.geocaching.android.ui.FavoritesFolderActivity;
 import su.geocaching.android.ui.R;
 import su.geocaching.android.ui.geocachemap.GeoCacheOverlayItem;
+import android.content.Intent;
+import android.graphics.Point;
+import android.graphics.Rect;
+import android.graphics.drawable.AnimationDrawable;
+import android.graphics.drawable.Drawable;
+import android.location.Location;
+import android.location.LocationProvider;
+import android.net.Uri;
+import android.os.Bundle;
+import android.view.Gravity;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
+import android.view.View;
+import android.widget.ImageView;
+import android.widget.TextView;
+import android.widget.Toast;
 
-import java.util.List;
-import java.util.Locale;
+import com.google.android.maps.GeoPoint;
+import com.google.android.maps.MapActivity;
+import com.google.android.maps.MapController;
+import com.google.android.maps.MapView;
+import com.google.android.maps.Overlay;
+import com.google.android.maps.Projection;
 
 /**
  * Search GeoCache with the map
@@ -55,7 +64,7 @@ public class SearchMapActivity extends MapActivity implements IInternetAware, IL
     private MapController mapController;
     private List<Overlay> mapOverlays;
 
-    private TextView waitingLocationFixText;
+    private TextView statusTextView;
     private ImageView progressBarView;
     private AnimationDrawable progressBarAnimation;
     private Toast providerUnavailableToast;
@@ -75,7 +84,7 @@ public class SearchMapActivity extends MapActivity implements IInternetAware, IL
         LogManager.d(TAG, "onCreate");
         setContentView(R.layout.search_geocache_map);
 
-        waitingLocationFixText = (TextView) findViewById(R.id.waitingLocationFixText);
+        statusTextView = (TextView) findViewById(R.id.waitingLocationFixText);
         progressBarView = (ImageView) findViewById(R.id.progressCircle);
         progressBarView.setBackgroundResource(R.anim.earth_anim);
         progressBarAnimation = (AnimationDrawable) progressBarView.getBackground();
@@ -157,7 +166,7 @@ public class SearchMapActivity extends MapActivity implements IInternetAware, IL
         map.setKeepScreenOn(Controller.getInstance().getPreferencesManager().getKeepScreenOnPreference());
         updateMapInfoFromSettings();
         map.setSatellite(Controller.getInstance().getPreferencesManager().useSatelliteMap());
-        
+
         mapOverlays.remove(searchGeoCacheOverlay);
         cacheMarker = Controller.getInstance().getResourceManager().getMarker(geoCache.getType(), geoCache.getStatus());
         searchGeoCacheOverlay = new SearchGeoCacheOverlay(cacheMarker, this, map);
@@ -167,6 +176,7 @@ public class SearchMapActivity extends MapActivity implements IInternetAware, IL
 
         providerUnavailableToast = Toast.makeText(this, getString(R.string.search_geocache_best_provider_lost), Toast.LENGTH_LONG);
         internetLostToast = Toast.makeText(this, getString(R.string.search_geocache_internet_lost), Toast.LENGTH_LONG);
+        statusTextView.setText(R.string.gps_status_initialization);
 
         if (!Controller.getInstance().getLocationManager().isBestProviderEnabled()) {
             if (!Controller.getInstance().getLocationManager().isBestProviderGps()) {
@@ -187,7 +197,7 @@ public class SearchMapActivity extends MapActivity implements IInternetAware, IL
                 LogManager.d(TAG, "runLogic: location fixed. Update location with last known location");
             }
 
-            Controller.getInstance().getLocationManager().addSubscriber(this);
+            Controller.getInstance().getLocationManager().addSubscriber(this, true);
             Controller.getInstance().getLocationManager().enableBestProviderUpdates();
             Controller.getInstance().getConnectionManager().addSubscriber(this);
 
@@ -210,6 +220,7 @@ public class SearchMapActivity extends MapActivity implements IInternetAware, IL
     public void updateLocation(Location location) {
         userOverlay.setPoint(CoordinateHelper.locationToGeoPoint(location));
         userOverlay.setAccuracy(location.getAccuracy());
+        Controller.getInstance().getLocationManager().removeStatusListening(this);
         LogManager.d(TAG, "update location");
         if (progressBarView.getVisibility() == View.VISIBLE) {
             progressBarView.setVisibility(View.GONE);
@@ -219,12 +230,12 @@ public class SearchMapActivity extends MapActivity implements IInternetAware, IL
         } else {
             Controller.getInstance().getLocationManager().updateFrequencyFromPreferences();
         }
-        waitingLocationFixText.setText(CoordinateHelper.distanceToString(CoordinateHelper.getDistanceBetween(Controller.getInstance().getSearchingGeoCache().getLocationGeoPoint(), location)));
+        statusTextView.setText(CoordinateHelper.distanceToString(CoordinateHelper.getDistanceBetween(Controller.getInstance().getSearchingGeoCache().getLocationGeoPoint(), location)));
         if (distanceOverlay == null) {
             // It's really first run of update location
             LogManager.d(TAG, "update location: first run of this activity");
-            waitingLocationFixText.setGravity(Gravity.CENTER);
-            waitingLocationFixText.setTextSize(getResources().getDimension(R.dimen.text_size_big));
+            statusTextView.setGravity(Gravity.CENTER);
+            statusTextView.setTextSize(getResources().getDimension(R.dimen.text_size_big));
             distanceOverlay = new DistanceToGeoCacheOverlay(CoordinateHelper.locationToGeoPoint(location), Controller.getInstance().getSearchingGeoCache().getLocationGeoPoint());
             mapOverlays.add(distanceOverlay);
             mapOverlays.add(userOverlay);
@@ -410,7 +421,7 @@ public class SearchMapActivity extends MapActivity implements IInternetAware, IL
      */
     public void updateStatus(String status) {
         if (!Controller.getInstance().getLocationManager().hasLocation()) {
-            waitingLocationFixText.setText(status);
+            statusTextView.setText(status);
         }
     }
 
@@ -481,21 +492,9 @@ public class SearchMapActivity extends MapActivity implements IInternetAware, IL
                 break;
             case LocationProvider.AVAILABLE:
                 LogManager.d(TAG, "GpsStatus: available.");
-                GpsStatus gpsStatus = ((LocationManager) getSystemService(Context.LOCATION_SERVICE)).getGpsStatus(null);
-                int usedInFix = 0;
-                int count = 0;
-                if (gpsStatus.getSatellites() == null) {
-                    LogManager.w(TAG, "     no satellites");
-                    break;
-                }
-                for (GpsSatellite satellite : gpsStatus.getSatellites()) {
-                    count++;
-                    if (satellite.usedInFix()) {
-                        usedInFix++;
-                    }
-                }
-                if (!Controller.getInstance().getLocationManager().hasLocation()) {
-                    waitingLocationFixText.setText(String.format("%s %d/%d", Controller.getInstance().getResourceManager().getString(R.string.gps_status_satellite_status), usedInFix, count));
+                String statusString = Controller.getInstance().getLocationManager().getSatellitesStatusString();
+                if (!Controller.getInstance().getLocationManager().hasLocation() && statusString != null) {
+                    statusTextView.setText(statusString);
                 }
                 break;
         }
