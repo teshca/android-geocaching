@@ -58,6 +58,8 @@ public class SearchMapActivity extends MapActivity implements IInternetAware, IL
     private TextView waitingLocationFixText;
     private ImageView progressBarView;
     private AnimationDrawable progressBarAnimation;
+    private Toast providerUnavailableToast;
+    private Toast internetLostToast;
 
     private SmoothCompassThread animationThread;
     private CheckpointManager checkpointManager;
@@ -117,6 +119,8 @@ public class SearchMapActivity extends MapActivity implements IInternetAware, IL
 
         Controller.getInstance().getConnectionManager().removeSubscriber(this);
         Controller.getInstance().getLocationManager().removeSubscriber(this);
+        providerUnavailableToast.cancel();
+        internetLostToast.cancel();
     }
 
     @Override
@@ -132,17 +136,16 @@ public class SearchMapActivity extends MapActivity implements IInternetAware, IL
             return;
         }
 
-        if (distanceOverlay != null) {
-            distanceOverlay.setCachePoint(Controller.getInstance().getSearchingGeoCache().getLocationGeoPoint());
-        }
-
         if (!Controller.getInstance().getDbManager().isCacheStored(geoCache.getId())) {
             LogManager.e(TAG, "geocache not in db. Finishing.");
-            // mController.getDbManager().addGeoCache(geoCache, webText, webNotebookText);
             Toast.makeText(this, getString(R.string.search_geocache_error_geocache_not_in_db), Toast.LENGTH_LONG).show();
             this.finish();
             startActivity(new Intent(this, FavoritesFolderActivity.class));
             return;
+        }
+
+        if (distanceOverlay != null) {
+            distanceOverlay.setCachePoint(Controller.getInstance().getSearchingGeoCache().getLocationGeoPoint());
         }
 
         checkpointManager = Controller.getInstance().getCheckpointManager(Controller.getInstance().getPreferencesManager().getLastSearchedGeoCache().getId());
@@ -154,14 +157,16 @@ public class SearchMapActivity extends MapActivity implements IInternetAware, IL
         map.setKeepScreenOn(Controller.getInstance().getPreferencesManager().getKeepScreenOnPreference());
         updateMapInfoFromSettings();
         map.setSatellite(Controller.getInstance().getPreferencesManager().useSatelliteMap());
+        
         mapOverlays.remove(searchGeoCacheOverlay);
-        if (geoCache != null) {
-            cacheMarker = Controller.getInstance().getResourceManager().getMarker(geoCache.getType(), geoCache.getStatus());
-            searchGeoCacheOverlay = new SearchGeoCacheOverlay(cacheMarker, this, map);
-            GeoCacheOverlayItem cacheOverlayItem = new GeoCacheOverlayItem(geoCache, "", "");
-            searchGeoCacheOverlay.addOverlayItem(cacheOverlayItem);
-            mapOverlays.add(searchGeoCacheOverlay);
-        }
+        cacheMarker = Controller.getInstance().getResourceManager().getMarker(geoCache.getType(), geoCache.getStatus());
+        searchGeoCacheOverlay = new SearchGeoCacheOverlay(cacheMarker, this, map);
+        GeoCacheOverlayItem cacheOverlayItem = new GeoCacheOverlayItem(geoCache, "", "");
+        searchGeoCacheOverlay.addOverlayItem(cacheOverlayItem);
+        mapOverlays.add(searchGeoCacheOverlay);
+
+        providerUnavailableToast = Toast.makeText(this, getString(R.string.search_geocache_best_provider_lost), Toast.LENGTH_LONG);
+        internetLostToast = Toast.makeText(this, getString(R.string.search_geocache_internet_lost), Toast.LENGTH_LONG);
 
         if (!Controller.getInstance().getLocationManager().isBestProviderEnabled()) {
             if (!Controller.getInstance().getLocationManager().isBestProviderGps()) {
@@ -174,9 +179,7 @@ public class SearchMapActivity extends MapActivity implements IInternetAware, IL
             LogManager.d(TAG, "resume: best provider (" + Controller.getInstance().getLocationManager().getBestProvider() + ") enabled. Run logic");
 
             if (!Controller.getInstance().getLocationManager().hasLocation()) {
-                onBestProviderUnavailable();
                 progressBarView.setVisibility(View.VISIBLE);
-                LogManager.d(TAG, "runLogic: location not fixed. Send msg.");
             } else {
                 updateLocation(Controller.getInstance().getLocationManager().getLastKnownLocation());
                 progressBarView.setVisibility(View.GONE);
@@ -428,7 +431,7 @@ public class SearchMapActivity extends MapActivity implements IInternetAware, IL
      */
     @Override
     public void onInternetLost() {
-        Toast.makeText(this, getString(R.string.search_geocache_internet_lost), Toast.LENGTH_LONG).show();
+        internetLostToast.show();
     }
 
     /*
@@ -447,7 +450,7 @@ public class SearchMapActivity extends MapActivity implements IInternetAware, IL
         if (progressBarView.getVisibility() == View.GONE) {
             progressBarView.setVisibility(View.VISIBLE);
         }
-        Toast.makeText(this, getString(R.string.search_geocache_best_provider_lost), Toast.LENGTH_LONG).show();
+        providerUnavailableToast.show();
     }
 
     /*
