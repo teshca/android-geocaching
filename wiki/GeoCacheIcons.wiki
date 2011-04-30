@@ -3,7 +3,7 @@
 
 Данные иконки используются по всему приложению. Более подробно узнать о типах тайников можно на сайте [http://www.geocaching.su/?pn=15_1#2_1 геокешинга].
 * Стандартные иконки выполнены в стиле Google Maps.
-* Альтернативные в стиле geocachiong.su.
+* Альтернативные в стиле geocaching.su.
 
 || Стандартная иконка || Альтернативная иконка || Название ||
 || http://android-geocaching.googlecode.com/svn/trunk/Android-Geocaching/res/drawable/ic_cache_default_traditional_valid.png || http://android-geocaching.googlecode.com/svn/trunk/Android-Geocaching/res/drawable/ic_cache_custom_traditional_valid.png || Традиционный ||
