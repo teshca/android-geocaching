@@ -10,12 +10,14 @@ import android.app.SearchManager;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.Parcelable;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.SimpleAdapter;
+import android.widget.AdapterView.OnItemSelectedListener;
 
 /**
  * Class for create ListActivity with favorites caches
@@ -24,6 +26,8 @@ public class FavoritesFolderActivity extends AbstractGeoCacheFolderActivity {
 
     private static final String TAG = FavoritesFolderActivity.class.getCanonicalName();
     private static final String FAVORITES_FOLDER = "/FavoritesActivity";
+    private static final String LIST_STATE = "listState";
+    private Parcelable listState = null;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -35,13 +39,12 @@ public class FavoritesFolderActivity extends AbstractGeoCacheFolderActivity {
 
     @Override
     protected void onResume() {
-        
+
         Intent intent = getIntent();
-        if (Intent.ACTION_SEARCH.equals(intent.getAction())){
+        if (Intent.ACTION_SEARCH.equals(intent.getAction())) {
             String query = intent.getStringExtra(SearchManager.QUERY);
             favoritesList = getFoundGeoCachesList(query);
-        }
-        else{
+        } else {
             favoritesList = dbm.getArrayGeoCache();
         }
         if (favoritesList.isEmpty()) {
@@ -53,28 +56,45 @@ public class FavoritesFolderActivity extends AbstractGeoCacheFolderActivity {
                     R.id.favorite_list_text_view_name, R.id.favorites_row_type_text, R.id.favorites_row_status_text });
             lvListShowCache.setAdapter(simpleAdapter);
         }
-
+        if (listState != null) {
+            lvListShowCache.onRestoreInstanceState(listState);
+        }
+        listState=null;
         super.onResume();
     }
 
-    private ArrayList<GeoCache> getFoundGeoCachesList(String searchString){
-        ArrayList<GeoCache> foundedCaches = new ArrayList<GeoCache>(); 
+    @Override
+    protected void onRestoreInstanceState(Bundle savedInstanceState) {
+        super.onRestoreInstanceState(savedInstanceState);
+        listState = savedInstanceState.getParcelable(LIST_STATE);
+        lvListShowCache.onRestoreInstanceState(listState);
+    }
+
+    @Override
+    protected void onSaveInstanceState(Bundle savedInstanceState) {
+        super.onSaveInstanceState(savedInstanceState);
+        listState = lvListShowCache.onSaveInstanceState();
+        savedInstanceState.putParcelable(LIST_STATE, listState);
+    }
+
+    private ArrayList<GeoCache> getFoundGeoCachesList(String searchString) {
+        ArrayList<GeoCache> foundedCaches = new ArrayList<GeoCache>();
         ArrayList<GeoCache> allCaches = new ArrayList<GeoCache>();
         allCaches = dbm.getArrayGeoCache();
-        for (GeoCache cache :  allCaches){
+        for (GeoCache cache : allCaches) {
             searchString = searchString.toLowerCase();
             String nameCache = cache.getName().toLowerCase();
-            
-            if ((nameCache.indexOf(searchString)) != -1){
+
+            if ((nameCache.indexOf(searchString)) != -1) {
                 foundedCaches.add(cache);
             }
         }
-        if (foundedCaches.isEmpty()){
+        if (foundedCaches.isEmpty()) {
             tvNoCache.setText(getString(R.string.caches_with_appropriate_name_not_found));
         }
         return foundedCaches;
     }
-    
+
     @Override
     public void onItemClick(AdapterView<?> arg0, View arg1, int arg2, long arg3) {
         Intent intent = new Intent(this, InfoActivity.class);
@@ -90,7 +110,7 @@ public class FavoritesFolderActivity extends AbstractGeoCacheFolderActivity {
         } else {
             menu.getItem(0).setEnabled(true);
         }
-        if (Intent.ACTION_SEARCH.equals(getIntent().getAction())){
+        if (Intent.ACTION_SEARCH.equals(getIntent().getAction())) {
             menu.getItem(0).setVisible(false);
         }
         return super.onPrepareOptionsMenu(menu);

@@ -41,8 +41,8 @@ public abstract class AbstractGeoCacheFolderActivity extends Activity implements
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.favorite_list);
-        lvListShowCache = (ListView) findViewById(R.id.favorit_folder_listCach);
-        tvNoCache = (TextView) findViewById(R.id.favorit_foldet_title_text);
+        lvListShowCache = (ListView) findViewById(R.id.favorite_folder_listCache);
+        tvNoCache = (TextView) findViewById(R.id.favorite_folder_title_text);
         dbm = Controller.getInstance().getDbManager();
         lvListShowCache.setOnItemClickListener(this);
     }

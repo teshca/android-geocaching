@@ -12,10 +12,10 @@
 	</LinearLayout>
 
 	<ListView android:layout_height="wrap_content"
-		android:layout_width="fill_parent" android:id="@+id/favorit_folder_listCach"
+		android:layout_width="fill_parent" android:id="@+id/favorite_folder_listCache"
 		android:background="@color/menu_background" />
 
 	<TextView android:gravity="center_horizontal"
 		android:layout_width="fill_parent" android:layout_height="wrap_content"
-		android:text="" style="@style/FavoritesFolderTitle" android:id="@+id/favorit_foldet_title_text" android:layout_marginTop="10dip"/>
+		android:text="" style="@style/FavoritesFolderTitle" android:id="@+id/favorite_folder_title_text" android:layout_marginTop="10dip"/>
 </LinearLayout>
