@@ -151,12 +151,7 @@ public class CreateCheckpointActivity extends Activity {
         sSexagesimal = CoordinateHelper.coordinateE6ToSecSexagesimal(lng);
         sLngDegrees.setText(Integer.toString((int) sSexagesimal[0]), BufferType.EDITABLE);
         sLngMinutes.setText(Integer.toString((int) sSexagesimal[1]), BufferType.EDITABLE);
-        sLngSeconds.setText(Float.toString(sSexagesimal[2]), BufferType.EDITABLE);
-
-        dLatDegrees.setText(Integer.toString(lat / 1000000), BufferType.EDITABLE);
-        dLngDegrees.setText(Integer.toString(lng / 1000000), BufferType.EDITABLE);
-        latFraction.setText(Integer.toString(lat % 1000000), BufferType.EDITABLE);
-        lngFraction.setText(Integer.toString(lng % 1000000), BufferType.EDITABLE);
+        sLngSeconds.setText(Float.toString(sSexagesimal[2]), BufferType.EDITABLE);    
     }
 
     private void updateDecimal() {
