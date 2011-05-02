@@ -82,7 +82,7 @@ public class SearchMapActivity extends MapActivity implements IInternetAware, IL
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         LogManager.d(TAG, "onCreate");
-        setContentView(R.layout.search_geocache_map);
+        setContentView(R.layout.search_map_activity);
 
         statusTextView = (TextView) findViewById(R.id.waitingLocationFixText);
         progressBarView = (ImageView) findViewById(R.id.progressCircle);
@@ -363,7 +363,7 @@ public class SearchMapActivity extends MapActivity implements IInternetAware, IL
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         MenuInflater inflater = getMenuInflater();
-        inflater.inflate(R.menu.search_geocache_map_menu, menu);
+        inflater.inflate(R.menu.search_map_menu, menu);
         return true;
     }
 
