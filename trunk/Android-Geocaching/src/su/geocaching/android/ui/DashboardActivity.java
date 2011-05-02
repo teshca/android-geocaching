@@ -1,5 +1,9 @@
 package su.geocaching.android.ui;
 
+import su.geocaching.android.controller.Controller;
+import su.geocaching.android.controller.UiHelper;
+import su.geocaching.android.controller.managers.LogManager;
+import su.geocaching.android.ui.selectmap.SelectMapActivity;
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
@@ -8,11 +12,6 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Toast;
-import su.geocaching.android.controller.Controller;
-import su.geocaching.android.controller.managers.LogManager;
-import su.geocaching.android.model.GeoCache;
-import su.geocaching.android.ui.searchmap.SearchMapActivity;
-import su.geocaching.android.ui.selectmap.SelectMapActivity;
 
 /**
  * Main activity in application
@@ -74,10 +73,7 @@ public class DashboardActivity extends Activity {
             Toast.makeText(this.getBaseContext(), getString(R.string.search_geocache_start_without_geocache), Toast.LENGTH_SHORT).show();
             return;
         }
-        Intent intent = new Intent(this, SearchMapActivity.class);
-        intent.putExtra(GeoCache.class.getCanonicalName(), Controller.getInstance().getPreferencesManager().getLastSearchedGeoCache());
-        startActivity(intent);
-
+        UiHelper.startSearchMapActivity(this,  Controller.getInstance().getPreferencesManager().getLastSearchedGeoCache());
     }
 
     /**

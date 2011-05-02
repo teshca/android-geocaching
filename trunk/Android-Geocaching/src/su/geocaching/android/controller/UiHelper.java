@@ -10,11 +10,11 @@ import su.geocaching.android.model.GeoCache;
 import su.geocaching.android.ui.DashboardActivity;
 import su.geocaching.android.ui.R;
 import su.geocaching.android.ui.InfoActivity;
+import su.geocaching.android.ui.checkpoints.CheckpointDialog;
+import su.geocaching.android.ui.checkpoints.CheckpointsFolder;
+import su.geocaching.android.ui.checkpoints.CreateCheckpointActivity;
 import su.geocaching.android.ui.compass.CompassActivity;
 import su.geocaching.android.ui.searchmap.SearchMapActivity;
-import su.geocaching.android.ui.searchmap.stepbystep.CheckpointDialog;
-import su.geocaching.android.ui.searchmap.stepbystep.CheckpointsFolder;
-import su.geocaching.android.ui.searchmap.stepbystep.CreateCheckpointActivity;
 
 /**
  * @author Nikita Bumakov
