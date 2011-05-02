@@ -61,7 +61,7 @@ public class SelectMapActivity extends MapActivity implements IInternetAware {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         LogManager.d(TAG, "onCreate");
-        setContentView(R.layout.select_geocache_map);
+        setContentView(R.layout.select_map_activity);
         map = (MapView) findViewById(R.id.selectGeocacheMap);
         map.getOverlays().clear();
         mapController = map.getController();
@@ -172,7 +172,7 @@ public class SelectMapActivity extends MapActivity implements IInternetAware {
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         MenuInflater inflater = getMenuInflater();
-        inflater.inflate(R.menu.select_geocache_map_menu, menu);
+        inflater.inflate(R.menu.select_map_menu, menu);
         return true;
     }
 

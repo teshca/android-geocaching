@@ -15,7 +15,7 @@ public class AboutActivity extends Activity {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         LogManager.d(TAG, "on create");
-        setContentView(R.layout.about);
+        setContentView(R.layout.about_activity);
 
         try {
             this.setTitle(String.format(getString(R.string.application_version), getPackageManager().getPackageInfo(getPackageName(), 0).versionName));

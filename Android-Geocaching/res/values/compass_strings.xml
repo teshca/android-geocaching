@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 	<string name="location_unknown">Координаты определяются...</string>
-	<string name="compass_settings">Настройки</string>
 	<string-array name="speed_preference_entries">
 		<item>Без сглаживания</item>
 		<item>Медленная</item>

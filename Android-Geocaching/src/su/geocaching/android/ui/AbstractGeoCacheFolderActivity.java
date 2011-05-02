@@ -40,7 +40,7 @@ public abstract class AbstractGeoCacheFolderActivity extends Activity implements
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.favorite_list);
+        setContentView(R.layout.favorites_folder_activity);
         lvListShowCache = (ListView) findViewById(R.id.favorite_folder_listCache);
         tvNoCache = (TextView) findViewById(R.id.favorite_folder_title_text);
         dbm = Controller.getInstance().getDbManager();

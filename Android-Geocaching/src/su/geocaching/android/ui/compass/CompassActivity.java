@@ -55,7 +55,7 @@ public class CompassActivity extends Activity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         LogManager.d(TAG, "on create");
-        setContentView(R.layout.search_geocache_compass);
+        setContentView(R.layout.compass_activity);
 
         compassView = (CompassView) findViewById(R.id.compassView);
         tvOdometer = (TextView) findViewById(R.id.tvOdometer);
@@ -158,7 +158,7 @@ public class CompassActivity extends Activity {
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         MenuInflater inflater = getMenuInflater();
-        inflater.inflate(R.menu.search_geocache_compass_menu, menu);
+        inflater.inflate(R.menu.compass_menu, menu);
         return true;
     }
 

@@ -59,7 +59,7 @@ public class InfoActivity extends Activity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         LogManager.d(TAG, "onCreate");
-        setContentView(R.layout.info_geocache_view);
+        setContentView(R.layout.info_activity);
         controller = Controller.getInstance();
         dbManager = controller.getDbManager();
         geoCache = getIntent().getParcelableExtra(GeoCache.class.getCanonicalName());
