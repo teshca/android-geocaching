@@ -4,8 +4,8 @@ import java.io.File;
 import java.util.concurrent.ExecutionException;
 
 import su.geocaching.android.controller.Controller;
-import su.geocaching.android.controller.DownloadPageTask;
 import su.geocaching.android.controller.UiHelper;
+import su.geocaching.android.controller.apimanager.DownloadPageTask;
 import su.geocaching.android.controller.managers.DbManager;
 import su.geocaching.android.controller.managers.LogManager;
 import su.geocaching.android.model.GeoCache;

@@ -1,4 +1,4 @@
-package su.geocaching.android.ui.searchmap.stepbystep;
+package su.geocaching.android.ui.checkpoints;
 
 import su.geocaching.android.controller.Controller;
 import su.geocaching.android.controller.CoordinateHelper;

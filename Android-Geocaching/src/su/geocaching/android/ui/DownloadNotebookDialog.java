@@ -3,7 +3,7 @@ package su.geocaching.android.ui;
 import java.util.concurrent.ExecutionException;
 
 import su.geocaching.android.controller.Controller;
-import su.geocaching.android.controller.DownloadPageTask;
+import su.geocaching.android.controller.apimanager.DownloadPageTask;
 import su.geocaching.android.controller.managers.LogManager;
 import su.geocaching.android.model.GeoCache;
 import su.geocaching.android.ui.InfoActivity.PageType;
