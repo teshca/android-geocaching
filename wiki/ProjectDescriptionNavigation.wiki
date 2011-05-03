@@ -1,6 +1,6 @@
 *Главное*
   * [ProjectDescription Описание приложения]
-    * [http://code.google.com/p/android-geocaching/wiki/ProjectDescription#2.Выбрать_тайник Выбрать тайник]
+    * [http://code.google.com/p/android-geocaching/wiki/ProjectDescription#==Выбор тайника== Выбрать тайник]
     * [http://code.google.com/p/android-geocaching/wiki/ProjectDescription#4.Искать_тайник Искать тайник]
     * [http://code.google.com/p/android-geocaching/wiki/ProjectDescription#5.Избранное Избранное] 
   * [GeoCacheIcons Иконки тайников]
