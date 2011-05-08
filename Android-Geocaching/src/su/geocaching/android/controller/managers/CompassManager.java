@@ -10,7 +10,7 @@ import java.util.List;
 
 /**
  * Sensor manager which calculate bearing of user
- *
+ * 
  * @author Grigory Kalabin. grigory.kalabin@gmail.com
  * @since Nov 10, 2010
  */
@@ -29,32 +29,38 @@ public class CompassManager implements SensorEventListener {
     private boolean isCompassAvailable;
     private List<IBearingAware> subscribers;
 
+    private boolean isUsingGpsCompass;
+
     /**
-     * @param sensorManager manager which can add or remove updates of sensors
+     * @param sensorManager
+     *            manager which can add or remove updates of sensors
      */
     public CompassManager(SensorManager sensorManager) {
         this.sensorManager = sensorManager;
         isCompassAvailable = sensorManager != null;
         subscribers = new ArrayList<IBearingAware>();
+        isUsingGpsCompass = false;
     }
 
     /**
-     * @param subscriber activity which will be listen location updates
+     * @param subscriber
+     *            activity which will be listen location updates
      */
     public void addSubscriber(IBearingAware subscriber) {
-        if (subscribers.size() == 0) {
+        if (subscribers.size() == 0 && !isUsingGpsCompass) {
             addUpdates();
         }
         subscribers.add(subscriber);
     }
 
     /**
-     * @param subscriber activity which no need to listen location updates
+     * @param subscriber
+     *            activity which no need to listen location updates
      * @return true if activity was subscribed on location updates
      */
     public boolean removeSubscriber(IBearingAware subscriber) {
         boolean res = subscribers.remove(subscriber);
-        if (subscribers.size() == 0) {
+        if (subscribers.size() == 0 && !isUsingGpsCompass) {
             removeUpdates();
         }
         return res;
@@ -90,7 +96,8 @@ public class CompassManager implements SensorEventListener {
     }
 
     /**
-     * @param lastDirection current direction known to this listener
+     * @param lastDirection
+     *            current direction known to this listener
      */
     private void notifyObservers(int lastDirection) {
         for (IBearingAware observer : subscribers) {
@@ -101,8 +108,8 @@ public class CompassManager implements SensorEventListener {
     /**
      * Add updates of sensors
      */
-    private void addUpdates() {
-        if (!isCompassAvailable) {
+    private synchronized void addUpdates() {
+        if (!isCompassAvailable || isUsingGpsCompass) {
             return;
         }
         Sensor gravitySensor = sensorManager.getDefaultSensor(Sensor.TYPE_ACCELEROMETER);
@@ -118,7 +125,7 @@ public class CompassManager implements SensorEventListener {
     /**
      * Remove updates of sensors
      */
-    private void removeUpdates() {
+    private synchronized void removeUpdates() {
         if (!isCompassAvailable) {
             return;
         }
@@ -137,5 +144,23 @@ public class CompassManager implements SensorEventListener {
      */
     public boolean isCompassAvailable() {
         return isCompassAvailable;
+    }
+
+    /**
+     * Set mode of compass - use bearing from gps or hardware sensors(accelerometer and magnetic field)
+     * 
+     * @param useGps
+     *            true if using gps
+     */
+    protected void setUsingGpsCompass(boolean useGps) {
+        if (isUsingGpsCompass == useGps) {
+            return;
+        }
+        isUsingGpsCompass = useGps;
+        if (useGps && subscribers.size() != 0) {
+            removeUpdates();
+        } else {
+            addUpdates();
+        }
     }
 }
