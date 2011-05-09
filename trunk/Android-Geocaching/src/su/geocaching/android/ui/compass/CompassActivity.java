@@ -22,6 +22,7 @@ import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.View.OnClickListener;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
@@ -63,6 +64,12 @@ public class CompassActivity extends Activity {
         currentCoordinates = (TextView) findViewById(R.id.currentCoordinates);
         progressBarView = (ImageView) findViewById(R.id.progressCircle);
         progressBarView.setBackgroundResource(R.anim.earth_anim);
+        progressBarView.setOnClickListener(new OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                UiHelper.runGpsStatus(v.getContext());
+            }
+        });
         progressBarAnim = (AnimationDrawable) progressBarView.getBackground();
         statusText = (TextView) findViewById(R.id.waitingLocationFixText);
         odometerlayout = (LinearLayout) findViewById(R.id.odometer_layout);

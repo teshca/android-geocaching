@@ -28,7 +28,7 @@ public class UserLocationManager implements LocationListener, GpsStatus.Listener
     private static final String TAG = UserLocationManager.class.getCanonicalName();
     private static final String TIMER_NAME = "remove location updates mapupdatetimer";
     private static final long REMOVE_UPDATES_DELAY = 30000; // in milliseconds
-    private static final float MAX_SPEED_OF_HARDWARE_COMPASS = 15 * 1000 / 3600; // (in m/s) if user speed lower than this - use hardware compass otherwise use GPS compass
+    private static final float MAX_SPEED_OF_HARDWARE_COMPASS = 20 * 1000 / 3600; // (in m/s) if user speed lower than this - use hardware compass otherwise use GPS compass
 
     private LocationManager locationManager;
     private Location lastLocation;
