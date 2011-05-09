@@ -9,6 +9,7 @@ import su.geocaching.android.controller.apimanager.DownloadPageTask;
 import su.geocaching.android.controller.managers.DbManager;
 import su.geocaching.android.controller.managers.LogManager;
 import su.geocaching.android.model.GeoCache;
+import su.geocaching.android.ui.searchmap.SearchMapPreferenceActivity;
 import android.app.Activity;
 import android.app.Dialog;
 import android.content.Intent;
@@ -229,10 +230,15 @@ public class InfoActivity extends Activity {
             case R.id.show_web_search_cache:
                 goToMap();
                 return true;
+            case R.id.show_geocache_notes:
+                startActivity(new Intent(this, CacheNotesActivity.class));
+                return true;
             default:
                 return super.onOptionsItemSelected(item);
         }
     }
+
+  
 
     @Override
     public boolean onPrepareOptionsMenu(Menu menu) {
