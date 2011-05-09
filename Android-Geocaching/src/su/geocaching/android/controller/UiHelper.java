@@ -1,10 +1,15 @@
 package su.geocaching.android.controller;
 
+import java.util.List;
+
 import android.app.Activity;
 import android.app.AlertDialog;
+import android.content.ComponentName;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.pm.PackageManager;
+import android.content.pm.ResolveInfo;
 import android.provider.Settings;
 import su.geocaching.android.model.GeoCache;
 import su.geocaching.android.ui.DashboardActivity;
@@ -20,8 +25,10 @@ import su.geocaching.android.ui.searchmap.SearchMapActivity;
  * @author Nikita Bumakov
  */
 public class UiHelper {
-
     public static final String CACHE_ID = "cache_id";
+
+    private static final String GPS_STATUS_PACKAGE_NAME = "com.eclipsim.gpsstatus2";
+    private static final String GPS_STATUS_CLASS_NAME = "com.eclipsim.gpsstatus2.GPSStatus";
 
     /**
      * Invoke "home" action, returning to DashBoardActivity
@@ -80,12 +87,12 @@ public class UiHelper {
         intent.putExtra(GeoCache.class.getCanonicalName(), geoCache);
         context.startActivity(intent);
     }
-    
+
     public static void startCompassActivity(Context context) {
-        Intent intent = new Intent(context, CompassActivity.class);      
+        Intent intent = new Intent(context, CompassActivity.class);
         context.startActivity(intent);
     }
-    
+
     public static void startStepByStep(Context context, GeoCache geoCache) {
         Intent intent = new Intent(context, CreateCheckpointActivity.class);
         intent.putExtra(GeoCache.class.getCanonicalName(), geoCache);
@@ -102,5 +109,24 @@ public class UiHelper {
         Intent intent = new Intent(context, CheckpointDialog.class);
         intent.putExtra(CACHE_ID, id);
         context.startActivity(intent);
+    }
+
+    /**
+     * Run GpsStatus & toolbox application
+     * 
+     * @param context
+     *            which can start activity
+     */
+    public static void runGpsStatus(Context context) {
+        Intent intent = new Intent(Intent.ACTION_MAIN);
+        intent.setComponent(new ComponentName(GPS_STATUS_PACKAGE_NAME, GPS_STATUS_CLASS_NAME));
+        List<ResolveInfo> list = context.getPackageManager().queryIntentActivities(intent, PackageManager.COMPONENT_ENABLED_STATE_DEFAULT);
+
+        if (list.size() > 0) {
+            // Have application
+            context.startActivity(intent);
+        } else {
+            // None application
+        }
     }
 }

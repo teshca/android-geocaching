@@ -33,6 +33,7 @@ import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.View.OnClickListener;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -88,6 +89,12 @@ public class SearchMapActivity extends MapActivity implements IInternetAware, IL
         progressBarView = (ImageView) findViewById(R.id.progressCircle);
         progressBarView.setBackgroundResource(R.anim.earth_anim);
         progressBarAnimation = (AnimationDrawable) progressBarView.getBackground();
+        progressBarView.setOnClickListener(new OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                UiHelper.runGpsStatus(v.getContext());
+            }
+        });
 
         map = (MapView) findViewById(R.id.searchGeocacheMap);
         mapOverlays = map.getOverlays();
