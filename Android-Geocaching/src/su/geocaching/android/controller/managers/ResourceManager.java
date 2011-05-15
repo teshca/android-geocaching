@@ -11,7 +11,7 @@ import su.geocaching.android.ui.R;
 
 /**
  * Manager which can get access to application resources
- *
+ * 
  * @author Grigory Kalabin. grigory.kalabin@gmail.com
  * @since March 2011
  */
@@ -48,7 +48,7 @@ public class ResourceManager {
 
     /**
      * Return marker for map of input geoCache
-     *
+     * 
      * @return Drawable for this geoCache depends on it's parameters
      */
     public Drawable getMarker(GeoCacheType type, GeoCacheStatus status) {
@@ -61,7 +61,7 @@ public class ResourceManager {
 
     /**
      * Return marker resource id of input geoCache
-     *
+     * 
      * @return Drawable for this geoCache depends on it's parameters
      */
     public int getMarkerResId(GeoCacheType type, GeoCacheStatus status) {
@@ -140,7 +140,19 @@ public class ResourceManager {
                                 return R.drawable.ic_cache_custom_step_by_step_virtual_not_confirmed; // TODO draw icons
                         }
                         break;
+                    case CONTEST:
+                        switch (status) {
+                            case VALID:
+                                return R.drawable.ic_cache_custom_competition_valid;
 
+                            case NOT_VALID:
+                                return R.drawable.ic_cache_custom_competition_not_valid;
+
+                            case NOT_CONFIRMED:
+                                return R.drawable.ic_cache_custom_competition_not_confirmed;
+
+                        }
+                        break;
                     case GROUP:
                         return R.drawable.ic_cache_custom_group;
                     case CHECKPOINT:
@@ -221,7 +233,19 @@ public class ResourceManager {
                                 return R.drawable.ic_cache_default_virtual_stepbystep_not_confirmed;
                         }
                         break;
+                    case CONTEST:
+                        switch (status) {
+                            case VALID:
+                                return R.drawable.ic_cache_default_competition_valid;
 
+                            case NOT_VALID:
+                                return R.drawable.ic_cache_default_competition_not_valid;
+
+                            case NOT_CONFIRMED:
+                                return R.drawable.ic_cache_default_competition_not_confirmed;
+
+                        }
+                        break;
                     case GROUP:
                         return R.drawable.ic_cache_default_group;
                     case CHECKPOINT:
@@ -235,8 +259,9 @@ public class ResourceManager {
 
     /**
      * Set bounds to marker
-     *
-     * @param resource id of marker
+     * 
+     * @param resource
+     *            id of marker
      * @return marker with set bounds
      */
     private Drawable getMarker(int resource) {
@@ -246,7 +271,8 @@ public class ResourceManager {
     }
 
     /**
-     * @param geoCache input geo cache
+     * @param geoCache
+     *            input geo cache
      * @return localized name of geocache status
      */
     public String getGeoCacheStatus(GeoCache geoCache) {
@@ -263,12 +289,13 @@ public class ResourceManager {
                 return getString(R.string.status_geocache_not_active_checkpoint);
             default:
                 return getString(R.string.status_geocache_unknown);
-            // what a terrible failure?
+                // what a terrible failure?
         }
     }
 
     /**
-     * @param geoCache input geo cache
+     * @param geoCache
+     *            input geo cache
      * @return localized name of geocache type
      */
     public String getGeoCacheType(GeoCache geoCache) {
@@ -293,7 +320,7 @@ public class ResourceManager {
                 return getString(R.string.type_geocache_checkpoint);
             default:
                 return getString(R.string.status_geocache_unknown);
-            // what a terrible failure?
+                // what a terrible failure?
         }
     }
 }
