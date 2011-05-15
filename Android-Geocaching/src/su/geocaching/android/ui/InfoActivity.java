@@ -9,7 +9,6 @@ import su.geocaching.android.controller.apimanager.DownloadPageTask;
 import su.geocaching.android.controller.managers.DbManager;
 import su.geocaching.android.controller.managers.LogManager;
 import su.geocaching.android.model.GeoCache;
-import su.geocaching.android.ui.searchmap.SearchMapPreferenceActivity;
 import android.app.Activity;
 import android.app.Dialog;
 import android.content.Intent;

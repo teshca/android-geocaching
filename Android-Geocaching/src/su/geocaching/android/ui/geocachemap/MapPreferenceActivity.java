@@ -1,4 +1,4 @@
-package su.geocaching.android.ui.selectmap;
+package su.geocaching.android.ui.geocachemap;
 
 import android.content.pm.ActivityInfo;
 import android.os.Bundle;
@@ -9,7 +9,7 @@ import su.geocaching.android.ui.R;
  * @author: Yuri Denison
  * @since: 23.02.11
  */
-public class SelectMapPreferenceActivity extends PreferenceActivity {
+public class MapPreferenceActivity extends PreferenceActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
