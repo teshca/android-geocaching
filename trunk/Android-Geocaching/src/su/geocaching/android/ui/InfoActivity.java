@@ -233,7 +233,7 @@ public class InfoActivity extends Activity {
             case R.id.show_geocache_notes:
                 startActivity(new Intent(this, CacheNotesActivity.class));
                 return true;
-            default:
+           default:
                 return super.onOptionsItemSelected(item);
         }
     }

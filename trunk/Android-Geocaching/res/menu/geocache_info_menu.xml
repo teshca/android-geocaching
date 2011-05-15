@@ -3,5 +3,5 @@
 	<item android:id="@+id/show_web_notebook_cache" android:title="@string/menu_show_web_notebook_cache" />
 	<item android:id="@+id/show_web_add_delete_cache" android:title="@string/menu_show_web_add_cache" />
 	<item android:id="@+id/show_web_search_cache" android:title="@string/menu_show_web_search_cache" android:icon="@drawable/ic_menu_mapmode"/>
-   <item android:id="@+id/show_geocache_notes" android:title="@string/menu_show_geocache_notes"/>
+  <item android:id="@+id/show_geocache_notes" android:title="@string/menu_show_geocache_notes"/>
 </menu>
