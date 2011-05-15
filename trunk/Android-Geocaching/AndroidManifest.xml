@@ -84,8 +84,7 @@
 
 		<uses-library android:name="com.google.android.maps" />
 
-		<activity android:name=".selectmap.SelectMapPreferenceActivity" />
-		<activity android:name=".searchmap.SearchMapPreferenceActivity" />
+		<activity android:name=".geocachemap.MapPreferenceActivity" />
 		<activity android:name=".DashboardPreferenceActivity" />
 		<activity android:name=".EnergySavingPreferenceActivity" />
 		<activity android:name=".InternetAndGpsPreferenceActivity" />

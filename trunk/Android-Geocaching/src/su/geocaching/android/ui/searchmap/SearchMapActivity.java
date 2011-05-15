@@ -19,6 +19,7 @@ import su.geocaching.android.model.SearchMapInfo;
 import su.geocaching.android.ui.FavoritesFolderActivity;
 import su.geocaching.android.ui.R;
 import su.geocaching.android.ui.geocachemap.GeoCacheOverlayItem;
+import su.geocaching.android.ui.geocachemap.MapPreferenceActivity;
 import android.content.Intent;
 import android.graphics.Point;
 import android.graphics.Rect;
@@ -396,7 +397,7 @@ public class SearchMapActivity extends MapActivity implements IInternetAware, IL
                 UiHelper.startCheckpointsFolder(this, Controller.getInstance().getPreferencesManager().getLastSearchedGeoCache().getId());
                 return true;
             case R.id.searchMapSettings:
-                startActivity(new Intent(this, SearchMapPreferenceActivity.class));
+                startActivity(new Intent(this, MapPreferenceActivity.class));
                 return true;
             default:
                 return super.onOptionsItemSelected(item);

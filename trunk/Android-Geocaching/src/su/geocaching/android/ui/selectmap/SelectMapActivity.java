@@ -31,6 +31,7 @@ import su.geocaching.android.model.GeoCacheType;
 import su.geocaching.android.model.MapInfo;
 import su.geocaching.android.ui.R;
 import su.geocaching.android.ui.geocachemap.GeoCacheOverlayItem;
+import su.geocaching.android.ui.geocachemap.MapPreferenceActivity;
 
 import java.util.List;
 
@@ -191,7 +192,7 @@ public class SelectMapActivity extends MapActivity implements IInternetAware {
                 }
                 return true;
             case R.id.mapSettings:
-                startActivity(new Intent(this, SelectMapPreferenceActivity.class));
+                startActivity(new Intent(this, MapPreferenceActivity.class));
                 return true;
             default:
                 return super.onOptionsItemSelected(item);
