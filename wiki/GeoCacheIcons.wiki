@@ -1,11 +1,15 @@
 #summary Иконки тайников
 #sidebar ProjectDescriptionNavigation
+Виды иконок :
 
-Данные иконки используются по всему приложению. Более подробно узнать о типах тайников можно на сайте [http://www.geocaching.su/?pn=15_1#2_1 геокешинга].
-* Стандартные иконки выполнены в стиле Google Maps,
-* Альтернативные в стиле geocaching.su.
+1) Стандартные иконки, выполненые в стиле Google Maps.
 
-|| Стандартная иконка || Альтернативная иконка || Название ||
+2) Иконки в стиле geocaching.su.
+
+Данные иконки используются во всем приложении. Более подробно узнать о типах тайников можно на сайте [http://www.geocaching.su/?pn=15_1#2_1 геокешинга]. 
+
+
+|| Стандартная иконка ||  Иконка в стиле geocaching.su. || Тип иконки (статус иконки) ||
 || http://android-geocaching.googlecode.com/svn/trunk/Android-Geocaching/res/drawable/ic_cache_default_traditional_valid.png || http://android-geocaching.googlecode.com/svn/trunk/Android-Geocaching/res/drawable/ic_cache_custom_traditional_valid.png || Традиционный (доступен) ||
 || http://android-geocaching.googlecode.com/svn/trunk/Android-Geocaching/res/drawable/ic_cache_default_traditional_not_confirmed.png || http://android-geocaching.googlecode.com/svn/trunk/Android-Geocaching/res/drawable/ic_cache_custom_traditional_not_confirmed.png || Традиционный (не подтверждён) ||
 || http://android-geocaching.googlecode.com/svn/trunk/Android-Geocaching/res/drawable/ic_cache_default_traditional_not_valid.png || http://android-geocaching.googlecode.com/svn/trunk/Android-Geocaching/res/drawable/ic_cache_custom_traditional_not_valid.png || Традиционный (не доступен) ||
