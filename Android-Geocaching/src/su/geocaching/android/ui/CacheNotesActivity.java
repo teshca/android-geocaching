@@ -25,14 +25,14 @@ public class CacheNotesActivity extends Activity {
         textView= (TextView)findViewById(su.geocaching.android.ui.R.id.cache_notes_textview);
         saveButton.setOnClickListener(new View.OnClickListener() {
             public void onClick(View view) {
-                CacheNotesManager cacheNotes = new CacheNotesManager(CacheNotesActivity.this);
-                SQLiteDatabase dataBase = cacheNotes.getWritableDatabase();
-                ContentValues contentValues = new ContentValues();
-                contentValues.put(CacheNotesManager.TABLE_TEXT, saveText.getText().toString());
-
-                dataBase.insert(CacheNotesManager.TABLE_NAME, null, contentValues);
-                dataBase.close();
-                saveText.setText("");
+//                CacheNotesManager cacheNotes = new CacheNotesManager(CacheNotesActivity.this);
+//                SQLiteDatabase dataBase = cacheNotes.getWritableDatabase();
+//                ContentValues contentValues = new ContentValues();
+//                contentValues.put(CacheNotesManager.TABLE_TEXT, saveText.getText().toString());
+//
+//                dataBase.insert(CacheNotesManager.TABLE_NAME, null, contentValues);
+//                dataBase.close();
+//                saveText.setText("");
             }
         });
         
