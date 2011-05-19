@@ -20,6 +20,7 @@ import su.geocaching.android.ui.FavoritesFolderActivity;
 import su.geocaching.android.ui.R;
 import su.geocaching.android.ui.geocachemap.GeoCacheOverlayItem;
 import su.geocaching.android.ui.geocachemap.MapPreferenceActivity;
+
 import android.content.Intent;
 import android.graphics.Point;
 import android.graphics.Rect;

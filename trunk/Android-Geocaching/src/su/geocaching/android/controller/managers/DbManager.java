@@ -36,12 +36,14 @@ public class DbManager extends SQLiteOpenHelper {
     private static final String COLUMN_LAT = "lantitude";
     private static final String COLUMN_NAME = "name";
     private static final String COLUMN_STATUS = "status";
+    private static final String COLUMN_USER_NOTES = "user_notes";
     private static final String CACHE_ID = "cache_id";
     private static final String CHECKPOINT_ID = "checkpoint_id";
+
     private SQLiteDatabase db = null;
 
-    private static final String SQL_CREATE_DATABASE_TABLE = String.format("create table %s (%s integer, %s string, %s integer,%s integer, %s integer, %s integer, %s string, %s string);",
-            DATABASE_NAME_TABLE, COLUMN_ID, COLUMN_NAME, COLUMN_TYPE, COLUMN_STATUS, COLUMN_LAT, COLUMN_LON, COLUMN_WEB_TEXT, COLUMN_NOTEBOOK_TEXT);
+    private static final String SQL_CREATE_DATABASE_TABLE = String.format("create table %s (%s integer, %s string, %s integer,%s integer, %s integer, %s integer, %s string, %s string, %s string);",
+            DATABASE_NAME_TABLE, COLUMN_ID, COLUMN_NAME, COLUMN_TYPE, COLUMN_STATUS, COLUMN_LAT, COLUMN_LON, COLUMN_WEB_TEXT, COLUMN_NOTEBOOK_TEXT, COLUMN_USER_NOTES);
     private static final String SQL_CREATE_DATABASE_CHECKPOINT_TABLE = String.format(
             "CREATE TABLE %s (%s INTEGER PRIMARY KEY AUTOINCREMENT, %s INTEGER, %s INTEGER, %s STRING, %s INTEGER, %s INTEGER, %s INTEGER);", DATABASE_CHECKPOINT_NAME_TABLE, COLUMN_ID, CACHE_ID,
             CHECKPOINT_ID, COLUMN_NAME, COLUMN_LAT, COLUMN_LON, COLUMN_STATUS);
@@ -68,6 +70,7 @@ public class DbManager extends SQLiteOpenHelper {
             db.endTransaction();
         }
     }
+
     @Override
     public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
         if (oldVersion < 2) {
@@ -85,6 +88,17 @@ public class DbManager extends SQLiteOpenHelper {
             db.beginTransaction();
             try {
                 db.execSQL(SQL_CREATE_DATABASE_CHECKPOINT_TABLE);
+                db.setTransactionSuccessful();
+            } catch (SQLException e) {
+                LogManager.e(TAG, e.toString(), e);
+            } finally {
+                db.endTransaction();
+            }
+        }
+        if (oldVersion < 4) {
+            db.beginTransaction();
+            try {
+                db.execSQL(String.format("ALTER TABLE %s ADD %s string;", DATABASE_NAME_TABLE, COLUMN_USER_NOTES));
                 db.setTransactionSuccessful();
             } catch (SQLException e) {
                 LogManager.e(TAG, e.toString(), e);
@@ -118,7 +132,7 @@ public class DbManager extends SQLiteOpenHelper {
         db.insert(DATABASE_NAME_TABLE, null, values);
         closeDB();
     }
-    
+
     /**
      * @param checkpoint
      *            GeoCache for add in database
@@ -132,12 +146,12 @@ public class DbManager extends SQLiteOpenHelper {
         values.put(COLUMN_LAT, checkpoint.getLocationGeoPoint().getLatitudeE6());
         values.put(COLUMN_LON, checkpoint.getLocationGeoPoint().getLongitudeE6());
         values.put(COLUMN_STATUS, checkpoint.getStatus().ordinal());
-        
+
         openWritableDB();
         db.insert(DATABASE_CHECKPOINT_NAME_TABLE, null, values);
         closeDB();
     }
-    
+
     /**
      * @param id
      *            ID GeoCache for taking from database
@@ -166,7 +180,7 @@ public class DbManager extends SQLiteOpenHelper {
         closeDB();
         return exitCache;
     }
-    
+
     /**
      * @return ArrayList GeoCaches in database. Null if in database haven't GeoCache
      */
@@ -204,8 +218,8 @@ public class DbManager extends SQLiteOpenHelper {
         LogManager.d(TAG, "getCheckpointsArrayById " + id);
         ArrayList<GeoCache> exitCollection = new ArrayList<GeoCache>();
         openReadableDB();
-        Cursor cur = db.rawQuery(
-                String.format("SELECT %s,%s,%s,%s,%s FROM %s WHERE %s=%d", CHECKPOINT_ID, COLUMN_NAME, COLUMN_LAT, COLUMN_LON, COLUMN_STATUS, DATABASE_CHECKPOINT_NAME_TABLE, CACHE_ID, id), null);
+        Cursor cur = db.rawQuery(String.format("SELECT %s,%s,%s,%s,%s FROM %s WHERE %s=%d", CHECKPOINT_ID, COLUMN_NAME, COLUMN_LAT, COLUMN_LON, COLUMN_STATUS, DATABASE_CHECKPOINT_NAME_TABLE,
+                CACHE_ID, id), null);
 
         cur.moveToFirst();
 
@@ -225,7 +239,7 @@ public class DbManager extends SQLiteOpenHelper {
         closeDB();
         return exitCollection;
     }
-    
+
     /**
      * @param id
      *            ID GeoCache for taking his html description
@@ -245,7 +259,7 @@ public class DbManager extends SQLiteOpenHelper {
 
         return exitString;
     }
-    
+
     public String getWebNotebookTextById(int id) {
         String exitString = null;
         openReadableDB();
@@ -262,7 +276,7 @@ public class DbManager extends SQLiteOpenHelper {
 
         return exitString;
     }
- 
+
     /**
      * @param cacheId
      *            id of Searching GeoCache
@@ -276,7 +290,7 @@ public class DbManager extends SQLiteOpenHelper {
         db.execSQL(String.format("UPDATE %s SET %s=%d WHERE %s=%d AND %s=%d", DATABASE_CHECKPOINT_NAME_TABLE, COLUMN_STATUS, status.ordinal(), CACHE_ID, cacheId, CHECKPOINT_ID, checkpointId));
         closeDB();
     }
-   
+
     /**
      * Remove geocache from DB, also remove all checkpointc corresponding to a geocache
      * 
@@ -315,8 +329,8 @@ public class DbManager extends SQLiteOpenHelper {
         db.update(DATABASE_NAME_TABLE, values, COLUMN_ID + "=" + cacheId, null);
         closeDB();
     }
-    
-    public void updateInfoText(int cacheId, String htmlInfoText){
+
+    public void updateInfoText(int cacheId, String htmlInfoText) {
         ContentValues values = new ContentValues();
         values.put(COLUMN_WEB_TEXT, htmlInfoText);
         openWritableDB();
@@ -342,7 +356,6 @@ public class DbManager extends SQLiteOpenHelper {
         LogManager.d(TAG, "openDB");
         db = getReadableDatabase();
     }
-    
 
     /**
      * Method for open writable database
@@ -351,8 +364,8 @@ public class DbManager extends SQLiteOpenHelper {
         LogManager.d(TAG, "openDB");
         db = getWritableDatabase();
     }
-    
-    public void clearDB(){
+
+    public void clearDB() {
         openWritableDB();
         LogManager.d(TAG, "clearDB");
         db.delete(DATABASE_NAME_TABLE, null, null);
