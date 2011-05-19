@@ -26,7 +26,7 @@ public class DbManager extends SQLiteOpenHelper {
     private static final String DATABASE_NAME_BASE = "CacheBase.db";
     private static final String DATABASE_NAME_TABLE = "cache";
     private static final String DATABASE_CHECKPOINT_NAME_TABLE = "chekpoints";
-    private static final int DATABASE_VERSION = 3;
+    private static final int DATABASE_VERSION = 4;
     // Name column database
     private static final String COLUMN_ID = "cid";
     private static final String COLUMN_TYPE = "type";
@@ -292,7 +292,7 @@ public class DbManager extends SQLiteOpenHelper {
     }
 
     /**
-     * Remove geocache from DB, also remove all checkpointc corresponding to a geocache
+     * Remove geocache from DB, also remove all checkpoints corresponding to a geocache
      * 
      * @param id
      *            ID geocache for delete from database
@@ -322,7 +322,7 @@ public class DbManager extends SQLiteOpenHelper {
         closeDB();
     }
 
-    public void ubdateNotebookText(int cacheId, String htmlNotebookText) {
+    public void updateNotebookText(int cacheId, String htmlNotebookText) {
         ContentValues values = new ContentValues();
         values.put(COLUMN_NOTEBOOK_TEXT, htmlNotebookText);
         openWritableDB();
