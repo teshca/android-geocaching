@@ -13,16 +13,14 @@
 
 
 ==Controller==
-Сюда относятся 2 сущности - класс *Controller* и набор различных *менеджеров*. Класс Controller предоставляет доступ компонента _View_ к менеджерам, а также выполняет некоторые функции интепретации полученных данных. *Менеджеры* отвечают за обработку различных данных, полученных извне. На данном этапе разработки имеются 12 различных менеджеров:
+Сюда относятся 2 сущности - класс *Controller* и набор различных *менеджеров*. Класс Controller предоставляет доступ компонента _View_ к менеджерам, а также выполняет некоторые функции интепретации полученных данных. *Менеджеры* отвечают за обработку различных данных, полученных извне. На данном этапе разработки имеются 10 различных менеджеров:
  * [DbManager Database manager]
  * [LocationManager Location manager]
  * [CompassManager Compass manager]
  * [ApiManager API manager]
  * [ConnectionManager Connection & Ping manager]
- * [ApplicationArchitecture#Checkpoint_manager Checkpoint manager]
  * [ApplicationArchitecture#Analytics_manager Analytics manager]
  * [ApplicationArchitecture#Log_manager Log manager]
- * [ApplicationArchitecture#Notes_manager Notes manager]
  * [ApplicationArchitecture#Resource_manager Resource manager]
  * [ApplicationArchitecture#Preferences_manager Preferences manager]
 
@@ -54,10 +52,11 @@
 Работает с настройками приложения, пишет и читает их.
 
 ==View==
-Содержит в себе логику пользовательского интерфейса. Состоит из набора Activity, представляющих тот или иной функционал приложения. На данном этапе есть 5 типов Activity:
+Содержит в себе логику пользовательского интерфейса. Состоит из набора Activity, представляющих тот или иной функционал приложения. На данном этапе есть 6 типов Activity:
  * *Select activity* - отвечает за выбор тайника
- * *GeoCache info activity* - предоставляет информацию о тайнике для пользователя
+ * *Info activity* - предоставляет информацию о тайнике для пользователя
  * *Favorites activity* - представляет список избранных тайников
  * *Search activity* - выполняют функцию поиска тайника
  * *Settings activity* - позволяют настраивать приложение
  * *About activity* - информация о программе, а также обратная связь
+ * *Dashboard activity* - главное меню приложения
