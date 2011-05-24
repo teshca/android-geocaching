@@ -1,18 +1,18 @@
 package su.geocaching.android.controller.apimanager;
 
-import java.io.BufferedReader;
-import java.io.IOException;
-import java.io.InputStreamReader;
-import java.net.URL;
-
-import su.geocaching.android.controller.Controller;
-import su.geocaching.android.controller.managers.LogManager;
-import su.geocaching.android.ui.InfoActivity.PageType;
-import su.geocaching.android.ui.R;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.os.AsyncTask;
 import android.webkit.WebView;
+import su.geocaching.android.controller.Controller;
+import su.geocaching.android.controller.managers.LogManager;
+import su.geocaching.android.ui.InfoActivity.PageType;
+import su.geocaching.android.ui.R;
+
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStreamReader;
+import java.net.URL;
 
 public class DownloadPageTask extends AsyncTask<Void, Void, String> {
 
@@ -101,7 +101,7 @@ public class DownloadPageTask extends AsyncTask<Void, Void, String> {
                 break;
             }
             case NOTEBOOK: {
-                Controller.getInstance().getDbManager().ubdateNotebookText(cacheId, text);
+                Controller.getInstance().getDbManager().updateNotebookText(cacheId, text);
                 break;
 
             }
@@ -135,13 +135,13 @@ public class DownloadPageTask extends AsyncTask<Void, Void, String> {
             } else {
                 webView.loadDataWithBaseURL(HTTP_PDA_GEOCACHING_SU, result, "text/html", HTML_ENCODING, null);
             }
-         /*   webView.postDelayed(new Runnable() {
-                @Override
-                public void run() {
-                    webView.scrollTo(scroolX, scroolY);
-                }
+            /*   webView.postDelayed(new Runnable() {
+               @Override
+               public void run() {
+                   webView.scrollTo(scroolX, scroolY);
+               }
 
-            }, 1000);*/
+           }, 1000);*/
         }
         if (downloadedText == null || downloadedText.equals("")) {
             progressDialog.dismiss();
