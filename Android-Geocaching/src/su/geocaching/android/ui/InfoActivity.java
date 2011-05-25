@@ -253,7 +253,7 @@ public class InfoActivity extends Activity {
     }
 
     public boolean isPhotoStored(int cacheId) {
-        File dir = new File(Environment.getExternalStorageDirectory(), String.format("/geocaching/photos/%d", cacheId));
+        File dir = new File(Environment.getExternalStorageDirectory(), String.format(this.getString(R.string.cache_directory), cacheId));
         String[] imageNames = dir.list();
         if (imageNames != null) {
             return imageNames.length != 0;
