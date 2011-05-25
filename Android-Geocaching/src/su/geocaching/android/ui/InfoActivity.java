@@ -1,20 +1,24 @@
 package su.geocaching.android.ui;
 
 import java.io.File;
+import java.util.List;
 import java.util.concurrent.ExecutionException;
 
 import su.geocaching.android.controller.Controller;
 import su.geocaching.android.controller.UiHelper;
 import su.geocaching.android.controller.apimanager.DownloadPageTask;
+import su.geocaching.android.controller.apimanager.DownloadPhotoTask;
 import su.geocaching.android.controller.managers.DbManager;
 import su.geocaching.android.controller.managers.LogManager;
 import su.geocaching.android.model.GeoCache;
 import android.app.Activity;
 import android.app.Dialog;
 import android.content.Intent;
+import android.graphics.Bitmap;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.os.Environment;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
@@ -47,11 +51,13 @@ public class InfoActivity extends Activity {
     private DbManager dbManager;
     private GeoCache geoCache;
     private AsyncTask<Void, Void, String> infoTask, notebookTask;
+    private AsyncTask<Void, Integer, List<Bitmap>> photoTask;
 
     private PageType pageType = PageType.INFO;
     private float webViewZoom;
     private int webViewScrollY, webViewScrollX;
     private boolean isCacheStoredInDataBase;
+    private boolean isPhotoStored;
 
     private boolean goToMap = false;
 
@@ -232,15 +238,42 @@ public class InfoActivity extends Activity {
             case R.id.show_geocache_notes:
                 startActivity(new Intent(this, CacheNotesActivity.class));
                 return true;
+            case R.id.show_cache_photos:
+                if (isPhotoStored) {
+                    Intent intent = new Intent(this, GalleryActivity.class);
+                    intent.putExtra(GeoCache.class.getCanonicalName(), geoCache.getId());
+                    startActivity(intent);
+                } else {
+                    photoTask = new DownloadPhotoTask(this, geoCache.getId()).execute();
+                }
+                return true;
            default:
                 return super.onOptionsItemSelected(item);
         }
+    }
+
+    public boolean isPhotoStored(int cacheId) {
+        File dir = new File(Environment.getExternalStorageDirectory(), String.format("/geocaching/photos/%d", cacheId));
+        String[] imageNames = dir.list();
+        if (imageNames != null) {
+            return imageNames.length != 0;
+        }
+        return imageNames != null;
     }
 
   
 
     @Override
     public boolean onPrepareOptionsMenu(Menu menu) {
+        isPhotoStored = isPhotoStored(geoCache.getId());
+        if (isPhotoStored){
+            menu.getItem(2).setTitle(R.string.menu_show_cache_photos);
+            menu.getItem(2).setIcon(R.drawable.ic_menu_gallery);
+
+        } else {
+            menu.getItem(2).setTitle(R.string.menu_download_cache_photos);
+            menu.getItem(2).setIcon(R.drawable.ic_menu_upload);
+        }
 
         if (pageType == PageType.INFO) {
             menu.getItem(0).setTitle(R.string.menu_show_web_notebook_cache);
@@ -256,11 +289,11 @@ public class InfoActivity extends Activity {
         }
 
         if (isCacheStoredInDataBase) {
-            menu.getItem(1).setTitle(R.string.menu_show_web_delete_cache);
-            menu.getItem(1).setIcon(R.drawable.ic_menu_off);
+            menu.getItem(3).setTitle(R.string.menu_show_web_delete_cache);
+            menu.getItem(3).setIcon(R.drawable.ic_menu_off);
         } else {
-            menu.getItem(1).setTitle(R.string.menu_show_web_add_cache);
-            menu.getItem(1).setIcon(android.R.drawable.ic_menu_save);
+            menu.getItem(3).setTitle(R.string.menu_show_web_add_cache);
+            menu.getItem(3).setIcon(android.R.drawable.ic_menu_save);
         }
 
         return super.onPrepareOptionsMenu(menu);
