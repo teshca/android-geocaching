@@ -4,8 +4,8 @@
 	<string name="select_geocache">Выбрать</string>
 	<string name="info">Информация</string>
 	<string name="favorites">Избранное</string>
-	<string name="enableGps">Настройки GPS</string>
-	<string name="enableInternet">Настройки Интернета</string>
+	<string name="enableGps">Настройки координат</string>
+	<string name="enableInternet">Настройки интернета</string>
 	<string name="menu_keep_screen">Не выключать экран</string>
 	<string name="preference">Настройки</string>
 	<string name="energy_saving_title">Энегросбережение</string>
