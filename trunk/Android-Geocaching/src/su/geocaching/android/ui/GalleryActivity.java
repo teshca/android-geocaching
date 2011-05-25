@@ -31,9 +31,7 @@ import java.io.FilenameFilter;
 public class GalleryActivity extends Activity {
 
     private static final String TAG = GalleryActivity.class.getCanonicalName();
-
-    private static String DIRECTORY = "/geocaching/photos/%d";
-    private static int DEFAULT_ID = -1;
+    private static final int DEFAULT_ID = -1;
 
     private Uri[] mUrls;
     private String[] mFiles = null;
@@ -48,11 +46,10 @@ public class GalleryActivity extends Activity {
         setContentView(R.layout.gallery_activity);
 
         LogManager.e(TAG, "onCreate");
-
-        cacheId = getIntent().getIntExtra(GeoCache.class.getCanonicalName(), DEFAULT_ID);
         context = this;
+        cacheId = getIntent().getIntExtra(GeoCache.class.getCanonicalName(), DEFAULT_ID);
         if (cacheId != DEFAULT_ID) {
-            images = new File(Environment.getExternalStorageDirectory(), String.format(DIRECTORY, cacheId));
+            images = new File(Environment.getExternalStorageDirectory(), String.format(context.getString(R.string.cache_directory), cacheId));
             cachePhotoNames = images.list();
             File[] imagelist = images.listFiles(new FilenameFilter() {
 
