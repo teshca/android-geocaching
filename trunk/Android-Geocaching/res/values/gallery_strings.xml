@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="main_directory">geocaching</string>
+    <string name="photo_directory">photos</string>
+    <string name="menu_delete_photos_cache">Удалить фотографии</string>
+</resources>
