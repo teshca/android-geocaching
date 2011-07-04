@@ -106,7 +106,7 @@ public class SelectGeoCacheOverlay extends com.google.android.maps.ItemizedOverl
         if (!touchFlag) {
             GeoCacheOverlayItem gcItem = items.get(index);
             if (!gcItem.getTitle().equals("Group")) {
-                UiHelper.startGeoCacheInfo(context, gcItem.getGeoCache());
+                UiHelper.startInfoActivity(context, gcItem.getGeoCache());
             } else {
                 Point p = map.getProjection().toPixels(gcItem.getGeoCache().getLocationGeoPoint(), null);
                 map.getController().zoomInFixing(p.x, p.y);

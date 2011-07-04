@@ -1,10 +1,13 @@
 package su.geocaching.android.controller.apimanager;
 
-import com.google.android.maps.GeoPoint;
+import java.util.List;
 
 import su.geocaching.android.model.GeoCache;
+import su.geocaching.android.ui.InfoActivity2;
+import su.geocaching.android.ui.InfoActivity2.PageState;
+import android.content.Context;
 
-import java.util.List;
+import com.google.android.maps.GeoPoint;
 
 /**
  * @author Nikita Bumakov
@@ -19,4 +22,6 @@ public interface IApiManager {
      * @return List of geoCash in visible area
      */
     public List<GeoCache> getGeoCacheList(GeoPoint upperLeftCorner, GeoPoint lowerRightCorner);
+    
+    public void downloadInfo(Context context, PageState type, InfoActivity2 infoActivity, int cacheId);
 }

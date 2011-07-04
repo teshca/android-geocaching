@@ -86,9 +86,16 @@ public class Controller {
     public synchronized CompassManager getCompassManager() {
         return getCompassManager(applicationContext);
     }
+    
+    /**
+     * @return ApiManager which can get data from Internet
+     */
+    public synchronized IApiManager getApiManager() {
+        return apiManager;
+    }
 
     /**
-     * @return connection manager which can send to IInternetAware updates of internet connection status
+     * @return connection manager which can send to IInternetAware updates of Internet connection status
      */
     public synchronized ConnectionManager getConnectionManager() {
         return getConnectionManager(applicationContext);
@@ -144,7 +151,7 @@ public class Controller {
     /**
      * @param context
      *            for init manager
-     * @return connection manager which can send to IInternetAware updates of internet connection status
+     * @return connection manager which can send to IInternetAware updates of Internet connection status
      */
     public synchronized ConnectionManager getConnectionManager(Context context) {
         if (connectionManager == null) {

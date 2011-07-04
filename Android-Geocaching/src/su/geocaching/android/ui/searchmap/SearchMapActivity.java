@@ -389,7 +389,7 @@ public class SearchMapActivity extends MapActivity implements IInternetAware, IL
                 UiHelper.startCompassActivity(this);
                 return true;
             case R.id.menuGeoCacheInfo:
-                UiHelper.startGeoCacheInfo(this, Controller.getInstance().getPreferencesManager().getLastSearchedGeoCache());
+                UiHelper.startInfoActivity(this, Controller.getInstance().getPreferencesManager().getLastSearchedGeoCache());
                 return true;
             case R.id.driving_directions:
                 onDrivingDirectionsSelected();

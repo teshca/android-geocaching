@@ -1,15 +1,5 @@
 package su.geocaching.android.controller.apimanager;
 
-import com.google.android.maps.GeoPoint;
-import org.xml.sax.InputSource;
-import org.xml.sax.SAXException;
-import su.geocaching.android.controller.Controller;
-import su.geocaching.android.controller.managers.LogManager;
-import su.geocaching.android.model.GeoCache;
-
-import javax.xml.parsers.ParserConfigurationException;
-import javax.xml.parsers.SAXParser;
-import javax.xml.parsers.SAXParserFactory;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
@@ -20,16 +10,38 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.Locale;
 
+import javax.xml.parsers.ParserConfigurationException;
+import javax.xml.parsers.SAXParser;
+import javax.xml.parsers.SAXParserFactory;
+
+import org.xml.sax.InputSource;
+import org.xml.sax.SAXException;
+
+import su.geocaching.android.controller.Controller;
+import su.geocaching.android.controller.managers.LogManager;
+import su.geocaching.android.model.GeoCache;
+import su.geocaching.android.ui.InfoActivity2;
+import su.geocaching.android.ui.InfoActivity2.PageState;
+import android.content.Context;
+import android.os.AsyncTask;
+
+import com.google.android.maps.GeoPoint;
+
 /**
  * Class for getting data from Geocaching.su. This class implements IApiManager
- *
+ * 
  * @author Nikita Bumakov
  */
 public class ApiManager implements IApiManager {
 
+    public static final String UTF8_ENCODING = "UTF-8";
+    public static final String CP1251_ENCODING = "windows-1251";
+    public static final String LINK_INFO_CACHE = "http://pda.geocaching.su/cache.php?cid=%d&mode=0";
+    public static final String LINK_NOTEBOOK_TEXT = "http://pda.geocaching.su/note.php?cid=%d&mode=0";
+    public static final String HTTP_PDA_GEOCACHING_SU = "http://pda.geocaching.su/";
+
     private static final String TAG = ApiManager.class.getCanonicalName();
-    private static final String URL = "http://www.geocaching.su/pages/1031.ajax.php";
-    private static final String ENCODING = "windows-1251";
+    private static final String URL_GEOCACHE_LIST = "http://www.geocaching.su/pages/1031.ajax.php";
 
     private HashSet<GeoCache> geoCaches = new HashSet<GeoCache>();
     private Locale rusLocale = new Locale("ru");
@@ -71,7 +83,7 @@ public class ApiManager implements IApiManager {
                 return filterGeoCaches(maxLatitude, minLatitude, maxLongitude, minLongitude);
             }
 
-            InputSource geoCacheXml = new InputSource(new InputStreamReader(connection.getInputStream(), ENCODING));
+            InputSource geoCacheXml = new InputSource(new InputStreamReader(connection.getInputStream(), CP1251_ENCODING));
             handler = new GeoCachesSaxHandler();
             parser.parse(geoCacheXml, handler);
             geoCaches.addAll(handler.getGeoCaches());
@@ -94,8 +106,8 @@ public class ApiManager implements IApiManager {
     }
 
     private URL generateUrl(double maxLatitude, double minLatitude, double maxLongitude, double minLongitude) throws MalformedURLException {
-        String request = String.format(rusLocale, "%s?lngmax=%f&lngmin=%f&latmax=%f&latmin=%f&id=%d&geocaching=5767e405a17c4b0e1cbaecffdb93475d", URL, maxLongitude, minLongitude, maxLatitude,
-                minLatitude, id);
+        String request = String.format(rusLocale, "%s?lngmax=%f&lngmin=%f&latmax=%f&latmin=%f&id=%d&geocaching=5767e405a17c4b0e1cbaecffdb93475d", URL_GEOCACHE_LIST, maxLongitude, minLongitude,
+                maxLatitude, minLatitude, id);
         LogManager.d(TAG, "generated Url: " + request);
         return new URL(request);
     }
@@ -105,11 +117,22 @@ public class ApiManager implements IApiManager {
         GeoPoint gp;
         for (GeoCache gc : geoCaches) {
             gp = gc.getLocationGeoPoint();
-            if (gp.getLatitudeE6() < maxLatitude * 1E6 && gp.getLatitudeE6() > minLatitude * 1E6 && gp.getLongitudeE6() < maxLongitude * 1e6 && gp.getLongitudeE6() > minLongitude * 1e6) {
+            if ((gp.getLatitudeE6() < maxLatitude * 1E6) && (gp.getLatitudeE6() > minLatitude * 1E6) && (gp.getLongitudeE6() < maxLongitude * 1e6) && (gp.getLongitudeE6() > minLongitude * 1e6)) {
                 filteredGeoCaches.add(gc);
             }
         }
         LogManager.d(TAG, "filterGeoCaches: " + filteredGeoCaches.size());
         return filteredGeoCaches;
+    }
+
+
+
+    private AsyncTask<Void, Void, String> downloadInfoTask;
+    @Override
+    public void downloadInfo(Context context, PageState type, InfoActivity2 infoActivity, int cacheId) {
+        if(downloadInfoTask != null) downloadInfoTask.cancel(false); //TODO check it
+        downloadInfoTask = new DownloadInfoTask(context, cacheId, infoActivity, type);
+        downloadInfoTask.execute();
+        
     }
 }

@@ -13,6 +13,7 @@ import android.content.pm.ResolveInfo;
 import android.provider.Settings;
 import su.geocaching.android.model.GeoCache;
 import su.geocaching.android.ui.DashboardActivity;
+import su.geocaching.android.ui.InfoActivity2;
 import su.geocaching.android.ui.R;
 import su.geocaching.android.ui.InfoActivity;
 import su.geocaching.android.ui.checkpoints.CheckpointDialog;
@@ -68,8 +69,8 @@ public class UiHelper {
      * @param geoCache
      *            //TODO describe it
      */
-    public static void startGeoCacheInfo(Context context, GeoCache geoCache) {
-        Intent intent = new Intent(context, InfoActivity.class);
+    public static void startInfoActivity(Context context, GeoCache geoCache) {
+        Intent intent = new Intent(context, InfoActivity2.class);
         intent.putExtra(GeoCache.class.getCanonicalName(), geoCache);
         context.startActivity(intent);
     }
