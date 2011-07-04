@@ -6,6 +6,7 @@ import su.geocaching.android.controller.apimanager.ApiManager;
 import su.geocaching.android.controller.managers.LogManager;
 import su.geocaching.android.model.GeoCache;
 import android.app.Activity;
+import android.app.Dialog;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.Menu;
@@ -24,17 +25,17 @@ public class InfoActivity2 extends Activity {
     private static final String PAGE_TYPE = "page type", SCROOLX = "scrollX", SCROOLY = "scrollY", ZOOM = "ZOOM", TEXT_INFO = "info", TEXT_NOTEBOOK = "notebook";
 
     public enum PageState {
-        INFO, NOTEBOOK, PHOTO, NO_INTERNET, SAVE_CACHE
+        INFO, NOTEBOOK, PHOTO, NO_INTERNET, SAVE_CACHE_NOTEBOOK, SAVE_CACHE_NOTEBOOK_AND_GO_TO_MAP
+        // TODO remove SAVE_CACHE_NOTEBOOK, SAVE_CACHE_NOTEBOOK_AND_GO_TO_MAP
     }
 
-    private WebView webView;
     private GeoCache geoCache;
-    private Controller controller;
     private String info, notebook;
-    private PageState pageType = PageState.INFO;
-
+    private Controller controller;
+    private WebView webView;
     private CheckBox cbFavoriteCache; // TODO is it need
-    private boolean isCacheStoredInDataBase; // TODO
+    private boolean isCacheStored; // TODO
+    private PageState pageType = PageState.INFO;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -46,8 +47,8 @@ public class InfoActivity2 extends Activity {
         geoCache = getIntent().getParcelableExtra(GeoCache.class.getCanonicalName());
         initViews();
 
-        isCacheStoredInDataBase = controller.getDbManager().isCacheStored(geoCache.getId());
-        if (isCacheStoredInDataBase) {
+        isCacheStored = controller.getDbManager().isCacheStored(geoCache.getId());
+        if (isCacheStored) {
             cbFavoriteCache.setChecked(true);
             info = Controller.getInstance().getDbManager().getWebTextById(geoCache.getId());
             notebook = Controller.getInstance().getDbManager().getWebNotebookTextById(geoCache.getId());
@@ -86,10 +87,10 @@ public class InfoActivity2 extends Activity {
         super.onSaveInstanceState(outState);
     }
 
-//     @Override
-//     protected Dialog onCreateDialog(int id) {
-//     return new DownloadNotebookDialog(this, infoTask, geoCache);
-//     }
+    @Override
+    protected Dialog onCreateDialog(int id) {
+        return new DownloadNotebookDialog(this, this, geoCache.getId());
+    }
 
     @Override
     protected void onRestoreInstanceState(Bundle savedInstanceState) {
@@ -120,13 +121,13 @@ public class InfoActivity2 extends Activity {
 
         if (pageType == PageState.INFO) {
             menu.getItem(0).setTitle(R.string.menu_show_web_notebook_cache);
-            menu.getItem(0).setIcon(R.drawable.ic_menu_notebook);            
+            menu.getItem(0).setIcon(R.drawable.ic_menu_notebook);
         } else {
             menu.getItem(0).setTitle(R.string.menu_show_info_cache);
             menu.getItem(0).setIcon(R.drawable.ic_menu_info_details);
         }
 
-        if (isCacheStoredInDataBase) {
+        if (isCacheStored) {
             menu.getItem(3).setTitle(R.string.menu_show_web_delete_cache);
             menu.getItem(3).setIcon(R.drawable.ic_menu_off);
         } else {
@@ -146,7 +147,7 @@ public class InfoActivity2 extends Activity {
                 loadWebView(pageType);
                 return true;
             case R.id.show_web_add_delete_cache:
-                cbFavoriteCache.performClick();          
+                cbFavoriteCache.performClick();
                 return true;
             case R.id.show_web_search_cache:
                 goToMap();
@@ -161,7 +162,7 @@ public class InfoActivity2 extends Activity {
                 return super.onOptionsItemSelected(item);
         }
     }
-    
+
     private void togglePageType() {
         switch (pageType) {
             case INFO:
@@ -170,7 +171,7 @@ public class InfoActivity2 extends Activity {
             case NOTEBOOK:
                 pageType = PageState.INFO;
                 break;
-        }       
+        }
     }
 
     private void loadWebView(PageState type) {
@@ -192,25 +193,40 @@ public class InfoActivity2 extends Activity {
                 }
                 break;
             case NO_INTERNET:
-                webView.loadData("<?xml version='1.0' encoding='utf-8'?><center>" + getString(R.string.info_geocach_not_internet_and_not_in_DB) + "</center>", "text/html", ApiManager.UTF8_ENCODING);// TODO messageWebView
+                webView.loadData("<?xml version='1.0' encoding='utf-8'?><center>" + getString(R.string.info_geocach_not_internet_and_not_in_DB) + "</center>", "text/html", ApiManager.UTF8_ENCODING);// TODO
                 break;
-        }       
+        }
     }
 
     public void onAddDelGeoCacheInDatabaseClick(View v) {
         if (cbFavoriteCache.isChecked()) {
-            saveCacheInDB();
+            if (notebook == null) {
+                if (controller.getPreferencesManager().getDownloadNoteBookAlways()) {
+                    {
+                        Controller.getInstance().getApiManager().downloadInfo(this, PageState.SAVE_CACHE_NOTEBOOK, this, geoCache.getId());
+                    }
+                } else {
+                    showDialog(0);
+                }
+            }
+            saveCache();
         } else {
-            deleteCacheFromDB();
+            deleteCache();
         }
     }
 
-    private void saveCacheInDB() {
-        Controller.getInstance().getDbManager().addGeoCache(geoCache, info, notebook);
+    private void saveCache() {
+        if (isCacheStored) {
+            Controller.getInstance().getDbManager().updateInfoText(geoCache.getId(), info);
+            Controller.getInstance().getDbManager().updateNotebookText(geoCache.getId(), notebook);
+        } else {
+            isCacheStored = true;
+            Controller.getInstance().getDbManager().addGeoCache(geoCache, info, notebook);
+        }
     }
 
-    private void deleteCacheFromDB() {
-        isCacheStoredInDataBase = false;
+    private void deleteCache() {
+        isCacheStored = false;
         Controller.getInstance().getDbManager().deleteCacheById(geoCache.getId());
     }
 
@@ -224,16 +240,24 @@ public class InfoActivity2 extends Activity {
         switch (type) {
             case INFO:
                 info = data;
+                loadWebView(type);
                 break;
-
             case NOTEBOOK:
                 notebook = data;
+                loadWebView(type);
                 break;
-
+            case SAVE_CACHE_NOTEBOOK:
+                notebook = data;
+                saveCache();
+                break;
+            case SAVE_CACHE_NOTEBOOK_AND_GO_TO_MAP:
+                notebook = data;
+                saveCache();
+                goToMap();
+                break;
             default:
                 break;
         }
-        loadWebView(type);
     }
 
     public void onMapClick(View v) {
@@ -241,11 +265,16 @@ public class InfoActivity2 extends Activity {
     }
 
     private void goToMap() {
-        if (!isCacheStoredInDataBase) {
+        if (!isCacheStored) {
             cbFavoriteCache.setChecked(true);
-            saveCacheInDB();
+            if ((notebook == null) && controller.getPreferencesManager().getDownloadNoteBookAlways()) {
+                Controller.getInstance().getApiManager().downloadInfo(this, PageState.SAVE_CACHE_NOTEBOOK_AND_GO_TO_MAP, this, geoCache.getId());
+                return;
+            }
         }
+        saveCache();
         UiHelper.startSearchMapActivity(this, geoCache);
+
     }
 
     public void onHomeClick(View v) {

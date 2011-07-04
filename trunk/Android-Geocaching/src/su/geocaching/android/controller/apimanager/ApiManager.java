@@ -42,10 +42,11 @@ public class ApiManager implements IApiManager {
 
     private static final String TAG = ApiManager.class.getCanonicalName();
     private static final String URL_GEOCACHE_LIST = "http://www.geocaching.su/pages/1031.ajax.php";
+    private static final Locale rusLocale = new Locale("ru");
 
-    private HashSet<GeoCache> geoCaches = new HashSet<GeoCache>();
-    private Locale rusLocale = new Locale("ru");
     private int id;
+    private HashSet<GeoCache> geoCaches = new HashSet<GeoCache>();
+    private AsyncTask<Void, Void, String> downloadInfoTask;
 
     public ApiManager() {
         id = (int) (Math.random() * 1E7);
@@ -125,14 +126,12 @@ public class ApiManager implements IApiManager {
         return filteredGeoCaches;
     }
 
-
-
-    private AsyncTask<Void, Void, String> downloadInfoTask;
     @Override
     public void downloadInfo(Context context, PageState type, InfoActivity2 infoActivity, int cacheId) {
-        if(downloadInfoTask != null) downloadInfoTask.cancel(false); //TODO check it
+        if (downloadInfoTask != null)
+            downloadInfoTask.cancel(false); // TODO check it
         downloadInfoTask = new DownloadInfoTask(context, cacheId, infoActivity, type);
         downloadInfoTask.execute();
-        
+
     }
 }
