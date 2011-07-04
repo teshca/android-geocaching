@@ -168,10 +168,10 @@ public class InfoActivity extends Activity {
         super.onStop();
     }
 
-    @Override
-    protected Dialog onCreateDialog(int id) {
-        return new DownloadNotebookDialog(this, infoTask, geoCache);
-    }
+//    @Override
+//    protected Dialog onCreateDialog(int id) {
+//        return new DownloadNotebookDialog(this, infoTask, geoCache);
+//    }
 
     private void saveCacheInDB() {
         try {

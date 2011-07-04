@@ -35,8 +35,20 @@ public class DownloadInfoTask extends AsyncTask<Void, Void, String> {
     protected void onPreExecute() {
         LogManager.d(TAG, "TestTime onPreExecute - Start");
 
+        String progressMessage = "";
+        switch (pageType) {
+            case INFO:
+                progressMessage = context.getString(R.string.download_info);
+                break;
+            case NOTEBOOK:
+            case SAVE_CACHE_NOTEBOOK:
+            case SAVE_CACHE_NOTEBOOK_AND_GO_TO_MAP:
+                progressMessage = context.getString(R.string.download_notebook);
+                break;
+        }
+
         progressDialog = new ProgressDialog(context);
-        progressDialog.setMessage(context.getString(R.string.downloading));// TODO MessageProgress
+        progressDialog.setMessage(progressMessage);
         progressDialog.show();
     }
 
@@ -53,7 +65,7 @@ public class DownloadInfoTask extends AsyncTask<Void, Void, String> {
         } else {
             pageType = PageState.NO_INTERNET;
         }
-        return result == null ? "" : result;
+        return result;
     }
 
     private String getWebText(int id) throws IOException {
@@ -66,6 +78,8 @@ public class DownloadInfoTask extends AsyncTask<Void, Void, String> {
                 formatLink = ApiManager.LINK_INFO_CACHE;
                 break;
             case NOTEBOOK:
+            case SAVE_CACHE_NOTEBOOK:
+            case SAVE_CACHE_NOTEBOOK_AND_GO_TO_MAP:
                 formatLink = ApiManager.LINK_NOTEBOOK_TEXT;
                 break;
             default:
