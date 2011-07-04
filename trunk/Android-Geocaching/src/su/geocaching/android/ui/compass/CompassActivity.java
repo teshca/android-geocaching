@@ -180,7 +180,7 @@ public class CompassActivity extends Activity {
                 UiHelper.startSearchMapActivity(this, searchingGC);
                 return true;
             case R.id.menuGeoCacheInfo:
-                UiHelper.startGeoCacheInfo(this, searchingGC);
+                UiHelper.startInfoActivity(this, searchingGC);
                 return true;
             case R.id.stepByStep:
                 UiHelper.startCheckpointsFolder(this, searchingGC.getId());

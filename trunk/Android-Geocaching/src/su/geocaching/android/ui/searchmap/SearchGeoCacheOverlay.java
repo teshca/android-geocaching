@@ -74,7 +74,7 @@ public class SearchGeoCacheOverlay extends ItemizedOverlay<OverlayItem> {
     @Override
     public boolean onTap(int index) {
         GeoCache gc = item.getGeoCache();
-        UiHelper.startGeoCacheInfo(activity, gc);
+        UiHelper.startInfoActivity(activity, gc);
         return true;
     }
 }

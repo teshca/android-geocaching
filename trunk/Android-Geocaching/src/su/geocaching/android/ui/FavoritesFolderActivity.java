@@ -3,6 +3,7 @@ package su.geocaching.android.ui;
 import java.util.ArrayList;
 
 import su.geocaching.android.controller.Controller;
+import su.geocaching.android.controller.UiHelper;
 import su.geocaching.android.controller.managers.LogManager;
 import su.geocaching.android.model.GeoCache;
 import android.app.AlertDialog;
@@ -59,7 +60,7 @@ public class FavoritesFolderActivity extends AbstractGeoCacheFolderActivity {
         if (listState != null) {
             lvListShowCache.onRestoreInstanceState(listState);
         }
-        listState=null;
+        listState = null;
         super.onResume();
     }
 
@@ -97,9 +98,7 @@ public class FavoritesFolderActivity extends AbstractGeoCacheFolderActivity {
 
     @Override
     public void onItemClick(AdapterView<?> arg0, View arg1, int arg2, long arg3) {
-        Intent intent = new Intent(this, InfoActivity.class);
-        intent.putExtra(GeoCache.class.getCanonicalName(), favoritesList.get(arg2));
-        startActivity(intent);
+        UiHelper.startInfoActivity(this, favoritesList.get(arg2));
     }
 
     @Override

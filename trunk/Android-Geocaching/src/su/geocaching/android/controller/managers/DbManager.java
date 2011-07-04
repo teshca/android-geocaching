@@ -268,8 +268,6 @@ public class DbManager extends SQLiteOpenHelper {
         if (cursor != null && cursor.getCount() != 0) {
             cursor.moveToFirst();
             exitString = cursor.getString(cursor.getColumnIndex(COLUMN_NOTEBOOK_TEXT));
-            if (exitString.equals(""))
-                exitString = null;
         }
         cursor.close();
         closeDB();
