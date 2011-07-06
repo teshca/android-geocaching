@@ -45,9 +45,9 @@ public class ApiManager implements IApiManager {
     public static final String LINK_NOTEBOOK_TEXT = "http://pda.geocaching.su/note.php?cid=%d&mode=0";
     public static final String LINK_PHOTO_PAGE = "http://pda.geocaching.su/pict.php?cid=%d&mode=0";
     public static final String HTTP_PDA_GEOCACHING_SU = "http://pda.geocaching.su/";
+    private static final String LINK_GEOCACHE_LIST = "http://www.geocaching.su/pages/1031.ajax.php?lngmax=%f&lngmin=%f&latmax=%f&latmin=%f&id=%d&geocaching=5767e405a17c4b0e1cbaecffdb93475d";
 
     private static final String TAG = ApiManager.class.getCanonicalName();
-    private static final String URL_GEOCACHE_LIST = "http://www.geocaching.su/pages/1031.ajax.php";
     private static final Locale rusLocale = new Locale("ru");
 
     private int id;
@@ -113,8 +113,7 @@ public class ApiManager implements IApiManager {
     }
 
     private URL generateUrl(double maxLatitude, double minLatitude, double maxLongitude, double minLongitude) throws MalformedURLException {
-        String request = String.format(rusLocale, "%s?lngmax=%f&lngmin=%f&latmax=%f&latmin=%f&id=%d&geocaching=5767e405a17c4b0e1cbaecffdb93475d", URL_GEOCACHE_LIST, maxLongitude, minLongitude,
-                maxLatitude, minLatitude, id);
+        String request = String.format(rusLocale, LINK_GEOCACHE_LIST, maxLongitude, minLongitude, maxLatitude, minLatitude, id);
         LogManager.d(TAG, "generated Url: " + request);
         return new URL(request);
     }
@@ -134,8 +133,9 @@ public class ApiManager implements IApiManager {
 
     @Override
     public void downloadInfo(Context context, DownloadInfoState state, InfoActivity infoActivity, int cacheId) {
-        if (downloadInfoTask != null)
+        if (downloadInfoTask != null) {
             downloadInfoTask.cancel(false); // TODO check it
+        }
         downloadInfoTask = new DownloadInfoTask(context, cacheId, infoActivity, state);
         downloadInfoTask.execute();
 
@@ -144,18 +144,16 @@ public class ApiManager implements IApiManager {
     @Override
     public void downloadPhotos(Context context, PageState type, InfoActivity infoActivity, int cacheId) {
 
-        String HTMLPage = "";
+        String HtmlWithPhotoLinks = "";
         try {
-            HTMLPage = new DownloadInfoTask(null, cacheId, infoActivity, DownloadInfoState.DOWNLOAD_PHOTO_PAGE).execute().get();
+            HtmlWithPhotoLinks = new DownloadInfoTask(null, cacheId, infoActivity, DownloadInfoState.DOWNLOAD_PHOTO_PAGE).execute().get();
         } catch (InterruptedException e) {
-            // TODO Auto-generated catch block
-            e.printStackTrace();
+            LogManager.e(TAG, e.getMessage(), e);
         } catch (ExecutionException e) {
-            // TODO Auto-generated catch block
-            e.printStackTrace();
+            LogManager.e(TAG, e.getMessage(), e);
         }
         Pattern linkPattern = Pattern.compile("\\s*(?i)href\\s*=\\s*(\"([^\"]*\")|'[^']*'|([^'\">\\s]+))");
-        Matcher pageMatcher = linkPattern.matcher(HTMLPage);
+        Matcher pageMatcher = linkPattern.matcher(HtmlWithPhotoLinks);
         ArrayList<String> links = new ArrayList<String>();
         while (pageMatcher.find()) {
             links.add(pageMatcher.group());
@@ -169,8 +167,7 @@ public class ApiManager implements IApiManager {
                     photoUrls.add(new URL(photoLink));
                 }
             } catch (MalformedURLException e) {
-                // TODO Auto-generated catch block
-                e.printStackTrace();
+                LogManager.e(TAG, e.getMessage(), e);
             }
         }
         new DownloadPhotoTask(context, cacheId).execute(photoUrls.toArray(new URL[photoUrls.size()]));
