@@ -288,9 +288,13 @@ public class UserLocationManager implements LocationListener, GpsStatus.Listener
      * call request location updates on location manager with right min time and min distance
      */
     private void requestLocationUpdates() {
-        long minTime = 6000;
-        float minDistance = 5;
+        long minTime;
+        float minDistance;
         switch (updateFrequency) {
+            case MINIMAL:
+                minTime = 16000;
+                minDistance = 16;
+                break;
             case RARELY:
                 minTime = 8000;
                 minDistance = 8;
@@ -306,6 +310,10 @@ public class UserLocationManager implements LocationListener, GpsStatus.Listener
             case MAXIMAL:
                 minTime = 1000;
                 minDistance = 1;
+                break;
+            default:
+                minTime = 4000;
+                minDistance = 4;
                 break;
         }
         LogManager.d(TAG, "update frequency: " + updateFrequency.toString());
