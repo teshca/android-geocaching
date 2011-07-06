@@ -1,8 +1,8 @@
 package su.geocaching.android.ui;
 
 import su.geocaching.android.controller.Controller;
+import su.geocaching.android.controller.apimanager.DownloadInfoTask.DownloadInfoState;
 import su.geocaching.android.controller.managers.LogManager;
-import su.geocaching.android.ui.InfoActivity2.PageState;
 import android.app.Dialog;
 import android.content.Context;
 import android.view.View;
@@ -35,7 +35,7 @@ public class DownloadNotebookDialog extends Dialog {
         buttonYes.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Controller.getInstance().getApiManager().downloadInfo(context, PageState.SAVE_CACHE_NOTEBOOK, infoActivity, cacheId);
+                Controller.getInstance().getApiManager().downloadInfo(context, DownloadInfoState.SAVE_CACHE_NOTEBOOK, infoActivity, cacheId);
                 dismiss();
             }
         });
@@ -44,7 +44,6 @@ public class DownloadNotebookDialog extends Dialog {
         buttonNo.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                infoActivity.setInfo(PageState.SAVE_CACHE_NOTEBOOK, null);
                 dismiss();
             }
         });

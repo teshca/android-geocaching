@@ -1,5 +1,27 @@
 package su.geocaching.android.controller.apimanager;
 
+import java.io.BufferedReader;
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.io.OutputStream;
+import java.net.MalformedURLException;
+import java.net.URL;
+import java.util.ArrayList;
+import java.util.List;
+
+import org.apache.http.HttpEntity;
+import org.apache.http.HttpResponse;
+import org.apache.http.HttpStatus;
+import org.apache.http.client.methods.HttpGet;
+import org.apache.http.entity.BufferedHttpEntity;
+import org.apache.http.impl.client.DefaultHttpClient;
+
+import su.geocaching.android.controller.Controller;
+import su.geocaching.android.controller.managers.LogManager;
+import su.geocaching.android.ui.R;
 import android.app.ProgressDialog;
 import android.content.ContentValues;
 import android.content.Context;
@@ -11,23 +33,7 @@ import android.os.AsyncTask;
 import android.os.Environment;
 import android.os.StatFs;
 import android.provider.MediaStore;
-import android.util.Log;
 import android.widget.Toast;
-import org.apache.http.HttpEntity;
-import org.apache.http.HttpResponse;
-import org.apache.http.HttpStatus;
-import org.apache.http.client.methods.HttpGet;
-import org.apache.http.entity.BufferedHttpEntity;
-import org.apache.http.impl.client.DefaultHttpClient;
-import su.geocaching.android.controller.Controller;
-import su.geocaching.android.controller.managers.LogManager;
-import su.geocaching.android.ui.R;
-
-import java.io.*;
-import java.net.MalformedURLException;
-import java.net.URL;
-import java.util.ArrayList;
-import java.util.List;
 
 /**
  * Created by IntelliJ IDEA. User: Anatoliy Date: 25.04.11 Time: 21:29 To change this template use File | Settings | File Templates.
@@ -35,7 +41,7 @@ import java.util.List;
 public class DownloadPhotoTask extends AsyncTask<Void, Integer, List<Bitmap>> {
 
     private static final String TAG = DownloadPhotoTask.class.getCanonicalName();
-    private static final String LINK_PHOTO_PAGE = "http://pda.geocaching.su/pict.php?cid=%d&mode=0";
+    
     private static final String OPEN_IMG_TAG = "<img src=";
     private static final String THUMBNAILS_TAG = "thumbnails/";
     private static final String NO_FREE_SPACE_MESSAGE = "Недостаточно места на SD карте";
@@ -68,6 +74,7 @@ public class DownloadPhotoTask extends AsyncTask<Void, Integer, List<Bitmap>> {
     @Override
     protected void onPreExecute() {
         LogManager.d(TAG, "TestTime onPreExecute - Start");
+        
         messageProgress = context.getString(R.string.download_photo_message);
         checkSDCard();
         progressDialog = new ProgressDialog(context);
@@ -193,7 +200,7 @@ public class DownloadPhotoTask extends AsyncTask<Void, Integer, List<Bitmap>> {
         StringBuilder html = new StringBuilder();
         char[] buffer = new char[1024];
         URL url = null;
-        url = new URL(String.format(LINK_PHOTO_PAGE, id));
+        url = new URL(String.format(ApiManager.LINK_PHOTO_PAGE, id));
         BufferedReader in = new BufferedReader(new InputStreamReader(url.openStream(), HTML_CODING));
 
         html.append(in.readLine());
@@ -325,5 +332,4 @@ public class DownloadPhotoTask extends AsyncTask<Void, Integer, List<Bitmap>> {
         }
         return file.exists();
     }
-
 }
