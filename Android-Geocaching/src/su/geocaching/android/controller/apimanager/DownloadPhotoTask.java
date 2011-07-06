@@ -27,12 +27,12 @@ public class DownloadPhotoTask extends AsyncTask<URL, Void, Void> {
     private static final int neededFreeSdSpace = 1572864; // bytes 1,5mb
 
     private int cacheId;
-    private Context context;
-    private ProgressDialog progressDialog;
-
     private boolean externalStorageAvailable;
     private boolean externalStorageWriteable;
     private boolean enoughFreeSpace;
+
+    private Context context;
+    private ProgressDialog progressDialog;
 
     public DownloadPhotoTask(Context context, int cacheId) {
         this.cacheId = cacheId;
