@@ -4,7 +4,7 @@ import java.util.LinkedList;
 import java.util.List;
 
 import su.geocaching.android.controller.Controller;
-import su.geocaching.android.controller.UiHelper;
+import su.geocaching.android.controller.managers.NavigationManager;
 import su.geocaching.android.model.GeoCache;
 import su.geocaching.android.model.GeoCacheType;
 import su.geocaching.android.ui.geocachemap.GeoCacheOverlayItem;
@@ -41,7 +41,7 @@ public class CheckpointOverlay extends ItemizedOverlay<OverlayItem> {
                 gc.setType(GeoCacheType.CHECKPOINT);
                 gc.setId(Controller.getInstance().getPreferencesManager().getLastSearchedGeoCache().getId());
                 gc.setLocationGeoPoint(map.getProjection().fromPixels((int) e.getX(), (int) e.getY()));
-                UiHelper.startStepByStep(activity, gc);
+                NavigationManager.startStepByStep(activity, gc);
             }
         });
 
@@ -94,7 +94,7 @@ public class CheckpointOverlay extends ItemizedOverlay<OverlayItem> {
 
     @Override
     public boolean onTap(int index) {
-        UiHelper.startCheckpointDialog(activity, items.get(index).getGeoCache().getId());
+        NavigationManager.startCheckpointDialog(activity, items.get(index).getGeoCache().getId());
         return true;
     }
 

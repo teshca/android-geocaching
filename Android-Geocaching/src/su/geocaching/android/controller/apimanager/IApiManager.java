@@ -4,8 +4,8 @@ import java.util.List;
 
 import su.geocaching.android.controller.apimanager.DownloadInfoTask.DownloadInfoState;
 import su.geocaching.android.model.GeoCache;
-import su.geocaching.android.ui.InfoActivity2;
-import su.geocaching.android.ui.InfoActivity2.PageState;
+import su.geocaching.android.ui.InfoActivity;
+import su.geocaching.android.ui.InfoActivity.PageState;
 import android.content.Context;
 
 import com.google.android.maps.GeoPoint;
@@ -24,7 +24,7 @@ public interface IApiManager {
      */
     public List<GeoCache> getGeoCacheList(GeoPoint upperLeftCorner, GeoPoint lowerRightCorner);
     
-    public void downloadInfo(Context context, DownloadInfoState state, InfoActivity2 infoActivity, int cacheId);
+    public void downloadInfo(Context context, DownloadInfoState state, InfoActivity infoActivity, int cacheId);
 
-    public void downloadPhotos(Context context, PageState type, InfoActivity2 infoActivity, int cacheId);
+    public void downloadPhotos(Context context, PageState type, InfoActivity infoActivity, int cacheId);
 }

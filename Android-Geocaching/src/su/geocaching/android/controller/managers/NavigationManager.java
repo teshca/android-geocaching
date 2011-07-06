@@ -1,7 +1,16 @@
-package su.geocaching.android.controller;
+package su.geocaching.android.controller.managers;
 
 import java.util.List;
 
+import su.geocaching.android.model.GeoCache;
+import su.geocaching.android.ui.DashboardActivity;
+import su.geocaching.android.ui.InfoActivity;
+import su.geocaching.android.ui.R;
+import su.geocaching.android.ui.checkpoints.CheckpointDialog;
+import su.geocaching.android.ui.checkpoints.CheckpointsFolder;
+import su.geocaching.android.ui.checkpoints.CreateCheckpointActivity;
+import su.geocaching.android.ui.compass.CompassActivity;
+import su.geocaching.android.ui.searchmap.SearchMapActivity;
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.ComponentName;
@@ -11,21 +20,11 @@ import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.content.pm.ResolveInfo;
 import android.provider.Settings;
-import su.geocaching.android.model.GeoCache;
-import su.geocaching.android.ui.DashboardActivity;
-import su.geocaching.android.ui.InfoActivity2;
-import su.geocaching.android.ui.R;
-import su.geocaching.android.ui.InfoActivity;
-import su.geocaching.android.ui.checkpoints.CheckpointDialog;
-import su.geocaching.android.ui.checkpoints.CheckpointsFolder;
-import su.geocaching.android.ui.checkpoints.CreateCheckpointActivity;
-import su.geocaching.android.ui.compass.CompassActivity;
-import su.geocaching.android.ui.searchmap.SearchMapActivity;
 
 /**
  * @author Nikita Bumakov
  */
-public class UiHelper {
+public class NavigationManager {
     public static final String CACHE_ID = "cache_id";
 
     private static final String GPS_STATUS_PACKAGE_NAME = "com.eclipsim.gpsstatus2";
@@ -70,7 +69,7 @@ public class UiHelper {
      *            //TODO describe it
      */
     public static void startInfoActivity(Context context, GeoCache geoCache) {
-        Intent intent = new Intent(context, InfoActivity2.class);
+        Intent intent = new Intent(context, InfoActivity.class);
         intent.putExtra(GeoCache.class.getCanonicalName(), geoCache);
         context.startActivity(intent);
     }

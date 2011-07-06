@@ -6,8 +6,8 @@ import java.util.List;
 import java.util.Map;
 
 import su.geocaching.android.controller.Controller;
-import su.geocaching.android.controller.UiHelper;
 import su.geocaching.android.controller.managers.DbManager;
+import su.geocaching.android.controller.managers.NavigationManager;
 import su.geocaching.android.controller.managers.ResourceManager;
 import su.geocaching.android.model.GeoCache;
 
@@ -63,6 +63,6 @@ public abstract class AbstractGeoCacheFolderActivity extends Activity implements
     }
 
     public void onHomeClick(View v) {
-        UiHelper.goHome(this);
+        NavigationManager.goHome(this);
     }
 }

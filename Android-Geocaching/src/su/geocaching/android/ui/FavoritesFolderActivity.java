@@ -3,8 +3,8 @@ package su.geocaching.android.ui;
 import java.util.ArrayList;
 
 import su.geocaching.android.controller.Controller;
-import su.geocaching.android.controller.UiHelper;
 import su.geocaching.android.controller.managers.LogManager;
+import su.geocaching.android.controller.managers.NavigationManager;
 import su.geocaching.android.model.GeoCache;
 import android.app.AlertDialog;
 import android.app.SearchManager;
@@ -98,7 +98,7 @@ public class FavoritesFolderActivity extends AbstractGeoCacheFolderActivity {
 
     @Override
     public void onItemClick(AdapterView<?> arg0, View arg1, int arg2, long arg3) {
-        UiHelper.startInfoActivity(this, favoritesList.get(arg2));
+        NavigationManager.startInfoActivity(this, favoritesList.get(arg2));
     }
 
     @Override

@@ -7,7 +7,8 @@ import android.view.GestureDetector;
 import android.view.MotionEvent;
 import com.google.android.maps.MapView;
 import com.google.android.maps.OverlayItem;
-import su.geocaching.android.controller.UiHelper;
+
+import su.geocaching.android.controller.managers.NavigationManager;
 import su.geocaching.android.model.GeoCache;
 import su.geocaching.android.ui.geocachemap.GeoCacheOverlayItem;
 
@@ -106,7 +107,7 @@ public class SelectGeoCacheOverlay extends com.google.android.maps.ItemizedOverl
         if (!touchFlag) {
             GeoCacheOverlayItem gcItem = items.get(index);
             if (!gcItem.getTitle().equals("Group")) {
-                UiHelper.startInfoActivity(context, gcItem.getGeoCache());
+                NavigationManager.startInfoActivity(context, gcItem.getGeoCache());
             } else {
                 Point p = map.getProjection().toPixels(gcItem.getGeoCache().getLocationGeoPoint(), null);
                 map.getController().zoomInFixing(p.x, p.y);
