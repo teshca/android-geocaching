@@ -19,10 +19,10 @@ import android.widget.Toast;
 import com.google.android.maps.*;
 import su.geocaching.android.controller.Controller;
 import su.geocaching.android.controller.CoordinateHelper;
-import su.geocaching.android.controller.UiHelper;
 import su.geocaching.android.controller.managers.ConnectionManager;
 import su.geocaching.android.controller.managers.IInternetAware;
 import su.geocaching.android.controller.managers.LogManager;
+import su.geocaching.android.controller.managers.NavigationManager;
 import su.geocaching.android.controller.selectmap.geocachegroup.GroupGeoCacheTask;
 import su.geocaching.android.controller.selectmap.mapupdatetimer.MapUpdateTimer;
 import su.geocaching.android.model.GeoCache;
@@ -310,7 +310,7 @@ public class SelectMapActivity extends MapActivity implements IInternetAware {
     }
 
     public void onHomeClick(View v) {
-        UiHelper.goHome(this);
+        NavigationManager.goHome(this);
     }
 
     public MapView getMapView() {

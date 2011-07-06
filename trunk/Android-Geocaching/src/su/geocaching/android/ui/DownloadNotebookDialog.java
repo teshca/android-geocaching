@@ -15,7 +15,7 @@ public class DownloadNotebookDialog extends Dialog {
 
     private static final String TAG = DownloadNotebookDialog.class.getCanonicalName();
 
-    public DownloadNotebookDialog(final Context context, final InfoActivity2 infoActivity, final int cacheId) {
+    public DownloadNotebookDialog(final Context context, final InfoActivity infoActivity, final int cacheId) {
         super(context);
         LogManager.d(TAG, "New DownloadNotebookDialog created");
 

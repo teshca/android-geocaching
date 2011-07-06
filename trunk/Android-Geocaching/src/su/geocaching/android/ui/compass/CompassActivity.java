@@ -3,11 +3,11 @@ package su.geocaching.android.ui.compass;
 import su.geocaching.android.controller.Controller;
 import su.geocaching.android.controller.CoordinateHelper;
 import su.geocaching.android.controller.GpsUpdateFrequency;
-import su.geocaching.android.controller.UiHelper;
 import su.geocaching.android.controller.compass.CompassSpeed;
 import su.geocaching.android.controller.compass.SmoothCompassThread;
 import su.geocaching.android.controller.managers.ILocationAware;
 import su.geocaching.android.controller.managers.LogManager;
+import su.geocaching.android.controller.managers.NavigationManager;
 import su.geocaching.android.controller.managers.PreferencesManager;
 import su.geocaching.android.controller.managers.UserLocationManager;
 import su.geocaching.android.model.GeoCache;
@@ -67,7 +67,7 @@ public class CompassActivity extends Activity {
         progressBarView.setOnClickListener(new OnClickListener() {
             @Override
             public void onClick(View v) {
-                UiHelper.runGpsStatus(v.getContext());
+                NavigationManager.runGpsStatus(v.getContext());
             }
         });
         progressBarAnim = (AnimationDrawable) progressBarView.getBackground();
@@ -177,13 +177,13 @@ public class CompassActivity extends Activity {
         GeoCache searchingGC = controller.getPreferencesManager().getLastSearchedGeoCache();
         switch (item.getItemId()) {
             case R.id.menuStartMap:
-                UiHelper.startSearchMapActivity(this, searchingGC);
+                NavigationManager.startSearchMapActivity(this, searchingGC);
                 return true;
             case R.id.menuGeoCacheInfo:
-                UiHelper.startInfoActivity(this, searchingGC);
+                NavigationManager.startInfoActivity(this, searchingGC);
                 return true;
             case R.id.stepByStep:
-                UiHelper.startCheckpointsFolder(this, searchingGC.getId());
+                NavigationManager.startCheckpointsFolder(this, searchingGC.getId());
                 return true;
             case R.id.compassSettings:
                 showCompassPreferences();
@@ -217,7 +217,7 @@ public class CompassActivity extends Activity {
     }
 
     public void onHomeClick(View v) {
-        UiHelper.goHome(this);
+        NavigationManager.goHome(this);
     }
 
     private float odometeDistance;
@@ -289,7 +289,7 @@ public class CompassActivity extends Activity {
             if (!locationManager.isBestProviderEnabled()) {
                 LogManager.d(TAG, "onStatusChanged: best provider (" + locationManager.getBestProvider() + ") disabled. Ask turn on.");
                 onBestProviderUnavailable();
-                UiHelper.askTurnOnGps(activity);
+                NavigationManager.askTurnOnGps(activity);
             }
         }
     }

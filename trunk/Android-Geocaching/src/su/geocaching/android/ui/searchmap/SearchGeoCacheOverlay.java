@@ -1,6 +1,6 @@
 package su.geocaching.android.ui.searchmap;
 
-import su.geocaching.android.controller.UiHelper;
+import su.geocaching.android.controller.managers.NavigationManager;
 import su.geocaching.android.model.GeoCache;
 import su.geocaching.android.ui.geocachemap.GeoCacheOverlayItem;
 import android.app.Activity;
@@ -74,7 +74,7 @@ public class SearchGeoCacheOverlay extends ItemizedOverlay<OverlayItem> {
     @Override
     public boolean onTap(int index) {
         GeoCache gc = item.getGeoCache();
-        UiHelper.startInfoActivity(activity, gc);
+        NavigationManager.startInfoActivity(activity, gc);
         return true;
     }
 }

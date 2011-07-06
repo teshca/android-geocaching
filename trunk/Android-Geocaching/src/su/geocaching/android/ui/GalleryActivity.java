@@ -13,7 +13,6 @@ import android.widget.AdapterView;
 import android.widget.BaseAdapter;
 import android.widget.Gallery;
 import android.widget.ImageView;
-import su.geocaching.android.controller.apimanager.DownloadPhotoTask;
 import su.geocaching.android.controller.managers.LogManager;
 import su.geocaching.android.model.GeoCache;
 
@@ -72,7 +71,6 @@ public class GalleryActivity extends Activity {
             g.setOnItemClickListener(new AdapterView.OnItemClickListener() {
 
                 public void onItemClick(AdapterView parent, View v, int position, long id) {
-
 
                     Intent intent = new Intent();
                     intent.setAction(android.content.Intent.ACTION_VIEW);

@@ -49,7 +49,7 @@
 			</intent-filter>
 		</activity>
 
-		<activity android:theme="@android:style/Theme.Light.NoTitleBar" android:name=".InfoActivity2">
+		<activity android:theme="@android:style/Theme.Light.NoTitleBar" android:name="InfoActivity">
 			<intent-filter>
 				<action android:name="android.intent.action.RUN" />
 				<category android:name="android.intent.category.DEFAULT" />

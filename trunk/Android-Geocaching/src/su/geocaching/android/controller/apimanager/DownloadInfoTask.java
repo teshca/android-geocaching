@@ -7,7 +7,7 @@ import java.net.URL;
 
 import su.geocaching.android.controller.Controller;
 import su.geocaching.android.controller.managers.LogManager;
-import su.geocaching.android.ui.InfoActivity2;
+import su.geocaching.android.ui.InfoActivity;
 import su.geocaching.android.ui.R;
 import android.app.ProgressDialog;
 import android.content.Context;
@@ -15,7 +15,7 @@ import android.os.AsyncTask;
 
 public class DownloadInfoTask extends AsyncTask<Void, Void, String> {
 
-    private static final String TAG = DownloadPageTask.class.getCanonicalName();
+    private static final String TAG = DownloadInfoTask.class.getCanonicalName();
 
     public enum DownloadInfoState {
         ERROR, SHOW_INFO, SHOW_NOTEBOOK, SAVE_CACHE_NOTEBOOK, SAVE_CACHE_NOTEBOOK_AND_GO_TO_MAP, DOWNLOAD_PHOTO_PAGE
@@ -24,11 +24,11 @@ public class DownloadInfoTask extends AsyncTask<Void, Void, String> {
     private int cacheId;
     private ProgressDialog progressDialog;
     private Context context;
-    private InfoActivity2 infoActibity;
+    private InfoActivity infoActibity;
     private DownloadInfoState state;
     private URL url;
 
-    public DownloadInfoTask(Context context, int cacheId, InfoActivity2 infoActibity, DownloadInfoState state) {
+    public DownloadInfoTask(Context context, int cacheId, InfoActivity infoActibity, DownloadInfoState state) {
         this.state = state;
         this.cacheId = cacheId;
         this.context = context;

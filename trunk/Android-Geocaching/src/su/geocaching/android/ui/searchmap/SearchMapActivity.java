@@ -6,12 +6,12 @@ import java.util.Locale;
 import su.geocaching.android.controller.Controller;
 import su.geocaching.android.controller.CoordinateHelper;
 import su.geocaching.android.controller.GpsUpdateFrequency;
-import su.geocaching.android.controller.UiHelper;
 import su.geocaching.android.controller.compass.SmoothCompassThread;
 import su.geocaching.android.controller.managers.CheckpointManager;
 import su.geocaching.android.controller.managers.IInternetAware;
 import su.geocaching.android.controller.managers.ILocationAware;
 import su.geocaching.android.controller.managers.LogManager;
+import su.geocaching.android.controller.managers.NavigationManager;
 import su.geocaching.android.model.GeoCache;
 import su.geocaching.android.model.GeoCacheStatus;
 import su.geocaching.android.model.GeoCacheType;
@@ -94,7 +94,7 @@ public class SearchMapActivity extends MapActivity implements IInternetAware, IL
         progressBarView.setOnClickListener(new OnClickListener() {
             @Override
             public void onClick(View v) {
-                UiHelper.runGpsStatus(v.getContext());
+                NavigationManager.runGpsStatus(v.getContext());
             }
         });
 
@@ -191,7 +191,7 @@ public class SearchMapActivity extends MapActivity implements IInternetAware, IL
             if (!Controller.getInstance().getLocationManager().isBestProviderGps()) {
                 LogManager.w(TAG, "resume: device without gps");
             }
-            UiHelper.askTurnOnGps(this);
+            NavigationManager.askTurnOnGps(this);
             LogManager.d(TAG, "resume: best provider (" + Controller.getInstance().getLocationManager().getBestProvider() + ") disabled. Current provider is "
                     + Controller.getInstance().getLocationManager().getCurrentProvider());
         } else {
@@ -386,16 +386,16 @@ public class SearchMapActivity extends MapActivity implements IInternetAware, IL
                 resetZoom();
                 return true;
             case R.id.menuStartCompass:
-                UiHelper.startCompassActivity(this);
+                NavigationManager.startCompassActivity(this);
                 return true;
             case R.id.menuGeoCacheInfo:
-                UiHelper.startInfoActivity(this, Controller.getInstance().getPreferencesManager().getLastSearchedGeoCache());
+                NavigationManager.startInfoActivity(this, Controller.getInstance().getPreferencesManager().getLastSearchedGeoCache());
                 return true;
             case R.id.driving_directions:
                 onDrivingDirectionsSelected();
                 return true;
             case R.id.stepByStep:
-                UiHelper.startCheckpointsFolder(this, Controller.getInstance().getPreferencesManager().getLastSearchedGeoCache().getId());
+                NavigationManager.startCheckpointsFolder(this, Controller.getInstance().getPreferencesManager().getLastSearchedGeoCache().getId());
                 return true;
             case R.id.searchMapSettings:
                 startActivity(new Intent(this, MapPreferenceActivity.class));
@@ -529,7 +529,7 @@ public class SearchMapActivity extends MapActivity implements IInternetAware, IL
         LogManager.d(TAG, "onProviderDisabled");
         if (!Controller.getInstance().getLocationManager().isBestProviderEnabled()) {
             LogManager.d(TAG, "onStatusChanged: best provider (" + Controller.getInstance().getLocationManager().getBestProvider() + ") disabled. Ask turn on.");
-            UiHelper.askTurnOnGps(this);
+            NavigationManager.askTurnOnGps(this);
         }
     }
 
@@ -559,7 +559,7 @@ public class SearchMapActivity extends MapActivity implements IInternetAware, IL
     }
 
     public void onHomeClick(View v) {
-        UiHelper.goHome(this);
+        NavigationManager.goHome(this);
     }
 
     /**

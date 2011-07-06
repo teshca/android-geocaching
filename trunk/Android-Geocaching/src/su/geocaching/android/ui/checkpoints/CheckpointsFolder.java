@@ -1,9 +1,9 @@
 package su.geocaching.android.ui.checkpoints;
 
 import su.geocaching.android.controller.Controller;
-import su.geocaching.android.controller.UiHelper;
 import su.geocaching.android.controller.managers.CheckpointManager;
 import su.geocaching.android.controller.managers.LogManager;
+import su.geocaching.android.controller.managers.NavigationManager;
 import su.geocaching.android.ui.AbstractGeoCacheFolderActivity;
 import su.geocaching.android.ui.FavoritesFolderActivity;
 import su.geocaching.android.ui.R;
@@ -94,7 +94,7 @@ public class CheckpointsFolder extends AbstractGeoCacheFolderActivity implements
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
             case R.id.addCheckpointMenu:
-                UiHelper.startStepByStep(this, Controller.getInstance().getPreferencesManager().getLastSearchedGeoCache());
+                NavigationManager.startStepByStep(this, Controller.getInstance().getPreferencesManager().getLastSearchedGeoCache());
                 break;
             case R.id.removeAllCheckpointMenu:
                 removeAlert.show();
@@ -112,6 +112,6 @@ public class CheckpointsFolder extends AbstractGeoCacheFolderActivity implements
 
     @Override
     public void onItemClick(AdapterView<?> arg0, View arg1, int arg2, long arg3) {
-        UiHelper.startCheckpointDialog(this, favoritesList.get(arg2).getId());
+        NavigationManager.startCheckpointDialog(this, favoritesList.get(arg2).getId());
     }
 }

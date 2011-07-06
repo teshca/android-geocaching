@@ -2,10 +2,10 @@ package su.geocaching.android.ui.checkpoints;
 
 import su.geocaching.android.controller.Controller;
 import su.geocaching.android.controller.CoordinateHelper;
-import su.geocaching.android.controller.UiHelper;
 import su.geocaching.android.controller.compass.CompassHelper;
 import su.geocaching.android.controller.managers.CheckpointManager;
 import su.geocaching.android.controller.managers.LogManager;
+import su.geocaching.android.controller.managers.NavigationManager;
 import su.geocaching.android.controller.managers.UserLocationManager;
 import su.geocaching.android.model.GeoCache;
 import su.geocaching.android.ui.R;
@@ -217,7 +217,7 @@ public class CreateCheckpointActivity extends Activity {
     }
 
     public void onHomeClick(View v) {
-        UiHelper.goHome(this);
+        NavigationManager.goHome(this);
     }
 
     public void onSexagesimalClick(View v) {

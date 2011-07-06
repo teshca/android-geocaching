@@ -6,8 +6,8 @@ import com.google.android.maps.GeoPoint;
 import com.google.android.maps.MapView;
 
 import su.geocaching.android.controller.Controller;
-import su.geocaching.android.controller.UiHelper;
 import su.geocaching.android.controller.compass.ICompassAnimation;
+import su.geocaching.android.controller.managers.NavigationManager;
 
 /**
  * @author Grigory Kalabin. grigory.kalabin@gmail.com
@@ -164,7 +164,7 @@ public class UserLocationOverlay extends com.google.android.maps.Overlay impleme
         }
         map.getProjection().toPixels(p, tapPoint);
         if ((Math.abs(tapPoint.x - userPoint.x) < compassArrowWidth / 2) && (Math.abs((tapPoint.y - userPoint.y)) < compassArrowHeight / 2)) {
-            UiHelper.startCompassActivity(context);
+            NavigationManager.startCompassActivity(context);
             return true;
         }
         return false;
