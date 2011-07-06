@@ -5,10 +5,14 @@ import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.URL;
+import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Locale;
+import java.util.concurrent.ExecutionException;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 import javax.xml.parsers.ParserConfigurationException;
 import javax.xml.parsers.SAXParser;
@@ -18,6 +22,7 @@ import org.xml.sax.InputSource;
 import org.xml.sax.SAXException;
 
 import su.geocaching.android.controller.Controller;
+import su.geocaching.android.controller.apimanager.DownloadInfoTask.DownloadInfoState;
 import su.geocaching.android.controller.managers.LogManager;
 import su.geocaching.android.model.GeoCache;
 import su.geocaching.android.ui.InfoActivity2;
@@ -38,6 +43,7 @@ public class ApiManager implements IApiManager {
     public static final String CP1251_ENCODING = "windows-1251";
     public static final String LINK_INFO_CACHE = "http://pda.geocaching.su/cache.php?cid=%d&mode=0";
     public static final String LINK_NOTEBOOK_TEXT = "http://pda.geocaching.su/note.php?cid=%d&mode=0";
+    public static final String LINK_PHOTO_PAGE = "http://pda.geocaching.su/pict.php?cid=%d&mode=0";
     public static final String HTTP_PDA_GEOCACHING_SU = "http://pda.geocaching.su/";
 
     private static final String TAG = ApiManager.class.getCanonicalName();
@@ -127,11 +133,46 @@ public class ApiManager implements IApiManager {
     }
 
     @Override
-    public void downloadInfo(Context context, PageState type, InfoActivity2 infoActivity, int cacheId) {
+    public void downloadInfo(Context context, DownloadInfoState state, InfoActivity2 infoActivity, int cacheId) {
         if (downloadInfoTask != null)
             downloadInfoTask.cancel(false); // TODO check it
-        downloadInfoTask = new DownloadInfoTask(context, cacheId, infoActivity, type);
+        downloadInfoTask = new DownloadInfoTask(context, cacheId, infoActivity, state);
         downloadInfoTask.execute();
 
+    }
+
+    @Override
+    public void downloadPhotos(Context context, PageState type, InfoActivity2 infoActivity, int cacheId) {
+
+        String HTMLPage = "";
+        try {
+            HTMLPage = new DownloadInfoTask(null, cacheId, infoActivity, DownloadInfoState.DOWNLOAD_PHOTO_PAGE).execute().get();
+        } catch (InterruptedException e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+        } catch (ExecutionException e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+        }
+        Pattern linkPattern = Pattern.compile("\\s*(?i)href\\s*=\\s*(\"([^\"]*\")|'[^']*'|([^'\">\\s]+))");
+        Matcher pageMatcher = linkPattern.matcher(HTMLPage);
+        ArrayList<String> links = new ArrayList<String>();
+        while (pageMatcher.find()) {
+            links.add(pageMatcher.group());
+        }
+
+        List<URL> photoUrls = new ArrayList<URL>();
+        for (String url : links) {
+            try {
+                String photoLink = url.substring(7, url.length() - 1);
+                if (photoLink.endsWith(".jpg")) {
+                    photoUrls.add(new URL(photoLink));
+                }
+            } catch (MalformedURLException e) {
+                // TODO Auto-generated catch block
+                e.printStackTrace();
+            }
+        }
+        new DownloadPhotoTask2(context, cacheId).execute(photoUrls.toArray(new URL[photoUrls.size()]));
     }
 }

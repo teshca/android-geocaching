@@ -8,7 +8,6 @@ import java.net.URL;
 import su.geocaching.android.controller.Controller;
 import su.geocaching.android.controller.managers.LogManager;
 import su.geocaching.android.ui.InfoActivity2;
-import su.geocaching.android.ui.InfoActivity2.PageState;
 import su.geocaching.android.ui.R;
 import android.app.ProgressDialog;
 import android.content.Context;
@@ -18,14 +17,19 @@ public class DownloadInfoTask extends AsyncTask<Void, Void, String> {
 
     private static final String TAG = DownloadPageTask.class.getCanonicalName();
 
+    public enum DownloadInfoState {
+        ERROR, SHOW_INFO, SHOW_NOTEBOOK, SAVE_CACHE_NOTEBOOK, SAVE_CACHE_NOTEBOOK_AND_GO_TO_MAP, DOWNLOAD_PHOTO_PAGE
+    }
+
     private int cacheId;
-    private PageState pageType;
     private ProgressDialog progressDialog;
     private Context context;
     private InfoActivity2 infoActibity;
+    private DownloadInfoState state;
+    private URL url;
 
-    public DownloadInfoTask(Context context, int cacheId, InfoActivity2 infoActibity, PageState pageType) {
-        this.pageType = pageType;
+    public DownloadInfoTask(Context context, int cacheId, InfoActivity2 infoActibity, DownloadInfoState state) {
+        this.state = state;
         this.cacheId = cacheId;
         this.context = context;
         this.infoActibity = infoActibity;
@@ -36,20 +40,31 @@ public class DownloadInfoTask extends AsyncTask<Void, Void, String> {
         LogManager.d(TAG, "TestTime onPreExecute - Start");
 
         String progressMessage = "";
-        switch (pageType) {
-            case INFO:
-                progressMessage = context.getString(R.string.download_info);
-                break;
-            case NOTEBOOK:
-            case SAVE_CACHE_NOTEBOOK:
-            case SAVE_CACHE_NOTEBOOK_AND_GO_TO_MAP:
-                progressMessage = context.getString(R.string.download_notebook);
-                break;
+        try {
+            switch (state) {
+                case SHOW_INFO:
+                    progressMessage = context.getString(R.string.download_info);
+                    url = new URL(String.format(ApiManager.LINK_INFO_CACHE, cacheId));
+                    break;
+                case SHOW_NOTEBOOK:
+                case SAVE_CACHE_NOTEBOOK:
+                case SAVE_CACHE_NOTEBOOK_AND_GO_TO_MAP:
+                    progressMessage = context.getString(R.string.download_notebook);
+                    url = new URL(String.format(ApiManager.LINK_NOTEBOOK_TEXT, cacheId));
+                    break;
+                case DOWNLOAD_PHOTO_PAGE:
+                    url = new URL(String.format(ApiManager.LINK_PHOTO_PAGE, cacheId));
+                    break;
+            }
+        } catch (IOException e) {
+            LogManager.e(TAG, "IOException getWebText", e);
         }
 
-        progressDialog = new ProgressDialog(context);
-        progressDialog.setMessage(progressMessage);
-        progressDialog.show();
+        if (context != null) {
+            progressDialog = new ProgressDialog(context);
+            progressDialog.setMessage(progressMessage);
+            progressDialog.show();
+        }
     }
 
     @Override
@@ -63,7 +78,7 @@ public class DownloadInfoTask extends AsyncTask<Void, Void, String> {
                 LogManager.e(TAG, "IOException getWebText", e);
             }
         } else {
-            pageType = PageState.NO_INTERNET;
+            state = DownloadInfoState.ERROR;
         }
         return result;
     }
@@ -71,23 +86,6 @@ public class DownloadInfoTask extends AsyncTask<Void, Void, String> {
     private String getWebText(int id) throws IOException {
         StringBuilder html = new StringBuilder();
         char[] buffer = new char[1024];
-
-        String formatLink;
-        switch (pageType) {
-            case INFO:
-                formatLink = ApiManager.LINK_INFO_CACHE;
-                break;
-            case NOTEBOOK:
-            case SAVE_CACHE_NOTEBOOK:
-            case SAVE_CACHE_NOTEBOOK_AND_GO_TO_MAP:
-                formatLink = ApiManager.LINK_NOTEBOOK_TEXT;
-                break;
-            default:
-                formatLink = ApiManager.LINK_INFO_CACHE;
-                break;
-        }
-
-        URL url = new URL(String.format(formatLink, id));
         BufferedReader in = new BufferedReader(new InputStreamReader(url.openStream(), ApiManager.CP1251_ENCODING));
 
         html.append(in.readLine());
@@ -119,7 +117,26 @@ public class DownloadInfoTask extends AsyncTask<Void, Void, String> {
         if (progressDialog != null && progressDialog.isShowing()) {
             progressDialog.dismiss();
         }
-        infoActibity.setInfo(pageType, result);
+        switch (state) {
+            case SHOW_INFO:
+                infoActibity.showInfo(result);
+                break;
+            case SHOW_NOTEBOOK:
+                infoActibity.showNotebook(result);
+                break;
+            case SAVE_CACHE_NOTEBOOK:
+                infoActibity.saveNotebook(result);
+                break;
+            case SAVE_CACHE_NOTEBOOK_AND_GO_TO_MAP:
+                infoActibity.saveNotebookAndGoToMap(result);
+                break;
+            case ERROR:
+                infoActibity.showErrorMessage();
+                break;
+            default:
+                break;
+        }
+
         super.onPostExecute(result);
     }
 }
