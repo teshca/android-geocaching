@@ -27,9 +27,7 @@ public class DownloadPhotoTask extends AsyncTask<URL, Void, Void> {
     private static final int neededFreeSdSpace = 1572864; // bytes 1,5mb
 
     private int cacheId;
-    private boolean externalStorageAvailable;
-    private boolean externalStorageWriteable;
-    private boolean enoughFreeSpace;
+    private boolean externalStorageAvailable, externalStorageWriteable, enoughFreeSpace;
 
     private Context context;
     private ProgressDialog progressDialog;
@@ -58,7 +56,7 @@ public class DownloadPhotoTask extends AsyncTask<URL, Void, Void> {
     private void checkSDCard() {
         StatFs stat = new StatFs(Environment.getExternalStorageDirectory().getPath());
         double sdAvailSize = (double) stat.getAvailableBlocks() * (double) stat.getBlockSize();
-        enoughFreeSpace = sdAvailSize > neededFreeSdSpace;
+        enoughFreeSpace = sdAvailSize >= neededFreeSdSpace;
 
         String state = Environment.getExternalStorageState();
         if (Environment.MEDIA_MOUNTED.equals(state)) {
@@ -133,7 +131,6 @@ public class DownloadPhotoTask extends AsyncTask<URL, Void, Void> {
             if (bis != null) {
                 bis.close();
             }
-
         }
     }
 

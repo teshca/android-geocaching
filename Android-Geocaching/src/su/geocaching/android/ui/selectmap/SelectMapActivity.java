@@ -310,7 +310,7 @@ public class SelectMapActivity extends MapActivity implements IInternetAware {
     }
 
     public void onHomeClick(View v) {
-        NavigationManager.goHome(this);
+        NavigationManager.startDashboardActvity(this);
     }
 
     public MapView getMapView() {

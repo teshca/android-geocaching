@@ -4,6 +4,7 @@ import java.util.List;
 
 import su.geocaching.android.model.GeoCache;
 import su.geocaching.android.ui.DashboardActivity;
+import su.geocaching.android.ui.GalleryActivity;
 import su.geocaching.android.ui.InfoActivity;
 import su.geocaching.android.ui.R;
 import su.geocaching.android.ui.checkpoints.CheckpointDialog;
@@ -32,41 +33,14 @@ public class NavigationManager {
 
     /**
      * Invoke "home" action, returning to DashBoardActivity
-     * 
-     * @param context
-     *            //TODO describe it
      */
-    public static void goHome(Context context) {
+    public static void startDashboardActvity(Context context) {
         final Intent intent = new Intent(context, DashboardActivity.class);
         context.startActivity(intent);
     }
 
-    public static void askTurnOnGps(final Activity context) {
-        AlertDialog.Builder builder = new AlertDialog.Builder(context);
-        builder.setMessage(context.getString(R.string.ask_enable_gps_text)).setCancelable(false).setPositiveButton(context.getString(R.string.yes), new DialogInterface.OnClickListener() {
-            public void onClick(DialogInterface dialog, int id) {
-                Intent startGPS = new Intent(Settings.ACTION_LOCATION_SOURCE_SETTINGS);
-                context.startActivity(startGPS);
-                dialog.cancel();
-            }
-        }).setNegativeButton(context.getString(R.string.no), new DialogInterface.OnClickListener() {
-            public void onClick(DialogInterface dialog, int id) {
-                dialog.cancel();
-                // activity is MapActivity or Activity
-                context.finish();
-            }
-        });
-        AlertDialog turnOnGpsAlert = builder.create();
-        turnOnGpsAlert.show();
-    }
-
     /**
      * Open GeoCache info activity
-     * 
-     * @param context
-     *            //TODO describe it
-     * @param geoCache
-     *            //TODO describe it
      */
     public static void startInfoActivity(Context context, GeoCache geoCache) {
         Intent intent = new Intent(context, InfoActivity.class);
@@ -75,12 +49,7 @@ public class NavigationManager {
     }
 
     /**
-     * F Starts SearchMapActivity activity and finish this
-     * 
-     * @param context
-     *            //TODO describe it
-     * @param geoCache
-     *            //TODO describe it
+     * Open SearchMapActivity activity and finish this
      */
     public static void startSearchMapActivity(Context context, GeoCache geoCache) {
         Intent intent = new Intent(context, SearchMapActivity.class);
@@ -109,6 +78,31 @@ public class NavigationManager {
         Intent intent = new Intent(context, CheckpointDialog.class);
         intent.putExtra(CACHE_ID, id);
         context.startActivity(intent);
+    }
+
+    public static void startPhotoGalery(Context context, int id) {
+        Intent intent = new Intent(context, GalleryActivity.class);
+        intent.putExtra(CACHE_ID, id);
+        context.startActivity(intent);
+    }
+
+    public static void askTurnOnGps(final Activity context) {
+        AlertDialog.Builder builder = new AlertDialog.Builder(context);
+        builder.setMessage(context.getString(R.string.ask_enable_gps_text)).setCancelable(false).setPositiveButton(context.getString(R.string.yes), new DialogInterface.OnClickListener() {
+            public void onClick(DialogInterface dialog, int id) {
+                Intent startGPS = new Intent(Settings.ACTION_LOCATION_SOURCE_SETTINGS);
+                context.startActivity(startGPS);
+                dialog.cancel();
+            }
+        }).setNegativeButton(context.getString(R.string.no), new DialogInterface.OnClickListener() {
+            public void onClick(DialogInterface dialog, int id) {
+                dialog.cancel();
+                // activity is MapActivity or Activity
+                context.finish();
+            }
+        });
+        AlertDialog turnOnGpsAlert = builder.create();
+        turnOnGpsAlert.show();
     }
 
     /**
