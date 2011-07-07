@@ -90,18 +90,18 @@ public class DownloadPhotoTask extends AsyncTask<URL, Void, Void> {
 
     private void downloadAndSavePhoto(URL photoURL) throws IOException {
 
-        String filename = photoURL.toString().substring(photoURL.toString().lastIndexOf('/') + 1);
-        ContentValues values = new ContentValues();
         File sdImageMainDirectory = new File(Environment.getExternalStorageDirectory(), context.getString(R.string.main_directory));
         sdImageMainDirectory.mkdirs();
         File sdImagePhotoDirectory = new File(sdImageMainDirectory, context.getString(R.string.photo_directory));
         sdImagePhotoDirectory.mkdirs();
-        File sdImageCacheDirectory = new File(sdImagePhotoDirectory, String.format("%d", cacheId));
+        File sdImageCacheDirectory = new File(sdImagePhotoDirectory, Integer.toString(cacheId));
         sdImageCacheDirectory.mkdirs();
-        int dotIndex = filename.indexOf(".");
-        String nameWithoutExtent = filename.substring(0, dotIndex);
+
+        String filename = photoURL.toString().substring(photoURL.toString().lastIndexOf('/') + 1);
+        String nameWithoutExtent = filename.substring(0, filename.indexOf("."));
         String id = String.format("%d%s", cacheId, nameWithoutExtent);
         File outputFile = new File(sdImageCacheDirectory, filename);
+        ContentValues values = new ContentValues();
         values.put(MediaStore.MediaColumns.DATA, outputFile.toString());
         values.put(MediaStore.MediaColumns.TITLE, filename);
         values.put(MediaStore.MediaColumns._ID, id);
@@ -109,27 +109,27 @@ public class DownloadPhotoTask extends AsyncTask<URL, Void, Void> {
         values.put(MediaStore.MediaColumns.MIME_TYPE, "image/jpg");
         Uri uri = context.getContentResolver().insert(android.provider.MediaStore.Images.Media.EXTERNAL_CONTENT_URI, values);
 
-        OutputStream outStream = null;
-        BufferedInputStream bis = null;
+        OutputStream outputStream = null;
+        BufferedInputStream inputStream = null;
         try {
             URLConnection conection = photoURL.openConnection();
-            bis = new BufferedInputStream(conection.getInputStream(), 1024);
-            outStream = context.getContentResolver().openOutputStream(uri);
+            inputStream = new BufferedInputStream(conection.getInputStream(), 1024);
+            outputStream = context.getContentResolver().openOutputStream(uri);
             int size;
             byte[] buffer = new byte[1024];
-            while ((size = bis.read(buffer)) != -1) {
-                outStream.write(buffer, 0, size);
+            while ((size = inputStream.read(buffer)) != -1) {
+                outputStream.write(buffer, 0, size);
             }
-            outStream.close();
-            bis.close();
+            outputStream.close();
+            inputStream.close();
         } catch (FileNotFoundException e) {
             LogManager.e(TAG, e.getMessage(), e);
         } finally {
-            if (outStream != null) {
-                outStream.close();
+            if (outputStream != null) {
+                outputStream.close();
             }
-            if (bis != null) {
-                bis.close();
+            if (inputStream != null) {
+                inputStream.close();
             }
         }
     }

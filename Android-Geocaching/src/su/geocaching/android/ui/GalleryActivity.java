@@ -33,7 +33,6 @@ public class GalleryActivity extends Activity {
 
     private int cacheId;
     private Uri[] photoUrls;
-    private String[] photoNames;
     private File images;
     private Context context;
 
@@ -47,7 +46,7 @@ public class GalleryActivity extends Activity {
         cacheId = getIntent().getIntExtra(NavigationManager.CACHE_ID, DEFAULT_ID);
         if (cacheId != DEFAULT_ID) {
             images = new File(Environment.getExternalStorageDirectory(), String.format(context.getString(R.string.cache_directory), cacheId));
-            photoNames = images.list();
+
             final File[] imagelist = images.listFiles(new FilenameFilter() {
 
                 @Override
@@ -73,9 +72,8 @@ public class GalleryActivity extends Activity {
         }
     }
 
-    // TODO this method doesn't work
     public void deleteCachePhotosFromSDCard() {
-
+        String[] photoNames = images.list();
         for (String i : photoNames) {
             int d = i.indexOf(".");
             String s = i.substring(0, d);
@@ -125,14 +123,14 @@ public class GalleryActivity extends Activity {
             return 0;
         }
 
-        final int photoWidth = 125;
-        final int photoHeight = 100;
+        final int thumbnailsPhotoWidth = 125;
+        final int thumbnailsPhotoHeight = 100;
 
         public View getView(int position, View convertView, ViewGroup parent) {
             ImageView image;
             if (convertView == null) { // if it's not recycled, initialize some attributes
                 image = new ImageView(context);
-                image.setLayoutParams(new GridView.LayoutParams(photoWidth, photoHeight));
+                image.setLayoutParams(new GridView.LayoutParams(thumbnailsPhotoWidth, thumbnailsPhotoHeight));
                 image.setScaleType(ImageView.ScaleType.CENTER_CROP);
             } else {
                 image = (ImageView) convertView;
@@ -150,8 +148,9 @@ public class GalleryActivity extends Activity {
             int scale = 1;
 
             while (true) {
-                if (width_tmp / 2 < photoWidth || height_tmp / 2 < photoHeight)
+                if ((width_tmp / 2 < thumbnailsPhotoWidth) || (height_tmp / 2 < thumbnailsPhotoHeight)) {
                     break;
+                }
                 width_tmp /= 2;
                 height_tmp /= 2;
                 scale *= 2;
