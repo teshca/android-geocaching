@@ -90,8 +90,7 @@
 		<activity android:name=".EnergySavingPreferenceActivity" />
 		<activity android:name=".InternetAndGpsPreferenceActivity" />
 		<activity android:name=".compass.CompassPreferenceActivity" />
-		<activity android:name=".GalleryActivity"
-                android:theme="@android:style/Theme.Light"/>
+		<activity android:name=".GalleryActivity" android:theme="@android:style/Theme.Light.NoTitleBar"/>
 		<activity android:theme="@android:style/Theme.Light.NoTitleBar"
 			android:name=".searchmap.stepbystep.CreateCheckpointActivity" />
 		<activity android:theme="@android:style/Theme.Light.NoTitleBar"

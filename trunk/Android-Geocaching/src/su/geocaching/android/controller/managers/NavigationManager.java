@@ -1,5 +1,6 @@
 package su.geocaching.android.controller.managers;
 
+import java.io.File;
 import java.util.List;
 
 import su.geocaching.android.model.GeoCache;
@@ -20,6 +21,7 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.content.pm.ResolveInfo;
+import android.net.Uri;
 import android.provider.Settings;
 
 /**
@@ -83,6 +85,13 @@ public class NavigationManager {
     public static void startPhotoGalery(Context context, int id) {
         Intent intent = new Intent(context, GalleryActivity.class);
         intent.putExtra(CACHE_ID, id);
+        context.startActivity(intent);
+    }
+    
+    public static void startPictureViewer(Context context, Uri photouri) {
+        Intent intent = new Intent();
+        intent.setAction(android.content.Intent.ACTION_VIEW); 
+        intent.setDataAndType(photouri, "image/*");
         context.startActivity(intent);
     }
 
