@@ -559,7 +559,7 @@ public class SearchMapActivity extends MapActivity implements IInternetAware, IL
     }
 
     public void onHomeClick(View v) {
-        NavigationManager.goHome(this);
+        NavigationManager.startDashboardActvity(this);
     }
 
     /**

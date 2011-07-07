@@ -1,6 +1,10 @@
 package su.geocaching.android.ui;
 
+import java.io.File;
+import java.io.FilenameFilter;
 
+import su.geocaching.android.controller.managers.LogManager;
+import su.geocaching.android.controller.managers.NavigationManager;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
@@ -8,24 +12,18 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.os.Environment;
 import android.provider.MediaStore;
-import android.view.*;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
+import android.view.View;
+import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.BaseAdapter;
 import android.widget.Gallery;
 import android.widget.ImageView;
-import su.geocaching.android.controller.managers.LogManager;
-import su.geocaching.android.model.GeoCache;
-
-import java.io.File;
-import java.io.FilenameFilter;
-
 
 /**
- * Created by IntelliJ IDEA.
- * User: Anatoliy
- * Date: 24.04.11
- * Time: 0:15
- * To change this template use File | Settings | File Templates.
+ * @author Anatoliy
  */
 public class GalleryActivity extends Activity {
 
@@ -46,7 +44,7 @@ public class GalleryActivity extends Activity {
 
         LogManager.e(TAG, "onCreate");
         context = this;
-        cacheId = getIntent().getIntExtra(GeoCache.class.getCanonicalName(), DEFAULT_ID);
+        cacheId = getIntent().getIntExtra(NavigationManager.CACHE_ID, DEFAULT_ID);
         if (cacheId != DEFAULT_ID) {
             images = new File(Environment.getExternalStorageDirectory(), String.format(context.getString(R.string.cache_directory), cacheId));
             cachePhotoNames = images.list();
@@ -59,7 +57,6 @@ public class GalleryActivity extends Activity {
             });
             mFiles = new String[imagelist.length];
             mUrls = new Uri[mFiles.length];
-
 
             for (int i = 0; i < imagelist.length; i++) {
                 mFiles[i] = imagelist[i].getAbsolutePath();
@@ -91,13 +88,12 @@ public class GalleryActivity extends Activity {
             int d = i.indexOf(".");
             String s = i.substring(0, d);
             String id = String.format("%d%s", cacheId, s);
-            this.getContentResolver().delete(MediaStore.Images.Media.EXTERNAL_CONTENT_URI,
-                    String.format("%s=%s", MediaStore.Images.Media._ID, id),
-                    null);
+            this.getContentResolver().delete(MediaStore.Images.Media.EXTERNAL_CONTENT_URI, String.format("%s=%s", MediaStore.Images.Media._ID, id), null);
         }
         images.delete();
     }
-     @Override
+
+    @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         MenuInflater inflater = getMenuInflater();
         inflater.inflate(R.menu.gallery_menu, menu);

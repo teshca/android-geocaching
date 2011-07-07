@@ -37,7 +37,7 @@ public class InfoActivity extends Activity {
     private Controller controller;
     private WebView webView;
     private CheckBox cbFavoriteCache;
-    private boolean isCacheStored;
+    private boolean isCacheStored, isPhotoStored;
     private PageState pageState = PageState.INFO;
 
     @Override
@@ -80,7 +80,11 @@ public class InfoActivity extends Activity {
         super.onPostCreate(savedInstanceState);
     }
 
-    // TODO
+    @Override
+    protected Dialog onCreateDialog(int id) {
+        return new DownloadNotebookDialog(this, this, geoCache.getId());
+    }
+
     @Override
     protected void onSaveInstanceState(Bundle outState) {
         outState.putInt(PAGE_TYPE, pageState.ordinal());
@@ -88,11 +92,6 @@ public class InfoActivity extends Activity {
         outState.putString(TEXT_NOTEBOOK, notebook);
 
         super.onSaveInstanceState(outState);
-    }
-
-    @Override
-    protected Dialog onCreateDialog(int id) {
-        return new DownloadNotebookDialog(this, this, geoCache.getId());
     }
 
     @Override
@@ -109,8 +108,6 @@ public class InfoActivity extends Activity {
         inflater.inflate(R.menu.geocache_info_menu, menu);
         return true;
     }
-
-    private boolean isPhotoStored;
 
     @Override
     public boolean onPrepareOptionsMenu(Menu menu) {
@@ -143,15 +140,6 @@ public class InfoActivity extends Activity {
         return super.onPrepareOptionsMenu(menu);
     }
 
-    public boolean isPhotoStored(int cacheId) {
-        File dir = new File(Environment.getExternalStorageDirectory(), String.format(this.getString(R.string.cache_directory), cacheId));
-        String[] imageNames = dir.list();
-        if (imageNames != null) {
-            return imageNames.length != 0;
-        }
-        return imageNames != null;
-    }
-
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
 
@@ -170,14 +158,7 @@ public class InfoActivity extends Activity {
                 startActivity(new Intent(this, CacheNotesActivity.class));
                 return true;
             case R.id.show_cache_photos:
-                if (isPhotoStored) {
-                    Intent intent = new Intent(this, GalleryActivity.class);
-                    intent.putExtra(GeoCache.class.getCanonicalName(), geoCache.getId());
-                    startActivity(intent);
-                } else {
-                    // new DownloadPhotoTask(this, geoCache.getId()).execute();
-                    Controller.getInstance().getApiManager().downloadPhotos(this, PageState.PHOTO, this, geoCache.getId());
-                }
+                showPhotos();
                 return true;
             default:
                 return super.onOptionsItemSelected(item);
@@ -219,7 +200,7 @@ public class InfoActivity extends Activity {
         }
     }
 
-    public void onAddDelGeoCacheInDatabaseClick(View v) {
+    public void onFavoritesStarClick(View v) {
         if (cbFavoriteCache.isChecked()) {
             if (notebook == null) {
                 if (controller.getPreferencesManager().getDownloadNoteBookAlways()) {
@@ -261,6 +242,15 @@ public class InfoActivity extends Activity {
         loadWebView(PageState.NOTEBOOK);
     }
 
+    public void showPhotos() {
+        isPhotoStored = isPhotoStored(geoCache.getId());
+        if (isPhotoStored) {
+            NavigationManager.startPhotoGalery(this, geoCache.getId());
+        } else {
+            Controller.getInstance().getApiManager().downloadPhotos(this, PageState.PHOTO, this, geoCache.getId());
+        }
+    }
+
     public void showErrorMessage() {
         loadWebView(PageState.NO_INTERNET);
     }
@@ -292,6 +282,15 @@ public class InfoActivity extends Activity {
     }
 
     public void onHomeClick(View v) {
-        NavigationManager.goHome(this);
+        NavigationManager.startDashboardActvity(this);
+    }
+
+    private boolean isPhotoStored(int cacheId) {
+        File dir = new File(Environment.getExternalStorageDirectory(), String.format(this.getString(R.string.cache_directory), cacheId));
+        String[] imageNames = dir.list();
+        if (imageNames != null) {
+            return imageNames.length != 0;
+        }
+        return imageNames != null;
     }
 }
