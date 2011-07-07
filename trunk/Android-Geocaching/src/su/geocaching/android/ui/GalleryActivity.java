@@ -123,7 +123,7 @@ public class GalleryActivity extends Activity {
             return 0;
         }
 
-        final int thumbnailsPhotoSize = 125;
+        private final int thumbnailsPhotoSize = 125;
 
         public View getView(int position, View convertView, ViewGroup parent) {
             ImageView image;
@@ -143,11 +143,12 @@ public class GalleryActivity extends Activity {
         private Bitmap scaleBitmap(int position) {
             BitmapFactory.Options options = new BitmapFactory.Options();
             options.inJustDecodeBounds = true;
-            BitmapFactory.decodeFile(images.listFiles()[position].getAbsolutePath(), options);
+            String path = images.listFiles()[position].getAbsolutePath();
+            BitmapFactory.decodeFile(path, options);
             int scale = Math.max(options.outHeight, options.outWidth) / thumbnailsPhotoSize + 1;
             BitmapFactory.Options options2 = new BitmapFactory.Options();
             options2.inSampleSize = scale;
-            return BitmapFactory.decodeFile(images.listFiles()[position].getAbsolutePath(), options2);
+            return BitmapFactory.decodeFile(path, options2);
         }
     }
 
