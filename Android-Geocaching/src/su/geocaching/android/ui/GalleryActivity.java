@@ -7,7 +7,8 @@ import su.geocaching.android.controller.managers.LogManager;
 import su.geocaching.android.controller.managers.NavigationManager;
 import android.app.Activity;
 import android.content.Context;
-import android.content.Intent;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Environment;
@@ -19,7 +20,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.BaseAdapter;
-import android.widget.Gallery;
+import android.widget.GridView;
 import android.widget.ImageView;
 
 /**
@@ -30,10 +31,9 @@ public class GalleryActivity extends Activity {
     private static final String TAG = GalleryActivity.class.getCanonicalName();
     private static final int DEFAULT_ID = -1;
 
-    private Uri[] mUrls;
-    private String[] mFiles = null;
     private int cacheId;
-    private String[] cachePhotoNames;
+    private Uri[] photoUrls;
+    private String[] photoNames;
     private File images;
     private Context context;
 
@@ -47,48 +47,40 @@ public class GalleryActivity extends Activity {
         cacheId = getIntent().getIntExtra(NavigationManager.CACHE_ID, DEFAULT_ID);
         if (cacheId != DEFAULT_ID) {
             images = new File(Environment.getExternalStorageDirectory(), String.format(context.getString(R.string.cache_directory), cacheId));
-            cachePhotoNames = images.list();
-            File[] imagelist = images.listFiles(new FilenameFilter() {
+            photoNames = images.list();
+            final File[] imagelist = images.listFiles(new FilenameFilter() {
 
                 @Override
                 public boolean accept(File dir, String name) {
-                    return ((name.endsWith(".jpg")) || (name.endsWith(".png")));
+                    return (name.endsWith(".jpg") || name.endsWith(".png"));
                 }
             });
-            mFiles = new String[imagelist.length];
-            mUrls = new Uri[mFiles.length];
+
+            photoUrls = new Uri[imagelist.length];
 
             for (int i = 0; i < imagelist.length; i++) {
-                mFiles[i] = imagelist[i].getAbsolutePath();
-                mUrls[i] = Uri.parse(mFiles[i]);
+                photoUrls[i] = Uri.parse(imagelist[i].getAbsolutePath());
             }
 
-            Gallery g = (Gallery) findViewById(R.id.gallery);
-            g.setAdapter(new ImageAdapter(this));
-            g.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            GridView photosView = (GridView) findViewById(R.id.gridview);
+            photosView.setAdapter(new ImageAdapter(this));
+            photosView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
 
-                public void onItemClick(AdapterView parent, View v, int position, long id) {
-
-                    Intent intent = new Intent();
-                    intent.setAction(android.content.Intent.ACTION_VIEW);
-                    File file = new File(mFiles[position]);
-                    intent.setDataAndType(Uri.fromFile(file), "image/*");
-                    startActivity(intent);
-
+                public void onItemClick(AdapterView<?> parent, View v, int position, long id) {
+                    NavigationManager.startPictureViewer(context, Uri.fromFile(imagelist[position]));
                 }
-
             });
-            g.setFadingEdgeLength(40);
         }
     }
 
+    // TODO this method doesn't work
     public void deleteCachePhotosFromSDCard() {
 
-        for (String i : cachePhotoNames) {
+        for (String i : photoNames) {
             int d = i.indexOf(".");
             String s = i.substring(0, d);
             String id = String.format("%d%s", cacheId, s);
-            this.getContentResolver().delete(MediaStore.Images.Media.EXTERNAL_CONTENT_URI, String.format("%s=%s", MediaStore.Images.Media._ID, id), null);
+            getContentResolver().delete(MediaStore.Images.Media.EXTERNAL_CONTENT_URI, String.format("%s=%s", MediaStore.Images.Media._ID, id), null);
         }
         images.delete();
     }
@@ -115,32 +107,62 @@ public class GalleryActivity extends Activity {
 
     public class ImageAdapter extends BaseAdapter {
 
-        int mGalleryItemBackground;
+        private Context context;
 
         public ImageAdapter(Context c) {
-            mContext = c;
+            context = c;
         }
 
         public int getCount() {
-            return mUrls.length;
+            return photoUrls.length;
         }
 
         public Object getItem(int position) {
-            return position;
+            return null;
         }
 
         public long getItemId(int position) {
-            return position;
+            return 0;
         }
+
+        final int photoWidth = 125;
+        final int photoHeight = 100;
 
         public View getView(int position, View convertView, ViewGroup parent) {
-            ImageView i = new ImageView(mContext);
-            i.setImageURI(mUrls[position]);
-            i.setScaleType(ImageView.ScaleType.FIT_XY);
-            i.setLayoutParams(new Gallery.LayoutParams(260, 210));
-            return i;
+            ImageView image;
+            if (convertView == null) { // if it's not recycled, initialize some attributes
+                image = new ImageView(context);
+                image.setLayoutParams(new GridView.LayoutParams(photoWidth, photoHeight));
+                image.setScaleType(ImageView.ScaleType.CENTER_CROP);
+            } else {
+                image = (ImageView) convertView;
+            }
+
+            image.setImageBitmap(scaleBitmap(position));
+            return image;
         }
 
-        private Context mContext;
+        private Bitmap scaleBitmap(int position) {
+            BitmapFactory.Options options = new BitmapFactory.Options();
+            options.inJustDecodeBounds = true;
+            BitmapFactory.decodeFile(images.listFiles()[position].getAbsolutePath(), options);
+            int width_tmp = options.outWidth, height_tmp = options.outHeight;
+            int scale = 1;
+
+            while (true) {
+                if (width_tmp / 2 < photoWidth || height_tmp / 2 < photoHeight)
+                    break;
+                width_tmp /= 2;
+                height_tmp /= 2;
+                scale *= 2;
+            }
+            BitmapFactory.Options options2 = new BitmapFactory.Options();
+            options2.inSampleSize = scale;
+            return BitmapFactory.decodeFile(images.listFiles()[position].getAbsolutePath(), options2);
+        }
+    }
+
+    public void onHomeClick(View v) {
+        NavigationManager.startDashboardActvity(this);
     }
 }
