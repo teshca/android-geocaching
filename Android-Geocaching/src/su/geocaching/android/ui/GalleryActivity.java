@@ -18,6 +18,7 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.ViewGroup.LayoutParams;
 import android.widget.AdapterView;
 import android.widget.BaseAdapter;
 import android.widget.GridView;
@@ -123,15 +124,15 @@ public class GalleryActivity extends Activity {
             return 0;
         }
 
-        final int thumbnailsPhotoWidth = 125;
-        final int thumbnailsPhotoHeight = 100;
+        final int thumbnailsPhotoSize = 125;
 
         public View getView(int position, View convertView, ViewGroup parent) {
             ImageView image;
             if (convertView == null) { // if it's not recycled, initialize some attributes
                 image = new ImageView(context);
-                image.setLayoutParams(new GridView.LayoutParams(thumbnailsPhotoWidth, thumbnailsPhotoHeight));
+                image.setLayoutParams(new GridView.LayoutParams(LayoutParams.WRAP_CONTENT, LayoutParams.WRAP_CONTENT));
                 image.setScaleType(ImageView.ScaleType.CENTER_CROP);
+                image.setPadding(8, 8, 8, 8);
             } else {
                 image = (ImageView) convertView;
             }
@@ -144,17 +145,7 @@ public class GalleryActivity extends Activity {
             BitmapFactory.Options options = new BitmapFactory.Options();
             options.inJustDecodeBounds = true;
             BitmapFactory.decodeFile(images.listFiles()[position].getAbsolutePath(), options);
-            int width_tmp = options.outWidth, height_tmp = options.outHeight;
-            int scale = 1;
-
-            while (true) {
-                if ((width_tmp / 2 < thumbnailsPhotoWidth) || (height_tmp / 2 < thumbnailsPhotoHeight)) {
-                    break;
-                }
-                width_tmp /= 2;
-                height_tmp /= 2;
-                scale *= 2;
-            }
+            int scale = Math.max(options.outHeight, options.outWidth) / thumbnailsPhotoSize + 1;
             BitmapFactory.Options options2 = new BitmapFactory.Options();
             options2.inSampleSize = scale;
             return BitmapFactory.decodeFile(images.listFiles()[position].getAbsolutePath(), options2);
