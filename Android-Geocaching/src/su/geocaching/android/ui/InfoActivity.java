@@ -90,7 +90,6 @@ public class InfoActivity extends Activity {
         outState.putInt(PAGE_TYPE, pageState.ordinal());
         outState.putString(TEXT_INFO, info);
         outState.putString(TEXT_NOTEBOOK, notebook);
-
         super.onSaveInstanceState(outState);
     }
 

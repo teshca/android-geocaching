@@ -3,6 +3,7 @@ package su.geocaching.android.ui;
 import java.io.File;
 import java.io.FilenameFilter;
 
+import su.geocaching.android.controller.apimanager.DownloadPhotoTask;
 import su.geocaching.android.controller.managers.LogManager;
 import su.geocaching.android.controller.managers.NavigationManager;
 import android.app.Activity;
@@ -75,10 +76,8 @@ public class GalleryActivity extends Activity {
 
     public void deleteCachePhotosFromSDCard() {
         String[] photoNames = images.list();
-        for (String i : photoNames) {
-            int d = i.indexOf(".");
-            String s = i.substring(0, d);
-            String id = String.format("%d%s", cacheId, s);
+        for (String name : photoNames) {
+            String id = String.format(DownloadPhotoTask.PHOTO_ID_TEMPLATE, cacheId, name);
             getContentResolver().delete(MediaStore.Images.Media.EXTERNAL_CONTENT_URI, String.format("%s=%s", MediaStore.Images.Media._ID, id), null);
         }
         images.delete();
