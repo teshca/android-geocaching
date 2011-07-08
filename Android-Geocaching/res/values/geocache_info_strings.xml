@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 <string name="menu_show_web_notebook_cache">Интернет
-		блокнот</string>
+	блокнот</string>
 	<string name="menu_show_web_add_cache">Сохранить</string>
 	<string name="menu_show_web_delete_cache">Удалить</string>
 	<string name="menu_show_web_search_cache">Искать</string>

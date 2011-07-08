@@ -27,8 +27,10 @@ import su.geocaching.android.controller.managers.LogManager;
 import su.geocaching.android.model.GeoCache;
 import su.geocaching.android.ui.InfoActivity;
 import su.geocaching.android.ui.InfoActivity.PageState;
+import su.geocaching.android.ui.R;
 import android.content.Context;
 import android.os.AsyncTask;
+import android.widget.Toast;
 
 import com.google.android.maps.GeoPoint;
 
@@ -143,6 +145,11 @@ public class ApiManager implements IApiManager {
 
     @Override
     public void downloadPhotos(Context context, PageState type, InfoActivity infoActivity, int cacheId) {
+        
+        if (!Controller.getInstance().getConnectionManager().isInternetConnected()) {
+            Toast.makeText(context, context.getString(R.string.no_internet), Toast.LENGTH_LONG).show();
+            return;
+        }
 
         String HtmlWithPhotoLinks = "";
         try {
