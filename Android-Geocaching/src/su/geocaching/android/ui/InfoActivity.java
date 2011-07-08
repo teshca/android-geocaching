@@ -37,6 +37,7 @@ public class InfoActivity extends Activity {
     private Controller controller;
     private WebView webView;
     private CheckBox cbFavoriteCache;
+    private GalleryView galeryView;
     private boolean isCacheStored, isPhotoStored;
     private PageState pageState = PageState.INFO;
 
@@ -73,10 +74,12 @@ public class InfoActivity extends Activity {
 
         webView.getSettings().setJavaScriptEnabled(true);
         webView.getSettings().setBuiltInZoomControls(true);
+
+        galeryView = (GalleryView) findViewById(R.id.galleryView);
     }
 
     protected void onPostCreate(Bundle savedInstanceState) {
-        loadWebView(pageState);
+        loadView(pageState);
         super.onPostCreate(savedInstanceState);
     }
 
@@ -111,13 +114,13 @@ public class InfoActivity extends Activity {
     @Override
     public boolean onPrepareOptionsMenu(Menu menu) {
         isPhotoStored = isPhotoStored(geoCache.getId());
-        if (isPhotoStored) {
-            menu.getItem(2).setTitle(R.string.menu_show_cache_photos);
-            menu.getItem(2).setIcon(R.drawable.ic_menu_gallery);
+        if (pageState == PageState.PHOTO) {
+            menu.getItem(2).setTitle(R.string.menu_delete_photos_cache);
+            menu.getItem(2).setIcon(R.drawable.ic_menu_delete);
 
         } else {
-            menu.getItem(2).setTitle(R.string.menu_download_cache_photos);
-            menu.getItem(2).setIcon(R.drawable.ic_menu_upload);
+            menu.getItem(2).setTitle(R.string.menu_show_cache_photos);
+            menu.getItem(2).setIcon(R.drawable.ic_menu_gallery);
         }
 
         if (pageState == PageState.INFO) {
@@ -144,8 +147,11 @@ public class InfoActivity extends Activity {
 
         switch (item.getItemId()) {
             case R.id.show_web_notebook_cache:
-                togglePageType();
-                loadWebView(pageState);
+                if (pageState == PageState.NOTEBOOK || pageState == PageState.PHOTO) {
+                    loadView(PageState.INFO);
+                } else {
+                    loadView(PageState.NOTEBOOK);
+                }
                 return true;
             case R.id.show_web_add_delete_cache:
                 cbFavoriteCache.performClick();
@@ -157,27 +163,38 @@ public class InfoActivity extends Activity {
                 startActivity(new Intent(this, CacheNotesActivity.class));
                 return true;
             case R.id.show_cache_photos:
-                showPhotos();
+                if (pageState == PageState.PHOTO) {
+                    galeryView.deleteCachePhotosFromSDCard();
+                    loadView(PageState.INFO);
+                } else {
+                    loadView(PageState.PHOTO);
+                }
                 return true;
             default:
                 return super.onOptionsItemSelected(item);
         }
     }
 
-    private void togglePageType() {
-        switch (pageState) {
+    private void setPageType(PageState state) {
+        switch (state) {
             case INFO:
-                pageState = PageState.NOTEBOOK;
-                break;
             case NOTEBOOK:
-                pageState = PageState.INFO;
+            case NO_INTERNET:
+                galeryView.setVisibility(View.GONE);
+                webView.setVisibility(View.VISIBLE);
+                break;
+            case PHOTO:
+                webView.setVisibility(View.GONE);
+                galeryView.setVisibility(View.VISIBLE);
                 break;
         }
+        pageState = state;
     }
 
-    private void loadWebView(PageState pageState) {
+    private void loadView(PageState pageState) {
         LogManager.d(TAG, "loadWebView PageType " + pageState);
 
+        setPageType(pageState);
         switch (pageState) {
             case INFO:
                 if (info == null) {
@@ -191,6 +208,13 @@ public class InfoActivity extends Activity {
                     Controller.getInstance().getApiManager().downloadInfo(this, DownloadInfoState.SHOW_NOTEBOOK, this, geoCache.getId());
                 } else {
                     webView.loadDataWithBaseURL(ApiManager.HTTP_PDA_GEOCACHING_SU, notebook, "text/html", ApiManager.UTF8_ENCODING, null);
+                }
+                break;
+            case PHOTO:
+                if (isPhotoStored) {
+                    galeryView.init(geoCache.getId());
+                } else {
+                    downloadPhotos();
                 }
                 break;
             case NO_INTERNET:
@@ -232,26 +256,34 @@ public class InfoActivity extends Activity {
     }
 
     public void showInfo(String info) {
+        pageState = PageState.INFO;
         this.info = info;
-        loadWebView(PageState.INFO);
+        loadView(pageState);
     }
 
     public void showNotebook(String notebook) {
+        pageState = PageState.NOTEBOOK;
         this.notebook = notebook;
-        loadWebView(PageState.NOTEBOOK);
+        loadView(pageState);
     }
 
-    public void showPhotos() {
+    public void showPhoto() {
+        pageState = PageState.PHOTO;
+        loadView(pageState);
+    }
+
+    private void downloadPhotos() {
         isPhotoStored = isPhotoStored(geoCache.getId());
         if (isPhotoStored) {
-            NavigationManager.startPhotoGalery(this, geoCache.getId());
+            showPhoto();
         } else {
-            Controller.getInstance().getApiManager().downloadPhotos(this, PageState.PHOTO, this, geoCache.getId());
+            Controller.getInstance().getApiManager().downloadPhotos(this, this, geoCache.getId());
         }
     }
 
     public void showErrorMessage() {
-        loadWebView(PageState.NO_INTERNET);
+        pageState = PageState.NO_INTERNET;
+        loadView(pageState);
     }
 
     public void saveNotebook(String notebook) {

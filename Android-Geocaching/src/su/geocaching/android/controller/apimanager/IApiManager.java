@@ -26,5 +26,5 @@ public interface IApiManager {
     
     public void downloadInfo(Context context, DownloadInfoState state, InfoActivity infoActivity, int cacheId);
 
-    public void downloadPhotos(Context context, PageState type, InfoActivity infoActivity, int cacheId);
+    public void downloadPhotos(Context context, InfoActivity infoActivity, int cacheId);
 }

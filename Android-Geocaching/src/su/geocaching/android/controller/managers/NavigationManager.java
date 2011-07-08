@@ -4,7 +4,6 @@ import java.util.List;
 
 import su.geocaching.android.model.GeoCache;
 import su.geocaching.android.ui.DashboardActivity;
-import su.geocaching.android.ui.GalleryActivity;
 import su.geocaching.android.ui.InfoActivity;
 import su.geocaching.android.ui.R;
 import su.geocaching.android.ui.checkpoints.CheckpointDialog;
@@ -77,12 +76,6 @@ public class NavigationManager {
 
     public static void startCheckpointDialog(Context context, int id) {
         Intent intent = new Intent(context, CheckpointDialog.class);
-        intent.putExtra(CACHE_ID, id);
-        context.startActivity(intent);
-    }
-
-    public static void startPhotoGalery(Context context, int id) {
-        Intent intent = new Intent(context, GalleryActivity.class);
         intent.putExtra(CACHE_ID, id);
         context.startActivity(intent);
     }

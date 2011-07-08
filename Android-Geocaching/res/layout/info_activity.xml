@@ -58,4 +58,12 @@
 	<WebView android:id="@+id/info_web_brouse"
 		android:layout_width="fill_parent" android:layout_height="wrap_content">
 	</WebView>
+
+	<su.geocaching.android.ui.GalleryView
+		android:id="@+id/galleryView" android:layout_width="fill_parent"
+		android:layout_height="wrap_content" android:numColumns="auto_fit"
+		android:verticalSpacing="10dip" android:horizontalSpacing="10dip"
+		android:stretchMode="columnWidth" android:gravity="center"
+		android:columnWidth="120dip" android:layout_weight="1"
+		android:visibility="gone" />
 </LinearLayout>
