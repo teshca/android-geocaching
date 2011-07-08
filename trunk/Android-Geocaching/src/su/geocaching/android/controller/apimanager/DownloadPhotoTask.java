@@ -108,6 +108,11 @@ public class DownloadPhotoTask extends AsyncTask<URL, Void, Void> {
         values.put(MediaStore.MediaColumns.DATE_ADDED, System.currentTimeMillis());
         values.put(MediaStore.MediaColumns.MIME_TYPE, "image/jpg");
         Uri uri = context.getContentResolver().insert(android.provider.MediaStore.Images.Media.EXTERNAL_CONTENT_URI, values);
+        
+        if (uri == null){
+            //TODO
+            return;
+        }
 
         OutputStream outputStream = null;
         BufferedInputStream inputStream = null;
