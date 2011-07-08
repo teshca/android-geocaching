@@ -23,7 +23,7 @@ import android.widget.Toast;
 
 public class DownloadPhotoTask extends AsyncTask<URL, Void, Void> {
 
-    public static final String PHOTO_ID_TEMPLATE = "AG%d%s";
+    public static final String PHOTO_ID_TEMPLATE = "%d%s";
     private static final String TAG = DownloadPhotoTask.class.getCanonicalName();
     private static final int neededFreeSdSpace = 1572864; // bytes 1,5mb
 
@@ -99,9 +99,11 @@ public class DownloadPhotoTask extends AsyncTask<URL, Void, Void> {
         sdImageCacheDirectory.mkdirs();
 
         String filename = photoURL.toString().substring(photoURL.toString().lastIndexOf('/') + 1);
-        String id = String.format(PHOTO_ID_TEMPLATE, cacheId, filename);
+        String nameWithoutExtent = filename.substring(0, filename.indexOf("."));
+        String id = String.format(PHOTO_ID_TEMPLATE, cacheId, nameWithoutExtent);
         File outputFile = new File(sdImageCacheDirectory, filename);
         ContentValues values = new ContentValues();
+        values.put(MediaStore.MediaColumns.DATA, outputFile.toString());
         values.put(MediaStore.MediaColumns.DATA, outputFile.toString());
         values.put(MediaStore.MediaColumns.TITLE, filename);
         values.put(MediaStore.MediaColumns._ID, id);
