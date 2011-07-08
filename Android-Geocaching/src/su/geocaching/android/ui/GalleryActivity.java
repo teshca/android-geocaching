@@ -77,7 +77,8 @@ public class GalleryActivity extends Activity {
     public void deleteCachePhotosFromSDCard() {
         String[] photoNames = images.list();
         for (String name : photoNames) {
-            String id = String.format(DownloadPhotoTask.PHOTO_ID_TEMPLATE, cacheId, name);
+            String nameWithoutExtent = name.substring(0, name.indexOf("."));
+            String id = String.format(DownloadPhotoTask.PHOTO_ID_TEMPLATE, cacheId, nameWithoutExtent);
             getContentResolver().delete(MediaStore.Images.Media.EXTERNAL_CONTENT_URI, String.format("%s=%s", MediaStore.Images.Media._ID, id), null);
         }
         images.delete();
