@@ -26,7 +26,6 @@ import su.geocaching.android.controller.apimanager.DownloadInfoTask.DownloadInfo
 import su.geocaching.android.controller.managers.LogManager;
 import su.geocaching.android.model.GeoCache;
 import su.geocaching.android.ui.InfoActivity;
-import su.geocaching.android.ui.InfoActivity.PageState;
 import su.geocaching.android.ui.R;
 import android.content.Context;
 import android.os.AsyncTask;
@@ -144,8 +143,8 @@ public class ApiManager implements IApiManager {
     }
 
     @Override
-    public void downloadPhotos(Context context, PageState type, InfoActivity infoActivity, int cacheId) {
-        
+    public void downloadPhotos(Context context, InfoActivity infoActivity, int cacheId) {
+
         if (!Controller.getInstance().getConnectionManager().isInternetConnected()) {
             Toast.makeText(context, context.getString(R.string.no_internet), Toast.LENGTH_LONG).show();
             return;
@@ -158,6 +157,11 @@ public class ApiManager implements IApiManager {
             LogManager.e(TAG, e.getMessage(), e);
         } catch (ExecutionException e) {
             LogManager.e(TAG, e.getMessage(), e);
+        }
+
+        if (HtmlWithPhotoLinks == null) {
+            Toast.makeText(context, context.getString(R.string.no_internet), Toast.LENGTH_LONG).show();
+            return;
         }
         Pattern linkPattern = Pattern.compile("\\s*(?i)href\\s*=\\s*(\"([^\"]*\")|'[^']*'|([^'\">\\s]+))");
         Matcher pageMatcher = linkPattern.matcher(HtmlWithPhotoLinks);
@@ -177,6 +181,6 @@ public class ApiManager implements IApiManager {
                 LogManager.e(TAG, e.getMessage(), e);
             }
         }
-        new DownloadPhotoTask(context, cacheId).execute(photoUrls.toArray(new URL[photoUrls.size()]));
+        new DownloadPhotoTask(context, infoActivity, cacheId).execute(photoUrls.toArray(new URL[photoUrls.size()]));
     }
 }

@@ -6,20 +6,15 @@ import java.io.FilenameFilter;
 import su.geocaching.android.controller.apimanager.DownloadPhotoTask;
 import su.geocaching.android.controller.managers.LogManager;
 import su.geocaching.android.controller.managers.NavigationManager;
-import android.app.Activity;
 import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.net.Uri;
-import android.os.Bundle;
 import android.os.Environment;
 import android.provider.MediaStore;
-import android.view.Menu;
-import android.view.MenuInflater;
-import android.view.MenuItem;
+import android.util.AttributeSet;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.ViewGroup.LayoutParams;
 import android.widget.AdapterView;
 import android.widget.BaseAdapter;
 import android.widget.GridView;
@@ -28,28 +23,31 @@ import android.widget.ImageView;
 /**
  * @author Anatoliy
  */
-public class GalleryActivity extends Activity {
+public class GalleryView extends GridView {
 
-    private static final String TAG = GalleryActivity.class.getCanonicalName();
+    private static final String TAG = GalleryView.class.getCanonicalName();
     private static final int DEFAULT_ID = -1;
 
     private int cacheId;
     private Uri[] photoUrls;
-    private File images;
     private Context context;
+    private File[] imagelist;
+    private File images;
 
-    public void onCreate(Bundle savedInstanceState) {
-
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.gallery_activity);
-
+    public GalleryView(Context context, AttributeSet attributeSet) {
+        super(context, attributeSet);
         LogManager.e(TAG, "onCreate");
-        context = this;
-        cacheId = getIntent().getIntExtra(NavigationManager.CACHE_ID, DEFAULT_ID);
+
+        this.context = context;
+    }
+
+    public void init(int cahaeId) {
+        this.cacheId = cahaeId;
+
         if (cacheId != DEFAULT_ID) {
             images = new File(Environment.getExternalStorageDirectory(), String.format(context.getString(R.string.cache_directory), cacheId));
 
-            final File[] imagelist = images.listFiles(new FilenameFilter() {
+            imagelist = images.listFiles(new FilenameFilter() {
 
                 @Override
                 public boolean accept(File dir, String name) {
@@ -63,9 +61,8 @@ public class GalleryActivity extends Activity {
                 photoUrls[i] = Uri.parse(imagelist[i].getAbsolutePath());
             }
 
-            GridView photosView = (GridView) findViewById(R.id.gridview);
-            photosView.setAdapter(new ImageAdapter(this));
-            photosView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            setAdapter(new ImageAdapter(context));
+            setOnItemClickListener(new AdapterView.OnItemClickListener() {
 
                 public void onItemClick(AdapterView<?> parent, View v, int position, long id) {
                     NavigationManager.startPictureViewer(context, Uri.fromFile(imagelist[position]));
@@ -75,33 +72,12 @@ public class GalleryActivity extends Activity {
     }
 
     public void deleteCachePhotosFromSDCard() {
-        String[] photoNames = images.list();
-        for (String name : photoNames) {
-            String nameWithoutExtent = name.substring(0, name.indexOf("."));
+        for (File f : imagelist) {
+            String nameWithoutExtent = f.getName().substring(0, f.getName().indexOf("."));
             String id = String.format(DownloadPhotoTask.PHOTO_ID_TEMPLATE, cacheId, nameWithoutExtent);
-            getContentResolver().delete(MediaStore.Images.Media.EXTERNAL_CONTENT_URI, String.format("%s=%s", MediaStore.Images.Media._ID, id), null);
+            context.getContentResolver().delete(MediaStore.Images.Media.EXTERNAL_CONTENT_URI, String.format("%s=%s", MediaStore.Images.Media._ID, id), null);
         }
         images.delete();
-    }
-
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        MenuInflater inflater = getMenuInflater();
-        inflater.inflate(R.menu.gallery_menu, menu);
-        return true;
-    }
-
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-
-        switch (item.getItemId()) {
-            case R.id.menu_delete_photos_cache:
-                deleteCachePhotosFromSDCard();
-                finish();
-                return true;
-            default:
-                return super.onOptionsItemSelected(item);
-        }
     }
 
     public class ImageAdapter extends BaseAdapter {
@@ -133,6 +109,7 @@ public class GalleryActivity extends Activity {
                 image.setLayoutParams(new GridView.LayoutParams(LayoutParams.WRAP_CONTENT, LayoutParams.WRAP_CONTENT));
                 image.setScaleType(ImageView.ScaleType.CENTER_CROP);
                 image.setPadding(8, 8, 8, 8);
+
             } else {
                 image = (ImageView) convertView;
             }
@@ -144,7 +121,7 @@ public class GalleryActivity extends Activity {
         private Bitmap scaleBitmap(int position) {
             BitmapFactory.Options options = new BitmapFactory.Options();
             options.inJustDecodeBounds = true;
-            String path = images.listFiles()[position].getAbsolutePath();
+            String path = imagelist[position].getAbsolutePath();
             BitmapFactory.decodeFile(path, options);
             int scale = Math.max(options.outHeight, options.outWidth) / thumbnailsPhotoSize + 1;
             BitmapFactory.Options options2 = new BitmapFactory.Options();
@@ -153,7 +130,4 @@ public class GalleryActivity extends Activity {
         }
     }
 
-    public void onHomeClick(View v) {
-        NavigationManager.startDashboardActvity(this);
-    }
 }

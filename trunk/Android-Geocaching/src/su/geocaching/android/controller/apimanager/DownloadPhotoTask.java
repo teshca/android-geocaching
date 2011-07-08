@@ -10,6 +10,7 @@ import java.net.URLConnection;
 
 import su.geocaching.android.controller.Controller;
 import su.geocaching.android.controller.managers.LogManager;
+import su.geocaching.android.ui.InfoActivity;
 import su.geocaching.android.ui.R;
 import android.app.ProgressDialog;
 import android.content.ContentValues;
@@ -32,10 +33,12 @@ public class DownloadPhotoTask extends AsyncTask<URL, Void, Void> {
 
     private Context context;
     private ProgressDialog progressDialog;
+    private InfoActivity infoActivity;
 
-    public DownloadPhotoTask(Context context, int cacheId) {
-        this.cacheId = cacheId;
+    public DownloadPhotoTask(Context context, InfoActivity infoActivity, int cacheId) {
         this.context = context;
+        this.infoActivity = infoActivity;
+        this.cacheId = cacheId;
     }
 
     @Override
@@ -110,9 +113,9 @@ public class DownloadPhotoTask extends AsyncTask<URL, Void, Void> {
         values.put(MediaStore.MediaColumns.DATE_ADDED, System.currentTimeMillis());
         values.put(MediaStore.MediaColumns.MIME_TYPE, "image/jpg");
         Uri uri = context.getContentResolver().insert(android.provider.MediaStore.Images.Media.EXTERNAL_CONTENT_URI, values);
-        
-        if (uri == null){
-            //TODO
+
+        if (uri == null) {
+            // TODO
             return;
         }
 
@@ -149,6 +152,7 @@ public class DownloadPhotoTask extends AsyncTask<URL, Void, Void> {
         if (progressDialog != null) {
             progressDialog.dismiss();
         }
+        infoActivity.showPhoto();
         super.onPostExecute(result);
     }
 }
