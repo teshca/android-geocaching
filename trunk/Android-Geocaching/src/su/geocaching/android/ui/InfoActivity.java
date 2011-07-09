@@ -23,6 +23,9 @@ import android.widget.CheckBox;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+/**
+ * @author Nikita Bumakov
+ */
 public class InfoActivity extends Activity {
 
     private static final String TAG = InfoActivity.class.getCanonicalName();
@@ -82,16 +85,17 @@ public class InfoActivity extends Activity {
             @Override
             public void onPageFinished(final WebView view, String url) {
                 super.onPageFinished(view, url);
-                if (scroll == 0) return;
+                if (scroll == 0)
+                    return;
                 view.scrollTo(0, scroll);
-                
+
                 view.postDelayed(new Runnable() {
                     @Override
                     public void run() {
                         view.scrollTo(0, scroll);
                     }
                 }, 800);
-               
+
             }
         });
 
@@ -126,7 +130,7 @@ public class InfoActivity extends Activity {
         info = savedInstanceState.getString(TEXT_INFO);
         notebook = savedInstanceState.getString(TEXT_NOTEBOOK);
         scroll = savedInstanceState.getInt(SCROOLY);
-        webView.setInitialScale((int) (savedInstanceState.getFloat(ZOOM)*100));
+        webView.setInitialScale((int) (savedInstanceState.getFloat(ZOOM) * 100));
         super.onRestoreInstanceState(savedInstanceState);
     }
 
@@ -196,6 +200,9 @@ public class InfoActivity extends Activity {
                     loadView(PageState.PHOTO);
                 }
                 return true;
+            case R.id.refresh:
+                refresh();
+                return true;
             default:
                 return super.onOptionsItemSelected(item);
         }
@@ -210,11 +217,30 @@ public class InfoActivity extends Activity {
                 webView.setVisibility(View.VISIBLE);
                 break;
             case PHOTO:
+                isPhotoStored = isPhotoStored(geoCache.getId());
                 webView.setVisibility(View.GONE);
                 galeryView.setVisibility(View.VISIBLE);
                 break;
         }
         pageState = state;
+    }
+
+    private void refresh() {
+        switch (pageState) {
+            case INFO:
+                info = null;
+                break;
+            case NOTEBOOK:
+                notebook = null;
+                break;
+            case NO_INTERNET:
+                pageState = PageState.INFO;
+                break;
+            case PHOTO:
+                galeryView.deleteCachePhotosFromSDCard();
+                break;
+        }
+        loadView(pageState);
     }
 
     private void loadView(PageState pageState) {

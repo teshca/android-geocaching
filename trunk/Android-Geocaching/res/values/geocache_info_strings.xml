@@ -10,5 +10,6 @@
 	<string name="menu_show_geocache_notes">Показать заметки</string>
 	<string name="menu_show_cache_photos">Фотографии тайника</string>
 	<string name="menu_download_cache_photos">Загрузить фотоальбом</string>
+	<string name="menu_refresh">Обновить</string>
 	
 </resources>

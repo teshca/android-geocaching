@@ -21,7 +21,7 @@ import android.widget.GridView;
 import android.widget.ImageView;
 
 /**
- * @author Anatoliy
+ * @author Nikita Bumakov
  */
 public class GalleryView extends GridView {
 
@@ -54,6 +54,10 @@ public class GalleryView extends GridView {
                     return (name.endsWith(".jpg") || name.endsWith(".png"));
                 }
             });
+            if (imagelist == null) {
+                // TODO
+                return;
+            }
 
             photoUrls = new Uri[imagelist.length];
 
