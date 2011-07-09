@@ -20,7 +20,6 @@ import android.os.AsyncTask;
 import android.os.Environment;
 import android.os.StatFs;
 import android.provider.MediaStore;
-import android.widget.Toast;
 
 /**
  * @author Nikita Bumakov
@@ -53,10 +52,6 @@ public class DownloadPhotoTask extends AsyncTask<URL, Void, Void> {
             progressDialog = new ProgressDialog(context);
             progressDialog.setMessage(context.getString(R.string.download_photo_message));
             progressDialog.show();
-        } else if (externalStorageAvailable) {
-            Toast.makeText(context, context.getString(R.string.impossible_to_save_img), Toast.LENGTH_LONG).show();
-        } else {
-            Toast.makeText(context, context.getString(R.string.insert_sd_card), Toast.LENGTH_LONG).show();
         }
     }
 
@@ -150,12 +145,20 @@ public class DownloadPhotoTask extends AsyncTask<URL, Void, Void> {
     @Override
     protected void onPostExecute(Void result) {
         if (!enoughFreeSpace && externalStorageAvailable && externalStorageWriteable) {
-            Toast.makeText(context, context.getString(R.string.no_free_space), Toast.LENGTH_LONG).show();
+            infoActivity.showErrorMessage(R.string.no_free_space);
         }
+        if (externalStorageAvailable) {
+            infoActivity.showErrorMessage(R.string.impossible_to_save_img);
+        } else {
+            infoActivity.showErrorMessage(R.string.insert_sd_card);
+        }
+
         if (progressDialog != null) {
             progressDialog.dismiss();
         }
-        infoActivity.showPhoto();
+        if (externalStorageAvailable && externalStorageWriteable && enoughFreeSpace) {
+            infoActivity.showPhoto();
+        }
         super.onPostExecute(result);
     }
 }
