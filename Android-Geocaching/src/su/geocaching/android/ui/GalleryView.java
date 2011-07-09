@@ -72,8 +72,8 @@ public class GalleryView extends GridView {
     }
 
     public void deleteCachePhotosFromSDCard() {
-        for (File f : imagelist) {
-            String nameWithoutExtent = f.getName().substring(0, f.getName().indexOf("."));
+        for (String f : images.list()) {
+            String nameWithoutExtent = f.substring(0, f.indexOf("."));
             String id = String.format(DownloadPhotoTask.PHOTO_ID_TEMPLATE, cacheId, nameWithoutExtent);
             context.getContentResolver().delete(MediaStore.Images.Media.EXTERNAL_CONTENT_URI, String.format("%s=%s", MediaStore.Images.Media._ID, id), null);
         }
