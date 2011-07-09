@@ -90,12 +90,9 @@
 		<activity android:name=".EnergySavingPreferenceActivity" />
 		<activity android:name=".InternetAndGpsPreferenceActivity" />
 		<activity android:name=".compass.CompassPreferenceActivity" />
-		<activity android:theme="@android:style/Theme.Light.NoTitleBar"
-			android:name=".searchmap.stepbystep.CreateCheckpointActivity" />
-		<activity android:theme="@android:style/Theme.Light.NoTitleBar"
-			android:name=".searchmap.stepbystep.CheckpointsFolder" />
-		<activity android:name=".searchmap.stepbystep.CheckpointDialog"
-			android:theme="@android:style/Theme.Dialog" />
+		<activity android:theme="@android:style/Theme.Light.NoTitleBar" android:name="su.geocaching.android.ui.checkpoints.CreateCheckpointActivity"/>
+		<activity android:theme="@android:style/Theme.Light.NoTitleBar" android:name="su.geocaching.android.ui.checkpoints.CheckpointsFolder"/>
+		<activity android:theme="@android:style/Theme.Dialog" android:name="su.geocaching.android.ui.checkpoints.CheckpointDialog"/>
 		<activity android:label="@string/app_name"
 			android:theme="@android:style/Theme.Light.NoTitleBar" android:name=".searchmap.SearchMapActivity" />
 
