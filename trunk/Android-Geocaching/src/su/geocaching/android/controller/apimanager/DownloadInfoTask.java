@@ -90,7 +90,7 @@ public class DownloadInfoTask extends AsyncTask<Void, Void, String> {
         StringBuilder html = new StringBuilder();
         char[] buffer = new char[1024];
         BufferedReader in = new BufferedReader(new InputStreamReader(downloadUrl.openStream(), ApiManager.CP1251_ENCODING));
-        
+
         int size;
         while ((size = in.read(buffer)) != -1) {
             html.append(buffer, 0, size);
@@ -119,7 +119,7 @@ public class DownloadInfoTask extends AsyncTask<Void, Void, String> {
                 infoActibity.saveNotebookAndGoToMap(result);
                 break;
             case ERROR:
-                infoActibity.showErrorMessage();
+                infoActibity.showErrorMessage(R.string.info_geocach_not_internet_and_not_in_DB);
                 break;
             default:
                 break;

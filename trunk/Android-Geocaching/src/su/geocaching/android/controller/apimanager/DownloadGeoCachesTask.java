@@ -14,7 +14,7 @@ import java.util.ListIterator;
 
 /**
  * Class downloads List of GeoCaches and adds them to SelectMapActivity
- *
+ * 
  * @author Nikita Bumakov
  */
 public class DownloadGeoCachesTask extends AsyncTask<GeoPoint, Integer, List<GeoCache>> {
@@ -22,7 +22,6 @@ public class DownloadGeoCachesTask extends AsyncTask<GeoPoint, Integer, List<Geo
     private final IApiManager apiManager;
     private final Controller controller;
     private static final int MIN_GROUP_CACHE_NUMBER = 8;
-
 
     public DownloadGeoCachesTask(IApiManager apiManager, SelectMapActivity map) {
         this.apiManager = apiManager;

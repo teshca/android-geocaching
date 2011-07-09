@@ -2,8 +2,6 @@
 <resources>
 	<string name="download_info">Загрузка информации</string>
 	<string name="download_notebook">Загрузка блокнота тайника</string>
-	<string name="are_you_sure">Удалить все контрольные точки.\nВы уверены?
-	</string>
 	<string name="ask_download_notebook_title">Сохранить вместе с блокнотом?</string>
 	<string name="save_notebook_always_title">Сохранять блокнот</string>
 	<string name="save_notebook_always_key">downloadNoteBookAlways</string>
@@ -13,5 +11,9 @@
 	<string name="no_free_space">Недостаточно места на SD карте</string>
 	<string name="impossible_to_save_img">Невозможно сохранить фотографии</string>
 	<string name="insert_sd_card">Вставте SD карту</string>
-	<string name="no_internet">Отсутствует соединение с интернетом. Попробуйте позже</string>
+	<string name="no_internet">Отсутствует соединение с интернетом. Попробуйте
+		позже</string>
+	<string name="no_photo_from_server">Не удалось получить фотографии с сервера.
+		Попробуйте позже</string>
+	<string name="no_photo">Фотографий этого тайника нет</string>
 </resources>

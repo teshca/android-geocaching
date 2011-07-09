@@ -33,7 +33,7 @@ public class InfoActivity extends Activity {
     private static final String PAGE_TYPE = "page type", SCROOLY = "scrollY", ZOOM = "ZOOM", TEXT_INFO = "info", TEXT_NOTEBOOK = "notebook";
 
     public enum PageState {
-        INFO, NOTEBOOK, PHOTO, NO_INTERNET
+        INFO, NOTEBOOK, PHOTO, ERROR
     }
 
     private GeoCache geoCache;
@@ -177,10 +177,10 @@ public class InfoActivity extends Activity {
 
         switch (item.getItemId()) {
             case R.id.show_web_notebook_cache:
-                if (pageState == PageState.NOTEBOOK || pageState == PageState.PHOTO) {
-                    loadView(PageState.INFO);
-                } else {
+                if (pageState == PageState.INFO) {
                     loadView(PageState.NOTEBOOK);
+                } else {
+                    loadView(PageState.INFO);
                 }
                 return true;
             case R.id.show_web_add_delete_cache:
@@ -212,7 +212,7 @@ public class InfoActivity extends Activity {
         switch (state) {
             case INFO:
             case NOTEBOOK:
-            case NO_INTERNET:
+            case ERROR:
                 galeryView.setVisibility(View.GONE);
                 webView.setVisibility(View.VISIBLE);
                 break;
@@ -233,7 +233,7 @@ public class InfoActivity extends Activity {
             case NOTEBOOK:
                 notebook = null;
                 break;
-            case NO_INTERNET:
+            case ERROR:
                 pageState = PageState.INFO;
                 break;
             case PHOTO:
@@ -242,6 +242,8 @@ public class InfoActivity extends Activity {
         }
         loadView(pageState);
     }
+
+    private String errorMessage;
 
     private void loadView(PageState pageState) {
         LogManager.d(TAG, "loadWebView PageType " + pageState);
@@ -271,8 +273,8 @@ public class InfoActivity extends Activity {
                     downloadPhotos();
                 }
                 break;
-            case NO_INTERNET:
-                webView.loadData("<?xml version='1.0' encoding='utf-8'?><center>" + getString(R.string.info_geocach_not_internet_and_not_in_DB) + "</center>", "text/html", ApiManager.UTF8_ENCODING);// TODO
+            case ERROR:
+                webView.loadData("<?xml version='1.0' encoding='utf-8'?><center>" + errorMessage + "</center>", "text/html", ApiManager.UTF8_ENCODING);// TODO
                 break;
         }
     }
@@ -335,8 +337,9 @@ public class InfoActivity extends Activity {
         }
     }
 
-    public void showErrorMessage() {
-        pageState = PageState.NO_INTERNET;
+    public void showErrorMessage(int stringId) {
+        pageState = PageState.ERROR;
+        errorMessage = getString(stringId);
         loadView(pageState);
     }
 

@@ -139,7 +139,6 @@ public class ApiManager implements IApiManager {
         }
         downloadInfoTask = new DownloadInfoTask(context, cacheId, infoActivity, state);
         downloadInfoTask.execute();
-
     }
 
     @Override
@@ -160,7 +159,7 @@ public class ApiManager implements IApiManager {
         }
 
         if (HtmlWithPhotoLinks == null) {
-            Toast.makeText(context, context.getString(R.string.no_internet), Toast.LENGTH_LONG).show();
+            Toast.makeText(context, context.getString(R.string.no_photo_from_server), Toast.LENGTH_LONG).show();
             return;
         }
         Pattern linkPattern = Pattern.compile("\\s*(?i)href\\s*=\\s*(\"([^\"]*\")|'[^']*'|([^'\">\\s]+))");
@@ -181,6 +180,11 @@ public class ApiManager implements IApiManager {
                 LogManager.e(TAG, e.getMessage(), e);
             }
         }
-        new DownloadPhotoTask(context, infoActivity, cacheId).execute(photoUrls.toArray(new URL[photoUrls.size()]));
+
+        if (photoUrls.size() == 0) {
+            infoActivity.showErrorMessage(R.string.no_photo);
+        } else {
+            new DownloadPhotoTask(context, infoActivity, cacheId).execute(photoUrls.toArray(new URL[photoUrls.size()]));
+        }
     }
 }
