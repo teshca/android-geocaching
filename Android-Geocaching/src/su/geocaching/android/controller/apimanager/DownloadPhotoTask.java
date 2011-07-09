@@ -22,6 +22,9 @@ import android.os.StatFs;
 import android.provider.MediaStore;
 import android.widget.Toast;
 
+/**
+ * @author Nikita Bumakov
+ */
 public class DownloadPhotoTask extends AsyncTask<URL, Void, Void> {
 
     public static final String PHOTO_ID_TEMPLATE = "%d%s";

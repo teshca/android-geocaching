@@ -13,6 +13,9 @@ import android.app.ProgressDialog;
 import android.content.Context;
 import android.os.AsyncTask;
 
+/**
+ * @author Nikita Bumakov
+ */
 public class DownloadInfoTask extends AsyncTask<Void, Void, String> {
 
     private static final String TAG = DownloadInfoTask.class.getCanonicalName();
