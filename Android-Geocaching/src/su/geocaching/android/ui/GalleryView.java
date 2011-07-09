@@ -55,7 +55,7 @@ public class GalleryView extends GridView {
                 }
             });
             if (imagelist == null) {
-                // TODO
+                // TODO need some message
                 return;
             }
 
@@ -76,6 +76,11 @@ public class GalleryView extends GridView {
     }
 
     public void deleteCachePhotosFromSDCard() {
+        if (images == null) {
+            // TODO need some message
+            return;
+        }
+
         for (String f : images.list()) {
             String nameWithoutExtent = f.substring(0, f.indexOf("."));
             String id = String.format(DownloadPhotoTask.PHOTO_ID_TEMPLATE, cacheId, nameWithoutExtent);

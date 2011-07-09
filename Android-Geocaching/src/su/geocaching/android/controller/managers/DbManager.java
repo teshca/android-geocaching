@@ -218,8 +218,8 @@ public class DbManager extends SQLiteOpenHelper {
         LogManager.d(TAG, "getCheckpointsArrayById " + id);
         ArrayList<GeoCache> exitCollection = new ArrayList<GeoCache>();
         openReadableDB();
-        Cursor cur = db.rawQuery(String.format("SELECT %s,%s,%s,%s,%s FROM %s WHERE %s=%d", CHECKPOINT_ID, COLUMN_NAME, COLUMN_LAT, COLUMN_LON, COLUMN_STATUS, DATABASE_CHECKPOINT_NAME_TABLE,
-                CACHE_ID, id), null);
+        Cursor cur = db.rawQuery(
+                String.format("SELECT %s,%s,%s,%s,%s FROM %s WHERE %s=%d", CHECKPOINT_ID, COLUMN_NAME, COLUMN_LAT, COLUMN_LON, COLUMN_STATUS, DATABASE_CHECKPOINT_NAME_TABLE, CACHE_ID, id), null);
 
         cur.moveToFirst();
 
