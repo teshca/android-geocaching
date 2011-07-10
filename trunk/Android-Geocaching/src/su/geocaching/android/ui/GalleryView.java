@@ -36,7 +36,7 @@ public class GalleryView extends GridView {
 
     public GalleryView(Context context, AttributeSet attributeSet) {
         super(context, attributeSet);
-        LogManager.e(TAG, "onCreate");
+        LogManager.d(TAG, "onCreate");
 
         this.context = context;
     }
@@ -76,7 +76,7 @@ public class GalleryView extends GridView {
     }
 
     public void deleteCachePhotosFromSDCard() {
-        if (images == null) {
+        if (images == null || images.list() == null) {
             // TODO need some message
             return;
         }
@@ -132,6 +132,8 @@ public class GalleryView extends GridView {
             options.inJustDecodeBounds = true;
             String path = imagelist[position].getAbsolutePath();
             BitmapFactory.decodeFile(path, options);
+            if (options.outHeight == -1)
+                return null;
             int scale = Math.max(options.outHeight, options.outWidth) / thumbnailsPhotoSize + 1;
             BitmapFactory.Options options2 = new BitmapFactory.Options();
             options2.inSampleSize = scale;

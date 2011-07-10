@@ -145,7 +145,7 @@ public class ApiManager implements IApiManager {
     public void downloadPhotos(Context context, InfoActivity infoActivity, int cacheId) {
 
         if (!Controller.getInstance().getConnectionManager().isInternetConnected()) {
-            Toast.makeText(context, context.getString(R.string.no_internet), Toast.LENGTH_LONG).show();
+            infoActivity.showErrorMessage(R.string.no_internet);
             return;
         }
 

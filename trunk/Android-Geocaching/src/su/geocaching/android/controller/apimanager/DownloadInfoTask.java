@@ -75,11 +75,14 @@ public class DownloadInfoTask extends AsyncTask<Void, Void, String> {
         String result = null;
 
         if (Controller.getInstance().getConnectionManager().isInternetConnected()) {
-            try {
-                result = getWebText(cacheId);
-            } catch (IOException e) {
-                LogManager.e(TAG, "IOException getWebText", e);
-            }
+            boolean success = false;
+            for (int attempt = 0; attempt < 5 && !success; attempt++)
+                try {
+                    result = getWebText(cacheId);
+                    success = true;
+                } catch (IOException e) {
+                    LogManager.e(TAG, "IOException getWebText", e);
+                }
         } else {
             state = DownloadInfoState.ERROR;
         }
