@@ -18,7 +18,6 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.SimpleAdapter;
-import android.widget.AdapterView.OnItemSelectedListener;
 
 /**
  * Class for create ListActivity with favorites caches

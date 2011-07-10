@@ -11,6 +11,7 @@ import su.geocaching.android.model.GeoCache;
 import android.app.Activity;
 import android.app.Dialog;
 import android.content.Intent;
+import android.graphics.Picture;
 import android.os.Bundle;
 import android.os.Environment;
 import android.view.Menu;
@@ -18,7 +19,7 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.webkit.WebView;
-import android.webkit.WebViewClient;
+import android.webkit.WebView.PictureListener;
 import android.widget.CheckBox;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -30,9 +31,9 @@ public class InfoActivity extends Activity {
 
     private static final String TAG = InfoActivity.class.getCanonicalName();
     private static final String GEOCACHE_INFO_ACTIVITY_FOLDER = "/GeoCacheInfoActivity";
-    private static final String PAGE_TYPE = "page type", SCROOLY = "scrollY", ZOOM = "ZOOM", TEXT_INFO = "info", TEXT_NOTEBOOK = "notebook";
+    private static final String PAGE_TYPE = "page type", SCROOLY = "scrollY", WIDTH = "width", ZOOM = "ZOOM", TEXT_INFO = "info", TEXT_NOTEBOOK = "notebook";
 
-    public enum PageState {
+    private enum PageState {
         INFO, NOTEBOOK, PHOTO, ERROR
     }
 
@@ -43,8 +44,11 @@ public class InfoActivity extends Activity {
     private CheckBox cbFavoriteCache;
     private GalleryView galeryView;
     private boolean isCacheStored, isPhotoStored;
-    private int scroll = 0;
     private PageState pageState = PageState.INFO;
+
+    private int scroll = 0;
+    private String errorMessage;
+    private int lastWidth;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -80,28 +84,20 @@ public class InfoActivity extends Activity {
         galeryView = (GalleryView) findViewById(R.id.galleryView);
 
         webView = (WebView) findViewById(R.id.info_web_brouse);
-        webView.setWebViewClient(new WebViewClient() {
-
-            @Override
-            public void onPageFinished(final WebView view, String url) {
-                super.onPageFinished(view, url);
-                if (scroll == 0)
-                    return;
-                view.scrollTo(0, scroll);
-
-                view.postDelayed(new Runnable() {
-                    @Override
-                    public void run() {
-                        view.scrollTo(0, scroll);
-                    }
-                }, 800);
-
-            }
-        });
-
         webView.getSettings().setJavaScriptEnabled(true);
         webView.getSettings().setBuiltInZoomControls(true);
+        webView.setPictureListener(new PictureListener() {
 
+            @Override
+            public void onNewPicture(WebView view, Picture picture) {
+                if (scroll != 0) {
+                    int w = view.getWidth();
+                    scroll = scroll * lastWidth / w;
+                    view.scrollTo(0, scroll);
+                    scroll = 0;
+                }
+            }
+        });
     }
 
     protected void onPostCreate(Bundle savedInstanceState) {
@@ -121,6 +117,7 @@ public class InfoActivity extends Activity {
         outState.putString(TEXT_NOTEBOOK, notebook);
         outState.putInt(SCROOLY, webView.getScrollY());
         outState.putFloat(ZOOM, webView.getScale());
+        outState.putInt(WIDTH, webView.getWidth());
         super.onSaveInstanceState(outState);
     }
 
@@ -131,6 +128,7 @@ public class InfoActivity extends Activity {
         notebook = savedInstanceState.getString(TEXT_NOTEBOOK);
         scroll = savedInstanceState.getInt(SCROOLY);
         webView.setInitialScale((int) (savedInstanceState.getFloat(ZOOM) * 100));
+        lastWidth = savedInstanceState.getInt(WIDTH);
         super.onRestoreInstanceState(savedInstanceState);
     }
 
@@ -242,8 +240,6 @@ public class InfoActivity extends Activity {
         }
         loadView(pageState);
     }
-
-    private String errorMessage;
 
     private void loadView(PageState pageState) {
         LogManager.d(TAG, "loadWebView PageType " + pageState);

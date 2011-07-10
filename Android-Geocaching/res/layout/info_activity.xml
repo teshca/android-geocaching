@@ -56,7 +56,8 @@
 		android:background="@color/menu_text_color"></View>
 
 	<WebView android:id="@+id/info_web_brouse"
-		android:layout_width="fill_parent" android:layout_height="wrap_content">
+		android:layout_width="fill_parent" android:layout_height="wrap_content"
+		android:layout_weight="1">
 	</WebView>
 
 	<su.geocaching.android.ui.GalleryView
