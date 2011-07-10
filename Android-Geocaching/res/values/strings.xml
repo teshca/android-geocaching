@@ -8,6 +8,7 @@
 	
 	<string name="yes">Да</string>
 	<string name="no">Нет</string>
+	<string name="save">Сохранить</string>
 
 	<string name="ne_template" formatted="false">%d° %d,%d\' с.ш. | %d° %d,%d\' в.д.</string>
 	<string name="se_template" formatted="false">%d° %d,%d\' ю.ш. | %d°	%d,%d\' в.д.</string>

@@ -3,6 +3,7 @@ package su.geocaching.android.controller.managers;
 import java.util.List;
 
 import su.geocaching.android.model.GeoCache;
+import su.geocaching.android.ui.CacheNotesActivity;
 import su.geocaching.android.ui.DashboardActivity;
 import su.geocaching.android.ui.InfoActivity;
 import su.geocaching.android.ui.R;
@@ -84,6 +85,15 @@ public class NavigationManager {
         Intent intent = new Intent();
         intent.setAction(android.content.Intent.ACTION_VIEW);
         intent.setDataAndType(photouri, "image/*");
+        context.startActivity(intent);
+    }
+
+    /**
+     * Open CacheNotesActivity activity
+     */
+    public static void startNotesActivity(Context context, int id) {
+        Intent intent = new Intent(context, CacheNotesActivity.class);
+        intent.putExtra(CACHE_ID, id);
         context.startActivity(intent);
     }
 
