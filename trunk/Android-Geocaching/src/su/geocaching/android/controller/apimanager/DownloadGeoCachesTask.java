@@ -1,16 +1,17 @@
 package su.geocaching.android.controller.apimanager;
 
-import android.os.AsyncTask;
-import com.google.android.maps.GeoPoint;
+import java.util.EnumSet;
+import java.util.List;
+import java.util.ListIterator;
+
 import su.geocaching.android.controller.Controller;
 import su.geocaching.android.model.GeoCache;
 import su.geocaching.android.model.GeoCacheStatus;
 import su.geocaching.android.model.GeoCacheType;
 import su.geocaching.android.ui.selectmap.SelectMapActivity;
+import android.os.AsyncTask;
 
-import java.util.EnumSet;
-import java.util.List;
-import java.util.ListIterator;
+import com.google.android.maps.GeoPoint;
 
 /**
  * Class downloads List of GeoCaches and adds them to SelectMapActivity
