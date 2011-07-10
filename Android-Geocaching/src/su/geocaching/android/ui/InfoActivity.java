@@ -20,6 +20,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.webkit.WebView;
 import android.webkit.WebView.PictureListener;
+import android.webkit.WebViewClient;
 import android.widget.CheckBox;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -98,6 +99,39 @@ public class InfoActivity extends Activity {
                 }
             }
         });
+        
+        WebViewClient webViewClient = new WebViewClient() {
+            @Override
+            public boolean shouldOverrideUrlLoading(WebView view, String url) {
+                String urlNotebook = String.format(ApiManager.LINK_NOTEBOOK_TEXT, geoCache.getId());
+                String urlInfo = String.format(ApiManager.LINK_INFO_CACHE, geoCache.getId());
+                String urlPhoto = String.format(ApiManager.LINK_PHOTO_PAGE, geoCache.getId());
+                
+                if (urlInfo.contains(url)) {
+                    loadView(PageState.INFO);
+                    return true;
+                }
+                
+                if (urlNotebook.contains(url)) {
+                    loadView(PageState.NOTEBOOK);
+                    return true;
+                }     
+                
+                if (urlPhoto.contains(url)) {
+                    loadView(PageState.PHOTO);
+                    return true;
+                }    
+                return false;
+            };
+
+            @Override
+            public void onLoadResource(WebView view, String url) {
+                shouldOverrideUrlLoading(view, url);
+            }
+        };
+
+        webView.getSettings().setJavaScriptEnabled(true);
+        webView.setWebViewClient(webViewClient);
     }
 
     protected void onPostCreate(Bundle savedInstanceState) {
@@ -143,28 +177,28 @@ public class InfoActivity extends Activity {
     public boolean onPrepareOptionsMenu(Menu menu) {
         isPhotoStored = isPhotoStored(geoCache.getId());
         if (pageState == PageState.PHOTO) {
-            menu.getItem(2).setTitle(R.string.menu_delete_photos_cache);
-            menu.getItem(2).setIcon(R.drawable.ic_menu_delete);
+            menu.getItem(3).setTitle(R.string.menu_delete_photos_cache);
+            menu.getItem(3).setIcon(R.drawable.ic_menu_delete);
 
         } else {
-            menu.getItem(2).setTitle(R.string.menu_show_cache_photos);
-            menu.getItem(2).setIcon(R.drawable.ic_menu_gallery);
+            menu.getItem(3).setTitle(R.string.menu_show_cache_photos);
+            menu.getItem(3).setIcon(R.drawable.ic_menu_gallery);
         }
 
         if (pageState == PageState.INFO) {
-            menu.getItem(0).setTitle(R.string.menu_show_web_notebook_cache);
-            menu.getItem(0).setIcon(R.drawable.ic_menu_notebook);
+            menu.getItem(2).setTitle(R.string.menu_show_web_notebook_cache);
+            menu.getItem(2).setIcon(R.drawable.ic_menu_notebook);
         } else {
-            menu.getItem(0).setTitle(R.string.menu_show_info_cache);
-            menu.getItem(0).setIcon(R.drawable.ic_menu_info_details);
+            menu.getItem(2).setTitle(R.string.menu_show_info_cache);
+            menu.getItem(2).setIcon(R.drawable.ic_menu_info_details);
         }
 
         if (isCacheStored) {
-            menu.getItem(3).setTitle(R.string.menu_show_web_delete_cache);
-            menu.getItem(3).setIcon(R.drawable.ic_menu_off);
+            menu.getItem(4).setTitle(R.string.menu_show_web_delete_cache);
+            menu.getItem(4).setIcon(R.drawable.ic_menu_off);
         } else {
-            menu.getItem(3).setTitle(R.string.menu_show_web_add_cache);
-            menu.getItem(3).setIcon(android.R.drawable.ic_menu_save);
+            menu.getItem(4).setTitle(R.string.menu_show_web_add_cache);
+            menu.getItem(4).setIcon(android.R.drawable.ic_menu_save);
         }
 
         return super.onPrepareOptionsMenu(menu);
