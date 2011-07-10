@@ -79,19 +79,21 @@ public class DownloadPhotoTask extends AsyncTask<URL, Void, Void> {
         if (externalStorageAvailable && externalStorageWriteable && enoughFreeSpace) {
             if (Controller.getInstance().getConnectionManager().isInternetConnected()) {
                 for (URL url : params) {
-                    try {
-                        downloadAndSavePhoto(url);
-                    } catch (IOException e) {
-                        LogManager.e(TAG, e.getMessage(), e);
-                    }
+                    Uri uri = prepareFile(url);
+                    boolean success = false;
+                    for (int attempt = 0; attempt < 5 && !success; attempt++)
+                        try {
+                            success = downloadAndSavePhoto(url, uri, attempt);
+                        } catch (IOException e) {
+                            LogManager.e(TAG, e.getMessage(), e);
+                        }
                 }
             }
         }
         return null;
     }
 
-    private void downloadAndSavePhoto(URL photoURL) throws IOException {
-
+    private Uri prepareFile(URL photoURL) {
         File sdImageMainDirectory = new File(Environment.getExternalStorageDirectory(), context.getString(R.string.main_directory));
         sdImageMainDirectory.mkdirs();
         File sdImagePhotoDirectory = new File(sdImageMainDirectory, context.getString(R.string.photo_directory));
@@ -111,16 +113,20 @@ public class DownloadPhotoTask extends AsyncTask<URL, Void, Void> {
         values.put(MediaStore.MediaColumns.DATE_ADDED, System.currentTimeMillis());
         values.put(MediaStore.MediaColumns.MIME_TYPE, "image/jpg");
         Uri uri = context.getContentResolver().insert(android.provider.MediaStore.Images.Media.EXTERNAL_CONTENT_URI, values);
+        return uri;
+    }
+
+    private boolean downloadAndSavePhoto(URL photoUrl, Uri uri, int attempt) throws IOException {
 
         if (uri == null) {
             // TODO
-            return;
+            return false;
         }
 
         OutputStream outputStream = null;
         BufferedInputStream inputStream = null;
         try {
-            URLConnection conection = photoURL.openConnection();
+            URLConnection conection = photoUrl.openConnection();
             inputStream = new BufferedInputStream(conection.getInputStream(), 1024);
             outputStream = context.getContentResolver().openOutputStream(uri);
             int size;
@@ -128,10 +134,12 @@ public class DownloadPhotoTask extends AsyncTask<URL, Void, Void> {
             while ((size = inputStream.read(buffer)) != -1) {
                 outputStream.write(buffer, 0, size);
             }
+            outputStream.flush();
             outputStream.close();
             inputStream.close();
         } catch (FileNotFoundException e) {
             LogManager.e(TAG, e.getMessage(), e);
+            return false;
         } finally {
             if (outputStream != null) {
                 outputStream.close();
@@ -140,6 +148,7 @@ public class DownloadPhotoTask extends AsyncTask<URL, Void, Void> {
                 inputStream.close();
             }
         }
+        return true;
     }
 
     @Override
