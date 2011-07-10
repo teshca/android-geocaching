@@ -10,7 +10,6 @@ import su.geocaching.android.controller.managers.NavigationManager;
 import su.geocaching.android.model.GeoCache;
 import android.app.Activity;
 import android.app.Dialog;
-import android.content.Intent;
 import android.graphics.Picture;
 import android.os.Bundle;
 import android.os.Environment;
@@ -64,8 +63,8 @@ public class InfoActivity extends Activity {
         isCacheStored = controller.getDbManager().isCacheStored(geoCache.getId());
         if (isCacheStored) {
             cbFavoriteCache.setChecked(true);
-            info = Controller.getInstance().getDbManager().getWebTextById(geoCache.getId());
-            notebook = Controller.getInstance().getDbManager().getWebNotebookTextById(geoCache.getId());
+            info = Controller.getInstance().getDbManager().getCacheInfoById(geoCache.getId());
+            notebook = Controller.getInstance().getDbManager().getCacheNotebookTextById(geoCache.getId());
         }
         controller.getGoogleAnalyticsManager().trackPageView(GEOCACHE_INFO_ACTIVITY_FOLDER);
     }
@@ -196,9 +195,11 @@ public class InfoActivity extends Activity {
         if (isCacheStored) {
             menu.getItem(4).setTitle(R.string.menu_show_web_delete_cache);
             menu.getItem(4).setIcon(R.drawable.ic_menu_off);
+            menu.getItem(5).setEnabled(true);
         } else {
             menu.getItem(4).setTitle(R.string.menu_show_web_add_cache);
             menu.getItem(4).setIcon(android.R.drawable.ic_menu_save);
+            menu.getItem(5).setEnabled(false);
         }
 
         return super.onPrepareOptionsMenu(menu);
@@ -222,7 +223,7 @@ public class InfoActivity extends Activity {
                 goToMap();
                 return true;
             case R.id.show_geocache_notes:
-                startActivity(new Intent(this, CacheNotesActivity.class));
+                NavigationManager.startNotesActivity(this, geoCache.getId());
                 return true;
             case R.id.show_cache_photos:
                 if (pageState == PageState.PHOTO) {

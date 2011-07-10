@@ -10,7 +10,6 @@ import su.geocaching.android.controller.managers.DbManager;
 import su.geocaching.android.controller.managers.NavigationManager;
 import su.geocaching.android.controller.managers.ResourceManager;
 import su.geocaching.android.model.GeoCache;
-
 import android.app.Activity;
 import android.os.Bundle;
 import android.view.View;

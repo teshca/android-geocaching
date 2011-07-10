@@ -213,9 +213,9 @@
 
 			<Button android:text="@string/add_checkpoint" android:id="@+id/EnterButton"
 				android:layout_width="wrap_content" android:layout_height="wrap_content"
-				android:textSize="@dimen/text_size_big"
-				android:onClick="onEnterClick" android:layout_margin="10dip"
-				android:layout_gravity="center_horizontal" android:drawableLeft="@drawable/ic_ok"/>
+				android:textSize="@dimen/text_size_big" android:onClick="onEnterClick"
+				android:layout_margin="10dip" android:layout_gravity="center_horizontal"
+				android:drawableLeft="@drawable/ic_ok" />
 
 		</LinearLayout>
 	</ScrollView>
