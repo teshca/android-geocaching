@@ -75,6 +75,8 @@ public class CreateCheckpointActivity extends Activity {
         updateTextBoxes();
         startWatch();
 
+        Toast.makeText(this, R.string.focus_hint, Toast.LENGTH_SHORT).show();
+
         Controller.getInstance().getGoogleAnalyticsManager().trackPageView(STEP_BY_STEP_TAB_ACTIVITY_FOLDER);
     }
 
@@ -151,7 +153,7 @@ public class CreateCheckpointActivity extends Activity {
         sSexagesimal = CoordinateHelper.coordinateE6ToSecSexagesimal(lng);
         sLngDegrees.setText(Integer.toString((int) sSexagesimal[0]), BufferType.EDITABLE);
         sLngMinutes.setText(Integer.toString((int) sSexagesimal[1]), BufferType.EDITABLE);
-        sLngSeconds.setText(Float.toString(sSexagesimal[2]), BufferType.EDITABLE);    
+        sLngSeconds.setText(Float.toString(sSexagesimal[2]), BufferType.EDITABLE);
     }
 
     private void updateDecimal() {
