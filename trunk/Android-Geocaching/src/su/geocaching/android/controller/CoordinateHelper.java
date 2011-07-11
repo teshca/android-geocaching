@@ -122,7 +122,6 @@ public class CoordinateHelper {
     }
 
     public static int[] coordinateE6ToSexagesimal(double coordinate) {
-
         int[] sexagesimal = new int[3];
         sexagesimal[0] = (int) (coordinate / 1000000);
         coordinate %= 1000000;
