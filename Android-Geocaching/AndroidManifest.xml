@@ -42,14 +42,15 @@
 		</activity>
 
 		<activity android:name=".selectmap.SelectMapActivity"
-			android:theme="@android:style/Theme.Light.NoTitleBar">
+			android:theme="@android:style/Theme.Light.NoTitleBar"
+			  android:configChanges="orientation|keyboardHidden" >
 			<intent-filter>
 				<action android:name="android.intent.action.RUN" />
 				<category android:name="android.intent.category.DEFAULT" />
 			</intent-filter>
 		</activity>
 
-		<activity android:theme="@android:style/Theme.Light.NoTitleBar" android:name="InfoActivity">
+		<activity android:theme="@android:style/Theme.Light.NoTitleBar" android:name="InfoActivity"   android:configChanges="orientation|keyboardHidden" >
 			<intent-filter>
 				<action android:name="android.intent.action.RUN" />
 				<category android:name="android.intent.category.DEFAULT" />
