@@ -3,8 +3,8 @@ package su.geocaching.android.ui.test;
 import android.test.AndroidTestCase;
 import android.util.Log;
 import org.xml.sax.InputSource;
-import su.geocaching.android.controller.apimanager.GeoCacheSaxHandler;
-import su.geocaching.android.model.datatype.GeoCache;
+import su.geocaching.android.controller.apimanager.GeoCachesSaxHandler;
+import su.geocaching.android.model.GeoCache;
 
 import javax.xml.parsers.SAXParser;
 import javax.xml.parsers.SAXParserFactory;
@@ -19,7 +19,7 @@ import java.util.List;
  */
 public class GeoCacheSaxHandlerTest extends AndroidTestCase {
 
-    private GeoCacheSaxHandler handler = null;
+    private GeoCachesSaxHandler handler = null;
     private static final String ENCODING = "windows-1251";
     private InputSource geoCacheXml;
     private SAXParser parser;
@@ -38,7 +38,7 @@ public class GeoCacheSaxHandlerTest extends AndroidTestCase {
             geoCacheXml = new InputSource(new InputStreamReader(connection.getInputStream(), ENCODING));
 
             SAXParserFactory factory = SAXParserFactory.newInstance();
-            handler = new GeoCacheSaxHandler();
+            handler = new GeoCachesSaxHandler();
 
             parser = factory.newSAXParser();
             parser.parse(geoCacheXml, handler);
@@ -55,7 +55,7 @@ public class GeoCacheSaxHandlerTest extends AndroidTestCase {
         actualId = handler.getGeoCaches().get(66).getId();
         assertEquals(expectedid, actualId);
     }
-    
+
     public void testParse2() {
 
         URL url;
@@ -65,7 +65,7 @@ public class GeoCacheSaxHandlerTest extends AndroidTestCase {
             geoCacheXml = new InputSource(new InputStreamReader(connection.getInputStream(), ENCODING));
 
             SAXParserFactory factory = SAXParserFactory.newInstance();
-            handler = new GeoCacheSaxHandler();
+            handler = new GeoCachesSaxHandler();
 
             parser = factory.newSAXParser();
             parser.parse(geoCacheXml, handler);
@@ -74,13 +74,13 @@ public class GeoCacheSaxHandlerTest extends AndroidTestCase {
             e.printStackTrace();
         }
 
-     
+
         List<GeoCache> gcList = handler.getGeoCaches();
         assertEquals(0, gcList.size());
     }
-    
+
     public void testParse3() {
-    	Log.d(CompassHelperTest.LOG_TAG, "testParse3");
+        Log.d(CompassHelperTest.LOG_TAG, "testParse3");
         URL url;
         try {
             url = new URL("http://dl.dropbox.com/u/10802739/parseTest2.xml");
@@ -88,7 +88,7 @@ public class GeoCacheSaxHandlerTest extends AndroidTestCase {
             geoCacheXml = new InputSource(new InputStreamReader(connection.getInputStream(), ENCODING));
 
             SAXParserFactory factory = SAXParserFactory.newInstance();
-            handler = new GeoCacheSaxHandler();
+            handler = new GeoCachesSaxHandler();
 
             parser = factory.newSAXParser();
             parser.parse(geoCacheXml, handler);
@@ -96,9 +96,9 @@ public class GeoCacheSaxHandlerTest extends AndroidTestCase {
             Log.e(CompassHelperTest.LOG_TAG, "error", e);
             e.printStackTrace();
         }
-     
+
         List<GeoCache> gcList = handler.getGeoCaches();
-        Log.d(CompassHelperTest.LOG_TAG, "gcList.size() "+gcList.size());
+        Log.d(CompassHelperTest.LOG_TAG, "gcList.size() " + gcList.size());
         assertEquals(0, gcList.size());
     }
 }
