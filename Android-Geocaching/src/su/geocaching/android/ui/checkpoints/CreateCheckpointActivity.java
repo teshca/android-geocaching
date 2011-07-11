@@ -1,5 +1,7 @@
 package su.geocaching.android.ui.checkpoints;
 
+import java.text.DecimalFormat;
+
 import su.geocaching.android.controller.Controller;
 import su.geocaching.android.controller.CoordinateHelper;
 import su.geocaching.android.controller.compass.CompassHelper;
@@ -130,39 +132,44 @@ public class CreateCheckpointActivity extends Activity {
     private void updateSexagesimal() {
         int lat = currentInputGeoPoint.getLatitudeE6();
         int lng = currentInputGeoPoint.getLongitudeE6();
+        DecimalFormat format = new DecimalFormat("000");
 
         int[] sexagesimal = CoordinateHelper.coordinateE6ToSexagesimal(lat);
         latDegrees.setText(Integer.toString(sexagesimal[0]), BufferType.EDITABLE);
         latMinutes.setText(Integer.toString(sexagesimal[1]), BufferType.EDITABLE);
-        latmMinutes.setText(Integer.toString(sexagesimal[2]), BufferType.EDITABLE);
+        latmMinutes.setText(format.format(sexagesimal[2]), BufferType.EDITABLE);
 
         sexagesimal = CoordinateHelper.coordinateE6ToSexagesimal(lng);
         lngDegrees.setText(Integer.toString(sexagesimal[0]), BufferType.EDITABLE);
         lngMinutes.setText(Integer.toString(sexagesimal[1]), BufferType.EDITABLE);
-        lngmMinutes.setText(Integer.toString(sexagesimal[2]), BufferType.EDITABLE);
+        lngmMinutes.setText(format.format(sexagesimal[2]), BufferType.EDITABLE);
     }
 
     private void updateSexagesimalSeconds() {
         int lat = currentInputGeoPoint.getLatitudeE6();
         int lng = currentInputGeoPoint.getLongitudeE6();
+        DecimalFormat format = new DecimalFormat("00.000");
+
         float[] sSexagesimal = CoordinateHelper.coordinateE6ToSecSexagesimal(lat);
         sLatDegrees.setText(Integer.toString((int) sSexagesimal[0]), BufferType.EDITABLE);
         sLatMinutes.setText(Integer.toString((int) sSexagesimal[1]), BufferType.EDITABLE);
-        sLatSeconds.setText(Float.toString(sSexagesimal[2]), BufferType.EDITABLE);
+        sLatSeconds.setText(format.format(sSexagesimal[2]), BufferType.EDITABLE);
 
         sSexagesimal = CoordinateHelper.coordinateE6ToSecSexagesimal(lng);
         sLngDegrees.setText(Integer.toString((int) sSexagesimal[0]), BufferType.EDITABLE);
         sLngMinutes.setText(Integer.toString((int) sSexagesimal[1]), BufferType.EDITABLE);
-        sLngSeconds.setText(Float.toString(sSexagesimal[2]), BufferType.EDITABLE);
+        sLngSeconds.setText(format.format(sSexagesimal[2]), BufferType.EDITABLE);
     }
 
     private void updateDecimal() {
         int lat = currentInputGeoPoint.getLatitudeE6();
         int lng = currentInputGeoPoint.getLongitudeE6();
+        DecimalFormat format = new DecimalFormat("000000");
+
         dLatDegrees.setText(Integer.toString(lat / 1000000), BufferType.EDITABLE);
         dLngDegrees.setText(Integer.toString(lng / 1000000), BufferType.EDITABLE);
-        latFraction.setText(Integer.toString(lat % 1000000), BufferType.EDITABLE);
-        lngFraction.setText(Integer.toString(lng % 1000000), BufferType.EDITABLE);
+        latFraction.setText(format.format(lat % 1000000), BufferType.EDITABLE);
+        lngFraction.setText(format.format(lng % 1000000), BufferType.EDITABLE);
     }
 
     private void updateAzimuth() {
