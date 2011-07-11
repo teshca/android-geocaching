@@ -122,8 +122,14 @@ public class GalleryView extends GridView {
             } else {
                 image = (ImageView) convertView;
             }
-
-            image.setImageBitmap(scaleBitmap(position));
+            
+            Bitmap scaleBm = scaleBitmap(position);
+            if(scaleBm == null){
+                image.setImageResource(R.drawable.no_photo);
+            }else{
+                image.setImageBitmap(scaleBm);
+            }
+          
             return image;
         }
 
@@ -132,7 +138,7 @@ public class GalleryView extends GridView {
             options.inJustDecodeBounds = true;
             String path = imagelist[position].getAbsolutePath();
             BitmapFactory.decodeFile(path, options);
-            if (options.outHeight == -1)
+            if (options.outHeight == -1 || options.outWidth == -1)
                 return null;
             int scale = Math.max(options.outHeight, options.outWidth) / thumbnailsPhotoSize + 1;
             BitmapFactory.Options options2 = new BitmapFactory.Options();
