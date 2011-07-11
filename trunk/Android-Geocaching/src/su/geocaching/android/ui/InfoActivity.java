@@ -257,6 +257,8 @@ public class InfoActivity extends Activity {
         }
         pageState = state;
     }
+    
+    private boolean refresh = false;
 
     private void refresh() {
         switch (pageState) {
@@ -273,6 +275,7 @@ public class InfoActivity extends Activity {
                 galeryView.deleteCachePhotosFromSDCard();
                 break;
         }
+        refresh = true;
         loadView(pageState);
     }
 
@@ -283,10 +286,12 @@ public class InfoActivity extends Activity {
         switch (pageState) {
             case INFO:
                 if (info == null) {
-                    Controller.getInstance().getApiManager().downloadInfo(this, DownloadInfoState.SHOW_INFO, this, geoCache.getId());
+                    Controller.getInstance().getApiManager().downloadInfo(this, DownloadInfoState.SHOW_INFO, this, geoCache.getId());                    
                 } else {
                     webView.loadDataWithBaseURL(ApiManager.HTTP_PDA_GEOCACHING_SU, info, "text/html", ApiManager.UTF8_ENCODING, null);
-                    // webView.scrollTo(0, scroll);
+                    if(refresh){
+                        saveCache();
+                    }
                 }
                 break;
             case NOTEBOOK:
@@ -294,7 +299,9 @@ public class InfoActivity extends Activity {
                     Controller.getInstance().getApiManager().downloadInfo(this, DownloadInfoState.SHOW_NOTEBOOK, this, geoCache.getId());
                 } else {
                     webView.loadDataWithBaseURL(ApiManager.HTTP_PDA_GEOCACHING_SU, notebook, "text/html", ApiManager.UTF8_ENCODING, null);
-                    // webView.scrollTo(0, scroll);
+                    if(refresh){
+                        saveCache();
+                    }
                 }
                 break;
             case PHOTO:
@@ -307,7 +314,7 @@ public class InfoActivity extends Activity {
             case ERROR:
                 webView.loadData("<?xml version='1.0' encoding='utf-8'?><center>" + errorMessage + "</center>", "text/html", ApiManager.UTF8_ENCODING);// TODO
                 break;
-        }
+        }       
     }
 
     public void onFavoritesStarClick(View v) {
