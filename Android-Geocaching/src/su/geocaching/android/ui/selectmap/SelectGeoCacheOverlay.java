@@ -85,6 +85,10 @@ public class SelectGeoCacheOverlay extends com.google.android.maps.ItemizedOverl
 
     @Override
     public boolean onTouchEvent(MotionEvent event, MapView map) {
+        if (event.getAction() == MotionEvent.ACTION_DOWN) {
+            touchFlag = false;
+        }
+        
         try {
             Method getPointer = MotionEvent.class.getMethod("getPointerCount");
             if (Integer.parseInt(getPointer.invoke(event).toString()) > 1) {
@@ -113,8 +117,6 @@ public class SelectGeoCacheOverlay extends com.google.android.maps.ItemizedOverl
                 map.getController().zoomInFixing(p.x, p.y);
                 map.invalidate();
             }
-        } else {
-            touchFlag = false;
         }
         return true;
     }
