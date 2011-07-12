@@ -126,7 +126,6 @@ public class SelectMapActivity extends MapActivity implements IInternetAware {
         MapInfo lastMapInfo = Controller.getInstance().getPreferencesManager().getLastSelectMapInfo();
         GeoPoint lastCenter = new GeoPoint(lastMapInfo.getCenterX(), lastMapInfo.getCenterY());
         mapController.setCenter(lastCenter);
-        mapController.animateTo(lastCenter);
         mapController.setZoom(lastMapInfo.getZoom());
         map.invalidate();
     }
@@ -183,14 +182,6 @@ public class SelectMapActivity extends MapActivity implements IInternetAware {
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
-            case R.id.revertCenterToLocation:
-                if (currentLocation != null) {
-                    GeoPoint center = CoordinateHelper.locationToGeoPoint(currentLocation);
-                    mapController.animateTo(center);
-                } else {
-                    Toast.makeText(getBaseContext(), R.string.status_null_last_location, Toast.LENGTH_SHORT).show();
-                }
-                return true;
             case R.id.mapSettings:
                 startActivity(new Intent(this, MapPreferenceActivity.class));
                 return true;
@@ -311,6 +302,16 @@ public class SelectMapActivity extends MapActivity implements IInternetAware {
 
     public void onHomeClick(View v) {
         NavigationManager.startDashboardActvity(this);
+    }
+
+    public void onMyLocationClick(View v) {
+        if (currentLocation != null) {
+            GeoPoint center = CoordinateHelper.locationToGeoPoint(currentLocation);
+            mapController.animateTo(center);
+        } else {
+            Toast.makeText(getBaseContext(), R.string.status_null_last_location, Toast.LENGTH_SHORT).show();
+        }
+        map.invalidate();
     }
 
     public MapView getMapView() {

@@ -1,26 +1,19 @@
 package su.geocaching.android.controller.managers;
 
-import android.location.Criteria;
-import android.location.GpsSatellite;
-import android.location.Location;
-import android.location.LocationListener;
-import android.location.GpsStatus;
-import android.location.LocationManager;
-import android.location.LocationProvider;
+import android.location.*;
 import android.os.Bundle;
+import su.geocaching.android.controller.Controller;
+import su.geocaching.android.controller.GpsUpdateFrequency;
+import su.geocaching.android.ui.R;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Timer;
 import java.util.TimerTask;
 
-import su.geocaching.android.controller.Controller;
-import su.geocaching.android.controller.GpsUpdateFrequency;
-import su.geocaching.android.ui.R;
-
 /**
  * Location manager which get updates of location by GPS or GSM/Wi-Fi
- * 
+ *
  * @author Grigory Kalabin. grigory.kalabin@gmail.com
  * @since fall, 2010
  */
@@ -42,11 +35,11 @@ public class UserLocationManager implements LocationListener, GpsStatus.Listener
     private GpsUpdateFrequency updateFrequency;
 
     /**
-     * @param locationManager
-     *            manager which can add or remove updates of location services
+     * @param locationManager manager which can add or remove updates of location services
      */
     public UserLocationManager(LocationManager locationManager) {
         this.locationManager = locationManager;
+        lastLocation = lastKnownLocation();
         updateFrequency = Controller.getInstance().getPreferencesManager().getGpsUpdateFrequency();
         subscribers = new ArrayList<ILocationAware>();
         statusSubscribers = new ArrayList<ILocationAware>();
@@ -57,11 +50,34 @@ public class UserLocationManager implements LocationListener, GpsStatus.Listener
         LogManager.d(TAG, "Init");
     }
 
+    private Location lastKnownLocation() {
+        Location bestResult = null;
+        float bestAccuracy = Float.MAX_VALUE;
+        long bestTime = Long.MIN_VALUE;
+        List<String> matchingProviders = locationManager.getAllProviders();
+        for (String provider : matchingProviders) {
+            Location location = locationManager.getLastKnownLocation(provider);
+            if (location != null) {
+                float accuracy = location.getAccuracy();
+                long time = location.getTime();
+
+                if ((time > 100 && accuracy < bestAccuracy)) {
+                    bestResult = location;
+                    bestAccuracy = accuracy;
+                    bestTime = time;
+                } else if (time < 100 &&
+                        bestAccuracy == Float.MAX_VALUE && time > bestTime) {
+                    bestResult = location;
+                    bestTime = time;
+                }
+            }
+        }
+        return bestResult;
+    }
+
     /**
-     * @param subscriber
-     *            activity which will be listen location updates
-     * @param withStatus
-     *            true if subscriber want to recieve information about gps status
+     * @param subscriber activity which will be listen location updates
+     * @param withStatus true if subscriber want to recieve information about gps status
      */
     public void addSubscriber(ILocationAware subscriber, boolean withStatus) {
         removeUpdatesTask.cancel();
@@ -84,8 +100,7 @@ public class UserLocationManager implements LocationListener, GpsStatus.Listener
     }
 
     /**
-     * @param subscriber
-     *            activity which no need to listen location updates
+     * @param subscriber activity which no need to listen location updates
      * @return true if activity was subscribed on location updates
      */
     public boolean removeSubscriber(ILocationAware subscriber) {
@@ -106,9 +121,8 @@ public class UserLocationManager implements LocationListener, GpsStatus.Listener
 
     /**
      * Remove updates of gps status. Location updates remains
-     * 
-     * @param subscriber
-     *            activity which no need to listen gps status updates
+     *
+     * @param subscriber activity which no need to listen gps status updates
      */
     public void removeStatusListening(ILocationAware subscriber) {
         statusSubscribers.remove(subscriber);
@@ -339,9 +353,8 @@ public class UserLocationManager implements LocationListener, GpsStatus.Listener
 
     /**
      * Refresh frequency of location updates and re-request location updates from current provider
-     * 
-     * @param value
-     *            frequency which need
+     *
+     * @param value frequency which need
      */
     public synchronized void updateFrequency(GpsUpdateFrequency value) {
         if (updateFrequency.equals(value)) {
@@ -359,9 +372,6 @@ public class UserLocationManager implements LocationListener, GpsStatus.Listener
 
     /**
      * Set frequency from preferences of location updates and re-request location updates from current provider
-     * 
-     * @param value
-     *            frequency which need
      */
     public synchronized void updateFrequencyFromPreferences() {
         GpsUpdateFrequency prefsFrequency = Controller.getInstance().getPreferencesManager().getGpsUpdateFrequency();
@@ -380,7 +390,7 @@ public class UserLocationManager implements LocationListener, GpsStatus.Listener
 
     /**
      * Return string like "satellites: 2/5" with info about satellites
-     * 
+     *
      * @return string with localized info about satellites
      */
     public String getSatellitesStatusString() {
@@ -401,15 +411,14 @@ public class UserLocationManager implements LocationListener, GpsStatus.Listener
 
     /**
      * task which remove updates from LocationManager
-     * 
+     *
      * @author Grigory Kalabin. grigory.kalabin@gmail.com
      */
     private class RemoveUpdatesTask extends TimerTask {
         private UserLocationManager parent;
 
         /**
-         * @param parent
-         *            listener which want remove updates
+         * @param parent listener which want remove updates
          */
         public RemoveUpdatesTask(UserLocationManager parent) {
             this.parent = parent;
