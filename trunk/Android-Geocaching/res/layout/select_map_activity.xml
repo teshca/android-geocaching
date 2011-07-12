@@ -1,24 +1,40 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-	android:orientation="vertical" android:layout_width="fill_parent"
-	android:layout_height="fill_parent">
+<RelativeLayout android:id="@+id/MainLayout"
+                xmlns:android="http://schemas.android.com/apk/res/android"
+                android:layout_height="fill_parent"
+                android:layout_width="fill_parent">
 
-	<LinearLayout style="@style/TitleBar" android:id="@+id/waitingLocationFixBar"
-		android:visibility="visible">
-		<ImageView android:src="@drawable/geologo" style="@style/TitleBarLogo"
-			android:id="@+id/title_logo" android:onClick="onHomeClick" />
+    <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+                  android:orientation="vertical" android:layout_width="fill_parent"
+                  android:layout_height="fill_parent">
 
-		<!-- It view need for right align -->
-		<View style="@style/TitleBarSpring" />
+        <LinearLayout style="@style/TitleBar" android:id="@+id/waitingLocationFixBar"
+                      android:visibility="visible">
+            <ImageView android:src="@drawable/geologo" style="@style/TitleBarLogo"
+                       android:id="@+id/title_logo" android:onClick="onHomeClick"/>
 
-		<ImageView android:layout_width="@dimen/header_progress_bar_size"
-			android:layout_height="@dimen/header_progress_bar_size"
-			android:layout_gravity="center_vertical" android:id="@+id/progressCircle"
-			android:layout_marginRight="5dip" />
-	</LinearLayout>
+            <!-- It view need for right align -->
+            <View style="@style/TitleBarSpring"/>
 
-	<com.google.android.maps.MapView
-		xmlns:android="http://schemas.android.com/apk/res/android" android:id="@+id/selectGeocacheMap"
-		android:layout_width="fill_parent" android:layout_height="fill_parent"
-		android:clickable="true" android:apiKey="@string/google_map_api_key" />
-</LinearLayout>
+            <ImageView android:layout_width="@dimen/header_progress_bar_size"
+                       android:layout_height="@dimen/header_progress_bar_size"
+                       android:layout_gravity="center_vertical" android:id="@+id/progressCircle"
+                       android:layout_marginRight="5dip"/>
+        </LinearLayout>
+
+        <com.google.android.maps.MapView
+                xmlns:android="http://schemas.android.com/apk/res/android" android:id="@+id/selectGeocacheMap"
+                android:layout_width="fill_parent" android:layout_height="fill_parent"
+                android:clickable="true" android:apiKey="@string/google_map_api_key"/>
+    </LinearLayout>
+
+
+    <ImageButton android:id="@+id/MyLocationButton"
+                 android:layout_width="wrap_content"
+                 android:layout_height="wrap_content"
+                 android:layout_marginTop="55dip"
+                 android:src="@drawable/ic_menu_mylocation"
+                 android:background="@android:color/transparent"
+                 android:onClick="onMyLocationClick"/>
+
+</RelativeLayout>
