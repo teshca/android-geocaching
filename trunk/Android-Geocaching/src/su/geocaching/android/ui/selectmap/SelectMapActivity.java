@@ -5,6 +5,7 @@ import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.drawable.AnimationDrawable;
+import android.location.Location;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Handler;
@@ -296,9 +297,15 @@ public class SelectMapActivity extends MapActivity implements IInternetAware {
     }
 
     public void onMyLocationClick(View v) {
-        GeoPoint center = CoordinateHelper.locationToGeoPoint(controller.getLocationManager().getLastKnownLocation());
-        mapController.animateTo(center);
-        map.invalidate();
+        Location lastLocation = controller.getLocationManager().getLastKnownLocation();
+        if (lastLocation != null) {
+            GeoPoint center = CoordinateHelper.locationToGeoPoint(lastLocation);
+            mapController.animateTo(center);
+            map.invalidate();
+        } else {
+            Toast.makeText(getBaseContext(), getString(R.string.status_null_last_location), Toast.LENGTH_SHORT).show();
+        }
+
     }
 
     public MapView getMapView() {
