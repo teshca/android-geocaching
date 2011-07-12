@@ -1,5 +1,8 @@
 package su.geocaching.android.ui.searchmap;
 
+import java.lang.reflect.InvocationTargetException;
+import java.lang.reflect.Method;
+
 import su.geocaching.android.controller.managers.NavigationManager;
 import su.geocaching.android.model.GeoCache;
 import su.geocaching.android.ui.geocachemap.GeoCacheOverlayItem;
@@ -21,6 +24,7 @@ public class SearchGeoCacheOverlay extends ItemizedOverlay<OverlayItem> {
     private GeoCacheOverlayItem item;
     private Activity activity;
     private final GestureDetector gestureDetector;
+    private boolean touchFlag = false;
 
     public SearchGeoCacheOverlay(Drawable defaultMarker, Activity context, final MapView map) {
         super(defaultMarker);
@@ -37,6 +41,25 @@ public class SearchGeoCacheOverlay extends ItemizedOverlay<OverlayItem> {
 
     @Override
     public boolean onTouchEvent(MotionEvent event, MapView map) {
+        if (event.getAction() == MotionEvent.ACTION_DOWN) {
+            touchFlag = false;
+        }
+        
+        try {
+            Method getPointer = MotionEvent.class.getMethod("getPointerCount");
+            if (Integer.parseInt(getPointer.invoke(event).toString()) > 1) {
+                // prevent tap on geocache icon on multitouch
+                touchFlag  = true;
+            }
+            /* success, this is a newer device */
+        } catch (NoSuchMethodException e) {
+            /* failure, must be older device */
+        } catch (InvocationTargetException e) {
+            e.printStackTrace();
+        } catch (IllegalAccessException e) {
+            e.printStackTrace();
+        }
+
         return gestureDetector.onTouchEvent(event);
     }
 
@@ -73,8 +96,10 @@ public class SearchGeoCacheOverlay extends ItemizedOverlay<OverlayItem> {
 
     @Override
     public boolean onTap(int index) {
-        GeoCache gc = item.getGeoCache();
-        NavigationManager.startInfoActivity(activity, gc);
+        if (!touchFlag) {
+            GeoCache gc = item.getGeoCache();
+            NavigationManager.startInfoActivity(activity, gc);
+        }
         return true;
     }
 }
