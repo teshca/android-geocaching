@@ -5,7 +5,6 @@ import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.drawable.AnimationDrawable;
-import android.location.Location;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Handler;
@@ -16,7 +15,10 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.Toast;
-import com.google.android.maps.*;
+import com.google.android.maps.GeoPoint;
+import com.google.android.maps.MapActivity;
+import com.google.android.maps.MapController;
+import com.google.android.maps.MapView;
 import su.geocaching.android.controller.Controller;
 import su.geocaching.android.controller.CoordinateHelper;
 import su.geocaching.android.controller.managers.ConnectionManager;
@@ -43,14 +45,13 @@ public class SelectMapActivity extends MapActivity implements IInternetAware {
     private static final String TAG = SelectMapActivity.class.getCanonicalName();
     private static final int MAX_CACHE_NUMBER = 300;
     private static final String SELECT_ACTIVITY_FOLDER = "/SelectActivity";
-    private MyLocationOverlay userOverlay;
+    private Controller controller;
     private MapView map;
     private MapController mapController;
     private SelectGeoCacheOverlay selectGeoCacheOverlay;
     private MapUpdateTimer mapTimer;
     private ConnectionManager connectionManager;
     private Activity context;
-    private Location currentLocation;
     private ImageView progressBarView;
     private AnimationDrawable progressBarAnimation;
     private int countDownloadTask;
@@ -63,6 +64,7 @@ public class SelectMapActivity extends MapActivity implements IInternetAware {
         super.onCreate(savedInstanceState);
         LogManager.d(TAG, "onCreate");
         setContentView(R.layout.select_map_activity);
+        controller = Controller.getInstance();
         map = (MapView) findViewById(R.id.selectGeocacheMap);
         map.getOverlays().clear();
         mapController = map.getController();
@@ -74,26 +76,17 @@ public class SelectMapActivity extends MapActivity implements IInternetAware {
         countDownloadTask = 0;
         handler = new Handler();
 
-        selectGeoCacheOverlay = new SelectGeoCacheOverlay(Controller.getInstance().getResourceManager().getMarker(GeoCacheType.TRADITIONAL, GeoCacheStatus.VALID), this, map);
+        selectGeoCacheOverlay = new SelectGeoCacheOverlay(controller.getResourceManager().getMarker(GeoCacheType.TRADITIONAL, GeoCacheStatus.VALID), this, map);
         map.getOverlays().add(selectGeoCacheOverlay);
 
-        connectionManager = Controller.getInstance().getConnectionManager();
+        connectionManager = controller.getConnectionManager();
 
         context = this;
-        userOverlay = new MyLocationOverlay(this, map) {
-            @Override
-            public void onLocationChanged(Location location) {
-                super.onLocationChanged(location);
-                currentLocation = location;
-            }
-        };
-
         map.setBuiltInZoomControls(true);
-        map.getOverlays().add(userOverlay);
         map.invalidate();
         LogManager.d(TAG, "onCreate Done");
 
-        Controller.getInstance().getGoogleAnalyticsManager().trackPageView(SELECT_ACTIVITY_FOLDER);
+        controller.getGoogleAnalyticsManager().trackPageView(SELECT_ACTIVITY_FOLDER);
     }
 
     private synchronized void updateProgressStart() {
@@ -123,7 +116,7 @@ public class SelectMapActivity extends MapActivity implements IInternetAware {
     }
 
     private void updateMapInfoFromSettings() {
-        MapInfo lastMapInfo = Controller.getInstance().getPreferencesManager().getLastSelectMapInfo();
+        MapInfo lastMapInfo = controller.getPreferencesManager().getLastSelectMapInfo();
         GeoPoint lastCenter = new GeoPoint(lastMapInfo.getCenterX(), lastMapInfo.getCenterY());
         mapController.setCenter(lastCenter);
         mapController.setZoom(lastMapInfo.getZoom());
@@ -131,16 +124,15 @@ public class SelectMapActivity extends MapActivity implements IInternetAware {
     }
 
     private void saveMapInfoToSettings() {
-        Controller.getInstance().getPreferencesManager().setLastSelectMapInfo(new MapInfo(map.getMapCenter().getLatitudeE6(), map.getMapCenter().getLongitudeE6(), map.getZoomLevel()));
+        controller.getPreferencesManager().setLastSelectMapInfo(new MapInfo(map.getMapCenter().getLatitudeE6(), map.getMapCenter().getLongitudeE6(), map.getZoomLevel()));
     }
 
     @Override
     protected void onResume() {
         super.onResume();
         askTurnOnInternet();
-        map.setSatellite(Controller.getInstance().getPreferencesManager().useSatelliteMap());
+        map.setSatellite(controller.getPreferencesManager().useSatelliteMap());
         connectionManager.addSubscriber(this);
-        userOverlay.enableMyLocation();
         selectGeoCacheOverlay.clear();
         map.invalidate();
         updateMapInfoFromSettings();
@@ -154,7 +146,6 @@ public class SelectMapActivity extends MapActivity implements IInternetAware {
 
     @Override
     protected void onPause() {
-        userOverlay.disableMyLocation();
         mapTimer.cancel();
         connectionManager.removeSubscriber(this);
         saveMapInfoToSettings();
@@ -196,7 +187,7 @@ public class SelectMapActivity extends MapActivity implements IInternetAware {
         LogManager.d(TAG, "updateCacheOverlay; count = " + countDownloadTask);
         GeoPoint upperLeftCorner = map.getProjection().fromPixels(0, 0);
         GeoPoint lowerRightCorner = map.getProjection().fromPixels(map.getWidth(), map.getHeight());
-        Controller.getInstance().updateSelectedGeoCaches(this, upperLeftCorner, lowerRightCorner);
+        controller.updateSelectedGeoCaches(this, upperLeftCorner, lowerRightCorner);
         updateProgressStart();
     }
 
@@ -305,12 +296,8 @@ public class SelectMapActivity extends MapActivity implements IInternetAware {
     }
 
     public void onMyLocationClick(View v) {
-        if (currentLocation != null) {
-            GeoPoint center = CoordinateHelper.locationToGeoPoint(currentLocation);
-            mapController.animateTo(center);
-        } else {
-            Toast.makeText(getBaseContext(), R.string.status_null_last_location, Toast.LENGTH_SHORT).show();
-        }
+        GeoPoint center = CoordinateHelper.locationToGeoPoint(controller.getLocationManager().getLastKnownLocation());
+        mapController.animateTo(center);
         map.invalidate();
     }
 
