@@ -1,7 +1,16 @@
 package su.geocaching.android.ui.checkpoints;
 
-import java.text.DecimalFormat;
-
+import android.app.Activity;
+import android.os.Bundle;
+import android.text.Editable;
+import android.text.TextWatcher;
+import android.view.View;
+import android.widget.EditText;
+import android.widget.LinearLayout;
+import android.widget.TextView;
+import android.widget.TextView.BufferType;
+import android.widget.Toast;
+import com.google.android.maps.GeoPoint;
 import su.geocaching.android.controller.Controller;
 import su.geocaching.android.controller.CoordinateHelper;
 import su.geocaching.android.controller.compass.CompassHelper;
@@ -11,20 +20,8 @@ import su.geocaching.android.controller.managers.NavigationManager;
 import su.geocaching.android.controller.managers.UserLocationManager;
 import su.geocaching.android.model.GeoCache;
 import su.geocaching.android.ui.R;
-import android.app.Activity;
-import android.os.Bundle;
-import android.text.Editable;
-import android.text.TextWatcher;
-import android.text.method.KeyListener;
-import android.view.KeyEvent;
-import android.view.View;
-import android.widget.EditText;
-import android.widget.LinearLayout;
-import android.widget.TextView;
-import android.widget.TextView.BufferType;
-import android.widget.Toast;
 
-import com.google.android.maps.GeoPoint;
+import java.text.DecimalFormat;
 
 /**
  * Coordinate converter for waypoints
@@ -79,8 +76,6 @@ public class CreateCheckpointActivity extends Activity {
         updateTextBoxes();
         startWatch();
 
-        Toast.makeText(this, R.string.focus_hint, Toast.LENGTH_SHORT).show();
-
         Controller.getInstance().getGoogleAnalyticsManager().trackPageView(STEP_BY_STEP_TAB_ACTIVITY_FOLDER);
     }
 
@@ -107,27 +102,6 @@ public class CreateCheckpointActivity extends Activity {
         TextView info = (TextView) findViewById(R.id.tvAzimuthInputInfo);
         etAzimuth = (EditText) findViewById(R.id.azimuth);
         etDistance = (EditText) findViewById(R.id.distance);
-
-        EnterListener enterListener = new EnterListener();
-
-        latDegrees.setKeyListener(enterListener);
-        latMinutes.setKeyListener(enterListener);
-        latmMinutes.setKeyListener(enterListener);
-        lngDegrees.setKeyListener(enterListener);
-        lngMinutes.setKeyListener(enterListener);
-        lngmMinutes.setKeyListener(enterListener);
-
-        sLatDegrees.setKeyListener(enterListener);
-        sLatMinutes.setKeyListener(enterListener);
-        sLatSeconds.setKeyListener(enterListener);
-        sLngDegrees.setKeyListener(enterListener);
-        sLngMinutes.setKeyListener(enterListener);
-        sLngSeconds.setKeyListener(enterListener);
-
-        dLatDegrees.setKeyListener(enterListener);
-        latFraction.setKeyListener(enterListener);
-        dLngDegrees.setKeyListener(enterListener);
-        lngFraction.setKeyListener(enterListener);
 
         etAzimuth = (EditText) findViewById(R.id.azimuth);
         etDistance = (EditText) findViewById(R.id.distance);
@@ -389,42 +363,5 @@ public class CreateCheckpointActivity extends Activity {
         @Override
         public void onTextChanged(CharSequence s, int start, int before, int count) {
         }
-    }
-
-    class EnterListener implements KeyListener {
-
-        @Override
-        public void clearMetaKeyState(View arg0, Editable arg1, int arg2) {
-            // TODO Auto-generated method stub
-
-        }
-
-        @Override
-        public int getInputType() {
-            // TODO Auto-generated method stub
-            return 0;
-        }
-
-        @Override
-        public boolean onKeyDown(View view, Editable arg1, int keyCode, KeyEvent arg3) {
-            if (keyCode == KeyEvent.KEYCODE_ENTER) {
-                view.clearFocus();
-                view.focusSearch(View.FOCUS_DOWN).requestFocus();
-            }
-            return false;
-        }
-
-        @Override
-        public boolean onKeyOther(View arg0, Editable arg1, KeyEvent arg2) {
-            // TODO Auto-generated method stub
-            return false;
-        }
-
-        @Override
-        public boolean onKeyUp(View arg0, Editable arg1, int arg2, KeyEvent arg3) {
-            // TODO Auto-generated method stub
-            return false;
-        }
-
     }
 }
