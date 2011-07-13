@@ -12,10 +12,4 @@ public interface IInternetAware {
      * Called when internet has been lost
      */
     public void onInternetLost();
-
-    /**
-     * Called when internet has been appeared
-     */
-    public void onInternetFound();
-
 }

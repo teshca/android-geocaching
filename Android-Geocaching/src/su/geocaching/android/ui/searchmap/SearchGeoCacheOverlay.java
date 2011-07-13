@@ -24,7 +24,7 @@ public class SearchGeoCacheOverlay extends ItemizedOverlay<OverlayItem> {
     private GeoCacheOverlayItem item;
     private Activity activity;
     private final GestureDetector gestureDetector;
-    private boolean touchFlag = false;
+    private boolean multiTouchFlag = false;
 
     public SearchGeoCacheOverlay(Drawable defaultMarker, Activity context, final MapView map) {
         super(defaultMarker);
@@ -42,14 +42,14 @@ public class SearchGeoCacheOverlay extends ItemizedOverlay<OverlayItem> {
     @Override
     public boolean onTouchEvent(MotionEvent event, MapView map) {
         if (event.getAction() == MotionEvent.ACTION_DOWN) {
-            touchFlag = false;
+            multiTouchFlag = false;
         }
         
         try {
             Method getPointer = MotionEvent.class.getMethod("getPointerCount");
             if (Integer.parseInt(getPointer.invoke(event).toString()) > 1) {
                 // prevent tap on geocache icon on multitouch
-                touchFlag  = true;
+                multiTouchFlag  = true;
             }
             /* success, this is a newer device */
         } catch (NoSuchMethodException e) {
@@ -96,7 +96,7 @@ public class SearchGeoCacheOverlay extends ItemizedOverlay<OverlayItem> {
 
     @Override
     public boolean onTap(int index) {
-        if (!touchFlag) {
+        if (!multiTouchFlag) {
             GeoCache gc = item.getGeoCache();
             NavigationManager.startInfoActivity(activity, gc);
         }

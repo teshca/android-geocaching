@@ -244,10 +244,6 @@ public class SelectMapActivity extends MapActivity implements IInternetAware {
         Toast.makeText(this, getString(R.string.search_geocache_internet_lost), Toast.LENGTH_LONG).show();
     }
 
-    @Override
-    public void onInternetFound() {
-    }
-
     /**
      * Ask user turn on Internet, if this disabled
      */
