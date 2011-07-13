@@ -94,7 +94,7 @@ public class CheckpointsFolder extends AbstractGeoCacheFolderActivity implements
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
             case R.id.addCheckpointMenu:
-                NavigationManager.startStepByStep(this, Controller.getInstance().getPreferencesManager().getLastSearchedGeoCache());
+                NavigationManager.startCreateCheckpointActivity(this, Controller.getInstance().getPreferencesManager().getLastSearchedGeoCache());
                 break;
             case R.id.removeAllCheckpointMenu:
                 removeAlert.show();

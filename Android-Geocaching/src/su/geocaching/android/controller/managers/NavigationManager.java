@@ -63,7 +63,7 @@ public class NavigationManager {
         context.startActivity(intent);
     }
 
-    public static void startStepByStep(Context context, GeoCache geoCache) {
+    public static void startCreateCheckpointActivity(Context context, GeoCache geoCache) {
         Intent intent = new Intent(context, CreateCheckpointActivity.class);
         intent.putExtra(GeoCache.class.getCanonicalName(), geoCache);
         context.startActivity(intent);
