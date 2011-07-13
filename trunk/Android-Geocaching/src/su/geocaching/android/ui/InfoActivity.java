@@ -42,7 +42,7 @@ public class InfoActivity extends Activity {
     private Controller controller;
     private WebView webView;
     private CheckBox cbFavoriteCache;
-    private GalleryView galeryView;
+    private GalleryView galleryView;
     private boolean isCacheStored, isPhotoStored;
     private PageState pageState = PageState.INFO;
 
@@ -81,7 +81,7 @@ public class InfoActivity extends Activity {
         image.setImageDrawable(controller.getResourceManager(this).getMarker(geoCache.getType(), geoCache.getStatus()));
 
         cbFavoriteCache = (CheckBox) findViewById(R.id.info_geocache_add_del);
-        galeryView = (GalleryView) findViewById(R.id.galleryView);
+        galleryView = (GalleryView) findViewById(R.id.galleryView);
 
         webView = (WebView) findViewById(R.id.info_web_brouse);
         webView.getSettings().setJavaScriptEnabled(true);
@@ -227,7 +227,7 @@ public class InfoActivity extends Activity {
                 return true;
             case R.id.show_cache_photos:
                 if (pageState == PageState.PHOTO) {
-                    galeryView.deleteCachePhotosFromSDCard();
+                    galleryView.deleteCachePhotosFromSDCard();
                     loadView(PageState.INFO);
                 } else {
                     loadView(PageState.PHOTO);
@@ -246,13 +246,13 @@ public class InfoActivity extends Activity {
             case INFO:
             case NOTEBOOK:
             case ERROR:
-                galeryView.setVisibility(View.GONE);
+                galleryView.setVisibility(View.GONE);
                 webView.setVisibility(View.VISIBLE);
                 break;
             case PHOTO:
                 isPhotoStored = isPhotoStored(geoCache.getId());
                 webView.setVisibility(View.GONE);
-                galeryView.setVisibility(View.VISIBLE);
+                galleryView.setVisibility(View.VISIBLE);
                 break;
         }
         pageState = state;
@@ -272,7 +272,7 @@ public class InfoActivity extends Activity {
                 pageState = PageState.INFO;
                 break;
             case PHOTO:
-                galeryView.deleteCachePhotosFromSDCard();
+                galleryView.deleteCachePhotosFromSDCard();
                 break;
         }
         refresh = true;
@@ -306,7 +306,7 @@ public class InfoActivity extends Activity {
                 break;
             case PHOTO:
                 if (isPhotoStored) {
-                    galeryView.init(geoCache.getId());
+                    galleryView.init(geoCache.getId());
                 } else {
                     downloadPhotos();
                 }

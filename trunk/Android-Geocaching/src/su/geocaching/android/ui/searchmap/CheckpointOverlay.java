@@ -41,7 +41,7 @@ public class CheckpointOverlay extends ItemizedOverlay<OverlayItem> {
                 gc.setType(GeoCacheType.CHECKPOINT);
                 gc.setId(Controller.getInstance().getPreferencesManager().getLastSearchedGeoCache().getId());
                 gc.setLocationGeoPoint(map.getProjection().fromPixels((int) e.getX(), (int) e.getY()));
-                NavigationManager.startStepByStep(activity, gc);
+                NavigationManager.startCreateCheckpointActivity(activity, gc);
             }
         });
 
