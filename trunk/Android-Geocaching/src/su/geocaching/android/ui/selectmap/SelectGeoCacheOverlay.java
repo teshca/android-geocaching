@@ -26,7 +26,7 @@ public class SelectGeoCacheOverlay extends com.google.android.maps.ItemizedOverl
     private final List<GeoCacheOverlayItem> items;
     private final Context context;
     private final MapView map;
-    private boolean touchFlag;
+    private boolean multiTouchFlag = false;
     private final GestureDetector gestureDetector;
 
     public SelectGeoCacheOverlay(Drawable defaultMarker, Context context, final MapView map) {
@@ -36,7 +36,6 @@ public class SelectGeoCacheOverlay extends com.google.android.maps.ItemizedOverl
         this.map = map;
         populate();
 
-        touchFlag = false;
         gestureDetector = new GestureDetector(context, new GestureDetector.SimpleOnGestureListener() {
             public boolean onDoubleTap(MotionEvent e) {
                 map.getController().zoomInFixing((int) e.getX(), (int) e.getY());
@@ -86,13 +85,13 @@ public class SelectGeoCacheOverlay extends com.google.android.maps.ItemizedOverl
     @Override
     public boolean onTouchEvent(MotionEvent event, MapView map) {
         if (event.getAction() == MotionEvent.ACTION_DOWN) {
-            touchFlag = false;
+            multiTouchFlag = false;
         }
         
         try {
             Method getPointer = MotionEvent.class.getMethod("getPointerCount");
             if (Integer.parseInt(getPointer.invoke(event).toString()) > 1) {
-                touchFlag = true;
+                multiTouchFlag = true;
             }
             /* success, this is a newer device */
         } catch (NoSuchMethodException e) {
@@ -108,7 +107,7 @@ public class SelectGeoCacheOverlay extends com.google.android.maps.ItemizedOverl
 
     @Override
     public boolean onTap(int index) {
-        if (!touchFlag) {
+        if (!multiTouchFlag) {
             GeoCacheOverlayItem gcItem = items.get(index);
             if (!gcItem.getTitle().equals("Group")) {
                 NavigationManager.startInfoActivity(context, gcItem.getGeoCache());

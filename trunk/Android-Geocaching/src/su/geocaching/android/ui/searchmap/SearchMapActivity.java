@@ -454,15 +454,6 @@ public class SearchMapActivity extends MapActivity implements IInternetAware, IL
         internetLostToast.show();
     }
 
-    /*
-     * (non-Javadoc)
-     * 
-     * @see su.geocaching.android.ui.geocachemap.IInternetAware#onInternetFound()
-     */
-    @Override
-    public void onInternetFound() {
-    }
-
     /**
      * Show progressbar and send message when location updates from provider unavailable
      */

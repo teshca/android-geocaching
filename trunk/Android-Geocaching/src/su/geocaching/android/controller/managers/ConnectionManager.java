@@ -23,11 +23,13 @@ public class ConnectionManager {
     private static final int SEND_MESSAGE_MIN_INTERVAL = 1000; // sending message rarely than this interval in milliseconds
 
     private List<IInternetAware> subscribers;
-    private ConnectivityManager connectivityManager;
     private ConnectionStateReceiver receiver;
     private IntentFilter intentFilter;
     private Context context;
     private long lastMessageTime;
+    private PingManager pingManager;
+
+    private ConnectivityManager connectivityManager;
 
     /**
      * @param context
@@ -41,6 +43,7 @@ public class ConnectionManager {
         receiver = new ConnectionStateReceiver();
         intentFilter = new IntentFilter();
         intentFilter.addAction("android.net.conn.CONNECTIVITY_CHANGE");
+        pingManager = new PingManager();
         LogManager.d(TAG, "Init");
     }
 
@@ -79,24 +82,10 @@ public class ConnectionManager {
     }
 
     /**
-     * Send messages to all activities when internet has been found
-     */
-    public void onInternetFound() {
-        if (Calendar.getInstance().getTimeInMillis() - lastMessageTime < SEND_MESSAGE_MIN_INTERVAL) {
-            LogManager.d(TAG, "get very often message about connection. Message haven't send");
-            return;
-        }
-        lastMessageTime = Calendar.getInstance().getTimeInMillis();
-        LogManager.d(TAG, "internet found. Send msg to " + Integer.toString(subscribers.size()) + " subscribers");
-        for (IInternetAware subscriber : subscribers) {
-            subscriber.onInternetFound();
-        }
-    }
-
-    /**
      * Send messages to all activities when internet has been lost
      */
     public void onInternetLost() {
+        pingManager.stop();
         if (Calendar.getInstance().getTimeInMillis() - lastMessageTime < SEND_MESSAGE_MIN_INTERVAL) {
             LogManager.d(TAG, "get very often message about connection. Message haven't send");
             return;
@@ -109,11 +98,22 @@ public class ConnectionManager {
     }
 
     /**
+     * starts ping manager
+     */
+    public void onInternetFound() {
+        pingManager.start();
+    }
+
+    /**
      * @return true if internet connected
      */
     public boolean isInternetConnected() {
         NetworkInfo activeNetInfo = connectivityManager.getActiveNetworkInfo();
-        return activeNetInfo != null && activeNetInfo.isConnected();
+        boolean isConnected = activeNetInfo != null && activeNetInfo.isConnected();
+        if (!isConnected) {
+            return false;
+        }
+        return pingManager.isInternetConnected();
     }
 
     /**
