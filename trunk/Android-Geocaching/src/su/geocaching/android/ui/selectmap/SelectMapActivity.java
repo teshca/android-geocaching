@@ -16,16 +16,10 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.Toast;
-import com.google.android.maps.GeoPoint;
-import com.google.android.maps.MapActivity;
-import com.google.android.maps.MapController;
-import com.google.android.maps.MapView;
+import com.google.android.maps.*;
 import su.geocaching.android.controller.Controller;
 import su.geocaching.android.controller.CoordinateHelper;
-import su.geocaching.android.controller.managers.ConnectionManager;
-import su.geocaching.android.controller.managers.IInternetAware;
-import su.geocaching.android.controller.managers.LogManager;
-import su.geocaching.android.controller.managers.NavigationManager;
+import su.geocaching.android.controller.managers.*;
 import su.geocaching.android.controller.selectmap.geocachegroup.GroupGeoCacheTask;
 import su.geocaching.android.controller.selectmap.mapupdatetimer.MapUpdateTimer;
 import su.geocaching.android.model.GeoCache;
@@ -42,7 +36,7 @@ import java.util.List;
  * @author Yuri Denison
  * @since 04.11.2010
  */
-public class SelectMapActivity extends MapActivity implements IInternetAware {
+public class SelectMapActivity extends MapActivity implements IInternetAware, ILocationAware {
     private static final String TAG = SelectMapActivity.class.getCanonicalName();
     private static final int MAX_CACHE_NUMBER = 300;
     private static final String SELECT_ACTIVITY_FOLDER = "/SelectActivity";
@@ -50,6 +44,8 @@ public class SelectMapActivity extends MapActivity implements IInternetAware {
     private MapView map;
     private MapController mapController;
     private SelectGeoCacheOverlay selectGeoCacheOverlay;
+    private SimpleUserLocationOverlay locationOverlay;
+    private UserLocationManager locationManager;
     private MapUpdateTimer mapTimer;
     private ConnectionManager connectionManager;
     private Activity context;
@@ -77,9 +73,12 @@ public class SelectMapActivity extends MapActivity implements IInternetAware {
         countDownloadTask = 0;
         handler = new Handler();
 
+        locationOverlay = new SimpleUserLocationOverlay(controller.getResourceManager().getDrawable(R.drawable.ic_my_location));
         selectGeoCacheOverlay = new SelectGeoCacheOverlay(controller.getResourceManager().getMarker(GeoCacheType.TRADITIONAL, GeoCacheStatus.VALID), this, map);
         map.getOverlays().add(selectGeoCacheOverlay);
+        map.getOverlays().add(locationOverlay);
 
+        locationManager = controller.getLocationManager();
         connectionManager = controller.getConnectionManager();
 
         context = this;
@@ -134,20 +133,21 @@ public class SelectMapActivity extends MapActivity implements IInternetAware {
         askTurnOnInternet();
         map.setSatellite(controller.getPreferencesManager().useSatelliteMap());
         connectionManager.addSubscriber(this);
-        selectGeoCacheOverlay.clear();
-        map.invalidate();
+        locationManager.addSubscriber(this, false);
         updateMapInfoFromSettings();
         mapTimer = new MapUpdateTimer(this);
 
         selectGeoCacheOverlay.clear();
         updateCacheOverlay();
 
+        updateLocationOverlay(locationManager.getLastKnownLocation());
         map.invalidate();
     }
 
     @Override
     protected void onPause() {
         mapTimer.cancel();
+        locationManager.removeSubscriber(this);
         connectionManager.removeSubscriber(this);
         saveMapInfoToSettings();
         super.onPause();
@@ -182,8 +182,17 @@ public class SelectMapActivity extends MapActivity implements IInternetAware {
         }
     }
 
-    /* Handles item selections */
 
+    private void updateLocationOverlay(Location location) {
+        LogManager.d(TAG, "updateLocationOverlay");
+        if (location != null) {
+            locationOverlay.clear();
+            locationOverlay.addOverlayItem(new OverlayItem(CoordinateHelper.locationToGeoPoint(location), "", ""));
+            map.invalidate();
+        }
+    }
+
+    /* Handles item selections */
     public void updateCacheOverlay() {
         LogManager.d(TAG, "updateCacheOverlay; count = " + countDownloadTask);
         GeoPoint upperLeftCorner = map.getProjection().fromPixels(0, 0);
@@ -293,7 +302,7 @@ public class SelectMapActivity extends MapActivity implements IInternetAware {
     }
 
     public void onMyLocationClick(View v) {
-        Location lastLocation = controller.getLocationManager().getLastKnownLocation();
+        Location lastLocation = locationManager.getLastKnownLocation();
         if (lastLocation != null) {
             GeoPoint center = CoordinateHelper.locationToGeoPoint(lastLocation);
             mapController.animateTo(center);
@@ -306,5 +315,22 @@ public class SelectMapActivity extends MapActivity implements IInternetAware {
 
     public MapView getMapView() {
         return map;
+    }
+
+    @Override
+    public void updateLocation(Location location) {
+        updateLocationOverlay(location);
+    }
+
+    @Override
+    public void onStatusChanged(String provider, int status, Bundle extras) {
+    }
+
+    @Override
+    public void onProviderEnabled(String provider) {
+    }
+
+    @Override
+    public void onProviderDisabled(String provider) {
     }
 }
