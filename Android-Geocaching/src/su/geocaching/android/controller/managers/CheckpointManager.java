@@ -15,6 +15,7 @@ import com.google.android.maps.GeoPoint;
 public class CheckpointManager {
 
     private List<GeoCache> checkpoints;
+   // private List<GeoCache> infoCheckpoints;
     private GeoPoint lastInputGP;
     private int checkpointNumber = 0;
     private int cacheId;

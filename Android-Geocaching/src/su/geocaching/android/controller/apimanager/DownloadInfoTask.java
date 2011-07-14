@@ -5,14 +5,22 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.net.URL;
 import java.util.ArrayList;
+import java.util.LinkedList;
 import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+import android.location.LocationManager;
 import android.util.Log;
+import com.google.android.maps.GeoPoint;
 import su.geocaching.android.controller.Controller;
+import su.geocaching.android.controller.CoordinateHelper;
 import su.geocaching.android.controller.managers.LogManager;
+import su.geocaching.android.controller.managers.NavigationManager;
+import su.geocaching.android.model.GeoCache;
+import su.geocaching.android.model.GeoCacheType;
 import su.geocaching.android.ui.InfoActivity;
+import su.geocaching.android.ui.InternetAndGpsPreferenceActivity;
 import su.geocaching.android.ui.R;
 import android.app.ProgressDialog;
 import android.content.Context;
@@ -94,6 +102,8 @@ public class DownloadInfoTask extends AsyncTask<Void, Void, String> {
         return result;
     }
 
+    List<GeoCache> checkpoints = new LinkedList<GeoCache>();
+
     private String getWebText(int id) throws IOException {
         StringBuilder html = new StringBuilder();
         char[] buffer = new char[1024];
@@ -105,13 +115,28 @@ public class DownloadInfoTask extends AsyncTask<Void, Void, String> {
         }
         String result = html.toString().replace(ApiManager.CP1251_ENCODING, ApiManager.UTF8_ENCODING);
 
-        Pattern geoPattern = Pattern.compile("[N|S]\\d+&rsquo;\\s\\d+,\\d+\\s/\\s[E|W]\\d+&rsquo;\\s\\d+,\\d+");
+        Pattern geoPattern = Pattern.compile("[N|S]\\s*(\\d+)\\s*<sup>&#9702;</sup>\\s*(\\d+)\\s*.\\s*(\\d+)\\s*/?\\s*[E|W]\\s*(\\d+)\\s*<sup>&#9702;</sup>\\s*(\\d+)\\s*.\\s*(\\d+)");   //<a href="geo:0,0?q="><b>N 59<sup>&#9702;</sup>52.513 E 029<sup>&#9702;</sup>56.664</b></a>
         Matcher pageMatcher = geoPattern.matcher(result);
         StringBuffer sb = new StringBuffer();
+        int checkpointId = 0;
         while (pageMatcher.find()) {
-            String checkpoint = pageMatcher.group();
-            pageMatcher.appendReplacement(sb, String.format("<a href=\"geo:0,0?q=\"><b>%s</b></a>", checkpoint));
+            int latitude = 0;
+            int lngitude = 0;
+            try {
+                 latitude =  CoordinateHelper.sexagesimalToCoordinateE6(Integer.parseInt(pageMatcher.group(1)), Integer.parseInt(pageMatcher.group(2)),Integer.parseInt(pageMatcher.group(3)));
+                 lngitude =  CoordinateHelper.sexagesimalToCoordinateE6(Integer.parseInt(pageMatcher.group(4)), Integer.parseInt(pageMatcher.group(5)),Integer.parseInt(pageMatcher.group(6)));
+            } catch (Exception e) {
+                break;
+            }
+
+            pageMatcher.appendReplacement(sb, String.format("<a href=\"checkpoint_id=%d\"><b>%s</b></a>", checkpointId, pageMatcher.group(0)));
+            GeoCache checkpoint = new GeoCache();
+            checkpoint.setType(GeoCacheType.CHECKPOINT);
+            checkpoint.setId(cacheId);
+            checkpoint.setLocationGeoPoint(new GeoPoint(latitude, lngitude));
+
             checkpoints.add(checkpoint);
+            checkpointId++;
         }
 
         pageMatcher.appendTail(sb);
@@ -119,25 +144,17 @@ public class DownloadInfoTask extends AsyncTask<Void, Void, String> {
         return sb.toString();
     }
 
-    List<String> checkpoints = new ArrayList<String>();
 
     @Override
     protected void onPostExecute(String result) {
         LogManager.d(TAG, "TestTime onPreExecute - Stop");
-
-        // Pattern geoPattern = Pattern.compile("[[N|S|E|W]\\s[\\d]+\\°\\s[\\d]+.[\\d]+\\']+");
-
-
-        //pageMatcher.re
-
-        //<a href="pict.php?cid=517&mode=0"><b>Фотографии тайника</b></a>
 
         if (progressDialog != null && progressDialog.isShowing()) {
             progressDialog.dismiss();
         }
         switch (state) {
             case SHOW_INFO:
-                infoActibity.showInfo(result);
+                infoActibity.showInfo(result, checkpoints);
                 break;
             case SHOW_NOTEBOOK:
                 infoActibity.showNotebook(result);

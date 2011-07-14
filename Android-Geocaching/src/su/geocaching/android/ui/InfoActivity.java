@@ -1,7 +1,10 @@
 package su.geocaching.android.ui;
 
 import java.io.File;
+import java.util.List;
 
+import android.content.Context;
+import android.widget.Toast;
 import su.geocaching.android.controller.Controller;
 import su.geocaching.android.controller.apimanager.ApiManager;
 import su.geocaching.android.controller.apimanager.DownloadInfoTask.DownloadInfoState;
@@ -43,8 +46,10 @@ public class InfoActivity extends Activity {
     private WebView webView;
     private CheckBox cbFavoriteCache;
     private GalleryView galleryView;
+    private Context context;
     private boolean isCacheStored, isPhotoStored;
     private PageState pageState = PageState.INFO;
+   private static List<GeoCache> infoCheckpoints;
 
     private int scroll = 0;
     private String errorMessage;
@@ -56,6 +61,7 @@ public class InfoActivity extends Activity {
         LogManager.d(TAG, "onCreate");
         setContentView(R.layout.info_activity);
         controller = Controller.getInstance();
+        context = this;
 
         geoCache = getIntent().getParcelableExtra(GeoCache.class.getCanonicalName());
         initViews();
@@ -83,6 +89,8 @@ public class InfoActivity extends Activity {
         cbFavoriteCache = (CheckBox) findViewById(R.id.info_geocache_add_del);
         galleryView = (GalleryView) findViewById(R.id.galleryView);
 
+
+
         webView = (WebView) findViewById(R.id.info_web_brouse);
         webView.getSettings().setJavaScriptEnabled(true);
         webView.getSettings().setBuiltInZoomControls(true);
@@ -105,6 +113,7 @@ public class InfoActivity extends Activity {
                 String urlNotebook = String.format(ApiManager.LINK_NOTEBOOK_TEXT, geoCache.getId());
                 String urlInfo = String.format(ApiManager.LINK_INFO_CACHE, geoCache.getId());
                 String urlPhoto = String.format(ApiManager.LINK_PHOTO_PAGE, geoCache.getId());
+                isCacheStored = controller.getDbManager().isCacheStored(geoCache.getId());
 
                 if (urlInfo.contains(url)) {
                     loadView(PageState.INFO);
@@ -120,6 +129,21 @@ public class InfoActivity extends Activity {
                     loadView(PageState.PHOTO);
                     return true;
                 }
+                 if (url.contains("checkpoint")) {
+                     if(!isCacheStored){
+                         Toast.makeText(context,"добавьте тайник в избранное", Toast.LENGTH_LONG).show();
+                         return true;
+                     }
+                    int id =  Integer.parseInt(url.substring(url.indexOf('=') + 1));
+
+                     //TODO We must keep the checkpoints in the DB
+                     if(infoCheckpoints == null){
+                         refresh();
+                     }
+                    NavigationManager.startCreateCheckpointActivity(context, infoCheckpoints.get(id));
+                    return true;
+                }
+                //
                 return false;
             };
 
@@ -133,10 +157,18 @@ public class InfoActivity extends Activity {
         webView.setWebViewClient(webViewClient);
     }
 
+    @Override
     protected void onPostCreate(Bundle savedInstanceState) {
         loadView(pageState);
         super.onPostCreate(savedInstanceState);
     }
+
+    @Override
+    public void onResume(){
+        context = this;
+        super.onResume();
+    }
+
 
     @Override
     protected Dialog onCreateDialog(int id) {
@@ -349,9 +381,10 @@ public class InfoActivity extends Activity {
         Controller.getInstance().getDbManager().deleteCacheById(geoCache.getId());
     }
 
-    public void showInfo(String info) {
+    public void showInfo(String info, List<GeoCache> checkpoints) {
         pageState = PageState.INFO;
         this.info = info;
+        infoCheckpoints = checkpoints;
         loadView(pageState);
     }
 
