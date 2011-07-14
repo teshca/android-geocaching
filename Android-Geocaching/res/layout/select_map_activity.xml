@@ -33,6 +33,7 @@
                  android:layout_width="wrap_content"
                  android:layout_height="wrap_content"
                  android:layout_marginTop="55dip"
+                 android:adjustViewBounds="true"
                  android:src="@drawable/ic_menu_mylocation"
                  android:background="@android:color/transparent"
                  android:onClick="onMyLocationClick"/>

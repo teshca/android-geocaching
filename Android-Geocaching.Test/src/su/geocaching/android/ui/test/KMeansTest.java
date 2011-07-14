@@ -1,7 +1,7 @@
 package su.geocaching.android.ui.test;
 
 import android.test.AndroidTestCase;
-import su.geocaching.android.controller.LogManager;
+import su.geocaching.android.controller.managers.LogManager;
 import su.geocaching.android.controller.selectmap.geocachegroup.Centroid;
 import su.geocaching.android.controller.selectmap.geocachegroup.GeoCacheView;
 import su.geocaching.android.controller.selectmap.geocachegroup.KMeans;
