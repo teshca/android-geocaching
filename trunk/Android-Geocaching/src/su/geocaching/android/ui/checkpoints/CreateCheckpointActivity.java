@@ -112,7 +112,8 @@ public class CreateCheckpointActivity extends Activity {
             currentLocation = CoordinateHelper.locationToGeoPoint(locationManager.getLastKnownLocation());
             info.setText(R.string.relative_to_current_location);
         } else {
-            GeoCache gc = Controller.getInstance().getPreferencesManager().getLastSearchedGeoCache();
+           // GeoCache gc = Controller.getInstance().getPreferencesManager().getLastSearchedGeoCache();
+            GeoCache gc = Controller.getInstance().getDbManager().getCacheByID(this.gc.getId());
             currentLocation = gc.getLocationGeoPoint();
             info.setText(R.string.relative_to_cache_location);
         }
