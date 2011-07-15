@@ -102,7 +102,7 @@ public class DownloadInfoTask extends AsyncTask<Void, Void, String> {
         return result;
     }
 
-    List<GeoCache> checkpoints = new LinkedList<GeoCache>();
+
 
     private String getWebText(int id) throws IOException {
         StringBuilder html = new StringBuilder();
@@ -113,35 +113,7 @@ public class DownloadInfoTask extends AsyncTask<Void, Void, String> {
         while ((size = in.read(buffer)) != -1) {
             html.append(buffer, 0, size);
         }
-        String result = html.toString().replace(ApiManager.CP1251_ENCODING, ApiManager.UTF8_ENCODING);
-
-        Pattern geoPattern = Pattern.compile("[N|S]\\s*(\\d+)\\s*<sup>&#9702;</sup>\\s*(\\d+)\\s*.\\s*(\\d+)\\s*/?\\s*[E|W]\\s*(\\d+)\\s*<sup>&#9702;</sup>\\s*(\\d+)\\s*.\\s*(\\d+)");   //<a href="geo:0,0?q="><b>N 59<sup>&#9702;</sup>52.513 E 029<sup>&#9702;</sup>56.664</b></a>
-        Matcher pageMatcher = geoPattern.matcher(result);
-        StringBuffer sb = new StringBuffer();
-        int checkpointId = 0;
-        while (pageMatcher.find()) {
-            int latitude = 0;
-            int lngitude = 0;
-            try {
-                 latitude =  CoordinateHelper.sexagesimalToCoordinateE6(Integer.parseInt(pageMatcher.group(1)), Integer.parseInt(pageMatcher.group(2)),Integer.parseInt(pageMatcher.group(3)));
-                 lngitude =  CoordinateHelper.sexagesimalToCoordinateE6(Integer.parseInt(pageMatcher.group(4)), Integer.parseInt(pageMatcher.group(5)),Integer.parseInt(pageMatcher.group(6)));
-            } catch (Exception e) {
-                break;
-            }
-
-            pageMatcher.appendReplacement(sb, String.format("<a href=\"checkpoint_id=%d\"><b>%s</b></a>", checkpointId, pageMatcher.group(0)));
-            GeoCache checkpoint = new GeoCache();
-            checkpoint.setType(GeoCacheType.CHECKPOINT);
-            checkpoint.setId(cacheId);
-            checkpoint.setLocationGeoPoint(new GeoPoint(latitude, lngitude));
-
-            checkpoints.add(checkpoint);
-            checkpointId++;
-        }
-
-        pageMatcher.appendTail(sb);
-
-        return sb.toString();
+        return html.toString().replace(ApiManager.CP1251_ENCODING, ApiManager.UTF8_ENCODING);
     }
 
 
@@ -154,7 +126,7 @@ public class DownloadInfoTask extends AsyncTask<Void, Void, String> {
         }
         switch (state) {
             case SHOW_INFO:
-                infoActibity.showInfo(result, checkpoints);
+                infoActibity.showInfo(result);
                 break;
             case SHOW_NOTEBOOK:
                 infoActibity.showNotebook(result);

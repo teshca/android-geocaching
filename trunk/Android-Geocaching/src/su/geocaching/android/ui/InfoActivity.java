@@ -8,6 +8,7 @@ import android.widget.Toast;
 import su.geocaching.android.controller.Controller;
 import su.geocaching.android.controller.apimanager.ApiManager;
 import su.geocaching.android.controller.apimanager.DownloadInfoTask.DownloadInfoState;
+import su.geocaching.android.controller.managers.CheckpointManager;
 import su.geocaching.android.controller.managers.LogManager;
 import su.geocaching.android.controller.managers.NavigationManager;
 import su.geocaching.android.model.GeoCache;
@@ -66,12 +67,7 @@ public class InfoActivity extends Activity {
         geoCache = getIntent().getParcelableExtra(GeoCache.class.getCanonicalName());
         initViews();
 
-        isCacheStored = controller.getDbManager().isCacheStored(geoCache.getId());
-        if (isCacheStored) {
-            cbFavoriteCache.setChecked(true);
-            info = Controller.getInstance().getDbManager().getCacheInfoById(geoCache.getId());
-            notebook = Controller.getInstance().getDbManager().getCacheNotebookTextById(geoCache.getId());
-        }
+
         controller.getGoogleAnalyticsManager().trackPageView(GEOCACHE_INFO_ACTIVITY_FOLDER);
     }
 
@@ -113,7 +109,6 @@ public class InfoActivity extends Activity {
                 String urlNotebook = String.format(ApiManager.LINK_NOTEBOOK_TEXT, geoCache.getId());
                 String urlInfo = String.format(ApiManager.LINK_INFO_CACHE, geoCache.getId());
                 String urlPhoto = String.format(ApiManager.LINK_PHOTO_PAGE, geoCache.getId());
-                isCacheStored = controller.getDbManager().isCacheStored(geoCache.getId());
 
                 if (urlInfo.contains(url)) {
                     loadView(PageState.INFO);
@@ -159,13 +154,21 @@ public class InfoActivity extends Activity {
 
     @Override
     protected void onPostCreate(Bundle savedInstanceState) {
+         context = this;
+        isCacheStored = controller.getDbManager().isCacheStored(geoCache.getId());
+        if (isCacheStored) {
+            cbFavoriteCache.setChecked(true);
+            info = Controller.getInstance().getDbManager().getCacheInfoById(geoCache.getId());
+            notebook = Controller.getInstance().getDbManager().getCacheNotebookTextById(geoCache.getId());
+            infoCheckpoints = Controller.getInstance().getDbManager().getInfoCheckpointsArrayById(geoCache.getId());
+        }
+
         loadView(pageState);
         super.onPostCreate(savedInstanceState);
     }
 
     @Override
     public void onResume(){
-        context = this;
         super.onResume();
     }
 
@@ -360,6 +363,9 @@ public class InfoActivity extends Activity {
                     showDialog(0);
                 }
             }
+            info = CheckpointManager.insertCheckpointsLinkAndSaveInDB(info, geoCache.getId());
+            infoCheckpoints = Controller.getInstance().getDbManager().getInfoCheckpointsArrayById(geoCache.getId());
+            loadView(pageState);
             saveCache();
         } else {
             deleteCache();
@@ -381,10 +387,14 @@ public class InfoActivity extends Activity {
         Controller.getInstance().getDbManager().deleteCacheById(geoCache.getId());
     }
 
-    public void showInfo(String info, List<GeoCache> checkpoints) {
+    public void showInfo(String info) {
         pageState = PageState.INFO;
+
+        if(isCacheStored){
+            info = CheckpointManager.insertCheckpointsLinkAndSaveInDB(info, geoCache.getId());
+            infoCheckpoints = Controller.getInstance().getDbManager().getInfoCheckpointsArrayById(geoCache.getId());
+        }
         this.info = info;
-        infoCheckpoints = checkpoints;
         loadView(pageState);
     }
 

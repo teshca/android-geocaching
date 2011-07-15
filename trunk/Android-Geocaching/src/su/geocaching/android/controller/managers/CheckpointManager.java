@@ -2,8 +2,11 @@ package su.geocaching.android.controller.managers;
 
 import java.util.LinkedList;
 import java.util.List;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 import su.geocaching.android.controller.Controller;
+import su.geocaching.android.controller.CoordinateHelper;
 import su.geocaching.android.model.GeoCache;
 import su.geocaching.android.model.GeoCacheStatus;
 import su.geocaching.android.model.GeoCacheType;
@@ -52,7 +55,7 @@ public class CheckpointManager {
      * @param longitudeE6
      * @return
      */
-    public GeoCacheOverlayItem addCheckpoint(int latitudeE6, int longitudeE6) {
+    public GeoCacheOverlayItem addCheckpoint(int latitudeE6, int longitudeE6, int cacheId) {
         deactivateCheckpoints();
         checkpointNumber++;
         GeoCache gc = new GeoCache();
@@ -63,7 +66,7 @@ public class CheckpointManager {
         gc.setId(checkpointNumber);
         checkpoints.add(gc);
 
-        dbm.addCheckpointGeoCache(gc, controller.getPreferencesManager().getLastSearchedGeoCache().getId());
+        dbm.addCheckpointGeoCache(gc, cacheId);
         controller.setSearchingGeoCache(gc);
         return new GeoCacheOverlayItem(gc, "", "");
     }
@@ -162,5 +165,33 @@ public class CheckpointManager {
 
     public GeoPoint getLastInputGeoPoint() {
         return lastInputGP;
+    }
+
+
+
+    public static String insertCheckpointsLinkAndSaveInDB(String text, int cacheId){
+        Pattern geoPattern = Pattern.compile("[N|S]\\s*(\\d+)\\s*<sup>&#9702;</sup>\\s*(\\d+)\\s*.\\s*(\\d+)\\s*/?\\s*[E|W]\\s*(\\d+)\\s*<sup>&#9702;</sup>\\s*(\\d+)\\s*.\\s*(\\d+)");   //<a href="geo:0,0?q="><b>N 59<sup>&#9702;</sup>52.513 E 029<sup>&#9702;</sup>56.664</b></a>
+        Matcher pageMatcher = geoPattern.matcher(text);
+        StringBuffer sb = new StringBuffer();
+        List<GeoCache> checkpoints = new LinkedList<GeoCache>();
+        DbManager dbManager = Controller.getInstance().getDbManager();
+
+        int checkpointId = 0;
+        while (pageMatcher.find()) {
+            int latitude = 0;
+            int lngitude = 0;
+            try {
+                 latitude =  CoordinateHelper.sexagesimalToCoordinateE6(Integer.parseInt(pageMatcher.group(1)), Integer.parseInt(pageMatcher.group(2)), Integer.parseInt(pageMatcher.group(3)));
+                 lngitude =  CoordinateHelper.sexagesimalToCoordinateE6(Integer.parseInt(pageMatcher.group(4)), Integer.parseInt(pageMatcher.group(5)),Integer.parseInt(pageMatcher.group(6)));
+            } catch (Exception e) {
+                break;
+            }
+
+            pageMatcher.appendReplacement(sb, String.format("<a href=\"checkpoint_id=%d\"><b>%s</b></a>", checkpointId++, pageMatcher.group(0)));
+            dbManager.addInfoCheckpointGeoCache(cacheId, latitude, lngitude);
+        }
+
+        pageMatcher.appendTail(sb);
+        return sb.toString();
     }
 }

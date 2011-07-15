@@ -259,7 +259,7 @@ public class CreateCheckpointActivity extends Activity {
 
     public void onEnterClick(View v) {
         try {
-            checkpointManager.addCheckpoint(currentInputGeoPoint.getLatitudeE6(), currentInputGeoPoint.getLongitudeE6());
+            checkpointManager.addCheckpoint(currentInputGeoPoint.getLatitudeE6(), currentInputGeoPoint.getLongitudeE6(), gc.getId());
             finish();
         } catch (Exception e) {
             LogManager.e(TAG, e.getMessage(), e);
