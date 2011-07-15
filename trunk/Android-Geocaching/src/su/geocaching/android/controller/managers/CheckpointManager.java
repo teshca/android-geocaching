@@ -170,7 +170,7 @@ public class CheckpointManager {
 
 
     public static String insertCheckpointsLinkAndSaveInDB(String text, int cacheId){
-        Pattern geoPattern = Pattern.compile("[N|S]\\s*(\\d+)\\s*<sup>&#9702;</sup>\\s*(\\d+)\\s*.\\s*(\\d+)\\s*/?\\s*[E|W]\\s*(\\d+)\\s*<sup>&#9702;</sup>\\s*(\\d+)\\s*.\\s*(\\d+)");   //<a href="geo:0,0?q="><b>N 59<sup>&#9702;</sup>52.513 E 029<sup>&#9702;</sup>56.664</b></a>
+        Pattern geoPattern = Pattern.compile("[N|S]\\s*(\\d+)\\s*(<sup>&#9702;</sup>|&rsquo;)\\s*(\\d+)\\s*.\\s*(\\d+)\\s*/?\\s*[E|W]\\s*(\\d+)\\s*(<sup>&#9702;</sup>|&rsquo;)\\s*(\\d+)\\s*.\\s*(\\d+)");   //<a href="geo:0,0?q="><b>N 59<sup>&#9702;</sup>52.513 E 029<sup>&#9702;</sup>56.664</b></a>
         Matcher pageMatcher = geoPattern.matcher(text);
         StringBuffer sb = new StringBuffer();
         List<GeoCache> checkpoints = new LinkedList<GeoCache>();
@@ -181,8 +181,8 @@ public class CheckpointManager {
             int latitude = 0;
             int lngitude = 0;
             try {
-                 latitude =  CoordinateHelper.sexagesimalToCoordinateE6(Integer.parseInt(pageMatcher.group(1)), Integer.parseInt(pageMatcher.group(2)), Integer.parseInt(pageMatcher.group(3)));
-                 lngitude =  CoordinateHelper.sexagesimalToCoordinateE6(Integer.parseInt(pageMatcher.group(4)), Integer.parseInt(pageMatcher.group(5)),Integer.parseInt(pageMatcher.group(6)));
+                 latitude =  CoordinateHelper.sexagesimalToCoordinateE6(Integer.parseInt(pageMatcher.group(1)), Integer.parseInt(pageMatcher.group(3)), Integer.parseInt(pageMatcher.group(4)));
+                 lngitude =  CoordinateHelper.sexagesimalToCoordinateE6(Integer.parseInt(pageMatcher.group(5)), Integer.parseInt(pageMatcher.group(7)),Integer.parseInt(pageMatcher.group(8)));
             } catch (Exception e) {
                 break;
             }
