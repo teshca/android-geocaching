@@ -7,8 +7,10 @@
 		android:icon="@drawable/ic_menu_checkpoint" />
 	<item android:id="@+id/menuDefaultZoom" android:icon="@drawable/ic_menu_zoom"
 		android:title="@string/menu_default_zoom" />
-	<item android:id="@+id/driving_directions" android:title="@string/menu_driving_directions"
-		android:icon="@drawable/ic_menu_directions" />
-	<item android:id="@+id/searchMapSettings" android:titleCondensed="@string/preference"
+    <item android:id="@+id/driving_directions" android:title="@string/menu_driving_directions"
+        android:icon="@drawable/ic_menu_directions" />
+    <item android:id="@+id/show_external_map" android:title="@string/menu_external_map"
+        android:icon="@drawable/ic_menu_mapmode" />
+	<item android:id="@+id/searchMapSettings" android:title="@string/preference"
 		android:icon="@drawable/ic_menu_settings" />
 </menu>

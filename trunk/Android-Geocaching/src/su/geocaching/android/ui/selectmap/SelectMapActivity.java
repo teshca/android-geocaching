@@ -55,6 +55,7 @@ public class SelectMapActivity extends MapActivity implements IInternetAware, IL
     private Handler handler;
     private GroupGeoCacheTask groupTask = null;
     private boolean firstRun = true;
+    private AlertDialog turnOnInternetDialog;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -85,6 +86,22 @@ public class SelectMapActivity extends MapActivity implements IInternetAware, IL
         map.setBuiltInZoomControls(true);
         map.invalidate();
         LogManager.d(TAG, "onCreate Done");
+        
+        // prepare turnOn internet dialog for showing
+        AlertDialog.Builder turnOnInternetDialogBuilder = new AlertDialog.Builder(context);
+        turnOnInternetDialogBuilder.setMessage(context.getString(R.string.ask_enable_internet_text)).setCancelable(false).setPositiveButton(context.getString(R.string.yes), new DialogInterface.OnClickListener() {
+            public void onClick(DialogInterface dialog, int id) {
+                Intent startGPS = new Intent(Settings.ACTION_WIRELESS_SETTINGS);
+                context.startActivity(startGPS);
+                dialog.cancel();
+            }
+        }).setNegativeButton(context.getString(R.string.no), new DialogInterface.OnClickListener() {
+            public void onClick(DialogInterface dialog, int id) {
+                dialog.cancel();
+                finish();
+            }
+        });
+        turnOnInternetDialog = turnOnInternetDialogBuilder.create();
 
         controller.getGoogleAnalyticsManager().trackPageView(SELECT_ACTIVITY_FOLDER);
     }
@@ -261,21 +278,7 @@ public class SelectMapActivity extends MapActivity implements IInternetAware, IL
             LogManager.d(TAG, "Internet connected");
             return;
         }
-        AlertDialog.Builder builder = new AlertDialog.Builder(context);
-        builder.setMessage(context.getString(R.string.ask_enable_internet_text)).setCancelable(false).setPositiveButton(context.getString(R.string.yes), new DialogInterface.OnClickListener() {
-            public void onClick(DialogInterface dialog, int id) {
-                Intent startGPS = new Intent(Settings.ACTION_WIRELESS_SETTINGS);
-                context.startActivity(startGPS);
-                dialog.cancel();
-            }
-        }).setNegativeButton(context.getString(R.string.no), new DialogInterface.OnClickListener() {
-            public void onClick(DialogInterface dialog, int id) {
-                dialog.cancel();
-                finish();
-            }
-        });
-        AlertDialog turnOnInternetAlert = builder.create();
-        turnOnInternetAlert.show();
+        turnOnInternetDialog.show();
     }
 
     /*
@@ -332,5 +335,12 @@ public class SelectMapActivity extends MapActivity implements IInternetAware, IL
 
     @Override
     public void onProviderDisabled(String provider) {
+    }
+
+    @Override
+    public void onInternetFound() {
+        if (turnOnInternetDialog != null && turnOnInternetDialog.isShowing()) {
+            turnOnInternetDialog.dismiss();
+        }
     }
 }

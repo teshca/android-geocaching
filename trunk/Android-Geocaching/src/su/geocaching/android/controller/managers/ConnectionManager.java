@@ -44,6 +44,9 @@ public class ConnectionManager {
         intentFilter = new IntentFilter();
         intentFilter.addAction("android.net.conn.CONNECTIVITY_CHANGE");
         pingManager = new PingManager();
+        if (isInternetAvailable()) {
+            pingManager.start();
+        }
         LogManager.d(TAG, "Init");
     }
 
@@ -102,18 +105,30 @@ public class ConnectionManager {
      */
     public void onInternetFound() {
         pingManager.start();
+        if (System.currentTimeMillis() - lastMessageTime < SEND_MESSAGE_MIN_INTERVAL) {
+            LogManager.d(TAG, "get very often message about connection. Message haven't send");
+            return;
+        }
+        lastMessageTime = System.currentTimeMillis();
+        LogManager.d(TAG, "internet found. Send msg to " + Integer.toString(subscribers.size()) + " subscribers");
+        for (IInternetAware subscriber : subscribers) {
+            subscriber.onInternetFound();
+        }
     }
 
     /**
      * @return true if internet connected
      */
     public boolean isInternetConnected() {
-        NetworkInfo activeNetInfo = connectivityManager.getActiveNetworkInfo();
-        boolean isConnected = activeNetInfo != null && activeNetInfo.isConnected();
-        if (!isConnected) {
+        if (!isInternetAvailable()) {
             return false;
         }
         return pingManager.isInternetConnected();
+    }
+
+    private boolean isInternetAvailable() {
+        NetworkInfo activeNetInfo = connectivityManager.getActiveNetworkInfo();
+        return activeNetInfo != null && activeNetInfo.isConnected();
     }
 
     /**
@@ -129,6 +144,7 @@ public class ConnectionManager {
      */
     private void removeUpdates() {
         context.unregisterReceiver(receiver);
+        pingManager.stop();
         LogManager.d(TAG, "remove updates");
     }
 }
