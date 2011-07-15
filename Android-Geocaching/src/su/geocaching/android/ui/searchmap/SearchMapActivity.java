@@ -15,6 +15,7 @@ import su.geocaching.android.controller.managers.NavigationManager;
 import su.geocaching.android.model.GeoCache;
 import su.geocaching.android.model.GeoCacheStatus;
 import su.geocaching.android.model.GeoCacheType;
+import su.geocaching.android.model.MapInfo;
 import su.geocaching.android.model.SearchMapInfo;
 import su.geocaching.android.ui.FavoritesFolderActivity;
 import su.geocaching.android.ui.R;
@@ -394,6 +395,9 @@ public class SearchMapActivity extends MapActivity implements IInternetAware, IL
             case R.id.driving_directions:
                 onDrivingDirectionsSelected();
                 return true;
+            case R.id.show_external_map:
+                onExternalMapSelected();
+                return true;
             case R.id.stepByStep:
                 NavigationManager.startCheckpointsFolder(this, Controller.getInstance().getPreferencesManager().getLastSearchedGeoCache().getId());
                 return true;
@@ -418,6 +422,14 @@ public class SearchMapActivity extends MapActivity implements IInternetAware, IL
         } else {
             Toast.makeText(getBaseContext(), getString(R.string.dislocation), Toast.LENGTH_LONG).show();
         }
+    }
+    
+    private void onExternalMapSelected() {
+            GeoPoint point = Controller.getInstance().getSearchingGeoCache().getLocationGeoPoint();
+            double latitude = point.getLatitudeE6() / 1E6;
+            double longitude = point.getLongitudeE6() / 1E6;
+            String uri = "geo:"+ latitude + "," + longitude + "?z=" + MapInfo.DEFAULT_ZOOM + "&q=" + latitude + "," + longitude;
+            startActivity(new Intent(android.content.Intent.ACTION_VIEW, Uri.parse(uri)));
     }
 
     /**
@@ -578,5 +590,11 @@ public class SearchMapActivity extends MapActivity implements IInternetAware, IL
         int zoom = map.getZoomLevel();
         int geocacheId = ((GeoCache) getIntent().getParcelableExtra(GeoCache.class.getCanonicalName())).getId();
         Controller.getInstance().getPreferencesManager().setLastSearchMapInfo(new SearchMapInfo(centerX, centerY, zoom, geocacheId));
+    }
+
+    @Override
+    public void onInternetFound() {
+        // TODO Auto-generated method stub
+        
     }
 }

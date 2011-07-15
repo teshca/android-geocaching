@@ -5,6 +5,8 @@ import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.URL;
 
+import su.geocaching.android.controller.Controller;
+
 /**
  * @author Grigory Kalabin. grigory.kalabin@gmail.com
  * @since Jul 13, 2011
@@ -51,11 +53,18 @@ public class PingManager {
      *            the isInternetConnected to set
      */
     private synchronized void setInternetConnected(boolean isInternetConnected) {
+        if (this.isInternetConnected && !isInternetConnected) {
+            Controller.getInstance().getConnectionManager().onInternetLost();
+        }
+        if (!this.isInternetConnected && isInternetConnected) {
+            Controller.getInstance().getConnectionManager().onInternetFound();
+        }
         this.isInternetConnected = isInternetConnected;
         LogManager.d(TAG, "set connected = " + isInternetConnected);
     }
 
     /**
+     * TODO: what is better: syncronized log or log exceptions from other threads?
      * @author Grigory Kalabin. grigory.kalabin@gmail.com
      * @since Jul 14, 2011
      *
