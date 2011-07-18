@@ -75,7 +75,7 @@ public class CheckpointManager {
         for (GeoCache checkpoint : checkpoints) {
             if (checkpoint.getStatus() == GeoCacheStatus.ACTIVE_CHECKPOINT) {
                 checkpoint.setStatus(GeoCacheStatus.NOT_ACTIVE_CHECKPOINT);
-                dbm.ubdateCheckpointCacheStatus(controller.getPreferencesManager().getLastSearchedGeoCache().getId(), checkpoint.getId(), GeoCacheStatus.NOT_ACTIVE_CHECKPOINT);
+                dbm.updateCheckpointCacheStatus(controller.getPreferencesManager().getLastSearchedGeoCache().getId(), checkpoint.getId(), GeoCacheStatus.NOT_ACTIVE_CHECKPOINT);
             }
         }
     }
@@ -124,7 +124,7 @@ public class CheckpointManager {
         deactivateCheckpoints();
         checkpoints.get(activeItem).setStatus(GeoCacheStatus.ACTIVE_CHECKPOINT);
         controller.setSearchingGeoCache(checkpoints.get(activeItem));
-        dbm.ubdateCheckpointCacheStatus(controller.getPreferencesManager().getLastSearchedGeoCache().getId(), checkpoints.get(activeItem).getId(), GeoCacheStatus.ACTIVE_CHECKPOINT);
+        dbm.updateCheckpointCacheStatus(controller.getPreferencesManager().getLastSearchedGeoCache().getId(), checkpoints.get(activeItem).getId(), GeoCacheStatus.ACTIVE_CHECKPOINT);
     }
 
     /**
@@ -176,19 +176,17 @@ public class CheckpointManager {
         List<GeoCache> checkpoints = new LinkedList<GeoCache>();
         DbManager dbManager = Controller.getInstance().getDbManager();
 
-        int checkpointId = 0;
         while (pageMatcher.find()) {
             int latitude = 0;
-            int lngitude = 0;
+            int longitude = 0;
             try {
                  latitude =  CoordinateHelper.sexagesimalToCoordinateE6(Integer.parseInt(pageMatcher.group(1)), Integer.parseInt(pageMatcher.group(3)), Integer.parseInt(pageMatcher.group(4)));
-                 lngitude =  CoordinateHelper.sexagesimalToCoordinateE6(Integer.parseInt(pageMatcher.group(5)), Integer.parseInt(pageMatcher.group(7)),Integer.parseInt(pageMatcher.group(8)));
+                 longitude =  CoordinateHelper.sexagesimalToCoordinateE6(Integer.parseInt(pageMatcher.group(5)), Integer.parseInt(pageMatcher.group(7)),Integer.parseInt(pageMatcher.group(8)));
             } catch (Exception e) {
                 break;
             }
 
-            pageMatcher.appendReplacement(sb, String.format("<a href=\"checkpoint_id=%d\"><b>%s</b></a>", checkpointId++, pageMatcher.group(0)));
-            dbManager.addInfoCheckpointGeoCache(cacheId, latitude, lngitude);
+            pageMatcher.appendReplacement(sb, String.format("<a href=\"geo:%d,%d?q=\"><b>%s</b></a>", latitude, longitude, pageMatcher.group(0)));
         }
 
         pageMatcher.appendTail(sb);
