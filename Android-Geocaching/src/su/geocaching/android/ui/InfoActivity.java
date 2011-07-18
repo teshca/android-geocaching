@@ -126,8 +126,7 @@ public class InfoActivity extends Activity {
                 }
                 if (url.contains("geo:")) {
                     if (!isCacheStored) {
-                        //TODO sring to xml
-                        Toast.makeText(context, "добавьте тайник в избранное", Toast.LENGTH_LONG).show();
+                        Toast.makeText(context, R.string.ask_add_cache_in_db, Toast.LENGTH_LONG).show();
                         return true;
                     }
 
@@ -144,8 +143,6 @@ public class InfoActivity extends Activity {
 
                 return false;
             }
-
-            ;
 
             @Override
             public void onLoadResource(WebView view, String url) {
@@ -330,6 +327,7 @@ public class InfoActivity extends Activity {
                     webView.loadDataWithBaseURL(ApiManager.HTTP_PDA_GEOCACHING_SU, info, "text/html", ApiManager.UTF8_ENCODING, null);
                     if (refresh) {
                         saveCache();
+                        refresh = false;
                     }
                 }
                 break;
@@ -340,6 +338,7 @@ public class InfoActivity extends Activity {
                     webView.loadDataWithBaseURL(ApiManager.HTTP_PDA_GEOCACHING_SU, notebook, "text/html", ApiManager.UTF8_ENCODING, null);
                     if (refresh) {
                         saveCache();
+                        refresh = false;
                     }
                 }
                 break;
@@ -367,7 +366,7 @@ public class InfoActivity extends Activity {
                     showDialog(0);
                 }
             }
-            info = CheckpointManager.insertCheckpointsLinkAndSaveInDB(info, geoCache.getId());
+            info = CheckpointManager.insertCheckpointsLink(info);
             loadView(pageState);
             saveCache();
         } else {
@@ -388,13 +387,14 @@ public class InfoActivity extends Activity {
     private void deleteCache() {
         isCacheStored = false;
         controller.getCheckpointManager(geoCache.getId()).clear();
+        controller.getDbManager().deleteCacheById(geoCache.getId());
     }
 
     public void showInfo(String info) {
         pageState = PageState.INFO;
 
         if (isCacheStored) {
-            info = CheckpointManager.insertCheckpointsLinkAndSaveInDB(info, geoCache.getId());
+            info = CheckpointManager.insertCheckpointsLink(info);
         }
         this.info = info;
         loadView(pageState);
