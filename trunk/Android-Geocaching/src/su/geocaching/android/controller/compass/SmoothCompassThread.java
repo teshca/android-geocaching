@@ -4,6 +4,7 @@ import su.geocaching.android.controller.Controller;
 import su.geocaching.android.controller.managers.CompassManager;
 import su.geocaching.android.controller.managers.IBearingAware;
 import su.geocaching.android.controller.managers.LogManager;
+import su.geocaching.android.controller.managers.UncaughtExceptionsHandler;
 
 /**
  * The class provides a smooth rotation of compass
@@ -54,6 +55,7 @@ public class SmoothCompassThread extends Thread implements IBearingAware {
         compassManager.addSubscriber(this);
         this.compassView = compassView;
         speed = CompassSpeed.NORMAL;
+        Thread.setDefaultUncaughtExceptionHandler(new UncaughtExceptionsHandler());
     }
 
     @Override

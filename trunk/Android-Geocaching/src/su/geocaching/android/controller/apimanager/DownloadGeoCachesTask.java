@@ -5,6 +5,7 @@ import java.util.List;
 import java.util.ListIterator;
 
 import su.geocaching.android.controller.Controller;
+import su.geocaching.android.controller.managers.UncaughtExceptionsHandler;
 import su.geocaching.android.model.GeoCache;
 import su.geocaching.android.model.GeoCacheStatus;
 import su.geocaching.android.model.GeoCacheType;
@@ -28,6 +29,7 @@ public class DownloadGeoCachesTask extends AsyncTask<GeoPoint, Integer, List<Geo
         this.apiManager = apiManager;
         this.map = map;
         controller = Controller.getInstance();
+        Thread.setDefaultUncaughtExceptionHandler(new UncaughtExceptionsHandler());
     }
 
     @Override

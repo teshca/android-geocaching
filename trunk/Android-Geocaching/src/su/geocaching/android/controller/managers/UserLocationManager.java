@@ -422,6 +422,7 @@ public class UserLocationManager implements LocationListener, GpsStatus.Listener
          */
         public RemoveUpdatesTask(UserLocationManager parent) {
             this.parent = parent;
+            Thread.setDefaultUncaughtExceptionHandler(new UncaughtExceptionsHandler());
         }
 
         /*
