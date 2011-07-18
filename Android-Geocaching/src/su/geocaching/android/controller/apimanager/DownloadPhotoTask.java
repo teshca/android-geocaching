@@ -10,6 +10,7 @@ import java.net.URLConnection;
 
 import su.geocaching.android.controller.Controller;
 import su.geocaching.android.controller.managers.LogManager;
+import su.geocaching.android.controller.managers.UncaughtExceptionsHandler;
 import su.geocaching.android.ui.InfoActivity;
 import su.geocaching.android.ui.R;
 import android.app.ProgressDialog;
@@ -41,6 +42,7 @@ public class DownloadPhotoTask extends AsyncTask<URL, Void, Void> {
         this.context = context;
         this.infoActivity = infoActivity;
         this.cacheId = cacheId;
+        Thread.setDefaultUncaughtExceptionHandler(new UncaughtExceptionsHandler());
     }
 
     @Override

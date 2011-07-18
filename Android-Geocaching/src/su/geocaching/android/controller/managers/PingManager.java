@@ -70,6 +70,11 @@ public class PingManager {
      *
      */
     private class PingServer implements Runnable {
+        
+        public PingServer() {
+            Thread.setDefaultUncaughtExceptionHandler(new UncaughtExceptionsHandler());
+        }
+        
         /* (non-Javadoc)
          * @see java.lang.Runnable#run()
          */

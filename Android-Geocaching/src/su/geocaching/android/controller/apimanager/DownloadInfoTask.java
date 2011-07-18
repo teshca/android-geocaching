@@ -4,23 +4,10 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.net.URL;
-import java.util.ArrayList;
-import java.util.LinkedList;
-import java.util.List;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
-
-import android.location.LocationManager;
-import android.util.Log;
-import com.google.android.maps.GeoPoint;
 import su.geocaching.android.controller.Controller;
-import su.geocaching.android.controller.CoordinateHelper;
 import su.geocaching.android.controller.managers.LogManager;
-import su.geocaching.android.controller.managers.NavigationManager;
-import su.geocaching.android.model.GeoCache;
-import su.geocaching.android.model.GeoCacheType;
+import su.geocaching.android.controller.managers.UncaughtExceptionsHandler;
 import su.geocaching.android.ui.InfoActivity;
-import su.geocaching.android.ui.InternetAndGpsPreferenceActivity;
 import su.geocaching.android.ui.R;
 import android.app.ProgressDialog;
 import android.content.Context;
@@ -49,6 +36,7 @@ public class DownloadInfoTask extends AsyncTask<Void, Void, String> {
         this.cacheId = cacheId;
         this.context = context;
         this.infoActibity = infoActibity;
+        Thread.setDefaultUncaughtExceptionHandler(new UncaughtExceptionsHandler());
     }
 
     @Override
@@ -102,8 +90,6 @@ public class DownloadInfoTask extends AsyncTask<Void, Void, String> {
         return result;
     }
 
-
-
     private String getWebText(int id) throws IOException {
         StringBuilder html = new StringBuilder();
         char[] buffer = new char[1024];
@@ -115,7 +101,6 @@ public class DownloadInfoTask extends AsyncTask<Void, Void, String> {
         }
         return html.toString().replace(ApiManager.CP1251_ENCODING, ApiManager.UTF8_ENCODING);
     }
-
 
     @Override
     protected void onPostExecute(String result) {
