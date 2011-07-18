@@ -1,10 +1,6 @@
 package su.geocaching.android.controller.managers;
 
-import java.util.LinkedList;
-import java.util.List;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
-
+import com.google.android.maps.GeoPoint;
 import su.geocaching.android.controller.Controller;
 import su.geocaching.android.controller.CoordinateHelper;
 import su.geocaching.android.model.GeoCache;
@@ -13,12 +9,14 @@ import su.geocaching.android.model.GeoCacheType;
 import su.geocaching.android.ui.R;
 import su.geocaching.android.ui.geocachemap.GeoCacheOverlayItem;
 
-import com.google.android.maps.GeoPoint;
+import java.util.LinkedList;
+import java.util.List;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 public class CheckpointManager {
 
     private List<GeoCache> checkpoints;
-   // private List<GeoCache> infoCheckpoints;
     private GeoPoint lastInputGP;
     private int checkpointNumber = 0;
     private int cacheId;
@@ -55,11 +53,15 @@ public class CheckpointManager {
      * @param longitudeE6
      * @return
      */
-    public GeoCacheOverlayItem addCheckpoint(int latitudeE6, int longitudeE6, int cacheId) {
+    public GeoCacheOverlayItem addCheckpoint(int cacheId, String name, int latitudeE6, int longitudeE6) {
         deactivateCheckpoints();
         checkpointNumber++;
         GeoCache gc = new GeoCache();
-        gc.setName(String.format("%s %d", controller.getResourceManager().getString(R.string.checkpoint_dialog_title), checkpointNumber));
+        if (name == null || name.trim().equals("")) {
+            gc.setName(String.format("%s %d", controller.getResourceManager().getString(R.string.checkpoint_dialog_title), checkpointNumber));
+        } else {
+            gc.setName(name.trim());
+        }
         gc.setLocationGeoPoint(new GeoPoint(latitudeE6, longitudeE6));
         gc.setType(GeoCacheType.CHECKPOINT);
         gc.setStatus(GeoCacheStatus.ACTIVE_CHECKPOINT);
@@ -116,8 +118,7 @@ public class CheckpointManager {
     }
 
     /**
-     * @param activeItemS
-     *            the activeItem to set
+     * @param activeItemS the activeItem to set
      */
     public void setActiveItem(int id) {
         int activeItem = findItemById(id);
@@ -128,8 +129,7 @@ public class CheckpointManager {
     }
 
     /**
-     * @param id
-     *            the Id of active item
+     * @param id the Id of active item
      */
     public void setActiveItemById(int id) {
         int index = findItemById(id);
@@ -168,20 +168,17 @@ public class CheckpointManager {
     }
 
 
-
-    public static String insertCheckpointsLinkAndSaveInDB(String text, int cacheId){
+    public static String insertCheckpointsLink(String text) {
         Pattern geoPattern = Pattern.compile("[N|S]\\s*(\\d+)\\s*(<sup>&#9702;</sup>|&rsquo;)\\s*(\\d+)\\s*.\\s*(\\d+)\\s*/?\\s*[E|W]\\s*(\\d+)\\s*(<sup>&#9702;</sup>|&rsquo;)\\s*(\\d+)\\s*.\\s*(\\d+)");   //<a href="geo:0,0?q="><b>N 59<sup>&#9702;</sup>52.513 E 029<sup>&#9702;</sup>56.664</b></a>
         Matcher pageMatcher = geoPattern.matcher(text);
         StringBuffer sb = new StringBuffer();
-        List<GeoCache> checkpoints = new LinkedList<GeoCache>();
-        DbManager dbManager = Controller.getInstance().getDbManager();
 
         while (pageMatcher.find()) {
             int latitude = 0;
             int longitude = 0;
             try {
-                 latitude =  CoordinateHelper.sexagesimalToCoordinateE6(Integer.parseInt(pageMatcher.group(1)), Integer.parseInt(pageMatcher.group(3)), Integer.parseInt(pageMatcher.group(4)));
-                 longitude =  CoordinateHelper.sexagesimalToCoordinateE6(Integer.parseInt(pageMatcher.group(5)), Integer.parseInt(pageMatcher.group(7)),Integer.parseInt(pageMatcher.group(8)));
+                latitude = CoordinateHelper.sexagesimalToCoordinateE6(Integer.parseInt(pageMatcher.group(1)), Integer.parseInt(pageMatcher.group(3)), Integer.parseInt(pageMatcher.group(4)));
+                longitude = CoordinateHelper.sexagesimalToCoordinateE6(Integer.parseInt(pageMatcher.group(5)), Integer.parseInt(pageMatcher.group(7)), Integer.parseInt(pageMatcher.group(8)));
             } catch (Exception e) {
                 break;
             }

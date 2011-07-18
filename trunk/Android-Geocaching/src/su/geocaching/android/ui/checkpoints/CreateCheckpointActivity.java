@@ -25,9 +25,8 @@ import java.text.DecimalFormat;
 
 /**
  * Coordinate converter for waypoints
- * 
+ *
  * @author Nikita Bumakov
- * 
  */
 public class CreateCheckpointActivity extends Activity {
 
@@ -36,6 +35,8 @@ public class CreateCheckpointActivity extends Activity {
 
     private LinearLayout sexagesimal, sexagesimalSeconds, decimal, azimuth;
     private TextWatcher sexagesimalWatcher, sexagesimalSecondsWacher, decimalWatcher, azimuthWatcher;
+
+    private EditText name;
 
     private EditText sLatDegrees, sLatMinutes, sLatSeconds;
     private EditText sLngDegrees, sLngMinutes, sLngSeconds;
@@ -80,6 +81,9 @@ public class CreateCheckpointActivity extends Activity {
     }
 
     private void init() {
+
+        name = (EditText) findViewById(R.id.checkpointName);
+
         latDegrees = (EditText) findViewById(R.id.sLatDegrees);
         latMinutes = (EditText) findViewById(R.id.sLatMinutes);
         latmMinutes = (EditText) findViewById(R.id.sLatmMinutes);
@@ -112,7 +116,7 @@ public class CreateCheckpointActivity extends Activity {
             currentLocation = CoordinateHelper.locationToGeoPoint(locationManager.getLastKnownLocation());
             info.setText(R.string.relative_to_current_location);
         } else {
-           // GeoCache gc = Controller.getInstance().getPreferencesManager().getLastSearchedGeoCache();
+            // GeoCache gc = Controller.getInstance().getPreferencesManager().getLastSearchedGeoCache();
             GeoCache gc = Controller.getInstance().getDbManager().getCacheByID(this.gc.getId());
             currentLocation = gc.getLocationGeoPoint();
             info.setText(R.string.relative_to_cache_location);
@@ -259,7 +263,7 @@ public class CreateCheckpointActivity extends Activity {
 
     public void onEnterClick(View v) {
         try {
-            checkpointManager.addCheckpoint(currentInputGeoPoint.getLatitudeE6(), currentInputGeoPoint.getLongitudeE6(), gc.getId());
+            checkpointManager.addCheckpoint(gc.getId(), name.getText().toString(), currentInputGeoPoint.getLatitudeE6(), currentInputGeoPoint.getLongitudeE6());
             finish();
         } catch (Exception e) {
             LogManager.e(TAG, e.getMessage(), e);

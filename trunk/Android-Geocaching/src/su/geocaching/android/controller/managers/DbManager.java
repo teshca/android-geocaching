@@ -303,8 +303,8 @@ public class DbManager extends SQLiteOpenHelper {
     }
 
     /**
-     * @param name         name of checkpoint geocache
-     * @param checkpointId geocache id for delete from database
+     * @param cacheId id of parent geocache
+     * @param checkpointId checkpoint id for delete from database
      */
     public void deleteCheckpointCache(int cacheId, int checkpointId) {
         openWritableDB();

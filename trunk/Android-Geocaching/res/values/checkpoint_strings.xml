@@ -1,26 +1,28 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-	<string name="checkpoints">Контрольные точки</string>
-	<string name="latitude">Широта :</string>
-	<string name="longitude">Долгота :</string>
-	<string name="status">Статус :</string>
-	<string name="geographical_coordinates">Географические координаты</string>
-	<string name="relative_to_current_location">Относительно текущего положения:</string>
-	<string name="relative_to_cache_location">Текущие координаты не определены.\nОтносительно
-		координат тайника:
+    <string name="checkpoints">Контрольные точки</string>
+    <string name="latitude">Широта:</string>
+    <string name="longitude">Долгота:</string>
+    <string name="status">Статус:</string>
+    <string name="geographical_coordinates">Географические координаты</string>
+    <string name="relative_to_current_location">Относительно текущего положения:</string>
+    <string name="relative_to_cache_location">Текущие координаты не определены.\nОтносительно
+        координат тайника:
     </string>
-	<string name="add_checkpoint">Добавить</string>
-	<string name="error_stepbystep_input">Неверный формат введенных данных</string>
-	<string name="azimuth">Азимут:</string>
-	<string name="distance">Расстояние:</string>
-	<string name="checkpoint_dialog_title">Контрольная точка</string>
-	<string name="active">Выбрать</string>
-	<string name="delete">Удалить</string>
-	<string name="delete_all">Удалить все</string>
-	<string name="sexagestimal_template">гг°,мм,ммм\'</string>
-	<string name="sexagestimal_seconds__template">гг°,мм\'сс.ссс\"</string>
-	<string name="decimal_template">гг,ггггг°</string>
-	<string name="azimuth_template">По азимуту</string>
-	<string name="are_you_sure">Удалить все контрольные точки.\nВы уверены?
-	</string>
+    <string name="add_checkpoint">Добавить</string>
+    <string name="error_stepbystep_input">Неверный формат введенных данных</string>
+    <string name="azimuth">Азимут:</string>
+    <string name="distance">Расстояние:</string>
+    <string name="checkpoint_dialog_title">Контрольная точка</string>
+    <string name="active">Выбрать</string>
+    <string name="delete">Удалить</string>
+    <string name="delete_all">Удалить все</string>
+    <string name="sexagestimal_template">гг°,мм,ммм\'</string>
+    <string name="sexagestimal_seconds__template">гг°,мм\'сс.ссс\"</string>
+    <string name="decimal_template">гг,ггггг°</string>
+    <string name="azimuth_template">По азимуту</string>
+    <string name="are_you_sure">Удалить все контрольные точки.\nВы уверены?
+    </string>
+    <string name="checkpoint_name">Имя:</string>
+    <string name="checkpoint_name_hint">Название контрольной точки</string>
 </resources>

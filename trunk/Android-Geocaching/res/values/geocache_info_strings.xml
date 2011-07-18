@@ -12,5 +12,5 @@
 	<string name="menu_download_cache_photos">Загрузить фотоальбом</string>
 	<string name="menu_refresh">Обновить</string>
 	<string name="notes_for_cache">Заметки для тайника</string>
-
+    <string name="ask_add_cache_in_db">Добавьте тайник в избранное, чтобы иметь возможность добавлять контрольные точки</string>
 </resources>
