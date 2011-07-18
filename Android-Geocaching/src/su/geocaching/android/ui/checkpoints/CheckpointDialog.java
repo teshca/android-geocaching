@@ -40,9 +40,10 @@ public class CheckpointDialog extends Activity {
             setTitle(cache.getName());
         }
         else {
-            coordinates.setText(CoordinateHelper.coordinateToString(checkpointManager.getGeoCache(checkpointId).getLocationGeoPoint()));
-            status.setText(rm.getGeoCacheStatus(checkpointManager.getGeoCache(checkpointId)));
-            setTitle(String.format("%s %d", getString(R.string.checkpoint_dialog_title), checkpointId));
+            GeoCache cache   =  checkpointManager.getGeoCache(checkpointId);
+            coordinates.setText(CoordinateHelper.coordinateToString(cache.getLocationGeoPoint()));
+            status.setText(rm.getGeoCacheStatus(cache));
+            setTitle(cache.getName());
         }
         
         Controller.getInstance().getGoogleAnalyticsManager().trackPageView(CHECKPOINT_DIALOG_ACTIVITY_FOLDER);
