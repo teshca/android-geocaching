@@ -169,13 +169,13 @@ public class CheckpointManager {
 
 
     public static String insertCheckpointsLink(String text) {
-        Pattern geoPattern = Pattern.compile("[N|S]\\s*(\\d+)\\s*(<sup>&#9702;</sup>|&rsquo;)\\s*(\\d+)\\s*.\\s*(\\d+)\\s*/?\\s*[E|W]\\s*(\\d+)\\s*(<sup>&#9702;</sup>|&rsquo;)\\s*(\\d+)\\s*.\\s*(\\d+)");   //<a href="geo:0,0?q="><b>N 59<sup>&#9702;</sup>52.513 E 029<sup>&#9702;</sup>56.664</b></a>
+        Pattern geoPattern = Pattern.compile("[N|S]\\s*(\\d+)\\s*(<sup>&#9702;</sup>|&rsquo;|\\D+)\\s*(\\d+)\\s*.\\s*(\\d+).{1,20}[E|W]\\s*(\\d+)\\s*(<sup>&#9702;</sup>|&rsquo;|\\D+)\\s*(\\d+)\\s*.\\s*(\\d+)");   //<a href="geo:0,0?q="><b>N 59<sup>&#9702;</sup>52.513 E 029<sup>&#9702;</sup>56.664</b></a>
         Matcher pageMatcher = geoPattern.matcher(text);
         StringBuffer sb = new StringBuffer();
 
         while (pageMatcher.find()) {
-            int latitude = 0;
-            int longitude = 0;
+            int latitude;
+            int longitude;
             try {
                 latitude = CoordinateHelper.sexagesimalToCoordinateE6(Integer.parseInt(pageMatcher.group(1)), Integer.parseInt(pageMatcher.group(3)), Integer.parseInt(pageMatcher.group(4)));
                 longitude = CoordinateHelper.sexagesimalToCoordinateE6(Integer.parseInt(pageMatcher.group(5)), Integer.parseInt(pageMatcher.group(7)), Integer.parseInt(pageMatcher.group(8)));
