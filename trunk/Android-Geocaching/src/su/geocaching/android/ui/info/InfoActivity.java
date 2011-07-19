@@ -1,4 +1,4 @@
-package su.geocaching.android.ui;
+package su.geocaching.android.ui.info;
 
 import java.io.File;
 import android.app.Activity;
@@ -28,6 +28,7 @@ import su.geocaching.android.controller.managers.LogManager;
 import su.geocaching.android.controller.managers.NavigationManager;
 import su.geocaching.android.model.GeoCache;
 import su.geocaching.android.model.GeoCacheType;
+import su.geocaching.android.ui.R;
 
 
 /**
@@ -49,6 +50,7 @@ public class InfoActivity extends Activity {
     private WebView webView;
     private CheckBox cbFavoriteCache;
     private GalleryView galleryView;
+    private GalleryImageAdapter galleryAdapter;
     private Context context;
     private boolean isCacheStored, isPhotoStored;
     private PageState pageState = PageState.INFO;
@@ -82,7 +84,6 @@ public class InfoActivity extends Activity {
 
         cbFavoriteCache = (CheckBox) findViewById(R.id.info_geocache_add_del);
         galleryView = (GalleryView) findViewById(R.id.galleryView);
-
 
         webView = (WebView) findViewById(R.id.info_web_brouse);
         webView.getSettings().setJavaScriptEnabled(true);
@@ -260,6 +261,8 @@ public class InfoActivity extends Activity {
             case R.id.show_cache_photos:
                 if (pageState == PageState.PHOTO) {
                     controller.getDbManager().deletePhotos(geoCache.getId());
+                    galleryAdapter = null;
+                    galleryView.setAdapter(null);
                     loadView(PageState.INFO);
                 } else {
                     loadView(PageState.PHOTO);
@@ -341,9 +344,15 @@ public class InfoActivity extends Activity {
             case PHOTO:
               isPhotoStored = isPhotoStored(geoCache.getId());
               if (isPhotoStored) {
-                galleryView.init(geoCache.getId());
+                  if(galleryAdapter == null){
+                     galleryAdapter = new GalleryImageAdapter(this, geoCache.getId());
+                     galleryView.setAdapter(galleryAdapter);
+                  }else{
+                     galleryAdapter.notifyDataSetChanged();
+                  }
               } else if (refresh) {
                 controller.getApiManager().downloadPhotos(context, InfoActivity.this, InfoActivity.this.geoCache.getId());
+                refresh = false;
               } else {
                 askSavePicture();
               }
@@ -385,6 +394,9 @@ public class InfoActivity extends Activity {
         isCacheStored = false;
         controller.getCheckpointManager(geoCache.getId()).clear();
         controller.getDbManager().deleteCacheById(geoCache.getId());
+        if(galleryAdapter != null){
+          galleryAdapter.notifyDataSetChanged();
+        }
     }
 
     public void showInfo(String info) {
@@ -443,7 +455,7 @@ public class InfoActivity extends Activity {
         if (imageNames != null) {
             return imageNames.length != 0;
         }
-        return imageNames != null;
+        return false;
     }
 
      private void askSavePicture() {

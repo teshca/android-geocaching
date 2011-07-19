@@ -1,5 +1,8 @@
 package su.geocaching.android.controller.apimanager;
 
+import javax.xml.parsers.ParserConfigurationException;
+import javax.xml.parsers.SAXParser;
+import javax.xml.parsers.SAXParserFactory;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
@@ -13,25 +16,18 @@ import java.util.Locale;
 import java.util.concurrent.ExecutionException;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
-
-import javax.xml.parsers.ParserConfigurationException;
-import javax.xml.parsers.SAXParser;
-import javax.xml.parsers.SAXParserFactory;
-
+import android.content.Context;
+import android.os.AsyncTask;
+import android.widget.Toast;
+import com.google.android.maps.GeoPoint;
 import org.xml.sax.InputSource;
 import org.xml.sax.SAXException;
-
 import su.geocaching.android.controller.Controller;
 import su.geocaching.android.controller.apimanager.DownloadInfoTask.DownloadInfoState;
 import su.geocaching.android.controller.managers.LogManager;
 import su.geocaching.android.model.GeoCache;
-import su.geocaching.android.ui.InfoActivity;
 import su.geocaching.android.ui.R;
-import android.content.Context;
-import android.os.AsyncTask;
-import android.widget.Toast;
-
-import com.google.android.maps.GeoPoint;
+import su.geocaching.android.ui.info.InfoActivity;
 
 /**
  * Class for getting data from Geocaching.su. This class implements IApiManager

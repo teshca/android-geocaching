@@ -1,17 +1,6 @@
 package su.geocaching.android.controller.managers;
 
 import java.util.List;
-
-import su.geocaching.android.model.GeoCache;
-import su.geocaching.android.ui.CacheNotesActivity;
-import su.geocaching.android.ui.DashboardActivity;
-import su.geocaching.android.ui.InfoActivity;
-import su.geocaching.android.ui.R;
-import su.geocaching.android.ui.checkpoints.CheckpointDialog;
-import su.geocaching.android.ui.checkpoints.CheckpointsFolder;
-import su.geocaching.android.ui.checkpoints.CreateCheckpointActivity;
-import su.geocaching.android.ui.compass.CompassActivity;
-import su.geocaching.android.ui.searchmap.SearchMapActivity;
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.ComponentName;
@@ -22,6 +11,16 @@ import android.content.pm.PackageManager;
 import android.content.pm.ResolveInfo;
 import android.net.Uri;
 import android.provider.Settings;
+import su.geocaching.android.model.GeoCache;
+import su.geocaching.android.ui.DashboardActivity;
+import su.geocaching.android.ui.R;
+import su.geocaching.android.ui.checkpoints.CheckpointDialog;
+import su.geocaching.android.ui.checkpoints.CheckpointsFolder;
+import su.geocaching.android.ui.checkpoints.CreateCheckpointActivity;
+import su.geocaching.android.ui.compass.CompassActivity;
+import su.geocaching.android.ui.info.CacheNotesActivity;
+import su.geocaching.android.ui.info.InfoActivity;
+import su.geocaching.android.ui.searchmap.SearchMapActivity;
 
 /**
  * @author Nikita Bumakov

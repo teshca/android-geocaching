@@ -1,4 +1,4 @@
-package su.geocaching.android.ui;
+package su.geocaching.android.ui.info;
 
 import su.geocaching.android.controller.Controller;
 import su.geocaching.android.controller.managers.LogManager;
