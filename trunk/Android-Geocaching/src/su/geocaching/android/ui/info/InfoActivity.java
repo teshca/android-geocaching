@@ -1,6 +1,7 @@
 package su.geocaching.android.ui.info;
 
 import java.io.File;
+
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.Dialog;
@@ -342,21 +343,21 @@ public class InfoActivity extends Activity {
                 }
                 break;
             case PHOTO:
-              isPhotoStored = isPhotoStored(geoCache.getId());
-              if (isPhotoStored) {
-                  if(galleryAdapter == null){
-                     galleryAdapter = new GalleryImageAdapter(this, geoCache.getId());
-                     galleryView.setAdapter(galleryAdapter);
-                  }else{
-                     galleryAdapter.notifyDataSetChanged();
-                  }
-              } else if (refresh) {
-                controller.getApiManager().downloadPhotos(context, InfoActivity.this, InfoActivity.this.geoCache.getId());
-                refresh = false;
-              } else {
-                askSavePicture();
-              }
-              break;
+                isPhotoStored = isPhotoStored(geoCache.getId());
+                if (isPhotoStored) {
+                    if (galleryAdapter == null) {
+                        galleryAdapter = new GalleryImageAdapter(this, geoCache.getId());
+                        galleryView.setAdapter(galleryAdapter);
+                    } else {
+                        galleryAdapter.notifyDataSetChanged();
+                    }
+                } else if (refresh) {
+                    controller.getApiManager().downloadPhotos(context, InfoActivity.this, InfoActivity.this.geoCache.getId());
+                    refresh = false;
+                } else {
+                    askSavePicture();
+                }
+                break;
             case ERROR:
                 webView.loadData("<?xml version='1.0' encoding='utf-8'?><center>" + errorMessage + "</center>", "text/html", ApiManager.UTF8_ENCODING);// TODO
                 break;
@@ -394,8 +395,8 @@ public class InfoActivity extends Activity {
         isCacheStored = false;
         controller.getCheckpointManager(geoCache.getId()).clear();
         controller.getDbManager().deleteCacheById(geoCache.getId());
-        if(galleryAdapter != null){
-          galleryAdapter.notifyDataSetChanged();
+        if (galleryAdapter != null) {
+            galleryAdapter.notifyDataSetChanged();
         }
     }
 
@@ -458,11 +459,11 @@ public class InfoActivity extends Activity {
         return false;
     }
 
-     private void askSavePicture() {
+    private void askSavePicture() {
         AlertDialog.Builder builder = new AlertDialog.Builder(context);
         builder.setMessage(context.getString(R.string.ask_download_photos)).setPositiveButton(context.getString(R.string.yes), new DialogInterface.OnClickListener() {
             public void onClick(DialogInterface dialog, int id) {
-               controller.getApiManager().downloadPhotos(context, InfoActivity.this, InfoActivity.this.geoCache.getId());
+                controller.getApiManager().downloadPhotos(context, InfoActivity.this, InfoActivity.this.geoCache.getId());
             }
         }).setNegativeButton(context.getString(R.string.no), new DialogInterface.OnClickListener() {
             public void onClick(DialogInterface dialog, int id) {

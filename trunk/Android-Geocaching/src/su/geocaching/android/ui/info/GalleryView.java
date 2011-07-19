@@ -14,18 +14,18 @@ import su.geocaching.android.controller.managers.NavigationManager;
  */
 public class GalleryView extends GridView {
 
-  private static final String TAG = GalleryView.class.getCanonicalName();
+    private static final String TAG = GalleryView.class.getCanonicalName();
 
-  public GalleryView(final Context context, AttributeSet attributeSet) {
-    super(context, attributeSet);
-    LogManager.d(TAG, "onCreate");
+    public GalleryView(final Context context, AttributeSet attributeSet) {
+        super(context, attributeSet);
+        LogManager.d(TAG, "onCreate");
 
-    setOnItemClickListener(new AdapterView.OnItemClickListener() {
+        setOnItemClickListener(new AdapterView.OnItemClickListener() {
 
-      public void onItemClick(AdapterView<?> parent, View v, int position, long id) {
-        Uri fileUri = (Uri) getAdapter().getItem(position);
-        NavigationManager.startPictureViewer(context, fileUri);
-      }
-    });
-  }
+            public void onItemClick(AdapterView<?> parent, View v, int position, long id) {
+                Uri fileUri = (Uri) getAdapter().getItem(position);
+                NavigationManager.startPictureViewer(context, fileUri);
+            }
+        });
+    }
 }

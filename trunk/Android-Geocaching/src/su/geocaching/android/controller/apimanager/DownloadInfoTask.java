@@ -29,20 +29,20 @@ public class DownloadInfoTask extends AsyncTask<Void, Void, String> {
     private DownloadInfoState state;
     private Context context;
     private ProgressDialog progressDialog;
-    private InfoActivity infoActibity;
+    private InfoActivity infoActivity;
     private URL downloadUrl;
 
-    public DownloadInfoTask(Context context, int cacheId, InfoActivity infoActibity, DownloadInfoState state) {
+    public DownloadInfoTask(Context context, int cacheId, InfoActivity infoActivity, DownloadInfoState state) {
         this.state = state;
         this.cacheId = cacheId;
         this.context = context;
-        this.infoActibity = infoActibity;
+        this.infoActivity = infoActivity;
         Thread.setDefaultUncaughtExceptionHandler(new UncaughtExceptionsHandler());
     }
 
     @Override
     protected void onPreExecute() {
-        LogManager.d(TAG, "TestTime onPreExecute - Start");
+        LogManager.d(TAG, "onPreExecute");
 
         String progressMessage = "";
         try {
@@ -80,7 +80,7 @@ public class DownloadInfoTask extends AsyncTask<Void, Void, String> {
             boolean success = false;
             for (int attempt = 0; attempt < 5 && !success; attempt++)
                 try {
-                    result = getWebText(cacheId);
+                    result = getWebText();
                     success = true;
                 } catch (IOException e) {
                     LogManager.e(TAG, "IOException getWebText", e);
@@ -93,7 +93,7 @@ public class DownloadInfoTask extends AsyncTask<Void, Void, String> {
         return result;
     }
 
-    private String getWebText(int id) throws IOException {
+    private String getWebText() throws IOException {
         StringBuilder html = new StringBuilder();
         char[] buffer = new char[1024];
         BufferedReader in = new BufferedReader(new InputStreamReader(downloadUrl.openStream(), ApiManager.CP1251_ENCODING));
@@ -107,7 +107,7 @@ public class DownloadInfoTask extends AsyncTask<Void, Void, String> {
 
     @Override
     protected void onPostExecute(String result) {
-        LogManager.d(TAG, "TestTime onPreExecute - Stop");
+        LogManager.d(TAG, "onPreExecute");
 
         if (progressDialog != null && progressDialog.isShowing()) {
             progressDialog.dismiss();
@@ -115,19 +115,19 @@ public class DownloadInfoTask extends AsyncTask<Void, Void, String> {
         switch (state) {
             case SHOW_INFO:
                 result = CheckpointManager.insertCheckpointsLink(result);
-                infoActibity.showInfo(result);
+                infoActivity.showInfo(result);
                 break;
             case SHOW_NOTEBOOK:
-                infoActibity.showNotebook(result);
+                infoActivity.showNotebook(result);
                 break;
             case SAVE_CACHE_NOTEBOOK:
-                infoActibity.saveNotebook(result);
+                infoActivity.saveNotebook(result);
                 break;
             case SAVE_CACHE_NOTEBOOK_AND_GO_TO_MAP:
-                infoActibity.saveNotebookAndGoToMap(result);
+                infoActivity.saveNotebookAndGoToMap(result);
                 break;
             case ERROR:
-                infoActibity.showErrorMessage(R.string.info_geocach_not_internet_and_not_in_DB);
+                infoActivity.showErrorMessage(R.string.info_geocach_not_internet_and_not_in_DB);
                 break;
             default:
                 break;
