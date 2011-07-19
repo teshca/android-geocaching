@@ -8,7 +8,6 @@ import su.geocaching.android.ui.info.InfoActivity;
 import android.content.Context;
 
 import com.google.android.maps.GeoPoint;
-import su.geocaching.android.ui.info.InfoActivity;
 
 /**
  * @author Nikita Bumakov

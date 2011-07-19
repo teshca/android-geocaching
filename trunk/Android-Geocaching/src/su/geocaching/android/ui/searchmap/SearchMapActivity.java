@@ -111,7 +111,7 @@ public class SearchMapActivity extends MapActivity implements IInternetAware, IL
         Controller.getInstance().getGoogleAnalyticsManager().trackPageView(SEARCH_MAP_ACTIVITY_FOLDER);
 
         checkpointManager = Controller.getInstance().getCheckpointManager(geoCache.getId());
-        checkpointOverlay = new CheckpointOverlay(Controller.getInstance().getResourceManager().getMarker(GeoCacheType.CHECKPOINT, null), this, map);
+        checkpointOverlay = new CheckpointOverlay(Controller.getInstance().getResourceManager().getMarker(GeoCacheType.CHECKPOINT, GeoCacheStatus.NOT_ACTIVE_CHECKPOINT), this, map);
         for (GeoCache checkpoint : checkpointManager.getCheckpoints()) {
             checkpointOverlay.addOverlayItem(new GeoCacheOverlayItem(checkpoint, "", ""));
             if (checkpoint.getStatus() == GeoCacheStatus.ACTIVE_CHECKPOINT) {
