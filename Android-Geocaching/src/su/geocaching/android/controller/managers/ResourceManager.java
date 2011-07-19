@@ -144,19 +144,23 @@ public class ResourceManager {
                         switch (status) {
                             case VALID:
                                 return R.drawable.ic_cache_custom_competition_valid;
-
                             case NOT_VALID:
                                 return R.drawable.ic_cache_custom_competition_not_valid;
-
                             case NOT_CONFIRMED:
                                 return R.drawable.ic_cache_custom_competition_not_confirmed;
-
                         }
                         break;
                     case GROUP:
                         return R.drawable.ic_cache_custom_group;
                     case CHECKPOINT:
-                        return R.drawable.ic_cache_checkpoint;
+                        switch (status) {
+                            case ACTIVE_CHECKPOINT:
+                                return R.drawable.ic_cache_checkpoint_active;
+                            case NOT_ACTIVE_CHECKPOINT:
+                                return R.drawable.ic_cache_checkpoint;
+                            default:
+                                return R.drawable.ic_cache_checkpoint;
+                        }
                 }
                 break;
 
@@ -237,20 +241,23 @@ public class ResourceManager {
                         switch (status) {
                             case VALID:
                                 return R.drawable.ic_cache_default_competition_valid;
-
                             case NOT_VALID:
                                 return R.drawable.ic_cache_default_competition_not_valid;
-
                             case NOT_CONFIRMED:
                                 return R.drawable.ic_cache_default_competition_not_confirmed;
-
                         }
                         break;
                     case GROUP:
                         return R.drawable.ic_cache_default_group;
                     case CHECKPOINT:
-                        return R.drawable.ic_cache_checkpoint;
-
+                        switch (status) {
+                            case ACTIVE_CHECKPOINT:
+                                return R.drawable.ic_cache_checkpoint_active;
+                            case NOT_ACTIVE_CHECKPOINT:
+                                return R.drawable.ic_cache_checkpoint;
+                            default:
+                                return R.drawable.ic_cache_checkpoint;
+                        }
                 }
                 break;
         }

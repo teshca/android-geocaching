@@ -62,6 +62,8 @@ public class CheckpointManager {
         } else {
             gc.setName(name.trim());
         }
+        deactivateCheckpoints();
+        
         gc.setLocationGeoPoint(new GeoPoint(latitudeE6, longitudeE6));
         gc.setType(GeoCacheType.CHECKPOINT);
         gc.setStatus(GeoCacheStatus.ACTIVE_CHECKPOINT);
