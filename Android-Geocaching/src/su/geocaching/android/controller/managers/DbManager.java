@@ -1,17 +1,21 @@
 package su.geocaching.android.controller.managers;
 
+import java.io.File;
+import java.util.ArrayList;
 import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
 import android.database.SQLException;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
+import android.os.Environment;
+import android.provider.MediaStore;
+import android.util.Log;
 import com.google.android.maps.GeoPoint;
 import su.geocaching.android.model.GeoCache;
 import su.geocaching.android.model.GeoCacheStatus;
 import su.geocaching.android.model.GeoCacheType;
-
-import java.util.ArrayList;
+import su.geocaching.android.ui.R;
 
 /**
  * This class contains method for working with database.
@@ -40,6 +44,7 @@ public class DbManager extends SQLiteOpenHelper {
     private static final String CHECKPOINT_ID = "checkpoint_id";
 
     private SQLiteDatabase db = null;
+    private Context context;
 
     private static final String SQL_CREATE_DATABASE_TABLE = String.format("CREATE TABLE %s (%s INTEGER, %s STRING, %s INTEGER, %s INTEGER, %s INTEGER, %s INTEGER, %s STRING, %s STRING, %s STRING);",
             DATABASE_NAME_TABLE, COLUMN_ID, COLUMN_NAME, COLUMN_TYPE, COLUMN_STATUS, COLUMN_LAT, COLUMN_LON, COLUMN_WEB_TEXT, COLUMN_NOTEBOOK_TEXT, COLUMN_USER_NOTES);
@@ -52,6 +57,7 @@ public class DbManager extends SQLiteOpenHelper {
      */
     public DbManager(Context context) {
         super(context, DATABASE_NAME_BASE, null, DATABASE_VERSION);
+        this.context = context;
     }
 
     @Override
@@ -299,6 +305,7 @@ public class DbManager extends SQLiteOpenHelper {
         openWritableDB();
         db.execSQL(String.format("DELETE FROM %s WHERE %s=%d;", DATABASE_NAME_TABLE, COLUMN_ID, id));
         db.execSQL(String.format("DELETE FROM %s WHERE %s=%d;", DATABASE_CHECKPOINT_NAME_TABLE, CACHE_ID, id));
+        deletePhotos(id);
         closeDB();
     }
 
@@ -383,4 +390,21 @@ public class DbManager extends SQLiteOpenHelper {
         LogManager.d(TAG, "closeDB");
         db.close();
     }
+
+  public void deletePhotos(int cacheId) {
+    File images = new File(Environment.getExternalStorageDirectory(), String.format(context.getString(R.string.cache_directory), cacheId));
+    if (images == null || images.list() == null) {
+      // TODO need some message
+      return;
+    }
+
+    for (File f : images.listFiles()) {
+      try {
+        context.getContentResolver().delete(MediaStore.Images.Media.EXTERNAL_CONTENT_URI, String.format("%s=\"%s\"", MediaStore.Images.Media.DATA, f.toString()), null);
+      } catch (Exception e) {
+        Log.e(TAG, e.getMessage(), e);
+      }
+    }
+    images.delete();
+  }
 }

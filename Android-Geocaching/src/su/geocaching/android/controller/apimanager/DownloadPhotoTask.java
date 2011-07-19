@@ -27,7 +27,6 @@ import android.provider.MediaStore;
  */
 public class DownloadPhotoTask extends AsyncTask<URL, Void, Void> {
 
-    public static final String PHOTO_ID_TEMPLATE = "%d%s";
     private static final String TAG = DownloadPhotoTask.class.getCanonicalName();
     private static final int neededFreeSdSpace = 1572864; // bytes 1,5mb
 
@@ -97,21 +96,15 @@ public class DownloadPhotoTask extends AsyncTask<URL, Void, Void> {
 
     private Uri prepareFile(URL photoURL) {
         File sdImageMainDirectory = new File(Environment.getExternalStorageDirectory(), context.getString(R.string.main_directory));
-        sdImageMainDirectory.mkdirs();
         File sdImagePhotoDirectory = new File(sdImageMainDirectory, context.getString(R.string.photo_directory));
-        sdImagePhotoDirectory.mkdirs();
         File sdImageCacheDirectory = new File(sdImagePhotoDirectory, Integer.toString(cacheId));
         sdImageCacheDirectory.mkdirs();
 
         String filename = photoURL.toString().substring(photoURL.toString().lastIndexOf('/') + 1);
-        String nameWithoutExtent = filename.substring(0, filename.indexOf("."));
-        String id = String.format(PHOTO_ID_TEMPLATE, cacheId, nameWithoutExtent);
         File outputFile = new File(sdImageCacheDirectory, filename);
         ContentValues values = new ContentValues();
         values.put(MediaStore.MediaColumns.DATA, outputFile.toString());
-        values.put(MediaStore.MediaColumns.DATA, outputFile.toString());
         values.put(MediaStore.MediaColumns.TITLE, filename);
-        values.put(MediaStore.MediaColumns._ID, id);
         values.put(MediaStore.MediaColumns.DATE_ADDED, System.currentTimeMillis());
         values.put(MediaStore.MediaColumns.MIME_TYPE, "image/jpg");
         Uri uri = context.getContentResolver().insert(android.provider.MediaStore.Images.Media.EXTERNAL_CONTENT_URI, values);
@@ -155,21 +148,25 @@ public class DownloadPhotoTask extends AsyncTask<URL, Void, Void> {
 
     @Override
     protected void onPostExecute(Void result) {
-        if (!enoughFreeSpace && externalStorageAvailable && externalStorageWriteable) {
-            infoActivity.showErrorMessage(R.string.no_free_space);
-        }
-        if (externalStorageAvailable) {
-            infoActivity.showErrorMessage(R.string.impossible_to_save_img);
-        } else {
-            infoActivity.showErrorMessage(R.string.insert_sd_card);
-        }
 
         if (progressDialog != null) {
             progressDialog.dismiss();
         }
-        if (externalStorageAvailable && externalStorageWriteable && enoughFreeSpace) {
-            infoActivity.showPhoto();
+
+        if (!enoughFreeSpace && externalStorageAvailable && externalStorageWriteable) {
+            infoActivity.showErrorMessage(R.string.no_free_space);
+            return;
+        } else
+        if (!externalStorageAvailable) {
+            infoActivity.showErrorMessage(R.string.insert_sd_card);
+            return;
+        } else
+        if (!externalStorageWriteable) {
+            infoActivity.showErrorMessage(R.string.impossible_to_save_img);
+            return;
         }
+
+        infoActivity.showPhoto();
         super.onPostExecute(result);
     }
 }

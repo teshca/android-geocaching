@@ -13,4 +13,5 @@
 	<string name="menu_refresh">Обновить</string>
 	<string name="notes_for_cache">Заметки для тайника</string>
     <string name="ask_add_cache_in_db">Добавьте тайник в избранное, чтобы иметь возможность добавлять контрольные точки</string>
+	<string name="ask_download_photos">Загрузка фотографий требует больших затрат трафика. Продолжить?</string>
 </resources>

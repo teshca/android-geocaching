@@ -5,6 +5,7 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.net.URL;
 import su.geocaching.android.controller.Controller;
+import su.geocaching.android.controller.managers.CheckpointManager;
 import su.geocaching.android.controller.managers.LogManager;
 import su.geocaching.android.controller.managers.UncaughtExceptionsHandler;
 import su.geocaching.android.ui.InfoActivity;
@@ -85,7 +86,9 @@ public class DownloadInfoTask extends AsyncTask<Void, Void, String> {
                     LogManager.e(TAG, "IOException getWebText", e);
                 }
         } else {
-            state = DownloadInfoState.ERROR;
+          if (state != DownloadInfoState.SAVE_CACHE_NOTEBOOK_AND_GO_TO_MAP) {
+              state = DownloadInfoState.ERROR;
+          }
         }
         return result;
     }
@@ -111,6 +114,7 @@ public class DownloadInfoTask extends AsyncTask<Void, Void, String> {
         }
         switch (state) {
             case SHOW_INFO:
+                result = CheckpointManager.insertCheckpointsLink(result);
                 infoActibity.showInfo(result);
                 break;
             case SHOW_NOTEBOOK:

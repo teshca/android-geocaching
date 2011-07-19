@@ -1,8 +1,11 @@
 package su.geocaching.android.ui;
 
+import java.io.File;
 import android.app.Activity;
+import android.app.AlertDialog;
 import android.app.Dialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.graphics.Picture;
 import android.os.Bundle;
 import android.os.Environment;
@@ -21,13 +24,10 @@ import com.google.android.maps.GeoPoint;
 import su.geocaching.android.controller.Controller;
 import su.geocaching.android.controller.apimanager.ApiManager;
 import su.geocaching.android.controller.apimanager.DownloadInfoTask.DownloadInfoState;
-import su.geocaching.android.controller.managers.CheckpointManager;
 import su.geocaching.android.controller.managers.LogManager;
 import su.geocaching.android.controller.managers.NavigationManager;
 import su.geocaching.android.model.GeoCache;
 import su.geocaching.android.model.GeoCacheType;
-
-import java.io.File;
 
 
 /**
@@ -64,11 +64,8 @@ public class InfoActivity extends Activity {
         setContentView(R.layout.info_activity);
         controller = Controller.getInstance();
         context = this;
-
         geoCache = getIntent().getParcelableExtra(GeoCache.class.getCanonicalName());
         initViews();
-
-
         controller.getGoogleAnalyticsManager().trackPageView(GEOCACHE_INFO_ACTIVITY_FOLDER);
     }
 
@@ -173,7 +170,6 @@ public class InfoActivity extends Activity {
         super.onResume();
     }
 
-
     @Override
     protected Dialog onCreateDialog(int id) {
         return new DownloadNotebookDialog(this, this, geoCache.getId());
@@ -263,7 +259,7 @@ public class InfoActivity extends Activity {
                 return true;
             case R.id.show_cache_photos:
                 if (pageState == PageState.PHOTO) {
-                    galleryView.deleteCachePhotosFromSDCard();
+                    controller.getDbManager().deletePhotos(geoCache.getId());
                     loadView(PageState.INFO);
                 } else {
                     loadView(PageState.PHOTO);
@@ -308,7 +304,7 @@ public class InfoActivity extends Activity {
                 pageState = PageState.INFO;
                 break;
             case PHOTO:
-                galleryView.deleteCachePhotosFromSDCard();
+                controller.getDbManager().deleteCacheById(geoCache.getId());
                 break;
         }
         refresh = true;
@@ -343,12 +339,15 @@ public class InfoActivity extends Activity {
                 }
                 break;
             case PHOTO:
-                if (isPhotoStored) {
-                    galleryView.init(geoCache.getId());
-                } else {
-                    downloadPhotos();
-                }
-                break;
+              isPhotoStored = isPhotoStored(geoCache.getId());
+              if (isPhotoStored) {
+                galleryView.init(geoCache.getId());
+              } else if (refresh) {
+                controller.getApiManager().downloadPhotos(context, InfoActivity.this, InfoActivity.this.geoCache.getId());
+              } else {
+                askSavePicture();
+              }
+              break;
             case ERROR:
                 webView.loadData("<?xml version='1.0' encoding='utf-8'?><center>" + errorMessage + "</center>", "text/html", ApiManager.UTF8_ENCODING);// TODO
                 break;
@@ -366,8 +365,6 @@ public class InfoActivity extends Activity {
                     showDialog(0);
                 }
             }
-            info = CheckpointManager.insertCheckpointsLink(info);
-            loadView(pageState);
             saveCache();
         } else {
             deleteCache();
@@ -391,33 +388,17 @@ public class InfoActivity extends Activity {
     }
 
     public void showInfo(String info) {
-        pageState = PageState.INFO;
-
-        if (isCacheStored) {
-            info = CheckpointManager.insertCheckpointsLink(info);
-        }
         this.info = info;
-        loadView(pageState);
+        loadView(PageState.INFO);
     }
 
     public void showNotebook(String notebook) {
-        pageState = PageState.NOTEBOOK;
         this.notebook = notebook;
-        loadView(pageState);
+        loadView(PageState.NOTEBOOK);
     }
 
     public void showPhoto() {
-        pageState = PageState.PHOTO;
-        loadView(pageState);
-    }
-
-    private void downloadPhotos() {
-        isPhotoStored = isPhotoStored(geoCache.getId());
-        if (isPhotoStored) {
-            showPhoto();
-        } else {
-            controller.getApiManager().downloadPhotos(this, this, geoCache.getId());
-        }
+        loadView(PageState.PHOTO);
     }
 
     public void showErrorMessage(int stringId) {
@@ -463,5 +444,19 @@ public class InfoActivity extends Activity {
             return imageNames.length != 0;
         }
         return imageNames != null;
+    }
+
+     private void askSavePicture() {
+        AlertDialog.Builder builder = new AlertDialog.Builder(context);
+        builder.setMessage(context.getString(R.string.ask_download_photos)).setPositiveButton(context.getString(R.string.yes), new DialogInterface.OnClickListener() {
+            public void onClick(DialogInterface dialog, int id) {
+               controller.getApiManager().downloadPhotos(context, InfoActivity.this, InfoActivity.this.geoCache.getId());
+            }
+        }).setNegativeButton(context.getString(R.string.no), new DialogInterface.OnClickListener() {
+            public void onClick(DialogInterface dialog, int id) {
+                dialog.cancel();
+            }
+        });
+        builder.show();
     }
 }

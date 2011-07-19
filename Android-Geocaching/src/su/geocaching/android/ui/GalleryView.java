@@ -2,16 +2,11 @@ package su.geocaching.android.ui;
 
 import java.io.File;
 import java.io.FilenameFilter;
-
-import su.geocaching.android.controller.apimanager.DownloadPhotoTask;
-import su.geocaching.android.controller.managers.LogManager;
-import su.geocaching.android.controller.managers.NavigationManager;
 import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.os.Environment;
-import android.provider.MediaStore;
 import android.util.AttributeSet;
 import android.view.View;
 import android.view.ViewGroup;
@@ -19,6 +14,8 @@ import android.widget.AdapterView;
 import android.widget.BaseAdapter;
 import android.widget.GridView;
 import android.widget.ImageView;
+import su.geocaching.android.controller.managers.LogManager;
+import su.geocaching.android.controller.managers.NavigationManager;
 
 /**
  * @author Nikita Bumakov
@@ -73,20 +70,6 @@ public class GalleryView extends GridView {
                 }
             });
         }
-    }
-
-    public void deleteCachePhotosFromSDCard() {
-        if (images == null || images.list() == null) {
-            // TODO need some message
-            return;
-        }
-
-        for (String f : images.list()) {
-            String nameWithoutExtent = f.substring(0, f.indexOf("."));
-            String id = String.format(DownloadPhotoTask.PHOTO_ID_TEMPLATE, cacheId, nameWithoutExtent);
-            context.getContentResolver().delete(MediaStore.Images.Media.EXTERNAL_CONTENT_URI, String.format("%s=%s", MediaStore.Images.Media._ID, id), null);
-        }
-        images.delete();
     }
 
     public class ImageAdapter extends BaseAdapter {
