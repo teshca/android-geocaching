@@ -7,12 +7,6 @@ import java.io.IOException;
 import java.io.OutputStream;
 import java.net.URL;
 import java.net.URLConnection;
-
-import su.geocaching.android.controller.Controller;
-import su.geocaching.android.controller.managers.LogManager;
-import su.geocaching.android.controller.managers.UncaughtExceptionsHandler;
-import su.geocaching.android.ui.InfoActivity;
-import su.geocaching.android.ui.R;
 import android.app.ProgressDialog;
 import android.content.ContentValues;
 import android.content.Context;
@@ -21,6 +15,11 @@ import android.os.AsyncTask;
 import android.os.Environment;
 import android.os.StatFs;
 import android.provider.MediaStore;
+import su.geocaching.android.controller.Controller;
+import su.geocaching.android.controller.managers.LogManager;
+import su.geocaching.android.controller.managers.UncaughtExceptionsHandler;
+import su.geocaching.android.ui.R;
+import su.geocaching.android.ui.info.InfoActivity;
 
 /**
  * @author Nikita Bumakov
@@ -28,7 +27,7 @@ import android.provider.MediaStore;
 public class DownloadPhotoTask extends AsyncTask<URL, Void, Void> {
 
     private static final String TAG = DownloadPhotoTask.class.getCanonicalName();
-    private static final int neededFreeSdSpace = 1572864; // bytes 1,5mb
+    private static final int neededFreeSdSpace = 1572864; // bytes 1,5mb //TODO we mast get real space
 
     private int cacheId;
     private boolean externalStorageAvailable, externalStorageWriteable, enoughFreeSpace;
@@ -84,7 +83,7 @@ public class DownloadPhotoTask extends AsyncTask<URL, Void, Void> {
                     boolean success = false;
                     for (int attempt = 0; attempt < 5 && !success; attempt++)
                         try {
-                            success = downloadAndSavePhoto(url, uri, attempt);
+                            success = downloadAndSavePhoto(url, uri);
                         } catch (IOException e) {
                             LogManager.e(TAG, e.getMessage(), e);
                         }
@@ -98,7 +97,7 @@ public class DownloadPhotoTask extends AsyncTask<URL, Void, Void> {
         File sdImageMainDirectory = new File(Environment.getExternalStorageDirectory(), context.getString(R.string.main_directory));
         File sdImagePhotoDirectory = new File(sdImageMainDirectory, context.getString(R.string.photo_directory));
         File sdImageCacheDirectory = new File(sdImagePhotoDirectory, Integer.toString(cacheId));
-        sdImageCacheDirectory.mkdirs();
+        sdImageCacheDirectory.mkdirs();  //TODO we should catch exceptions and correctly process situation when folder don't created
 
         String filename = photoURL.toString().substring(photoURL.toString().lastIndexOf('/') + 1);
         File outputFile = new File(sdImageCacheDirectory, filename);
@@ -107,13 +106,12 @@ public class DownloadPhotoTask extends AsyncTask<URL, Void, Void> {
         values.put(MediaStore.MediaColumns.TITLE, filename);
         values.put(MediaStore.MediaColumns.DATE_ADDED, System.currentTimeMillis());
         values.put(MediaStore.MediaColumns.MIME_TYPE, "image/jpg");
-        Uri uri = context.getContentResolver().insert(android.provider.MediaStore.Images.Media.EXTERNAL_CONTENT_URI, values);
-        return uri;
+        return context.getContentResolver().insert(android.provider.MediaStore.Images.Media.EXTERNAL_CONTENT_URI, values);
     }
 
-    private boolean downloadAndSavePhoto(URL photoUrl, Uri uri, int attempt) throws IOException {
+    private boolean downloadAndSavePhoto(URL from, Uri where) throws IOException {
 
-        if (uri == null) {
+        if (where == null) {
             // TODO
             return false;
         }
@@ -121,9 +119,9 @@ public class DownloadPhotoTask extends AsyncTask<URL, Void, Void> {
         OutputStream outputStream = null;
         BufferedInputStream inputStream = null;
         try {
-            URLConnection conection = photoUrl.openConnection();
-            inputStream = new BufferedInputStream(conection.getInputStream(), 1024);
-            outputStream = context.getContentResolver().openOutputStream(uri);
+            URLConnection connection = from.openConnection();
+            inputStream = new BufferedInputStream(connection.getInputStream(), 1024);
+            outputStream = context.getContentResolver().openOutputStream(where);
             int size;
             byte[] buffer = new byte[1024];
             while ((size = inputStream.read(buffer)) != -1) {

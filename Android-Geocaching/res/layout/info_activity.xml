@@ -60,7 +60,7 @@
 		android:layout_weight="1">
 	</WebView>
 
-	<su.geocaching.android.ui.GalleryView
+	<su.geocaching.android.ui.info.GalleryView
 		android:id="@+id/galleryView" android:layout_width="fill_parent"
 		android:layout_height="wrap_content" android:numColumns="auto_fit"
 		android:verticalSpacing="10dip" android:horizontalSpacing="10dip"

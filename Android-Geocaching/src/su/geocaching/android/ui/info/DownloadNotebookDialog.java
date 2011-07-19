@@ -1,4 +1,4 @@
-package su.geocaching.android.ui;
+package su.geocaching.android.ui.info;
 
 import su.geocaching.android.controller.Controller;
 import su.geocaching.android.controller.apimanager.DownloadInfoTask.DownloadInfoState;
@@ -10,6 +10,7 @@ import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.CompoundButton;
 import android.widget.CompoundButton.OnCheckedChangeListener;
+import su.geocaching.android.ui.R;
 
 public class DownloadNotebookDialog extends Dialog {
 

@@ -50,7 +50,9 @@
 			</intent-filter>
 		</activity>
 
-		<activity android:theme="@android:style/Theme.Light.NoTitleBar" android:name="InfoActivity"   android:configChanges="orientation|keyboardHidden" >
+		<activity android:theme="@android:style/Theme.Light.NoTitleBar"
+				  android:name=".info.InfoActivity"
+				  android:configChanges="orientation|keyboardHidden" >
 			<intent-filter>
 				<action android:name="android.intent.action.RUN" />
 				<category android:name="android.intent.category.DEFAULT" />
@@ -65,7 +67,7 @@
 				<category android:name="android.intent.category.DEFAULT" />
 			</intent-filter>
 		</activity>
-		<activity android:name="su.geocaching.android.ui.CacheNotesActivity"
+		<activity android:name=".info.CacheNotesActivity"
 			android:theme="@android:style/Theme.Light.NoTitleBar">
 			<intent-filter>
 				<action android:name="android.intent.action.RUN" />
