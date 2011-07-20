@@ -82,8 +82,8 @@
 		<TextView android:id="@+id/tvOdometerInfo"
 				  android:layout_height="wrap_content"
 				  android:layout_width="wrap_content"
-				  android:textColor="#ff0bef00"
-				  android:textSize="@dimen/text_size_medium"
+				  android:textColor="#FFEFEBEF"
+				  android:textSize="@dimen/text_size_big"
 				  android:layout_marginLeft="6dp"
 				  android:text="@string/odometer"
 				  android:layout_toRightOf="@id/refreshButton">
@@ -91,8 +91,8 @@
 		<TextView android:id="@+id/tvOdometer"
 				  android:layout_height="wrap_content"
 				  android:layout_width="wrap_content"
-				  android:textColor="#ff0bef00"
-				  android:textSize="@dimen/text_size_medium"
+				  android:textColor="#FFEFEBEF"
+				  android:textSize="@dimen/text_size_big"
 				  android:text="0"
 				  android:layout_marginLeft="6dp"
 				  android:layout_toRightOf="@id/tvOdometerInfo">
