@@ -33,7 +33,7 @@
         <item name="android:gravity">center_horizontal</item>
         <item name="android:textSize">@dimen/text_size_medium</item>
         <item name="android:textStyle">bold</item>
-        <item name="android:textColor">@color/menu_text_color</item>
+        <item name="android:textColor">@color/dashboard_text_color</item>
         <item name="android:background">@null</item>
     </style>
 
@@ -43,15 +43,15 @@
         <item name="android:layout_height">wrap_content</item>
         <item name="android:textSize">@dimen/text_size_medium</item>
         <item name="android:textStyle">bold</item>
-        <item name="android:textColor">@color/menu_text_color</item>
-        <item name="android:background">@color/menu_background</item>
+        <item name="android:textColor">@color/dashboard_text_color</item>
+        <item name="android:background">@color/dashboard_background</item>
         <item name="android:layout_marginBottom">7dip</item>
     </style>
 
     <style name="FavoritesFolderRowTextStyle">
         <item name="android:textSize">@dimen/text_size_small</item>
         <item name="android:textStyle">bold</item>
-        <item name="android:textColor">@color/menu_text_color</item>
+        <item name="android:textColor">@color/dashboard_text_color</item>
         <item name="android:background">@null</item>    
     </style>
 

@@ -29,7 +29,7 @@ public abstract class AbstractCompassDrawing {
     }
 
     public AbstractCompassDrawing() {
-        bgColor = Color.parseColor(Controller.getInstance().getResourceManager().getString(R.color.menu_background));
+        bgColor = Color.parseColor(Controller.getInstance().getResourceManager().getString(R.color.dashboard_background));
     }
 
     /**

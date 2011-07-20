@@ -38,6 +38,8 @@ public class ApiManager implements IApiManager {
 
     public static final String UTF8_ENCODING = "UTF-8";
     public static final String CP1251_ENCODING = "windows-1251";
+    public static final Locale enLocale = new Locale("en");
+    public static final Locale ruLocale = new Locale("ru");
     public static final String LINK_INFO_CACHE = "http://pda.geocaching.su/cache.php?cid=%d&mode=0";
     public static final String LINK_NOTEBOOK_TEXT = "http://pda.geocaching.su/note.php?cid=%d&mode=0";
     public static final String LINK_PHOTO_PAGE = "http://pda.geocaching.su/pict.php?cid=%d&mode=0";
@@ -45,7 +47,7 @@ public class ApiManager implements IApiManager {
     private static final String LINK_GEOCACHE_LIST = "http://www.geocaching.su/pages/1031.ajax.php?lngmax=%f&lngmin=%f&latmax=%f&latmin=%f&id=%d&geocaching=5767e405a17c4b0e1cbaecffdb93475d";
 
     private static final String TAG = ApiManager.class.getCanonicalName();
-    private static final Locale rusLocale = new Locale("ru");
+
 
     private int id;
     private HashSet<GeoCache> geoCaches = new HashSet<GeoCache>();
@@ -110,7 +112,7 @@ public class ApiManager implements IApiManager {
     }
 
     private URL generateUrl(double maxLatitude, double minLatitude, double maxLongitude, double minLongitude) throws MalformedURLException {
-        String request = String.format(rusLocale, LINK_GEOCACHE_LIST, maxLongitude, minLongitude, maxLatitude, minLatitude, id);
+        String request = String.format(enLocale, LINK_GEOCACHE_LIST, maxLongitude, minLongitude, maxLatitude, minLatitude, id);
         LogManager.d(TAG, "generated Url: " + request);
         return new URL(request);
     }

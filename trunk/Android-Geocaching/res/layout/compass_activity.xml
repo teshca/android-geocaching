@@ -3,7 +3,7 @@
 				android:orientation="vertical"
 				android:layout_width="fill_parent"
 				android:layout_height="fill_parent"
-				android:background="@color/menu_background"
+				android:background="@color/dashboard_background"
 				android:id="@+id/compassLayout">
 	<LinearLayout
 			android:id="@+id/logoLayout"
@@ -13,7 +13,6 @@
 				   style="@style/TitleBarLogo"
 				   android:id="@+id/title_logo"
 				   android:onClick="onHomeClick"/>
-		<ImageView style="@style/TitleBarSeparator"/>
 		<TextView android:id="@+id/waitingLocationFixText"
 				  android:layout_width="wrap_content"
 				  android:layout_height="fill_parent"
@@ -34,7 +33,7 @@
 	<TextView android:id="@+id/targetCoordinates"
 			  android:layout_height="wrap_content"
 			  android:layout_width="fill_parent"
-			  android:textColor="@color/menu_text_color"
+			  android:textColor="@color/dashboard_text_color"
 			  android:gravity="center"
 			  android:layout_below="@id/logoLayout">
 	</TextView>
@@ -49,7 +48,7 @@
 	<TextView android:id="@+id/currentCoordinates"
 			  android:layout_height="wrap_content"
 			  android:layout_width="fill_parent"
-			  android:textColor="@color/menu_text_color"
+			  android:textColor="@color/dashboard_text_color"
 			  android:gravity="top|center"
 			  android:text="@string/location_unknown"
 			  android:layout_alignParentBottom="true">

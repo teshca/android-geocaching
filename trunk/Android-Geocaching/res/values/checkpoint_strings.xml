@@ -23,6 +23,5 @@
     <string name="azimuth_template">По азимуту</string>
     <string name="are_you_sure">Удалить все контрольные точки.\nВы уверены?
     </string>
-    <string name="checkpoint_name">Имя:</string>
-    <string name="checkpoint_name_hint">Название контрольной точки</string>
+    <string name="checkpoint_name">Название:</string>
 </resources>

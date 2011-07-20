@@ -2,26 +2,6 @@ package su.geocaching.android.ui.searchmap;
 
 import java.util.List;
 import java.util.Locale;
-
-import su.geocaching.android.controller.Controller;
-import su.geocaching.android.controller.CoordinateHelper;
-import su.geocaching.android.controller.GpsUpdateFrequency;
-import su.geocaching.android.controller.compass.SmoothCompassThread;
-import su.geocaching.android.controller.managers.CheckpointManager;
-import su.geocaching.android.controller.managers.IInternetAware;
-import su.geocaching.android.controller.managers.ILocationAware;
-import su.geocaching.android.controller.managers.LogManager;
-import su.geocaching.android.controller.managers.NavigationManager;
-import su.geocaching.android.model.GeoCache;
-import su.geocaching.android.model.GeoCacheStatus;
-import su.geocaching.android.model.GeoCacheType;
-import su.geocaching.android.model.MapInfo;
-import su.geocaching.android.model.SearchMapInfo;
-import su.geocaching.android.ui.FavoritesFolderActivity;
-import su.geocaching.android.ui.R;
-import su.geocaching.android.ui.geocachemap.GeoCacheOverlayItem;
-import su.geocaching.android.ui.geocachemap.MapPreferenceActivity;
-
 import android.content.Intent;
 import android.graphics.Point;
 import android.graphics.Rect;
@@ -40,13 +20,31 @@ import android.view.View.OnClickListener;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
-
 import com.google.android.maps.GeoPoint;
 import com.google.android.maps.MapActivity;
 import com.google.android.maps.MapController;
 import com.google.android.maps.MapView;
 import com.google.android.maps.Overlay;
 import com.google.android.maps.Projection;
+import su.geocaching.android.controller.Controller;
+import su.geocaching.android.controller.CoordinateHelper;
+import su.geocaching.android.controller.GpsUpdateFrequency;
+import su.geocaching.android.controller.apimanager.ApiManager;
+import su.geocaching.android.controller.compass.SmoothCompassThread;
+import su.geocaching.android.controller.managers.CheckpointManager;
+import su.geocaching.android.controller.managers.IInternetAware;
+import su.geocaching.android.controller.managers.ILocationAware;
+import su.geocaching.android.controller.managers.LogManager;
+import su.geocaching.android.controller.managers.NavigationManager;
+import su.geocaching.android.model.GeoCache;
+import su.geocaching.android.model.GeoCacheStatus;
+import su.geocaching.android.model.GeoCacheType;
+import su.geocaching.android.model.MapInfo;
+import su.geocaching.android.model.SearchMapInfo;
+import su.geocaching.android.ui.FavoritesFolderActivity;
+import su.geocaching.android.ui.R;
+import su.geocaching.android.ui.geocachemap.GeoCacheOverlayItem;
+import su.geocaching.android.ui.geocachemap.MapPreferenceActivity;
 
 /**
  * Search GeoCache with the map
@@ -323,7 +321,7 @@ public class SearchMapActivity extends MapActivity implements IInternetAware, IL
 
         boolean needZoomOut = false;
         Projection proj = map.getProjection();
-        Rect rect = new Rect();
+        Rect rect;
         Point point = new Point();
 
         if (Controller.getInstance().getLocationManager().hasLocation()) {
@@ -348,7 +346,7 @@ public class SearchMapActivity extends MapActivity implements IInternetAware, IL
         if (!needZoomOut) {
             // Get marker of checkpoint
             // gc.setType(GeoCacheType.CHECKPOINT); //No!, never set checkpoint to Intent
-            rect = Controller.getInstance().getResourceManager().getMarker(GeoCacheType.CHECKPOINT, null).getBounds();
+            rect = Controller.getInstance().getResourceManager().getMarker(GeoCacheType.CHECKPOINT, GeoCacheStatus.NOT_ACTIVE_CHECKPOINT).getBounds();
 
             for (GeoCache i : Controller.getInstance().getCheckpointManager(gc.getId()).getCheckpoints()) {
                 proj.toPixels(i.getLocationGeoPoint(), point);
@@ -428,7 +426,7 @@ public class SearchMapActivity extends MapActivity implements IInternetAware, IL
             GeoPoint point = Controller.getInstance().getSearchingGeoCache().getLocationGeoPoint();
             double latitude = point.getLatitudeE6() / 1E6;
             double longitude = point.getLongitudeE6() / 1E6;
-            String uri = "geo:"+ latitude + "," + longitude + "?z=" + MapInfo.DEFAULT_ZOOM + "&q=" + latitude + "," + longitude;
+            String uri =  String.format(ApiManager.enLocale, "geo:%f,%f?z=%d&q=%f,%f", latitude, longitude, MapInfo.DEFAULT_ZOOM, latitude, longitude);
             startActivity(new Intent(android.content.Intent.ACTION_VIEW, Uri.parse(uri)));
     }
 
@@ -437,8 +435,6 @@ public class SearchMapActivity extends MapActivity implements IInternetAware, IL
      * 
      * @param status
      *            string with information about device status
-     * @param type
-     *            type of message(GPS, Internet, etc)
      */
     public void updateStatus(String status) {
         if (!Controller.getInstance().getLocationManager().hasLocation()) {
@@ -505,7 +501,7 @@ public class SearchMapActivity extends MapActivity implements IInternetAware, IL
             case LocationProvider.AVAILABLE:
                 LogManager.d(TAG, "GpsStatus: available.");
                 String statusString = Controller.getInstance().getLocationManager().getSatellitesStatusString();
-                if (!Controller.getInstance().getLocationManager().hasLocation() && statusString != null) {
+                if (statusString != null) {
                     statusTextView.setText(statusString);
                 }
                 break;
