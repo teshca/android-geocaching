@@ -82,6 +82,8 @@ public class CompassActivity extends Activity {
         controller.getGoogleAnalyticsManager().trackPageView(COMPASS_ACTIVITY);
     }
 
+    ImageView startButton;
+
     @Override
     protected void onResume() {
         super.onResume();
@@ -99,9 +101,10 @@ public class CompassActivity extends Activity {
             currentCoordinates.setText(CoordinateHelper.coordinateToString(CoordinateHelper.locationToGeoPoint(locationManager.getLastKnownLocation())));
         }
         if (preferenceManager.getOdometerOnPreference()) {
+            startButton = (ImageView) findViewById(R.id.startButton);
             odometerlayout.setVisibility(View.VISIBLE);
             tvOdometer.setText(CoordinateHelper.distanceToString(locationManager.getOdometerDistance()));
-
+            toggleStartButton();
         } else {
             odometerlayout.setVisibility(View.GONE);
         }
@@ -224,12 +227,21 @@ public class CompassActivity extends Activity {
 
     public void onStartClick(View v) {
         locationManager.setUpdatingOdometer(!locationManager.isUpdatingOdometer());
+        toggleStartButton();
     }
 
     public void onRefreshClick(View v) {
        locationManager.refreshOdometer();
        tvOdometer.setText(CoordinateHelper.distanceToString(0));
     }
+
+    private void toggleStartButton() {
+      if (locationManager.isUpdatingOdometer()) {
+          startButton.setImageResource(R.drawable.pause);
+      } else {
+          startButton.setImageResource(R.drawable.play);
+      }
+  }
 
     /**
      *
