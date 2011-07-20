@@ -22,6 +22,8 @@ import su.geocaching.android.ui.R;
 import su.geocaching.android.ui.info.InfoActivity;
 
 /**
+ * This AsyncTask for downloading photo of geocache
+ *
  * @author Nikita Bumakov
  */
 public class DownloadPhotoTask extends AsyncTask<URL, Void, Void> {

@@ -8,7 +8,7 @@ package su.geocaching.android.controller.compass;
 public interface ICompassAnimation {
 
     /**
-     * Set new direction
+     * Set new direction to the north
      *
      * @param direction - direction to the north
      * @return returns TRUE if the drawing was successful, otherwise FALSE

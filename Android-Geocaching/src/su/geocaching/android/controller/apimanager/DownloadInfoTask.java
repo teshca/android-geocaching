@@ -15,6 +15,8 @@ import su.geocaching.android.ui.R;
 import su.geocaching.android.ui.info.InfoActivity;
 
 /**
+ * This AsyncTask for downloading info/notebook of geocache
+ *
  * @author Nikita Bumakov
  */
 public class DownloadInfoTask extends AsyncTask<Void, Void, String> {
@@ -49,16 +51,16 @@ public class DownloadInfoTask extends AsyncTask<Void, Void, String> {
             switch (state) {
                 case SHOW_INFO:
                     progressMessage = context.getString(R.string.download_info);
-                    downloadUrl = new URL(String.format(ApiManager.LINK_INFO_CACHE, cacheId));
+                    downloadUrl = new URL(String.format(GeocachingSuApiManager.LINK_INFO_CACHE, cacheId));
                     break;
                 case SHOW_NOTEBOOK:
                 case SAVE_CACHE_NOTEBOOK:
                 case SAVE_CACHE_NOTEBOOK_AND_GO_TO_MAP:
                     progressMessage = context.getString(R.string.download_notebook);
-                    downloadUrl = new URL(String.format(ApiManager.LINK_NOTEBOOK_TEXT, cacheId));
+                    downloadUrl = new URL(String.format(GeocachingSuApiManager.LINK_NOTEBOOK_TEXT, cacheId));
                     break;
                 case DOWNLOAD_PHOTO_PAGE:
-                    downloadUrl = new URL(String.format(ApiManager.LINK_PHOTO_PAGE, cacheId));
+                    downloadUrl = new URL(String.format(GeocachingSuApiManager.LINK_PHOTO_PAGE, cacheId));
                     break;
             }
         } catch (IOException e) {
@@ -96,13 +98,13 @@ public class DownloadInfoTask extends AsyncTask<Void, Void, String> {
     private String getWebText() throws IOException {
         StringBuilder html = new StringBuilder();
         char[] buffer = new char[1024];
-        BufferedReader in = new BufferedReader(new InputStreamReader(downloadUrl.openStream(), ApiManager.CP1251_ENCODING));
+        BufferedReader in = new BufferedReader(new InputStreamReader(downloadUrl.openStream(), GeocachingSuApiManager.CP1251_ENCODING));
 
         int size;
         while ((size = in.read(buffer)) != -1) {
             html.append(buffer, 0, size);
         }
-        return html.toString().replace(ApiManager.CP1251_ENCODING, ApiManager.UTF8_ENCODING);
+        return html.toString().replace(GeocachingSuApiManager.CP1251_ENCODING, GeocachingSuApiManager.UTF8_ENCODING);
     }
 
     @Override

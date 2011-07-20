@@ -23,7 +23,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 import com.google.android.maps.GeoPoint;
 import su.geocaching.android.controller.Controller;
-import su.geocaching.android.controller.apimanager.ApiManager;
+import su.geocaching.android.controller.apimanager.GeocachingSuApiManager;
 import su.geocaching.android.controller.apimanager.DownloadInfoTask.DownloadInfoState;
 import su.geocaching.android.controller.managers.LogManager;
 import su.geocaching.android.controller.managers.NavigationManager;
@@ -33,13 +33,15 @@ import su.geocaching.android.ui.R;
 
 
 /**
+ * Activity to display cache's information, notebook and photos
+ *
  * @author Nikita Bumakov
  */
 public class InfoActivity extends Activity {
 
     private static final String TAG = InfoActivity.class.getCanonicalName();
     private static final String GEOCACHE_INFO_ACTIVITY_FOLDER = "/GeoCacheInfoActivity";
-    private static final String PAGE_TYPE = "page type", SCROOLY = "scrollY", WIDTH = "width", ZOOM = "ZOOM", TEXT_INFO = "info", TEXT_NOTEBOOK = "notebook";
+    private static final String PAGE_TYPE = "page type", SCROLLY = "scrollY", WIDTH = "width", ZOOM = "ZOOM", TEXT_INFO = "info", TEXT_NOTEBOOK = "notebook";
 
     private enum PageState {
         INFO, NOTEBOOK, PHOTO, ERROR
@@ -105,9 +107,9 @@ public class InfoActivity extends Activity {
         WebViewClient webViewClient = new WebViewClient() {
             @Override
             public boolean shouldOverrideUrlLoading(WebView view, String url) {
-                String urlNotebook = String.format(ApiManager.LINK_NOTEBOOK_TEXT, geoCache.getId());
-                String urlInfo = String.format(ApiManager.LINK_INFO_CACHE, geoCache.getId());
-                String urlPhoto = String.format(ApiManager.LINK_PHOTO_PAGE, geoCache.getId());
+                String urlNotebook = String.format(GeocachingSuApiManager.LINK_NOTEBOOK_TEXT, geoCache.getId());
+                String urlInfo = String.format(GeocachingSuApiManager.LINK_INFO_CACHE, geoCache.getId());
+                String urlPhoto = String.format(GeocachingSuApiManager.LINK_PHOTO_PAGE, geoCache.getId());
 
                 if (urlInfo.contains(url)) {
                     loadView(PageState.INFO);
@@ -182,7 +184,7 @@ public class InfoActivity extends Activity {
         outState.putInt(PAGE_TYPE, pageState.ordinal());
         outState.putString(TEXT_INFO, info);
         outState.putString(TEXT_NOTEBOOK, notebook);
-        outState.putInt(SCROOLY, webView.getScrollY());
+        outState.putInt(SCROLLY, webView.getScrollY());
         outState.putFloat(ZOOM, webView.getScale());
         outState.putInt(WIDTH, webView.getWidth());
         super.onSaveInstanceState(outState);
@@ -193,7 +195,7 @@ public class InfoActivity extends Activity {
         pageState = PageState.values()[savedInstanceState.getInt(PAGE_TYPE)];
         info = savedInstanceState.getString(TEXT_INFO);
         notebook = savedInstanceState.getString(TEXT_NOTEBOOK);
-        scroll = savedInstanceState.getInt(SCROOLY);
+        scroll = savedInstanceState.getInt(SCROLLY);
         webView.setInitialScale((int) (savedInstanceState.getFloat(ZOOM) * 100));
         lastWidth = savedInstanceState.getInt(WIDTH);
         super.onRestoreInstanceState(savedInstanceState);
@@ -322,9 +324,9 @@ public class InfoActivity extends Activity {
         switch (pageState) {
             case INFO:
                 if (info == null) {
-                    controller.getApiManager().downloadInfo(this, DownloadInfoState.SHOW_INFO, this, geoCache.getId());
+                    controller.getApiManager().getInfo(this, DownloadInfoState.SHOW_INFO, this, geoCache.getId());
                 } else {
-                    webView.loadDataWithBaseURL(ApiManager.HTTP_PDA_GEOCACHING_SU, info, "text/html", ApiManager.UTF8_ENCODING, null);
+                    webView.loadDataWithBaseURL(GeocachingSuApiManager.HTTP_PDA_GEOCACHING_SU, info, "text/html", GeocachingSuApiManager.UTF8_ENCODING, null);
                     if (refresh) {
                         saveCache();
                         refresh = false;
@@ -333,9 +335,9 @@ public class InfoActivity extends Activity {
                 break;
             case NOTEBOOK:
                 if (notebook == null) {
-                    controller.getApiManager().downloadInfo(this, DownloadInfoState.SHOW_NOTEBOOK, this, geoCache.getId());
+                    controller.getApiManager().getInfo(this, DownloadInfoState.SHOW_NOTEBOOK, this, geoCache.getId());
                 } else {
-                    webView.loadDataWithBaseURL(ApiManager.HTTP_PDA_GEOCACHING_SU, notebook, "text/html", ApiManager.UTF8_ENCODING, null);
+                    webView.loadDataWithBaseURL(GeocachingSuApiManager.HTTP_PDA_GEOCACHING_SU, notebook, "text/html", GeocachingSuApiManager.UTF8_ENCODING, null);
                     if (refresh) {
                         saveCache();
                         refresh = false;
@@ -352,14 +354,14 @@ public class InfoActivity extends Activity {
                         galleryAdapter.notifyDataSetChanged();
                     }
                 } else if (refresh) {
-                    controller.getApiManager().downloadPhotos(context, InfoActivity.this, InfoActivity.this.geoCache.getId());
+                    controller.getApiManager().getPhotos(context, InfoActivity.this, InfoActivity.this.geoCache.getId());
                     refresh = false;
                 } else {
                     askSavePicture();
                 }
                 break;
             case ERROR:
-                webView.loadData("<?xml version='1.0' encoding='utf-8'?><center>" + errorMessage + "</center>", "text/html", ApiManager.UTF8_ENCODING);// TODO
+                webView.loadData("<?xml version='1.0' encoding='utf-8'?><center>" + errorMessage + "</center>", "text/html", GeocachingSuApiManager.UTF8_ENCODING);// TODO
                 break;
         }
     }
@@ -369,7 +371,7 @@ public class InfoActivity extends Activity {
             if (notebook == null) {
                 if (controller.getPreferencesManager().getDownloadNoteBookAlways()) {
                     {
-                        controller.getApiManager().downloadInfo(this, DownloadInfoState.SAVE_CACHE_NOTEBOOK, this, geoCache.getId());
+                        controller.getApiManager().getInfo(this, DownloadInfoState.SAVE_CACHE_NOTEBOOK, this, geoCache.getId());
                     }
                 } else {
                     showDialog(0);
@@ -438,7 +440,7 @@ public class InfoActivity extends Activity {
         if (!isCacheStored) {
             cbFavoriteCache.setChecked(true);
             if ((notebook == null) && controller.getPreferencesManager().getDownloadNoteBookAlways()) {
-                controller.getApiManager().downloadInfo(this, DownloadInfoState.SAVE_CACHE_NOTEBOOK_AND_GO_TO_MAP, this, geoCache.getId());
+                controller.getApiManager().getInfo(this, DownloadInfoState.SAVE_CACHE_NOTEBOOK_AND_GO_TO_MAP, this, geoCache.getId());
                 return;
             }
         }
@@ -463,7 +465,7 @@ public class InfoActivity extends Activity {
         AlertDialog.Builder builder = new AlertDialog.Builder(context);
         builder.setMessage(context.getString(R.string.ask_download_photos)).setPositiveButton(context.getString(R.string.yes), new DialogInterface.OnClickListener() {
             public void onClick(DialogInterface dialog, int id) {
-                controller.getApiManager().downloadPhotos(context, InfoActivity.this, InfoActivity.this.geoCache.getId());
+                controller.getApiManager().getPhotos(context, InfoActivity.this, InfoActivity.this.geoCache.getId());
             }
         }).setNegativeButton(context.getString(R.string.no), new DialogInterface.OnClickListener() {
             public void onClick(DialogInterface dialog, int id) {
