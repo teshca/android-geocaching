@@ -29,7 +29,7 @@ import com.google.android.maps.Projection;
 import su.geocaching.android.controller.Controller;
 import su.geocaching.android.controller.CoordinateHelper;
 import su.geocaching.android.controller.GpsUpdateFrequency;
-import su.geocaching.android.controller.apimanager.ApiManager;
+import su.geocaching.android.controller.apimanager.GeocachingSuApiManager;
 import su.geocaching.android.controller.compass.SmoothCompassThread;
 import su.geocaching.android.controller.managers.CheckpointManager;
 import su.geocaching.android.controller.managers.IInternetAware;
@@ -426,7 +426,7 @@ public class SearchMapActivity extends MapActivity implements IInternetAware, IL
             GeoPoint point = Controller.getInstance().getSearchingGeoCache().getLocationGeoPoint();
             double latitude = point.getLatitudeE6() / 1E6;
             double longitude = point.getLongitudeE6() / 1E6;
-            String uri =  String.format(ApiManager.enLocale, "geo:%f,%f?z=%d&q=%f,%f", latitude, longitude, MapInfo.DEFAULT_ZOOM, latitude, longitude);
+            String uri =  String.format(GeocachingSuApiManager.enLocale, "geo:%f,%f?z=%d&q=%f,%f", latitude, longitude, MapInfo.DEFAULT_ZOOM, latitude, longitude);
             startActivity(new Intent(android.content.Intent.ACTION_VIEW, Uri.parse(uri)));
     }
 

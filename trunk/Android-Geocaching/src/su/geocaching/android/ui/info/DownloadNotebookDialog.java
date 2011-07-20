@@ -36,7 +36,7 @@ public class DownloadNotebookDialog extends Dialog {
         buttonYes.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Controller.getInstance().getApiManager().downloadInfo(context, DownloadInfoState.SAVE_CACHE_NOTEBOOK, infoActivity, cacheId);
+                Controller.getInstance().getApiManager().getInfo(context, DownloadInfoState.SAVE_CACHE_NOTEBOOK, infoActivity, cacheId);
                 dismiss();
             }
         });

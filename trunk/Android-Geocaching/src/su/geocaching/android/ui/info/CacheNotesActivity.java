@@ -9,6 +9,11 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 
+/**
+ * Activity for show and write notes about geocache
+ *
+ * @author Nikita Bumakov
+ */
 public class CacheNotesActivity extends Activity {
 
     private static String TAG = CacheNotesActivity.class.getCanonicalName();
@@ -18,7 +23,7 @@ public class CacheNotesActivity extends Activity {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        LogManager.d(TAG, "CacheNotesActivity Created");
+        LogManager.d(TAG, "CacheNotesActivity created");
 
         setContentView(su.geocaching.android.ui.R.layout.cache_notes_activity);
         saveText = (EditText) findViewById(su.geocaching.android.ui.R.id.cache_notes_text);

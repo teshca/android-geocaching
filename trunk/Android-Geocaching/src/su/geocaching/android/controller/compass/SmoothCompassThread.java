@@ -16,7 +16,7 @@ public class SmoothCompassThread extends Thread implements IBearingAware {
     private static final String TAG = SmoothCompassThread.class.getCanonicalName();
 
     private static final int LONG_SLEEP = 120;
-    private static final int STANDART_SLEEP = 40;
+    private static final int DEFAULT_SLEEP = 40;
 
     private static final float ARRIVED_EPS = 0.65f;
     private static final float LEAVED_EPS = 2.5f;
@@ -84,7 +84,7 @@ public class SmoothCompassThread extends Thread implements IBearingAware {
                 if (isArrived) {
                     Thread.sleep(LONG_SLEEP);
                 } else {
-                    Thread.sleep(STANDART_SLEEP);
+                    Thread.sleep(DEFAULT_SLEEP);
                 }
             } catch (InterruptedException e) {
                 LogManager.w(TAG, "interrupt() was called for SmoothCompassThread while it was sleeping", e);

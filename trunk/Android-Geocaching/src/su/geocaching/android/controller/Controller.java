@@ -4,7 +4,7 @@ import android.content.Context;
 import android.hardware.SensorManager;
 import android.location.LocationManager;
 import com.google.android.maps.GeoPoint;
-import su.geocaching.android.controller.apimanager.ApiManager;
+import su.geocaching.android.controller.apimanager.GeocachingSuApiManager;
 import su.geocaching.android.controller.apimanager.DownloadGeoCachesTask;
 import su.geocaching.android.controller.apimanager.IApiManager;
 import su.geocaching.android.controller.managers.CheckpointManager;
@@ -44,7 +44,7 @@ public class Controller {
     private GeoCache searchingGeoCache;
 
     private Controller() {
-        apiManager = new ApiManager();
+        apiManager = new GeocachingSuApiManager();
     }
 
     public static Controller getInstance() {

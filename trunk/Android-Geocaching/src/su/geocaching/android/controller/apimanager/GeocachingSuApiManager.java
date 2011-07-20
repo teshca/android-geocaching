@@ -12,7 +12,6 @@ import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.LinkedList;
 import java.util.List;
-import java.util.Locale;
 import java.util.concurrent.ExecutionException;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -30,32 +29,27 @@ import su.geocaching.android.ui.R;
 import su.geocaching.android.ui.info.InfoActivity;
 
 /**
- * Class for getting data from Geocaching.su. This class implements IApiManager
+ * Class for getting data from geocaching.su. This class implements IApiManager
  * 
  * @author Nikita Bumakov
  */
-public class ApiManager implements IApiManager {
+public class GeocachingSuApiManager implements IApiManager {
 
-    public static final String UTF8_ENCODING = "UTF-8";
-    public static final String CP1251_ENCODING = "windows-1251";
-    public static final Locale enLocale = new Locale("en");
-    public static final Locale ruLocale = new Locale("ru");
+    private static final String TAG = GeocachingSuApiManager.class.getCanonicalName();
+
     public static final String LINK_INFO_CACHE = "http://pda.geocaching.su/cache.php?cid=%d&mode=0";
     public static final String LINK_NOTEBOOK_TEXT = "http://pda.geocaching.su/note.php?cid=%d&mode=0";
     public static final String LINK_PHOTO_PAGE = "http://pda.geocaching.su/pict.php?cid=%d&mode=0";
     public static final String HTTP_PDA_GEOCACHING_SU = "http://pda.geocaching.su/";
     private static final String LINK_GEOCACHE_LIST = "http://www.geocaching.su/pages/1031.ajax.php?lngmax=%f&lngmin=%f&latmax=%f&latmin=%f&id=%d&geocaching=5767e405a17c4b0e1cbaecffdb93475d";
 
-    private static final String TAG = ApiManager.class.getCanonicalName();
-
-
     private int id;
     private HashSet<GeoCache> geoCaches = new HashSet<GeoCache>();
     private AsyncTask<Void, Void, String> downloadInfoTask;
 
-    public ApiManager() {
+    public GeocachingSuApiManager() {
         id = (int) (Math.random() * 1E7);
-        LogManager.d(TAG, "new ApiManager Created");
+        LogManager.d(TAG, "new GeocachingSuApiManager Created");
     }
 
     @Override
@@ -130,8 +124,16 @@ public class ApiManager implements IApiManager {
         return filteredGeoCaches;
     }
 
+  /**
+   * This method starts DownloadInfoTask
+   *
+   * @param context ontext for showing progress bar while photos downloading
+   * @param state of downloading process
+   * @param infoActivity  infoActivity need for callback
+   * @param cacheId cacheId id of geocache
+   */
     @Override
-    public void downloadInfo(Context context, DownloadInfoState state, InfoActivity infoActivity, int cacheId) {
+    public void getInfo(Context context, DownloadInfoState state, InfoActivity infoActivity, int cacheId) {
         if (downloadInfoTask != null) {
             downloadInfoTask.cancel(false); // TODO check it
         }
@@ -139,8 +141,15 @@ public class ApiManager implements IApiManager {
         downloadInfoTask.execute();
     }
 
+   /**
+    * This method download html page with photo links from geocaching.su, extract links and start DownloadPhotoTask for this urls
+    *
+    * @param context for showing progress bar while photos downloading
+    * @param infoActivity need for callback
+    * @param cacheId id of geocache
+    */
     @Override
-    public void downloadPhotos(Context context, InfoActivity infoActivity, int cacheId) {
+    public void getPhotos(Context context, InfoActivity infoActivity, int cacheId) {
 
         if (!Controller.getInstance().getConnectionManager().isInternetConnected()) {
             infoActivity.showErrorMessage(R.string.no_internet);

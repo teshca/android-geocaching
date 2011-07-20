@@ -1,12 +1,10 @@
 package su.geocaching.android.controller;
 
+import java.text.DecimalFormat;
 import android.content.res.Resources;
 import android.location.Location;
 import com.google.android.maps.GeoPoint;
-
 import su.geocaching.android.ui.R;
-
-import java.text.DecimalFormat;
 
 /**
  * This class is subset of common method, which we often use
@@ -194,6 +192,14 @@ public class CoordinateHelper {
         return String.format(format, latitude[0], latitude[1], latitude[2], longitude[0], longitude[1], longitude[2]);
     }
 
+  /**
+   * Calculate geopoint that located at a distance "distance" in the "bearing" direction from currentGeoPoint
+   *
+   * @param currentGeoPoint current location
+   * @param bearing direction to the goal point
+   * @param distance distance to the goal point
+   * @return goal geopoint
+   */
     public static GeoPoint distanceBearingToGeoPoint(GeoPoint currentGeoPoint, float bearing, float distance) {
         double latitude = currentGeoPoint.getLatitudeE6() * Math.PI / 180E6;
         double longitude = currentGeoPoint.getLongitudeE6() * Math.PI / 180E6;
@@ -210,5 +216,4 @@ public class CoordinateHelper {
         goalLongitude = goalLongitude * 180E6 / Math.PI;
         return new GeoPoint((int) (goalLatitude), (int) (goalLongitude));
     }
-
 }
