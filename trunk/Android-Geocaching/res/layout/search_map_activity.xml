@@ -32,16 +32,17 @@
 
 	<LinearLayout
 			android:layout_width="fill_parent"
-			android:layout_height="wrap_content"
+			android:layout_height="18sp"
 			android:orientation="horizontal"
-			android:gravity="right"
+			android:gravity="right|center_vertical"
 			android:background="@color/dark_transparent_background"
-			android:layout_below="@id/titleBarSearchMap">
+			android:layout_below="@id/titleBarSearchMap"
+			>
 		<TextView android:id="@+id/waitingLocationFixText"
 				  android:layout_width="wrap_content"
 				  android:layout_height="wrap_content"
 				  android:textColor="@color/status_text_color"
-				  android:padding="3dip"
+				  android:layout_marginRight="3dp"
 				  android:textSize="@dimen/text_size_small"
 				/>
 	</LinearLayout>
