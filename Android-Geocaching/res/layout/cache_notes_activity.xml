@@ -1,19 +1,18 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-              android:orientation="vertical" android:layout_width="fill_parent"
-              android:layout_height="fill_parent" android:background="@color/menu_background">
-    <LinearLayout style="@style/TitleBar" android:id="@+id/title_bar"
-
-                  android:background="@drawable/geologo_background">
-        <ImageView android:src="@drawable/geologo" style="@style/TitleBarLogo"
-                   android:id="@+id/title_logo" android:onClick="onHomeClick"/>
-    </LinearLayout>
-
-    <EditText android:layout_width="fill_parent"
-              android:layout_height="wrap_content" android:id="@+id/cache_notes_text"
-              android:hint="@string/notes_for_cache"
-              android:maxLines="5"/>
-    <Button android:id="@+id/text_save_button" android:text="@string/save"
-            android:layout_width="wrap_content" android:layout_height="wrap_content"/>
+			  android:orientation="vertical"
+			  android:layout_width="fill_parent"
+			  android:layout_height="fill_parent"
+			  android:background="@color/dashboard_background">
+	<include layout="@layout/default_title_bar"/>
+	<EditText android:layout_width="fill_parent"
+			  android:layout_height="wrap_content"
+			  android:id="@+id/cache_notes_text"
+			  android:hint="@string/notes_for_cache"
+			  android:maxLines="5"/>
+	<Button android:id="@+id/text_save_button"
+			android:text="@string/save"
+			android:layout_width="wrap_content"
+			android:layout_height="wrap_content"/>
 
 </LinearLayout>

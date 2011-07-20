@@ -22,7 +22,7 @@ public class DefaultCompassDrawing extends AbstractCompassDrawing {
 
         roseBitmap = BitmapFactory.decodeResource(Controller.getInstance().getResourceManager().getResources(), R.drawable.compass_rose_yellow);
 
-        textPaint.setColor(Color.parseColor(Controller.getInstance().getResourceManager().getString(R.color.menu_text_color)));
+        textPaint.setColor(Color.parseColor(Controller.getInstance().getResourceManager().getString(R.color.dashboard_text_color)));
         textPaint.setAntiAlias(true);
         textPaint.setStyle(Style.STROKE);
         textPaint.setStrokeWidth(0.8f);

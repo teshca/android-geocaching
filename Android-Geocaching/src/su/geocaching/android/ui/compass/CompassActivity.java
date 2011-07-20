@@ -47,7 +47,7 @@ public class CompassActivity extends Activity {
     private TextView tvOdometer, statusText, targetCoordinates, currentCoordinates;
     private ImageView progressBarView;
     private AnimationDrawable progressBarAnim;
-    private RelativeLayout odometerlayout;
+    private RelativeLayout odometerLayout;
     private Toast providerUnavailableToast;
 
     private Controller controller;
@@ -72,7 +72,7 @@ public class CompassActivity extends Activity {
         });
         progressBarAnim = (AnimationDrawable) progressBarView.getBackground();
         statusText = (TextView) findViewById(R.id.waitingLocationFixText);
-        odometerlayout = (RelativeLayout) findViewById(R.id.odometer_layout);
+        odometerLayout = (RelativeLayout) findViewById(R.id.odometer_layout);
 
         controller = Controller.getInstance();
         locationManager = controller.getLocationManager();
@@ -102,11 +102,11 @@ public class CompassActivity extends Activity {
         }
         if (preferenceManager.getOdometerOnPreference()) {
             startButton = (ImageView) findViewById(R.id.startButton);
-            odometerlayout.setVisibility(View.VISIBLE);
+            odometerLayout.setVisibility(View.VISIBLE);
             tvOdometer.setText(CoordinateHelper.distanceToString(locationManager.getOdometerDistance()));
             toggleStartButton();
         } else {
-            odometerlayout.setVisibility(View.GONE);
+            odometerLayout.setVisibility(View.GONE);
         }
 
         providerUnavailableToast = Toast.makeText(this, getString(R.string.search_geocache_best_provider_lost), Toast.LENGTH_LONG);
