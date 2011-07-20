@@ -27,9 +27,9 @@ public class ConnectionStateReceiver extends BroadcastReceiver {
         LogManager.d(TAG, "Recieved message about internet status");
         ConnectionManager connManager = Controller.getInstance().getConnectionManager(context.getApplicationContext());
         if (connManager.isInternetConnected()) {
-            connManager.onInternetFound();
+            Controller.getInstance().getConnectionManager().getHandler().sendEmptyMessage(ConnectionManager.INTERNET_FOUND);
         } else {
-            connManager.onInternetLost();
+            Controller.getInstance().getConnectionManager().getHandler().sendEmptyMessage(ConnectionManager.INTERNET_LOST);
         }
     }
 }
