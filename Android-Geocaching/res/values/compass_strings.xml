@@ -37,7 +37,7 @@
 	<string name="compass_preference_title">Настройки компаса</string>
 	<string name="compass_preference_key">compass.preference</string>
 	<string name="compass_category_title">Компас</string>
-	<string name="odometer">Пройдено :</string>
+	<string name="odometer">Пройдено:</string>
 	<string name="prefer_odometer_on">Показывать одометр (beta)</string>
 	<string name="prefer_odometer_off">Не показывать одометр</string>
 	<string name="prefer_odometer_title">Одометр</string>
