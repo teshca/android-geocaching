@@ -237,9 +237,9 @@ public class CompassActivity extends Activity {
 
     private void toggleStartButton() {
       if (locationManager.isUpdatingOdometer()) {
-          startButton.setImageResource(R.drawable.pause);
+          startButton.setImageResource(R.drawable.ic_pause);
       } else {
-          startButton.setImageResource(R.drawable.play);
+          startButton.setImageResource(R.drawable.ic_play);
       }
   }
 

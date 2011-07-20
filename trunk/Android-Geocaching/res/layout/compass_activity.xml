@@ -58,12 +58,12 @@
 					android:layout_width="fill_parent"
 					android:layout_height="60dp"
 					android:background="@drawable/odometer_bg"
-					android:layout_above="@id/currentCoordinates"
-					android:gravity="center_vertical">
+					android:layout_above="@id/currentCoordinates">
 		<ImageView android:layout_height="40dp"
 				   android:layout_width="40dp"
+                    android:layout_centerVertical="true"
 				   android:id="@+id/startButton"
-				   android:src="@drawable/play"
+				   android:src="@drawable/ic_play"
 				   android:scaleType="centerCrop"
 				   android:layout_marginLeft="6dp"
 				   android:onClick="onStartClick"
@@ -71,8 +71,9 @@
 		</ImageView>
 		<ImageView android:layout_height="40dp"
 				   android:layout_width="40dp"
+                    android:layout_centerVertical="true"
 				   android:id="@+id/refreshButton"
-				   android:src="@drawable/refresh"
+				   android:src="@drawable/ic_refresh"
 				   android:scaleType="centerCrop"
 				   android:layout_marginLeft="6dp"
 				   android:onClick="onRefreshClick"
@@ -81,8 +82,10 @@
 		<TextView android:id="@+id/tvOdometerInfo"
 				  android:layout_height="wrap_content"
 				  android:layout_width="wrap_content"
+                  android:layout_centerVertical="true"
 				  android:textColor="#FFEFEBEF"
 				  android:textSize="@dimen/text_size_big"
+                  android:textStyle="bold"
 				  android:layout_marginLeft="6dp"
 				  android:text="@string/odometer"
 				  android:layout_toRightOf="@id/refreshButton">
@@ -90,8 +93,10 @@
 		<TextView android:id="@+id/tvOdometer"
 				  android:layout_height="wrap_content"
 				  android:layout_width="wrap_content"
+                  android:layout_centerVertical="true"
 				  android:textColor="#FFEFEBEF"
 				  android:textSize="@dimen/text_size_big"
+                  android:textStyle="bold"
 				  android:text="0"
 				  android:layout_marginLeft="6dp"
 				  android:layout_toRightOf="@id/tvOdometerInfo">
