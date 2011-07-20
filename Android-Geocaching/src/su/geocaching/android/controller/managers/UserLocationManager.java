@@ -297,12 +297,13 @@ public class UserLocationManager implements LocationListener, GpsStatus.Listener
         LogManager.d(TAG, "request for enable best provider");
         Criteria criteria = new Criteria();
         criteria.setAccuracy(Criteria.ACCURACY_FINE);
-        if (provider.equals(locationManager.getBestProvider(criteria, true))) {
+        String bestProvider = locationManager.getBestProvider(criteria, true);
+        if (provider.equals(bestProvider)) {
             LogManager.d(TAG, "	best provider (" + provider + ") already running");
             return true;
         }
-        provider = locationManager.getBestProvider(criteria, true);
         removeUpdates();
+        provider = bestProvider;
         requestLocationUpdates();
         LogManager.d(TAG, "request for enable best provider: enabled");
         return true;
