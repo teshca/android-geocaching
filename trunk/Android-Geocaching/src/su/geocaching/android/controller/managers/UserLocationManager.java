@@ -1,15 +1,21 @@
 package su.geocaching.android.controller.managers;
 
-import android.location.*;
-import android.os.Bundle;
-import su.geocaching.android.controller.Controller;
-import su.geocaching.android.controller.GpsUpdateFrequency;
-import su.geocaching.android.ui.R;
-
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Timer;
 import java.util.TimerTask;
+import android.location.Criteria;
+import android.location.GpsSatellite;
+import android.location.GpsStatus;
+import android.location.Location;
+import android.location.LocationListener;
+import android.location.LocationManager;
+import android.location.LocationProvider;
+import android.os.Bundle;
+import su.geocaching.android.controller.Controller;
+import su.geocaching.android.controller.CoordinateHelper;
+import su.geocaching.android.controller.GpsUpdateFrequency;
+import su.geocaching.android.ui.R;
 
 /**
  * Location manager which get updates of location by GPS or GSM/Wi-Fi
@@ -30,7 +36,8 @@ public class UserLocationManager implements LocationListener, GpsStatus.Listener
     private List<ILocationAware> statusSubscribers;
     private Timer removeUpdatesTimer;
     private RemoveUpdatesTask removeUpdatesTask;
-    private boolean isUpdating;
+    private boolean isUpdating, isUpdatingOdometer;
+    private float odometerDistance;
 
     private GpsUpdateFrequency updateFrequency;
 
@@ -138,15 +145,18 @@ public class UserLocationManager implements LocationListener, GpsStatus.Listener
      */
     @Override
     public void onLocationChanged(Location location) {
+        if (isUpdatingOdometer && lastLocation != null) {
+           odometerDistance += CoordinateHelper.getDistanceBetween(location, lastLocation);
+        }
         lastLocation = location;
         LogManager.d(TAG, "Location changed: send msg to " + Integer.toString(subscribers.size()) + " activity(es)");
         boolean isCompassAvailable = Controller.getInstance().getCompassManager().isCompassAvailable();
-        for (ILocationAware subsriber : subscribers) {
-            if ((subsriber instanceof IBearingAware) && (!isCompassAvailable)) {
-                ((IBearingAware) subsriber).updateBearing((int) location.getBearing());
-                LogManager.d(TAG, "update location: send bearing to " + subsriber.getClass().getCanonicalName());
+        for (ILocationAware subscriber : subscribers) {
+            if ((subscriber instanceof IBearingAware) && (!isCompassAvailable)) {
+                ((IBearingAware) subscriber).updateBearing((int) location.getBearing());
+                LogManager.d(TAG, "update location: send bearing to " + subscriber.getClass().getCanonicalName());
             }
-            subsriber.updateLocation(location);
+            subscriber.updateLocation(location);
         }
         if (location.getSpeed() > MAX_SPEED_OF_HARDWARE_COMPASS) {
             Controller.getInstance().getCompassManager().setUsingGpsCompass(true);
@@ -189,8 +199,8 @@ public class UserLocationManager implements LocationListener, GpsStatus.Listener
     @Override
     public void onStatusChanged(String provider, int status, Bundle extras) {
         LogManager.d(TAG, "Provider (" + provider + ") status changed (new status is " + Integer.toString(status) + "): send msg to " + Integer.toString(subscribers.size()) + " activity(es)");
-        for (ILocationAware subsriber : statusSubscribers) {
-            subsriber.onStatusChanged(provider, status, extras);
+        for (ILocationAware subscriber : statusSubscribers) {
+            subscriber.onStatusChanged(provider, status, extras);
         }
     }
 
@@ -407,6 +417,40 @@ public class UserLocationManager implements LocationListener, GpsStatus.Listener
             }
         }
         return String.format("%s %d/%d", Controller.getInstance().getResourceManager().getString(R.string.gps_status_satellite_status), usedInFix, count);
+    }
+
+  /**
+   * Return the distance in meters after last odometer refresh
+   *
+   * @return distance in meters
+   */
+    public float getOdometerDistance(){
+        return odometerDistance;
+    }
+
+   /**
+    *  Refresh the odometer distance value
+    */
+    public void refreshOdometer(){
+        odometerDistance = 0;
+    }
+
+  /**
+   * Enable/Disable odometer
+   *
+   * @param isUpdating - flag Enable/Disable updating
+   */
+    public void setUpdatingOdometer(boolean isUpdating){
+        isUpdatingOdometer = isUpdating;
+    }
+
+   /**
+    * Is odometer updating
+    *
+    * @return isUpdatingOdometer
+    */
+    public boolean isUpdatingOdometer(){
+        return isUpdatingOdometer;
     }
 
     /**

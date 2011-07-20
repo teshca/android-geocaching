@@ -1,17 +1,5 @@
 package su.geocaching.android.ui.compass;
 
-import su.geocaching.android.controller.Controller;
-import su.geocaching.android.controller.CoordinateHelper;
-import su.geocaching.android.controller.GpsUpdateFrequency;
-import su.geocaching.android.controller.compass.CompassSpeed;
-import su.geocaching.android.controller.compass.SmoothCompassThread;
-import su.geocaching.android.controller.managers.ILocationAware;
-import su.geocaching.android.controller.managers.LogManager;
-import su.geocaching.android.controller.managers.NavigationManager;
-import su.geocaching.android.controller.managers.PreferencesManager;
-import su.geocaching.android.controller.managers.UserLocationManager;
-import su.geocaching.android.model.GeoCache;
-import su.geocaching.android.ui.R;
 import android.app.Activity;
 import android.content.Intent;
 import android.graphics.drawable.AnimationDrawable;
@@ -24,9 +12,21 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.ImageView;
-import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
+import su.geocaching.android.controller.Controller;
+import su.geocaching.android.controller.CoordinateHelper;
+import su.geocaching.android.controller.GpsUpdateFrequency;
+import su.geocaching.android.controller.compass.CompassSpeed;
+import su.geocaching.android.controller.compass.SmoothCompassThread;
+import su.geocaching.android.controller.managers.ILocationAware;
+import su.geocaching.android.controller.managers.LogManager;
+import su.geocaching.android.controller.managers.NavigationManager;
+import su.geocaching.android.controller.managers.PreferencesManager;
+import su.geocaching.android.controller.managers.UserLocationManager;
+import su.geocaching.android.model.GeoCache;
+import su.geocaching.android.ui.R;
 
 /**
  * Search GeoCache with the compass.
@@ -47,7 +47,7 @@ public class CompassActivity extends Activity {
     private TextView tvOdometer, statusText, targetCoordinates, currentCoordinates;
     private ImageView progressBarView;
     private AnimationDrawable progressBarAnim;
-    private LinearLayout odometerlayout;
+    private RelativeLayout odometerlayout;
     private Toast providerUnavailableToast;
 
     private Controller controller;
@@ -72,7 +72,7 @@ public class CompassActivity extends Activity {
         });
         progressBarAnim = (AnimationDrawable) progressBarView.getBackground();
         statusText = (TextView) findViewById(R.id.waitingLocationFixText);
-        odometerlayout = (LinearLayout) findViewById(R.id.odometer_layout);
+        odometerlayout = (RelativeLayout) findViewById(R.id.odometer_layout);
 
         controller = Controller.getInstance();
         locationManager = controller.getLocationManager();
@@ -87,7 +87,7 @@ public class CompassActivity extends Activity {
         super.onResume();
         LogManager.d(TAG, "onResume");
         if (controller.getSearchingGeoCache() == null) {
-            LogManager.e(TAG, "runLogic: null geocache. Finishing.");
+            LogManager.e(TAG, "runLogic: null geoCache. Finishing.");
             Toast.makeText(this, this.getString(R.string.search_geocache_error_no_geocache), Toast.LENGTH_LONG).show();
             finish();
             return;
@@ -100,6 +100,8 @@ public class CompassActivity extends Activity {
         }
         if (preferenceManager.getOdometerOnPreference()) {
             odometerlayout.setVisibility(View.VISIBLE);
+            tvOdometer.setText(CoordinateHelper.distanceToString(locationManager.getOdometerDistance()));
+
         } else {
             odometerlayout.setVisibility(View.GONE);
         }
@@ -220,16 +222,22 @@ public class CompassActivity extends Activity {
         NavigationManager.startDashboardActvity(this);
     }
 
-    private float odometeDistance;
-    private Location lastLocation;
+    public void onStartClick(View v) {
+        locationManager.setUpdatingOdometer(!locationManager.isUpdatingOdometer());
+    }
+
+    public void onRefreshClick(View v) {
+       locationManager.refreshOdometer();
+       tvOdometer.setText(CoordinateHelper.distanceToString(0));
+    }
 
     /**
      *
      */
     class LocationListener implements ILocationAware {
-        private final static float CLOSE_DISTANCE_TO_GC_VALUE = 100; // if we nearly than this distance in meters to geocache - gps will be work maximal often
+        private final static float CLOSE_DISTANCE_TO_GC_VALUE = 100; // if we nearly than this distance in meters to geoCache - gps will be work maximal often
 
-        Activity activity;
+        private Activity activity;
 
         LocationListener(Activity activity) {
             this.activity = activity;
@@ -237,16 +245,12 @@ public class CompassActivity extends Activity {
 
         @Override
         public void updateLocation(Location location) {
-            controller.getLocationManager().removeStatusListening(this);
+            locationManager.removeStatusListening(this);
             statusText.setText("");
 
-            if (tvOdometer.isShown() && lastLocation != null) {
-                odometeDistance += CoordinateHelper.getDistanceBetween(location, lastLocation);
-                tvOdometer.setText(CoordinateHelper.distanceToString(odometeDistance));
-            } else {
-                odometeDistance = 0;
+            if (tvOdometer.isShown()) {
+                tvOdometer.setText(CoordinateHelper.distanceToString(locationManager.getOdometerDistance()));
             }
-            lastLocation = location;
 
             if (progressBarView.getVisibility() == View.VISIBLE) {
                 progressBarView.setVisibility(View.GONE);
