@@ -86,21 +86,22 @@ public class SelectMapActivity extends MapActivity implements IInternetAware, IL
         map.setBuiltInZoomControls(true);
         map.invalidate();
         LogManager.d(TAG, "onCreate Done");
-        
+
         // prepare turnOn internet dialog for showing
         AlertDialog.Builder turnOnInternetDialogBuilder = new AlertDialog.Builder(context);
-        turnOnInternetDialogBuilder.setMessage(context.getString(R.string.ask_enable_internet_text)).setCancelable(false).setPositiveButton(context.getString(R.string.yes), new DialogInterface.OnClickListener() {
-            public void onClick(DialogInterface dialog, int id) {
-                Intent startGPS = new Intent(Settings.ACTION_WIRELESS_SETTINGS);
-                context.startActivity(startGPS);
-                dialog.cancel();
-            }
-        }).setNegativeButton(context.getString(R.string.no), new DialogInterface.OnClickListener() {
-            public void onClick(DialogInterface dialog, int id) {
-                dialog.cancel();
-                finish();
-            }
-        });
+        turnOnInternetDialogBuilder.setMessage(context.getString(R.string.ask_enable_internet_text)).setCancelable(false)
+                .setPositiveButton(context.getString(R.string.yes), new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int id) {
+                        Intent startGPS = new Intent(Settings.ACTION_WIRELESS_SETTINGS);
+                        context.startActivity(startGPS);
+                        dialog.cancel();
+                    }
+                }).setNegativeButton(context.getString(R.string.no), new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int id) {
+                        dialog.cancel();
+                        finish();
+                    }
+                });
         turnOnInternetDialog = turnOnInternetDialogBuilder.create();
 
         controller.getGoogleAnalyticsManager().trackPageView(SELECT_ACTIVITY_FOLDER);
@@ -199,7 +200,6 @@ public class SelectMapActivity extends MapActivity implements IInternetAware, IL
         }
     }
 
-
     private void updateLocationOverlay(Location location) {
         LogManager.d(TAG, "updateLocationOverlay");
         if (location != null) {
@@ -267,7 +267,9 @@ public class SelectMapActivity extends MapActivity implements IInternetAware, IL
 
     @Override
     public void onInternetLost() {
-        Toast.makeText(this, getString(R.string.search_geocache_internet_lost), Toast.LENGTH_LONG).show();
+        if (!turnOnInternetDialog.isShowing()) {
+            Toast.makeText(this, getString(R.string.search_geocache_internet_lost), Toast.LENGTH_LONG).show();
+        }
     }
 
     /**

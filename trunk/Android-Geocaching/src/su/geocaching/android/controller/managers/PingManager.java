@@ -54,10 +54,10 @@ public class PingManager {
      */
     private synchronized void setInternetConnected(boolean isInternetConnected) {
         if (this.isInternetConnected && !isInternetConnected) {
-            Controller.getInstance().getConnectionManager().onInternetLost();
+            Controller.getInstance().getConnectionManager().getHandler().sendEmptyMessage(ConnectionManager.INTERNET_LOST);
         }
         if (!this.isInternetConnected && isInternetConnected) {
-            Controller.getInstance().getConnectionManager().onInternetFound();
+            Controller.getInstance().getConnectionManager().getHandler().sendEmptyMessage(ConnectionManager.INTERNET_FOUND);
         }
         this.isInternetConnected = isInternetConnected;
         LogManager.d(TAG, "set connected = " + isInternetConnected);

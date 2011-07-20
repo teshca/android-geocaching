@@ -4,6 +4,8 @@ import android.content.Context;
 import android.content.IntentFilter;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
+import android.os.Handler;
+import android.os.Message;
 
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -21,6 +23,8 @@ public class ConnectionManager {
     private static final String TAG = ConnectionManager.class.getCanonicalName();
 
     private static final int SEND_MESSAGE_MIN_INTERVAL = 1000; // sending message rarely than this interval in milliseconds
+    public static final int INTERNET_FOUND = 1100; 
+    public static final int INTERNET_LOST = 1101; 
 
     private List<IInternetAware> subscribers;
     private ConnectionStateReceiver receiver;
@@ -28,6 +32,7 @@ public class ConnectionManager {
     private Context context;
     private long lastMessageTime;
     private PingManager pingManager;
+    private final Handler mHandler;
 
     private ConnectivityManager connectivityManager;
 
@@ -47,7 +52,25 @@ public class ConnectionManager {
         if (isInternetAvailable()) {
             pingManager.start();
         }
+        mHandler = new Handler() {
+            public void handleMessage(Message msg) {
+                switch (msg.what) {
+                    case INTERNET_FOUND:
+                    onInternetFound();
+                    break;
+            
+                    case INTERNET_LOST:
+                    onInternetLost();
+                    break;
+            
+                }
+            }
+        };
         LogManager.d(TAG, "Init");
+    }
+    
+    public Handler getHandler() {
+        return mHandler;
     }
 
     /**
@@ -87,7 +110,7 @@ public class ConnectionManager {
     /**
      * Send messages to all activities when internet has been lost
      */
-    public void onInternetLost() {
+    private void onInternetLost() {
         pingManager.stop();
         if (Calendar.getInstance().getTimeInMillis() - lastMessageTime < SEND_MESSAGE_MIN_INTERVAL) {
             LogManager.d(TAG, "get very often message about connection. Message haven't send");
@@ -103,7 +126,7 @@ public class ConnectionManager {
     /**
      * starts ping manager
      */
-    public void onInternetFound() {
+    private void onInternetFound() {
         pingManager.start();
         if (System.currentTimeMillis() - lastMessageTime < SEND_MESSAGE_MIN_INTERVAL) {
             LogManager.d(TAG, "get very often message about connection. Message haven't send");
