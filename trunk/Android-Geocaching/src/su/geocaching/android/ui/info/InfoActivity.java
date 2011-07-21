@@ -57,6 +57,7 @@ public class InfoActivity extends Activity {
     private Context context;
     private boolean isCacheStored, isPhotoStored;
     private PageState pageState = PageState.INFO;
+    private ImageView ivInfo, ivNotebook, ivPhoto;
 
     private int scroll = 0;
     private String errorMessage;
@@ -79,6 +80,9 @@ public class InfoActivity extends Activity {
         TextView tvTypeGeoCache = (TextView) findViewById(R.id.info_GeoCache_type);
         TextView tvStatusGeoCache = (TextView) findViewById(R.id.info_GeoCache_status);
         ImageView image = (ImageView) findViewById(R.id.imageCache);
+        ivInfo = (ImageView) findViewById(R.id.ivInfo);
+        ivNotebook = (ImageView) findViewById(R.id.ivNotebook);
+        ivPhoto = (ImageView) findViewById(R.id.ivPhoto);
 
         tvName.setText(geoCache.getName());
         tvTypeGeoCache.setText(controller.getResourceManager().getGeoCacheType(geoCache));
@@ -282,12 +286,27 @@ public class InfoActivity extends Activity {
     private void setPageType(PageState state) {
         switch (state) {
             case INFO:
+                galleryView.setVisibility(View.GONE);
+                webView.setVisibility(View.VISIBLE);
+                ivInfo.setImageResource(R.drawable.ic_info_selected);
+                ivNotebook.setImageResource(R.drawable.ic_notebook_default);
+                ivPhoto.setImageResource(R.drawable.ic_gallery_default);
+                break;
             case NOTEBOOK:
+                galleryView.setVisibility(View.GONE);
+                webView.setVisibility(View.VISIBLE);
+                ivInfo.setImageResource(R.drawable.ic_info_default);
+                ivNotebook.setImageResource(R.drawable.ic_notebook_selected);
+                ivPhoto.setImageResource(R.drawable.ic_gallery_default);
+                break;
             case ERROR:
                 galleryView.setVisibility(View.GONE);
                 webView.setVisibility(View.VISIBLE);
                 break;
             case PHOTO:
+                ivInfo.setImageResource(R.drawable.ic_info_default);
+                ivNotebook.setImageResource(R.drawable.ic_notebook_default);
+                ivPhoto.setImageResource(R.drawable.ic_gallery_selected);
                 isPhotoStored = isPhotoStored(geoCache.getId());
                 webView.setVisibility(View.GONE);
                 galleryView.setVisibility(View.VISIBLE);
@@ -450,6 +469,18 @@ public class InfoActivity extends Activity {
 
     public void onHomeClick(View v) {
         NavigationManager.startDashboardActvity(this);
+    }
+
+    public void onInfoClick(View v) {
+        loadView(PageState.INFO);
+    }
+
+    public void onNotebookClick(View v) {
+        loadView(PageState.NOTEBOOK);
+    }
+
+    public void onPhotoClick(View v) {
+        loadView(PageState.PHOTO);
     }
 
     private boolean isPhotoStored(int cacheId) {
