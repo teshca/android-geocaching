@@ -2,7 +2,6 @@ package su.geocaching.android.ui.info;
 
 import java.io.File;
 import java.io.FilenameFilter;
-
 import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
@@ -26,18 +25,18 @@ public class GalleryImageAdapter extends BaseAdapter {
     private File[] imageList;
     private Context context;
 
-    private final int thumbnailsPhotoSize = 125;
+    private int thumbnailsPhotoSize;
 
     public GalleryImageAdapter(Context context) {
         this.context = context;
         LogManager.d(TAG, "new GalleryImageAdapter created");
+        thumbnailsPhotoSize = context.getResources().getDimensionPixelSize(R.dimen.adapter_photo_size);
     }
 
     public GalleryImageAdapter(final Context context, int cacheId) {
         this(context);
 
         File imagesDirectory = new File(Environment.getExternalStorageDirectory(), String.format(context.getString(R.string.cache_directory), cacheId));
-
         FilenameFilter imageFilter = new FilenameFilter() {
 
             @Override
@@ -68,10 +67,8 @@ public class GalleryImageAdapter extends BaseAdapter {
         ImageView image;
         if (convertView == null) { // if it's not recycled, initialize some attributes
             image = new ImageView(context);
-            image.setLayoutParams(new GridView.LayoutParams(GridView.LayoutParams.WRAP_CONTENT, GridView.LayoutParams.WRAP_CONTENT));
-            image.setScaleType(ImageView.ScaleType.CENTER_CROP);
-            image.setPadding(8, 8, 8, 8);
-
+            image.setLayoutParams(new GridView.LayoutParams(thumbnailsPhotoSize, thumbnailsPhotoSize));
+            image.setScaleType(ImageView.ScaleType.CENTER_INSIDE);
         } else {
             image = (ImageView) convertView;
         }
@@ -94,7 +91,7 @@ public class GalleryImageAdapter extends BaseAdapter {
         if (options.outHeight == -1 || options.outWidth == -1) {
             return null;
         }
-        int scale = Math.max(options.outHeight, options.outWidth) / thumbnailsPhotoSize + 1;
+        int scale = Math.max(options.outHeight, options.outWidth) / thumbnailsPhotoSize;
         BitmapFactory.Options options2 = new BitmapFactory.Options();
         options2.inSampleSize = scale;
         return BitmapFactory.decodeFile(path, options2);

@@ -33,7 +33,6 @@ public class FavoritesFolderActivity extends AbstractGeoCacheFolderActivity {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         LogManager.d(TAG, "onCreate");
-        tvNoCache.setText(getString(R.string.favorite_list_In_DB_not_cache));
         Controller.getInstance().getGoogleAnalyticsManager().trackPageView(FAVORITES_FOLDER);
     }
 
@@ -148,5 +147,4 @@ public class FavoritesFolderActivity extends AbstractGeoCacheFolderActivity {
         AlertDialog turnOnInternetAlert = builder.create();
         turnOnInternetAlert.show();
     }
-
 }
