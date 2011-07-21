@@ -49,7 +49,7 @@
 					  android:layout_height="wrap_content"
 					  android:id="@+id/info_text_name"
 					  android:text="Name" style="@style/FavoritesFolderRowTextStyle"
-					  android:textSize="@dimen/text_size_big"/>
+					  android:textSize="16sp"/>
 			<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
 						  android:layout_width="fill_parent" android:layout_height="wrap_content"
 						  android:orientation="horizontal" android:layout_marginBottom="5dip"
@@ -82,11 +82,11 @@
 			android:layout_width="fill_parent"
 			android:layout_height="wrap_content"
 			android:numColumns="auto_fit"
-			android:verticalSpacing="10dip"
-			android:horizontalSpacing="10dip"
+			android:verticalSpacing="5dip"
+			android:horizontalSpacing="5dip"
 			android:stretchMode="columnWidth"
 			android:gravity="center"
-			android:columnWidth="120dip"
+			android:columnWidth="150dip"
 			android:layout_weight="1"
 			android:visibility="gone"/>
 </LinearLayout>
