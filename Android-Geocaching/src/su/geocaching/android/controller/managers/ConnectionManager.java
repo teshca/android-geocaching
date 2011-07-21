@@ -53,6 +53,7 @@ public class ConnectionManager {
             pingManager.start();
         }
         mHandler = new Handler() {
+            @Override
             public void handleMessage(Message msg) {
                 switch (msg.what) {
                     case INTERNET_FOUND:
