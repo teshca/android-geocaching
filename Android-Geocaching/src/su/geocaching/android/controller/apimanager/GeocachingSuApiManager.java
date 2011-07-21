@@ -30,7 +30,7 @@ import su.geocaching.android.ui.info.InfoActivity;
 
 /**
  * Class for getting data from geocaching.su. This class implements IApiManager
- * 
+ *
  * @author Nikita Bumakov
  */
 public class GeocachingSuApiManager implements IApiManager {
