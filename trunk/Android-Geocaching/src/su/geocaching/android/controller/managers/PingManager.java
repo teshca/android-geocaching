@@ -15,7 +15,7 @@ import su.geocaching.android.controller.Controller;
 public class PingManager {
     private static final String TAG = PingManager.class.getCanonicalName();
     private static final int TIME_INTERVAL = 1 * 60 * 1000; // interval between pings
-    private static final int PING_URL_TIMEOUT = 3000; // timeout for checking reachable of PING_URL
+    private static final int PING_URL_TIMEOUT = 30000; // timeout for checking reachable of PING_URL
     private static final String PING_URL = "http://pda.geocaching.su";
     private boolean isInternetConnected = true;
     private URL pingUrl;
