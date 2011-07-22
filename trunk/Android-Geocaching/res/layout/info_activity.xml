@@ -5,7 +5,8 @@
 
     <LinearLayout style="@style/TitleBar"
                   android:id="@+id/title_bar"
-                  android:background="@drawable/geologo_background">
+                  android:background="@drawable/geologo_background"
+                  android:gravity="center_vertical">
         <ImageView android:src="@drawable/geologo2"
                    style="@style/TitleBarLogo"
                    android:id="@+id/title_logo"
@@ -13,18 +14,21 @@
                    android:onClick="onHomeClick"
                 />
 
-        <ImageView android:id="@+id/ivInfo" android:layout_width="48dip" android:layout_height="40dip"
+        <ImageView android:id="@+id/ivInfo" android:layout_width="40dip" android:layout_height="40dip"
                    android:src="@drawable/ic_info_default" android:layout_marginLeft="4dip"
                    android:scaleType="centerInside" android:clickable="true"
-                   android:onClick="onInfoClick"/>
-        <ImageView android:id="@+id/ivNotebook" android:layout_width="48dip" android:layout_height="40dip"
+                   android:onClick="onInfoClick"
+                android:layout_margin="2dip"/>
+        <ImageView android:id="@+id/ivNotebook" android:layout_width="40dip" android:layout_height="40dip"
                    android:src="@drawable/ic_notebook_default"
                    android:scaleType="centerInside" android:clickable="true"
-                   android:onClick="onNotebookClick"/>
-        <ImageView android:id="@+id/ivPhoto" android:layout_width="48dip" android:layout_height="40dip"
+                   android:onClick="onNotebookClick"
+                android:layout_margin="2dip"/>
+        <ImageView android:id="@+id/ivPhoto" android:layout_width="40dip" android:layout_height="40dip"
                    android:src="@drawable/ic_gallery_default"
                    android:scaleType="centerInside" android:clickable="true"
-                   android:onClick="onPhotoClick"/>
+                   android:onClick="onPhotoClick"
+                android:layout_margin="2dip"/>
         <View style="@style/TitleBarSpring"/>
         <CheckBox android:id="@+id/info_geocache_add_del"
                   android:layout_width="wrap_content"
