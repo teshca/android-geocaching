@@ -1,5 +1,6 @@
 package su.geocaching.android.controller.managers;
 
+import java.util.EnumSet;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.content.res.Resources;
@@ -9,10 +10,13 @@ import android.preference.PreferenceManager;
 import su.geocaching.android.controller.Controller;
 import su.geocaching.android.controller.GpsUpdateFrequency;
 import su.geocaching.android.controller.ListMultiSelectPreference;
-import su.geocaching.android.model.*;
+import su.geocaching.android.model.GeoCache;
+import su.geocaching.android.model.GeoCacheStatus;
+import su.geocaching.android.model.GeoCacheType;
+import su.geocaching.android.model.GeocacheInfo;
+import su.geocaching.android.model.MapInfo;
+import su.geocaching.android.model.SearchMapInfo;
 import su.geocaching.android.ui.R;
-
-import java.util.EnumSet;
 
 /**
  * Manager which can get access to application preferences
@@ -91,6 +95,22 @@ public class PreferencesManager {
         }
     }
 
+        /**
+     * @param info
+     *            with data to save
+     */
+    public synchronized void setLastGeocacheInfo(GeocacheInfo info) {
+        if (info != null) {
+            SharedPreferences.Editor editor = preferences.edit();
+            editor.putInt("info_cacheId", info.getCacheId());
+            editor.putInt("info_pagestate", info.getPageState());
+            editor.putInt("info_scroll", info.getScroll());
+            editor.putInt("info_width", info.getWidth());
+            editor.putFloat("info_scale", info.getScale());
+            editor.commit();
+        }
+    }
+
     /**
      * @return MapInfo object with preferences
      */
@@ -127,6 +147,16 @@ public class PreferencesManager {
         int cacheId = preferences.getInt("searchmap_cacheid", -1);
         return new SearchMapInfo(center_x, center_y, zoom, cacheId);
     }
+
+  public synchronized GeocacheInfo getLastGeocacheInfo() {
+       int cacheId = preferences.getInt("info_cacheId", 0);
+       int state = preferences.getInt("info_pagestate", 0);
+       int scroll = preferences.getInt("info_scroll", 0);
+       int width = preferences.getInt("info_width", 0);
+       float scale = preferences.getFloat("info_scale", 0);
+       return new GeocacheInfo(cacheId, scroll, state, width, scale);
+   }
+
 
     public void setDownloadNoteBookAlways(boolean downloadAlways) {
         SharedPreferences.Editor editor = preferences.edit();
