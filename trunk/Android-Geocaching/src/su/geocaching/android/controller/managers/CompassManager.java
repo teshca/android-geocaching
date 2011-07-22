@@ -2,19 +2,24 @@ package su.geocaching.android.controller.managers;
 
 import java.util.ArrayList;
 import java.util.List;
+
 import android.hardware.Sensor;
 import android.hardware.SensorEvent;
 import android.hardware.SensorEventListener;
 import android.hardware.SensorManager;
+import android.location.Location;
+import android.os.Bundle;
+import su.geocaching.android.controller.Controller;
 
 /**
  * Sensor manager which calculate bearing of user
- * 
+ *
  * @author Grigory Kalabin. grigory.kalabin@gmail.com
  * @since Nov 10, 2010
  */
-public class CompassManager implements SensorEventListener {
+public class CompassManager implements SensorEventListener, ILocationAware {
 
+    private static final String TAG = CompassManager.class.getCanonicalName();
     private static final float RAD2DEG = (float) (180 / Math.PI);
 
     private float[] afGravity = new float[3];
@@ -24,37 +29,32 @@ public class CompassManager implements SensorEventListener {
     private float[] afOrientation = new float[3];
 
     private SensorManager sensorManager;
+    private UserLocationManager locationManager;
     private int lastDirection;
     private boolean isCompassAvailable;
     private List<IBearingAware> subscribers;
 
-    private boolean isUsingGpsCompass;
-
     /**
-     * @param sensorManager
-     *            manager which can add or remove updates of sensors
+     * @param sensorManager manager which can add or remove updates of sensors
      */
-    public CompassManager(SensorManager sensorManager) {
+    public CompassManager(SensorManager sensorManager, UserLocationManager userLocationManager) {
         this.sensorManager = sensorManager;
+        this.locationManager = userLocationManager;
         isCompassAvailable = sensorManager != null;
         subscribers = new ArrayList<IBearingAware>();
-        isUsingGpsCompass = false;
+        LogManager.d(TAG, "new CompassManager created");
     }
 
     /**
-     * @param subscriber
-     *            activity which will be listen location updates
+     * @param subscriber activity which will be listen location updates
      */
     public void addSubscriber(IBearingAware subscriber) {
-        if (subscribers.size() == 0 && !isUsingGpsCompass) {
-            addUpdates();
-        }
         subscribers.add(subscriber);
+        LogManager.d(TAG, "addSubscriber, size: " + subscribers.size());
     }
 
     /**
-     * @param subscriber
-     *            activity which no need to listen location updates
+     * @param subscriber activity which no need to listen location updates
      * @return true if activity was subscribed on location updates
      */
     public boolean removeSubscriber(IBearingAware subscriber) {
@@ -62,6 +62,7 @@ public class CompassManager implements SensorEventListener {
         if (subscribers.size() == 0) {
             removeUpdates();
         }
+        LogManager.d(TAG, "removeSubscriber, size: " + subscribers.size());
         return res;
     }
 
@@ -95,8 +96,7 @@ public class CompassManager implements SensorEventListener {
     }
 
     /**
-     * @param lastDirection
-     *            current direction known to this listener
+     * @param lastDirection current direction known to this listener
      */
     private void notifyObservers(int lastDirection) {
         for (IBearingAware observer : subscribers) {
@@ -107,8 +107,9 @@ public class CompassManager implements SensorEventListener {
     /**
      * Add updates of sensors
      */
-    private synchronized void addUpdates() {
-        if (!isCompassAvailable || isUsingGpsCompass) {
+    private synchronized void addSensorUpdates() {
+        LogManager.d(TAG, "addSensorUpdates");
+        if (!isCompassAvailable) {
             return;
         }
         Sensor gravitySensor = sensorManager.getDefaultSensor(Sensor.TYPE_ACCELEROMETER);
@@ -125,6 +126,8 @@ public class CompassManager implements SensorEventListener {
      * Remove updates of sensors
      */
     private synchronized void removeUpdates() {
+        LogManager.d(TAG, "removeUpdates");
+        locationManager.removeSubscriber(this);
         if (!isCompassAvailable) {
             return;
         }
@@ -147,19 +150,39 @@ public class CompassManager implements SensorEventListener {
 
     /**
      * Set mode of compass - use bearing from gps or hardware sensors(accelerometer and magnetic field)
-     * 
-     * @param useGps
-     *            true if using gps
+     *
+     * @param useGps true if using gps
      */
-    protected void setUsingGpsCompass(boolean useGps) {
-        if (isUsingGpsCompass == useGps){
-          return;
-        }
-        isUsingGpsCompass = useGps;
+    public void setUsingGpsCompass(boolean useGps) {
+        LogManager.d(TAG, "setUsingGpsCompass " + useGps);
+
         if (useGps) {
             removeUpdates();
+            locationManager.addSubscriber(this, false);
         } else {
-            addUpdates();
+            addSensorUpdates();
+            locationManager.removeSubscriber(this);
         }
+    }
+
+    @Override
+    public void updateLocation(Location location) {
+        lastDirection = (int) location.getBearing();
+        notifyObservers(lastDirection);
+    }
+
+    @Override
+    public void onStatusChanged(String provider, int status, Bundle extras) {
+        //To change body of implemented methods use File | Settings | File Templates.
+    }
+
+    @Override
+    public void onProviderEnabled(String provider) {
+        //To change body of implemented methods use File | Settings | File Templates.
+    }
+
+    @Override
+    public void onProviderDisabled(String provider) {
+        //To change body of implemented methods use File | Settings | File Templates.
     }
 }

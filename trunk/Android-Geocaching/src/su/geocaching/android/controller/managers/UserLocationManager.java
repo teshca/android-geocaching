@@ -27,7 +27,6 @@ public class UserLocationManager implements LocationListener, GpsStatus.Listener
     private static final String TAG = UserLocationManager.class.getCanonicalName();
     private static final String TIMER_NAME = "remove location updates mapupdatetimer";
     private static final long REMOVE_UPDATES_DELAY = 30000; // in milliseconds
-    private static final float MAX_SPEED_OF_HARDWARE_COMPASS = 20 * 1000 / 3600 ; // (in m/s) if user speed lower than this - use hardware compass otherwise use GPS compass
 
     private LocationManager locationManager;
     private Location lastLocation;
@@ -154,17 +153,6 @@ public class UserLocationManager implements LocationListener, GpsStatus.Listener
         for (ILocationAware subscriber : subscribers) {
             subscriber.updateLocation(location);
         }
-        if (location.getSpeed() > MAX_SPEED_OF_HARDWARE_COMPASS && location.hasBearing()) {
-            Controller.getInstance().getCompassManager().setUsingGpsCompass(true);
-            for (ILocationAware subscriber : subscribers) {
-            if ((subscriber instanceof IBearingAware) && (!isCompassAvailable)) {
-                ((IBearingAware) subscriber).updateBearing((int) location.getBearing());
-                LogManager.d(TAG, "update location: send bearing to " + subscriber.getClass().getCanonicalName());
-            }
-        }
-        } else {
-            Controller.getInstance().getCompassManager().setUsingGpsCompass(false);
-        }
     }
 
     /*
@@ -227,7 +215,6 @@ public class UserLocationManager implements LocationListener, GpsStatus.Listener
         locationManager.removeUpdates(this);
         provider = "none";
         isUpdating = false;
-        Controller.getInstance().getCompassManager().setUsingGpsCompass(false);
     }
 
     /**

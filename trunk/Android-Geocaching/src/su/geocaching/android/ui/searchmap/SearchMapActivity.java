@@ -171,6 +171,7 @@ public class SearchMapActivity extends MapActivity implements IInternetAware, IL
             checkpointOverlay.addOverlayItem(new GeoCacheOverlayItem(checkpoint, "", ""));
         }
 
+        Controller.getInstance().getCompassManager().setUsingGpsCompass(Controller.getInstance().getPreferencesManager().getCompasSensorPreference().endsWith("GPS"));
         map.setKeepScreenOn(Controller.getInstance().getPreferencesManager().getKeepScreenOnPreference());
         updateMapInfoFromSettings();
         map.setSatellite(Controller.getInstance().getPreferencesManager().useSatelliteMap());
@@ -242,8 +243,6 @@ public class SearchMapActivity extends MapActivity implements IInternetAware, IL
         if (distanceOverlay == null) {
             // It's really first run of update location
             LogManager.d(TAG, "update location: first run of this activity");
-            statusTextView.setGravity(Gravity.CENTER);
-            statusTextView.setTextSize(getResources().getDimension(R.dimen.text_size_big));
             distanceOverlay = new DistanceToGeoCacheOverlay(CoordinateHelper.locationToGeoPoint(location), Controller.getInstance().getSearchingGeoCache().getLocationGeoPoint());
             mapOverlays.add(distanceOverlay);
             mapOverlays.add(userOverlay);

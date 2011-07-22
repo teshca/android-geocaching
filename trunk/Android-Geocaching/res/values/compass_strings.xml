@@ -23,7 +23,7 @@
 
 	<string name="prefer_appearance_dialog_title">Внешний вид</string>
 	<string name="prefer_appearance_title">Внешний вид</string>
-	<string name="prefs_appearance_key">appearance.speed</string>
+	<string name="prefs_appearance_key">compass.appearance</string>
 	<string-array name="appearance_preference_entries">
 		<item>Классический</item>
 		<item>Светлый</item>
@@ -34,6 +34,16 @@
 	</string-array>
 	<string name="prefer_appearance_default_value">CLASSIC</string>
 	<string name="prefer_appearance_summary">Выберите внешний вид компаса</string>
+    <string name="prefer_sensor_type_title">Тип сенсора</string>
+    <string name="prefs_sensor_key">compass.sensor</string>
+    <string-array name="sensor_type_preference_entries">
+		<item>Сенсор</item>
+		<item>GPS</item>
+	</string-array>
+	<string-array name="sensor_preference_values">
+		<item>SENSOR</item>
+		<item>GPS</item>
+	</string-array>
 	<string name="compass_preference_title">Настройки компаса</string>
 	<string name="compass_preference_key">compass.preference</string>
 	<string name="compass_category_title">Компас</string>
