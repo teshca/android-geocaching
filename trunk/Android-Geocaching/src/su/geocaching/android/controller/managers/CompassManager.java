@@ -152,6 +152,9 @@ public class CompassManager implements SensorEventListener {
      *            true if using gps
      */
     protected void setUsingGpsCompass(boolean useGps) {
+        if (isUsingGpsCompass == useGps){
+          return;
+        }
         isUsingGpsCompass = useGps;
         if (useGps) {
             removeUpdates();
