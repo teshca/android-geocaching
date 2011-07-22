@@ -30,15 +30,17 @@ public class PingManager {
     }
 
     public void start() {
-        pingThread = new Thread(new PingServer());
-        pingThread.start();
-        pingThread.run();
-        LogManager.d(TAG, "run ping thread");
+        // not working yet
+//        pingThread = new Thread(new PingServer());
+//        pingThread.start();
+//        pingThread.run();
+//        LogManager.d(TAG, "run ping thread");
     }
 
     public void stop() {
-        pingThread = null;
-        LogManager.d(TAG, "stop ping thread");
+        // not working yet
+//        pingThread = null;
+//        LogManager.d(TAG, "stop ping thread");
     }
 
     /**
