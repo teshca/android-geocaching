@@ -27,7 +27,7 @@ public class UserLocationManager implements LocationListener, GpsStatus.Listener
     private static final String TAG = UserLocationManager.class.getCanonicalName();
     private static final String TIMER_NAME = "remove location updates mapupdatetimer";
     private static final long REMOVE_UPDATES_DELAY = 30000; // in milliseconds
-    private static final float MAX_SPEED_OF_HARDWARE_COMPASS = 20 * 1000 / 3600; // (in m/s) if user speed lower than this - use hardware compass otherwise use GPS compass
+    private static final float MAX_SPEED_OF_HARDWARE_COMPASS = 20 * 3600 / 1000; // (in m/s) if user speed lower than this - use hardware compass otherwise use GPS compass
 
     private LocationManager locationManager;
     private Location lastLocation;
@@ -173,8 +173,8 @@ public class UserLocationManager implements LocationListener, GpsStatus.Listener
     @Override
     public void onProviderDisabled(String provider) {
         LogManager.d(TAG, "Provider (" + provider + ") disabled: send msg to " + Integer.toString(subscribers.size()) + " activity(es)");
-        for (ILocationAware subsriber : subscribers) {
-            subsriber.onProviderDisabled(provider);
+        for (ILocationAware subscriber : subscribers) {
+            subscriber.onProviderDisabled(provider);
         }
     }
 

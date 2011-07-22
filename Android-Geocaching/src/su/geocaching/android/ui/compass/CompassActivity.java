@@ -49,6 +49,7 @@ public class CompassActivity extends Activity {
     private AnimationDrawable progressBarAnim;
     private RelativeLayout odometerLayout;
     private Toast providerUnavailableToast;
+    private ImageView startButton;
 
     private Controller controller;
 
@@ -82,7 +83,7 @@ public class CompassActivity extends Activity {
         controller.getGoogleAnalyticsManager().trackPageView(COMPASS_ACTIVITY);
     }
 
-    ImageView startButton;
+
 
     @Override
     protected void onResume() {

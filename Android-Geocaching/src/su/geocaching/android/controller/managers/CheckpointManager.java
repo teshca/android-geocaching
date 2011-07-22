@@ -24,7 +24,7 @@ public class CheckpointManager {
     private DbManager dbm;
     private Controller controller;
 
-    public CheckpointManager() {
+    private CheckpointManager() {
         controller = Controller.getInstance();
         dbm = controller.getDbManager();
         checkpoints = new LinkedList<GeoCache>();
