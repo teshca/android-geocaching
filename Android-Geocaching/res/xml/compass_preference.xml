@@ -12,6 +12,12 @@
 						android:title="@string/prefer_appearance_title" android:key="@string/prefs_appearance_key"
 						android:summary="@string/prefer_appearance_summary"
 						android:defaultValue="@string/prefer_appearance_default_value"/>
+        <ListPreference android:dialogTitle="@string/prefer_sensor_type_title"
+                        android:entries="@array/sensor_type_preference_entries"
+                        android:entryValues="@array/sensor_preference_values"
+                        android:title="@string/prefer_sensor_type_title" android:key="@string/prefs_sensor_key"
+                        android:defaultValue="SENSOR"/>
+
 		<CheckBoxPreference android:onClick="onOdometerClick"
 							android:summaryOn="@string/prefer_odometer_on"
 							android:summaryOff="@string/prefer_odometer_off"

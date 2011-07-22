@@ -143,7 +143,7 @@ public class Controller {
     public synchronized CompassManager getCompassManager(Context context) {
         if (compassManager == null) {
             LogManager.d(TAG, "compass manager wasn't init yet. init.");
-            compassManager = new CompassManager((SensorManager) context.getSystemService(Context.SENSOR_SERVICE));
+            compassManager = new CompassManager((SensorManager) context.getSystemService(Context.SENSOR_SERVICE), getLocationManager());
         }
         return compassManager;
     }

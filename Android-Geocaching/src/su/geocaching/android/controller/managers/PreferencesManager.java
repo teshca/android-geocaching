@@ -204,6 +204,11 @@ public class PreferencesManager {
         return preferences.getString(context.getString(R.string.prefs_appearance_key), context.getString(R.string.prefer_appearance_default_value));
     }
 
+    public String getCompasSensorPreference() {
+        // keys located in resources, because settings logic described in xml and write it automatically to SharedPreferences
+        return preferences.getString(context.getString(R.string.prefs_sensor_key), "SENSOR");
+    }
+
     public String getIconType() {
         return preferences.getString(context.getString(R.string.prefer_icon_key), context.getString(R.string.prefer_icon_default_value));
     }
