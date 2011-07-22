@@ -187,11 +187,6 @@ public class InfoActivity extends Activity {
         super.onPause();
     }
 
-  @Override
-    protected void onResume() {
-        super.onResume();
-    }
-
     @Override
     protected Dialog onCreateDialog(int id) {
         return new DownloadNotebookDialog(this, this, geoCache.getId());
