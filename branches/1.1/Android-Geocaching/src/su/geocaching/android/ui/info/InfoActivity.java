@@ -463,6 +463,7 @@ public class InfoActivity extends Activity {
     }
 
     private void goToMap() {
+        isCacheStored = controller.getDbManager().isCacheStored(geoCache.getId());
         if (!isCacheStored) {
             cbFavoriteCache.setChecked(true);
             if ((notebook == null) && controller.getPreferencesManager().getDownloadNoteBookAlways()) {
