@@ -29,6 +29,7 @@ import su.geocaching.android.controller.managers.LogManager;
 import su.geocaching.android.controller.managers.NavigationManager;
 import su.geocaching.android.model.GeoCache;
 import su.geocaching.android.model.GeoCacheType;
+import su.geocaching.android.model.GeocacheInfo;
 import su.geocaching.android.ui.R;
 
 
@@ -72,6 +73,13 @@ public class InfoActivity extends Activity {
         context = this;
         geoCache = getIntent().getParcelableExtra(GeoCache.class.getCanonicalName());
         initViews();
+        GeocacheInfo info = controller.getPreferencesManager().getLastGeocacheInfo();
+        if (info.getCacheId() == geoCache.getId()) {
+            pageState = PageState.values()[info.getPageState()];
+            scroll = info.getScroll();
+            webView.setInitialScale((int) (info.getScale() * 100));
+            lastWidth = info.getWidth();
+        }
         controller.getGoogleAnalyticsManager().trackPageView(GEOCACHE_INFO_ACTIVITY_FOLDER);
     }
 
@@ -174,7 +182,13 @@ public class InfoActivity extends Activity {
     }
 
     @Override
-    public void onResume() {
+    protected void onPause() {
+        controller.getPreferencesManager().setLastGeocacheInfo(new GeocacheInfo(geoCache.getId(), webView.getScrollY(), pageState.ordinal(), webView.getWidth(), webView.getScale()));
+        super.onPause();
+    }
+
+  @Override
+    protected void onResume() {
         super.onResume();
     }
 
@@ -486,10 +500,7 @@ public class InfoActivity extends Activity {
     private boolean isPhotoStored(int cacheId) {
         File dir = new File(Environment.getExternalStorageDirectory(), String.format(this.getString(R.string.cache_directory), cacheId));
         String[] imageNames = dir.list();
-        if (imageNames != null) {
-            return imageNames.length != 0;
-        }
-        return false;
+        return (imageNames != null) && (imageNames.length != 0);
     }
 
     private void askSavePicture() {
