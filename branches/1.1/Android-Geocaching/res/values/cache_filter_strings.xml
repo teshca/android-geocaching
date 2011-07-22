@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+<string name="cache_filter_type_title">Тип тайников</string>
+	<string name="cache_filter_status_title">Статус тайников</string>
+	<string name="cache_filter_status">filter.status</string>
+	<string name="cache_filter_type">filter.type</string>
+	<string name="cache_filter_default_value">ALL</string>
+	<string name="cache_filter_type_summary">Выберите типы отображаемых тайников</string>
+	<string name="cache_filter_status_summary">Выберите статусы отображаемых тайников</string>
+	<string name="map_filters_title">Фильтры</string>
+</resources>
