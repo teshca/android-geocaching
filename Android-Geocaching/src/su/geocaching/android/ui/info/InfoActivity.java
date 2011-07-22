@@ -355,10 +355,6 @@ public class InfoActivity extends Activity {
                     controller.getApiManager().getInfo(this, DownloadInfoState.SHOW_INFO, this, geoCache.getId());
                 } else {
                     webView.loadDataWithBaseURL(GeocachingSuApiManager.HTTP_PDA_GEOCACHING_SU, info, "text/html", GeocachingSuApiManager.UTF8_ENCODING, null);
-                    if (refresh) {
-                        saveCache();
-                        refresh = false;
-                    }
                 }
                 break;
             case NOTEBOOK:
@@ -366,10 +362,6 @@ public class InfoActivity extends Activity {
                     controller.getApiManager().getInfo(this, DownloadInfoState.SHOW_NOTEBOOK, this, geoCache.getId());
                 } else {
                     webView.loadDataWithBaseURL(GeocachingSuApiManager.HTTP_PDA_GEOCACHING_SU, notebook, "text/html", GeocachingSuApiManager.UTF8_ENCODING, null);
-                    if (refresh) {
-                        saveCache();
-                        refresh = false;
-                    }
                 }
                 break;
             case PHOTO:
@@ -432,11 +424,17 @@ public class InfoActivity extends Activity {
 
     public void showInfo(String info) {
         this.info = info;
+         if (isCacheStored) {
+            saveCache();   //refresh
+        }
         loadView(PageState.INFO);
     }
 
     public void showNotebook(String notebook) {
         this.notebook = notebook;
+        if (isCacheStored) {
+            saveCache();   //refresh
+        }
         loadView(PageState.NOTEBOOK);
     }
 
