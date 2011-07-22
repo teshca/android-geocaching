@@ -1,12 +1,11 @@
 package su.geocaching.android.controller.managers;
 
+import java.util.ArrayList;
+import java.util.List;
 import android.hardware.Sensor;
 import android.hardware.SensorEvent;
 import android.hardware.SensorEventListener;
 import android.hardware.SensorManager;
-
-import java.util.ArrayList;
-import java.util.List;
 
 /**
  * Sensor manager which calculate bearing of user
@@ -60,7 +59,7 @@ public class CompassManager implements SensorEventListener {
      */
     public boolean removeSubscriber(IBearingAware subscriber) {
         boolean res = subscribers.remove(subscriber);
-        if (subscribers.size() == 0 && !isUsingGpsCompass) {
+        if (subscribers.size() == 0) {
             removeUpdates();
         }
         return res;
@@ -153,11 +152,8 @@ public class CompassManager implements SensorEventListener {
      *            true if using gps
      */
     protected void setUsingGpsCompass(boolean useGps) {
-        if (isUsingGpsCompass == useGps) {
-            return;
-        }
         isUsingGpsCompass = useGps;
-        if (useGps && subscribers.size() != 0) {
+        if (useGps) {
             removeUpdates();
         } else {
             addUpdates();

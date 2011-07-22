@@ -13,11 +13,10 @@ import su.geocaching.android.ui.R;
 public abstract class AbstractCompassDrawing {
 
     public static final String AZIMUTH_FORMAT = "%.1f°";
-    protected static final int DEFAULT_NEEDLE_WIDTH = 8;
 
     protected int centerX, centerY;
     protected int bgColor; // background color, taken from the xml
-    protected int needleWidth = DEFAULT_NEEDLE_WIDTH;
+    protected int needleWidth = 8;
     protected float distance;
 
     /**

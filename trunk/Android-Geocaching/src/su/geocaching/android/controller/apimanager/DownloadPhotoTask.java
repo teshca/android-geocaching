@@ -65,14 +65,14 @@ public class DownloadPhotoTask extends AsyncTask<URL, Void, Void> {
         String state = Environment.getExternalStorageState();
         if (Environment.MEDIA_MOUNTED.equals(state)) {
             externalStorageAvailable = externalStorageWriteable = true;
-            LogManager.v(TAG, "SD Card is available for read and write " + externalStorageAvailable + externalStorageWriteable);
+            LogManager.w(TAG, "SD Card is available for read and write " + externalStorageAvailable + externalStorageWriteable);
         } else if (Environment.MEDIA_MOUNTED_READ_ONLY.equals(state)) {
             externalStorageAvailable = true;
             externalStorageWriteable = false;
-            LogManager.v(TAG, "SD Card is available for read " + externalStorageAvailable);
+            LogManager.w(TAG, "SD Card is available for read " + externalStorageAvailable);
         } else {
             externalStorageAvailable = externalStorageWriteable = false;
-            LogManager.v(TAG, "Please insert a SD Card to save your image " + externalStorageAvailable + externalStorageWriteable);
+            LogManager.w(TAG, "Please insert a SD Card to save your image " + externalStorageAvailable + externalStorageWriteable);
         }
     }
 
