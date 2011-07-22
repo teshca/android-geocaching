@@ -30,7 +30,7 @@ public class DefaultCompassDrawing extends AbstractCompassDrawing {
         bitmapPaint.setFilterBitmap(true);
     }
 
-    int bitmapX, bitmapY, size;
+    private int bitmapX, bitmapY, size;
 
     @Override
     public void onSizeChanged(int w, int h) {

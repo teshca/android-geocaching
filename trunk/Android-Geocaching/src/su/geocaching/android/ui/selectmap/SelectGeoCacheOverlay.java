@@ -1,5 +1,10 @@
 package su.geocaching.android.ui.selectmap;
 
+import java.lang.reflect.InvocationTargetException;
+import java.lang.reflect.Method;
+import java.util.Collections;
+import java.util.LinkedList;
+import java.util.List;
 import android.content.Context;
 import android.graphics.Point;
 import android.graphics.drawable.Drawable;
@@ -7,22 +12,15 @@ import android.view.GestureDetector;
 import android.view.MotionEvent;
 import com.google.android.maps.MapView;
 import com.google.android.maps.OverlayItem;
-
 import su.geocaching.android.controller.managers.NavigationManager;
 import su.geocaching.android.model.GeoCache;
 import su.geocaching.android.ui.geocachemap.GeoCacheOverlayItem;
-
-import java.lang.reflect.InvocationTargetException;
-import java.lang.reflect.Method;
-import java.util.Collections;
-import java.util.LinkedList;
-import java.util.List;
 
 /**
  * @author Android-Geocaching.su student project team
  * @since October 2010 GeoCache Itemized Overlay for one or more caches
  */
-public class SelectGeoCacheOverlay extends com.google.android.maps.ItemizedOverlay<OverlayItem> {
+class SelectGeoCacheOverlay extends com.google.android.maps.ItemizedOverlay<OverlayItem> {
     private final List<GeoCacheOverlayItem> items;
     private final Context context;
     private final MapView map;

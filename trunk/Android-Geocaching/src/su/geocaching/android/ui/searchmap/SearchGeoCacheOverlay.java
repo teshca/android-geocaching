@@ -19,7 +19,7 @@ import com.google.android.maps.OverlayItem;
  * @author Android-Geocaching.su student project team
  * @since October 2010 GeoCache Itemized Overlay for one or more caches
  */
-public class SearchGeoCacheOverlay extends ItemizedOverlay<OverlayItem> {
+class SearchGeoCacheOverlay extends ItemizedOverlay<OverlayItem> {
 
     private GeoCacheOverlayItem item;
     private Activity activity;

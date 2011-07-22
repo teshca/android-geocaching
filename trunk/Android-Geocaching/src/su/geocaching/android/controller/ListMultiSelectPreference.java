@@ -1,11 +1,9 @@
 package su.geocaching.android.controller;
 
 /**
- * Created by IntelliJ IDEA.
- * User: Anatoliy
- * Date: 08.04.11
- * Time: 22:21
- * To change this template use File | Settings | File Templates.
+ *
+
+
  */
 
 import android.app.AlertDialog.Builder;
@@ -16,10 +14,11 @@ import android.preference.Preference;
 import android.util.AttributeSet;
 
 /**
- * A {@link Preference} that displays a list of entries as a dialog and allows multiple selections
- * <p>
- * This preference will store a string into the SharedPreferences. This string will be the values selected from the {@link #setEntryValues(CharSequence[])} array.
- * </p>
+ * @author Anatoliy
+ *         <p/>
+ *         A {@link Preference} that displays a list of entries as a dialog and allows multiple selections
+ *         <p/>
+ *         This preference will store a string into the SharedPreferences. This string will be the values selected from the {@link #setEntryValues(CharSequence[])} array.
  */
 public class ListMultiSelectPreference extends ListPreference {
 
@@ -77,8 +76,8 @@ public class ListMultiSelectPreference extends ListPreference {
                 }
             } else {
                 for (int i = 0; i < entryValues.length; i++) {
-                    for (int j = 0; j < vals.length; j++) {
-                        if (entryValues[i].equals(vals[j].trim())) {
+                    for (String value : vals) {
+                        if (entryValues[i].equals(value.trim())) {
                             mClickedDialogEntryIndices[i] = true;
                             break;
                         } else {

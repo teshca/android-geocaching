@@ -71,8 +71,8 @@ public class UserLocationOverlay extends com.google.android.maps.Overlay impleme
         pathCompassArrow = new Path();
         compassArrowWidth = (int) (Math.min(context.getWindowManager().getDefaultDisplay().getWidth(), context.getWindowManager().getDefaultDisplay().getHeight()) * COMPASS_ARROW_WIDTH_COEFF);
         compassArrowHeight = (int) (Math.max(context.getWindowManager().getDefaultDisplay().getWidth(), context.getWindowManager().getDefaultDisplay().getHeight()) * COMPASS_ARROW_HEIGHT_COEFF);
-        int h = (int) (compassArrowHeight) / 2; // h/2
-        int w = (int) (compassArrowWidth) / 2; // w/2
+        int h = compassArrowHeight / 2; // h/2
+        int w = compassArrowWidth / 2; // w/2
         pathCompassArrow.moveTo(0, h / 2);
         pathCompassArrow.lineTo(-w, h);
         pathCompassArrow.lineTo(0, -h);

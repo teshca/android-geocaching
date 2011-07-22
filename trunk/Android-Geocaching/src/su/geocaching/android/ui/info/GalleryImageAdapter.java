@@ -18,7 +18,7 @@ import su.geocaching.android.ui.R;
 /**
  * @author Nikita Bumakov
  */
-public class GalleryImageAdapter extends BaseAdapter {
+class GalleryImageAdapter extends BaseAdapter {
 
     private static final String TAG = GalleryImageAdapter.class.getCanonicalName();
 
@@ -27,7 +27,7 @@ public class GalleryImageAdapter extends BaseAdapter {
 
     private int thumbnailsPhotoSize;
 
-    public GalleryImageAdapter(Context context) {
+    private GalleryImageAdapter(Context context) {
         this.context = context;
         LogManager.d(TAG, "new GalleryImageAdapter created");
         thumbnailsPhotoSize = context.getResources().getDimensionPixelSize(R.dimen.adapter_photo_size);
