@@ -11,21 +11,21 @@
                    android:id="@+id/title_logo"
                    android:layout_marginLeft="4dip"
                    android:onClick="onHomeClick"
-                 />
+                />
 
-        <ImageView android:id="@+id/ivInfo" android:layout_width="40dip" android:layout_height="40dip"
-                   android:src="@drawable/ic_info_default" android:layout_margin="2dip"
+        <ImageView android:id="@+id/ivInfo" android:layout_width="48dip" android:layout_height="40dip"
+                   android:src="@drawable/ic_info_default" android:layout_marginLeft="4dip"
                    android:scaleType="centerInside" android:clickable="true"
                    android:onClick="onInfoClick"/>
-        <ImageView android:id="@+id/ivNotebook" android:layout_width="40dip" android:layout_height="40dip"
-                   android:src="@drawable/ic_notebook_default" android:layout_margin="2dip"
+        <ImageView android:id="@+id/ivNotebook" android:layout_width="48dip" android:layout_height="40dip"
+                   android:src="@drawable/ic_notebook_default"
                    android:scaleType="centerInside" android:clickable="true"
                    android:onClick="onNotebookClick"/>
-        <ImageView android:id="@+id/ivPhoto" android:layout_width="40dip" android:layout_height="40dip"
-                   android:src="@drawable/ic_gallery_default" android:layout_margin="2dip"
+        <ImageView android:id="@+id/ivPhoto" android:layout_width="48dip" android:layout_height="40dip"
+                   android:src="@drawable/ic_gallery_default"
                    android:scaleType="centerInside" android:clickable="true"
                    android:onClick="onPhotoClick"/>
-            <View style="@style/TitleBarSpring"/>
+        <View style="@style/TitleBarSpring"/>
         <CheckBox android:id="@+id/info_geocache_add_del"
                   android:layout_width="wrap_content"
                   android:layout_height="fill_parent"
