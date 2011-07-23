@@ -14,7 +14,7 @@ import android.view.View;
 import android.widget.TextView;
 
 public class CheckpointDialog extends Activity {
-    private static final String CHECKPOINT_DIALOG_ACTIVITY_FOLDER ="/CheckpointDialog";
+    private static final String CHECKPOINT_DIALOG_ACTIVITY_FOLDER = "/CheckpointDialog";
     private CheckpointManager checkpointManager;
     private int checkpointId, cacheId;
 
@@ -32,26 +32,24 @@ public class CheckpointDialog extends Activity {
         TextView coordinates = (TextView) findViewById(R.id.checkpointCoordinate);
         TextView status = (TextView) findViewById(R.id.tvCheckpointDialogStatus);
 
+        GeoCache cache;
         if (checkpointId == cacheId) {
             findViewById(R.id.checkpointDeleteButton).setEnabled(false);
-            GeoCache cache = Controller.getInstance().getPreferencesManager().getLastSearchedGeoCache();
-            coordinates.setText(CoordinateHelper.coordinateToString(cache.getLocationGeoPoint()));
-            status.setText(rm.getGeoCacheStatus(cache));
-            setTitle(cache.getName());
+            cache = Controller.getInstance().getDbManager().getCacheByID(cacheId);
+        } else {
+            cache = checkpointManager.getGeoCache(checkpointId);
         }
-        else {
-            GeoCache cache   =  checkpointManager.getGeoCache(checkpointId);
-            coordinates.setText(CoordinateHelper.coordinateToString(cache.getLocationGeoPoint()));
-            status.setText(rm.getGeoCacheStatus(cache));
-            setTitle(cache.getName());
-        }
-        
+        coordinates.setText(CoordinateHelper.coordinateToString(cache.getLocationGeoPoint()));
+        status.setText(rm.getGeoCacheStatus(cache));
+        setTitle(cache.getName());
+
         Controller.getInstance().getGoogleAnalyticsManager().trackPageView(CHECKPOINT_DIALOG_ACTIVITY_FOLDER);
     }
 
     public void onActiveClick(View v) {
         if (cacheId == checkpointId) {
             checkpointManager.deactivateCheckpoints();
+            Controller.getInstance().setSearchingGeoCache(Controller.getInstance().getDbManager().getCacheByID(cacheId));
         } else {
             checkpointManager.setActiveItem(checkpointId);
         }
