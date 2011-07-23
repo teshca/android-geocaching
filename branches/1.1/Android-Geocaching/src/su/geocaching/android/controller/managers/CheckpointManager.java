@@ -79,7 +79,7 @@ public class CheckpointManager {
         for (GeoCache checkpoint : checkpoints) {
             if (checkpoint.getStatus() == GeoCacheStatus.ACTIVE_CHECKPOINT) {
                 checkpoint.setStatus(GeoCacheStatus.NOT_ACTIVE_CHECKPOINT);
-                dbm.updateCheckpointCacheStatus(controller.getPreferencesManager().getLastSearchedGeoCache().getId(), checkpoint.getId(), GeoCacheStatus.NOT_ACTIVE_CHECKPOINT);
+                dbm.updateCheckpointCacheStatus(cacheId, checkpoint.getId(), GeoCacheStatus.NOT_ACTIVE_CHECKPOINT);
             }
         }
     }
@@ -87,9 +87,9 @@ public class CheckpointManager {
     private void removeCheckpointByIndex(int index) {
         GeoCache gc = checkpoints.get(index);
         if (gc.getStatus() == GeoCacheStatus.ACTIVE_CHECKPOINT) {
-            controller.setSearchingGeoCache(controller.getPreferencesManager().getLastSearchedGeoCache());
+            controller.setSearchingGeoCache(controller.getDbManager().getCacheByID(cacheId));
         }
-        dbm.deleteCheckpointCache(controller.getPreferencesManager().getLastSearchedGeoCache().getId(), gc.getId());
+        dbm.deleteCheckpointCache(cacheId, gc.getId());
         checkpoints.remove(index);
     }
 
@@ -120,24 +120,14 @@ public class CheckpointManager {
     }
 
     /**
-     * @param activeItemS the activeItem to set
+     * @param id the Id of active item
      */
     public void setActiveItem(int id) {
         int activeItem = findItemById(id);
         deactivateCheckpoints();
         checkpoints.get(activeItem).setStatus(GeoCacheStatus.ACTIVE_CHECKPOINT);
         controller.setSearchingGeoCache(checkpoints.get(activeItem));
-        dbm.updateCheckpointCacheStatus(controller.getPreferencesManager().getLastSearchedGeoCache().getId(), checkpoints.get(activeItem).getId(), GeoCacheStatus.ACTIVE_CHECKPOINT);
-    }
-
-    /**
-     * @param id the Id of active item
-     */
-    public void setActiveItemById(int id) {
-        int index = findItemById(id);
-        if (id != -1) {
-            setActiveItem(index);
-        }
+        dbm.updateCheckpointCacheStatus(cacheId, checkpoints.get(activeItem).getId(), GeoCacheStatus.ACTIVE_CHECKPOINT);
     }
 
     private int findItemById(int id) {
