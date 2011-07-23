@@ -89,7 +89,7 @@ public class SelectMapActivity extends MapActivity implements IInternetAware, IL
 
         // prepare turnOn internet dialog for showing
         AlertDialog.Builder turnOnInternetDialogBuilder = new AlertDialog.Builder(context);
-        turnOnInternetDialogBuilder.setMessage(context.getString(R.string.ask_enable_internet_text)).setCancelable(false)
+        turnOnInternetDialogBuilder.setMessage(context.getString(R.string.ask_enable_internet_text))
                 .setPositiveButton(context.getString(R.string.yes), new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int id) {
                         Intent startGPS = new Intent(Settings.ACTION_WIRELESS_SETTINGS);
