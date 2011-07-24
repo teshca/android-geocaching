@@ -18,7 +18,7 @@ public class KMeansTest extends AndroidTestCase {
     private static final int MAX_NUMBER_OF_VIEW = 5020;
     private static final int MIN_NUMBER_OF_VIEW = 10;
     private static final int STEP = 100;
-    private static final int NUMBER_OF_TESTS = 50;
+    private static final int NUMBER_OF_TESTS = 5;
     private static final int SCREEN_WIDTH = 640;
     private static final int SCREEN_HEIGHT = 480;
     private static final int FINGER_SIZE_X = 80;

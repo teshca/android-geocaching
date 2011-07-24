@@ -31,7 +31,7 @@ import su.geocaching.android.model.GeoCacheType;
  * 
  * @author Nikita Bumakov
  */
-class GeoCachesSaxHandler extends DefaultHandler {
+public class GeoCachesSaxHandler extends DefaultHandler {
 
     private static final String TAG = GeoCachesSaxHandler.class.getCanonicalName();
 

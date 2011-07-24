@@ -3,6 +3,7 @@ package su.geocaching.android.ui.test;
 import android.test.AndroidTestCase;
 import android.util.Log;
 import org.xml.sax.InputSource;
+import su.geocaching.android.controller.apimanager.IApiManager;
 import su.geocaching.android.controller.apimanager.GeoCachesSaxHandler;
 import su.geocaching.android.model.GeoCache;
 
@@ -20,7 +21,6 @@ import java.util.List;
 public class GeoCacheSaxHandlerTest extends AndroidTestCase {
 
     private GeoCachesSaxHandler handler = null;
-    private static final String ENCODING = "windows-1251";
     private InputSource geoCacheXml;
     private SAXParser parser;
 
@@ -35,7 +35,7 @@ public class GeoCacheSaxHandlerTest extends AndroidTestCase {
         try {
             url = new URL("http://dl.dropbox.com/u/10802739/parseTest.xml");
             HttpURLConnection connection = (HttpURLConnection) url.openConnection();
-            geoCacheXml = new InputSource(new InputStreamReader(connection.getInputStream(), ENCODING));
+            geoCacheXml = new InputSource(new InputStreamReader(connection.getInputStream(), IApiManager.CP1251_ENCODING));
 
             SAXParserFactory factory = SAXParserFactory.newInstance();
             handler = new GeoCachesSaxHandler();
@@ -62,7 +62,7 @@ public class GeoCacheSaxHandlerTest extends AndroidTestCase {
         try {
             url = new URL("http://www.google.com");
             HttpURLConnection connection = (HttpURLConnection) url.openConnection();
-            geoCacheXml = new InputSource(new InputStreamReader(connection.getInputStream(), ENCODING));
+            geoCacheXml = new InputSource(new InputStreamReader(connection.getInputStream(), IApiManager.CP1251_ENCODING));
 
             SAXParserFactory factory = SAXParserFactory.newInstance();
             handler = new GeoCachesSaxHandler();
@@ -85,7 +85,7 @@ public class GeoCacheSaxHandlerTest extends AndroidTestCase {
         try {
             url = new URL("http://dl.dropbox.com/u/10802739/parseTest2.xml");
             HttpURLConnection connection = (HttpURLConnection) url.openConnection();
-            geoCacheXml = new InputSource(new InputStreamReader(connection.getInputStream(), ENCODING));
+            geoCacheXml = new InputSource(new InputStreamReader(connection.getInputStream(), IApiManager.CP1251_ENCODING));
 
             SAXParserFactory factory = SAXParserFactory.newInstance();
             handler = new GeoCachesSaxHandler();
