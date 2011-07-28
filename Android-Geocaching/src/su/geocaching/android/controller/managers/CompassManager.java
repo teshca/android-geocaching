@@ -9,7 +9,6 @@ import android.hardware.SensorEventListener;
 import android.hardware.SensorManager;
 import android.location.Location;
 import android.os.Bundle;
-import su.geocaching.android.controller.Controller;
 
 /**
  * Sensor manager which calculate bearing of user

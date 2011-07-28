@@ -149,7 +149,6 @@ public class UserLocationManager implements LocationListener, GpsStatus.Listener
         }
         lastLocation = location;
         LogManager.d(TAG, "Location changed: send msg to " + Integer.toString(subscribers.size()) + " activity(es)");
-        boolean isCompassAvailable = Controller.getInstance().getCompassManager().isCompassAvailable();
         for (ILocationAware subscriber : subscribers) {
             subscriber.updateLocation(location);
         }
