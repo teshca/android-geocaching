@@ -5,8 +5,6 @@ import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.URL;
 
-import su.geocaching.android.controller.Controller;
-
 /**
  * @author Grigory Kalabin. grigory.kalabin@gmail.com
  * @since Jul 13, 2011
