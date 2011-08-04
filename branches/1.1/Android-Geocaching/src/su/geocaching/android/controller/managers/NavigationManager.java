@@ -115,6 +115,25 @@ public class NavigationManager {
         turnOnGpsAlert.show();
     }
 
+     public static void askTurnOnLocationService(final Activity context) {
+        AlertDialog.Builder builder = new AlertDialog.Builder(context);
+        builder.setMessage(context.getString(R.string.ask_enable_location_services_text)).setPositiveButton(context.getString(R.string.yes), new DialogInterface.OnClickListener() {
+            public void onClick(DialogInterface dialog, int id) {
+                Intent startGPS = new Intent(Settings.ACTION_LOCATION_SOURCE_SETTINGS);
+                context.startActivity(startGPS);
+                dialog.cancel();
+            }
+        }).setNegativeButton(context.getString(R.string.no), new DialogInterface.OnClickListener() {
+            public void onClick(DialogInterface dialog, int id) {
+                dialog.cancel();
+                // activity is MapActivity or Activity
+                context.finish();
+            }
+        });
+        AlertDialog turnOnGpsAlert = builder.create();
+        turnOnGpsAlert.show();
+    }
+
     /**
      * Run GpsStatus & toolbox application
      * 
