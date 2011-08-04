@@ -256,4 +256,15 @@ public class PreferencesManager {
         }
         return set;
     }
+
+  public boolean isFirstStart(){
+     boolean isFirstStart = preferences.getBoolean("isFirstStart", true);
+     if (!isFirstStart){
+       return false;
+     }
+     SharedPreferences.Editor editor = preferences.edit();
+     editor.putBoolean("isFirstStart", false);
+     editor.commit();
+    return true;
+  }
 }
