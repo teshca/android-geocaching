@@ -11,7 +11,6 @@ import android.location.Location;
 import android.location.LocationProvider;
 import android.net.Uri;
 import android.os.Bundle;
-import android.view.Gravity;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
@@ -192,10 +191,10 @@ public class SearchMapActivity extends MapActivity implements IInternetAware, IL
                 LogManager.w(TAG, "resume: device without gps");
             }
             NavigationManager.askTurnOnGps(this);
-            LogManager.d(TAG, "resume: best provider (" + Controller.getInstance().getLocationManager().getBestProvider() + ") disabled. Current provider is "
+            LogManager.d(TAG, "resume: best provider (" + Controller.getInstance().getLocationManager().getBestProvider(false) + ") disabled. Current provider is "
                     + Controller.getInstance().getLocationManager().getCurrentProvider());
         } else {
-            LogManager.d(TAG, "resume: best provider (" + Controller.getInstance().getLocationManager().getBestProvider() + ") enabled. Run logic");
+            LogManager.d(TAG, "resume: best provider (" + Controller.getInstance().getLocationManager().getBestProvider(false) + ") enabled. Run logic");
 
             if (!Controller.getInstance().getLocationManager().hasLocation()) {
                 progressBarView.setVisibility(View.VISIBLE);
@@ -526,7 +525,7 @@ public class SearchMapActivity extends MapActivity implements IInternetAware, IL
     public void onProviderDisabled(String provider) {
         LogManager.d(TAG, "onProviderDisabled");
         if (!Controller.getInstance().getLocationManager().isBestProviderEnabled()) {
-            LogManager.d(TAG, "onStatusChanged: best provider (" + Controller.getInstance().getLocationManager().getBestProvider() + ") disabled. Ask turn on.");
+            LogManager.d(TAG, "onStatusChanged: best provider (" + Controller.getInstance().getLocationManager().getBestProvider(false) + ") disabled. Ask turn on.");
             NavigationManager.askTurnOnGps(this);
         }
     }

@@ -338,10 +338,10 @@ public class UserLocationManager implements LocationListener, GpsStatus.Listener
     /**
      * @return name of the best provider by accuracy on device
      */
-    public String getBestProvider() {
+    public String getBestProvider(boolean isEnable) {
         Criteria criteria = new Criteria();
         criteria.setAccuracy(Criteria.ACCURACY_FINE);
-        return locationManager.getBestProvider(criteria, false);
+        return locationManager.getBestProvider(criteria, isEnable);
     }
 
     /**
