@@ -142,12 +142,15 @@ public class SelectMapActivity extends MapActivity implements IInternetAware, IL
     }
 
     private void updateMapInfoFromSettings() {
-        MapInfo lastMapInfo = controller.getPreferencesManager().getLastSelectMapInfo();
-        GeoPoint lastCenter = new GeoPoint(lastMapInfo.getCenterX(), lastMapInfo.getCenterY());
-        mapController.setCenter(lastCenter);
-        mapController.animateTo(lastCenter);
-        mapController.setZoom(lastMapInfo.getZoom());
-        map.invalidate();
+//      if (controller.getPreferencesManager().isFirstStart()) {
+//        return;
+//      }
+      MapInfo lastMapInfo = controller.getPreferencesManager().getLastSelectMapInfo();
+      GeoPoint lastCenter = new GeoPoint(lastMapInfo.getCenterX(), lastMapInfo.getCenterY());
+      mapController.setCenter(lastCenter);
+      mapController.animateTo(lastCenter);
+      mapController.setZoom(lastMapInfo.getZoom());
+      map.invalidate();
     }
 
     private void saveMapInfoToSettings() {
@@ -161,7 +164,7 @@ public class SelectMapActivity extends MapActivity implements IInternetAware, IL
         map.setSatellite(controller.getPreferencesManager().useSatelliteMap());
         connectionManager.addSubscriber(this);
         if (locationManager.getBestProvider(true) == null){
-           NavigationManager.askTurnOnLocationService(this);
+           //NavigationManager.askTurnOnLocationService(this);
         } else{
            locationManager.addSubscriber(this, false);
         }
@@ -342,11 +345,11 @@ public class SelectMapActivity extends MapActivity implements IInternetAware, IL
 
     @Override
     public void onStatusChanged(String provider, int status, Bundle extras) {
-      //if
     }
 
     @Override
     public void onProviderEnabled(String provider) {
+      locationManager.addSubscriber(this, false);
     }
 
     @Override

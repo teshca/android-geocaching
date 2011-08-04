@@ -90,7 +90,7 @@ public class UserLocationManager implements LocationListener, GpsStatus.Listener
 
         LogManager.d(TAG, "addSubscriber: remove task cancelled;\n	isUpdating=" + Boolean.toString(isUpdating) + ";\n	subscribers=" + Integer.toString(subscribers.size()));
 
-        if ((subscribers.size() == 0) && (!isUpdating)) {
+        if (((subscribers.size() == 0) && (!isUpdating)) || (!isUpdating)) {
             addUpdates();
         }
         if (!subscribers.contains(subscriber)) {
@@ -324,15 +324,19 @@ public class UserLocationManager implements LocationListener, GpsStatus.Listener
             case MAXIMAL:
                 minTime = 1000;
                 minDistance = 1;
-                break;
-            default:
-                minTime = 4000;
-                minDistance = 4;
-                break;
+              break;
+          default:
+            minTime = 4000;
+            minDistance = 4;
+            break;
         }
-        LogManager.d(TAG, "update frequency: " + updateFrequency.toString());
+      LogManager.d(TAG, "update frequency: " + updateFrequency.toString());
+      if (provider != null) {
         locationManager.requestLocationUpdates(provider, minTime, minDistance, this);
         isUpdating = true;
+      } else {
+          LogManager.w(TAG, "provider == null");
+      }
     }
 
     /**
