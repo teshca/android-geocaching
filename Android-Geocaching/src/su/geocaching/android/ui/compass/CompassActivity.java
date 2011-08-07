@@ -306,7 +306,7 @@ public class CompassActivity extends Activity {
         public void onProviderDisabled(String provider) {
             LogManager.d(TAG, "onProviderDisabled provider: " + provider);
             if (!locationManager.isBestProviderEnabled()) {
-                LogManager.d(TAG, "onStatusChanged: best provider (" + locationManager.getBestProvider() + ") disabled. Ask turn on.");
+                LogManager.d(TAG, "onStatusChanged: best provider (" + locationManager.getBestProvider(false) + ") disabled. Ask turn on.");
                 onBestProviderUnavailable();
                 NavigationManager.askTurnOnGps(activity);
             }
