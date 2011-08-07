@@ -94,4 +94,8 @@ public class DashboardActivity extends Activity {
         Intent intent = new Intent(this, FavoritesFolderActivity.class);
         startActivity(intent);
     }
+
+    // Do nothing but it method need
+    public void onHomeClick(View v) {
+    }
 }

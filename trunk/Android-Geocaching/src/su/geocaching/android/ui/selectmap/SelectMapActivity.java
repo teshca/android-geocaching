@@ -1,5 +1,6 @@
 package su.geocaching.android.ui.selectmap;
 
+import java.util.List;
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
@@ -16,10 +17,19 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.Toast;
-import com.google.android.maps.*;
+import com.google.android.maps.GeoPoint;
+import com.google.android.maps.MapActivity;
+import com.google.android.maps.MapController;
+import com.google.android.maps.MapView;
+import com.google.android.maps.OverlayItem;
 import su.geocaching.android.controller.Controller;
 import su.geocaching.android.controller.CoordinateHelper;
-import su.geocaching.android.controller.managers.*;
+import su.geocaching.android.controller.managers.ConnectionManager;
+import su.geocaching.android.controller.managers.IInternetAware;
+import su.geocaching.android.controller.managers.ILocationAware;
+import su.geocaching.android.controller.managers.LogManager;
+import su.geocaching.android.controller.managers.NavigationManager;
+import su.geocaching.android.controller.managers.UserLocationManager;
 import su.geocaching.android.controller.selectmap.geocachegroup.GroupGeoCacheTask;
 import su.geocaching.android.controller.selectmap.mapupdatetimer.MapUpdateTimer;
 import su.geocaching.android.model.GeoCache;
@@ -29,8 +39,6 @@ import su.geocaching.android.model.MapInfo;
 import su.geocaching.android.ui.R;
 import su.geocaching.android.ui.geocachemap.GeoCacheOverlayItem;
 import su.geocaching.android.ui.geocachemap.MapPreferenceActivity;
-
-import java.util.List;
 
 /**
  * @author Yuri Denison
@@ -134,11 +142,15 @@ public class SelectMapActivity extends MapActivity implements IInternetAware, IL
     }
 
     private void updateMapInfoFromSettings() {
-        MapInfo lastMapInfo = controller.getPreferencesManager().getLastSelectMapInfo();
-        GeoPoint lastCenter = new GeoPoint(lastMapInfo.getCenterX(), lastMapInfo.getCenterY());
-        mapController.setCenter(lastCenter);
-        mapController.setZoom(lastMapInfo.getZoom());
-        map.invalidate();
+//      if (controller.getPreferencesManager().isFirstStart()) {
+//        return;
+//      }
+      MapInfo lastMapInfo = controller.getPreferencesManager().getLastSelectMapInfo();
+      GeoPoint lastCenter = new GeoPoint(lastMapInfo.getCenterX(), lastMapInfo.getCenterY());
+      mapController.setCenter(lastCenter);
+      mapController.animateTo(lastCenter);
+      mapController.setZoom(lastMapInfo.getZoom());
+      map.invalidate();
     }
 
     private void saveMapInfoToSettings() {
@@ -151,7 +163,11 @@ public class SelectMapActivity extends MapActivity implements IInternetAware, IL
         askTurnOnInternet();
         map.setSatellite(controller.getPreferencesManager().useSatelliteMap());
         connectionManager.addSubscriber(this);
-        locationManager.addSubscriber(this, false);
+        if (locationManager.getBestProvider(true) == null){
+           //NavigationManager.askTurnOnLocationService(this);
+        } else{
+           locationManager.addSubscriber(this, false);
+        }
         updateMapInfoFromSettings();
         mapTimer = new MapUpdateTimer(this);
 
@@ -285,7 +301,7 @@ public class SelectMapActivity extends MapActivity implements IInternetAware, IL
 
     /*
      * (non-Javadoc)
-     * 
+     *
      * @see android.app.Activity#onWindowFocusChanged(boolean)
      */
     @Override
@@ -333,6 +349,7 @@ public class SelectMapActivity extends MapActivity implements IInternetAware, IL
 
     @Override
     public void onProviderEnabled(String provider) {
+      locationManager.addSubscriber(this, false);
     }
 
     @Override
