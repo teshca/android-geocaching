@@ -40,6 +40,6 @@ public class CacheNotesActivity extends Activity {
     }
 
     public void onHomeClick(View v) {
-        NavigationManager.startDashboardActvity(this);
+        NavigationManager.startDashboardActivity(this);
     }
 }

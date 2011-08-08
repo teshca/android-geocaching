@@ -3,6 +3,7 @@ package su.geocaching.android.controller;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
+import android.net.ConnectivityManager;
 import su.geocaching.android.controller.managers.ConnectionManager;
 import su.geocaching.android.controller.managers.LogManager;
 
@@ -24,12 +25,14 @@ public class ConnectionStateReceiver extends BroadcastReceiver {
      */
     @Override
     public void onReceive(Context context, Intent intent) {
-        LogManager.d(TAG, "Recieved message about internet status");
-        ConnectionManager connManager = Controller.getInstance().getConnectionManager(context.getApplicationContext());
-        if (connManager.isInternetConnected()) {
-            connManager.onInternetFound();
+        LogManager.d(TAG, "Received message about internet status");
+        //boolean noConnectivity = intent.getBooleanExtra(ConnectivityManager.EXTRA_NO_CONNECTIVITY, false);
+        //LogManager.d(TAG, "noConnectivityExtra:" + noConnectivity);
+        ConnectionManager connectionManager = Controller.getInstance().getConnectionManager(context.getApplicationContext());
+        if (connectionManager.isInternetConnected()) {
+            connectionManager.onInternetFound();
         } else {
-            connManager.onInternetLost();
+            connectionManager.onInternetLost();
         }
     }
 }

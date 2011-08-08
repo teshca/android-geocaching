@@ -62,6 +62,6 @@ public abstract class AbstractGeoCacheFolderActivity extends Activity implements
     }
 
     public void onHomeClick(View v) {
-        NavigationManager.startDashboardActvity(this);
+        NavigationManager.startDashboardActivity(this);
     }
 }

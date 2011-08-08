@@ -225,7 +225,7 @@ public class CompassActivity extends Activity {
     }
 
     public void onHomeClick(View v) {
-        NavigationManager.startDashboardActvity(this);
+        NavigationManager.startDashboardActivity(this);
     }
 
     public void onStartClick(View v) {
@@ -308,7 +308,7 @@ public class CompassActivity extends Activity {
             if (!locationManager.isBestProviderEnabled()) {
                 LogManager.d(TAG, "onStatusChanged: best provider (" + locationManager.getBestProvider(false) + ") disabled. Ask turn on.");
                 onBestProviderUnavailable();
-                NavigationManager.askTurnOnGps(activity);
+                NavigationManager.displayTurnOnGpsDialog(activity);
             }
         }
     }

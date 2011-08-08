@@ -2,15 +2,12 @@ package su.geocaching.android.ui.selectmap;
 
 import java.util.List;
 import android.app.Activity;
-import android.app.AlertDialog;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.drawable.AnimationDrawable;
 import android.location.Location;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Handler;
-import android.provider.Settings;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
@@ -63,13 +60,16 @@ public class SelectMapActivity extends MapActivity implements IInternetAware, IL
     private Handler handler;
     private GroupGeoCacheTask groupTask = null;
     private boolean firstRun = true;
-    private AlertDialog turnOnInternetDialog;
+    private Toast internetLostToast;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         LogManager.d(TAG, "onCreate");
         setContentView(R.layout.select_map_activity);
+
+        internetLostToast = Toast.makeText(this, getString(R.string.map_internet_lost), Toast.LENGTH_LONG);
+
         controller = Controller.getInstance();
         map = (MapView) findViewById(R.id.selectGeocacheMap);
         map.getOverlays().clear();
@@ -94,23 +94,6 @@ public class SelectMapActivity extends MapActivity implements IInternetAware, IL
         map.setBuiltInZoomControls(true);
         map.invalidate();
         LogManager.d(TAG, "onCreate Done");
-
-        // prepare turnOn internet dialog for showing
-        AlertDialog.Builder turnOnInternetDialogBuilder = new AlertDialog.Builder(context);
-        turnOnInternetDialogBuilder.setMessage(context.getString(R.string.ask_enable_internet_text))
-                .setPositiveButton(context.getString(R.string.yes), new DialogInterface.OnClickListener() {
-                    public void onClick(DialogInterface dialog, int id) {
-                        Intent startGPS = new Intent(Settings.ACTION_WIRELESS_SETTINGS);
-                        context.startActivity(startGPS);
-                        dialog.cancel();
-                    }
-                }).setNegativeButton(context.getString(R.string.no), new DialogInterface.OnClickListener() {
-                    public void onClick(DialogInterface dialog, int id) {
-                        dialog.cancel();
-                        finish();
-                    }
-                });
-        turnOnInternetDialog = turnOnInternetDialogBuilder.create();
 
         controller.getGoogleAnalyticsManager().trackPageView(SELECT_ACTIVITY_FOLDER);
     }
@@ -142,15 +125,11 @@ public class SelectMapActivity extends MapActivity implements IInternetAware, IL
     }
 
     private void updateMapInfoFromSettings() {
-//      if (controller.getPreferencesManager().isFirstStart()) {
-//        return;
-//      }
       MapInfo lastMapInfo = controller.getPreferencesManager().getLastSelectMapInfo();
       GeoPoint lastCenter = new GeoPoint(lastMapInfo.getCenterX(), lastMapInfo.getCenterY());
       mapController.setCenter(lastCenter);
       mapController.animateTo(lastCenter);
       mapController.setZoom(lastMapInfo.getZoom());
-      map.invalidate();
     }
 
     private void saveMapInfoToSettings() {
@@ -160,15 +139,23 @@ public class SelectMapActivity extends MapActivity implements IInternetAware, IL
     @Override
     protected void onResume() {
         super.onResume();
-        askTurnOnInternet();
+        // update map setting in case they were changed in preferences
         map.setSatellite(controller.getPreferencesManager().useSatelliteMap());
+        // add subscriber to connection manager
         connectionManager.addSubscriber(this);
+        // add subscriber to location manager
+        if (!connectionManager.isActiveNetworkConnected())
+        {
+            NavigationManager.displayTurnOnConnectionDialog(this);
+        }
         if (locationManager.getBestProvider(true) == null){
            //NavigationManager.askTurnOnLocationService(this);
         } else{
            locationManager.addSubscriber(this, false);
         }
+        // reset map center and zoom level
         updateMapInfoFromSettings();
+
         mapTimer = new MapUpdateTimer(this);
 
         selectGeoCacheOverlay.clear();
@@ -183,6 +170,7 @@ public class SelectMapActivity extends MapActivity implements IInternetAware, IL
         mapTimer.cancel();
         locationManager.removeSubscriber(this);
         connectionManager.removeSubscriber(this);
+        internetLostToast.cancel();
         saveMapInfoToSettings();
         super.onPause();
     }
@@ -283,20 +271,7 @@ public class SelectMapActivity extends MapActivity implements IInternetAware, IL
 
     @Override
     public void onInternetLost() {
-        if (!turnOnInternetDialog.isShowing()) {
-            Toast.makeText(this, getString(R.string.search_geocache_internet_lost), Toast.LENGTH_LONG).show();
-        }
-    }
-
-    /**
-     * Ask user turn on Internet, if this disabled
-     */
-    private void askTurnOnInternet() {
-        if (connectionManager.isInternetConnected()) {
-            LogManager.d(TAG, "Internet connected");
-            return;
-        }
-        turnOnInternetDialog.show();
+        internetLostToast.show();
     }
 
     /*
@@ -319,7 +294,7 @@ public class SelectMapActivity extends MapActivity implements IInternetAware, IL
     }
 
     public void onHomeClick(View v) {
-        NavigationManager.startDashboardActvity(this);
+        NavigationManager.startDashboardActivity(this);
     }
 
     public void onMyLocationClick(View v) {
@@ -358,8 +333,6 @@ public class SelectMapActivity extends MapActivity implements IInternetAware, IL
 
     @Override
     public void onInternetFound() {
-        if (turnOnInternetDialog != null && turnOnInternetDialog.isShowing()) {
-            turnOnInternetDialog.dismiss();
-        }
+        internetLostToast.cancel();
     }
 }
