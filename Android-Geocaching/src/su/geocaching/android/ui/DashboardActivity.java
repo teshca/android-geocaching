@@ -1,20 +1,18 @@
 package su.geocaching.android.ui;
 
+import android.widget.Toast;
 import su.geocaching.android.controller.Controller;
-import su.geocaching.android.controller.managers.LogManager;
 import su.geocaching.android.controller.managers.NavigationManager;
-import su.geocaching.android.ui.selectmap.SelectMapActivity;
 import android.app.Activity;
-import android.content.Intent;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.Toast;
+import su.geocaching.android.model.GeoCache;
 
 /**
- * Main activity in application
+ * Main activity of the application
  *
  * @author Android-Geocaching.su student project team
  * @since October 2010
@@ -22,15 +20,13 @@ import android.widget.Toast;
 public class DashboardActivity extends Activity {
 
     private static final String TAG = DashboardActivity.class.getCanonicalName();
-    private static final String DASHBOARD_ACTIVITY_FOLDER = "/DashboardActivity";
+    private static final String DASHBOARD_ACTIVITY_NAME = "/DashboardActivity";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        LogManager.d(TAG, "onCreate");
         setContentView(R.layout.dashboard_activity);
-
-        Controller.getInstance().getGoogleAnalyticsManager().trackPageView(DASHBOARD_ACTIVITY_FOLDER);
+        Controller.getInstance().getGoogleAnalyticsManager().trackPageView(DASHBOARD_ACTIVITY_NAME);
     }
 
     @Override
@@ -44,8 +40,8 @@ public class DashboardActivity extends Activity {
     public boolean onOptionsItemSelected(MenuItem item) {
         // Handle item selection
         switch (item.getItemId()) {
-            case R.id.preference:
-                startActivity(new Intent(this, AboutActivity.class));
+            case R.id.about:
+                NavigationManager.startAboutActivity(this);
                 return true;
             default:
                 return super.onOptionsItemSelected(item);
@@ -54,48 +50,40 @@ public class DashboardActivity extends Activity {
 
     /**
      * Starting activity to select GeoCache
-     *
-     * @param v //TODO describe it
      */
     public void onSelectClick(View v) {
-        Intent intent = new Intent(this, SelectMapActivity.class);
-        startActivity(intent);
-
+        NavigationManager.startSelectMapActivity(this);
     }
 
     /**
      * Starting activity to search GeoCache
-     *
-     * @param v //TODO describe it
      */
     public void onSearchClick(View v) {
-        if (Controller.getInstance().getPreferencesManager().getLastSearchedGeoCache() == null) {
-            Toast.makeText(this.getBaseContext(), getString(R.string.search_geocache_start_without_geocache), Toast.LENGTH_SHORT).show();
+        GeoCache geoCache = Controller.getInstance().getPreferencesManager().getLastSearchedGeoCache();
+        if (geoCache == null) {
+            Toast.makeText(this, this.getString(R.string.search_geocache_start_without_geocache), Toast.LENGTH_SHORT).show();
             return;
         }
-        NavigationManager.startSearchMapActivity(this,  Controller.getInstance().getPreferencesManager().getLastSearchedGeoCache());
+        NavigationManager.startSearchMapActivity(this, geoCache);
     }
 
     /**
-     * Starting about activity
-     *
-     * @param v //TODO describe it
+     * Start preference activity
      */
     public void onSettingsClick(View v) {
-        startActivity(new Intent(this, DashboardPreferenceActivity.class));
+        NavigationManager.startPreferencesActivity(this);
     }
 
     /**
-     * Starting activity with favorites geocaches
-     *
-     * @param v //TODO describe it
+     * Start favorites GeoCaches list
      */
-    public void onFavoriteClick(View v) {
-        Intent intent = new Intent(this, FavoritesFolderActivity.class);
-        startActivity(intent);
+    public void onFavoritesClick(View v) {
+        NavigationManager.startFavoritesActivity(this);
     }
 
-    // Do nothing but it method need
+    /**
+     * User clicked on Geocaching.su logo
+     */
     public void onHomeClick(View v) {
     }
 }

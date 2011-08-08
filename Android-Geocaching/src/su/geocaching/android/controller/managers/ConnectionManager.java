@@ -42,9 +42,9 @@ public class ConnectionManager {
         subscribers = new ArrayList<IInternetAware>();
         receiver = new ConnectionStateReceiver();
         intentFilter = new IntentFilter();
-        intentFilter.addAction("android.net.conn.CONNECTIVITY_CHANGE");
+        intentFilter.addAction(ConnectivityManager.CONNECTIVITY_ACTION);
         pingManager = new PingManager();
-        if (isInternetAvailable()) {
+        if (isActiveNetworkConnected()) {
             pingManager.start();
         }
         LogManager.d(TAG, "Init");
@@ -120,13 +120,13 @@ public class ConnectionManager {
      * @return true if internet connected
      */
     public boolean isInternetConnected() {
-        if (!isInternetAvailable()) {
+        if (!isActiveNetworkConnected()) {
             return false;
         }
         return pingManager.isInternetConnected();
     }
 
-    private boolean isInternetAvailable() {
+    public boolean isActiveNetworkConnected() {
         NetworkInfo activeNetInfo = connectivityManager.getActiveNetworkInfo();
         return activeNetInfo != null && activeNetInfo.isConnected();
     }

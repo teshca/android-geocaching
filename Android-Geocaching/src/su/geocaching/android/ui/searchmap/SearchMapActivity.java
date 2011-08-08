@@ -76,7 +76,7 @@ public class SearchMapActivity extends MapActivity implements IInternetAware, IL
 
     /*
      * (non-Javadoc)
-     * 
+     *
      * @see com.google.android.maps.MapActivity#onCreate(android.os.Bundle)
      */
     @Override
@@ -84,6 +84,9 @@ public class SearchMapActivity extends MapActivity implements IInternetAware, IL
         super.onCreate(savedInstanceState);
         LogManager.d(TAG, "onCreate");
         setContentView(R.layout.search_map_activity);
+
+        providerUnavailableToast = Toast.makeText(this, getString(R.string.search_geocache_best_provider_lost), Toast.LENGTH_LONG);
+        internetLostToast = Toast.makeText(this, getString(R.string.map_internet_lost), Toast.LENGTH_LONG);
 
         statusTextView = (TextView) findViewById(R.id.waitingLocationFixText);
         progressBarView = (ImageView) findViewById(R.id.progressCircle);
@@ -182,15 +185,13 @@ public class SearchMapActivity extends MapActivity implements IInternetAware, IL
         searchGeoCacheOverlay.addOverlayItem(cacheOverlayItem);
         mapOverlays.add(searchGeoCacheOverlay);
 
-        providerUnavailableToast = Toast.makeText(this, getString(R.string.search_geocache_best_provider_lost), Toast.LENGTH_LONG);
-        internetLostToast = Toast.makeText(this, getString(R.string.search_geocache_internet_lost), Toast.LENGTH_LONG);
         statusTextView.setText(R.string.gps_status_initialization);
 
         if (!Controller.getInstance().getLocationManager().isBestProviderEnabled()) {
             if (!Controller.getInstance().getLocationManager().isBestProviderGps()) {
                 LogManager.w(TAG, "resume: device without gps");
             }
-            NavigationManager.askTurnOnGps(this);
+            NavigationManager.displayTurnOnGpsDialog(this);
             LogManager.d(TAG, "resume: best provider (" + Controller.getInstance().getLocationManager().getBestProvider(false) + ") disabled. Current provider is "
                     + Controller.getInstance().getLocationManager().getCurrentProvider());
         } else {
@@ -526,7 +527,7 @@ public class SearchMapActivity extends MapActivity implements IInternetAware, IL
         LogManager.d(TAG, "onProviderDisabled");
         if (!Controller.getInstance().getLocationManager().isBestProviderEnabled()) {
             LogManager.d(TAG, "onStatusChanged: best provider (" + Controller.getInstance().getLocationManager().getBestProvider(false) + ") disabled. Ask turn on.");
-            NavigationManager.askTurnOnGps(this);
+            NavigationManager.displayTurnOnGpsDialog(this);
         }
     }
 
@@ -556,7 +557,7 @@ public class SearchMapActivity extends MapActivity implements IInternetAware, IL
     }
 
     public void onHomeClick(View v) {
-        NavigationManager.startDashboardActvity(this);
+        NavigationManager.startDashboardActivity(this);
     }
 
     /**
@@ -588,7 +589,6 @@ public class SearchMapActivity extends MapActivity implements IInternetAware, IL
 
     @Override
     public void onInternetFound() {
-        // TODO Auto-generated method stub
-        
+        internetLostToast.cancel();
     }
 }

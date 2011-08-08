@@ -231,7 +231,7 @@ public class CreateCheckpointActivity extends Activity {
     }
 
     public void onHomeClick(View v) {
-        NavigationManager.startDashboardActvity(this);
+        NavigationManager.startDashboardActivity(this);
     }
 
     public void onSexagesimalClick(View v) {

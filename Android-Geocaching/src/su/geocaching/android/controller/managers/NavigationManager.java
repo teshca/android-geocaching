@@ -11,9 +11,11 @@ import android.content.pm.PackageManager;
 import android.content.pm.ResolveInfo;
 import android.net.Uri;
 import android.provider.Settings;
+import android.widget.Toast;
+import org.hamcrest.core.Is;
+import su.geocaching.android.controller.Controller;
 import su.geocaching.android.model.GeoCache;
-import su.geocaching.android.ui.DashboardActivity;
-import su.geocaching.android.ui.R;
+import su.geocaching.android.ui.*;
 import su.geocaching.android.ui.checkpoints.CheckpointDialog;
 import su.geocaching.android.ui.checkpoints.CheckpointsFolder;
 import su.geocaching.android.ui.checkpoints.CreateCheckpointActivity;
@@ -21,6 +23,7 @@ import su.geocaching.android.ui.compass.CompassActivity;
 import su.geocaching.android.ui.info.CacheNotesActivity;
 import su.geocaching.android.ui.info.InfoActivity;
 import su.geocaching.android.ui.searchmap.SearchMapActivity;
+import su.geocaching.android.ui.selectmap.SelectMapActivity;
 
 /**
  * @author Nikita Bumakov
@@ -34,8 +37,31 @@ public class NavigationManager {
     /**
      * Invoke "home" action, returning to DashBoardActivity
      */
-    public static void startDashboardActvity(Context context) {
+    public static void startDashboardActivity(Context context) {
         final Intent intent = new Intent(context, DashboardActivity.class);
+        context.startActivity(intent);
+    }
+
+    public static void startAboutActivity(Context context) {
+        final Intent intent = new Intent(context, AboutActivity.class);
+        context.startActivity(intent);
+    }
+
+    public static void startSelectMapActivity(Context context)
+    {
+        Intent intent = new Intent(context, SelectMapActivity.class);
+        context.startActivity(intent);
+    }
+
+    public static void startPreferencesActivity(Context context)
+    {
+        Intent intent = new Intent(context, DashboardPreferenceActivity.class);
+        context.startActivity(intent);
+    }
+
+    public static void startFavoritesActivity(Context context)
+    {
+        Intent intent = new Intent(context, FavoritesFolderActivity.class);
         context.startActivity(intent);
     }
 
@@ -74,40 +100,39 @@ public class NavigationManager {
         context.startActivity(intent);
     }
 
-    public static void startCheckpointDialog(Context context, int id) {
+    public static void startCheckpointDialog(Context context, int cacheId) {
         Intent intent = new Intent(context, CheckpointDialog.class);
-        intent.putExtra(CACHE_ID, id);
+        intent.putExtra(CACHE_ID, cacheId);
         context.startActivity(intent);
     }
 
-    public static void startPictureViewer(Context context, Uri photouri) {
+    public static void startPictureViewer(Context context, Uri photoUri) {
         Intent intent = new Intent();
         intent.setAction(android.content.Intent.ACTION_VIEW);
-        intent.setDataAndType(photouri, "image/*");
+        intent.setDataAndType(photoUri, "image/*");
         context.startActivity(intent);
     }
 
     /**
      * Open CacheNotesActivity activity
      */
-    public static void startNotesActivity(Context context, int id) {
+    public static void startNotesActivity(Context context, int cacheId) {
         Intent intent = new Intent(context, CacheNotesActivity.class);
-        intent.putExtra(CACHE_ID, id);
+        intent.putExtra(CACHE_ID, cacheId);
         context.startActivity(intent);
     }
 
-    public static void askTurnOnGps(final Activity context) {
+    public static void displayTurnOnGpsDialog(final Activity context) {
         AlertDialog.Builder builder = new AlertDialog.Builder(context);
         builder.setMessage(context.getString(R.string.ask_enable_gps_text)).setCancelable(false).setPositiveButton(context.getString(R.string.yes), new DialogInterface.OnClickListener() {
             public void onClick(DialogInterface dialog, int id) {
-                Intent startGPS = new Intent(Settings.ACTION_LOCATION_SOURCE_SETTINGS);
-                context.startActivity(startGPS);
+                Intent intent = new Intent(Settings.ACTION_LOCATION_SOURCE_SETTINGS);
+                context.startActivity(intent);
                 dialog.cancel();
             }
         }).setNegativeButton(context.getString(R.string.no), new DialogInterface.OnClickListener() {
             public void onClick(DialogInterface dialog, int id) {
                 dialog.cancel();
-                // activity is MapActivity or Activity
                 context.finish();
             }
         });
@@ -115,30 +140,27 @@ public class NavigationManager {
         turnOnGpsAlert.show();
     }
 
-     public static void askTurnOnLocationService(final Activity context) {
-        AlertDialog.Builder builder = new AlertDialog.Builder(context);
-        builder.setMessage(context.getString(R.string.ask_enable_location_services_text)).setPositiveButton(context.getString(R.string.yes), new DialogInterface.OnClickListener() {
-            public void onClick(DialogInterface dialog, int id) {
-                Intent startGPS = new Intent(Settings.ACTION_LOCATION_SOURCE_SETTINGS);
-                context.startActivity(startGPS);
-                dialog.cancel();
-            }
-        }).setNegativeButton(context.getString(R.string.no), new DialogInterface.OnClickListener() {
-            public void onClick(DialogInterface dialog, int id) {
-                dialog.cancel();
-                // activity is MapActivity or Activity
-                context.finish();
-            }
-        });
-        AlertDialog turnOnGpsAlert = builder.create();
-        turnOnGpsAlert.show();
+     public static void displayTurnOnConnectionDialog(final Activity context) {
+        AlertDialog.Builder turnOnInternetDialogBuilder = new AlertDialog.Builder(context);
+        turnOnInternetDialogBuilder.setMessage(context.getString(R.string.ask_enable_internet_text))
+                .setPositiveButton(context.getString(R.string.yes), new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int id) {
+                        Intent intent = new Intent(Settings.ACTION_WIRELESS_SETTINGS);
+                        context.startActivity(intent);
+                        dialog.cancel();
+                    }
+                }).setNegativeButton(context.getString(R.string.no), new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int id) {
+                        context.finish();
+                        dialog.cancel();
+                    }
+                });
+        AlertDialog turnOnInternetDialog = turnOnInternetDialogBuilder.create();
+        turnOnInternetDialog.show();
     }
 
     /**
      * Run GpsStatus & toolbox application
-     * 
-     * @param context
-     *            which can start activity
      */
     public static void runGpsStatus(Context context) {
         Intent intent = new Intent(Intent.ACTION_MAIN);

@@ -7,9 +7,7 @@
 	</string>
 	<string name="ask_enable_gps_text">Для дальнейшей работы необходим GPS. Включить?
 	</string>
-	<string name="ask_enable_location_services_text">Для дальнейшей работы необходимо определение местоположения. Включить?
-	</string>
-	<string name="search_geocache_internet_lost">Подключение к интернету отсутствует. Могут
+	<string name="map_internet_lost">Подключение к интернету отсутствует. Могут
 		возникнуть проблемы с обновлением карты
     </string>
 	<string name="revert_center_to_location">Мое местоположение</string>
