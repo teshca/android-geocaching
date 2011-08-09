@@ -38,12 +38,12 @@ public class NavigationManager {
      * Invoke "home" action, returning to DashBoardActivity
      */
     public static void startDashboardActivity(Context context) {
-        final Intent intent = new Intent(context, DashboardActivity.class);
+        Intent intent = new Intent(context, DashboardActivity.class);
         context.startActivity(intent);
     }
 
     public static void startAboutActivity(Context context) {
-        final Intent intent = new Intent(context, AboutActivity.class);
+        Intent intent = new Intent(context, AboutActivity.class);
         context.startActivity(intent);
     }
 
@@ -96,7 +96,7 @@ public class NavigationManager {
 
     public static void startCheckpointsFolder(Context context, int cacheId) {
         Intent intent = new Intent(context, CheckpointsFolder.class);
-        intent.putExtra(CheckpointsFolder.CACHE_ID, cacheId);
+        intent.putExtra(CACHE_ID, cacheId);
         context.startActivity(intent);
     }
 

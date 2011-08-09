@@ -22,9 +22,6 @@ import android.widget.SimpleAdapter;
  * Class for create ListActivity with checkpoints caches
  */
 public class CheckpointsFolder extends AbstractGeoCacheFolderActivity implements OnItemClickListener {
-
-    public static final String CACHE_ID = "cacheId";
-
     private static final String TAG = FavoritesFolderActivity.class.getCanonicalName();
     private CheckpointManager checkpointManager;
     private AlertDialog removeAlert;
@@ -33,7 +30,7 @@ public class CheckpointsFolder extends AbstractGeoCacheFolderActivity implements
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        cacheid = getIntent().getIntExtra(CACHE_ID, 0);
+        cacheid = getIntent().getIntExtra(NavigationManager.CACHE_ID, 0);
         checkpointManager = Controller.getInstance().getCheckpointManager(cacheid);
         tvNoCache.setText(getString(R.string.checkpoint_list_not_cache_in_db));
         initRemoveDialog();
