@@ -42,7 +42,13 @@ public class InfoActivity extends Activity {
 
     private static final String TAG = InfoActivity.class.getCanonicalName();
     private static final String GEOCACHE_INFO_ACTIVITY_FOLDER = "/GeoCacheInfoActivity";
-    private static final String PAGE_TYPE = "page type", SCROLLY = "scrollY", WIDTH = "width", ZOOM = "ZOOM", TEXT_INFO = "info", TEXT_NOTEBOOK = "notebook";
+
+    private static final String PAGE_TYPE = "page type";
+    private static final String SCROLLY = "scrollY";
+    private static final String WIDTH = "width";
+    private static final String ZOOM = "ZOOM";
+    private static final String TEXT_INFO = "info";
+    private static final String TEXT_NOTEBOOK = "notebook";
 
     private enum PageState {
         INFO, NOTEBOOK, PHOTO, ERROR
