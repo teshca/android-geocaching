@@ -13,7 +13,7 @@ import su.geocaching.android.controller.managers.LogManager;
 
 /**
  * View which displays compass contains of bitmaps for searching geocache.
- * 
+ *
  * @author Nikita Bumakov
  */
 public class CompassView extends SurfaceView implements SurfaceHolder.Callback, ICompassAnimation {
@@ -96,7 +96,7 @@ public class CompassView extends SurfaceView implements SurfaceHolder.Callback, 
 
     /**
      * @param direction
-     *            - direction to geocache in degrees
+     *         - direction to geocache in degrees
      */
     public void setCacheDirection(float direction) {
         cacheDirection = direction;
@@ -121,7 +121,7 @@ public class CompassView extends SurfaceView implements SurfaceHolder.Callback, 
 
     /**
      * @param string
-     *            //TODO describe it
+     *         //TODO describe it
      */
     // TODO too many objects
     public void setHelper(String string) {

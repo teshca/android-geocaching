@@ -10,7 +10,7 @@ import su.geocaching.android.controller.managers.UserLocationManager;
 import su.geocaching.android.ui.R;
 
 public class CompassPreferenceActivity extends PreferenceActivity {
-    private static final String COMPASS_PREFERENCE_ACTIVITY = "/CompassPreferenceActivity"; 
+    private static final String COMPASS_PREFERENCE_ACTIVITY = "/CompassPreferenceActivity";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -20,13 +20,12 @@ public class CompassPreferenceActivity extends PreferenceActivity {
         setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
     }
 
-    public void onOdometerClick(View v){
+    public void onOdometerClick(View v) {
         UserLocationManager lm = Controller.getInstance().getLocationManager();
         lm.refreshOdometer();
-        if(((CheckBox) v).isChecked()){
+        if (((CheckBox) v).isChecked()) {
             lm.setUpdatingOdometer(true);
-        }
-        else{
+        } else {
             lm.setUpdatingOdometer(false);
         }
     }

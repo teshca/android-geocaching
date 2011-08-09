@@ -430,7 +430,7 @@ public class InfoActivity extends Activity {
 
     public void showInfo(String info) {
         this.info = info;
-         if (isCacheStored) {
+        if (isCacheStored) {
             saveCache();   //refresh
         }
         loadView(PageState.INFO);

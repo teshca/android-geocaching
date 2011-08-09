@@ -5,6 +5,7 @@ import java.lang.reflect.Method;
 import java.util.Collections;
 import java.util.LinkedList;
 import java.util.List;
+
 import android.content.Context;
 import android.graphics.Point;
 import android.graphics.drawable.Drawable;
@@ -85,7 +86,7 @@ class SelectGeoCacheOverlay extends com.google.android.maps.ItemizedOverlay<Over
         if (event.getAction() == MotionEvent.ACTION_DOWN) {
             multiTouchFlag = false;
         }
-        
+
         try {
             Method getPointer = MotionEvent.class.getMethod("getPointerCount");
             if (Integer.parseInt(getPointer.invoke(event).toString()) > 1) {

@@ -2,6 +2,7 @@ package su.geocaching.android.ui.searchmap;
 
 import java.util.List;
 import java.util.Locale;
+
 import android.content.Intent;
 import android.graphics.Point;
 import android.graphics.Rect;
@@ -47,7 +48,7 @@ import su.geocaching.android.ui.geocachemap.MapPreferenceActivity;
 
 /**
  * Search GeoCache with the map
- * 
+ *
  * @author Android-Geocaching.su student project team
  * @since October 2010
  */
@@ -420,20 +421,20 @@ public class SearchMapActivity extends MapActivity implements IInternetAware, IL
             Toast.makeText(getBaseContext(), getString(R.string.dislocation), Toast.LENGTH_LONG).show();
         }
     }
-    
+
     private void onExternalMapSelected() {
-            GeoPoint point = Controller.getInstance().getSearchingGeoCache().getLocationGeoPoint();
-            double latitude = point.getLatitudeE6() / 1E6;
-            double longitude = point.getLongitudeE6() / 1E6;
-            String uri =  String.format(GeocachingSuApiManager.enLocale, "geo:%f,%f?z=%d&q=%f,%f", latitude, longitude, MapInfo.DEFAULT_ZOOM, latitude, longitude);
-            startActivity(new Intent(android.content.Intent.ACTION_VIEW, Uri.parse(uri)));
+        GeoPoint point = Controller.getInstance().getSearchingGeoCache().getLocationGeoPoint();
+        double latitude = point.getLatitudeE6() / 1E6;
+        double longitude = point.getLongitudeE6() / 1E6;
+        String uri = String.format(GeocachingSuApiManager.enLocale, "geo:%f,%f?z=%d&q=%f,%f", latitude, longitude, MapInfo.DEFAULT_ZOOM, latitude, longitude);
+        startActivity(new Intent(android.content.Intent.ACTION_VIEW, Uri.parse(uri)));
     }
 
     /**
      * Show message string to user
-     * 
+     *
      * @param status
-     *            string with information about device status
+     *         string with information about device status
      */
     public void updateStatus(String status) {
         if (!Controller.getInstance().getLocationManager().hasLocation()) {

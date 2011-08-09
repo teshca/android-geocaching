@@ -44,12 +44,12 @@ class SearchGeoCacheOverlay extends ItemizedOverlay<OverlayItem> {
         if (event.getAction() == MotionEvent.ACTION_DOWN) {
             multiTouchFlag = false;
         }
-        
+
         try {
             Method getPointer = MotionEvent.class.getMethod("getPointerCount");
             if (Integer.parseInt(getPointer.invoke(event).toString()) > 1) {
                 // prevent tap on geocache icon on multitouch
-                multiTouchFlag  = true;
+                multiTouchFlag = true;
             }
             /* success, this is a newer device */
         } catch (NoSuchMethodException e) {

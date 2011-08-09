@@ -19,7 +19,7 @@ import com.google.android.maps.OverlayItem;
 
 /**
  * Overlay with checkpoints
- * 
+ *
  * @author Nikita Bumakov
  */
 public class CheckpointOverlay extends ItemizedOverlay<OverlayItem> {
@@ -34,7 +34,7 @@ public class CheckpointOverlay extends ItemizedOverlay<OverlayItem> {
 
         this.activity = context;
         items = new LinkedList<GeoCacheOverlayItem>();
-     
+
         gestureDetector = new GestureDetector(context, new GestureDetector.SimpleOnGestureListener() {
             public void onLongPress(MotionEvent e) {
                 GeoCache gc = new GeoCache();

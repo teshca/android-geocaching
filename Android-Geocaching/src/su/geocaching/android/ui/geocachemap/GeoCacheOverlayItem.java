@@ -9,7 +9,7 @@ import com.google.android.maps.OverlayItem;
 
 /**
  * Describes overlay item which contains GeoCache object
- * 
+ *
  * @author Grigory Kalabin. grigory.kalabin@gmail.com
  * @since Nov 20, 2010
  */
@@ -19,11 +19,11 @@ public class GeoCacheOverlayItem extends OverlayItem {
 
     /**
      * @param geoCache
-     *            which will be kept in this overlay
+     *         which will be kept in this overlay
      * @param title
-     *            from default constructor of OverlayItem
+     *         from default constructor of OverlayItem
      * @param snippet
-     *            from default constructor of OverlayItem
+     *         from default constructor of OverlayItem
      */
     public GeoCacheOverlayItem(GeoCache geoCache, String title, String snippet) {
         super(geoCache.getLocationGeoPoint(), title, snippet);

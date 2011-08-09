@@ -27,7 +27,7 @@ public abstract class AbstractGeoCacheFolderActivity extends Activity implements
     protected ListView lvListShowCache;
     protected TextView tvNoCache;
 
-    protected String[] keys = new String[] { "type", "name", "typeText", "statusText" };
+    protected String[] keys = new String[]{"type", "name", "typeText", "statusText"};
 
     public AbstractGeoCacheFolderActivity() {
         super();

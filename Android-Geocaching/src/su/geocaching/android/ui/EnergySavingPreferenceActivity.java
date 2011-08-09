@@ -12,11 +12,12 @@ public class EnergySavingPreferenceActivity extends PreferenceActivity implement
 
     private static final String TAG = EnergySavingPreferenceActivity.class.getCanonicalName();
     private static final String ENERGY_SAVING_ACTIVITY_FOLDER = "/EnergySavingPreferenceActivity";
+
     /*
-     * (non-Javadoc)
-     * 
-     * @see android.preference.PreferenceActivity#onCreate(android.os.Bundle)
-     */
+    * (non-Javadoc)
+    *
+    * @see android.preference.PreferenceActivity#onCreate(android.os.Bundle)
+    */
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);

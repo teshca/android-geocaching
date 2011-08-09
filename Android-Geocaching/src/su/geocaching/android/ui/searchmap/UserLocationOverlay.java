@@ -37,7 +37,7 @@ public class UserLocationOverlay extends com.google.android.maps.Overlay impleme
 
     /**
      * @param context
-     *            activity which use this overlay
+     *         activity which use this overlay
      */
     public UserLocationOverlay(SearchMapActivity context, MapView map) {
         userGeoPoint = null;
@@ -114,7 +114,7 @@ public class UserLocationOverlay extends com.google.android.maps.Overlay impleme
 
     /**
      * @param point
-     *            set user location
+     *         set user location
      */
     public void setPoint(GeoPoint point) {
         this.userGeoPoint = point;
@@ -123,7 +123,7 @@ public class UserLocationOverlay extends com.google.android.maps.Overlay impleme
 
     /**
      * @param radius
-     *            set accuracy radius of location point
+     *         set accuracy radius of location point
      */
     public void setAccuracy(float radius) {
         this.accuracyRadius = radius;

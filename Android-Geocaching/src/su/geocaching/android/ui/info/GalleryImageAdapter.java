@@ -2,6 +2,7 @@ package su.geocaching.android.ui.info;
 
 import java.io.File;
 import java.io.FilenameFilter;
+
 import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
