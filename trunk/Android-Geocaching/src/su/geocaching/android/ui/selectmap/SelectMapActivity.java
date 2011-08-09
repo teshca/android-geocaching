@@ -1,6 +1,7 @@
 package su.geocaching.android.ui.selectmap;
 
 import java.util.List;
+
 import android.app.Activity;
 import android.content.Intent;
 import android.graphics.drawable.AnimationDrawable;
@@ -125,11 +126,11 @@ public class SelectMapActivity extends MapActivity implements IInternetAware, IL
     }
 
     private void updateMapInfoFromSettings() {
-      MapInfo lastMapInfo = controller.getPreferencesManager().getLastSelectMapInfo();
-      GeoPoint lastCenter = new GeoPoint(lastMapInfo.getCenterX(), lastMapInfo.getCenterY());
-      mapController.setCenter(lastCenter);
-      mapController.animateTo(lastCenter);
-      mapController.setZoom(lastMapInfo.getZoom());
+        MapInfo lastMapInfo = controller.getPreferencesManager().getLastSelectMapInfo();
+        GeoPoint lastCenter = new GeoPoint(lastMapInfo.getCenterX(), lastMapInfo.getCenterY());
+        mapController.setCenter(lastCenter);
+        mapController.animateTo(lastCenter);
+        mapController.setZoom(lastMapInfo.getZoom());
     }
 
     private void saveMapInfoToSettings() {
@@ -144,14 +145,13 @@ public class SelectMapActivity extends MapActivity implements IInternetAware, IL
         // add subscriber to connection manager
         connectionManager.addSubscriber(this);
         // add subscriber to location manager
-        if (!connectionManager.isActiveNetworkConnected())
-        {
+        if (!connectionManager.isActiveNetworkConnected()) {
             NavigationManager.displayTurnOnConnectionDialog(this);
         }
-        if (locationManager.getBestProvider(true) == null){
-           //NavigationManager.askTurnOnLocationService(this);
-        } else{
-           locationManager.addSubscriber(this, false);
+        if (locationManager.getBestProvider(true) == null) {
+            //NavigationManager.askTurnOnLocationService(this);
+        } else {
+            locationManager.addSubscriber(this, false);
         }
         // reset map center and zoom level
         updateMapInfoFromSettings();
@@ -324,7 +324,7 @@ public class SelectMapActivity extends MapActivity implements IInternetAware, IL
 
     @Override
     public void onProviderEnabled(String provider) {
-      locationManager.addSubscriber(this, false);
+        locationManager.addSubscriber(this, false);
     }
 
     @Override

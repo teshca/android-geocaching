@@ -13,16 +13,17 @@ public class InternetAndGpsPreferenceActivity extends PreferenceActivity {
 
     private static final String TAG = InternetAndGpsPreferenceActivity.class.getCanonicalName();
     private static final String PREFERENCE_ACTIVITY_FOLDER = "/InternetAndGpsPreferenceActivity";
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         Controller.getInstance().getGoogleAnalyticsManager().trackPageView(PREFERENCE_ACTIVITY_FOLDER);
-        
+
         LogManager.d(TAG, "onCreate");
         addPreferencesFromResource(R.xml.internet_and_gps_preference);
         setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
 
-        
+
         Preference internetPreference = findPreference("internetPreference");
         internetPreference.setOnPreferenceClickListener(new OnPreferenceClickListener() {
 

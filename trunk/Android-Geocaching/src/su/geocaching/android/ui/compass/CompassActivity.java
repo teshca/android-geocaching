@@ -30,7 +30,7 @@ import su.geocaching.android.ui.R;
 
 /**
  * Search GeoCache with the compass.
- * 
+ *
  * @author Android-Geocaching.su student project team
  * @since October 2010
  */
@@ -82,7 +82,6 @@ public class CompassActivity extends Activity {
 
         controller.getGoogleAnalyticsManager().trackPageView(COMPASS_ACTIVITY);
     }
-
 
 
     @Override
@@ -234,17 +233,17 @@ public class CompassActivity extends Activity {
     }
 
     public void onRefreshClick(View v) {
-       locationManager.refreshOdometer();
-       tvOdometer.setText(CoordinateHelper.distanceToString(0));
+        locationManager.refreshOdometer();
+        tvOdometer.setText(CoordinateHelper.distanceToString(0));
     }
 
     private void toggleStartButton() {
-      if (locationManager.isUpdatingOdometer()) {
-          startButton.setImageResource(R.drawable.ic_pause);
-      } else {
-          startButton.setImageResource(R.drawable.ic_play);
-      }
-  }
+        if (locationManager.isUpdatingOdometer()) {
+            startButton.setImageResource(R.drawable.ic_pause);
+        } else {
+            startButton.setImageResource(R.drawable.ic_play);
+        }
+    }
 
     /**
      *

@@ -11,6 +11,7 @@ import su.geocaching.android.controller.managers.LogManager;
 public class AboutActivity extends Activity {
     private static final String TAG = AboutActivity.class.getCanonicalName();
     private static final String ABOUT_ACTIVITY_FOLDER = "/AboutActivity";
+
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
