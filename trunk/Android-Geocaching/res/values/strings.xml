@@ -2,7 +2,6 @@
 <resources>
 	<string name="app_name">Геокэшинг</string>
 	<string name="id_Google_Analytics">UA-20327116-3</string>
-	<string name="application_version" formatted="false">Геокэшинг версия %s</string>
 	<string name="meter">м</string>
 	<string name="kilometer">км</string>
 	
