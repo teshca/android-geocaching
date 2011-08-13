@@ -50,16 +50,6 @@ public class DashboardPreferenceActivity extends PreferenceActivity {
             }
         });
 
-        /* Preference internetAndGpsPreference = findPreference("internetAndGpsPreference");
-    internetAndGpsPreference.setOnPreferenceClickListener(new OnPreferenceClickListener() {
-
-        public boolean onPreferenceClick(Preference preference) {
-            startActivity(new Intent(getBaseContext(), InternetAndGpsPreferenceActivity.class));
-            return true;
-        }
-    });    */
-
-
         Preference internetPreference = findPreference("internetPreference");
         internetPreference.setOnPreferenceClickListener(new OnPreferenceClickListener() {
 
