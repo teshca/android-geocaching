@@ -96,7 +96,7 @@ public class SelectMapActivity extends MapActivity implements IInternetAware, IL
         map.invalidate();
         LogManager.d(TAG, "onCreate Done");
 
-        controller.getGoogleAnalyticsManager().trackPageView(SELECT_ACTIVITY_FOLDER);
+        controller.getGoogleAnalyticsManager().trackActivityLaunch(SELECT_ACTIVITY_FOLDER);
     }
 
     private synchronized void updateProgressStart() {

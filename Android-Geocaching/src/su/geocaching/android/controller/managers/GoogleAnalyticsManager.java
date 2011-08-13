@@ -16,9 +16,16 @@ public class GoogleAnalyticsManager {
         }
     }
 
-    public void trackPageView(String activityName) {
+    public void trackActivityLaunch(String activityName) {
         if (!DEBUG) {
             tracker.trackPageView(activityName);
+            tracker.dispatch();
+        }
+    }
+
+    public void trackExternalActivityLaunch(String activityName) {
+        if (!DEBUG) {
+            tracker.trackPageView("/external"+activityName);
             tracker.dispatch();
         }
     }

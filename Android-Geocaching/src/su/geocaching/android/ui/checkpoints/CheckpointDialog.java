@@ -43,7 +43,7 @@ public class CheckpointDialog extends Activity {
         status.setText(rm.getGeoCacheStatus(cache));
         setTitle(cache.getName());
 
-        Controller.getInstance().getGoogleAnalyticsManager().trackPageView(CHECKPOINT_DIALOG_ACTIVITY_FOLDER);
+        Controller.getInstance().getGoogleAnalyticsManager().trackActivityLaunch(CHECKPOINT_DIALOG_ACTIVITY_FOLDER);
     }
 
     public void onActiveClick(View v) {

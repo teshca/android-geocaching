@@ -96,7 +96,7 @@ public class SearchMapActivity extends MapActivity implements IInternetAware, IL
         progressBarView.setOnClickListener(new OnClickListener() {
             @Override
             public void onClick(View v) {
-                NavigationManager.runGpsStatus(v.getContext());
+                NavigationManager.startExternalGpsStatusActivity(v.getContext());
             }
         });
 
@@ -109,7 +109,7 @@ public class SearchMapActivity extends MapActivity implements IInternetAware, IL
 
         Controller.getInstance().setSearchingGeoCache(geoCache);
         Controller.getInstance().getPreferencesManager().setLastSearchedGeoCache(geoCache);
-        Controller.getInstance().getGoogleAnalyticsManager().trackPageView(SEARCH_MAP_ACTIVITY_FOLDER);
+        Controller.getInstance().getGoogleAnalyticsManager().trackActivityLaunch(SEARCH_MAP_ACTIVITY_FOLDER);
 
         checkpointManager = Controller.getInstance().getCheckpointManager(geoCache.getId());
         checkpointOverlay = new CheckpointOverlay(Controller.getInstance().getResourceManager().getMarker(GeoCacheType.CHECKPOINT, GeoCacheStatus.NOT_ACTIVE_CHECKPOINT), this, map);

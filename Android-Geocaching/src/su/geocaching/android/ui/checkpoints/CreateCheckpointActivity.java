@@ -77,7 +77,7 @@ public class CreateCheckpointActivity extends Activity {
         updateTextBoxes();
         startWatch();
 
-        Controller.getInstance().getGoogleAnalyticsManager().trackPageView(STEP_BY_STEP_TAB_ACTIVITY_FOLDER);
+        Controller.getInstance().getGoogleAnalyticsManager().trackActivityLaunch(STEP_BY_STEP_TAB_ACTIVITY_FOLDER);
     }
 
     private void init() {
