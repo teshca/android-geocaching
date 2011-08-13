@@ -18,7 +18,7 @@ public class DashboardPreferenceActivity extends PreferenceActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        Controller.getInstance().getGoogleAnalyticsManager().trackPageView(DASHBOARD_PREFERENCE_ACTIVITY_FOLDER);
+        Controller.getInstance().getGoogleAnalyticsManager().trackActivityLaunch(DASHBOARD_PREFERENCE_ACTIVITY_FOLDER);
         LogManager.d(TAG, "onCreate");
         addPreferencesFromResource(R.xml.dashboard_preference);
         setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);

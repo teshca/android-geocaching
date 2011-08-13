@@ -11,8 +11,8 @@ import android.content.pm.PackageManager;
 import android.content.pm.ResolveInfo;
 import android.net.Uri;
 import android.provider.Settings;
-import android.widget.Toast;
-import org.hamcrest.core.Is;
+import android.view.LayoutInflater;
+import android.view.View;
 import su.geocaching.android.controller.Controller;
 import su.geocaching.android.model.GeoCache;
 import su.geocaching.android.ui.*;
@@ -31,9 +31,6 @@ import su.geocaching.android.ui.selectmap.SelectMapActivity;
 public class NavigationManager {
     public static final String CACHE_ID = "cache_id";
 
-    private static final String GPS_STATUS_PACKAGE_NAME = "com.eclipsim.gpsstatus2";
-    private static final String GPS_STATUS_CLASS_NAME = "com.eclipsim.gpsstatus2.GPSStatus";
-
     /**
      * Invoke "home" action, returning to DashBoardActivity
      */
@@ -43,8 +40,26 @@ public class NavigationManager {
     }
 
     public static void startAboutActivity(Context context) {
-        Intent intent = new Intent(context, AboutActivity.class);
-        context.startActivity(intent);
+
+        String versionName = Controller.getInstance().getApplicationVersionName();
+
+        Controller.getInstance().getGoogleAnalyticsManager().trackActivityLaunch("/AboutDialog");
+
+        LayoutInflater inflater = (LayoutInflater)context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+        View aboutContentView = inflater.inflate(R.layout.about_dialog, null);
+
+        new AlertDialog.Builder(context)
+            .setIcon(R.drawable.ic_launcher)
+            .setTitle(context.getString(R.string.about_application_version, versionName) )
+            .setView(aboutContentView)
+            .setCancelable(true)
+            .setNeutralButton(R.string.about_exit_button_text, new DialogInterface.OnClickListener() {
+                public void onClick(DialogInterface dialog, int id) {
+                    dialog.dismiss();
+                }
+            })
+            .create()
+            .show();
     }
 
     public static void startSelectMapActivity(Context context)
@@ -123,55 +138,64 @@ public class NavigationManager {
     }
 
     public static void displayTurnOnGpsDialog(final Activity context) {
-        AlertDialog.Builder builder = new AlertDialog.Builder(context);
-        builder.setMessage(context.getString(R.string.ask_enable_gps_text)).setCancelable(false).setPositiveButton(context.getString(R.string.yes), new DialogInterface.OnClickListener() {
-            public void onClick(DialogInterface dialog, int id) {
-                Intent intent = new Intent(Settings.ACTION_LOCATION_SOURCE_SETTINGS);
-                context.startActivity(intent);
-                dialog.cancel();
-            }
-        }).setNegativeButton(context.getString(R.string.no), new DialogInterface.OnClickListener() {
-            public void onClick(DialogInterface dialog, int id) {
-                dialog.cancel();
-                context.finish();
-            }
-        });
-        AlertDialog turnOnGpsAlert = builder.create();
-        turnOnGpsAlert.show();
+        Controller.getInstance().getGoogleAnalyticsManager().trackActivityLaunch("/EnableGpsDialog");
+
+        new AlertDialog.Builder(context)
+            .setMessage(context.getString(R.string.ask_enable_gps_text))
+            .setCancelable(false)
+            .setPositiveButton(context.getString(R.string.yes), new DialogInterface.OnClickListener() {
+                public void onClick(DialogInterface dialog, int id) {
+                    Intent intent = new Intent(Settings.ACTION_LOCATION_SOURCE_SETTINGS);
+                    context.startActivity(intent);
+                    dialog.cancel();
+                }
+            })
+            .setNegativeButton(context.getString(R.string.no), new DialogInterface.OnClickListener() {
+                public void onClick(DialogInterface dialog, int id) {
+                    dialog.cancel();
+                    context.finish();
+                }
+            })
+            .create()
+            .show();
     }
 
      public static void displayTurnOnConnectionDialog(final Activity context) {
-        AlertDialog.Builder turnOnInternetDialogBuilder = new AlertDialog.Builder(context);
-        turnOnInternetDialogBuilder.setMessage(context.getString(R.string.ask_enable_internet_text))
-                .setPositiveButton(context.getString(R.string.yes), new DialogInterface.OnClickListener() {
-                    public void onClick(DialogInterface dialog, int id) {
-                        Intent intent = new Intent(Settings.ACTION_WIRELESS_SETTINGS);
-                        context.startActivity(intent);
-                        dialog.cancel();
-                    }
-                }).setNegativeButton(context.getString(R.string.no), new DialogInterface.OnClickListener() {
-                    public void onClick(DialogInterface dialog, int id) {
-                        context.finish();
-                        dialog.cancel();
-                    }
-                });
-        AlertDialog turnOnInternetDialog = turnOnInternetDialogBuilder.create();
-        turnOnInternetDialog.show();
+        Controller.getInstance().getGoogleAnalyticsManager().trackActivityLaunch("/EnableConnectionDialog");
+
+        new AlertDialog.Builder(context)
+            .setMessage(context.getString(R.string.ask_enable_internet_text))
+            .setPositiveButton(context.getString(R.string.yes), new DialogInterface.OnClickListener() {
+                public void onClick(DialogInterface dialog, int id) {
+                    Intent intent = new Intent(Settings.ACTION_WIRELESS_SETTINGS);
+                    context.startActivity(intent);
+                    dialog.cancel();
+                }
+            })
+            .setNegativeButton(context.getString(R.string.no), new DialogInterface.OnClickListener() {
+                public void onClick(DialogInterface dialog, int id) {
+                    context.finish();
+                    dialog.cancel();
+                }
+            })
+            .create()
+            .show();
     }
 
     /**
-     * Run GpsStatus & toolbox application
+     * Run external GpsStatus & toolbox application
      */
-    public static void runGpsStatus(Context context) {
-        Intent intent = new Intent(Intent.ACTION_MAIN);
-        intent.setComponent(new ComponentName(GPS_STATUS_PACKAGE_NAME, GPS_STATUS_CLASS_NAME));
-        List<ResolveInfo> list = context.getPackageManager().queryIntentActivities(intent, PackageManager.COMPONENT_ENABLED_STATE_DEFAULT);
+    public static void startExternalGpsStatusActivity(Context context) {
+        Intent intent = new Intent("com.eclipsim.gpsstatus.VIEW");
 
+        List<ResolveInfo> list = context.getPackageManager().queryIntentActivities(intent, PackageManager.COMPONENT_ENABLED_STATE_DEFAULT);
         if (list.size() > 0) {
-            // Have application
+            // Application installed
+            Controller.getInstance().getGoogleAnalyticsManager().trackExternalActivityLaunch("/GpsStatus/1");
             context.startActivity(intent);
         } else {
-            // None application
+            // Application isn't installed
+            Controller.getInstance().getGoogleAnalyticsManager().trackExternalActivityLaunch("/GpsStatus/0");
         }
     }
 }

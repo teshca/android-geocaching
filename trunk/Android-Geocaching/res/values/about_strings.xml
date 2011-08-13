@@ -1,13 +1,16 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 	<string name="about">О программе</string>
-    <string name="about_application_version">Геокэшинг версия %1$s</string>
+    <string name="about_application_version">Геокэшинг\nверсия %1$s</string>
+	<string name="about_google_code">Подробную информацию о проекте вы можете найти на
+		сайте\nhttp://code.google.com/p/android-geocaching/
+    </string>
 	<string name="about_program_text">Геокэшинг - это мобильный клиент для работы с
 		порталом\nhttp://geocaching.su
     </string>
 	<string name="about_leaders_title">Руководители проекта:</string>
+    <string name="about_leaders_text">Артамонов Николай\nКичинский Дмитрий</string>
 	<string name="about_developers_title">Разработчики приложения:</string>
-	<string name="about_leaders_text">Артамонов Николай\nКичинский Дмитрий</string>
 	<string name="about_developers_text">Алексеенко Владимир\nБумаков Никита\nДенисон
 		Юрий\nКалабин Григорий\nНятин Анатолий\nСергеев Владислав\nФилатов
 		Владимир
@@ -16,9 +19,4 @@
 		email\nandroid.geocaching.su@gmail.com
     </string>
 	<string name="about_exit_button_text">Закрыть</string>
-
-	<string name="about_google_code">Подробную информацию о проекте вы можете найти на
-		сайте http://code.google.com/p/android-geocaching/
-    </string>
-
 </resources>

@@ -68,7 +68,7 @@ public class CompassActivity extends Activity {
         progressBarView.setOnClickListener(new OnClickListener() {
             @Override
             public void onClick(View v) {
-                NavigationManager.runGpsStatus(v.getContext());
+                NavigationManager.startExternalGpsStatusActivity(v.getContext());
             }
         });
         progressBarAnim = (AnimationDrawable) progressBarView.getBackground();
@@ -80,7 +80,7 @@ public class CompassActivity extends Activity {
         preferenceManager = controller.getPreferencesManager();
         locationListener = new LocationListener(this);
 
-        controller.getGoogleAnalyticsManager().trackPageView(COMPASS_ACTIVITY);
+        controller.getGoogleAnalyticsManager().trackActivityLaunch(COMPASS_ACTIVITY);
     }
 
 

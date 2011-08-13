@@ -17,7 +17,7 @@ public class InternetAndGpsPreferenceActivity extends PreferenceActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        Controller.getInstance().getGoogleAnalyticsManager().trackPageView(PREFERENCE_ACTIVITY_FOLDER);
+        Controller.getInstance().getGoogleAnalyticsManager().trackActivityLaunch(PREFERENCE_ACTIVITY_FOLDER);
 
         LogManager.d(TAG, "onCreate");
         addPreferencesFromResource(R.xml.internet_and_gps_preference);

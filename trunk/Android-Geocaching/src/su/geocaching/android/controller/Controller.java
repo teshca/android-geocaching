@@ -1,6 +1,7 @@
 package su.geocaching.android.controller;
 
 import android.content.Context;
+import android.content.pm.PackageManager;
 import android.hardware.SensorManager;
 import android.location.LocationManager;
 import com.google.android.maps.GeoPoint;
@@ -17,6 +18,7 @@ import su.geocaching.android.controller.managers.LogManager;
 import su.geocaching.android.controller.managers.PreferencesManager;
 import su.geocaching.android.controller.managers.ResourceManager;
 import su.geocaching.android.model.GeoCache;
+import su.geocaching.android.ui.R;
 import su.geocaching.android.ui.selectmap.SelectMapActivity;
 
 /**
@@ -235,5 +237,17 @@ public class Controller {
      */
     protected void setApplicationContext(Context applicationContext) {
         this.applicationContext = applicationContext;
+    }
+
+    public String getApplicationVersionName()
+    {
+        String versionName = "0.0.0";
+        try {
+            String packageName = this.applicationContext.getPackageName();
+            versionName = this.applicationContext.getPackageManager().getPackageInfo(packageName, 0).versionName;
+        } catch (PackageManager.NameNotFoundException e) {
+            LogManager.e(TAG, e.getMessage(), e);
+        }
+        return versionName;
     }
 }

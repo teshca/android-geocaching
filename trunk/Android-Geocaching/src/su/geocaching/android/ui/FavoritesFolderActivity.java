@@ -33,7 +33,7 @@ public class FavoritesFolderActivity extends AbstractGeoCacheFolderActivity {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         LogManager.d(TAG, "onCreate");
-        Controller.getInstance().getGoogleAnalyticsManager().trackPageView(FAVORITES_FOLDER);
+        Controller.getInstance().getGoogleAnalyticsManager().trackActivityLaunch(FAVORITES_FOLDER);
     }
 
     @Override

@@ -86,7 +86,7 @@ public class InfoActivity extends Activity {
             webView.setInitialScale((int) (info.getScale() * 100));
             lastWidth = info.getWidth();
         }
-        controller.getGoogleAnalyticsManager().trackPageView(GEOCACHE_INFO_ACTIVITY_FOLDER);
+        controller.getGoogleAnalyticsManager().trackActivityLaunch(GEOCACHE_INFO_ACTIVITY_FOLDER);
     }
 
     private void initViews() {
