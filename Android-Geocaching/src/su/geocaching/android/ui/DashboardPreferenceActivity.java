@@ -1,27 +1,23 @@
 package su.geocaching.android.ui;
 
 import android.content.Intent;
-import android.content.pm.ActivityInfo;
 import android.os.Bundle;
 import android.preference.Preference;
 import android.preference.Preference.OnPreferenceClickListener;
 import android.preference.PreferenceActivity;
 import su.geocaching.android.controller.Controller;
-import su.geocaching.android.controller.managers.LogManager;
 import su.geocaching.android.ui.compass.CompassPreferenceActivity;
 import su.geocaching.android.ui.geocachemap.MapPreferenceActivity;
 
 public class DashboardPreferenceActivity extends PreferenceActivity {
-    private static final String TAG = DashboardPreferenceActivity.class.getCanonicalName();
-    private static final String DASHBOARD_PREFERENCE_ACTIVITY_FOLDER = "/DashboardPreferenceActivity";
+    private static final String DASHBOARD_PREFERENCE_ACTIVITY_NAME = "/preferences/dashboard";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        Controller.getInstance().getGoogleAnalyticsManager().trackActivityLaunch(DASHBOARD_PREFERENCE_ACTIVITY_FOLDER);
-        LogManager.d(TAG, "onCreate");
+        Controller.getInstance().getGoogleAnalyticsManager().trackActivityLaunch(DASHBOARD_PREFERENCE_ACTIVITY_NAME);
+
         addPreferencesFromResource(R.xml.dashboard_preference);
-        setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
 
         Preference mapPreference = findPreference("mapPreference");
         mapPreference.setOnPreferenceClickListener(new OnPreferenceClickListener() {
@@ -54,7 +50,7 @@ public class DashboardPreferenceActivity extends PreferenceActivity {
         internetPreference.setOnPreferenceClickListener(new OnPreferenceClickListener() {
 
             public boolean onPreferenceClick(Preference preference) {
-                startActivityForResult(new Intent(android.provider.Settings.ACTION_WIRELESS_SETTINGS), 0);
+                startActivity(new Intent(android.provider.Settings.ACTION_WIRELESS_SETTINGS));
                 return true;
             }
         });
@@ -63,7 +59,7 @@ public class DashboardPreferenceActivity extends PreferenceActivity {
         gpsPreference.setOnPreferenceClickListener(new OnPreferenceClickListener() {
 
             public boolean onPreferenceClick(Preference preference) {
-                startActivityForResult(new Intent(android.provider.Settings.ACTION_LOCATION_SOURCE_SETTINGS), 0);
+                startActivity(new Intent(android.provider.Settings.ACTION_LOCATION_SOURCE_SETTINGS));
                 return true;
             }
         });
