@@ -81,10 +81,10 @@
         </activity>
 
         <!-- preferences -->
-        <activity android:name="su.geocaching.android.ui.DashboardPreferenceActivity"/>
-        <activity android:name="su.geocaching.android.ui.geocachemap.MapPreferenceActivity"/>
-        <activity android:name="su.geocaching.android.ui.compass.CompassPreferenceActivity"/>
-        <activity android:name="su.geocaching.android.ui.EnergySavingPreferenceActivity"/>
+        <activity android:name=".preferences.DashboardPreferenceActivity"/>
+        <activity android:name=".preferences.MapPreferenceActivity"/>
+        <activity android:name=".preferences.CompassPreferenceActivity"/>
+        <activity android:name=".preferences.EnergySavingPreferenceActivity"/>
 
         <!-- checkpoints -->
         <activity

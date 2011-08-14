@@ -41,7 +41,7 @@
 			<Button
                     style="@style/DashboardButton"
                     android:drawableTop="@drawable/dashboard_settings"
-					android:text="@string/settings"
+					android:text="@string/preference"
 					android:onClick="onSettingsClick"/>
 		</LinearLayout>
 	</LinearLayout>

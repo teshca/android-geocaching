@@ -1,17 +1,14 @@
-package su.geocaching.android.ui;
+package su.geocaching.android.ui.preferences;
 
-import android.content.pm.ActivityInfo;
 import android.os.Bundle;
 import android.preference.Preference;
 import android.preference.PreferenceActivity;
 import su.geocaching.android.controller.Controller;
 import su.geocaching.android.controller.GpsUpdateFrequency;
-import su.geocaching.android.controller.managers.LogManager;
+import su.geocaching.android.ui.R;
 
 public class EnergySavingPreferenceActivity extends PreferenceActivity implements Preference.OnPreferenceChangeListener {
-
-    private static final String TAG = EnergySavingPreferenceActivity.class.getCanonicalName();
-    private static final String ENERGY_SAVING_ACTIVITY_FOLDER = "/EnergySavingPreferenceActivity";
+    private static final String ENERGY_SAVING_ACTIVITY_NAME = "/preferences/EnergySaving";
 
     /*
     * (non-Javadoc)
@@ -21,13 +18,12 @@ public class EnergySavingPreferenceActivity extends PreferenceActivity implement
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        LogManager.d(TAG, "onCreate");
+        Controller.getInstance().getGoogleAnalyticsManager().trackActivityLaunch(ENERGY_SAVING_ACTIVITY_NAME);
+
         addPreferencesFromResource(R.xml.energy_saving_preference);
-        setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
 
         Preference preference = findPreference(getString(R.string.gps_update_frequency_key));
         preference.setOnPreferenceChangeListener(this);
-        Controller.getInstance().getGoogleAnalyticsManager().trackActivityLaunch(ENERGY_SAVING_ACTIVITY_FOLDER);
     }
 
     /* (non-Javadoc)

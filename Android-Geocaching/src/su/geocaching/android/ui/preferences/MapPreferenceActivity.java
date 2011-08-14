@@ -1,4 +1,4 @@
-package su.geocaching.android.ui.geocachemap;
+package su.geocaching.android.ui.preferences;
 
 import android.os.Bundle;
 import android.preference.PreferenceActivity;
@@ -11,7 +11,7 @@ import su.geocaching.android.ui.R;
  */
 public class MapPreferenceActivity extends PreferenceActivity {
 
-    private static final String MAP_PREFERENCE_ACTIVITY_NAME= "/preferences/map";
+    private static final String MAP_PREFERENCE_ACTIVITY_NAME= "/preferences/Map";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

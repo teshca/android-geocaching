@@ -27,6 +27,7 @@ import su.geocaching.android.controller.managers.PreferencesManager;
 import su.geocaching.android.controller.managers.UserLocationManager;
 import su.geocaching.android.model.GeoCache;
 import su.geocaching.android.ui.R;
+import su.geocaching.android.ui.preferences.CompassPreferenceActivity;
 
 /**
  * Search GeoCache with the compass.

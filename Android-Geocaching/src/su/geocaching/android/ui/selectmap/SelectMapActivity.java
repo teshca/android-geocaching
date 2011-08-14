@@ -36,7 +36,7 @@ import su.geocaching.android.model.GeoCacheType;
 import su.geocaching.android.model.MapInfo;
 import su.geocaching.android.ui.R;
 import su.geocaching.android.ui.geocachemap.GeoCacheOverlayItem;
-import su.geocaching.android.ui.geocachemap.MapPreferenceActivity;
+import su.geocaching.android.ui.preferences.MapPreferenceActivity;
 
 /**
  * @author Yuri Denison

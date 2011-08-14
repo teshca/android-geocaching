@@ -22,7 +22,7 @@
         <CheckBoxPreference
                 android:key="@string/save_notebook_always_key"
                 android:title="@string/save_notebook_always_title"
-                android:defaultValue="@string/save_notebook_always_value"
+                android:defaultValue="@bool/save_notebook_always_value"
                 android:summary="@string/save_notebook_always_summary"/>
 
     </PreferenceCategory>
