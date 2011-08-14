@@ -3,7 +3,6 @@ package su.geocaching.android.controller.managers;
 import java.util.List;
 import android.app.Activity;
 import android.app.AlertDialog;
-import android.content.ComponentName;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -22,6 +21,7 @@ import su.geocaching.android.ui.checkpoints.CreateCheckpointActivity;
 import su.geocaching.android.ui.compass.CompassActivity;
 import su.geocaching.android.ui.info.CacheNotesActivity;
 import su.geocaching.android.ui.info.InfoActivity;
+import su.geocaching.android.ui.preferences.DashboardPreferenceActivity;
 import su.geocaching.android.ui.searchmap.SearchMapActivity;
 import su.geocaching.android.ui.selectmap.SelectMapActivity;
 

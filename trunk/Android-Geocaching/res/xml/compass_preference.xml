@@ -1,30 +1,37 @@
 <?xml version="1.0" encoding="utf-8"?>
 <PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
 	<PreferenceCategory android:title="@string/compass_category_title">
-		<ListPreference android:entries="@array/speed_preference_entries"
-						android:entryValues="@array/speed_preference_values" android:title="@string/prefer_speed_title"
-						android:dialogTitle="@string/prefer_speed_dialog_title"
-						android:summary="@string/prefer_speed_summary" android:key="@string/prefs_speed_key"
-						android:defaultValue="@string/prefer_speed_default_value"/>
-		<ListPreference android:dialogTitle="@string/prefer_appearance_dialog_title"
-						android:entries="@array/appearance_preference_entries"
-						android:entryValues="@array/appearance_preference_values"
-						android:title="@string/prefer_appearance_title" android:key="@string/prefs_appearance_key"
-						android:summary="@string/prefer_appearance_summary"
-						android:defaultValue="@string/prefer_appearance_default_value"/>
-        <ListPreference android:dialogTitle="@string/prefer_sensor_type_title"
-                        android:entries="@array/sensor_type_preference_entries"
-                        android:entryValues="@array/sensor_preference_values"
-                        android:title="@string/prefer_sensor_type_title" android:key="@string/prefs_sensor_key"
-                        android:defaultValue="SENSOR"/>
+		<ListPreference
+                android:key="@string/prefs_speed_key"
+                android:title="@string/prefer_speed_title"
+				android:summary="@string/prefer_speed_summary"
+                android:entries="@array/speed_preference_entries"
+				android:entryValues="@array/speed_preference_values"
+				android:dialogTitle="@string/prefer_speed_dialog_title"
+				android:defaultValue="@string/prefer_speed_default_value"/>
+		<ListPreference
+                android:key="@string/prefs_appearance_key"
+                android:title="@string/prefer_appearance_title"
+                android:summary="@string/prefer_appearance_summary"
+                android:dialogTitle="@string/prefer_appearance_dialog_title"
+				android:entries="@array/appearance_preference_entries"
+                android:entryValues="@array/appearance_preference_values"
+                android:defaultValue="@string/prefer_appearance_default_value"/>
+        <ListPreference
+                android:key="@string/prefs_sensor_key"
+                android:title="@string/prefer_sensor_type_title"
+                android:dialogTitle="@string/prefer_sensor_type_title"
+                android:entries="@array/sensor_type_preference_entries"
+                android:entryValues="@array/sensor_preference_values"
+                android:defaultValue="@string/sensor_preference_default_value"/>
 
-		<CheckBoxPreference android:onClick="onOdometerClick"
-							android:summaryOn="@string/prefer_odometer_on"
-							android:summaryOff="@string/prefer_odometer_off"
-							android:key="@string/prefer_odometer_key"
-							android:title="@string/prefer_odometer_title"
-							android:disableDependentsState="false"
-							android:defaultValue="@bool/odometer_default_value">
-		</CheckBoxPreference>
+		<CheckBoxPreference
+                android:key="@string/prefer_odometer_key"
+                android:title="@string/prefer_odometer_title"
+                android:summaryOn="@string/prefer_odometer_on"
+                android:summaryOff="@string/prefer_odometer_off"
+                android:defaultValue="@bool/odometer_default_value"
+                android:onClick="onOdometerClick" />
+
 	</PreferenceCategory>
 </PreferenceScreen>

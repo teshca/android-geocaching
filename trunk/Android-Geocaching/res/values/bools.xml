@@ -12,4 +12,5 @@
 	<bool name="cache_marker_use_custom_value">false</bool>
 	<bool name="odometer_default_value">false</bool>
 	<bool name="keep_screen_on_default_value">true</bool>
+    <bool name="save_notebook_always_value">false</bool>
 </resources>

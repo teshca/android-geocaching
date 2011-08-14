@@ -1,4 +1,4 @@
-package su.geocaching.android.ui;
+package su.geocaching.android.ui.preferences;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -6,11 +6,10 @@ import android.preference.Preference;
 import android.preference.Preference.OnPreferenceClickListener;
 import android.preference.PreferenceActivity;
 import su.geocaching.android.controller.Controller;
-import su.geocaching.android.ui.compass.CompassPreferenceActivity;
-import su.geocaching.android.ui.geocachemap.MapPreferenceActivity;
+import su.geocaching.android.ui.R;
 
 public class DashboardPreferenceActivity extends PreferenceActivity {
-    private static final String DASHBOARD_PREFERENCE_ACTIVITY_NAME = "/preferences/dashboard";
+    private static final String DASHBOARD_PREFERENCE_ACTIVITY_NAME = "/preferences/Dashboard";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

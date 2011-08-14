@@ -44,7 +44,7 @@ import su.geocaching.android.model.SearchMapInfo;
 import su.geocaching.android.ui.FavoritesFolderActivity;
 import su.geocaching.android.ui.R;
 import su.geocaching.android.ui.geocachemap.GeoCacheOverlayItem;
-import su.geocaching.android.ui.geocachemap.MapPreferenceActivity;
+import su.geocaching.android.ui.preferences.MapPreferenceActivity;
 
 /**
  * Search GeoCache with the map
