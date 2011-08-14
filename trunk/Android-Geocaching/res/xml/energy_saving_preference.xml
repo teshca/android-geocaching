@@ -1,20 +1,21 @@
 <?xml version="1.0" encoding="utf-8"?>
 <PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
-    <PreferenceCategory
-            android:title="@string/energy_saving_title">
+    <PreferenceCategory android:title="@string/energy_saving_preference_title">
         <!-- Set keep screen on -->
-        <CheckBoxPreference android:title="@string/keep_screen_on_title"
-                            android:key="@string/keep_screen_on_key"
-                            android:defaultValue="@bool/keep_screen_on_default_value"
-                            android:summary="@string/keep_screen_on_summary"/>
+        <CheckBoxPreference
+                android:key="@string/keep_screen_on_key"
+                android:title="@string/keep_screen_on_title"
+                android:defaultValue="@bool/keep_screen_on_default_value"
+                android:summary="@string/keep_screen_on_summary"/>
         <!-- Set frequency of updates from GPS -->
-        <ListPreference android:id="@+id/gps_update_frequency"
-                        android:dialogTitle="@string/gps_update_frequency_dialog_title"
-                        android:entries="@array/gps_update_frequency_entries"
-                        android:entryValues="@array/gps_update_frequency_values"
-                        android:title="@string/gps_update_frequency_title"
-                        android:key="@string/gps_update_frequency_key"
-                        android:summary="@string/gps_update_frequency_summary"
-                        android:defaultValue="@string/gps_update_frequency_default_value"/>
+        <ListPreference
+                android:key="@string/gps_update_frequency_key"
+                android:summary="@string/gps_update_frequency_summary"
+                android:title="@string/gps_update_frequency_title"
+                android:id="@+id/gps_update_frequency"
+                android:dialogTitle="@string/gps_update_frequency_dialog_title"
+                android:entries="@array/gps_update_frequency_entries"
+                android:entryValues="@array/gps_update_frequency_values"
+                android:defaultValue="@string/gps_update_frequency_default_value"/>
     </PreferenceCategory>
 </PreferenceScreen>

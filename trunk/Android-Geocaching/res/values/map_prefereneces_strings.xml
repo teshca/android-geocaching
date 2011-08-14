@@ -32,8 +32,4 @@
     <string name="default_marker">default marker</string>
     <string name="custom_marker">custom marker</string>
 
-    <string name="map_preference_title">Настройки карты</string>
-    <string name="map_preference_key">map.preference</string>
-
-
 </resources>
