@@ -43,7 +43,7 @@ public class DbManager extends SQLiteOpenHelper {
     private static final String CACHE_ID = "cache_id";
     private static final String CHECKPOINT_ID = "checkpoint_id";
 
-    private SQLiteDatabase db = null;
+    private SQLiteDatabase db;
     private Context context;
 
     private static final String SQL_CREATE_DATABASE_TABLE = String.format("CREATE TABLE %s (%s INTEGER, %s STRING, %s INTEGER, %s INTEGER, %s INTEGER, %s INTEGER, %s STRING, %s STRING, %s STRING);",
@@ -58,6 +58,7 @@ public class DbManager extends SQLiteOpenHelper {
     public DbManager(Context context) {
         super(context, DATABASE_NAME_BASE, null, DATABASE_VERSION);
         this.context = context;
+        db = getWritableDatabase();
     }
 
     @Override
@@ -129,9 +130,7 @@ public class DbManager extends SQLiteOpenHelper {
         if (webNotebookText != null) {
             values.put(COLUMN_NOTEBOOK_TEXT, webNotebookText);
         }
-        openWritableDB();
         db.insert(DATABASE_NAME_TABLE, null, values);
-        closeDB();
     }
 
     /**
@@ -147,9 +146,7 @@ public class DbManager extends SQLiteOpenHelper {
         values.put(COLUMN_LON, checkpoint.getLocationGeoPoint().getLongitudeE6());
         values.put(COLUMN_STATUS, checkpoint.getStatus().ordinal());
 
-        openWritableDB();
         db.insert(DATABASE_CHECKPOINT_NAME_TABLE, null, values);
-        closeDB();
     }
 
     /**
@@ -157,11 +154,9 @@ public class DbManager extends SQLiteOpenHelper {
      * @return GeoCache if database have GeoCache. Null if database haven't GeoCache
      */
     public GeoCache getCacheByID(int id) {
-        openReadableDB();
         Cursor cur = db.rawQuery(String.format("select %s,%s,%s,%s,%s from %s where %s=%d", COLUMN_NAME, COLUMN_TYPE, COLUMN_STATUS, COLUMN_LAT, COLUMN_LON, DATABASE_NAME_TABLE, COLUMN_ID, id), null);
         if (cur.getCount() == 0) {
             cur.close();
-            closeDB();
             return null;
         }
         cur.moveToFirst();
@@ -174,7 +169,6 @@ public class DbManager extends SQLiteOpenHelper {
         cache.setType(GeoCacheType.values()[cur.getInt(cur.getColumnIndex(COLUMN_TYPE))]);
 
         cur.close();
-        closeDB();
         return cache;
     }
 
@@ -183,7 +177,6 @@ public class DbManager extends SQLiteOpenHelper {
      */
     public ArrayList<GeoCache> getArrayGeoCache() {
         ArrayList<GeoCache> exitCollection = new ArrayList<GeoCache>();
-        openReadableDB();
         Cursor cur = db.rawQuery(String.format("select %s,%s,%s,%s,%s,%s from %s", COLUMN_ID, COLUMN_NAME, COLUMN_TYPE, COLUMN_STATUS, COLUMN_LAT, COLUMN_LON, DATABASE_NAME_TABLE), null);
 
         cur.moveToFirst();
@@ -202,7 +195,6 @@ public class DbManager extends SQLiteOpenHelper {
         }
 
         cur.close();
-        closeDB();
         return exitCollection;
     }
 
@@ -213,7 +205,6 @@ public class DbManager extends SQLiteOpenHelper {
     public ArrayList<GeoCache> getCheckpointsArrayById(int id) {
         LogManager.d(TAG, "getCheckpointsArrayById " + id);
         ArrayList<GeoCache> exitCollection = new ArrayList<GeoCache>();
-        openReadableDB();
         Cursor cursor = db.rawQuery(
                 String.format("SELECT %s,%s,%s,%s,%s FROM %s WHERE %s=%d", CHECKPOINT_ID, COLUMN_NAME, COLUMN_LAT, COLUMN_LON, COLUMN_STATUS, DATABASE_CHECKPOINT_NAME_TABLE, CACHE_ID, id), null);
 
@@ -232,7 +223,6 @@ public class DbManager extends SQLiteOpenHelper {
         }
 
         cursor.close();
-        closeDB();
         return exitCollection;
     }
 
@@ -242,7 +232,6 @@ public class DbManager extends SQLiteOpenHelper {
      */
     public String getCacheInfoById(int id) {
         String exitString = null;
-        openReadableDB();
         Cursor cursor = db.rawQuery(String.format("select %s from %s where %s=%d", COLUMN_WEB_TEXT, DATABASE_NAME_TABLE, COLUMN_ID, id), null);
 
         if (cursor != null && cursor.getCount() != 0) {
@@ -250,14 +239,12 @@ public class DbManager extends SQLiteOpenHelper {
             exitString = cursor.getString(cursor.getColumnIndex(COLUMN_WEB_TEXT));
         }
         cursor.close();
-        closeDB();
 
         return exitString;
     }
 
     public String getCacheNotebookTextById(int id) {
         String exitString = null;
-        openReadableDB();
         Cursor cursor = db.rawQuery(String.format("select %s from %s where %s=%d", COLUMN_NOTEBOOK_TEXT, DATABASE_NAME_TABLE, COLUMN_ID, id), null);
 
         if (cursor != null && cursor.getCount() != 0) {
@@ -265,14 +252,12 @@ public class DbManager extends SQLiteOpenHelper {
             exitString = cursor.getString(cursor.getColumnIndex(COLUMN_NOTEBOOK_TEXT));
         }
         cursor.close();
-        closeDB();
 
         return exitString;
     }
 
     public String getNoteById(int id) {
         String exitString = null;
-        openReadableDB();
         Cursor cursor = db.rawQuery(String.format("select %s from %s where %s=%d", COLUMN_USER_NOTES, DATABASE_NAME_TABLE, COLUMN_ID, id), null);
 
         if (cursor != null && cursor.getCount() != 0) {
@@ -280,8 +265,6 @@ public class DbManager extends SQLiteOpenHelper {
             exitString = cursor.getString(cursor.getColumnIndex(COLUMN_USER_NOTES));
         }
         cursor.close();
-        closeDB();
-
         return exitString;
     }
 
@@ -291,9 +274,7 @@ public class DbManager extends SQLiteOpenHelper {
      * @param status       checkpoint status
      */
     public void updateCheckpointCacheStatus(int cacheId, int checkpointId, GeoCacheStatus status) {
-        openWritableDB();
         db.execSQL(String.format("UPDATE %s SET %s=%d WHERE %s=%d AND %s=%d", DATABASE_CHECKPOINT_NAME_TABLE, COLUMN_STATUS, status.ordinal(), CACHE_ID, cacheId, CHECKPOINT_ID, checkpointId));
-        closeDB();
     }
 
     /**
@@ -302,11 +283,9 @@ public class DbManager extends SQLiteOpenHelper {
      * @param id ID geocache for delete from database
      */
     public void deleteCacheById(int id) {
-        openWritableDB();
         db.execSQL(String.format("DELETE FROM %s WHERE %s=%d;", DATABASE_NAME_TABLE, COLUMN_ID, id));
         db.execSQL(String.format("DELETE FROM %s WHERE %s=%d;", DATABASE_CHECKPOINT_NAME_TABLE, CACHE_ID, id));
         deletePhotos(id);
-        closeDB();
     }
 
     /**
@@ -314,82 +293,45 @@ public class DbManager extends SQLiteOpenHelper {
      * @param checkpointId checkpoint id for delete from database
      */
     public void deleteCheckpointCache(int cacheId, int checkpointId) {
-        openWritableDB();
         db.execSQL(String.format("DELETE FROM %s WHERE %s=%d AND %s=%d;", DATABASE_CHECKPOINT_NAME_TABLE, CACHE_ID, cacheId, CHECKPOINT_ID, checkpointId));
-        closeDB();
     }
 
     public void deleteCheckpointCache(int id) {
-        openWritableDB();
         db.execSQL(String.format("DELETE FROM %s WHERE %s=%d;", DATABASE_CHECKPOINT_NAME_TABLE, CACHE_ID, id));
-        closeDB();
     }
 
     public void updateNotebookText(int cacheId, String htmlNotebookText) {
         ContentValues values = new ContentValues();
         values.put(COLUMN_NOTEBOOK_TEXT, htmlNotebookText);
-        openWritableDB();
         db.update(DATABASE_NAME_TABLE, values, COLUMN_ID + "=" + cacheId, null);
-        closeDB();
     }
 
     public void updateInfoText(int cacheId, String htmlInfoText) {
         ContentValues values = new ContentValues();
         values.put(COLUMN_WEB_TEXT, htmlInfoText);
-        openWritableDB();
         db.update(DATABASE_NAME_TABLE, values, COLUMN_ID + "=" + cacheId, null);
-        closeDB();
     }
 
     public void updateNotes(int cacheId, String note) {
         ContentValues values = new ContentValues();
         values.put(COLUMN_USER_NOTES, note);
-        openWritableDB();
         db.update(DATABASE_NAME_TABLE, values, COLUMN_ID + "=" + cacheId, null);
-        closeDB();
     }
 
     public boolean isCacheStored(int id) {
-        openReadableDB();
         String[] selectionArgs = new String[]{Integer.toString(id)};
         Cursor cursor = db.query(DATABASE_NAME_TABLE, null, COLUMN_ID + "=?", selectionArgs, null, null, null);
         int count = cursor.getCount();
         cursor.close();
-        closeDB();
         LogManager.d(TAG, "isCacheStored id=" + id + " " + (count > 0));
         return count > 0;
     }
 
-    /**
-     * Method for open read-only database
-     */
-    private void openReadableDB() {
-        LogManager.d(TAG, "openDB");
-        db = getReadableDatabase();
-    }
-
-    /**
-     * Method for open writable database
-     */
-    private void openWritableDB() {
-        LogManager.d(TAG, "openDB");
-        db = getWritableDatabase();
-    }
-
     public void clearDB() {
-        openWritableDB();
         LogManager.d(TAG, "clearDB");
         db.delete(DATABASE_NAME_TABLE, null, null);
-        closeDB();
     }
 
-    /**
-     * Method for close database
-     */
-    private void closeDB() {
-        LogManager.d(TAG, "closeDB");
-        db.close();
-    }
 
   public void deletePhotos(int cacheId) {
     File images = new File(Environment.getExternalStorageDirectory(), String.format(context.getString(R.string.cache_directory), cacheId));
