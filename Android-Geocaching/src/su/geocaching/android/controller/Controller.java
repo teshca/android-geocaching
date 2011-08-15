@@ -5,20 +5,19 @@ import android.content.pm.PackageManager;
 import android.hardware.SensorManager;
 import android.location.LocationManager;
 import com.google.android.maps.GeoPoint;
-import su.geocaching.android.controller.apimanager.GeocachingSuApiManager;
 import su.geocaching.android.controller.apimanager.DownloadGeoCachesTask;
+import su.geocaching.android.controller.apimanager.GeocachingSuApiManager;
 import su.geocaching.android.controller.apimanager.IApiManager;
 import su.geocaching.android.controller.managers.CheckpointManager;
 import su.geocaching.android.controller.managers.CompassManager;
 import su.geocaching.android.controller.managers.ConnectionManager;
 import su.geocaching.android.controller.managers.DbManager;
-import su.geocaching.android.controller.managers.UserLocationManager;
 import su.geocaching.android.controller.managers.GoogleAnalyticsManager;
 import su.geocaching.android.controller.managers.LogManager;
 import su.geocaching.android.controller.managers.PreferencesManager;
 import su.geocaching.android.controller.managers.ResourceManager;
+import su.geocaching.android.controller.managers.UserLocationManager;
 import su.geocaching.android.model.GeoCache;
-import su.geocaching.android.ui.R;
 import su.geocaching.android.ui.selectmap.SelectMapActivity;
 
 /**
@@ -249,5 +248,9 @@ public class Controller {
             LogManager.e(TAG, e.getMessage(), e);
         }
         return versionName;
+    }
+
+    public void onTerminate() {
+        dbManager.close();
     }
 }

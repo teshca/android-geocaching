@@ -16,4 +16,10 @@ public class GeocachingApplication extends Application {
         Controller.getInstance().setApplicationContext(getApplicationContext());
         Thread.setDefaultUncaughtExceptionHandler(new UncaughtExceptionsHandler());
     }
+
+    @Override
+    public void onTerminate() {
+        super.onTerminate();
+        Controller.getInstance().onTerminate();
+    }
 }
