@@ -7,6 +7,7 @@
 	<string name="save_notebook_always_title">Сохранять блокнот</string>
 	<string name="save_notebook_always_key">downloadNoteBookAlways</string>
 	<string name="save_notebook_always_summary">Всегда сохранять блокнот тайника</string>
+    <bool name="save_notebook_always_value">false</bool>
 
 	<string name="no_free_space">Недостаточно места на SD карте</string>
 	<string name="impossible_to_save_img">Невозможно сохранить фотографии</string>

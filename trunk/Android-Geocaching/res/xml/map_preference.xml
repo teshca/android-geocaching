@@ -16,9 +16,9 @@
                 android:key="@string/prefer_icon_key"
                 android:dialogIcon="@drawable/ic_cache_default_traditional_valid"/>
         <CheckBoxPreference
-                android:key="@string/way_cache_adding_key"
-                android:title="@string/way_cache_adding_title"
-                android:summary="@string/way_cache_adding_summary"
+                android:key="@string/use_group_cache_key"
+                android:title="@string/use_group_cache_title"
+                android:summary="@string/use_group_cache_summary"
                 android:defaultValue="@bool/use_group_cache_default_value"/>
     </PreferenceCategory>
 

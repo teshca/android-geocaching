@@ -30,7 +30,7 @@
                 android:title="@string/prefer_odometer_title"
                 android:summaryOn="@string/prefer_odometer_on"
                 android:summaryOff="@string/prefer_odometer_off"
-                android:defaultValue="@bool/odometer_default_value"
+                android:defaultValue="@bool/prefer_odometer_default_value"
                 android:onClick="onOdometerClick" />
 
 	</PreferenceCategory>
