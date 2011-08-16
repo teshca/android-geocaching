@@ -1,7 +1,7 @@
 <resources>
 	<string name="search_geocache">Искать</string>
 	<string name="select_geocache">Выбрать</string>
-	<string name="info">Информация</string>
 	<string name="favorites">Избранное</string>
 	<string name="preference">Настройки</string>
+    <string name="menu_about">О программе</string>
 </resources>

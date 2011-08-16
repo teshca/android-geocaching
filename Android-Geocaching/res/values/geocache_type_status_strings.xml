@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+    <!-- types -->
 	<string name="type_geocache_traditional">Традиционный</string>
 	<string name="type_geocache_virtua">Виртуальный</string>
 	<string name="type_geocache_step_by_step">Пошаговый традиционный</string>
@@ -9,6 +10,7 @@
 	<string name="type_geocache_extreme">Экстрим</string>
 	<string name="type_geocache_contest">Конкурс</string>
 	<string name="type_geocache_checkpoint">Контрольная точка</string>
+    <!-- statuses -->
 	<string name="status_geocache_valid">Действующий</string>
 	<string name="status_geocache_no_valid">Недействующий</string>
 	<string name="status_geocache_no_confirmed">Сомнительный</string>
