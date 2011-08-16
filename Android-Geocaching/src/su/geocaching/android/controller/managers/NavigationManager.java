@@ -39,29 +39,6 @@ public class NavigationManager {
         context.startActivity(intent);
     }
 
-    public static void startAboutActivity(Context context) {
-
-        String versionName = Controller.getInstance().getApplicationVersionName();
-
-        Controller.getInstance().getGoogleAnalyticsManager().trackActivityLaunch("/AboutDialog");
-
-        LayoutInflater inflater = (LayoutInflater)context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-        View aboutContentView = inflater.inflate(R.layout.about_dialog, null);
-
-        new AlertDialog.Builder(context)
-            .setIcon(R.drawable.ic_launcher)
-            .setTitle(context.getString(R.string.about_application_version, versionName) )
-            .setView(aboutContentView)
-            .setCancelable(true)
-            .setNeutralButton(R.string.about_exit_button_text, new DialogInterface.OnClickListener() {
-                public void onClick(DialogInterface dialog, int id) {
-                    dialog.dismiss();
-                }
-            })
-            .create()
-            .show();
-    }
-
     public static void startSelectMapActivity(Context context)
     {
         Intent intent = new Intent(context, SelectMapActivity.class);
