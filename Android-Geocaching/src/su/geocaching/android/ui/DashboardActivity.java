@@ -43,7 +43,6 @@ public class DashboardActivity extends Activity {
         switch (item.getItemId()) {
             case R.id.about:
                 this.showDialog(ABOUT_DIALOG_ID);
-                //NavigationManager.startAboutActivity(this);
                 return true;
             default:
                 return super.onOptionsItemSelected(item);
@@ -91,6 +90,6 @@ public class DashboardActivity extends Activity {
      * User clicked on Geocaching.su logo
      */
     public void onHomeClick(View v) {
-        NavigationManager.startAboutActivity(this);
+        this.showDialog(ABOUT_DIALOG_ID);
     }
 }

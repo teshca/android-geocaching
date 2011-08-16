@@ -44,9 +44,10 @@
 	</string-array>
     <string name="prefer_map_type_default_value">MAP</string>
     <!-- map.addWay -->
-    <string name="way_cache_adding_key">map.addWay</string>
-    <string name="way_cache_adding_title">Группировка тайников</string>
-    <string name="way_cache_adding_summary">Использовать группировку близких тайников</string>
+    <string name="use_group_cache_key">map.addWay</string>
+    <string name="use_group_cache_title">Группировка тайников</string>
+    <string name="use_group_cache_summary">Использовать группировку близких тайников</string>
+    <bool name="use_group_cache_default_value">true</bool>
 
     <!-- map.filters -->
     <string name="map_filters_title">Фильтры</string>

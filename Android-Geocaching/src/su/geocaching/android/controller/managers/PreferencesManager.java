@@ -180,7 +180,7 @@ public class PreferencesManager {
 
     public Boolean getAddingCacheWayString() {
         // keys located in resources, because settings logic described in xml and write it automatically to SharedPreferences
-        return preferences.getBoolean(context.getString(R.string.way_cache_adding_key), resources.getBoolean(R.bool.use_group_cache_default_value));
+        return preferences.getBoolean(context.getString(R.string.use_group_cache_key), resources.getBoolean(R.bool.use_group_cache_default_value));
     }
 
     public GpsUpdateFrequency getGpsUpdateFrequency() {
@@ -193,7 +193,7 @@ public class PreferencesManager {
 
     public boolean getOdometerOnPreference() {
         // keys located in resources, because settings logic described in xml and write it automatically to SharedPreferences
-        return preferences.getBoolean(context.getString(R.string.prefer_odometer_key), resources.getBoolean(R.bool.odometer_default_value));
+        return preferences.getBoolean(context.getString(R.string.prefer_odometer_key), resources.getBoolean(R.bool.prefer_odometer_default_value));
     }
 
     public String getCompassSpeed() {
