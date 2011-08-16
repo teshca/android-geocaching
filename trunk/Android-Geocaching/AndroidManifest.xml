@@ -30,8 +30,7 @@
         <activity
                 android:name="su.geocaching.android.ui.DashboardActivity"
                 android:label="@string/app_name"
-                android:theme="@android:style/Theme.NoTitleBar"
-                android:configChanges="orientation">
+                android:theme="@android:style/Theme.NoTitleBar">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN"/>
                 <category android:name="android.intent.category.LAUNCHER"/>

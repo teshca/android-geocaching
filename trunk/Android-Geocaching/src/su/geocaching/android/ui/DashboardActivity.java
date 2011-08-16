@@ -1,5 +1,6 @@
 package su.geocaching.android.ui;
 
+import android.app.Dialog;
 import android.widget.Toast;
 import su.geocaching.android.controller.Controller;
 import su.geocaching.android.controller.managers.NavigationManager;
@@ -19,8 +20,8 @@ import su.geocaching.android.model.GeoCache;
  */
 public class DashboardActivity extends Activity {
 
-    private static final String TAG = DashboardActivity.class.getCanonicalName();
     private static final String DASHBOARD_ACTIVITY_NAME = "/DashboardActivity";
+    private static final int ABOUT_DIALOG_ID = 0;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -41,11 +42,16 @@ public class DashboardActivity extends Activity {
         // Handle item selection
         switch (item.getItemId()) {
             case R.id.about:
-                NavigationManager.startAboutActivity(this);
+                this.showDialog(ABOUT_DIALOG_ID);
+                //NavigationManager.startAboutActivity(this);
                 return true;
             default:
                 return super.onOptionsItemSelected(item);
         }
+    }
+
+    protected Dialog onCreateDialog(int id) {
+        return (id == ABOUT_DIALOG_ID) ? new AboutDialog(this) : null;
     }
 
     /**
@@ -85,5 +91,6 @@ public class DashboardActivity extends Activity {
      * User clicked on Geocaching.su logo
      */
     public void onHomeClick(View v) {
+        NavigationManager.startAboutActivity(this);
     }
 }
