@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-			  style="@style/TitleBar"
-			  android:id="@+id/title_bar"
-			  android:background="@drawable/geologo_background">
-	<ImageView android:src="@drawable/geologo"
-			   style="@style/TitleBarLogo"
-			   android:id="@+id/title_logo"
-			   android:onClick="onHomeClick"/>
+<LinearLayout
+        xmlns:android="http://schemas.android.com/apk/res/android"
+		style="@style/TitleBar"
+		android:background="@drawable/geologo_background">
+	<ImageView
+            android:src="@drawable/geologo"
+			style="@style/TitleBarLogo"
+			android:onClick="onHomeClick"/>
 </LinearLayout>

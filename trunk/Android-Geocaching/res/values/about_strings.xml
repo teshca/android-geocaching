@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-	<string name="about">О программе</string>
     <string name="about_application_version">Геокэшинг\nверсия %1$s</string>
 	<string name="about_google_code">Подробную информацию о проекте вы можете найти на
 		сайте\nhttp://code.google.com/p/android-geocaching/
