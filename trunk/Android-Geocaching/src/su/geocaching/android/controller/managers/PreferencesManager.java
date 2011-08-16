@@ -26,7 +26,6 @@ import su.geocaching.android.ui.R;
  */
 public class PreferencesManager {
     private static final String TAG = PreferencesManager.class.getCanonicalName();
-    private static final String DEFAULT_VALUE = "ALL";
 
     private final Context context;
     private final SharedPreferences preferences;
@@ -81,37 +80,6 @@ public class PreferencesManager {
     }
 
     /**
-     * @param info
-     *            with data to save
-     */
-    public synchronized void setLastSearchMapInfo(SearchMapInfo info) {
-        if (info != null) {
-            SharedPreferences.Editor editor = preferences.edit();
-            editor.putInt("searchmap_center_x", info.getCenterX());
-            editor.putInt("searchmap_center_y", info.getCenterY());
-            editor.putInt("searchmap_zoom", info.getZoom());
-            editor.putInt("searchmap_cacheid", info.getGeoCacheId());
-            editor.commit();
-        }
-    }
-
-        /**
-     * @param info
-     *            with data to save
-     */
-    public synchronized void setLastGeocacheInfo(GeocacheInfo info) {
-        if (info != null) {
-            SharedPreferences.Editor editor = preferences.edit();
-            editor.putInt("info_cacheId", info.getCacheId());
-            editor.putInt("info_pagestate", info.getPageState());
-            editor.putInt("info_scroll", info.getScroll());
-            editor.putInt("info_width", info.getWidth());
-            editor.putFloat("info_scale", info.getScale());
-            editor.commit();
-        }
-    }
-
-    /**
      * @return MapInfo object with preferences
      */
     public synchronized MapInfo getLastSelectMapInfo() {
@@ -138,6 +106,21 @@ public class PreferencesManager {
     }
 
     /**
+     * @param info
+     *            with data to save
+     */
+    public synchronized void setLastSearchMapInfo(SearchMapInfo info) {
+        if (info != null) {
+            SharedPreferences.Editor editor = preferences.edit();
+            editor.putInt("searchmap_center_x", info.getCenterX());
+            editor.putInt("searchmap_center_y", info.getCenterY());
+            editor.putInt("searchmap_zoom", info.getZoom());
+            editor.putInt("searchmap_cacheid", info.getGeoCacheId());
+            editor.commit();
+        }
+    }
+
+    /**
      * @return MapInfo object with preferences
      */
     public synchronized SearchMapInfo getLastSearchMapInfo() {
@@ -148,15 +131,29 @@ public class PreferencesManager {
         return new SearchMapInfo(center_x, center_y, zoom, cacheId);
     }
 
+     /**
+     * @param info with data to save
+     */
+    public synchronized void setLastGeocacheInfo(GeocacheInfo info) {
+        if (info != null) {
+            SharedPreferences.Editor editor = preferences.edit();
+            editor.putInt("info_cacheId", info.getCacheId());
+            editor.putInt("info_pagestate", info.getPageState());
+            editor.putInt("info_scroll", info.getScroll());
+            editor.putInt("info_width", info.getWidth());
+            editor.putFloat("info_scale", info.getScale());
+            editor.commit();
+        }
+    }
+
   public synchronized GeocacheInfo getLastGeocacheInfo() {
-       int cacheId = preferences.getInt("info_cacheId", 0);
+       int cacheId = preferences.getInt("info_cacheId", -1);
        int state = preferences.getInt("info_pagestate", 0);
        int scroll = preferences.getInt("info_scroll", 0);
        int width = preferences.getInt("info_width", 0);
        float scale = preferences.getFloat("info_scale", 0);
        return new GeocacheInfo(cacheId, scroll, state, width, scale);
    }
-
 
     public void setDownloadNoteBookAlways(boolean downloadAlways) {
         SharedPreferences.Editor editor = preferences.edit();
@@ -175,7 +172,8 @@ public class PreferencesManager {
 
     public boolean useSatelliteMap() {
         // keys located in resources, because settings logic described in xml and write it automatically to SharedPreferences
-        return (!preferences.getString(context.getString(R.string.prefer_map_type_key), context.getString(R.string.prefer_map_type_default_value)).equals("MAP"));
+        String mapValue =  context.getString(R.string.prefer_map_type_default_value);
+        return (!preferences.getString(context.getString(R.string.prefer_map_type_key), mapValue).equals(mapValue));
     }
 
     public Boolean getAddingCacheWayString() {
@@ -206,7 +204,7 @@ public class PreferencesManager {
 
     public String getCompasSensorPreference() {
         // keys located in resources, because settings logic described in xml and write it automatically to SharedPreferences
-        return preferences.getString(context.getString(R.string.prefs_sensor_key), "SENSOR");
+        return preferences.getString(context.getString(R.string.prefs_sensor_key), context.getString(R.string.sensor_preference_default_value));
     }
 
     public String getIconType() {
@@ -215,8 +213,9 @@ public class PreferencesManager {
 
     public EnumSet<GeoCacheStatus> getStatusFilter() {
         EnumSet<GeoCacheStatus> set = EnumSet.noneOf(GeoCacheStatus.class);
-        String rawval = preferences.getString(context.getString(R.string.cache_filter_status), context.getString(R.string.cache_filter_default_value));
-        if (rawval.equals(DEFAULT_VALUE)) {
+        String cache_filter_default_value = context.getString(R.string.cache_filter_default_value);
+        String rawval = preferences.getString(context.getString(R.string.cache_filter_status), cache_filter_default_value);
+        if (rawval.equals(cache_filter_default_value)) {
             for (GeoCacheStatus i : GeoCacheStatus.values()) {
                 set.add(i);
             }
@@ -237,8 +236,9 @@ public class PreferencesManager {
 
     public EnumSet<GeoCacheType> getTypeFilter() {
         EnumSet<GeoCacheType> set = EnumSet.noneOf(GeoCacheType.class);
-        String rawval = preferences.getString(context.getString(R.string.cache_filter_type), context.getString(R.string.cache_filter_default_value));
-        if (rawval.equals(DEFAULT_VALUE)) {
+        String cache_filter_default_value = context.getString(R.string.cache_filter_default_value);
+        String rawval = preferences.getString(context.getString(R.string.cache_filter_type), cache_filter_default_value);
+        if (rawval.equals(cache_filter_default_value)) {
             for (GeoCacheType i : GeoCacheType.values()) {
                 set.add(i);
             }
