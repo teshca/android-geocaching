@@ -90,12 +90,11 @@ public class CompassActivity extends Activity {
         super.onResume();
         LogManager.d(TAG, "onResume");
         if (controller.getSearchingGeoCache() == null) {
-            LogManager.e(TAG, "runLogic: null geoCache. Finishing.");
+            LogManager.e(TAG, "Geocache is null. Finishing.");
             Toast.makeText(this, this.getString(R.string.search_geocache_error_no_geocache), Toast.LENGTH_LONG).show();
             finish();
             return;
         }
-
 
         compassView.setKeepScreenOn(preferenceManager.getKeepScreenOnPreference());
         Controller.getInstance().getCompassManager().setUsingGpsCompass(preferenceManager.getCompasSensorPreference().endsWith("GPS"));
