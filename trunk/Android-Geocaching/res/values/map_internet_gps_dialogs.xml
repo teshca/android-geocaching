@@ -3,7 +3,8 @@
 	<string name="device_without_gps_alert">Внимание!\n\r На Вашем устройстве отстутствует
 		GPS.\n\rВаше положение может определяться не точно
     </string>
-	<string name="ask_enable_internet_text">Для дальнейшей работы необходим Интернет. Включить?
+    <string name="connection_problem_dialog_title">Сбой при подключении</string>
+	<string name="connection_problem_dialog_message">Для дальнейшей работы необходим Интернет. Включить?
 	</string>
 	<string name="ask_enable_gps_text">Для дальнейшей работы необходим GPS. Включить?
 	</string>

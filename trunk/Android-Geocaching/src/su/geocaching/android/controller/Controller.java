@@ -96,7 +96,7 @@ public class Controller {
     }
 
     /**
-     * @return connection manager which can send to IInternetAware updates of Internet connection status
+     * @return connection manager which can send to IConnectionAware updates of Internet connection status
      */
     public synchronized ConnectionManager getConnectionManager() {
         return getConnectionManager(applicationContext);
@@ -152,7 +152,7 @@ public class Controller {
     /**
      * @param context
      *            for init manager
-     * @return connection manager which can send to IInternetAware updates of Internet connection status
+     * @return connection manager which can send to IConnectionAware updates of Internet connection status
      */
     public synchronized ConnectionManager getConnectionManager(Context context) {
         if (connectionManager == null) {

@@ -26,13 +26,13 @@ public class ConnectionStateReceiver extends BroadcastReceiver {
     @Override
     public void onReceive(Context context, Intent intent) {
         LogManager.d(TAG, "Received message about internet status");
-        //boolean noConnectivity = intent.getBooleanExtra(ConnectivityManager.EXTRA_NO_CONNECTIVITY, false);
-        //LogManager.d(TAG, "noConnectivityExtra:" + noConnectivity);
+        boolean noConnectivity = intent.getBooleanExtra(ConnectivityManager.EXTRA_NO_CONNECTIVITY, false);
+        LogManager.d(TAG, "noConnectivityExtra:" + noConnectivity);
         ConnectionManager connectionManager = Controller.getInstance().getConnectionManager(context.getApplicationContext());
-        if (connectionManager.isInternetConnected()) {
-            connectionManager.onInternetFound();
+        if (noConnectivity) {
+            connectionManager.onConnectionLost();
         } else {
-            connectionManager.onInternetLost();
+            connectionManager.onConnectionFound();
         }
     }
 }

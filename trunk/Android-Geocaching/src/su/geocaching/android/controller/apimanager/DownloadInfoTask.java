@@ -78,7 +78,7 @@ public class DownloadInfoTask extends AsyncTask<Void, Void, String> {
     protected String doInBackground(Void... arg0) {
         String result = null;
 
-        if (Controller.getInstance().getConnectionManager().isInternetConnected()) {
+        if (Controller.getInstance().getConnectionManager().isActiveNetworkConnected()) {
             boolean success = false;
             for (int attempt = 0; attempt < 5 && !success; attempt++)
                 try {

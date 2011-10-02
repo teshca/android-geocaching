@@ -79,7 +79,7 @@ public class DownloadPhotoTask extends AsyncTask<URL, Void, Void> {
     @Override
     protected Void doInBackground(URL... params) {
         if (externalStorageAvailable && externalStorageWriteable && enoughFreeSpace) {
-            if (Controller.getInstance().getConnectionManager().isInternetConnected()) {
+            if (Controller.getInstance().getConnectionManager().isActiveNetworkConnected()) {
                 for (URL url : params) {
                     Uri uri = prepareFile(url);
                     boolean success = false;

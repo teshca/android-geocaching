@@ -1,6 +1,8 @@
 package su.geocaching.android.controller.managers;
 
 import java.util.List;
+
+import android.*;
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.Context;
@@ -10,11 +12,13 @@ import android.content.pm.PackageManager;
 import android.content.pm.ResolveInfo;
 import android.net.Uri;
 import android.provider.Settings;
+import android.text.AndroidCharacter;
 import android.view.LayoutInflater;
 import android.view.View;
 import su.geocaching.android.controller.Controller;
 import su.geocaching.android.model.GeoCache;
 import su.geocaching.android.ui.*;
+import su.geocaching.android.ui.R;
 import su.geocaching.android.ui.checkpoints.CheckpointDialog;
 import su.geocaching.android.ui.checkpoints.CheckpointsFolder;
 import su.geocaching.android.ui.checkpoints.CreateCheckpointActivity;
@@ -141,7 +145,9 @@ public class NavigationManager {
         Controller.getInstance().getGoogleAnalyticsManager().trackActivityLaunch("/EnableConnectionDialog");
 
         new AlertDialog.Builder(context)
-            .setMessage(context.getString(R.string.ask_enable_internet_text))
+            .setIcon(android.R.drawable.ic_dialog_alert)
+            .setTitle(context.getString(R.string.connection_problem_dialog_title))
+            .setMessage(context.getString(R.string.connection_problem_dialog_message))
             .setPositiveButton(context.getString(R.string.yes), new DialogInterface.OnClickListener() {
                 public void onClick(DialogInterface dialog, int id) {
                     Intent intent = new Intent(Settings.ACTION_WIRELESS_SETTINGS);

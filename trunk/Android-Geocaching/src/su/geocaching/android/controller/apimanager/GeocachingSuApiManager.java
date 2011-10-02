@@ -61,7 +61,7 @@ public class GeocachingSuApiManager implements IApiManager {
         double maxLongitude = (double) lowerRightCorner.getLongitudeE6() / 1E6;
         double minLongitude = (double) upperLeftCorner.getLongitudeE6() / 1E6;
 
-        if (!Controller.getInstance().getConnectionManager().isInternetConnected()) {
+        if (!Controller.getInstance().getConnectionManager().isActiveNetworkConnected()) {
             return filterGeoCaches(maxLatitude, minLatitude, maxLongitude, minLongitude);
         }
 
@@ -151,7 +151,7 @@ public class GeocachingSuApiManager implements IApiManager {
     @Override
     public void getPhotos(Context context, InfoActivity infoActivity, int cacheId) {
 
-        if (!Controller.getInstance().getConnectionManager().isInternetConnected()) {
+        if (!Controller.getInstance().getConnectionManager().isActiveNetworkConnected()) {
             infoActivity.showErrorMessage(R.string.no_internet);
             return;
         }
