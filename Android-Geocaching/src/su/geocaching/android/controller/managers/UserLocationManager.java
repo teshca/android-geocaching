@@ -175,7 +175,7 @@ public class UserLocationManager implements LocationListener, GpsStatus.Listener
      */
     @Override
     public void onProviderEnabled(String provider) {
-        LogManager.d(TAG, "Provider (" + provider + ") enabled: send msg to " + Integer.toString(subscribers.size()) + " activity(es)");
+        LogManager.d(TAG, "Provider (" + provider + ") locationAvailable: send msg to " + Integer.toString(subscribers.size()) + " activity(es)");
         for (ILocationAware subsriber : subscribers) {
             subsriber.onProviderEnabled(provider);
         }
@@ -257,7 +257,7 @@ public class UserLocationManager implements LocationListener, GpsStatus.Listener
     }
 
     /**
-     * @return true if best provider by accuracy enabled
+     * @return true if best provider by accuracy locationAvailable
      */
     public boolean isBestProviderEnabled() {
         Criteria criteria = new Criteria();
@@ -294,7 +294,7 @@ public class UserLocationManager implements LocationListener, GpsStatus.Listener
         removeUpdates();
         provider = bestProvider;
         requestLocationUpdates();
-        LogManager.d(TAG, "request for enable best provider: enabled");
+        LogManager.d(TAG, "request for enable best provider: locationAvailable");
         return true;
     }
 

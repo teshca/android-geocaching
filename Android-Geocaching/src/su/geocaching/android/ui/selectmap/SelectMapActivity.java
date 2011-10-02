@@ -49,7 +49,7 @@ public class SelectMapActivity extends MapActivity implements IConnectionAware, 
     private MapView map;
     private MapController mapController;
     private SelectGeoCacheOverlay selectGeoCacheOverlay;
-    private SimpleUserLocationOverlay locationOverlay;
+    private StaticUserLocationOverlay locationOverlay;
     private UserLocationManager locationManager;
     private MapUpdateTimer mapTimer;
     private ConnectionManager connectionManager;
@@ -82,7 +82,7 @@ public class SelectMapActivity extends MapActivity implements IConnectionAware, 
         countDownloadTask = 0;
         handler = new Handler();
 
-        locationOverlay = new SimpleUserLocationOverlay(controller.getResourceManager().getUserLocationMarker());
+        locationOverlay = new StaticUserLocationOverlay(controller.getResourceManager().getUserLocationMarker());
         selectGeoCacheOverlay = new SelectGeoCacheOverlay(controller.getResourceManager().getCacheMarker(GeoCacheType.TRADITIONAL, GeoCacheStatus.VALID), this, map);
         map.getOverlays().add(selectGeoCacheOverlay);
         map.getOverlays().add(locationOverlay);
@@ -206,7 +206,7 @@ public class SelectMapActivity extends MapActivity implements IConnectionAware, 
     private void updateLocationOverlay(Location location) {
         LogManager.d(TAG, "updateLocationOverlay");
         if (location != null) {
-            locationOverlay.updateLocation(CoordinateHelper.locationToGeoPoint(location));
+            locationOverlay.updateLocation(location);
             map.invalidate();
         }
     }
