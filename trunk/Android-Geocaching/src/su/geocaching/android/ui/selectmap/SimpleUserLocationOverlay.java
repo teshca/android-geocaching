@@ -1,47 +1,37 @@
 package su.geocaching.android.ui.selectmap;
 
+import android.graphics.Canvas;
+import android.graphics.Point;
 import android.graphics.drawable.Drawable;
-import android.view.MotionEvent;
-import com.google.android.maps.ItemizedOverlay;
+import com.google.android.maps.GeoPoint;
 import com.google.android.maps.MapView;
-import com.google.android.maps.OverlayItem;
+import com.google.android.maps.Projection;
 
 /**
  * @author: Yuri Denison
  * @since: 14.07.11
  */
-public class SimpleUserLocationOverlay extends ItemizedOverlay<OverlayItem> {
-    private OverlayItem locationItem;
+public class SimpleUserLocationOverlay extends com.google.android.maps.Overlay {
+    private GeoPoint location;
+    private Point userPoint;
+    private Drawable userLocationImage;
 
-    public SimpleUserLocationOverlay(Drawable drawable) {
-        super(drawable);
-        populate();
+    SimpleUserLocationOverlay(Drawable userLocationImage)
+    {
+        this.userLocationImage = userLocationImage;
+        this.userPoint = new Point();
     }
-
-    public void addOverlayItem(OverlayItem locationItem) {
-        this.locationItem = locationItem;
-        setLastFocusedIndex(-1);
-        populate();
-    }
-
     @Override
-    protected OverlayItem createItem(int i) {
-        return locationItem;
+    public void draw(Canvas canvas, MapView mapView, boolean shadow) {
+        super.draw(canvas, mapView, shadow);
+        if (location != null)
+        {
+            mapView.getProjection().toPixels(location, userPoint);
+            drawAt(canvas, userLocationImage, userPoint.x, userPoint.y, false);
+        }
     }
 
-    @Override
-    public int size() {
-        return locationItem == null ? 0 : 1;
-    }
-
-    @Override
-    public boolean onTouchEvent(MotionEvent event, MapView map) {
-        return false;
-    }
-
-    public void clear() {
-        locationItem = null;
-        setLastFocusedIndex(-1);
-        populate();
+    public void updateLocation(GeoPoint location) {
+        this.location = location;
     }
 }

@@ -51,12 +51,19 @@ public class ResourceManager {
      * 
      * @return Drawable for this geoCache depends on it's parameters
      */
-    public Drawable getMarker(GeoCacheType type, GeoCacheStatus status) {
+    public Drawable getCacheMarker(GeoCacheType type, GeoCacheStatus status) {
         int resId;
         if ((resId = getMarkerResId(type, status)) == -1) {
             return null;
         }
         return getMarker(resId);
+    }
+
+    public Drawable getUserLocationMarker()
+    {
+        Drawable marker = getDrawable(R.drawable.ic_my_location);
+        marker.setBounds(-marker.getMinimumWidth() / 2, -marker.getMinimumHeight() + 20, marker.getMinimumWidth() / 2, 20);
+        return marker;
     }
 
     /**
@@ -267,12 +274,12 @@ public class ResourceManager {
     /**
      * Set bounds to marker
      * 
-     * @param resource
+     * @param resourceId
      *            id of marker
      * @return marker with set bounds
      */
-    private Drawable getMarker(int resource) {
-        Drawable cacheMarker = context.getResources().getDrawable(resource);
+    private Drawable getMarker(int resourceId) {
+        Drawable cacheMarker = getDrawable(resourceId);
         cacheMarker.setBounds(-cacheMarker.getMinimumWidth() / 2, -cacheMarker.getMinimumHeight(), cacheMarker.getMinimumWidth() / 2, 0);
         return cacheMarker;
     }

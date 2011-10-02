@@ -112,7 +112,7 @@ public class SearchMapActivity extends MapActivity implements IConnectionAware, 
         Controller.getInstance().getGoogleAnalyticsManager().trackActivityLaunch(SEARCH_MAP_ACTIVITY_FOLDER);
 
         checkpointManager = Controller.getInstance().getCheckpointManager(geoCache.getId());
-        checkpointOverlay = new CheckpointOverlay(Controller.getInstance().getResourceManager().getMarker(GeoCacheType.CHECKPOINT, GeoCacheStatus.NOT_ACTIVE_CHECKPOINT), this, map);
+        checkpointOverlay = new CheckpointOverlay(Controller.getInstance().getResourceManager().getCacheMarker(GeoCacheType.CHECKPOINT, GeoCacheStatus.NOT_ACTIVE_CHECKPOINT), this, map);
         for (GeoCache checkpoint : checkpointManager.getCheckpoints()) {
             checkpointOverlay.addOverlayItem(new GeoCacheOverlayItem(checkpoint, "", ""));
             if (checkpoint.getStatus() == GeoCacheStatus.ACTIVE_CHECKPOINT) {
@@ -180,7 +180,7 @@ public class SearchMapActivity extends MapActivity implements IConnectionAware, 
         map.setSatellite(Controller.getInstance().getPreferencesManager().useSatelliteMap());
 
         mapOverlays.remove(searchGeoCacheOverlay);
-        cacheMarker = Controller.getInstance().getResourceManager().getMarker(geoCache.getType(), geoCache.getStatus());
+        cacheMarker = Controller.getInstance().getResourceManager().getCacheMarker(geoCache.getType(), geoCache.getStatus());
         searchGeoCacheOverlay = new SearchGeoCacheOverlay(cacheMarker, this, map);
         GeoCacheOverlayItem cacheOverlayItem = new GeoCacheOverlayItem(geoCache, "", "");
         searchGeoCacheOverlay.addOverlayItem(cacheOverlayItem);
@@ -346,7 +346,7 @@ public class SearchMapActivity extends MapActivity implements IConnectionAware, 
         if (!needZoomOut) {
             // Get marker of checkpoint
             // gc.setType(GeoCacheType.CHECKPOINT); //No!, never set checkpoint to Intent
-            rect = Controller.getInstance().getResourceManager().getMarker(GeoCacheType.CHECKPOINT, GeoCacheStatus.NOT_ACTIVE_CHECKPOINT).getBounds();
+            rect = Controller.getInstance().getResourceManager().getCacheMarker(GeoCacheType.CHECKPOINT, GeoCacheStatus.NOT_ACTIVE_CHECKPOINT).getBounds();
 
             for (GeoCache i : Controller.getInstance().getCheckpointManager(gc.getId()).getCheckpoints()) {
                 proj.toPixels(i.getLocationGeoPoint(), point);

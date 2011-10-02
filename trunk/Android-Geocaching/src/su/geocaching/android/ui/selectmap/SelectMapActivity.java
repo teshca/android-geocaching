@@ -19,7 +19,6 @@ import com.google.android.maps.GeoPoint;
 import com.google.android.maps.MapActivity;
 import com.google.android.maps.MapController;
 import com.google.android.maps.MapView;
-import com.google.android.maps.OverlayItem;
 import su.geocaching.android.controller.Controller;
 import su.geocaching.android.controller.CoordinateHelper;
 import su.geocaching.android.controller.managers.ConnectionManager;
@@ -83,8 +82,8 @@ public class SelectMapActivity extends MapActivity implements IConnectionAware, 
         countDownloadTask = 0;
         handler = new Handler();
 
-        locationOverlay = new SimpleUserLocationOverlay(controller.getResourceManager().getDrawable(R.drawable.ic_my_location));
-        selectGeoCacheOverlay = new SelectGeoCacheOverlay(controller.getResourceManager().getMarker(GeoCacheType.TRADITIONAL, GeoCacheStatus.VALID), this, map);
+        locationOverlay = new SimpleUserLocationOverlay(controller.getResourceManager().getUserLocationMarker());
+        selectGeoCacheOverlay = new SelectGeoCacheOverlay(controller.getResourceManager().getCacheMarker(GeoCacheType.TRADITIONAL, GeoCacheStatus.VALID), this, map);
         map.getOverlays().add(selectGeoCacheOverlay);
         map.getOverlays().add(locationOverlay);
 
@@ -207,8 +206,7 @@ public class SelectMapActivity extends MapActivity implements IConnectionAware, 
     private void updateLocationOverlay(Location location) {
         LogManager.d(TAG, "updateLocationOverlay");
         if (location != null) {
-            locationOverlay.clear();
-            locationOverlay.addOverlayItem(new OverlayItem(CoordinateHelper.locationToGeoPoint(location), "", ""));
+            locationOverlay.updateLocation(CoordinateHelper.locationToGeoPoint(location));
             map.invalidate();
         }
     }
