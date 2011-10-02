@@ -15,27 +15,28 @@ public class DistanceToGeoCacheOverlay extends com.google.android.maps.Overlay {
     private Paint paintLine;
     private Point to;
     private Point from;
-    private boolean withShortestWay;
+    private boolean enabled;
+    private static final int DISTANCE_STROKE_COLOR = 0x64641464;
+    private static final int DISTANCE_STROKE_WIDTH = 4;
 
     public DistanceToGeoCacheOverlay(GeoPoint userPoint, GeoPoint cachePoint) {
         this.userPoint = userPoint;
         this.cachePoint = cachePoint;
-        withShortestWay = true;
+        enabled = true;
         from = new Point();
         to = new Point();
         paintLine = new Paint();
-        paintLine.setARGB(100, 100, 20, 100);
-
         paintLine.setStyle(Paint.Style.STROKE);
+        paintLine.setColor(DISTANCE_STROKE_COLOR);
         paintLine.setAntiAlias(true);
-        paintLine.setStrokeWidth(4);
+        paintLine.setStrokeWidth(DISTANCE_STROKE_WIDTH);
     }
 
     @Override
     public void draw(Canvas canvas, MapView mapView, boolean shadow) {
         super.draw(canvas, mapView, shadow);
 
-        if (withShortestWay) {
+        if (enabled) {
             Projection proj = mapView.getProjection();
             proj.toPixels(userPoint, from);
             proj.toPixels(cachePoint, to);
@@ -51,7 +52,7 @@ public class DistanceToGeoCacheOverlay extends com.google.android.maps.Overlay {
         this.cachePoint = cachePoint;
     }
 
-    protected void setShorteshtWayVisible(boolean with) {
-        withShortestWay = with;
+    protected void setEnabled(boolean enabled) {
+        this.enabled = enabled;
     }
 }

@@ -35,10 +35,6 @@ public class UserLocationOverlay extends com.google.android.maps.Overlay impleme
     private int compassArrowWidth;
     private int compassArrowHeight;
 
-    /**
-     * @param context
-     *         activity which use this overlay
-     */
     public UserLocationOverlay(SearchMapActivity context, MapView map) {
         userGeoPoint = null;
         bearing = Float.NaN;
