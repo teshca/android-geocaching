@@ -27,7 +27,7 @@ public class GeoCacheOverlayItem extends OverlayItem {
      */
     public GeoCacheOverlayItem(GeoCache geoCache, String title, String snippet) {
         super(geoCache.getLocationGeoPoint(), title, snippet);
-        setMarker(Controller.getInstance().getResourceManager().getMarker(geoCache.getType(), geoCache.getStatus()));
+        setMarker(Controller.getInstance().getResourceManager().getCacheMarker(geoCache.getType(), geoCache.getStatus()));
         this.geoCache = geoCache;
     }
 
@@ -35,7 +35,7 @@ public class GeoCacheOverlayItem extends OverlayItem {
         super(point, title, snippet);
         geoCache = new GeoCache();
         geoCache.setType(GeoCacheType.GROUP);
-        setMarker(Controller.getInstance().getResourceManager().getMarker(GeoCacheType.GROUP, null));
+        setMarker(Controller.getInstance().getResourceManager().getCacheMarker(GeoCacheType.GROUP, null));
         geoCache.setLocationGeoPoint(point);
     }
 
