@@ -41,7 +41,7 @@ public class LogManager {
      * @param msg The message you would like logged.
      */
     public static void e(String tag, String msg) {
-        Controller.getInstance().getGoogleAnalyticsManager().trackEvent(tag, msg, null, 0);
+        Controller.getInstance().getGoogleAnalyticsManager().trackError(tag, msg);
         Log.e(tag, msg);
     }
 
@@ -86,7 +86,7 @@ public class LogManager {
      * @param ex  An exception to log
      */
     public static void e(String tag, String msg, Throwable ex) {
-        Controller.getInstance().getGoogleAnalyticsManager().trackEvent(tag, msg, null, 0);
+        Controller.getInstance().getGoogleAnalyticsManager().trackException(tag, msg, ex);
         Log.e(tag, msg, ex);
     }
 

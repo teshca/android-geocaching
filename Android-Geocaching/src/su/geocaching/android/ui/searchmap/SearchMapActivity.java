@@ -146,18 +146,18 @@ public class SearchMapActivity extends MapActivity implements IConnectionAware, 
     @Override
     protected void onResume() {
         super.onResume();
-        LogManager.d(TAG, "on resume");
+        LogManager.d(TAG, "onResume");
         GeoCache geoCache = (GeoCache) getIntent().getParcelableExtra(GeoCache.class.getCanonicalName());
 
         if (geoCache == null) {
-            LogManager.e(TAG, "null geocache. Finishing.");
+            LogManager.e(TAG, "Geocache is null. Finishing.");
             Toast.makeText(this, getString(R.string.search_geocache_error_no_geocache), Toast.LENGTH_LONG).show();
             this.finish();
             return;
         }
 
         if (!Controller.getInstance().getDbManager().isCacheStored(geoCache.getId())) {
-            LogManager.e(TAG, "geocache not in db. Finishing.");
+            LogManager.e(TAG, "Geocache is not in found in database. Finishing.");
             Toast.makeText(this, getString(R.string.search_geocache_error_geocache_not_in_db), Toast.LENGTH_LONG).show();
             this.finish();
             startActivity(new Intent(this, FavoritesFolderActivity.class));

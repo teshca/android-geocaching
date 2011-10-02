@@ -19,11 +19,7 @@ public class UncaughtExceptionsHandler implements Thread.UncaughtExceptionHandle
 
     @Override
     public void uncaughtException(Thread thread, Throwable ex) {
-        String stackTrace = ex.getMessage();
-        for (StackTraceElement s : ex.getStackTrace()) {
-            stackTrace += String.format(" at %s.%s(%s:%d)\n", s.getClassName(), s.getMethodName(), s.getFileName(), s.getLineNumber());
-        }
-        Controller.getInstance().getGoogleAnalyticsManager().trackEvent(thread.getName(), stackTrace, null, 0);
+        Controller.getInstance().getGoogleAnalyticsManager().trackException("UncaughtException", thread.getName(), ex);
         defaultUncaughtExceptionHandler.uncaughtException(thread, ex);
     }
 }
