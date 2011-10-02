@@ -21,9 +21,9 @@ http://www.benjaminkeen.com/?p=105
 ----
 http://google-maps-icons.googlecode.com/files/pyramid-southam.png
 http://code.google.com/p/google-maps-icons/
----
-http://www.openclipart.org/detail/89179/location-marker-by-jhnri4
+----
 http://www.openclipart.org/people/jhnri4/Location_marker.svg
+http://www.openclipart.org/detail/89179/location-marker-by-jhnri4
 
 ==Варианты бесплатных компасов==
 
