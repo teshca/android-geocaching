@@ -61,7 +61,7 @@ public class SearchMapActivity extends MapActivity implements IConnectionAware, 
     private SearchGeoCacheOverlay searchGeoCacheOverlay;
     private Drawable cacheMarker;
     private DistanceToGeoCacheOverlay distanceOverlay;
-    private UserLocationOverlay userOverlay;
+    private DynamicUserLocationOverlay userOverlay;
     private MapView map;
     private MapController mapController;
     private List<Overlay> mapOverlays;
@@ -103,7 +103,7 @@ public class SearchMapActivity extends MapActivity implements IConnectionAware, 
         map = (MapView) findViewById(R.id.searchGeocacheMap);
         mapOverlays = map.getOverlays();
         mapController = map.getController();
-        userOverlay = new UserLocationOverlay(this, map);
+        userOverlay = new DynamicUserLocationOverlay(this, map);
         map.setBuiltInZoomControls(true);
         GeoCache geoCache = (GeoCache) getIntent().getParcelableExtra(GeoCache.class.getCanonicalName());
 
@@ -196,7 +196,7 @@ public class SearchMapActivity extends MapActivity implements IConnectionAware, 
             LogManager.d(TAG, "resume: best provider (" + Controller.getInstance().getLocationManager().getBestProvider(false) + ") disabled. Current provider is "
                     + Controller.getInstance().getLocationManager().getCurrentProvider());
         } else {
-            LogManager.d(TAG, "resume: best provider (" + Controller.getInstance().getLocationManager().getBestProvider(false) + ") enabled. Run logic");
+            LogManager.d(TAG, "resume: best provider (" + Controller.getInstance().getLocationManager().getBestProvider(false) + ") locationAvailable. Run logic");
 
             if (!Controller.getInstance().getLocationManager().hasLocation()) {
                 progressBarView.setVisibility(View.VISIBLE);
@@ -228,8 +228,7 @@ public class SearchMapActivity extends MapActivity implements IConnectionAware, 
      */
     @Override
     public void updateLocation(Location location) {
-        userOverlay.setPoint(CoordinateHelper.locationToGeoPoint(location));
-        userOverlay.setAccuracy(location.getAccuracy());
+        userOverlay.updateLocation(location);
         Controller.getInstance().getLocationManager().removeStatusListening(this);
         LogManager.d(TAG, "update location");
         if (progressBarView.getVisibility() == View.VISIBLE) {
