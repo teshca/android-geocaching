@@ -23,7 +23,7 @@ import com.google.android.maps.OverlayItem;
 import su.geocaching.android.controller.Controller;
 import su.geocaching.android.controller.CoordinateHelper;
 import su.geocaching.android.controller.managers.ConnectionManager;
-import su.geocaching.android.controller.managers.IInternetAware;
+import su.geocaching.android.controller.managers.IConnectionAware;
 import su.geocaching.android.controller.managers.ILocationAware;
 import su.geocaching.android.controller.managers.LogManager;
 import su.geocaching.android.controller.managers.NavigationManager;
@@ -42,7 +42,7 @@ import su.geocaching.android.ui.preferences.MapPreferenceActivity;
  * @author Yuri Denison
  * @since 04.11.2010
  */
-public class SelectMapActivity extends MapActivity implements IInternetAware, ILocationAware {
+public class SelectMapActivity extends MapActivity implements IConnectionAware, ILocationAware {
     private static final String TAG = SelectMapActivity.class.getCanonicalName();
     private static final int MAX_CACHE_NUMBER = 300;
     private static final String SELECT_ACTIVITY_FOLDER = "/SelectActivity";
@@ -270,7 +270,7 @@ public class SelectMapActivity extends MapActivity implements IInternetAware, IL
     }
 
     @Override
-    public void onInternetLost() {
+    public void onConnectionLost() {
         internetLostToast.show();
     }
 
@@ -332,7 +332,7 @@ public class SelectMapActivity extends MapActivity implements IInternetAware, IL
     }
 
     @Override
-    public void onInternetFound() {
+    public void onConnectionFound() {
         internetLostToast.cancel();
     }
 }

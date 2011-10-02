@@ -6,15 +6,15 @@ package su.geocaching.android.controller.managers;
  * @author Grigory Kalabin. grigory.kalabin@gmail.com
  * @since Nov 22, 2010
  */
-public interface IInternetAware {
+public interface IConnectionAware {
 
     /**
      * Called when internet has been lost
      */
-    public void onInternetLost();
+    public void onConnectionLost();
     
     /**
      * Called when internet has been appeared
      */
-    public void onInternetFound();
+    public void onConnectionFound();
 }

@@ -32,7 +32,7 @@ import su.geocaching.android.controller.GpsUpdateFrequency;
 import su.geocaching.android.controller.apimanager.GeocachingSuApiManager;
 import su.geocaching.android.controller.compass.SmoothCompassThread;
 import su.geocaching.android.controller.managers.CheckpointManager;
-import su.geocaching.android.controller.managers.IInternetAware;
+import su.geocaching.android.controller.managers.IConnectionAware;
 import su.geocaching.android.controller.managers.ILocationAware;
 import su.geocaching.android.controller.managers.LogManager;
 import su.geocaching.android.controller.managers.NavigationManager;
@@ -52,7 +52,7 @@ import su.geocaching.android.ui.preferences.MapPreferenceActivity;
  * @author Android-Geocaching.su student project team
  * @since October 2010
  */
-public class SearchMapActivity extends MapActivity implements IInternetAware, ILocationAware {
+public class SearchMapActivity extends MapActivity implements IConnectionAware, ILocationAware {
     private final static String TAG = SearchMapActivity.class.getCanonicalName();
     private final static float CLOSE_DISTANCE_TO_GC_VALUE = 100; // if we nearly than this distance in meters to geocache - gps will be work maximal often
     private final static String SEARCH_MAP_ACTIVITY_FOLDER = "/SearchMapActivity";
@@ -70,7 +70,7 @@ public class SearchMapActivity extends MapActivity implements IInternetAware, IL
     private ImageView progressBarView;
     private AnimationDrawable progressBarAnimation;
     private Toast providerUnavailableToast;
-    private Toast internetLostToast;
+    private Toast conncetionLostToast;
 
     private SmoothCompassThread animationThread;
     private CheckpointManager checkpointManager;
@@ -87,7 +87,7 @@ public class SearchMapActivity extends MapActivity implements IInternetAware, IL
         setContentView(R.layout.search_map_activity);
 
         providerUnavailableToast = Toast.makeText(this, getString(R.string.search_geocache_best_provider_lost), Toast.LENGTH_LONG);
-        internetLostToast = Toast.makeText(this, getString(R.string.map_internet_lost), Toast.LENGTH_LONG);
+        conncetionLostToast = Toast.makeText(this, getString(R.string.map_internet_lost), Toast.LENGTH_LONG);
 
         statusTextView = (TextView) findViewById(R.id.waitingLocationFixText);
         progressBarView = (ImageView) findViewById(R.id.progressCircle);
@@ -140,7 +140,7 @@ public class SearchMapActivity extends MapActivity implements IInternetAware, IL
         Controller.getInstance().getConnectionManager().removeSubscriber(this);
         Controller.getInstance().getLocationManager().removeSubscriber(this);
         providerUnavailableToast.cancel();
-        internetLostToast.cancel();
+        conncetionLostToast.cancel();
     }
 
     @Override
@@ -214,8 +214,8 @@ public class SearchMapActivity extends MapActivity implements IInternetAware, IL
             map.invalidate();
         }
 
-        if (!Controller.getInstance().getConnectionManager().isInternetConnected()) {
-            onInternetLost();
+        if (!Controller.getInstance().getConnectionManager().isActiveNetworkConnected()) {
+            onConnectionLost();
             LogManager.w(TAG, "internet not connected");
         }
 
@@ -455,11 +455,11 @@ public class SearchMapActivity extends MapActivity implements IInternetAware, IL
     /*
      * (non-Javadoc)
      * 
-     * @see su.geocaching.android.ui.geocachemap.IInternetAware#onInternetLost()
+     * @see su.geocaching.android.ui.geocachemap.IConnectionAware#onConnectionLost()
      */
     @Override
-    public void onInternetLost() {
-        internetLostToast.show();
+    public void onConnectionLost() {
+        conncetionLostToast.show();
     }
 
     /**
@@ -589,7 +589,7 @@ public class SearchMapActivity extends MapActivity implements IInternetAware, IL
     }
 
     @Override
-    public void onInternetFound() {
-        internetLostToast.cancel();
+    public void onConnectionFound() {
+        conncetionLostToast.cancel();
     }
 }
