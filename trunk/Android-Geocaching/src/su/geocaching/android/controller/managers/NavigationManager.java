@@ -148,6 +148,7 @@ public class NavigationManager {
             .setIcon(android.R.drawable.ic_dialog_alert)
             .setTitle(context.getString(R.string.connection_problem_dialog_title))
             .setMessage(context.getString(R.string.connection_problem_dialog_message))
+            .setCancelable(false)
             .setPositiveButton(context.getString(R.string.yes), new DialogInterface.OnClickListener() {
                 public void onClick(DialogInterface dialog, int id) {
                     Intent intent = new Intent(Settings.ACTION_WIRELESS_SETTINGS);

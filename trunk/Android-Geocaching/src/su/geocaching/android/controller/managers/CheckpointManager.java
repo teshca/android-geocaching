@@ -2,7 +2,7 @@ package su.geocaching.android.controller.managers;
 
 import com.google.android.maps.GeoPoint;
 import su.geocaching.android.controller.Controller;
-import su.geocaching.android.controller.CoordinateHelper;
+import su.geocaching.android.controller.utils.CoordinateHelper;
 import su.geocaching.android.model.GeoCache;
 import su.geocaching.android.model.GeoCacheStatus;
 import su.geocaching.android.model.GeoCacheType;
@@ -161,7 +161,7 @@ public class CheckpointManager {
 
 
     public static String insertCheckpointsLink(String text) {
-        Pattern geoPattern = Pattern.compile("[N|S]\\s*(\\d+)\\s*(<sup>&#9702;</sup>|&rsquo;|\\D+)\\s*(\\d+)\\s*.\\s*(\\d+).{1,20}[E|W]\\s*(\\d+)\\s*(<sup>&#9702;</sup>|&rsquo;|\\D+)\\s*(\\d+)\\s*.\\s*(\\d+)");   //<a href="geo:0,0?q="><b>N 59<sup>&#9702;</sup>52.513 E 029<sup>&#9702;</sup>56.664</b></a>
+        Pattern geoPattern = Pattern.compile("[N|S]\\s*(\\d+)\\s*[<sup>&#9702;</sup>|&rsquo;|\\D+]\\s*(\\d+)\\s*.\\s*(\\d+).{1,20}[E|W]\\s*(\\d+)\\s*[<sup>&#9702;</sup>|&rsquo;|\\D+]\\s*(\\d+)\\s*.\\s*(\\d+).\\S*");   //<a href="geo:0,0?q="><b>N 59<sup>&#9702;</sup>52.513 E 029<sup>&#9702;</sup>56.664</b></a>
         Matcher pageMatcher = geoPattern.matcher(text);
         StringBuffer sb = new StringBuffer();
 
@@ -169,10 +169,18 @@ public class CheckpointManager {
             int latitude;
             int longitude;
             try {
-                latitude = CoordinateHelper.sexagesimalToCoordinateE6(Integer.parseInt(pageMatcher.group(1)), Integer.parseInt(pageMatcher.group(3)), Integer.parseInt(pageMatcher.group(4)));
-                longitude = CoordinateHelper.sexagesimalToCoordinateE6(Integer.parseInt(pageMatcher.group(5)), Integer.parseInt(pageMatcher.group(7)), Integer.parseInt(pageMatcher.group(8)));
+                int degrees = Integer.parseInt(pageMatcher.group(1));
+                int minutes = Integer.parseInt(pageMatcher.group(2));
+                float milliMinutes = Float.parseFloat("." + pageMatcher.group(3));
+                latitude = CoordinateHelper.sexagesimalToCoordinateE6(degrees, minutes + milliMinutes);
+
+                degrees = Integer.parseInt(pageMatcher.group(4));
+                minutes = Integer.parseInt(pageMatcher.group(5));
+                milliMinutes = Float.parseFloat("." + pageMatcher.group(6));
+
+                longitude = CoordinateHelper.sexagesimalToCoordinateE6(degrees, minutes + milliMinutes);
             } catch (Exception e) {
-                break;
+                continue;
             }
 
             pageMatcher.appendReplacement(sb, String.format("<a href=\"geo:%d,%d?q=\"><b>%s</b></a>", latitude, longitude, pageMatcher.group(0)));

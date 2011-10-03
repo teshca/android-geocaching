@@ -6,7 +6,7 @@ import android.graphics.Point;
 import android.location.Location;
 import com.google.android.maps.GeoPoint;
 import com.google.android.maps.MapView;
-import su.geocaching.android.controller.CoordinateHelper;
+import su.geocaching.android.controller.utils.CoordinateHelper;
 
 /**
  * @author: Nickolay Artamonov

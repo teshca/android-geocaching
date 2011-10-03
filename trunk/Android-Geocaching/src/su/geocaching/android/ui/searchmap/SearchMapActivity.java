@@ -27,7 +27,7 @@ import com.google.android.maps.MapView;
 import com.google.android.maps.Overlay;
 import com.google.android.maps.Projection;
 import su.geocaching.android.controller.Controller;
-import su.geocaching.android.controller.CoordinateHelper;
+import su.geocaching.android.controller.utils.CoordinateHelper;
 import su.geocaching.android.controller.GpsUpdateFrequency;
 import su.geocaching.android.controller.apimanager.GeocachingSuApiManager;
 import su.geocaching.android.controller.compass.SmoothCompassThread;

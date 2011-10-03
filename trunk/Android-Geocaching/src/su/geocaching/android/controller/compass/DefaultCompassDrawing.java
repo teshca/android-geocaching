@@ -3,7 +3,7 @@ package su.geocaching.android.controller.compass;
 import android.graphics.*;
 import android.graphics.Paint.Style;
 import su.geocaching.android.controller.Controller;
-import su.geocaching.android.controller.CoordinateHelper;
+import su.geocaching.android.controller.utils.CoordinateHelper;
 import su.geocaching.android.ui.R;
 
 /**

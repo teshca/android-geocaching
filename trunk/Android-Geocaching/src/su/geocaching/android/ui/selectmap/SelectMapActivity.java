@@ -2,7 +2,6 @@ package su.geocaching.android.ui.selectmap;
 
 import java.util.List;
 
-import android.app.Activity;
 import android.content.Intent;
 import android.graphics.drawable.AnimationDrawable;
 import android.location.Location;
@@ -20,7 +19,7 @@ import com.google.android.maps.MapActivity;
 import com.google.android.maps.MapController;
 import com.google.android.maps.MapView;
 import su.geocaching.android.controller.Controller;
-import su.geocaching.android.controller.CoordinateHelper;
+import su.geocaching.android.controller.utils.CoordinateHelper;
 import su.geocaching.android.controller.managers.ConnectionManager;
 import su.geocaching.android.controller.managers.IConnectionAware;
 import su.geocaching.android.controller.managers.ILocationAware;
@@ -53,14 +52,13 @@ public class SelectMapActivity extends MapActivity implements IConnectionAware, 
     private UserLocationManager locationManager;
     private MapUpdateTimer mapTimer;
     private ConnectionManager connectionManager;
-    private Activity context;
     private ImageView progressBarView;
     private AnimationDrawable progressBarAnimation;
     private int countDownloadTask;
     private Handler handler;
     private GroupGeoCacheTask groupTask = null;
     private boolean firstRun = true;
-    private Toast internetLostToast;
+    private Toast connectionLostToast;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -68,7 +66,7 @@ public class SelectMapActivity extends MapActivity implements IConnectionAware, 
         LogManager.d(TAG, "onCreate");
         setContentView(R.layout.select_map_activity);
 
-        internetLostToast = Toast.makeText(this, getString(R.string.map_internet_lost), Toast.LENGTH_LONG);
+        connectionLostToast = Toast.makeText(this, R.string.map_internet_lost, Toast.LENGTH_LONG);
 
         controller = Controller.getInstance();
         map = (MapView) findViewById(R.id.selectGeocacheMap);
@@ -90,7 +88,6 @@ public class SelectMapActivity extends MapActivity implements IConnectionAware, 
         locationManager = controller.getLocationManager();
         connectionManager = controller.getConnectionManager();
 
-        context = this;
         map.setBuiltInZoomControls(true);
         map.invalidate();
         LogManager.d(TAG, "onCreate Done");
@@ -169,7 +166,7 @@ public class SelectMapActivity extends MapActivity implements IConnectionAware, 
         mapTimer.cancel();
         locationManager.removeSubscriber(this);
         connectionManager.removeSubscriber(this);
-        internetLostToast.cancel();
+        connectionLostToast.cancel();
         saveMapInfoToSettings();
         super.onPause();
     }
@@ -269,7 +266,7 @@ public class SelectMapActivity extends MapActivity implements IConnectionAware, 
 
     @Override
     public void onConnectionLost() {
-        internetLostToast.show();
+        connectionLostToast.show();
     }
 
     /*
@@ -304,7 +301,6 @@ public class SelectMapActivity extends MapActivity implements IConnectionAware, 
         } else {
             Toast.makeText(getBaseContext(), getString(R.string.status_null_last_location), Toast.LENGTH_SHORT).show();
         }
-
     }
 
     public MapView getMapView() {
@@ -331,6 +327,6 @@ public class SelectMapActivity extends MapActivity implements IConnectionAware, 
 
     @Override
     public void onConnectionFound() {
-        internetLostToast.cancel();
+        connectionLostToast.cancel();
     }
 }

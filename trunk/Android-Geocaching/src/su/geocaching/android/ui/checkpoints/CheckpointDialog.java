@@ -1,7 +1,7 @@
 package su.geocaching.android.ui.checkpoints;
 
 import su.geocaching.android.controller.Controller;
-import su.geocaching.android.controller.CoordinateHelper;
+import su.geocaching.android.controller.utils.CoordinateHelper;
 import su.geocaching.android.controller.managers.CheckpointManager;
 import su.geocaching.android.controller.managers.NavigationManager;
 import su.geocaching.android.controller.managers.ResourceManager;
