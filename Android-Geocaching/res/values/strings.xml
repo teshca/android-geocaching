@@ -9,8 +9,8 @@
 	<string name="no">Нет</string>
 	<string name="save">Сохранить</string>
 
-	<string name="ne_template" formatted="false">%d° %d,%d\' с.ш. | %d° %d,%d\' в.д.</string>
-	<string name="se_template" formatted="false">%d° %d,%d\' ю.ш. | %d°	%d,%d\' в.д.</string>
-	<string name="nw_template" formatted="false">%d° %d,%d\' с.ш. | %d°	%d,%d\' з.д.</string>
-	<string name="sw_template" formatted="false">%d° %d,%d\' с.ш. | %d°	%d,%d\' з.д.</string>
+	<string name="ne_template" formatted="false">%d° %.3f\' с.ш. | %d° %.3f\' в.д.</string>
+	<string name="se_template" formatted="false">%d° %.3f\' ю.ш. | %d° %.3f\' в.д.</string>
+	<string name="nw_template" formatted="false">%d° %.3f\' с.ш. | %d° %.3f\' з.д.</string>
+	<string name="sw_template" formatted="false">%d° %.3f\' ю.ш. | %d° %.3f\' з.д.</string>
 </resources>

@@ -9,7 +9,7 @@ import java.net.URLEncoder;
 
 public class GoogleAnalyticsManager {
     private static final boolean DEBUG = Controller.DEBUG; // it is constant really need, because compiler can remove code blocks which cannot be execute
-    private static final int DISPATCH_INTERVAL = 120; // Seconds
+    private static final int DISPATCH_INTERVAL = 120; // seconds
     private GoogleAnalyticsTracker tracker;
 
     public GoogleAnalyticsManager(Context context) {

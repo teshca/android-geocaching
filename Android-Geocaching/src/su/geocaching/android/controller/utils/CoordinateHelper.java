@@ -1,9 +1,10 @@
-package su.geocaching.android.controller;
+package su.geocaching.android.controller.utils;
 
 import java.text.DecimalFormat;
 import android.content.res.Resources;
 import android.location.Location;
 import com.google.android.maps.GeoPoint;
+import su.geocaching.android.controller.Controller;
 import su.geocaching.android.ui.R;
 
 /**
@@ -119,47 +120,38 @@ public class CoordinateHelper {
         return new GeoPoint((int) (location.getLatitude() * 1E6), (int) (location.getLongitude() * 1E6));
     }
 
-    public static int[] coordinateE6ToSexagesimal(double coordinate) {
-        int[] sexagesimal = new int[3];
-        sexagesimal[0] = (int) (coordinate / 1000000);
-        coordinate %= 1000000;
-        coordinate = Math.abs(coordinate * 6 / 10);
-        sexagesimal[1] = (int) (coordinate / 10000);
-        coordinate %= 10000;
-        sexagesimal[2] = (int) Math.round((double) coordinate / 10);
+    public static Sexagesimal coordinateE6ToSexagesimal(int coordinateE6) {
+        Sexagesimal sexagesimal = new Sexagesimal();
+        sexagesimal.degrees = coordinateE6 / 1000000;
+        int minutesE6 = (coordinateE6 % 1000000) * 60;
+        sexagesimal.minutes = minutesE6 / 1E6;
         return sexagesimal;
     }
 
-    public static float[] coordinateE6ToSecSexagesimal(int coordinateE6) {
-        double coordinate = coordinateE6;
-        float[] sexagesimal = new float[3];
-        sexagesimal[0] = (int) (coordinate / 1000000);
-        coordinate %= 1000000;
-        coordinate = Math.abs(coordinate * 6 / 10);
-        sexagesimal[1] = (int) (coordinate / 10000);
-        coordinate %= 10000;
-        coordinate /= 100;
-        sexagesimal[2] = (float) Math.abs(coordinate * 6 / 10);
+    public static SexagesimalSec coordinateE6ToSecSexagesimal(int coordinateE6) {
+        SexagesimalSec sexagesimal = new SexagesimalSec();
+        sexagesimal.degrees = coordinateE6 / 1000000;
+        int minutesE6 = (coordinateE6 % 1000000) * 60;
+        sexagesimal.minutes = minutesE6 / 1000000;
+        int secondsE6 = (minutesE6 % 1000000) * 60;
+        sexagesimal.seconds = secondsE6 / 1E6;
         return sexagesimal;
     }
 
-    public static int sexagesimalToCoordinateE6(int degrees, int minutes, int mMinutes) throws Exception {
+    public static int sexagesimalToCoordinateE6(int degrees, double minutes) throws Exception {
         if (Math.abs(degrees) > 180 || minutes >= 60) {
             throw new Exception("Invalid data format");
         }
-        int coordinateE6 = (int) (degrees * 1E6);
-        coordinateE6 += (minutes * 1E3 + mMinutes) * 100 / 6;
-        return coordinateE6;
+        double coordinateE6 =  (degrees + (minutes / 60.0)) * 1E6;
+        return (int) coordinateE6;
     }
 
-    public static int secSexagesimalToCoordinateE6(int degrees, int minutes, float seconds) throws Exception {
+    public static int secSexagesimalToCoordinateE6(int degrees, int minutes, double seconds) throws Exception {
         if (Math.abs(degrees) > 180 || minutes >= 60 || seconds >= 60) {
             throw new Exception("Invalid data format");
         }
-        int coordinateE6 = (int) (degrees * 1E6);
-        coordinateE6 += (minutes * 1E4) * 10 / 6;
-        coordinateE6 += (seconds) * 100 / 36;
-        return coordinateE6;
+        double coordinateE6 = (degrees + (minutes / 60.0) + (seconds / 3600.0)) * 1E6;
+        return (int)coordinateE6;
     }
 
     /**
@@ -170,26 +162,26 @@ public class CoordinateHelper {
      * @return formating string (for example: "60° 12,123' с.ш. | 30° 32,321'" в.д.)
      */
     public static String coordinateToString(GeoPoint location) {
-        int[] latitude = coordinateE6ToSexagesimal(location.getLatitudeE6());
-        int[] longitude = coordinateE6ToSexagesimal(location.getLongitudeE6());
+        Sexagesimal latitude = coordinateE6ToSexagesimal(location.getLatitudeE6());
+        Sexagesimal longitude = coordinateE6ToSexagesimal(location.getLongitudeE6());
 
         Resources res = Controller.getInstance().getResourceManager().getResources();
         String format;
 
-        if (latitude[0] > 0) {
-            if (longitude[0] > 0) {
+        if (latitude.degrees > 0) {
+            if (longitude.degrees > 0) {
                 format = res.getString(R.string.ne_template);
             } else {
                 format = res.getString(R.string.nw_template);
             }
         } else {
-            if (longitude[0] > 0) {
+            if (longitude.degrees > 0) {
                 format = res.getString(R.string.se_template);
             } else {
                 format = res.getString(R.string.sw_template);
             }
         }
-        return String.format(format, latitude[0], latitude[1], latitude[2], longitude[0], longitude[1], longitude[2]);
+        return String.format(format, latitude.degrees, latitude.minutes, longitude.degrees, longitude.minutes);
     }
 
   /**
@@ -203,7 +195,7 @@ public class CoordinateHelper {
     public static GeoPoint distanceBearingToGeoPoint(GeoPoint currentGeoPoint, float bearing, float distance) {
         double latitude = currentGeoPoint.getLatitudeE6() * Math.PI / 180E6;
         double longitude = currentGeoPoint.getLongitudeE6() * Math.PI / 180E6;
-        double radianBearing = bearing * Math.PI / 180;
+        double radianBearing = bearing * Math.PI / 180.0;
 
         double distanceDivRadius = distance / EARTH_RADIUS;
 
