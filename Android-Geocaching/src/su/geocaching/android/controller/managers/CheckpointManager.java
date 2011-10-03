@@ -159,7 +159,7 @@ public class CheckpointManager {
         return lastInputGP;
     }
 
-    private static Pattern geoPattern = Pattern.compile("[N|S]\\s*(\\d+)\\s*(?:<sup>&#9702;</sup>|&rsquo;|\\D+)\\s*(\\d+)\\s*.\\s*(\\d+).{1,20}[E|W]\\s*(\\d+)\\s*(?:<sup>&#9702;</sup>|&rsquo;|\\D+)\\s*(\\d+)\\s*.\\s*(\\d+)(?:&rsquo;)?");
+    private static Pattern geoPattern = Pattern.compile("[N|S]\\s*(\\d+)\\s*(?:<sup>&#9702;</sup>|&rsquo;|\\D+)\\s*(\\d+)\\s*.\\s*(\\d+)\\D{1,20}[E|W]\\s*(\\d+)\\s*(?:<sup>&#9702;</sup>|&rsquo;|\\D+)\\s*(\\d+)\\s*.\\s*(\\d+)(?:&rsquo;)?");
     public static String insertCheckpointsLink(String text) {
         if (text == null) throw new IllegalArgumentException("text is null");
 
