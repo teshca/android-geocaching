@@ -7,6 +7,7 @@ import java.net.URL;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.os.AsyncTask;
+import android.util.Log;
 import su.geocaching.android.controller.Controller;
 import su.geocaching.android.controller.managers.CheckpointManager;
 import su.geocaching.android.controller.managers.LogManager;
@@ -85,6 +86,7 @@ public class DownloadInfoTask extends AsyncTask<Void, Void, String> {
                     result = getWebText();
                     success = true;
                 } catch (IOException e) {
+                    // result is null in this case
                     LogManager.e(TAG, "IOException getWebText", e);
                 }
         } else {
@@ -104,7 +106,11 @@ public class DownloadInfoTask extends AsyncTask<Void, Void, String> {
         while ((size = in.read(buffer)) != -1) {
             html.append(buffer, 0, size);
         }
-        return html.toString().replace(GeocachingSuApiManager.CP1251_ENCODING, GeocachingSuApiManager.UTF8_ENCODING);
+
+        String resultHtml = html.toString();
+        resultHtml = resultHtml.replace(GeocachingSuApiManager.CP1251_ENCODING, GeocachingSuApiManager.UTF8_ENCODING);
+        resultHtml = resultHtml.replaceAll("\\r|\\n", "");
+        return resultHtml;
     }
 
     @Override
@@ -114,6 +120,12 @@ public class DownloadInfoTask extends AsyncTask<Void, Void, String> {
         if (progressDialog != null && progressDialog.isShowing()) {
             progressDialog.dismiss();
         }
+
+        if (result == null) {
+            LogManager.e(TAG, "The result is null");
+            state = DownloadInfoState.ERROR;
+        }
+
         switch (state) {
             case SHOW_INFO:
                 result = CheckpointManager.insertCheckpointsLink(result);
@@ -134,7 +146,5 @@ public class DownloadInfoTask extends AsyncTask<Void, Void, String> {
             default:
                 break;
         }
-
-        super.onPostExecute(result);
     }
 }
