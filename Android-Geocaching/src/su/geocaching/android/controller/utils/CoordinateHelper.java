@@ -143,7 +143,7 @@ public class CoordinateHelper {
             throw new Exception("Invalid data format");
         }
         double coordinateE6 =  (degrees + (minutes / 60.0)) * 1E6;
-        return (int) coordinateE6;
+        return (int) Math.round(coordinateE6);
     }
 
     public static int secSexagesimalToCoordinateE6(int degrees, int minutes, double seconds) throws Exception {
@@ -151,7 +151,7 @@ public class CoordinateHelper {
             throw new Exception("Invalid data format");
         }
         double coordinateE6 = (degrees + (minutes / 60.0) + (seconds / 3600.0)) * 1E6;
-        return (int)coordinateE6;
+        return (int) Math.round(coordinateE6);
     }
 
     /**
