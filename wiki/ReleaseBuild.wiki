@@ -1,0 +1,4 @@
+#summary Как собрать релизный build
+
+= Перед сборкой =
+ * Изменить значение константы `su.geocaching.android.controller.Controller.DEBUG = false`
