@@ -44,6 +44,8 @@ public class DashboardActivity extends Activity {
             case R.id.about:
                 this.showDialog(ABOUT_DIALOG_ID);
                 return true;
+            case R.id.give_feedback:
+                NavigationManager.startAndroidMarketActivity(this);
             default:
                 return super.onOptionsItemSelected(item);
         }
