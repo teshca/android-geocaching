@@ -120,40 +120,6 @@ public class CoordinateHelper {
         return new GeoPoint((int) (location.getLatitude() * 1E6), (int) (location.getLongitude() * 1E6));
     }
 
-    public static Sexagesimal coordinateE6ToSexagesimal(int coordinateE6) {
-        Sexagesimal sexagesimal = new Sexagesimal();
-        sexagesimal.degrees = coordinateE6 / 1000000;
-        int minutesE6 = (coordinateE6 % 1000000) * 60;
-        sexagesimal.minutes = minutesE6 / 1E6;
-        return sexagesimal;
-    }
-
-    public static SexagesimalSec coordinateE6ToSecSexagesimal(int coordinateE6) {
-        SexagesimalSec sexagesimal = new SexagesimalSec();
-        sexagesimal.degrees = coordinateE6 / 1000000;
-        int minutesE6 = (coordinateE6 % 1000000) * 60;
-        sexagesimal.minutes = minutesE6 / 1000000;
-        int secondsE6 = (minutesE6 % 1000000) * 60;
-        sexagesimal.seconds = secondsE6 / 1E6;
-        return sexagesimal;
-    }
-
-    public static int sexagesimalToCoordinateE6(int degrees, double minutes) throws Exception {
-        if (Math.abs(degrees) > 180 || minutes >= 60) {
-            throw new Exception("Invalid data format");
-        }
-        double coordinateE6 =  (degrees + (minutes / 60.0)) * 1E6;
-        return (int) Math.round(coordinateE6);
-    }
-
-    public static int secSexagesimalToCoordinateE6(int degrees, int minutes, double seconds) throws Exception {
-        if (Math.abs(degrees) > 180 || minutes >= 60 || seconds >= 60) {
-            throw new Exception("Invalid data format");
-        }
-        double coordinateE6 = (degrees + (minutes / 60.0) + (seconds / 3600.0)) * 1E6;
-        return (int) Math.round(coordinateE6);
-    }
-
     /**
      * Formatting coordinate in accordance with standard
      * 
@@ -162,8 +128,8 @@ public class CoordinateHelper {
      * @return formating string (for example: "60° 12,123' с.ш. | 30° 32,321'" в.д.)
      */
     public static String coordinateToString(GeoPoint location) {
-        Sexagesimal latitude = coordinateE6ToSexagesimal(location.getLatitudeE6());
-        Sexagesimal longitude = coordinateE6ToSexagesimal(location.getLongitudeE6());
+        Sexagesimal latitude = new Sexagesimal(location.getLatitudeE6()).roundTo(3);
+        Sexagesimal longitude = new Sexagesimal(location.getLongitudeE6()).roundTo(3);
 
         Resources res = Controller.getInstance().getResourceManager().getResources();
         String format;

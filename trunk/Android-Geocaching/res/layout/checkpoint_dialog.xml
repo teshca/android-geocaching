@@ -14,7 +14,7 @@
 			android:layout_marginLeft="10dip" android:layout_width="wrap_content"
 			android:id="@+id/tvCheckpointDialogStatus"/>
 	</LinearLayout>
-	<TextView android:id="@+id/checkpointCoordinate" android:text="Координаты"
+	<TextView android:id="@+id/checkpointCoordinate" android:text="@string/coordinates"
 		android:textColor="@color/dashboard_text_color" android:layout_margin="5dip"
 		android:layout_height="wrap_content" android:textSize="17sp"
 		android:layout_width="fill_parent" android:gravity="center"/>

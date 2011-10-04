@@ -3,6 +3,7 @@ package su.geocaching.android.controller.managers;
 import com.google.android.maps.GeoPoint;
 import su.geocaching.android.controller.Controller;
 import su.geocaching.android.controller.utils.CoordinateHelper;
+import su.geocaching.android.controller.utils.Sexagesimal;
 import su.geocaching.android.model.GeoCache;
 import su.geocaching.android.model.GeoCacheStatus;
 import su.geocaching.android.model.GeoCacheType;
@@ -173,13 +174,12 @@ public class CheckpointManager {
                 int degrees = Integer.parseInt(pageMatcher.group(1));
                 int minutes = Integer.parseInt(pageMatcher.group(2));
                 double milliMinutes = Double.parseDouble("." + pageMatcher.group(3));
-                latitude = CoordinateHelper.sexagesimalToCoordinateE6(degrees, minutes + milliMinutes);
+                latitude = new Sexagesimal(degrees, (double)minutes + milliMinutes).toCoordinateE6();
 
                 degrees = Integer.parseInt(pageMatcher.group(4));
                 minutes = Integer.parseInt(pageMatcher.group(5));
                 milliMinutes = Float.parseFloat("." + pageMatcher.group(6));
-
-                longitude = CoordinateHelper.sexagesimalToCoordinateE6(degrees, (double)minutes + milliMinutes);
+                longitude = new Sexagesimal(degrees, (double)minutes + milliMinutes).toCoordinateE6();
             } catch (Exception e) {
                 continue;
             }
