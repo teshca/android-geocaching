@@ -3,6 +3,7 @@
         xmlns:android="http://schemas.android.com/apk/res/android"
         package="su.geocaching.android.ui"
         android:versionName="1.1.1 trunk"
+        android:installLocation="preferExternal"
         android:versionCode="1080">
 
     <uses-permission android:name="android.permission.INTERNET"/>
