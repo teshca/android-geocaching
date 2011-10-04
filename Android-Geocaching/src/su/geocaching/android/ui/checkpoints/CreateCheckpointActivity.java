@@ -142,13 +142,13 @@ public class CreateCheckpointActivity extends Activity {
         int lat = currentInputGeoPoint.getLatitudeE6();
         int lng = currentInputGeoPoint.getLongitudeE6();
 
-        Sexagesimal sexagesimal = CoordinateHelper.coordinateE6ToSexagesimal(lat);
+        Sexagesimal sexagesimal = new Sexagesimal(lat).roundTo(3);
         latDegrees.setText(Integer.toString(sexagesimal.degrees), BufferType.EDITABLE);
         int minutesE3 = (int) Math.round(sexagesimal.minutes * 1000);
         latMinutes.setText(minFormat.format(minutesE3 / 1000), BufferType.EDITABLE);
         latMinutesFraction.setText(minutesFractionFormat.format(minutesE3 % 1000), BufferType.EDITABLE);
 
-        sexagesimal = CoordinateHelper.coordinateE6ToSexagesimal(lng);
+        sexagesimal = new Sexagesimal(lng).roundTo(3);
         lngDegrees.setText(Integer.toString(sexagesimal.degrees), BufferType.EDITABLE);
         minutesE3 = (int) Math.round((sexagesimal.minutes * 1000));
         lngMinutes.setText(minFormat.format(minutesE3 / 1000), BufferType.EDITABLE);
@@ -159,12 +159,12 @@ public class CreateCheckpointActivity extends Activity {
         int lat = currentInputGeoPoint.getLatitudeE6();
         int lng = currentInputGeoPoint.getLongitudeE6();
 
-        SexagesimalSec sSexagesimal = CoordinateHelper.coordinateE6ToSecSexagesimal(lat);
+        SexagesimalSec sSexagesimal = new SexagesimalSec(lat).roundTo(2);
         sLatDegrees.setText(Integer.toString(sSexagesimal.degrees), BufferType.EDITABLE);
         sLatMinutes.setText(minFormat.format(sSexagesimal.minutes), BufferType.EDITABLE);
         sLatSeconds.setText(secFormat.format(sSexagesimal.seconds), BufferType.EDITABLE);
 
-        sSexagesimal = CoordinateHelper.coordinateE6ToSecSexagesimal(lng);
+        sSexagesimal = new SexagesimalSec(lng).roundTo(2);
         sLngDegrees.setText(Integer.toString(sSexagesimal.degrees), BufferType.EDITABLE);
         sLngMinutes.setText(minFormat.format(sSexagesimal.minutes), BufferType.EDITABLE);
         sLngSeconds.setText(secFormat.format(sSexagesimal.seconds), BufferType.EDITABLE);
@@ -282,12 +282,12 @@ public class CreateCheckpointActivity extends Activity {
                 int degreesInt = Integer.parseInt(latDegrees.getText().toString());
                 int minutesInt = Integer.parseInt(latMinutes.getText().toString());
                 float minutesFloat = Float.parseFloat("." + latMinutesFraction.getText());
-                int latitudeE6 = CoordinateHelper.sexagesimalToCoordinateE6(degreesInt, (double)minutesInt + minutesFloat);
+                int latitudeE6 = new Sexagesimal(degreesInt, (double)minutesInt + minutesFloat).toCoordinateE6();
 
                 degreesInt = Integer.parseInt(lngDegrees.getText().toString());
                 minutesInt = Integer.parseInt(lngMinutes.getText().toString());
                 minutesFloat = Float.parseFloat("." + lngMinutesFraction.getText());
-                int longitudeE6 = CoordinateHelper.sexagesimalToCoordinateE6(degreesInt, (double)minutesInt + minutesFloat);
+                int longitudeE6 = new Sexagesimal(degreesInt, (double)minutesInt + minutesFloat).toCoordinateE6();
 
                 currentInputGeoPoint = new GeoPoint(latitudeE6, longitudeE6);
                 stopWatch();
@@ -309,12 +309,12 @@ public class CreateCheckpointActivity extends Activity {
                 int degreesInt = Integer.parseInt(sLatDegrees.getText().toString());
                 int minutesInt = Integer.parseInt(sLatMinutes.getText().toString());
                 float secondsFloat = secFormat.parse(sLatSeconds.getText().toString()).floatValue();
-                int latitudeE6 = CoordinateHelper.secSexagesimalToCoordinateE6(degreesInt, minutesInt, secondsFloat);
+                int latitudeE6 = new SexagesimalSec(degreesInt, minutesInt, secondsFloat).toCoordinateE6();
 
                 degreesInt = Integer.parseInt(sLngDegrees.getText().toString());
                 minutesInt = Integer.parseInt(sLngMinutes.getText().toString());
                 secondsFloat = secFormat.parse(sLngSeconds.getText().toString()).floatValue();
-                int longitudeE6 = CoordinateHelper.secSexagesimalToCoordinateE6(degreesInt, minutesInt, secondsFloat);
+                int longitudeE6 = new SexagesimalSec(degreesInt, minutesInt, secondsFloat).toCoordinateE6();
 
                 currentInputGeoPoint = new GeoPoint(latitudeE6, longitudeE6);
                 stopWatch();

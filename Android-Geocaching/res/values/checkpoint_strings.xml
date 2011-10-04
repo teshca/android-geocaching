@@ -5,6 +5,7 @@
     <string name="longitude">Долгота:</string>
     <string name="status">Статус:</string>
     <string name="geographical_coordinates">Географические координаты</string>
+    <string name="coordinates">Координаты</string>
     <string name="relative_to_current_location">Относительно текущего положения:</string>
     <string name="relative_to_cache_location">Текущие координаты не определены.\nОтносительно
         координат тайника:
@@ -17,7 +18,7 @@
     <string name="active">Выбрать</string>
     <string name="delete">Удалить</string>
     <string name="delete_all">Удалить все</string>
-    <string name="sexagestimal_template">гг°,мм,ммм\'</string>
+    <string name="sexagestimal_template">гг°,мм.ммм\'</string>
     <string name="sexagestimal_seconds__template">гг°,мм\'сс.ссс\"</string>
     <string name="decimal_template">гг,ггггг°</string>
     <string name="azimuth_template">По азимуту</string>
