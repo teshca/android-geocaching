@@ -2,7 +2,6 @@ package su.geocaching.android.controller.managers;
 
 import java.util.List;
 
-import android.*;
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.Context;
@@ -12,9 +11,6 @@ import android.content.pm.PackageManager;
 import android.content.pm.ResolveInfo;
 import android.net.Uri;
 import android.provider.Settings;
-import android.text.AndroidCharacter;
-import android.view.LayoutInflater;
-import android.view.View;
 import su.geocaching.android.controller.Controller;
 import su.geocaching.android.model.GeoCache;
 import su.geocaching.android.ui.*;
@@ -168,6 +164,7 @@ public class NavigationManager {
 
     /**
      * Run external GpsStatus & toolbox application
+     * @param context parent context
      */
     public static void startExternalGpsStatusActivity(Context context) {
         Intent intent = new Intent("com.eclipsim.gpsstatus.VIEW");
@@ -181,5 +178,16 @@ public class NavigationManager {
             // Application isn't installed
             Controller.getInstance().getGoogleAnalyticsManager().trackExternalActivityLaunch("/GpsStatus/0");
         }
+    }
+
+    /**
+     * Run Android Market application
+     * @param context parent context
+     */
+    public static void startAndroidMarketActivity(Context context) {
+        Intent intent = new Intent(Intent.ACTION_VIEW);
+        intent.setData(Uri.parse("market://details?id=su.geocaching.android.ui"));
+        Controller.getInstance().getGoogleAnalyticsManager().trackExternalActivityLaunch("/AndroidMarket");
+        context.startActivity(intent);
     }
 }
