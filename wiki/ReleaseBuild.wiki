@@ -10,6 +10,8 @@ c названием "x.y" где x.y - номер версии. В этой в�
     * *android:debuggable="true"* на *android:debuggable="false"*
   # Изменить значение константы `su.geocaching.android.controller.Controller.DEBUG = false`
   # !GooleMapsApiKey вычисляется из отпечатка сертификата
+    * md5 генерируется командой *keytool -list -alias agkey -keystore android-geocaching-su.keystore*
+    * http://code.google.com/intl/ru-RU/android/maps-api-signup.html
 
 Сертификаты выложены в [https://groups.google.com/d/msg/android-geocaching-su/0f9cIf1b_mQ/8TUm2gIyZ0AJ группу]
 
