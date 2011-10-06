@@ -36,6 +36,11 @@ public class DashboardActivity extends Activity {
         inflater.inflate(R.menu.dashboard_option_menu, menu);
         return true;
     }
+     @Override
+    public boolean onPrepareOptionsMenu(Menu menu) {
+        menu.findItem(R.id.give_feedback).setVisible(NavigationManager.isAndroidMarketAvailable(this));
+        return super.onPrepareOptionsMenu(menu);
+    }
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {

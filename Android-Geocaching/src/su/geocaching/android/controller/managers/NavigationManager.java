@@ -180,14 +180,25 @@ public class NavigationManager {
         }
     }
 
+
+    private static Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse("market://details?id=su.geocaching.android.ui"));
     /**
      * Run Android Market application
      * @param context parent context
      */
     public static void startAndroidMarketActivity(Context context) {
-        Intent intent = new Intent(Intent.ACTION_VIEW);
-        intent.setData(Uri.parse("market://details?id=su.geocaching.android.ui"));
-        Controller.getInstance().getGoogleAnalyticsManager().trackExternalActivityLaunch("/AndroidMarket");
-        context.startActivity(intent);
+        if (isAndroidMarketAvailable(context))
+        {
+            Controller.getInstance().getGoogleAnalyticsManager().trackExternalActivityLaunch("/AndroidMarket");
+            context.startActivity(intent);
+        }
+    }
+    /**
+     * Check if Android Market application is available
+     * @param context parent context
+     */
+    public static boolean isAndroidMarketAvailable(Context context)
+    {
+        return context.getPackageManager().queryIntentActivities(intent, PackageManager.COMPONENT_ENABLED_STATE_DEFAULT).size() > 0;
     }
 }
