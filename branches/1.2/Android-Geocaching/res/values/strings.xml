@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+	<string name="app_name">Геокэшинг</string>
+	<string name="id_Google_Analytics">UA-20327116-3</string>
+	<string name="meter">м</string>
+	<string name="kilometer">км</string>
+	
+	<string name="yes">Да</string>
+	<string name="no">Нет</string>
+	<string name="save">Сохранить</string>
+
+	<string name="ne_template" formatted="false">%d° %.3f\' с.ш. | %d° %.3f\' в.д.</string>
+	<string name="se_template" formatted="false">%d° %.3f\' ю.ш. | %d° %.3f\' в.д.</string>
+	<string name="nw_template" formatted="false">%d° %.3f\' с.ш. | %d° %.3f\' з.д.</string>
+	<string name="sw_template" formatted="false">%d° %.3f\' ю.ш. | %d° %.3f\' з.д.</string>
+</resources>
