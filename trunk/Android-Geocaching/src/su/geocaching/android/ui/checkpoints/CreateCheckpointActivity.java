@@ -308,12 +308,16 @@ public class CreateCheckpointActivity extends Activity {
             try {
                 int degreesInt = Integer.parseInt(sLatDegrees.getText().toString());
                 int minutesInt = Integer.parseInt(sLatMinutes.getText().toString());
-                float secondsFloat = secFormat.parse(sLatSeconds.getText().toString()).floatValue();
+                // http://code.google.com/p/android-geocaching/issues/detail?id=232
+                String seconds = sLatSeconds.getText().toString().replace('.', secFormat.getDecimalFormatSymbols().getDecimalSeparator());
+                float secondsFloat = secFormat.parse(seconds).floatValue();
                 int latitudeE6 = new SexagesimalSec(degreesInt, minutesInt, secondsFloat).toCoordinateE6();
 
                 degreesInt = Integer.parseInt(sLngDegrees.getText().toString());
                 minutesInt = Integer.parseInt(sLngMinutes.getText().toString());
-                secondsFloat = secFormat.parse(sLngSeconds.getText().toString()).floatValue();
+                // http://code.google.com/p/android-geocaching/issues/detail?id=232
+                seconds = sLngSeconds.getText().toString().replace('.', secFormat.getDecimalFormatSymbols().getDecimalSeparator());
+                secondsFloat = secFormat.parse(seconds).floatValue();
                 int longitudeE6 = new SexagesimalSec(degreesInt, minutesInt, secondsFloat).toCoordinateE6();
 
                 currentInputGeoPoint = new GeoPoint(latitudeE6, longitudeE6);
