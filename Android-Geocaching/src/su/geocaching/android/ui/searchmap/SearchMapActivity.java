@@ -126,7 +126,7 @@ public class SearchMapActivity extends MapActivity implements IConnectionAware, 
 
     /*
      * (non-Javadoc)
-     * 
+     *
      * @see com.google.android.maps.MapActivity#onPause()
      */
     @Override
@@ -225,7 +225,7 @@ public class SearchMapActivity extends MapActivity implements IConnectionAware, 
 
     /*
      * (non-Javadoc)
-     * 
+     *
      * @see su.geocaching.android.controller.ILocationAware#updateLocation(android.location.Location)
      */
     @Override
@@ -243,17 +243,11 @@ public class SearchMapActivity extends MapActivity implements IConnectionAware, 
         }
         distanceStatusTextView.setText(CoordinateHelper.distanceToString(CoordinateHelper.getDistanceBetween(Controller.getInstance().getSearchingGeoCache().getLocationGeoPoint(), location)));
         if (distanceOverlay == null) {
-            // It's really first run of update location
+            // TODO: It's really first run of update location - no, is not.
             LogManager.d(TAG, "update location: first run of this activity");
             distanceOverlay = new DistanceToGeoCacheOverlay(CoordinateHelper.locationToGeoPoint(location), Controller.getInstance().getSearchingGeoCache().getLocationGeoPoint());
             mapOverlays.add(distanceOverlay);
             mapOverlays.add(userOverlay);
-
-            Point point = new Point();
-            map.getProjection().toPixels(CoordinateHelper.locationToGeoPoint(location), point);
-            if (point.x < 0 || point.x > map.getWidth() || point.y < 0 || point.y > map.getHeight()) {
-                resetZoom();
-            }
 
             startAnimation();
             return;
@@ -431,21 +425,9 @@ public class SearchMapActivity extends MapActivity implements IConnectionAware, 
         startActivity(new Intent(android.content.Intent.ACTION_VIEW, Uri.parse(uri)));
     }
 
-    /**
-     * Show message string to user
-     *
-     * @param status
-     *         string with information about device status
-     */
-    public void updateStatus(String status) {
-        if (!Controller.getInstance().getLocationManager().hasLocation()) {
-            gpsStatusTextView.setText(status);
-        }
-    }
-
     /*
      * (non-Javadoc)
-     * 
+     *
      * @see com.google.android.maps.MapActivity#isRouteDisplayed()
      */
     @Override
@@ -455,7 +437,7 @@ public class SearchMapActivity extends MapActivity implements IConnectionAware, 
 
     /*
      * (non-Javadoc)
-     * 
+     *
      * @see su.geocaching.android.ui.geocachemap.IConnectionAware#onConnectionLost()
      */
     @Override
@@ -475,7 +457,7 @@ public class SearchMapActivity extends MapActivity implements IConnectionAware, 
 
     /*
      * (non-Javadoc)
-     * 
+     *
      * @see android.app.Activity#onWindowFocusChanged(boolean)
      */
     public void onWindowFocusChanged(boolean hasFocus) {
@@ -489,7 +471,7 @@ public class SearchMapActivity extends MapActivity implements IConnectionAware, 
 
     /*
      * (non-Javadoc)
-     * 
+     *
      * @see su.geocaching.android.controller.ILocationAware#onStatusChanged(java.lang.String, int, android.os.Bundle)
      */
     @Override
@@ -511,7 +493,7 @@ public class SearchMapActivity extends MapActivity implements IConnectionAware, 
 
     /*
      * (non-Javadoc)
-     * 
+     *
      * @see su.geocaching.android.controller.ILocationAware#onProviderEnabled(java.lang.String)
      */
     @Override
@@ -521,7 +503,7 @@ public class SearchMapActivity extends MapActivity implements IConnectionAware, 
 
     /*
      * (non-Javadoc)
-     * 
+     *
      * @see su.geocaching.android.controller.ILocationAware#onProviderDisabled(java.lang.String)
      */
     @Override
@@ -571,26 +553,50 @@ public class SearchMapActivity extends MapActivity implements IConnectionAware, 
         if (lastMapInfo.getGeoCacheId() != geoCache.getId()) {
             resetZoom();
         } else {
-            GeoPoint lastCenter = new GeoPoint(lastMapInfo.getCenterX(), lastMapInfo.getCenterY());
-            mapController.setCenter(lastCenter);
-            mapController.setZoom(lastMapInfo.getZoom());
-            map.invalidate();
+            updateMap(lastMapInfo);
         }
+    }
+
+    private void updateMap(SearchMapInfo lastMapInfo) {
+        GeoPoint lastCenter = new GeoPoint(lastMapInfo.getCenterX(), lastMapInfo.getCenterY());
+        mapController.setCenter(lastCenter);
+        mapController.setZoom(lastMapInfo.getZoom());
+        map.invalidate();
     }
 
     /**
      * Save map center and zoom level to shared preferences
      */
     private void saveMapInfoToSettings() {
+        SearchMapInfo searchMapInfo = getMapInfo();
+        Controller.getInstance().getPreferencesManager().setLastSearchMapInfo(searchMapInfo);
+    }
+
+    private SearchMapInfo getMapInfo() {
         int centerX = map.getMapCenter().getLatitudeE6();
         int centerY = map.getMapCenter().getLongitudeE6();
         int zoom = map.getZoomLevel();
         int geocacheId = ((GeoCache) getIntent().getParcelableExtra(GeoCache.class.getCanonicalName())).getId();
-        Controller.getInstance().getPreferencesManager().setLastSearchMapInfo(new SearchMapInfo(centerX, centerY, zoom, geocacheId));
+        return new SearchMapInfo(centerX, centerY, zoom, geocacheId);
     }
 
     @Override
     public void onConnectionFound() {
         conncetionLostToast.cancel();
+    }
+
+    @Override
+    protected void onSaveInstanceState(Bundle outState) {
+        outState.putSerializable(SearchMapInfo.class.getCanonicalName(), getMapInfo());
+        super.onSaveInstanceState(outState);
+    }
+
+    @Override
+    protected void onRestoreInstanceState(Bundle savedInstanceState) {
+        SearchMapInfo mapInfo = (SearchMapInfo) savedInstanceState.getSerializable(SearchMapInfo.class.getCanonicalName());
+        if (mapInfo != null) {
+            updateMap(mapInfo);
+        }
+        super.onRestoreInstanceState(savedInstanceState);
     }
 }

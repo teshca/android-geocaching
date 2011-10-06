@@ -1,11 +1,13 @@
 package su.geocaching.android.model;
 
+import java.io.Serializable;
+
 /**
  * @author Grigory Kalabin. grigory.kalabin@gmail.com
  * @since April 2011
  * 
  */
-public class SearchMapInfo extends MapInfo {
+public class SearchMapInfo extends MapInfo implements Serializable{
     private int geoCacheId;
 
     /**
