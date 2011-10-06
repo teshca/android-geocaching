@@ -1,8 +1,0 @@
-<?xml version="1.0" encoding="utf-8"?>
-<resources>
-    <color name="dashboard_background">#fffafafa</color>
-    <color name="title_separator">#40ffffff</color>
-    <color name="dashboard_text_color">#ff56905D</color>
-	<color name="dark_transparent_background">#7066906D</color>
-	<color name="status_text_color">#fffafafa</color>
-</resources>
