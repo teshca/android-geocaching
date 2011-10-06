@@ -26,7 +26,7 @@ import su.geocaching.android.ui.selectmap.SelectMapActivity;
  */
 public class Controller {
     private static final String TAG = Controller.class.getCanonicalName();
-    public static final boolean DEBUG = true;// it is constant really need, because compiler can remove code blocks which cannot be execute. Visibility is public because LogManager and
+    public static final boolean DEBUG = false;// it is constant really need, because compiler can remove code blocks which cannot be execute. Visibility is public because LogManager and
                                              // AnalyticsManager use this constant
 
     private static Controller instance;
