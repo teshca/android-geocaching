@@ -1,0 +1,47 @@
+<LinearLayout
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        android:layout_width="fill_parent"
+		android:layout_height="fill_parent"
+		android:orientation="vertical"
+		android:background="@color/dashboard_background">
+	<include layout="@layout/default_title_bar"/>
+	<LinearLayout
+            android:layout_height="wrap_content"
+			android:layout_width="fill_parent"
+			android:layout_weight="1"
+			android:orientation="vertical"
+			android:padding="10dip">
+		<LinearLayout
+                android:layout_height="wrap_content"
+                android:layout_width="fill_parent"
+			    android:layout_weight="1"
+				android:orientation="horizontal">
+			<Button
+                    style="@style/DashboardButton"
+					android:onClick="onSelectClick"
+					android:drawableTop="@drawable/dashboard_select"
+					android:text="@string/select_geocache"/>
+			<Button
+                    style="@style/DashboardButton"
+					android:onClick="onSearchClick"
+					android:drawableTop="@drawable/dashboard_search"
+					android:text="@string/search_geocache"/>
+		</LinearLayout>
+		<LinearLayout
+                android:layout_height="wrap_content"
+                android:layout_width="fill_parent"
+				android:layout_weight="1"
+				android:orientation="horizontal">
+			<Button
+                    style="@style/DashboardButton"
+                    android:drawableTop="@drawable/dashboard_favorites"
+					android:text="@string/favorites"
+					android:onClick="onFavoritesClick"/>
+			<Button
+                    style="@style/DashboardButton"
+                    android:drawableTop="@drawable/dashboard_settings"
+					android:text="@string/settings"
+					android:onClick="onSettingsClick"/>
+		</LinearLayout>
+	</LinearLayout>
+</LinearLayout>
