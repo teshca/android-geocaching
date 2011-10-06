@@ -250,6 +250,18 @@ public class Controller {
         return versionName;
     }
 
+    public int getApplicationVersionCode()
+    {
+        int versionCode = 0;
+        try {
+            String packageName = this.applicationContext.getPackageName();
+            versionCode = this.applicationContext.getPackageManager().getPackageInfo(packageName, 0).versionCode;
+        } catch (PackageManager.NameNotFoundException e) {
+            LogManager.e(TAG, e.getMessage(), e);
+        }
+        return versionCode;
+    }
+
     public void onTerminate() {
         dbManager.close();
     }
