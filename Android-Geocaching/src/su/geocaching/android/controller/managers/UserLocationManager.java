@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Timer;
 import java.util.TimerTask;
+
 import android.location.Criteria;
 import android.location.GpsSatellite;
 import android.location.GpsStatus;
@@ -27,6 +28,8 @@ public class UserLocationManager implements LocationListener, GpsStatus.Listener
     private static final String TAG = UserLocationManager.class.getCanonicalName();
     private static final String TIMER_NAME = "remove location updates mapupdatetimer";
     private static final long REMOVE_UPDATES_DELAY = 30000; // in milliseconds
+    public static final int PRECISE_LOCATION_MAX_TIME = 60 * 1000; // in milliseconds
+    public static final float PRECISE_LOCATION_MAX_ACCURACY = 10f;
 
     private LocationManager locationManager;
     private Location lastLocation;
@@ -145,7 +148,7 @@ public class UserLocationManager implements LocationListener, GpsStatus.Listener
     @Override
     public void onLocationChanged(Location location) {
         if (isUpdatingOdometer && lastLocation != null) {
-           odometerDistance += CoordinateHelper.getDistanceBetween(location, lastLocation);
+            odometerDistance += CoordinateHelper.getDistanceBetween(location, lastLocation);
         }
         lastLocation = location;
         LogManager.d(TAG, "Location changed: send msg to " + Integer.toString(subscribers.size()) + " activity(es)");
@@ -249,6 +252,11 @@ public class UserLocationManager implements LocationListener, GpsStatus.Listener
         return lastLocation;
     }
 
+    public boolean hasPreciseLocation() {
+        return lastLocation != null && lastLocation.getTime() < System.currentTimeMillis() + PRECISE_LOCATION_MAX_TIME
+                && lastLocation.hasAccuracy() && lastLocation.getAccuracy() < PRECISE_LOCATION_MAX_ACCURACY;
+    }
+
     /**
      * @return true if last known location not null
      */
@@ -324,19 +332,19 @@ public class UserLocationManager implements LocationListener, GpsStatus.Listener
             case MAXIMAL:
                 minTime = 1000;
                 minDistance = 1;
-              break;
-          default:
-            minTime = 4000;
-            minDistance = 4;
-            break;
+                break;
+            default:
+                minTime = 4000;
+                minDistance = 4;
+                break;
         }
-      LogManager.d(TAG, "update frequency: " + updateFrequency.toString());
-      if (provider != null) {
-        locationManager.requestLocationUpdates(provider, minTime, minDistance, this);
-        isUpdating = true;
-      } else {
-          LogManager.w(TAG, "provider == null");
-      }
+        LogManager.d(TAG, "update frequency: " + updateFrequency.toString());
+        if (provider != null) {
+            locationManager.requestLocationUpdates(provider, minTime, minDistance, this);
+            isUpdating = true;
+        } else {
+            LogManager.w(TAG, "provider == null");
+        }
     }
 
     /**
@@ -418,14 +426,14 @@ public class UserLocationManager implements LocationListener, GpsStatus.Listener
    *
    * @return distance in meters
    */
-    public float getOdometerDistance(){
+    public float getOdometerDistance() {
         return odometerDistance;
     }
 
    /**
     *  Refresh the odometer distance value
     */
-    public void refreshOdometer(){
+    public void refreshOdometer() {
         odometerDistance = 0;
     }
 
@@ -434,7 +442,7 @@ public class UserLocationManager implements LocationListener, GpsStatus.Listener
    *
    * @param isUpdating - flag Enable/Disable updating
    */
-    public void setUpdatingOdometer(boolean isUpdating){
+    public void setUpdatingOdometer(boolean isUpdating) {
         isUpdatingOdometer = isUpdating;
     }
 
@@ -443,7 +451,7 @@ public class UserLocationManager implements LocationListener, GpsStatus.Listener
     *
     * @return isUpdatingOdometer
     */
-    public boolean isUpdatingOdometer(){
+    public boolean isUpdatingOdometer() {
         return isUpdatingOdometer;
     }
 
