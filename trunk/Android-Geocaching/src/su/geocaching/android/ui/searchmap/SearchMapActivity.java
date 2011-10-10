@@ -71,7 +71,7 @@ public class SearchMapActivity extends MapActivity implements IConnectionAware, 
     private ImageView progressBarView;
     private AnimationDrawable progressBarAnimation;
     private Toast providerUnavailableToast;
-    private Toast conncetionLostToast;
+    private Toast connectionLostToast;
 
     private SmoothCompassThread animationThread;
     private CheckpointManager checkpointManager;
@@ -88,7 +88,7 @@ public class SearchMapActivity extends MapActivity implements IConnectionAware, 
         setContentView(R.layout.search_map_activity);
 
         providerUnavailableToast = Toast.makeText(this, getString(R.string.search_geocache_best_provider_lost), Toast.LENGTH_LONG);
-        conncetionLostToast = Toast.makeText(this, getString(R.string.map_internet_lost), Toast.LENGTH_LONG);
+        connectionLostToast = Toast.makeText(this, getString(R.string.map_internet_lost), Toast.LENGTH_LONG);
 
         gpsStatusTextView = (TextView) findViewById(R.id.waitingLocationFixText);
         distanceStatusTextView = (TextView) findViewById(R.id.distanceToCacheText);
@@ -142,7 +142,7 @@ public class SearchMapActivity extends MapActivity implements IConnectionAware, 
         Controller.getInstance().getConnectionManager().removeSubscriber(this);
         Controller.getInstance().getLocationManager().removeSubscriber(this);
         providerUnavailableToast.cancel();
-        conncetionLostToast.cancel();
+        connectionLostToast.cancel();
     }
 
     @Override
@@ -188,8 +188,6 @@ public class SearchMapActivity extends MapActivity implements IConnectionAware, 
         searchGeoCacheOverlay.addOverlayItem(cacheOverlayItem);
         mapOverlays.add(searchGeoCacheOverlay);
 
-        gpsStatusTextView.setText(R.string.gps_status_initialization);
-
         if (!Controller.getInstance().getLocationManager().isBestProviderEnabled()) {
             if (!Controller.getInstance().getLocationManager().isBestProviderGps()) {
                 LogManager.w(TAG, "resume: device without gps");
@@ -200,13 +198,17 @@ public class SearchMapActivity extends MapActivity implements IConnectionAware, 
         } else {
             LogManager.d(TAG, "resume: best provider (" + Controller.getInstance().getLocationManager().getBestProvider(false) + ") locationAvailable. Run logic");
 
-            if (!Controller.getInstance().getLocationManager().hasLocation()) {
-                progressBarView.setVisibility(View.VISIBLE);
-            } else {
-                updateLocation(Controller.getInstance().getLocationManager().getLastKnownLocation());
-                progressBarView.setVisibility(View.GONE);
-                startAnimation();
+            if (Controller.getInstance().getLocationManager().hasLocation()) {
                 LogManager.d(TAG, "runLogic: location fixed. Update location with last known location");
+                updateLocation(Controller.getInstance().getLocationManager().getLastKnownLocation());
+                startAnimation();
+                if (!Controller.getInstance().getLocationManager().hasPreciseLocation()) {
+                    gpsStatusTextView.setText(R.string.gps_status_initialization);
+                    progressBarView.setVisibility(View.VISIBLE);
+                } else {
+                    gpsStatusTextView.setVisibility(View.GONE);
+                    progressBarView.setVisibility(View.GONE);
+                }
             }
 
             Controller.getInstance().getLocationManager().addSubscriber(this, true);
@@ -236,6 +238,9 @@ public class SearchMapActivity extends MapActivity implements IConnectionAware, 
         if (progressBarView.getVisibility() == View.VISIBLE) {
             progressBarView.setVisibility(View.GONE);
         }
+        if (gpsStatusTextView.getVisibility() == View.VISIBLE) {
+            gpsStatusTextView.setVisibility(View.GONE);
+        }
         if (CoordinateHelper.getDistanceBetween(location, Controller.getInstance().getSearchingGeoCache().getLocationGeoPoint()) < CLOSE_DISTANCE_TO_GC_VALUE) {
             Controller.getInstance().getLocationManager().updateFrequency(GpsUpdateFrequency.MAXIMAL);
         } else {
@@ -243,8 +248,7 @@ public class SearchMapActivity extends MapActivity implements IConnectionAware, 
         }
         distanceStatusTextView.setText(CoordinateHelper.distanceToString(CoordinateHelper.getDistanceBetween(Controller.getInstance().getSearchingGeoCache().getLocationGeoPoint(), location)));
         if (distanceOverlay == null) {
-            // TODO: It's really first run of update location - no, is not.
-            LogManager.d(TAG, "update location: first run of this activity");
+            LogManager.d(TAG, "update location: add distance and user overlays");
             distanceOverlay = new DistanceToGeoCacheOverlay(CoordinateHelper.locationToGeoPoint(location), Controller.getInstance().getSearchingGeoCache().getLocationGeoPoint());
             mapOverlays.add(distanceOverlay);
             mapOverlays.add(userOverlay);
@@ -442,7 +446,7 @@ public class SearchMapActivity extends MapActivity implements IConnectionAware, 
      */
     @Override
     public void onConnectionLost() {
-        conncetionLostToast.show();
+        connectionLostToast.show();
     }
 
     /**
@@ -452,6 +456,10 @@ public class SearchMapActivity extends MapActivity implements IConnectionAware, 
         if (progressBarView.getVisibility() == View.GONE) {
             progressBarView.setVisibility(View.VISIBLE);
         }
+        if (gpsStatusTextView.getVisibility() == View.GONE) {
+            gpsStatusTextView.setVisibility(View.VISIBLE);
+        }
+        gpsStatusTextView.setText(R.string.gps_status_unavailable);
         providerUnavailableToast.show();
     }
 
@@ -485,7 +493,13 @@ public class SearchMapActivity extends MapActivity implements IConnectionAware, 
                 LogManager.d(TAG, "GpsStatus: available.");
                 String statusString = Controller.getInstance().getLocationManager().getSatellitesStatusString();
                 if (statusString != null) {
+                    if (gpsStatusTextView.getVisibility() == View.GONE) {
+                        gpsStatusTextView.setVisibility(View.VISIBLE);
+                    }
                     gpsStatusTextView.setText(statusString);
+                    if (progressBarView.getVisibility() == View.GONE) {
+                        progressBarView.setVisibility(View.VISIBLE);
+                    }
                 }
                 break;
         }
@@ -582,7 +596,7 @@ public class SearchMapActivity extends MapActivity implements IConnectionAware, 
 
     @Override
     public void onConnectionFound() {
-        conncetionLostToast.cancel();
+        connectionLostToast.cancel();
     }
 
     @Override

@@ -21,6 +21,7 @@
 		добавьте его в избранные и попробуйте снова</string>
 	<string name="select_geocache_status_without_internet">Сеть не найдена. Попробуйте позже</string>
 	<string name="gps_status_satellite_status">GPS: Спутники</string>
+	<string name="gps_status_unavailable">GPS недоступен</string>
 	<string name="gps_status_initialization">Инициализация</string>
 	<string name="too_many_caches">Слишком много тайников. Увеличьте масштаб</string>
 	<string name="dislocation">Ваше местоположение не определено.\nПовторите
