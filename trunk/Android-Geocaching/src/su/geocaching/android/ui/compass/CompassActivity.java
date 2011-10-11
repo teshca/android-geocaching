@@ -25,6 +25,7 @@ import su.geocaching.android.controller.managers.LogManager;
 import su.geocaching.android.controller.managers.NavigationManager;
 import su.geocaching.android.controller.managers.PreferencesManager;
 import su.geocaching.android.controller.managers.UserLocationManager;
+import su.geocaching.android.controller.utils.UiHelper;
 import su.geocaching.android.model.GeoCache;
 import su.geocaching.android.ui.R;
 import su.geocaching.android.ui.preferences.CompassPreferenceActivity;
@@ -99,9 +100,6 @@ public class CompassActivity extends Activity {
         compassView.setKeepScreenOn(preferenceManager.getKeepScreenOnPreference());
         Controller.getInstance().getCompassManager().setUsingGpsCompass(preferenceManager.getCompasSensorPreference().endsWith("GPS"));
         targetCoordinates.setText(CoordinateHelper.coordinateToString(controller.getSearchingGeoCache().getLocationGeoPoint()));
-        if (locationManager.hasLocation()) {
-            currentCoordinates.setText(CoordinateHelper.coordinateToString(CoordinateHelper.locationToGeoPoint(locationManager.getLastKnownLocation())));
-        }
         if (preferenceManager.getOdometerOnPreference()) {
             startButton = (ImageView) findViewById(R.id.startButton);
             odometerLayout.setVisibility(View.VISIBLE);
@@ -112,7 +110,6 @@ public class CompassActivity extends Activity {
         }
 
         providerUnavailableToast = Toast.makeText(this, getString(R.string.search_geocache_best_provider_lost), Toast.LENGTH_LONG);
-        statusText.setText(R.string.gps_status_initialization);
         runLogic();
         startAnimation();
     }
@@ -121,13 +118,16 @@ public class CompassActivity extends Activity {
      * Run activity logic
      */
     private void runLogic() {
-
         if (locationManager.hasLocation()) {
-            LogManager.d(TAG, "runLogic: location fixed. Update location with last known location");
+            LogManager.d(TAG, "runLogic: has location. Update location with last known location");
             locationListener.updateLocation(locationManager.getLastKnownLocation());
+            currentCoordinates.setText(CoordinateHelper.coordinateToString(CoordinateHelper.locationToGeoPoint(locationManager.getLastKnownLocation())));
+        }
+        if (Controller.getInstance().getLocationManager().hasPreciseLocation()) {
+            statusText.setVisibility(View.GONE);
             progressBarView.setVisibility(View.GONE);
         } else {
-            LogManager.d(TAG, "run logic: location not fixed. Show gps status");
+            statusText.setText(R.string.gps_status_initialization);
             progressBarView.setVisibility(View.VISIBLE);
         }
 
@@ -207,9 +207,9 @@ public class CompassActivity extends Activity {
     }
 
     private void onBestProviderUnavailable() {
-        if (progressBarView.getVisibility() == View.GONE) {
-            progressBarView.setVisibility(View.VISIBLE);
-        }
+        UiHelper.setVisible(progressBarView);
+        UiHelper.setVisible(statusText);
+        statusText.setText(R.string.gps_status_unavailable);
         providerUnavailableToast.show();
     }
 
@@ -260,15 +260,12 @@ public class CompassActivity extends Activity {
         @Override
         public void updateLocation(Location location) {
             locationManager.removeStatusListening(this);
-            statusText.setText("");
 
             if (tvOdometer.isShown()) {
                 tvOdometer.setText(CoordinateHelper.distanceToString(locationManager.getOdometerDistance()));
             }
-
-            if (progressBarView.getVisibility() == View.VISIBLE) {
-                progressBarView.setVisibility(View.GONE);
-            }
+            UiHelper.setGone(progressBarView);
+            UiHelper.setGone(statusText);
             float distance = CoordinateHelper.getDistanceBetween(controller.getSearchingGeoCache().getLocationGeoPoint(), location);
             if (distance < CLOSE_DISTANCE_TO_GC_VALUE) {
                 controller.getLocationManager().updateFrequency(GpsUpdateFrequency.MAXIMAL);
@@ -282,19 +279,21 @@ public class CompassActivity extends Activity {
 
         @Override
         public void onStatusChanged(String provider, int status, Bundle extras) {
-            switch (status) {
-                case LocationProvider.OUT_OF_SERVICE:
-                    onBestProviderUnavailable();
-                    LogManager.d(TAG, "GpsStatus: out of service.");
-                    break;
-                case LocationProvider.AVAILABLE:
-                    LogManager.d(TAG, "GpsStatus: available.");
-                    String statusString = Controller.getInstance().getLocationManager().getSatellitesStatusString();
-                    if (!Controller.getInstance().getLocationManager().hasLocation() && statusString != null) {
-                        statusText.setText(statusString);
-                    }
-                    break;
-            }
+        switch (status) {
+            case LocationProvider.OUT_OF_SERVICE:
+                onBestProviderUnavailable();
+                LogManager.d(TAG, "GpsStatus: out of service.");
+                break;
+            case LocationProvider.AVAILABLE:
+                LogManager.d(TAG, "GpsStatus: available.");
+                String statusString = Controller.getInstance().getLocationManager().getSatellitesStatusString();
+                if (statusString != null) {
+                    statusText.setText(statusString);
+                    UiHelper.setVisible(progressBarView);
+                    UiHelper.setVisible(statusText);
+                }
+                break;
+        }
         }
 
         @Override
