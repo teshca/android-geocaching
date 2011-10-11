@@ -206,13 +206,14 @@ public class SearchMapActivity extends MapActivity implements IConnectionAware, 
                 LogManager.d(TAG, "runLogic: location fixed. Update location with last known location");
                 updateLocation(Controller.getInstance().getLocationManager().getLastKnownLocation());
                 startAnimation();
-                if (!Controller.getInstance().getLocationManager().hasPreciseLocation()) {
-                    gpsStatusTextView.setText(R.string.gps_status_initialization);
-                    progressBarView.setVisibility(View.VISIBLE);
-                } else {
-                    gpsStatusTextView.setVisibility(View.GONE);
-                    progressBarView.setVisibility(View.GONE);
-                }
+            }
+
+            if (Controller.getInstance().getLocationManager().hasPreciseLocation()) {
+                gpsStatusTextView.setVisibility(View.GONE);
+                progressBarView.setVisibility(View.GONE);
+            } else {
+                gpsStatusTextView.setText(R.string.gps_status_initialization);
+                progressBarView.setVisibility(View.VISIBLE);
             }
 
             Controller.getInstance().getLocationManager().addSubscriber(this, true);
