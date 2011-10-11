@@ -27,15 +27,12 @@ import com.google.android.maps.MapView;
 import com.google.android.maps.Overlay;
 import com.google.android.maps.Projection;
 import su.geocaching.android.controller.Controller;
+import su.geocaching.android.controller.managers.*;
 import su.geocaching.android.controller.utils.CoordinateHelper;
 import su.geocaching.android.controller.GpsUpdateFrequency;
 import su.geocaching.android.controller.apimanager.GeocachingSuApiManager;
 import su.geocaching.android.controller.compass.SmoothCompassThread;
-import su.geocaching.android.controller.managers.CheckpointManager;
-import su.geocaching.android.controller.managers.IConnectionAware;
-import su.geocaching.android.controller.managers.ILocationAware;
-import su.geocaching.android.controller.managers.LogManager;
-import su.geocaching.android.controller.managers.NavigationManager;
+import su.geocaching.android.controller.utils.UiHelper;
 import su.geocaching.android.model.GeoCache;
 import su.geocaching.android.model.GeoCacheStatus;
 import su.geocaching.android.model.GeoCacheType;
@@ -235,12 +232,8 @@ public class SearchMapActivity extends MapActivity implements IConnectionAware, 
         userOverlay.updateLocation(location);
         Controller.getInstance().getLocationManager().removeStatusListening(this);
         LogManager.d(TAG, "update location");
-        if (progressBarView.getVisibility() == View.VISIBLE) {
-            progressBarView.setVisibility(View.GONE);
-        }
-        if (gpsStatusTextView.getVisibility() == View.VISIBLE) {
-            gpsStatusTextView.setVisibility(View.GONE);
-        }
+        UiHelper.setGone(progressBarView);
+        UiHelper.setGone(gpsStatusTextView);
         if (CoordinateHelper.getDistanceBetween(location, Controller.getInstance().getSearchingGeoCache().getLocationGeoPoint()) < CLOSE_DISTANCE_TO_GC_VALUE) {
             Controller.getInstance().getLocationManager().updateFrequency(GpsUpdateFrequency.MAXIMAL);
         } else {
@@ -453,12 +446,8 @@ public class SearchMapActivity extends MapActivity implements IConnectionAware, 
      * Show progressbar and send message when location updates from provider unavailable
      */
     public void onBestProviderUnavailable() {
-        if (progressBarView.getVisibility() == View.GONE) {
-            progressBarView.setVisibility(View.VISIBLE);
-        }
-        if (gpsStatusTextView.getVisibility() == View.GONE) {
-            gpsStatusTextView.setVisibility(View.VISIBLE);
-        }
+        UiHelper.setVisible(progressBarView);
+        UiHelper.setVisible(gpsStatusTextView);
         gpsStatusTextView.setText(R.string.gps_status_unavailable);
         providerUnavailableToast.show();
     }
@@ -493,13 +482,9 @@ public class SearchMapActivity extends MapActivity implements IConnectionAware, 
                 LogManager.d(TAG, "GpsStatus: available.");
                 String statusString = Controller.getInstance().getLocationManager().getSatellitesStatusString();
                 if (statusString != null) {
-                    if (gpsStatusTextView.getVisibility() == View.GONE) {
-                        gpsStatusTextView.setVisibility(View.VISIBLE);
-                    }
                     gpsStatusTextView.setText(statusString);
-                    if (progressBarView.getVisibility() == View.GONE) {
-                        progressBarView.setVisibility(View.VISIBLE);
-                    }
+                    UiHelper.setVisible(progressBarView);
+                    UiHelper.setVisible(gpsStatusTextView);
                 }
                 break;
         }
