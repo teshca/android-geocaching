@@ -12,6 +12,8 @@ import android.location.Location;
 import android.location.LocationProvider;
 import android.net.Uri;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Message;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
@@ -49,7 +51,7 @@ import su.geocaching.android.ui.preferences.MapPreferenceActivity;
  * @author Android-Geocaching.su student project team
  * @since October 2010
  */
-public class SearchMapActivity extends MapActivity implements IConnectionAware, ILocationAware {
+public class SearchMapActivity extends MapActivity implements IConnectionAware, ILocationAware, android.os.Handler.Callback {
     private final static String TAG = SearchMapActivity.class.getCanonicalName();
     private final static float CLOSE_DISTANCE_TO_GC_VALUE = 100; // if we nearly than this distance in meters to geocache - gps will be work maximal often
     private final static String SEARCH_MAP_ACTIVITY_FOLDER = "/SearchMapActivity";
@@ -72,6 +74,9 @@ public class SearchMapActivity extends MapActivity implements IConnectionAware, 
 
     private SmoothCompassThread animationThread;
     private CheckpointManager checkpointManager;
+
+    // handler associated with this activity
+    private Handler handler;
 
     /*
      * (non-Javadoc)
@@ -119,6 +124,7 @@ public class SearchMapActivity extends MapActivity implements IConnectionAware, 
             }
         }
         mapOverlays.add(checkpointOverlay);
+        handler = new Handler(this);
     }
 
     /*
@@ -138,6 +144,7 @@ public class SearchMapActivity extends MapActivity implements IConnectionAware, 
 
         Controller.getInstance().getConnectionManager().removeSubscriber(this);
         Controller.getInstance().getLocationManager().removeSubscriber(this);
+        Controller.getInstance().getCallbackManager().removeSubscriber(handler);
         providerUnavailableToast.cancel();
         connectionLostToast.cancel();
     }
@@ -211,6 +218,7 @@ public class SearchMapActivity extends MapActivity implements IConnectionAware, 
             Controller.getInstance().getLocationManager().addSubscriber(this, true);
             Controller.getInstance().getLocationManager().enableBestProviderUpdates();
             Controller.getInstance().getConnectionManager().addSubscriber(this);
+            Controller.getInstance().getCallbackManager().addSubscriber(handler);
 
             map.invalidate();
         }
@@ -239,7 +247,10 @@ public class SearchMapActivity extends MapActivity implements IConnectionAware, 
         } else {
             Controller.getInstance().getLocationManager().updateFrequencyFromPreferences();
         }
-        distanceStatusTextView.setText(CoordinateHelper.distanceToString(CoordinateHelper.getDistanceBetween(Controller.getInstance().getSearchingGeoCache().getLocationGeoPoint(), location)));
+        distanceStatusTextView.setText(
+                CoordinateHelper.distanceToString(
+                        CoordinateHelper.getDistanceBetween(Controller.getInstance().getSearchingGeoCache().getLocationGeoPoint(), location),
+                        Controller.getInstance().getLocationManager().hasPreciseLocation()));
         if (distanceOverlay == null) {
             LogManager.d(TAG, "update location: add distance and user overlays");
             distanceOverlay = new DistanceToGeoCacheOverlay(CoordinateHelper.locationToGeoPoint(location), Controller.getInstance().getSearchingGeoCache().getLocationGeoPoint());
@@ -321,7 +332,7 @@ public class SearchMapActivity extends MapActivity implements IConnectionAware, 
             GeoPoint currentGeoPoint = CoordinateHelper.locationToGeoPoint(Controller.getInstance().getLocationManager().getLastKnownLocation());
             int userPadding = (int) proj.metersToEquatorPixels(Controller.getInstance().getLocationManager().getLastKnownLocation().getAccuracy());
             proj.toPixels(currentGeoPoint, point);
-            needZoomOut = needZoomOut || (point.x - userPadding < mapLeft) || (point.x + userPadding > mapRight) || (point.y - userPadding < mapTop) || (point.y + userPadding > mapBottom);
+            needZoomOut = (point.x - userPadding < mapLeft) || (point.x + userPadding > mapRight) || (point.y - userPadding < mapTop) || (point.y + userPadding > mapBottom);
 
         }
         if (!needZoomOut) {
@@ -331,7 +342,7 @@ public class SearchMapActivity extends MapActivity implements IConnectionAware, 
             // Get points on screen
             proj.toPixels(gc.getLocationGeoPoint(), point);
             // Check contains markers in visible part of map
-            needZoomOut = needZoomOut || (point.x + rect.left < mapLeft) || (point.x + rect.right > mapRight) || (point.y + rect.top < mapTop) || (point.y + rect.bottom > mapBottom);
+            needZoomOut = (point.x + rect.left < mapLeft) || (point.x + rect.right > mapRight) || (point.y + rect.top < mapTop) || (point.y + rect.bottom > mapBottom);
         }
 
         // check contains checkpoints markers in visible part of map if still not need zoom out
@@ -342,7 +353,7 @@ public class SearchMapActivity extends MapActivity implements IConnectionAware, 
 
             for (GeoCache i : Controller.getInstance().getCheckpointManager(gc.getId()).getCheckpoints()) {
                 proj.toPixels(i.getLocationGeoPoint(), point);
-                needZoomOut = needZoomOut || (point.x + rect.left < mapLeft) || (point.x + rect.right > mapRight) || (point.y + rect.top < mapTop) || (point.y + rect.bottom > mapBottom);
+                needZoomOut = (point.x + rect.left < mapLeft) || (point.x + rect.right > mapRight) || (point.y + rect.top < mapTop) || (point.y + rect.bottom > mapBottom);
                 if (needZoomOut) {
                     // already need zoom out
                     break;
@@ -597,5 +608,19 @@ public class SearchMapActivity extends MapActivity implements IConnectionAware, 
             updateMap(mapInfo);
         }
         super.onRestoreInstanceState(savedInstanceState);
+    }
+
+    @Override
+    public boolean handleMessage(Message msg) {
+        switch (msg.what) {
+            case CallbackManager.WHAT_LOCATION_DEPRECATED:
+                // update distance text view
+                distanceStatusTextView.setText(
+                        CoordinateHelper.distanceToString(
+                                CoordinateHelper.getDistanceBetween(Controller.getInstance().getSearchingGeoCache().getLocationGeoPoint(), Controller.getInstance().getLocationManager().getLastKnownLocation()),
+                                Controller.getInstance().getLocationManager().hasPreciseLocation()));
+                return true;
+        }
+        return false;
     }
 }
