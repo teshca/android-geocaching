@@ -8,15 +8,7 @@ import com.google.android.maps.GeoPoint;
 import su.geocaching.android.controller.apimanager.DownloadGeoCachesTask;
 import su.geocaching.android.controller.apimanager.GeocachingSuApiManager;
 import su.geocaching.android.controller.apimanager.IApiManager;
-import su.geocaching.android.controller.managers.CheckpointManager;
-import su.geocaching.android.controller.managers.CompassManager;
-import su.geocaching.android.controller.managers.ConnectionManager;
-import su.geocaching.android.controller.managers.DbManager;
-import su.geocaching.android.controller.managers.GoogleAnalyticsManager;
-import su.geocaching.android.controller.managers.LogManager;
-import su.geocaching.android.controller.managers.PreferencesManager;
-import su.geocaching.android.controller.managers.ResourceManager;
-import su.geocaching.android.controller.managers.UserLocationManager;
+import su.geocaching.android.controller.managers.*;
 import su.geocaching.android.model.GeoCache;
 import su.geocaching.android.ui.selectmap.SelectMapActivity;
 
@@ -42,6 +34,8 @@ public class Controller {
     private DbManager dbManager;
     private CheckpointManager checkpointManager;
     private GoogleAnalyticsManager analyticsManager;
+    private CallbackManager callbackManager;
+
     private GeoCache searchingGeoCache;
 
     private Controller() {
@@ -61,7 +55,7 @@ public class Controller {
 
     /**
      * Request for caches in the visible region
-     * 
+     *
      * @param map
      *            - links to maps, which will be added caches
      * @param upperLeftCorner
@@ -87,7 +81,7 @@ public class Controller {
     public synchronized CompassManager getCompassManager() {
         return getCompassManager(applicationContext);
     }
-    
+
     /**
      * @return ApiManager which can get data from Internet
      */
@@ -134,6 +128,17 @@ public class Controller {
             locationManager = new UserLocationManager((LocationManager) context.getSystemService(Context.LOCATION_SERVICE));
         }
         return locationManager;
+    }
+
+    /**
+     * @return callback manager which can send messages to handlers
+     */
+    public synchronized CallbackManager getCallbackManager() {
+        if (callbackManager == null) {
+            LogManager.d(TAG, "callback manager wasn't init yet. init.");
+            callbackManager = new CallbackManager();
+        }
+        return callbackManager;
     }
 
     /**
@@ -230,7 +235,7 @@ public class Controller {
 
     /**
      * Set global application context which will be used for initialize of managers
-     * 
+     *
      * @param applicationContext
      *            global application context of application
      */

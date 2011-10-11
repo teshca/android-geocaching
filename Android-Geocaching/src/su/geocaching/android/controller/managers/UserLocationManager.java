@@ -26,7 +26,8 @@ import su.geocaching.android.ui.R;
  */
 public class UserLocationManager implements LocationListener, GpsStatus.Listener {
     private static final String TAG = UserLocationManager.class.getCanonicalName();
-    private static final String TIMER_NAME = "remove location updates mapupdatetimer";
+    private static final String REMOVE_UPDATES_TIMER_NAME = "remove location updates mapupdatetimer";
+    private static final String DEPRECATE_LOCATION_TIMER_NAME = "waiting for location deprecation";
     private static final long REMOVE_UPDATES_DELAY = 30000; // in milliseconds
     public static final int PRECISE_LOCATION_MAX_TIME = 60 * 1000; // in milliseconds
     public static final float PRECISE_LOCATION_MAX_ACCURACY = 10f;
@@ -37,6 +38,8 @@ public class UserLocationManager implements LocationListener, GpsStatus.Listener
     private List<ILocationAware> subscribers;
     private List<ILocationAware> statusSubscribers;
     private Timer removeUpdatesTimer;
+    private DeprecateLocationNotifier deprecateLocationNotifier;
+    private Timer deprecateLocationTimer;
     private RemoveUpdatesTask removeUpdatesTask;
     private boolean isUpdating, isUpdatingOdometer;
     private float odometerDistance;
@@ -54,8 +57,10 @@ public class UserLocationManager implements LocationListener, GpsStatus.Listener
         statusSubscribers = new ArrayList<ILocationAware>();
         provider = "none";
         isUpdating = false;
-        removeUpdatesTimer = new Timer(TIMER_NAME);
+        removeUpdatesTimer = new Timer(REMOVE_UPDATES_TIMER_NAME);
         removeUpdatesTask = new RemoveUpdatesTask(this);
+        deprecateLocationTimer = new Timer(DEPRECATE_LOCATION_TIMER_NAME);
+        deprecateLocationNotifier = new DeprecateLocationNotifier();
         LogManager.d(TAG, "Init");
     }
 
@@ -151,8 +156,11 @@ public class UserLocationManager implements LocationListener, GpsStatus.Listener
             odometerDistance += CoordinateHelper.getDistanceBetween(location, lastLocation);
         }
         lastLocation = location;
+        // start timer which notify about deprecation
+        deprecateLocationNotifier.cancel();
+        deprecateLocationNotifier = new DeprecateLocationNotifier();
+        deprecateLocationTimer.schedule(deprecateLocationNotifier, PRECISE_LOCATION_MAX_TIME);
         LogManager.d(TAG, "Location changed: send msg to " + Integer.toString(subscribers.size()) + " activity(es)");
-        boolean isCompassAvailable = Controller.getInstance().getCompassManager().isCompassAvailable();
         for (ILocationAware subscriber : subscribers) {
             subscriber.updateLocation(location);
         }
@@ -252,8 +260,12 @@ public class UserLocationManager implements LocationListener, GpsStatus.Listener
         return lastLocation;
     }
 
+    /**
+     * Check is last known location actual or not
+     * @return true, if last known location actual
+     */
     public boolean hasPreciseLocation() {
-        return lastLocation != null && lastLocation.getTime() < System.currentTimeMillis() + PRECISE_LOCATION_MAX_TIME
+        return hasLocation() && lastLocation.getTime() + PRECISE_LOCATION_MAX_TIME > System.currentTimeMillis()
                 && lastLocation.hasAccuracy() && lastLocation.getAccuracy() < PRECISE_LOCATION_MAX_ACCURACY;
     }
 
@@ -473,13 +485,33 @@ public class UserLocationManager implements LocationListener, GpsStatus.Listener
 
         /*
          * (non-Javadoc)
-         * 
+         *
          * @see java.util.TimerTask#run()
          */
         public void run() {
             if (parent.isUpdating) {
                 parent.removeUpdates();
             }
+        }
+    }
+
+    /**
+     * Task which notify about location deprecation
+     *
+     * @author Grigory Kalabin. grigory.kalabin@gmail.com
+     */
+    private class DeprecateLocationNotifier extends TimerTask {
+        public DeprecateLocationNotifier() {
+            Thread.setDefaultUncaughtExceptionHandler(new UncaughtExceptionsHandler());
+        }
+
+        /*
+         * (non-Javadoc)
+         *
+         * @see java.util.TimerTask#run()
+         */
+        public void run() {
+            Controller.getInstance().getCallbackManager().postEmptyMessage(CallbackManager.WHAT_LOCATION_DEPRECATED);
         }
     }
 }

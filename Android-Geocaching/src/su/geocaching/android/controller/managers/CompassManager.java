@@ -173,16 +173,16 @@ public class CompassManager implements SensorEventListener, ILocationAware {
 
     @Override
     public void onStatusChanged(String provider, int status, Bundle extras) {
-        //To change body of implemented methods use File | Settings | File Templates.
+        //do nothing
     }
 
     @Override
     public void onProviderEnabled(String provider) {
-        //To change body of implemented methods use File | Settings | File Templates.
+        //do nothing
     }
 
     @Override
     public void onProviderDisabled(String provider) {
-        //To change body of implemented methods use File | Settings | File Templates.
+        //do nothing
     }
 }
