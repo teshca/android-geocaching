@@ -12,6 +12,7 @@ import su.geocaching.android.controller.Controller;
  */
 public class UncaughtExceptionsHandler implements Thread.UncaughtExceptionHandler {
     private Thread.UncaughtExceptionHandler defaultUncaughtExceptionHandler;
+    private static final String TAG = UncaughtExceptionsHandler.class.getCanonicalName();
     
     public UncaughtExceptionsHandler() {
         defaultUncaughtExceptionHandler = Thread.getDefaultUncaughtExceptionHandler();
@@ -19,7 +20,15 @@ public class UncaughtExceptionsHandler implements Thread.UncaughtExceptionHandle
 
     @Override
     public void uncaughtException(Thread thread, Throwable ex) {
-        Controller.getInstance().getGoogleAnalyticsManager().trackException("UncaughtException", thread.getName(), ex);
+        try
+        {
+           Controller.getInstance().getGoogleAnalyticsManager().trackException("UncaughtException", thread.getName(), ex);
+        }
+        catch (Exception e)
+        {
+            // Prevent infinite exception loop
+            android.util.Log.e(TAG, "Exception while trying to report uncaught exception");
+        }
         defaultUncaughtExceptionHandler.uncaughtException(thread, ex);
     }
 }
