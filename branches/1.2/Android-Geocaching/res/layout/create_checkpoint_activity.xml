@@ -80,7 +80,7 @@
 							  android:id="@+id/sLatmMinutes"
 							  android:maxLines="1"
 							  android:numeric="integer"
-							  android:maxLength="4"
+							  android:maxLength="3"
 							  android:layout_width="55dip"
 							  android:layout_height="wrap_content"
 							  android:nextFocusDown="@+id/sLngDegrees"
