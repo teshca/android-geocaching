@@ -37,24 +37,25 @@ public class GoogleAnalyticsManager {
 
     public void trackException(String category, String action, Throwable ex) {
         if (!DEBUG) {
-            category = URLEncoder.encode(category);
-            action = URLEncoder.encode(action);
-            StringBuffer stackTrace = new StringBuffer(ex.getMessage());
+            String encodedCategory = category != null ? URLEncoder.encode(category) : "";
+            String encodedAction = action != null ? URLEncoder.encode(action) : "";
+            String message = ex.getMessage() != null ? ex.getMessage() : "";
+            StringBuffer stackTrace = new StringBuffer(message);
             final String NEW_LINE = System.getProperty("line.separator");
             for (StackTraceElement s : ex.getStackTrace()) {
                 stackTrace.append(String.format(" at %s.%s(%s:%d)", s.getClassName(), s.getMethodName(), s.getFileName(), s.getLineNumber()));
                 stackTrace.append(NEW_LINE);
             }
-            tracker.trackEvent(category, action, stackTrace.toString(), applicationVersionCode);
+            tracker.trackEvent(encodedCategory, encodedAction, stackTrace.toString(), applicationVersionCode);
             tracker.dispatch();
         }
     }
 
     public void trackError(String category, String action) {
         if (!DEBUG) {
-            category = URLEncoder.encode(category);
-            action = URLEncoder.encode(action);
-            tracker.trackEvent(category, action, null, applicationVersionCode);
+            String encodedCategory = category != null ? URLEncoder.encode(category) : "";
+            String encodedAction = action != null ? URLEncoder.encode(action) : "";
+            tracker.trackEvent(encodedCategory, encodedAction, null, applicationVersionCode);
             tracker.dispatch();
         }
     }
