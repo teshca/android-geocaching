@@ -215,12 +215,13 @@ public class Controller {
     }
 
     /**
+     * @param cacheId cache id
      * @return the checkpointManager
      */
-    public CheckpointManager getCheckpointManager(int id) {
-        if (checkpointManager == null || checkpointManager.getCacheId() != id) {
+    public CheckpointManager getCheckpointManager(int cacheId) {
+        if (checkpointManager == null || checkpointManager.getCacheId() != cacheId) {
             LogManager.d(TAG, "checkpoint manager wasn't init yet. init");
-            checkpointManager = new CheckpointManager(id);
+            checkpointManager = new CheckpointManager(cacheId);
         }
         return checkpointManager;
     }
@@ -253,18 +254,6 @@ public class Controller {
             LogManager.e(TAG, e.getMessage(), e);
         }
         return versionName;
-    }
-
-    public int getApplicationVersionCode()
-    {
-        int versionCode = 0;
-        try {
-            String packageName = this.applicationContext.getPackageName();
-            versionCode = this.applicationContext.getPackageManager().getPackageInfo(packageName, 0).versionCode;
-        } catch (PackageManager.NameNotFoundException e) {
-            LogManager.e(TAG, e.getMessage(), e);
-        }
-        return versionCode;
     }
 
     public void onTerminate() {
