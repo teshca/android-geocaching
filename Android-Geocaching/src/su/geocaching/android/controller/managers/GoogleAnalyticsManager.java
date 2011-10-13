@@ -9,10 +9,10 @@ public class GoogleAnalyticsManager {
     private static final boolean DEBUG = Controller.DEBUG; // this constant is really need, because compiler can remove code blocks which cannot be execute
     private static final int DISPATCH_INTERVAL = 120; // seconds
     private GoogleAnalyticsTracker tracker;
-    private int applicationVersionCode;
+    private String applicationVersionName;
 
     public GoogleAnalyticsManager(Context context) {
-        applicationVersionCode = Controller.getInstance().getApplicationVersionCode();
+        applicationVersionName = Controller.getInstance().getApplicationVersionName();
         if (!DEBUG) {
             tracker = GoogleAnalyticsTracker.getInstance();
             tracker.start(context.getString(R.string.id_Google_Analytics), DISPATCH_INTERVAL, context);
@@ -40,14 +40,14 @@ public class GoogleAnalyticsManager {
                 stackTrace.append(String.format(" at %s.%s(%s:%d)", s.getClassName(), s.getMethodName(), s.getFileName(), s.getLineNumber()));
                 stackTrace.append(NEW_LINE);
             }
-            tracker.trackEvent(category + ":" + applicationVersionCode, action, stackTrace.toString(), 0);
+            tracker.trackEvent(category + ":" + applicationVersionName, action, stackTrace.toString(), 0);
             tracker.dispatch();
         }
     }
 
     public void trackError(String category, String action) {
         if (!DEBUG) {
-            tracker.trackEvent(category + ":" + applicationVersionCode, action, null, 0);
+            tracker.trackEvent(category + ":" + applicationVersionName, action, null, 0);
             tracker.dispatch();
         }
     }
