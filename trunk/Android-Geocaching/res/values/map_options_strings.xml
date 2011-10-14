@@ -8,4 +8,5 @@
 	<string name="menu_geocache_info">Инфо</string>
     <string name="menu_driving_directions">Проложить маршрут</string>
     <string name="menu_external_map">Внешняя карта</string>
+    <string name="menu_compass_odometer">Одометр</string>
 </resources>

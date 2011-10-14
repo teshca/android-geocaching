@@ -1,6 +1,5 @@
 package su.geocaching.android.controller.managers;
 
-import java.util.EnumSet;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.content.res.Resources;
@@ -10,17 +9,14 @@ import android.preference.PreferenceManager;
 import su.geocaching.android.controller.Controller;
 import su.geocaching.android.controller.GpsUpdateFrequency;
 import su.geocaching.android.controller.ListMultiSelectPreference;
-import su.geocaching.android.model.GeoCache;
-import su.geocaching.android.model.GeoCacheStatus;
-import su.geocaching.android.model.GeoCacheType;
-import su.geocaching.android.model.GeocacheInfo;
-import su.geocaching.android.model.MapInfo;
-import su.geocaching.android.model.SearchMapInfo;
+import su.geocaching.android.model.*;
 import su.geocaching.android.ui.R;
+
+import java.util.EnumSet;
 
 /**
  * Manager which can get access to application preferences
- * 
+ *
  * @author Grigory Kalabin. grigory.kalabin@gmail.com
  * @since March 2011
  */
@@ -41,7 +37,7 @@ public class PreferencesManager {
 
     /**
      * Get id of last searched geocache from preferences and get GeoCache object from database
-     * 
+     *
      * @return last searched geocache by user saved in preferences
      */
     public synchronized GeoCache getLastSearchedGeoCache() {
@@ -51,9 +47,8 @@ public class PreferencesManager {
 
     /**
      * Save last searched geocache id in preferences
-     * 
-     * @param lastSearchedGeoCache
-     *            last searched geoCache
+     *
+     * @param lastSearchedGeoCache last searched geoCache
      */
     public synchronized void setLastSearchedGeoCache(GeoCache lastSearchedGeoCache) {
         if (lastSearchedGeoCache != null) {
@@ -65,8 +60,7 @@ public class PreferencesManager {
     }
 
     /**
-     * @param info
-     *            with data to save
+     * @param info with data to save
      */
     public synchronized void setLastSelectMapInfo(MapInfo info) {
         if (info != null) {
@@ -106,8 +100,7 @@ public class PreferencesManager {
     }
 
     /**
-     * @param info
-     *            with data to save
+     * @param info with data to save
      */
     public synchronized void setLastSearchMapInfo(SearchMapInfo info) {
         if (info != null) {
@@ -131,7 +124,7 @@ public class PreferencesManager {
         return new SearchMapInfo(center_x, center_y, zoom, cacheId);
     }
 
-     /**
+    /**
      * @param info with data to save
      */
     public synchronized void setLastGeocacheInfo(GeocacheInfo info) {
@@ -146,14 +139,14 @@ public class PreferencesManager {
         }
     }
 
-  public synchronized GeocacheInfo getLastGeocacheInfo() {
-       int cacheId = preferences.getInt("info_cacheId", -1);
-       int state = preferences.getInt("info_pagestate", 0);
-       int scroll = preferences.getInt("info_scroll", 0);
-       int width = preferences.getInt("info_width", 0);
-       float scale = preferences.getFloat("info_scale", 0);
-       return new GeocacheInfo(cacheId, scroll, state, width, scale);
-   }
+    public synchronized GeocacheInfo getLastGeocacheInfo() {
+        int cacheId = preferences.getInt("info_cacheId", -1);
+        int state = preferences.getInt("info_pagestate", 0);
+        int scroll = preferences.getInt("info_scroll", 0);
+        int width = preferences.getInt("info_width", 0);
+        float scale = preferences.getFloat("info_scale", 0);
+        return new GeocacheInfo(cacheId, scroll, state, width, scale);
+    }
 
     public void setDownloadNoteBookAlways(boolean downloadAlways) {
         SharedPreferences.Editor editor = preferences.edit();
@@ -172,7 +165,7 @@ public class PreferencesManager {
 
     public boolean useSatelliteMap() {
         // keys located in resources, because settings logic described in xml and write it automatically to SharedPreferences
-        String mapValue =  context.getString(R.string.prefer_map_type_default_value);
+        String mapValue = context.getString(R.string.prefer_map_type_default_value);
         return (!preferences.getString(context.getString(R.string.prefer_map_type_key), mapValue).equals(mapValue));
     }
 
@@ -192,6 +185,12 @@ public class PreferencesManager {
     public boolean getOdometerOnPreference() {
         // keys located in resources, because settings logic described in xml and write it automatically to SharedPreferences
         return preferences.getBoolean(context.getString(R.string.prefer_odometer_key), resources.getBoolean(R.bool.prefer_odometer_default_value));
+    }
+
+    public void setOdometerOnPreference(boolean odometerFlag) {
+        SharedPreferences.Editor editor = preferences.edit();
+        editor.putBoolean(context.getString(R.string.prefer_odometer_key), odometerFlag);
+        editor.commit();
     }
 
     public String getCompassSpeed() {
