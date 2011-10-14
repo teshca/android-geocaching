@@ -16,15 +16,11 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 import su.geocaching.android.controller.Controller;
-import su.geocaching.android.controller.utils.CoordinateHelper;
 import su.geocaching.android.controller.GpsUpdateFrequency;
 import su.geocaching.android.controller.compass.CompassSpeed;
 import su.geocaching.android.controller.compass.SmoothCompassThread;
-import su.geocaching.android.controller.managers.ILocationAware;
-import su.geocaching.android.controller.managers.LogManager;
-import su.geocaching.android.controller.managers.NavigationManager;
-import su.geocaching.android.controller.managers.PreferencesManager;
-import su.geocaching.android.controller.managers.UserLocationManager;
+import su.geocaching.android.controller.managers.*;
+import su.geocaching.android.controller.utils.CoordinateHelper;
 import su.geocaching.android.controller.utils.UiHelper;
 import su.geocaching.android.model.GeoCache;
 import su.geocaching.android.ui.R;
@@ -100,14 +96,7 @@ public class CompassActivity extends Activity {
         compassView.setKeepScreenOn(preferenceManager.getKeepScreenOnPreference());
         Controller.getInstance().getCompassManager().setUsingGpsCompass(preferenceManager.getCompasSensorPreference().endsWith("GPS"));
         targetCoordinates.setText(CoordinateHelper.coordinateToString(controller.getSearchingGeoCache().getLocationGeoPoint()));
-        if (preferenceManager.getOdometerOnPreference()) {
-            startButton = (ImageView) findViewById(R.id.startButton);
-            odometerLayout.setVisibility(View.VISIBLE);
-            tvOdometer.setText(CoordinateHelper.distanceToString(locationManager.getOdometerDistance()));
-            toggleStartButton();
-        } else {
-            odometerLayout.setVisibility(View.GONE);
-        }
+        updateOdometer();
 
         providerUnavailableToast = Toast.makeText(this, getString(R.string.search_geocache_best_provider_lost), Toast.LENGTH_LONG);
         runLogic();
@@ -195,6 +184,9 @@ public class CompassActivity extends Activity {
             case R.id.compassSettings:
                 showCompassPreferences();
                 return true;
+            case R.id.compassOdometer:
+                onOdometerClick();
+                return true;
             default:
                 return super.onOptionsItemSelected(item);
         }
@@ -204,6 +196,39 @@ public class CompassActivity extends Activity {
         stopAnimation();
         Intent intent = new Intent(this, CompassPreferenceActivity.class);
         startActivity(intent);
+    }
+
+    private void onOdometerClick() {
+        UserLocationManager lm = Controller.getInstance().getLocationManager();
+        lm.refreshOdometer();
+        boolean odometerFlag = preferenceManager.getOdometerOnPreference();
+        if (odometerFlag) {
+            preferenceManager.setOdometerOnPreference(false);
+            lm.setUpdatingOdometer(false);
+        } else {
+            preferenceManager.setOdometerOnPreference(true);
+            lm.setUpdatingOdometer(true);
+        }
+        updateOdometer();
+    }
+
+    private void updateOdometer() {
+        if (preferenceManager.getOdometerOnPreference()) {
+            startButton = (ImageView) findViewById(R.id.startButton);
+            odometerLayout.setVisibility(View.VISIBLE);
+            tvOdometer.setText(CoordinateHelper.distanceToString(locationManager.getOdometerDistance()));
+            toggleStartButton();
+        } else {
+            odometerLayout.setVisibility(View.GONE);
+        }
+    }
+
+    private void toggleStartButton() {
+        if (locationManager.isUpdatingOdometer()) {
+            startButton.setImageResource(R.drawable.ic_pause);
+        } else {
+            startButton.setImageResource(R.drawable.ic_play);
+        }
     }
 
     private void onBestProviderUnavailable() {
@@ -237,17 +262,7 @@ public class CompassActivity extends Activity {
         tvOdometer.setText(CoordinateHelper.distanceToString(0));
     }
 
-    private void toggleStartButton() {
-        if (locationManager.isUpdatingOdometer()) {
-            startButton.setImageResource(R.drawable.ic_pause);
-        } else {
-            startButton.setImageResource(R.drawable.ic_play);
-        }
-    }
 
-    /**
-     *
-     */
     class LocationListener implements ILocationAware {
         private final static float CLOSE_DISTANCE_TO_GC_VALUE = 100; // if we nearly than this distance in meters to geoCache - gps will be work maximal often
 
@@ -279,21 +294,21 @@ public class CompassActivity extends Activity {
 
         @Override
         public void onStatusChanged(String provider, int status, Bundle extras) {
-        switch (status) {
-            case LocationProvider.OUT_OF_SERVICE:
-                onBestProviderUnavailable();
-                LogManager.d(TAG, "GpsStatus: out of service.");
-                break;
-            case LocationProvider.AVAILABLE:
-                LogManager.d(TAG, "GpsStatus: available.");
-                String statusString = Controller.getInstance().getLocationManager().getSatellitesStatusString();
-                if (statusString != null) {
-                    statusText.setText(statusString);
-                    UiHelper.setVisible(progressBarView);
-                    UiHelper.setVisible(statusText);
-                }
-                break;
-        }
+            switch (status) {
+                case LocationProvider.OUT_OF_SERVICE:
+                    onBestProviderUnavailable();
+                    LogManager.d(TAG, "GpsStatus: out of service.");
+                    break;
+                case LocationProvider.AVAILABLE:
+                    LogManager.d(TAG, "GpsStatus: available.");
+                    String statusString = Controller.getInstance().getLocationManager().getSatellitesStatusString();
+                    if (statusString != null) {
+                        statusText.setText(statusString);
+                        UiHelper.setVisible(progressBarView);
+                        UiHelper.setVisible(statusText);
+                    }
+                    break;
+            }
         }
 
         @Override

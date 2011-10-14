@@ -1,20 +1,20 @@
 <?xml version="1.0" encoding="utf-8"?>
 <PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
-	<PreferenceCategory android:title="@string/compass_category_title">
-		<ListPreference
+    <PreferenceCategory android:title="@string/compass_category_title">
+        <ListPreference
                 android:key="@string/prefs_speed_key"
                 android:title="@string/prefer_speed_title"
-				android:summary="@string/prefer_speed_summary"
+                android:summary="@string/prefer_speed_summary"
                 android:entries="@array/speed_preference_entries"
-				android:entryValues="@array/speed_preference_values"
-				android:dialogTitle="@string/prefer_speed_dialog_title"
-				android:defaultValue="@string/prefer_speed_default_value"/>
-		<ListPreference
+                android:entryValues="@array/speed_preference_values"
+                android:dialogTitle="@string/prefer_speed_dialog_title"
+                android:defaultValue="@string/prefer_speed_default_value"/>
+        <ListPreference
                 android:key="@string/prefs_appearance_key"
                 android:title="@string/prefer_appearance_title"
                 android:summary="@string/prefer_appearance_summary"
                 android:dialogTitle="@string/prefer_appearance_dialog_title"
-				android:entries="@array/appearance_preference_entries"
+                android:entries="@array/appearance_preference_entries"
                 android:entryValues="@array/appearance_preference_values"
                 android:defaultValue="@string/prefer_appearance_default_value"/>
         <ListPreference
@@ -25,13 +25,14 @@
                 android:entryValues="@array/sensor_preference_values"
                 android:defaultValue="@string/sensor_preference_default_value"/>
 
+        <!--
 		<CheckBoxPreference
                 android:key="@string/prefer_odometer_key"
                 android:title="@string/prefer_odometer_title"
                 android:summaryOn="@string/prefer_odometer_on"
                 android:summaryOff="@string/prefer_odometer_off"
-                android:defaultValue="@bool/prefer_odometer_default_value"
-                android:onClick="onOdometerClick" />
+                android:defaultValue="@bool/prefer_odometer_default_value"/>
+                -->
 
-	</PreferenceCategory>
+    </PreferenceCategory>
 </PreferenceScreen>
