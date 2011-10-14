@@ -262,6 +262,10 @@ public class CompassActivity extends Activity {
         tvOdometer.setText(CoordinateHelper.distanceToString(0));
     }
 
+    public void onCloseOdometerClick(View v){
+        onOdometerClick();
+    }
+
 
     class LocationListener implements ILocationAware {
         private final static float CLOSE_DISTANCE_TO_GC_VALUE = 100; // if we nearly than this distance in meters to geoCache - gps will be work maximal often

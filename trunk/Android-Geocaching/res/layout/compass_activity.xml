@@ -1,106 +1,117 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-				android:orientation="vertical"
-				android:layout_width="fill_parent"
-				android:layout_height="fill_parent"
-				android:background="@color/dashboard_background"
-				android:id="@+id/compassLayout">
-	<LinearLayout
-			android:id="@+id/logoLayout"
-			style="@style/TitleBar"
-			android:layout_alignParentTop="true">
-		<ImageView android:src="@drawable/geologo"
-				   style="@style/TitleBarLogo"
-				   android:id="@+id/title_logo"
-				   android:onClick="onHomeClick"/>
-		<TextView android:id="@+id/waitingLocationFixText"
-				  android:layout_width="wrap_content"
-				  android:layout_height="fill_parent"
-				  android:textColor="#ffffffff"
-				  android:padding="3dip"
-				  android:textSize="@dimen/text_size_small"/>
+                android:orientation="vertical"
+                android:layout_width="fill_parent"
+                android:layout_height="fill_parent"
+                android:background="@color/dashboard_background"
+                android:id="@+id/compassLayout">
+    <LinearLayout
+            android:id="@+id/logoLayout"
+            style="@style/TitleBar"
+            android:layout_alignParentTop="true">
+        <ImageView android:src="@drawable/geologo"
+                   style="@style/TitleBarLogo"
+                   android:id="@+id/title_logo"
+                   android:onClick="onHomeClick"/>
+        <TextView android:id="@+id/waitingLocationFixText"
+                  android:layout_width="wrap_content"
+                  android:layout_height="fill_parent"
+                  android:textColor="#ffffffff"
+                  android:padding="3dip"
+                  android:textSize="@dimen/text_size_small"/>
 
-		<!-- It view need for right align -->
-		<View style="@style/TitleBarSpring"/>
+        <!-- It view need for right align -->
+        <View style="@style/TitleBarSpring"/>
 
-		<ImageView android:layout_width="@dimen/header_progress_bar_size"
-				   android:layout_height="@dimen/header_progress_bar_size"
-				   android:layout_gravity="center_vertical"
-				   android:id="@+id/progressCircle"
-				   android:layout_marginRight="5dip"/>
-	</LinearLayout>
+        <ImageView android:layout_width="@dimen/header_progress_bar_size"
+                   android:layout_height="@dimen/header_progress_bar_size"
+                   android:layout_gravity="center_vertical"
+                   android:id="@+id/progressCircle"
+                   android:layout_marginRight="5dip"/>
+    </LinearLayout>
 
-	<TextView android:id="@+id/targetCoordinates"
-			  android:layout_height="wrap_content"
-			  android:layout_width="fill_parent"
-			  android:textColor="@color/dashboard_text_color"
-			  android:gravity="center"
-			  android:layout_below="@id/logoLayout">
-	</TextView>
-	<su.geocaching.android.ui.compass.CompassView
-			android:id="@+id/compassView"
-			android:layout_width="fill_parent"
-			android:layout_height="wrap_content"
-			android:layout_weight="1"
-			android:gravity="center"
-			android:layout_below="@id/targetCoordinates"
-			android:layout_above="@+id/currentCoordinates"/>
-	<TextView android:id="@+id/currentCoordinates"
-			  android:layout_height="wrap_content"
-			  android:layout_width="fill_parent"
-			  android:textColor="@color/dashboard_text_color"
-			  android:gravity="top|center"
-			  android:text="@string/location_unknown"
-			  android:layout_alignParentBottom="true">
-	</TextView>
+    <TextView android:id="@+id/targetCoordinates"
+              android:layout_height="wrap_content"
+              android:layout_width="fill_parent"
+              android:textColor="@color/dashboard_text_color"
+              android:gravity="center"
+              android:layout_below="@id/logoLayout">
+    </TextView>
+    <su.geocaching.android.ui.compass.CompassView
+            android:id="@+id/compassView"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:gravity="center"
+            android:layout_below="@id/targetCoordinates"
+            android:layout_above="@+id/currentCoordinates"/>
+    <TextView android:id="@+id/currentCoordinates"
+              android:layout_height="wrap_content"
+              android:layout_width="fill_parent"
+              android:textColor="@color/dashboard_text_color"
+              android:gravity="top|center"
+              android:text="@string/location_unknown"
+              android:layout_alignParentBottom="true">
+    </TextView>
 
-	<RelativeLayout android:id="@+id/odometer_layout"
-					android:layout_width="fill_parent"
-					android:layout_height="60dp"
-					android:background="@drawable/odometer_bg"
-					android:layout_above="@id/currentCoordinates">
-		<ImageView android:layout_height="40dp"
-				   android:layout_width="40dp"
-                    android:layout_centerVertical="true"
-				   android:id="@+id/startButton"
-				   android:src="@drawable/ic_play"
-				   android:scaleType="centerCrop"
-				   android:layout_marginLeft="6dp"
-				   android:onClick="onStartClick"
-				   android:layout_alignParentLeft="true">
-		</ImageView>
-		<ImageView android:layout_height="40dp"
-				   android:layout_width="40dp"
-                    android:layout_centerVertical="true"
-				   android:id="@+id/refreshButton"
-				   android:src="@drawable/ic_refresh"
-				   android:scaleType="centerCrop"
-				   android:layout_marginLeft="6dp"
-				   android:onClick="onRefreshClick"
-				   android:layout_toRightOf="@id/startButton">
-		</ImageView>
-		<TextView android:id="@+id/tvOdometerInfo"
-				  android:layout_height="wrap_content"
-				  android:layout_width="wrap_content"
+    <RelativeLayout android:id="@+id/odometer_layout"
+                    android:layout_width="fill_parent"
+                    android:layout_height="60dp"
+                    android:background="@drawable/odometer_bg"
+                    android:layout_above="@id/currentCoordinates">
+        <ImageView android:layout_height="40dp"
+                   android:layout_width="40dp"
+                   android:layout_centerVertical="true"
+                   android:id="@+id/startButton"
+                   android:src="@drawable/ic_play"
+                   android:scaleType="centerCrop"
+                   android:layout_marginLeft="6dp"
+                   android:onClick="onStartClick"
+                   android:layout_alignParentLeft="true">
+        </ImageView>
+        <ImageView android:layout_height="40dp"
+                   android:layout_width="40dp"
+                   android:layout_centerVertical="true"
+                   android:id="@+id/refreshButton"
+                   android:src="@drawable/ic_refresh"
+                   android:scaleType="centerCrop"
+                   android:layout_marginLeft="6dp"
+                   android:onClick="onRefreshClick"
+                   android:layout_toRightOf="@id/startButton">
+        </ImageView>
+        <TextView android:id="@+id/tvOdometerInfo"
+                  android:layout_height="wrap_content"
+                  android:layout_width="wrap_content"
                   android:layout_centerVertical="true"
-				  android:textColor="#FFEFEBEF"
-				  android:textSize="@dimen/text_size_big"
+                  android:textColor="#FFEFEBEF"
+                  android:textSize="@dimen/text_size_big"
                   android:textStyle="bold"
-				  android:layout_marginLeft="6dp"
-				  android:text="@string/odometer"
-				  android:layout_toRightOf="@id/refreshButton">
-		</TextView>
-		<TextView android:id="@+id/tvOdometer"
-				  android:layout_height="wrap_content"
-				  android:layout_width="wrap_content"
+                  android:layout_marginLeft="6dp"
+                  android:text="@string/odometer"
+                  android:layout_toRightOf="@id/refreshButton">
+        </TextView>
+        <TextView android:id="@+id/tvOdometer"
+                  android:layout_height="wrap_content"
+                  android:layout_width="wrap_content"
                   android:layout_centerVertical="true"
-				  android:textColor="#FFEFEBEF"
-				  android:textSize="@dimen/text_size_big"
+                  android:textColor="#FFEFEBEF"
+                  android:textSize="@dimen/text_size_big"
                   android:textStyle="bold"
-				  android:text="0"
-				  android:layout_marginLeft="6dp"
-				  android:layout_toRightOf="@id/tvOdometerInfo">
-		</TextView>
-	</RelativeLayout>
+                  android:text="0"
+                  android:layout_marginLeft="6dp"
+                  android:layout_toRightOf="@id/tvOdometerInfo">
+        </TextView>
+
+        <ImageView android:layout_height="30dp"
+                   android:layout_width="30dp"
+                   android:layout_alignParentTop="true"
+                   android:layout_alignParentRight="true"
+                   android:src="@drawable/ic_close_odometer"
+                   android:scaleType="centerCrop"
+                   android:layout_marginLeft="6dp"
+                   android:onClick="onCloseOdometerClick">
+        </ImageView>
+
+    </RelativeLayout>
 
 </RelativeLayout>
