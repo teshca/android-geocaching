@@ -281,7 +281,7 @@ public class CompassActivity extends Activity {
             UiHelper.setGone(progressBarView);
             UiHelper.setGone(statusText);
             float distance = CoordinateHelper.getDistanceBetween(controller.getSearchingGeoCache().getLocationGeoPoint(), location);
-            if (distance < CLOSE_DISTANCE_TO_GC_VALUE) {
+            if (distance < CLOSE_DISTANCE_TO_GC_VALUE || preferenceManager.getOdometerOnPreference()) {
                 controller.getLocationManager().updateFrequency(GpsUpdateFrequency.MAXIMAL);
             } else {
                 controller.getLocationManager().updateFrequencyFromPreferences();
