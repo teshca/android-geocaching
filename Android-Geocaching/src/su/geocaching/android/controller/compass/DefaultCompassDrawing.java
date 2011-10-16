@@ -69,7 +69,8 @@ public class DefaultCompassDrawing extends AbstractCompassDrawing {
     }
 
     private void drawDistanceLabel(Canvas canvas) {
-        canvas.drawText(CoordinateHelper.distanceToString(distance), -centerX * 0.95f, -centerY * 0.8f, textPaint);
+        boolean hasPreciseLocation = Controller.getInstance().getLocationManager().hasPreciseLocation();
+        canvas.drawText(CoordinateHelper.distanceToString(distance, hasPreciseLocation), -centerX * 0.95f, -centerY * 0.8f, textPaint);
     }
 
     @Override
