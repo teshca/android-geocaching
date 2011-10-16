@@ -56,11 +56,12 @@
 
     <RelativeLayout android:id="@+id/odometer_layout"
                     android:layout_width="fill_parent"
-                    android:layout_height="60dp"
+                    android:layout_height="50dp"
+                    android:layout_margin="5dp"
                     android:background="@drawable/odometer_bg"
                     android:layout_above="@id/currentCoordinates">
-        <ImageView android:layout_height="40dp"
-                   android:layout_width="40dp"
+        <ImageView android:layout_height="30dp"
+                   android:layout_width="30dp"
                    android:layout_centerVertical="true"
                    android:id="@+id/startButton"
                    android:src="@drawable/ic_play"
@@ -69,8 +70,8 @@
                    android:onClick="onStartClick"
                    android:layout_alignParentLeft="true">
         </ImageView>
-        <ImageView android:layout_height="40dp"
-                   android:layout_width="40dp"
+        <ImageView android:layout_height="30dp"
+                   android:layout_width="30dp"
                    android:layout_centerVertical="true"
                    android:id="@+id/refreshButton"
                    android:src="@drawable/ic_refresh"
@@ -101,17 +102,16 @@
                   android:layout_marginLeft="6dp"
                   android:layout_toRightOf="@id/tvOdometerInfo">
         </TextView>
-
         <ImageView android:layout_height="30dp"
                    android:layout_width="30dp"
-                   android:layout_alignParentTop="true"
+                   android:layout_centerVertical="true"
                    android:layout_alignParentRight="true"
                    android:src="@drawable/ic_close_odometer"
                    android:scaleType="centerCrop"
                    android:layout_marginLeft="6dp"
+                   android:layout_marginRight="6dp"
                    android:onClick="onCloseOdometerClick">
         </ImageView>
-
     </RelativeLayout>
 
 </RelativeLayout>
