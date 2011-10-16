@@ -137,31 +137,6 @@ public class NavigationManager {
             .show();
     }
 
-     public static void displayTurnOnConnectionDialog(final Activity context) {
-        Controller.getInstance().getGoogleAnalyticsManager().trackActivityLaunch("/EnableConnectionDialog");
-
-        new AlertDialog.Builder(context)
-            .setIcon(android.R.drawable.ic_dialog_alert)
-            .setTitle(context.getString(R.string.connection_problem_dialog_title))
-            .setMessage(context.getString(R.string.connection_problem_dialog_message))
-            .setCancelable(false)
-            .setPositiveButton(context.getString(R.string.yes), new DialogInterface.OnClickListener() {
-                public void onClick(DialogInterface dialog, int id) {
-                    Intent intent = new Intent(Settings.ACTION_WIRELESS_SETTINGS);
-                    context.startActivity(intent);
-                    dialog.cancel();
-                }
-            })
-            .setNegativeButton(context.getString(R.string.no), new DialogInterface.OnClickListener() {
-                public void onClick(DialogInterface dialog, int id) {
-                    context.finish();
-                    dialog.cancel();
-                }
-            })
-            .create()
-            .show();
-    }
-
     /**
      * Run external GpsStatus & toolbox application
      * @param context parent context
