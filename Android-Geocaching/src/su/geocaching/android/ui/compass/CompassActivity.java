@@ -201,14 +201,9 @@ public class CompassActivity extends Activity {
     private void onOdometerClick() {
         UserLocationManager lm = Controller.getInstance().getLocationManager();
         lm.refreshOdometer();
-        boolean odometerFlag = preferenceManager.getOdometerOnPreference();
-        if (odometerFlag) {
-            preferenceManager.setOdometerOnPreference(false);
-            lm.setUpdatingOdometer(false);
-        } else {
-            preferenceManager.setOdometerOnPreference(true);
-            lm.setUpdatingOdometer(true);
-        }
+        boolean isOdometerOn = preferenceManager.getOdometerOnPreference();
+        preferenceManager.setOdometerOnPreference(!isOdometerOn);
+        lm.setUpdatingOdometer(!isOdometerOn);
         updateOdometer();
     }
 
@@ -262,7 +257,7 @@ public class CompassActivity extends Activity {
         tvOdometer.setText(CoordinateHelper.distanceToString(0));
     }
 
-    public void onCloseOdometerClick(View v){
+    public void onCloseOdometerClick(View v) {
         onOdometerClick();
     }
 
