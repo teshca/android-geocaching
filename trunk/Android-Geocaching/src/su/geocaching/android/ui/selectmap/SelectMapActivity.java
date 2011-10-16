@@ -2,6 +2,7 @@ package su.geocaching.android.ui.selectmap;
 
 import java.util.List;
 
+import android.app.Dialog;
 import android.content.Intent;
 import android.graphics.drawable.AnimationDrawable;
 import android.location.Location;
@@ -44,6 +45,7 @@ public class SelectMapActivity extends MapActivity implements IConnectionAware, 
     private static final String TAG = SelectMapActivity.class.getCanonicalName();
     private static final int MAX_CACHE_NUMBER = 300;
     private static final String SELECT_ACTIVITY_FOLDER = "/SelectActivity";
+    private static final int ENABLE_CONNECTION_DIALOG_ID = 0;
     private Controller controller;
     private MapView map;
     private MapController mapController;
@@ -142,7 +144,7 @@ public class SelectMapActivity extends MapActivity implements IConnectionAware, 
         connectionManager.addSubscriber(this);
         // add subscriber to location manager
         if (!connectionManager.isActiveNetworkConnected()) {
-            NavigationManager.displayTurnOnConnectionDialog(this);
+            showDialog(ENABLE_CONNECTION_DIALOG_ID);
         }
         if (locationManager.getBestProvider(true) == null) {
             //NavigationManager.askTurnOnLocationService(this);
@@ -269,6 +271,15 @@ public class SelectMapActivity extends MapActivity implements IConnectionAware, 
         connectionLostToast.show();
     }
 
+    @Override
+    public void onConnectionFound() {
+        connectionLostToast.cancel();
+    }
+
+    protected Dialog onCreateDialog(int id) {
+        return (id == ENABLE_CONNECTION_DIALOG_ID) ? new EnableConnectionDialog(this) : null;
+    }
+
     /*
      * (non-Javadoc)
      *
@@ -323,10 +334,5 @@ public class SelectMapActivity extends MapActivity implements IConnectionAware, 
 
     @Override
     public void onProviderDisabled(String provider) {
-    }
-
-    @Override
-    public void onConnectionFound() {
-        connectionLostToast.cancel();
     }
 }
