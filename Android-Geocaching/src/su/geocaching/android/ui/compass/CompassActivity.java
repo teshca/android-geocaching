@@ -42,7 +42,7 @@ public class CompassActivity extends Activity {
     private PreferencesManager preferenceManager;
 
     private CompassView compassView;
-    private TextView tvOdometer, statusText, targetCoordinates, currentCoordinates;
+    private TextView tvOdometer, statusText, cacheCoordinates, userCoordinates;
     private ImageView progressBarView;
     private AnimationDrawable progressBarAnim;
     private RelativeLayout odometerLayout;
@@ -59,8 +59,8 @@ public class CompassActivity extends Activity {
 
         compassView = (CompassView) findViewById(R.id.compassView);
         tvOdometer = (TextView) findViewById(R.id.tvOdometer);
-        targetCoordinates = (TextView) findViewById(R.id.targetCoordinates);
-        currentCoordinates = (TextView) findViewById(R.id.currentCoordinates);
+        cacheCoordinates = (TextView) findViewById(R.id.cacheCoordinates);
+        userCoordinates = (TextView) findViewById(R.id.userCoordinates);
         progressBarView = (ImageView) findViewById(R.id.progressCircle);
         progressBarView.setBackgroundResource(R.anim.earth_anim);
         progressBarView.setOnClickListener(new OnClickListener() {
@@ -95,7 +95,7 @@ public class CompassActivity extends Activity {
 
         compassView.setKeepScreenOn(preferenceManager.getKeepScreenOnPreference());
         Controller.getInstance().getCompassManager().setUsingGpsCompass(preferenceManager.getCompasSensorPreference().endsWith("GPS"));
-        targetCoordinates.setText(CoordinateHelper.coordinateToString(controller.getSearchingGeoCache().getLocationGeoPoint()));
+        cacheCoordinates.setText(CoordinateHelper.coordinateToString(controller.getSearchingGeoCache().getLocationGeoPoint()));
         updateOdometer();
 
         providerUnavailableToast = Toast.makeText(this, getString(R.string.search_geocache_best_provider_lost), Toast.LENGTH_LONG);
@@ -110,7 +110,7 @@ public class CompassActivity extends Activity {
         if (locationManager.hasLocation()) {
             LogManager.d(TAG, "runLogic: has location. Update location with last known location");
             locationListener.updateLocation(locationManager.getLastKnownLocation());
-            currentCoordinates.setText(CoordinateHelper.coordinateToString(CoordinateHelper.locationToGeoPoint(locationManager.getLastKnownLocation())));
+            userCoordinates.setText(CoordinateHelper.coordinateToString(CoordinateHelper.locationToGeoPoint(locationManager.getLastKnownLocation())));
         }
         if (Controller.getInstance().getLocationManager().hasPreciseLocation()) {
             statusText.setVisibility(View.GONE);
@@ -287,7 +287,7 @@ public class CompassActivity extends Activity {
                 controller.getLocationManager().updateFrequencyFromPreferences();
             }
             compassView.setCacheDirection(CoordinateHelper.getBearingBetween(location, controller.getSearchingGeoCache().getLocationGeoPoint()));
-            currentCoordinates.setText(CoordinateHelper.coordinateToString(CoordinateHelper.locationToGeoPoint(location)));
+            userCoordinates.setText(CoordinateHelper.coordinateToString(CoordinateHelper.locationToGeoPoint(location)));
             compassView.setDistance(distance);
         }
 
