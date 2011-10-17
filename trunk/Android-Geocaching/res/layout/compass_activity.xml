@@ -5,10 +5,11 @@
                 android:layout_height="fill_parent"
                 android:background="@color/dashboard_background"
                 android:id="@+id/compassLayout">
-    <LinearLayout
-            android:id="@+id/logoLayout"
-            style="@style/TitleBar"
-            android:layout_alignParentTop="true">
+
+    <!-- Logo -->
+    <LinearLayout android:id="@+id/logoLayout"
+                  style="@style/TitleBar"
+                  android:layout_alignParentTop="true">
         <ImageView android:src="@drawable/geologo"
                    style="@style/TitleBarLogo"
                    android:id="@+id/title_logo"

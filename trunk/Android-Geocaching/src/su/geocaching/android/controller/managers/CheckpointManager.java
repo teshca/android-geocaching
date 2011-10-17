@@ -2,7 +2,6 @@ package su.geocaching.android.controller.managers;
 
 import com.google.android.maps.GeoPoint;
 import su.geocaching.android.controller.Controller;
-import su.geocaching.android.controller.utils.CoordinateHelper;
 import su.geocaching.android.controller.utils.Sexagesimal;
 import su.geocaching.android.model.GeoCache;
 import su.geocaching.android.model.GeoCacheStatus;
@@ -148,6 +147,7 @@ public class CheckpointManager {
     }
 
     public void clear() {
+        controller.setSearchingGeoCache(controller.getDbManager().getCacheByID(cacheId));
         dbm.deleteCheckpointCache(cacheId);
         checkpoints.clear();
     }
