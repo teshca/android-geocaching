@@ -1,11 +1,6 @@
 package su.geocaching.android.ui;
 
-import java.util.ArrayList;
-
-import su.geocaching.android.controller.Controller;
-import su.geocaching.android.controller.managers.LogManager;
-import su.geocaching.android.controller.managers.NavigationManager;
-import su.geocaching.android.model.GeoCache;
+import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.SearchManager;
 import android.content.DialogInterface;
@@ -17,44 +12,73 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
-import android.widget.SimpleAdapter;
+import android.widget.ListView;
+import android.widget.TextView;
+import su.geocaching.android.controller.Controller;
+import su.geocaching.android.controller.adapters.FavoritesArrayAdapter;
+import su.geocaching.android.controller.managers.DbManager;
+import su.geocaching.android.controller.managers.LogManager;
+import su.geocaching.android.controller.managers.NavigationManager;
+import su.geocaching.android.model.GeoCache;
+
+import java.util.ArrayList;
 
 /**
  * Class for create ListActivity with favorites caches
  */
-public class FavoritesFolderActivity extends AbstractGeoCacheFolderActivity {
+public class FavoritesFolderActivity extends Activity implements AdapterView.OnItemClickListener {
 
     private static final String TAG = FavoritesFolderActivity.class.getCanonicalName();
     private static final String FAVORITES_FOLDER = "/FavoritesActivity";
     private static final String LIST_STATE = "listState";
+
+    private TextView tvNoCache;
+    private ListView lvListShowCache;
+    private FavoritesArrayAdapter favoriteGeocachesAdapter;
+    private DbManager dbm;
     private Parcelable listState = null;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         LogManager.d(TAG, "onCreate");
+        setContentView(R.layout.favorites_folder_activity);
+
+        favoriteGeocachesAdapter = new FavoritesArrayAdapter(this);
+        dbm = Controller.getInstance().getDbManager();
+        favoriteGeocachesAdapter.gcItems = dbm.getArrayGeoCache();
+
+        lvListShowCache = (ListView) findViewById(R.id.favorite_folder_listCache);
+        tvNoCache = (TextView) findViewById(R.id.favorite_folder_title_text);
+
+        lvListShowCache.setOnItemClickListener(this);
+        lvListShowCache.setTextFilterEnabled(true);
+        lvListShowCache.setAdapter(favoriteGeocachesAdapter);
+
+        Intent intent = getIntent();
+        if (Intent.ACTION_SEARCH.equals(intent.getAction())) {
+            String query = intent.getStringExtra(SearchManager.QUERY);
+            lvListShowCache.setFilterText(query);
+        }
+
         Controller.getInstance().getGoogleAnalyticsManager().trackActivityLaunch(FAVORITES_FOLDER);
     }
 
     @Override
     protected void onResume() {
 
-        Intent intent = getIntent();
-        if (Intent.ACTION_SEARCH.equals(intent.getAction())) {
-            String query = intent.getStringExtra(SearchManager.QUERY);
-            favoritesList = getFoundGeoCachesList(query);
-        } else {
-            favoritesList = dbm.getArrayGeoCache();
-        }
-        if (favoritesList.isEmpty()) {
+        ArrayList<GeoCache> geoCachesList = dbm.getArrayGeoCache();
+        favoriteGeocachesAdapter.clear();
+        if (geoCachesList.isEmpty()) {
             tvNoCache.setVisibility(View.VISIBLE);
-            lvListShowCache.setAdapter(null);
         } else {
             tvNoCache.setVisibility(View.GONE);
-            SimpleAdapter simpleAdapter = new SimpleAdapter(this, createGeoCacheList(favoritesList), R.layout.favorites_row, keys, new int[]{R.id.favorite_list_image_button_type,
-                    R.id.favorite_list_text_view_name, R.id.favorites_row_type_text, R.id.favorites_row_status_text});
-            lvListShowCache.setAdapter(simpleAdapter);
+            for (GeoCache gc : geoCachesList) {
+                favoriteGeocachesAdapter.add(gc);
+            }
         }
+        favoriteGeocachesAdapter.notifyDataSetChanged();
+
         if (listState != null) {
             lvListShowCache.onRestoreInstanceState(listState);
         }
@@ -76,33 +100,15 @@ public class FavoritesFolderActivity extends AbstractGeoCacheFolderActivity {
         savedInstanceState.putParcelable(LIST_STATE, listState);
     }
 
-    private ArrayList<GeoCache> getFoundGeoCachesList(String searchString) {
-        ArrayList<GeoCache> foundedCaches = new ArrayList<GeoCache>();
-        ArrayList<GeoCache> allCaches = new ArrayList<GeoCache>();
-        allCaches = dbm.getArrayGeoCache();
-        for (GeoCache cache : allCaches) {
-            searchString = searchString.toLowerCase();
-            String nameCache = cache.getName().toLowerCase();
-
-            if ((nameCache.indexOf(searchString)) != -1) {
-                foundedCaches.add(cache);
-            }
-        }
-        if (foundedCaches.isEmpty()) {
-            tvNoCache.setText(getString(R.string.caches_with_appropriate_name_not_found));
-        }
-        return foundedCaches;
-    }
-
     @Override
-    public void onItemClick(AdapterView<?> arg0, View arg1, int arg2, long arg3) {
-        NavigationManager.startInfoActivity(this, favoritesList.get(arg2));
+    public void onItemClick(AdapterView<?> adapter, View cv, int position, long id) {
+        NavigationManager.startInfoActivity(this, (GeoCache) adapter.getItemAtPosition(position));
     }
 
     @Override
     public boolean onPrepareOptionsMenu(Menu menu) {
         menu.getItem(0).setVisible(true);
-        if (favoritesList.isEmpty()) {
+        if (favoriteGeocachesAdapter.isEmpty()) {
             menu.getItem(0).setEnabled(false);
         } else {
             menu.getItem(0).setEnabled(true);

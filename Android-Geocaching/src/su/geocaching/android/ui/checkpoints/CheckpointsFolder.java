@@ -1,12 +1,6 @@
 package su.geocaching.android.ui.checkpoints;
 
-import su.geocaching.android.controller.Controller;
-import su.geocaching.android.controller.managers.CheckpointManager;
-import su.geocaching.android.controller.managers.LogManager;
-import su.geocaching.android.controller.managers.NavigationManager;
-import su.geocaching.android.ui.AbstractGeoCacheFolderActivity;
-import su.geocaching.android.ui.FavoritesFolderActivity;
-import su.geocaching.android.ui.R;
+import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.os.Bundle;
@@ -15,24 +9,52 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
-import android.widget.AdapterView.OnItemClickListener;
-import android.widget.SimpleAdapter;
+import android.widget.ListView;
+import android.widget.TextView;
+import su.geocaching.android.controller.Controller;
+import su.geocaching.android.controller.adapters.FavoritesArrayAdapter;
+import su.geocaching.android.controller.managers.CheckpointManager;
+import su.geocaching.android.controller.managers.DbManager;
+import su.geocaching.android.controller.managers.LogManager;
+import su.geocaching.android.controller.managers.NavigationManager;
+import su.geocaching.android.model.GeoCache;
+import su.geocaching.android.ui.FavoritesFolderActivity;
+import su.geocaching.android.ui.R;
+
+import java.util.ArrayList;
 
 /**
  * Class for create ListActivity with checkpoints caches
+ *
+ * @author Nikita Bumakov
  */
-public class CheckpointsFolder extends AbstractGeoCacheFolderActivity implements OnItemClickListener {
+public class CheckpointsFolder extends Activity implements AdapterView.OnItemClickListener {
+
     private static final String TAG = FavoritesFolderActivity.class.getCanonicalName();
+
     private CheckpointManager checkpointManager;
+    private DbManager dbm;
+    private FavoritesArrayAdapter checkpointsAdapter;
     private AlertDialog removeAlert;
-    private int cacheid;
+    private TextView tvNoCache;
+    private ListView lvListShowCache;
+    private int cacheId;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        cacheid = getIntent().getIntExtra(NavigationManager.CACHE_ID, 0);
-        checkpointManager = Controller.getInstance().getCheckpointManager(cacheid);
-        tvNoCache.setText(getString(R.string.checkpoint_list_not_cache_in_db));
+        setContentView(R.layout.favorites_folder_activity);
+
+        cacheId = getIntent().getIntExtra(NavigationManager.CACHE_ID, 0);
+        checkpointManager = Controller.getInstance().getCheckpointManager(cacheId);
+        dbm = Controller.getInstance().getDbManager();
+        checkpointsAdapter = new FavoritesArrayAdapter(this);
+
+        lvListShowCache = (ListView) findViewById(R.id.favorite_folder_listCache);
+        tvNoCache = (TextView) findViewById(R.id.favorite_folder_title_text);
+
+        lvListShowCache.setOnItemClickListener(this);
+        lvListShowCache.setAdapter(checkpointsAdapter);
         initRemoveDialog();
     }
 
@@ -55,24 +77,25 @@ public class CheckpointsFolder extends AbstractGeoCacheFolderActivity implements
 
     @Override
     protected void onResume() {
-        favoritesList = dbm.getCheckpointsArrayById(cacheid);
-        if (favoritesList.isEmpty()) {
+        ArrayList<GeoCache> checkpointList = dbm.getCheckpointsArrayById(cacheId);
+        checkpointsAdapter.clear();
+        if (checkpointList.isEmpty()) {
             tvNoCache.setVisibility(View.VISIBLE);
-            lvListShowCache.setAdapter(null);
             LogManager.d(TAG, "checkpoints DB empty");
         } else {
-            favoritesList.add(0, Controller.getInstance().getPreferencesManager().getLastSearchedGeoCache());
+            checkpointList.add(0, Controller.getInstance().getPreferencesManager().getLastSearchedGeoCache());
             tvNoCache.setVisibility(View.GONE);
-            SimpleAdapter simpleAdapter = new SimpleAdapter(this, createGeoCacheList(favoritesList), R.layout.favorites_row, keys, new int[]{R.id.favorite_list_image_button_type,
-                    R.id.favorite_list_text_view_name, R.id.favorites_row_type_text, R.id.favorites_row_status_text});
-            lvListShowCache.setAdapter(simpleAdapter);
+            for (GeoCache gc : checkpointList) {
+                checkpointsAdapter.add(gc);
+            }
         }
+        checkpointsAdapter.notifyDataSetChanged();
         super.onResume();
     }
 
     @Override
     public boolean onPrepareOptionsMenu(Menu menu) {
-        if (favoritesList.size() == 0) {
+        if (checkpointsAdapter.isEmpty()) {
             menu.getItem(1).setEnabled(false);
         } else {
             menu.getItem(1).setEnabled(true);
@@ -101,14 +124,13 @@ public class CheckpointsFolder extends AbstractGeoCacheFolderActivity implements
     }
 
     private void removeAllCheckpoints() {
-        favoritesList.clear();
+        checkpointsAdapter.clear();
         checkpointManager.clear();
-        lvListShowCache.setAdapter(null);
         tvNoCache.setVisibility(View.VISIBLE);
     }
 
     @Override
-    public void onItemClick(AdapterView<?> arg0, View arg1, int arg2, long arg3) {
-        NavigationManager.startCheckpointDialog(this, favoritesList.get(arg2).getId());
+    public void onItemClick(AdapterView<?> adapter, View cv, int position, long id) {
+        NavigationManager.startCheckpointDialog(this, ((GeoCache) adapter.getItemAtPosition(position)).getId());
     }
 }
