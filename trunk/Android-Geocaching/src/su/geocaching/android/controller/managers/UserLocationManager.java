@@ -265,7 +265,7 @@ public class UserLocationManager implements LocationListener, GpsStatus.Listener
      * @return true, if last known location actual
      */
     public boolean hasPreciseLocation() {
-        return hasLocation() && lastLocation.getTime() + PRECISE_LOCATION_MAX_TIME > System.currentTimeMillis()
+        return hasLocation() && lastLocation.getTime() + PRECISE_LOCATION_MAX_TIME < System.currentTimeMillis()
                 && lastLocation.hasAccuracy() && lastLocation.getAccuracy() < PRECISE_LOCATION_MAX_ACCURACY;
     }
 
