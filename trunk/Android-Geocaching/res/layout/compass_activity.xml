@@ -30,13 +30,25 @@
                    android:layout_marginRight="5dip"/>
     </LinearLayout>
 
-    <TextView android:id="@+id/targetCoordinates"
-              android:layout_height="wrap_content"
-              android:layout_width="fill_parent"
-              android:textColor="@color/dashboard_text_color"
-              android:gravity="center"
-              android:layout_below="@id/logoLayout">
-    </TextView>
+    <!-- Cache coordinate -->
+    <LinearLayout android:id="@+id/targetCoordinates"
+                  android:layout_width="fill_parent"
+                  android:layout_height="wrap_content"
+                  android:layout_below="@id/logoLayout"
+                  android:gravity="center">
+        <ImageView android:layout_height="24dp"
+                   android:layout_width="24dp"
+                   android:src="@drawable/ic_cache_coordinate"
+                   android:scaleType="centerCrop"
+                   android:layout_marginRight="2dp"/>
+        <TextView android:id="@+id/cacheCoordinates"
+                  android:layout_height="wrap_content"
+                  android:layout_width="wrap_content"
+                  android:textColor="@color/dashboard_text_color">
+        </TextView>
+    </LinearLayout>
+
+    <!-- Compass view -->
     <su.geocaching.android.ui.compass.CompassView
             android:id="@+id/compassView"
             android:layout_width="fill_parent"
@@ -45,15 +57,25 @@
             android:gravity="center"
             android:layout_below="@id/targetCoordinates"
             android:layout_above="@+id/currentCoordinates"/>
-    <TextView android:id="@+id/currentCoordinates"
-              android:layout_height="wrap_content"
-              android:layout_width="fill_parent"
-              android:textColor="@color/dashboard_text_color"
-              android:gravity="top|center"
-              android:text="@string/location_unknown"
-              android:layout_alignParentBottom="true">
-    </TextView>
 
+    <!-- User's coordinates -->
+    <LinearLayout android:id="@+id/currentCoordinates"
+                  android:layout_width="fill_parent"
+                  android:layout_height="wrap_content"
+                  android:layout_alignParentBottom="true"
+                  android:gravity="center">
+        <ImageView android:layout_height="24dp"
+                   android:layout_width="24dp"
+                   android:src="@drawable/ic_user_coordinate"
+                   android:scaleType="centerCrop"/>
+        <TextView android:id="@+id/userCoordinates"
+                  android:layout_height="wrap_content"
+                  android:layout_width="wrap_content"
+                  android:textColor="@color/dashboard_text_color"
+                  android:text="@string/location_unknown"/>
+    </LinearLayout>
+
+    <!-- Ododmetr -->
     <RelativeLayout android:id="@+id/odometer_layout"
                     android:layout_width="fill_parent"
                     android:layout_height="50dp"
@@ -68,8 +90,7 @@
                    android:scaleType="centerCrop"
                    android:layout_marginLeft="6dp"
                    android:onClick="onStartClick"
-                   android:layout_alignParentLeft="true">
-        </ImageView>
+                   android:layout_alignParentLeft="true"/>
         <ImageView android:layout_height="30dp"
                    android:layout_width="30dp"
                    android:layout_centerVertical="true"
@@ -78,8 +99,7 @@
                    android:scaleType="centerCrop"
                    android:layout_marginLeft="6dp"
                    android:onClick="onRefreshClick"
-                   android:layout_toRightOf="@id/startButton">
-        </ImageView>
+                   android:layout_toRightOf="@id/startButton"/>
         <TextView android:id="@+id/tvOdometerInfo"
                   android:layout_height="wrap_content"
                   android:layout_width="wrap_content"
@@ -89,8 +109,7 @@
                   android:textStyle="bold"
                   android:layout_marginLeft="6dp"
                   android:text="@string/odometer"
-                  android:layout_toRightOf="@id/refreshButton">
-        </TextView>
+                  android:layout_toRightOf="@id/refreshButton"/>
         <TextView android:id="@+id/tvOdometer"
                   android:layout_height="wrap_content"
                   android:layout_width="wrap_content"
@@ -100,8 +119,7 @@
                   android:textStyle="bold"
                   android:text="0"
                   android:layout_marginLeft="6dp"
-                  android:layout_toRightOf="@id/tvOdometerInfo">
-        </TextView>
+                  android:layout_toRightOf="@id/tvOdometerInfo"/>
         <ImageView android:layout_height="30dp"
                    android:layout_width="30dp"
                    android:layout_centerVertical="true"
@@ -110,8 +128,7 @@
                    android:scaleType="centerCrop"
                    android:layout_marginLeft="6dp"
                    android:layout_marginRight="6dp"
-                   android:onClick="onCloseOdometerClick">
-        </ImageView>
+                   android:onClick="onCloseOdometerClick"/>
     </RelativeLayout>
 
 </RelativeLayout>
