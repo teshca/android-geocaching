@@ -29,15 +29,17 @@ public class GroupGeoCacheTask extends AsyncTask<Void, Integer, List<GeoCacheOve
     @Override
     protected List<GeoCacheOverlayItem> doInBackground(Void... voids) {
         LogManager.d(TAG, "start doInBackground, par.len = " + geoCacheList.size());
-        return analyzer.getList(geoCacheList);
+        return analyzer.getGroupedList(geoCacheList, this);
     }
 
     @Override
     protected void onPostExecute(List<GeoCacheOverlayItem> items) {
-        if (!isCancelled()) {
-            LogManager.d(TAG, "start add OItems, items = " + items.size());
-            map.addOverlayItemList(items);
-            LogManager.d(TAG, "finish add OItems");
-        }
+        LogManager.d(TAG, "start add Overlay Items, items = " + items.size());
+        map.addOverlayItemList(items);
+        LogManager.d(TAG, "finish add Overlay Items");
+    }
+    @Override
+    protected void onCancelled() {
+        LogManager.d(TAG, "Group task cancelled");
     }
 }

@@ -1,6 +1,7 @@
 package su.geocaching.android.controller.selectmap.geocachegroup;
 
 import android.graphics.Point;
+import android.os.AsyncTask;
 import com.google.android.maps.MapView;
 import su.geocaching.android.model.GeoCache;
 import su.geocaching.android.ui.geocachemap.GeoCacheOverlayItem;
@@ -14,7 +15,6 @@ import java.util.List;
  */
 
 public class GeoCacheListAnalyzer {
-    private List<GeoCacheOverlayItem> overlayItemList;
     private MapView map;
 
     private static final int MINIMUM_GROUP_SIZE_TO_CREATE_CLUSTER = 2;
@@ -25,8 +25,8 @@ public class GeoCacheListAnalyzer {
         this.map = map;
     }
 
-    private void fillOverlayItemList(List<Centroid> centroidList) {
-        overlayItemList = new LinkedList<GeoCacheOverlayItem>();
+    private LinkedList<GeoCacheOverlayItem> createOverlayItemList(List<Centroid> centroidList) {
+        LinkedList<GeoCacheOverlayItem> overlayItemList = new LinkedList<GeoCacheOverlayItem>();
         for (Centroid centroid : centroidList) {
             int num = centroid.getNumberOfView();
             if (num != 0) {
@@ -38,6 +38,7 @@ public class GeoCacheListAnalyzer {
                 }
             }
         }
+        return overlayItemList;
     }
 
     private List<Centroid> generateCentroids() {
@@ -53,14 +54,14 @@ public class GeoCacheListAnalyzer {
         return centroids;
     }
 
-    public List<GeoCacheOverlayItem> getList(List<GeoCache> geoCacheList) {
+    public List<GeoCacheOverlayItem> getGroupedList(List<GeoCache> geoCacheList, AsyncTask<?,?,?> asyncTask) {
         List<Centroid> centroids = generateCentroids();
+        if (asyncTask.isCancelled()) return null;
         List<GeoCacheView> points = generatePointsList(geoCacheList);
-
-        List<Centroid> centroidList = new KMeans(points, centroids).getCentroids();
-
-        fillOverlayItemList(centroidList);
-        return overlayItemList;
+        if (asyncTask.isCancelled()) return null;
+        List<Centroid> centroidList = new KMeans(points, centroids, asyncTask).getCentroids();
+        if (asyncTask.isCancelled()) return null;
+        return createOverlayItemList(centroidList);
     }
 
     private List<GeoCacheView> generatePointsList(List<GeoCache> geoCacheList) {

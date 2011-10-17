@@ -6,7 +6,6 @@ import android.app.Dialog;
 import android.content.Intent;
 import android.graphics.drawable.AnimationDrawable;
 import android.location.Location;
-import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Handler;
 import android.view.Menu;
@@ -14,10 +13,10 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.ImageView;
+import android.widget.TextView;
 import android.widget.Toast;
 import com.google.android.maps.GeoPoint;
 import com.google.android.maps.MapActivity;
-import com.google.android.maps.MapController;
 import com.google.android.maps.MapView;
 import su.geocaching.android.controller.Controller;
 import su.geocaching.android.controller.utils.CoordinateHelper;
@@ -48,7 +47,6 @@ public class SelectMapActivity extends MapActivity implements IConnectionAware, 
     private static final int ENABLE_CONNECTION_DIALOG_ID = 0;
     private Controller controller;
     private MapView map;
-    private MapController mapController;
     private SelectGeoCacheOverlay selectGeoCacheOverlay;
     private StaticUserLocationOverlay locationOverlay;
     private UserLocationManager locationManager;
@@ -60,7 +58,9 @@ public class SelectMapActivity extends MapActivity implements IConnectionAware, 
     private Handler handler;
     private GroupGeoCacheTask groupTask = null;
     private boolean firstRun = true;
-    private Toast connectionLostToast;
+    private TextView connectionInfoTextView;
+    private TextView downloadingInfoTextView;
+    private TextView groupingInfoTextView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -68,12 +68,9 @@ public class SelectMapActivity extends MapActivity implements IConnectionAware, 
         LogManager.d(TAG, "onCreate");
         setContentView(R.layout.select_map_activity);
 
-        connectionLostToast = Toast.makeText(this, R.string.map_internet_lost, Toast.LENGTH_LONG);
-
         controller = Controller.getInstance();
         map = (MapView) findViewById(R.id.selectGeocacheMap);
         map.getOverlays().clear();
-        mapController = map.getController();
 
         progressBarView = (ImageView) findViewById(R.id.progressCircle);
         progressBarView.setBackgroundResource(R.anim.earth_anim);
@@ -81,6 +78,10 @@ public class SelectMapActivity extends MapActivity implements IConnectionAware, 
         progressBarView.setVisibility(View.GONE);
         countDownloadTask = 0;
         handler = new Handler();
+
+        connectionInfoTextView = (TextView) findViewById(R.id.connectionInfoTextView);
+        groupingInfoTextView = (TextView) findViewById(R.id.groupingInfoTextView);
+        downloadingInfoTextView = (TextView) findViewById(R.id.downloadingInfoTextView);
 
         locationOverlay = new StaticUserLocationOverlay(controller.getResourceManager().getUserLocationMarker());
         selectGeoCacheOverlay = new SelectGeoCacheOverlay(controller.getResourceManager().getCacheMarker(GeoCacheType.TRADITIONAL, GeoCacheStatus.VALID), this, map);
@@ -103,6 +104,7 @@ public class SelectMapActivity extends MapActivity implements IConnectionAware, 
             handler.post(new Runnable() {
                 public void run() {
                     progressBarView.setVisibility(View.VISIBLE);
+                    downloadingInfoTextView.setText("Загрузка");
                 }
             });
         }
@@ -118,6 +120,7 @@ public class SelectMapActivity extends MapActivity implements IConnectionAware, 
             handler.post(new Runnable() {
                 public void run() {
                     progressBarView.setVisibility(View.GONE);
+                    downloadingInfoTextView.setText("");
                 }
             });
         }
@@ -126,9 +129,9 @@ public class SelectMapActivity extends MapActivity implements IConnectionAware, 
     private void updateMapInfoFromSettings() {
         MapInfo lastMapInfo = controller.getPreferencesManager().getLastSelectMapInfo();
         GeoPoint lastCenter = new GeoPoint(lastMapInfo.getCenterX(), lastMapInfo.getCenterY());
-        mapController.setCenter(lastCenter);
-        mapController.animateTo(lastCenter);
-        mapController.setZoom(lastMapInfo.getZoom());
+        map.getController().setCenter(lastCenter);
+        map.getController().animateTo(lastCenter);
+        map.getController().setZoom(lastMapInfo.getZoom());
     }
 
     private void saveMapInfoToSettings() {
@@ -166,9 +169,9 @@ public class SelectMapActivity extends MapActivity implements IConnectionAware, 
     @Override
     protected void onPause() {
         mapTimer.cancel();
+        cancelGroupTask();
         locationManager.removeSubscriber(this);
         connectionManager.removeSubscriber(this);
-        connectionLostToast.cancel();
         saveMapInfoToSettings();
         super.onPause();
     }
@@ -216,10 +219,19 @@ public class SelectMapActivity extends MapActivity implements IConnectionAware, 
         GeoPoint upperLeftCorner = map.getProjection().fromPixels(0, 0);
         GeoPoint lowerRightCorner = map.getProjection().fromPixels(map.getWidth(), map.getHeight());
         controller.updateSelectedGeoCaches(this, upperLeftCorner, lowerRightCorner);
+        cancelGroupTask();
         updateProgressStart();
     }
 
-    public void simpleAddGeoCacheList(List<GeoCache> geoCacheList) {
+    private void cancelGroupTask()
+    {
+        if (groupTask != null) {
+            LogManager.d(TAG, "cancel group task");
+            groupTask.cancel(true);
+        }
+    }
+
+    public synchronized void simpleAddGeoCacheList(List<GeoCache> geoCacheList) {
         if (geoCacheList == null || geoCacheList.size() == 0) {
             updateProgressStop();
             return;
@@ -236,21 +248,20 @@ public class SelectMapActivity extends MapActivity implements IConnectionAware, 
         }
     }
 
-    public void groupUseAddGeoCacheList(List<GeoCache> geoCacheList) {
+    public synchronized void groupUseAddGeoCacheList(List<GeoCache> geoCacheList) {
         if (geoCacheList == null || geoCacheList.size() == 0) {
             updateProgressStop();
             return;
         }
-        if (groupTask != null && groupTask.getStatus() != AsyncTask.Status.FINISHED) {
-            LogManager.d(TAG, "task canceled");
-            groupTask.cancel(false);
-        }
+        cancelGroupTask();
         groupTask = new GroupGeoCacheTask(this, geoCacheList);
         groupTask.execute();
+        groupingInfoTextView.setText("Группировка");
         updateProgressStop();
     }
 
-    public void addOverlayItemList(List<GeoCacheOverlayItem> overlayItemList) {
+    public synchronized void addOverlayItemList(List<GeoCacheOverlayItem> overlayItemList) {
+        groupingInfoTextView.setText("-");
         selectGeoCacheOverlay.clear();
         for (GeoCacheOverlayItem item : overlayItemList) {
             selectGeoCacheOverlay.addOverlayItem(item);
@@ -268,12 +279,12 @@ public class SelectMapActivity extends MapActivity implements IConnectionAware, 
 
     @Override
     public void onConnectionLost() {
-        connectionLostToast.show();
+        connectionInfoTextView.setText(R.string.map_internet_lost);
     }
 
     @Override
     public void onConnectionFound() {
-        connectionLostToast.cancel();
+        connectionInfoTextView.setText("");
     }
 
     protected Dialog onCreateDialog(int id) {
@@ -307,7 +318,7 @@ public class SelectMapActivity extends MapActivity implements IConnectionAware, 
         Location lastLocation = locationManager.getLastKnownLocation();
         if (lastLocation != null) {
             GeoPoint center = CoordinateHelper.locationToGeoPoint(lastLocation);
-            mapController.animateTo(center);
+            map.getController().animateTo(center);
             map.invalidate();
         } else {
             Toast.makeText(getBaseContext(), getString(R.string.status_null_last_location), Toast.LENGTH_SHORT).show();
