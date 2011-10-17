@@ -398,18 +398,7 @@ public class UserLocationManager implements LocationListener, GpsStatus.Listener
      * Set frequency from preferences of location updates and re-request location updates from current provider
      */
     public synchronized void updateFrequencyFromPreferences() {
-        GpsUpdateFrequency prefsFrequency = Controller.getInstance().getPreferencesManager().getGpsUpdateFrequency();
-        if (updateFrequency.equals(prefsFrequency)) {
-            LogManager.d(TAG, "refresh frequency from prefs: already done");
-            return;
-        }
-        updateFrequency = prefsFrequency;
-        LogManager.d(TAG, "refresh frequency. new value is " + updateFrequency.toString());
-        if (isUpdating) {
-            removeUpdates();
-            addUpdates();
-            LogManager.d(TAG, "refresh frequency: re-request location updates from provider");
-        }
+        updateFrequency(Controller.getInstance().getPreferencesManager().getGpsUpdateFrequency());
     }
 
     /**
