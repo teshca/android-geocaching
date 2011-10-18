@@ -6,6 +6,9 @@ import su.geocaching.android.controller.managers.IBearingAware;
 import su.geocaching.android.controller.managers.LogManager;
 import su.geocaching.android.controller.managers.UncaughtExceptionsHandler;
 
+import java.util.LinkedList;
+import java.util.List;
+
 /**
  * The class provides a smooth rotation of compass
  *
@@ -31,7 +34,7 @@ public class SmoothCompassThread extends Thread implements IBearingAware {
         this.speed = speed;
     }
 
-    private ICompassAnimation compassView;
+    private List<ICompassAnimation> compassView = new LinkedList<ICompassAnimation>();
     private CompassManager compassManager;
 
     private float goalDirection = 0;
@@ -49,13 +52,28 @@ public class SmoothCompassThread extends Thread implements IBearingAware {
         }
     }
 
-    public SmoothCompassThread(ICompassAnimation compassView) {
+    public SmoothCompassThread(ICompassAnimation... compassView) {
         LogManager.d(TAG, "new SmoothCompassThread");
         compassManager = Controller.getInstance().getCompassManager();
         compassManager.addSubscriber(this);
-        this.compassView = compassView;
+
+
+        if (compassView != null) {
+            for (ICompassAnimation compass : compassView) {
+                this.compassView.add(compass);
+            }
+        }
+
         speed = CompassSpeed.NORMAL;
         Thread.setDefaultUncaughtExceptionHandler(new UncaughtExceptionsHandler());
+    }
+
+    public void addSubscriber(ICompassAnimation compassView) {
+        synchronized (this.compassView) {
+            if (!this.compassView.contains(compassView)) {
+                this.compassView.add(compassView);
+            }
+        }
     }
 
     @Override
@@ -76,7 +94,13 @@ public class SmoothCompassThread extends Thread implements IBearingAware {
                 speed = calculateSpeed(difference, speed);
                 currentDirection = needleDirection + speed;
                 needleDirection = currentDirection;
-                forcePaint = !compassView.setDirection(needleDirection);
+
+                synchronized (compassView) {
+                    if (compassView != null)
+                        for (ICompassAnimation compass : compassView) {
+                            forcePaint |= !compass.setDirection(needleDirection);
+                        }
+                }
             } else {
                 isArrived = true;
             }

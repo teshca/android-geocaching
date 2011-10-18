@@ -133,4 +133,8 @@ public class CheckpointsFolder extends Activity implements AdapterView.OnItemCli
     public void onItemClick(AdapterView<?> adapter, View cv, int position, long id) {
         NavigationManager.startCheckpointDialog(this, ((GeoCache) adapter.getItemAtPosition(position)).getId());
     }
+
+    public void onHomeClick(View v) {
+        NavigationManager.startDashboardActivity(this);
+    }
 }

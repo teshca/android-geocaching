@@ -1,6 +1,7 @@
 package su.geocaching.android.controller.adapters;
 
 import android.content.Context;
+import android.location.Location;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Filter;
@@ -8,9 +9,14 @@ import android.widget.Filterable;
 import android.widget.ImageView;
 import android.widget.TextView;
 import su.geocaching.android.controller.Controller;
+import su.geocaching.android.controller.compass.SmoothCompassThread;
+import su.geocaching.android.controller.managers.LogManager;
 import su.geocaching.android.controller.managers.ResourceManager;
+import su.geocaching.android.controller.managers.UserLocationManager;
+import su.geocaching.android.controller.utils.CoordinateHelper;
 import su.geocaching.android.model.GeoCache;
 import su.geocaching.android.ui.R;
+import su.geocaching.android.ui.compass.CompassView;
 
 import java.util.ArrayList;
 
@@ -19,31 +25,60 @@ import java.util.ArrayList;
  */
 public class FavoritesArrayAdapter extends BaseArrayAdapter<GeoCache> implements Filterable {
 
+    private static final String TAG = FavoritesArrayAdapter.class.getCanonicalName();
+
     private final Object mLock = new Object();
     private ItemsFilter mFilter;
     public ArrayList<GeoCache> gcItems;
 
+    private SmoothCompassThread compassThread;
+    private UserLocationManager locationManager;
+    private ResourceManager rm;
+
 
     public FavoritesArrayAdapter(final Context context) {
         super(context);
+        locationManager = Controller.getInstance().getLocationManager();
+        rm = Controller.getInstance().getResourceManager();
     }
 
     @Override
     public View getView(int position, View cv, ViewGroup parent) {
 
+        LogManager.d(TAG, "getView");
+        long time = System.currentTimeMillis();
+
         if (cv == null) {
+            long time2 = System.currentTimeMillis();
             cv = inflater.inflate(R.layout.row_favorites, null);
-            cv.setTag(new Holder(cv.findViewById(R.id.tvName), cv.findViewById(R.id.tvType), cv.findViewById(R.id.tvStatus), cv.findViewById(R.id.ivIcon)));
+            cv.setTag(new Holder(cv.findViewById(R.id.tvName), cv.findViewById(R.id.tvType), cv.findViewById(R.id.tvStatus), cv.findViewById(R.id.ivIcon), cv.findViewById(R.id.compassView)));
+            LogManager.d(TAG, "inflater.inflate done for " + (System.currentTimeMillis() - time2) + " ms.");
         }
 
         final GeoCache geoCache = getItem(position);
-        final ResourceManager rm = Controller.getInstance().getResourceManager();
-
         final Holder holder = (Holder) cv.getTag();
         holder.textViewName.setText(geoCache.getName());
         holder.textViewType.setText(rm.getGeoCacheType(geoCache));
         holder.textViewStatus.setText(rm.getGeoCacheStatus(geoCache));
         holder.imageViewIcon.setImageResource(rm.getMarkerResId(geoCache.getType(), geoCache.getStatus()));
+
+        if (compassThread == null) {
+            compassThread = new SmoothCompassThread();
+        }
+        compassThread.addSubscriber(holder.compassView);
+
+        //TODO check/improve it;
+        Location lastLocation = locationManager.getLastKnownLocation();
+        if (lastLocation != null) {
+            holder.compassView.setCacheDirection(CoordinateHelper.getBearingBetween(lastLocation, geoCache.getLocationGeoPoint()));
+        }
+
+        if (!compassThread.isRunning()) {
+            compassThread.setRunning(true);
+            compassThread.start();
+        }
+
+        LogManager.d(TAG, "getView done for " + (System.currentTimeMillis() - time) + " ms. gc.name " + geoCache.getName() + " position " + position);
         return cv;
     }
 
@@ -57,17 +92,35 @@ public class FavoritesArrayAdapter extends BaseArrayAdapter<GeoCache> implements
         return mFilter;
     }
 
+    /**
+     * mast be called on activity onPause/onStop
+     */
+    public void stopAnimation() {
+        if (compassThread != null) {
+            compassThread.setRunning(false);
+            try {
+                compassThread.join(150);
+            } catch (InterruptedException ignored) {
+            }
+            compassThread = null;
+        }
+    }
+
     private class Holder {
         final TextView textViewName;
         final TextView textViewType;
         final TextView textViewStatus;
         final ImageView imageViewIcon;
+        final CompassView compassView;
 
-        public Holder(final View textViewName, final View textViewType, final View textViewStatus, final View imageViewIcon) {
+
+        public Holder(final View textViewName, final View textViewType, final View textViewStatus, final View imageViewIcon, final View compassView) {
             this.textViewName = (TextView) textViewName;
             this.textViewType = (TextView) textViewType;
             this.textViewStatus = (TextView) textViewStatus;
             this.imageViewIcon = (ImageView) imageViewIcon;
+            this.compassView = (CompassView) compassView;
+            this.compassView.setHelper("PREVIEW");
         }
     }
 
@@ -113,7 +166,7 @@ public class FavoritesArrayAdapter extends BaseArrayAdapter<GeoCache> implements
             //noinspection unchecked
             gcItems = (ArrayList<GeoCache>) results.values;
             clear();
-            for(GeoCache gc : gcItems){
+            for (GeoCache gc : gcItems) {
                 add(gc);
             }
             // Let the adapter know about the updated list

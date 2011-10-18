@@ -15,7 +15,8 @@
                   android:orientation="vertical"
                   android:layout_marginLeft="10dip"
                   android:layout_marginTop="2dip"
-                  android:layout_height="wrap_content">
+                  android:layout_height="wrap_content"
+                  android:layout_weight="1">
 
         <!-- Name -->
         <TextView android:id="@+id/tvName"
@@ -28,7 +29,7 @@
 
         <!-- Type & Status -->
         <LinearLayout android:layout_width="fill_parent"
-                      android:orientation="horizontal"
+                      android:orientation="vertical"
                       android:layout_marginTop="2dip"
                       android:layout_marginBottom="5dip"
                       android:layout_height="wrap_content">
@@ -49,4 +50,10 @@
                       android:textColor="@drawable/favorites_text_color_selector"/>
         </LinearLayout>
     </LinearLayout>
+
+    <su.geocaching.android.ui.compass.CompassView
+            android:id="@+id/compassView"
+            android:layout_width="32dp"
+            android:layout_height="32dp"
+            android:layout_gravity="center_vertical"/>
 </LinearLayout>

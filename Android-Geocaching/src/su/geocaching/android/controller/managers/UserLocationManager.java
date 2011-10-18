@@ -1,22 +1,16 @@
 package su.geocaching.android.controller.managers;
 
+import android.location.*;
+import android.os.Bundle;
+import su.geocaching.android.controller.Controller;
+import su.geocaching.android.controller.GpsUpdateFrequency;
+import su.geocaching.android.controller.utils.CoordinateHelper;
+import su.geocaching.android.ui.R;
+
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Timer;
 import java.util.TimerTask;
-
-import android.location.Criteria;
-import android.location.GpsSatellite;
-import android.location.GpsStatus;
-import android.location.Location;
-import android.location.LocationListener;
-import android.location.LocationManager;
-import android.location.LocationProvider;
-import android.os.Bundle;
-import su.geocaching.android.controller.Controller;
-import su.geocaching.android.controller.utils.CoordinateHelper;
-import su.geocaching.android.controller.GpsUpdateFrequency;
-import su.geocaching.android.ui.R;
 
 /**
  * Location manager which get updates of location by GPS or GSM/Wi-Fi
@@ -98,7 +92,7 @@ public class UserLocationManager implements LocationListener, GpsStatus.Listener
 
         LogManager.d(TAG, "addSubscriber: remove task cancelled;\n	isUpdating=" + Boolean.toString(isUpdating) + ";\n	subscribers=" + Integer.toString(subscribers.size()));
 
-        if (((subscribers.size() == 0) && (!isUpdating)) || (!isUpdating)) {
+        if (((subscribers.size() == 0) && !isUpdating)) {
             addUpdates();
         }
         if (!subscribers.contains(subscriber)) {
