@@ -46,9 +46,9 @@ ILocationAware - интерфейс с которым работает LocationM
 
 ===onStatusChanged===
 Вызывается когда изменяется статус провайдера (параметр String provider). Параметр status принимает значения:
- * [http://developer.android.com/reference/android/location/LocationProvider.html LocationProvider].OUT_OF_SERVICE если провайдер недоступен и в ближайшем будущем вряд ли будет работать. 
- * [http://developer.android.com/reference/android/location/LocationProvider.html LocationProvider].TEMPORARILY_UNAVAILABLE если провайдер временно недоступен и в скором будущем должен возобновить работу.
- * [http://developer.android.com/reference/android/location/LocationProvider.html LocationProvider].AVAILABLE если провайдер в данный момент доступен.
+ * [http://developer.android.com/reference/android/location/LocationProvider.html#OUT_OF_SERVICE LocationProvider.OUT_OF_SERVICE] если провайдер недоступен и в ближайшем будущем вряд ли будет работать. 
+ * [http://developer.android.com/reference/android/location/LocationProvider.html#TEMPORARILY_UNAVAILABLE LocationProvider.TEMPORARILY_UNAVAILABLE] если провайдер временно недоступен и в скором будущем должен возобновить работу.
+ * [http://developer.android.com/reference/android/location/LocationProvider.html#AVAILABLE LocationProvider.AVAILABLE] если провайдер в данный момент доступен.
 Параметр extras может содержать специальную информацию о провайдере. Например, с ключом satellites сопоставлено количество спутников, использованных в определении текущего местоположения.
 
 ===onProviderEnabled===
