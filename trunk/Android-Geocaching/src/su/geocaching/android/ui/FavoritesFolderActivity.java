@@ -34,7 +34,7 @@ public class FavoritesFolderActivity extends Activity implements AdapterView.OnI
 
     private TextView tvNoCache;
     private ListView lvListShowCache;
-    private FavoritesArrayAdapter favoriteGeocachesAdapter;
+    private FavoritesArrayAdapter favoriteGeoCachesAdapter;
     private DbManager dbm;
     private Parcelable listState = null;
 
@@ -44,16 +44,16 @@ public class FavoritesFolderActivity extends Activity implements AdapterView.OnI
         LogManager.d(TAG, "onCreate");
         setContentView(R.layout.favorites_folder_activity);
 
-        favoriteGeocachesAdapter = new FavoritesArrayAdapter(this);
+        favoriteGeoCachesAdapter = new FavoritesArrayAdapter(this);
         dbm = Controller.getInstance().getDbManager();
-        favoriteGeocachesAdapter.gcItems = dbm.getArrayGeoCache();
+        favoriteGeoCachesAdapter.gcItems = dbm.getArrayGeoCache();
 
         lvListShowCache = (ListView) findViewById(R.id.favorite_folder_listCache);
         tvNoCache = (TextView) findViewById(R.id.favorite_folder_title_text);
 
         lvListShowCache.setOnItemClickListener(this);
         lvListShowCache.setTextFilterEnabled(true);
-        lvListShowCache.setAdapter(favoriteGeocachesAdapter);
+        lvListShowCache.setAdapter(favoriteGeoCachesAdapter);
 
         Intent intent = getIntent();
         if (Intent.ACTION_SEARCH.equals(intent.getAction())) {
@@ -66,24 +66,29 @@ public class FavoritesFolderActivity extends Activity implements AdapterView.OnI
 
     @Override
     protected void onResume() {
-
         ArrayList<GeoCache> geoCachesList = dbm.getArrayGeoCache();
-        favoriteGeocachesAdapter.clear();
+        favoriteGeoCachesAdapter.clear();
         if (geoCachesList.isEmpty()) {
             tvNoCache.setVisibility(View.VISIBLE);
         } else {
             tvNoCache.setVisibility(View.GONE);
             for (GeoCache gc : geoCachesList) {
-                favoriteGeocachesAdapter.add(gc);
+                favoriteGeoCachesAdapter.add(gc);
             }
         }
-        favoriteGeocachesAdapter.notifyDataSetChanged();
+        favoriteGeoCachesAdapter.notifyDataSetChanged();
 
         if (listState != null) {
             lvListShowCache.onRestoreInstanceState(listState);
         }
         listState = null;
         super.onResume();
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+        favoriteGeoCachesAdapter.stopAnimation();
     }
 
     @Override
@@ -108,7 +113,7 @@ public class FavoritesFolderActivity extends Activity implements AdapterView.OnI
     @Override
     public boolean onPrepareOptionsMenu(Menu menu) {
         menu.getItem(0).setVisible(true);
-        if (favoriteGeocachesAdapter.isEmpty()) {
+        if (favoriteGeoCachesAdapter.isEmpty()) {
             menu.getItem(0).setEnabled(false);
         } else {
             menu.getItem(0).setEnabled(true);
@@ -152,5 +157,9 @@ public class FavoritesFolderActivity extends Activity implements AdapterView.OnI
         });
         AlertDialog turnOnInternetAlert = builder.create();
         turnOnInternetAlert.show();
+    }
+
+    public void onHomeClick(View v) {
+        NavigationManager.startDashboardActivity(this);
     }
 }

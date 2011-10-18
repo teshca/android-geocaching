@@ -5,10 +5,7 @@ import android.graphics.Canvas;
 import android.util.AttributeSet;
 import android.view.SurfaceHolder;
 import android.view.SurfaceView;
-import su.geocaching.android.controller.compass.AbstractCompassDrawing;
-import su.geocaching.android.controller.compass.ICompassAnimation;
-import su.geocaching.android.controller.compass.DefaultCompassDrawing;
-import su.geocaching.android.controller.compass.WhiteStandardCompassDrawing;
+import su.geocaching.android.controller.compass.*;
 import su.geocaching.android.controller.managers.LogManager;
 
 /**
@@ -31,13 +28,13 @@ public class CompassView extends SurfaceView implements SurfaceHolder.Callback, 
         super(context, attributeSet);
         LogManager.d(TAG, "new CompassView");
 
-        compassDrawing = new DefaultCompassDrawing();
+        //compassDrawing = new DefaultCompassDrawing();
         ready = true; // Is it need?
     }
 
     @Override
     public void onDraw(Canvas canvas) {
-        if (ready) {
+        if (ready && compassDrawing!= null) {
             super.onDraw(canvas);
             compassDrawing.draw(canvas, northDirection);
             if (isLocationFixed) {
@@ -101,7 +98,7 @@ public class CompassView extends SurfaceView implements SurfaceHolder.Callback, 
     public void setCacheDirection(float direction) {
         cacheDirection = direction;
         isLocationFixed = true;
-        doAnimation();
+        //doAnimation();
     }
 
     public void setDistance(float distance) {
@@ -129,7 +126,10 @@ public class CompassView extends SurfaceView implements SurfaceHolder.Callback, 
             compassDrawing = new DefaultCompassDrawing();
         } else if (string.equals("PALE") && !(compassDrawing instanceof WhiteStandardCompassDrawing)) {
             compassDrawing = new WhiteStandardCompassDrawing();
+        }else     if (string.equals("PREVIEW") && !(compassDrawing instanceof PreviewCompassDrawing)) {
+            compassDrawing = new PreviewCompassDrawing();
         }
+
         if (getWidth() > 0) {
             compassDrawing.onSizeChanged(getWidth(), getHeight());
         }

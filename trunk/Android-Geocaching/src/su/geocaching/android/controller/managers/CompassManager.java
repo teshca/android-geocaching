@@ -1,8 +1,5 @@
 package su.geocaching.android.controller.managers;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import android.hardware.Sensor;
 import android.hardware.SensorEvent;
 import android.hardware.SensorEventListener;
@@ -10,6 +7,9 @@ import android.hardware.SensorManager;
 import android.location.Location;
 import android.os.Bundle;
 import su.geocaching.android.controller.Controller;
+
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Sensor manager which calculate bearing of user
@@ -50,6 +50,9 @@ public class CompassManager implements SensorEventListener, ILocationAware {
      */
     public void addSubscriber(IBearingAware subscriber) {
         subscribers.add(subscriber);
+        if (subscribers.size() == 1) {
+            setUsingGpsCompass(Controller.getInstance().getPreferencesManager().getCompasSensorPreference().endsWith("GPS"));
+        }
         LogManager.d(TAG, "addSubscriber, size: " + subscribers.size());
     }
 

@@ -44,7 +44,7 @@ public class CompassActivity extends Activity {
     private CompassView compassView;
     private TextView tvOdometer, statusText, cacheCoordinates, userCoordinates;
     private ImageView progressBarView;
-    private AnimationDrawable progressBarAnim;
+    private AnimationDrawable progressBarAnimation;
     private RelativeLayout odometerLayout;
     private Toast providerUnavailableToast;
     private ImageView startButton;
@@ -69,7 +69,7 @@ public class CompassActivity extends Activity {
                 NavigationManager.startExternalGpsStatusActivity(v.getContext());
             }
         });
-        progressBarAnim = (AnimationDrawable) progressBarView.getBackground();
+        progressBarAnimation = (AnimationDrawable) progressBarView.getBackground();
         statusText = (TextView) findViewById(R.id.waitingLocationFixText);
         odometerLayout = (RelativeLayout) findViewById(R.id.odometer_layout);
 
@@ -93,6 +93,7 @@ public class CompassActivity extends Activity {
             return;
         }
 
+        compassView.setHelper(preferenceManager.getCompassAppearence());
         compassView.setKeepScreenOn(preferenceManager.getKeepScreenOnPreference());
         Controller.getInstance().getCompassManager().setUsingGpsCompass(preferenceManager.getCompasSensorPreference().endsWith("GPS"));
         cacheCoordinates.setText(CoordinateHelper.coordinateToString(controller.getSearchingGeoCache().getLocationGeoPoint()));
@@ -139,7 +140,6 @@ public class CompassActivity extends Activity {
             animationThread.setRunning(true);
 
             animationThread.setSpeed(CompassSpeed.valueOf(preferenceManager.getCompassSpeed()));
-            compassView.setHelper(preferenceManager.getCompassAppearence());
             animationThread.start();
         }
     }
@@ -236,10 +236,10 @@ public class CompassActivity extends Activity {
     @Override
     public void onWindowFocusChanged(boolean hasFocus) {
         super.onWindowFocusChanged(hasFocus);
-        if (progressBarAnim.isRunning()) {
-            progressBarAnim.stop();
+        if (progressBarAnimation.isRunning()) {
+            progressBarAnimation.stop();
         } else {
-            progressBarAnim.start();
+            progressBarAnimation.start();
         }
     }
 

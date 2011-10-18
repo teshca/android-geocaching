@@ -13,5 +13,5 @@ public interface ICompassAnimation {
      * @param direction - direction to the north
      * @return returns TRUE if the drawing was successful, otherwise FALSE
      */
-    public boolean setDirection(float direction);
+    public boolean  setDirection(float direction);
 }
