@@ -29,12 +29,13 @@ public class UserLocationManager implements LocationListener, GpsStatus.Listener
     private static final String REMOVE_UPDATES_TIMER_NAME = "remove location updates mapupdatetimer";
     private static final String DEPRECATE_LOCATION_TIMER_NAME = "waiting for location deprecation";
     private static final long REMOVE_UPDATES_DELAY = 30000; // in milliseconds
-    public static final int PRECISE_LOCATION_MAX_TIME = 60 * 1000; // in milliseconds
-    public static final float PRECISE_LOCATION_MAX_ACCURACY = 10f;
+    private static final int PRECISE_LOCATION_MAX_TIME = 60 * 1000; // in milliseconds
+    private static final float PRECISE_LOCATION_MAX_ACCURACY = 20f; // in meters
 
     private LocationManager locationManager;
     private Location lastLocation;
-    private String provider;
+    private long lastLocationTime = -1;
+    private String provider = "none";
     private List<ILocationAware> subscribers;
     private List<ILocationAware> statusSubscribers;
     private Timer removeUpdatesTimer;
@@ -55,7 +56,6 @@ public class UserLocationManager implements LocationListener, GpsStatus.Listener
         updateFrequency = Controller.getInstance().getPreferencesManager().getGpsUpdateFrequency();
         subscribers = new ArrayList<ILocationAware>();
         statusSubscribers = new ArrayList<ILocationAware>();
-        provider = "none";
         isUpdating = false;
         removeUpdatesTimer = new Timer(REMOVE_UPDATES_TIMER_NAME);
         removeUpdatesTask = new RemoveUpdatesTask(this);
@@ -156,6 +156,7 @@ public class UserLocationManager implements LocationListener, GpsStatus.Listener
             odometerDistance += CoordinateHelper.getDistanceBetween(location, lastLocation);
         }
         lastLocation = location;
+        lastLocationTime = System.currentTimeMillis();
         // start timer which notify about deprecation
         deprecateLocationNotifier.cancel();
         deprecateLocationNotifier = new DeprecateLocationNotifier();
@@ -262,10 +263,11 @@ public class UserLocationManager implements LocationListener, GpsStatus.Listener
 
     /**
      * Check is last known location actual or not
+     *
      * @return true, if last known location actual
      */
     public boolean hasPreciseLocation() {
-        return hasLocation() && lastLocation.getTime() + PRECISE_LOCATION_MAX_TIME < System.currentTimeMillis()
+        return hasLocation() && lastLocationTime + PRECISE_LOCATION_MAX_TIME > System.currentTimeMillis()
                 && lastLocation.hasAccuracy() && lastLocation.getAccuracy() < PRECISE_LOCATION_MAX_ACCURACY;
     }
 
@@ -422,36 +424,36 @@ public class UserLocationManager implements LocationListener, GpsStatus.Listener
         return String.format("%s %d/%d", Controller.getInstance().getResourceManager().getString(R.string.gps_status_satellite_status), usedInFix, count);
     }
 
-  /**
-   * Return the distance in meters after last odometer refresh
-   *
-   * @return distance in meters
-   */
+    /**
+     * Return the distance in meters after last odometer refresh
+     *
+     * @return distance in meters
+     */
     public float getOdometerDistance() {
         return odometerDistance;
     }
 
-   /**
-    *  Refresh the odometer distance value
-    */
+    /**
+     * Refresh the odometer distance value
+     */
     public void refreshOdometer() {
         odometerDistance = 0;
     }
 
-  /**
-   * Enable/Disable odometer
-   *
-   * @param isUpdating - flag Enable/Disable updating
-   */
+    /**
+     * Enable/Disable odometer
+     *
+     * @param isUpdating - flag Enable/Disable updating
+     */
     public void setUpdatingOdometer(boolean isUpdating) {
         isUpdatingOdometer = isUpdating;
     }
 
-   /**
-    * Is odometer updating
-    *
-    * @return isUpdatingOdometer
-    */
+    /**
+     * Is odometer updating
+     *
+     * @return isUpdatingOdometer
+     */
     public boolean isUpdatingOdometer() {
         return isUpdatingOdometer;
     }
