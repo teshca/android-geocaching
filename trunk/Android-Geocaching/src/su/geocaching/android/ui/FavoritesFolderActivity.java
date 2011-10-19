@@ -11,7 +11,7 @@ import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.AdapterView;
+import android.widget.ListView;
 import android.widget.TextView;
 import su.geocaching.android.controller.Controller;
 import su.geocaching.android.controller.adapters.FavoritesArrayAdapter;
@@ -25,7 +25,7 @@ import java.util.ArrayList;
 /**
  * Class for create ListActivity with favorites caches
  */
-public class FavoritesFolderActivity extends ListActivity implements AdapterView.OnItemClickListener {
+public class FavoritesFolderActivity extends ListActivity {
 
     private static final String TAG = FavoritesFolderActivity.class.getCanonicalName();
     private static final String FAVORITES_FOLDER = "/FavoritesActivity";
@@ -104,11 +104,6 @@ public class FavoritesFolderActivity extends ListActivity implements AdapterView
     }
 
     @Override
-    public void onItemClick(AdapterView<?> adapter, View cv, int position, long id) {
-        NavigationManager.startInfoActivity(this, (GeoCache) adapter.getItemAtPosition(position));
-    }
-
-    @Override
     public boolean onPrepareOptionsMenu(Menu menu) {
         menu.getItem(0).setVisible(true);
         if (favoriteGeoCachesAdapter.isEmpty()) {
@@ -155,6 +150,12 @@ public class FavoritesFolderActivity extends ListActivity implements AdapterView
         });
         AlertDialog turnOnInternetAlert = builder.create();
         turnOnInternetAlert.show();
+    }
+
+    @Override
+    protected void onListItemClick(ListView l, View v, int position, long id) {
+        super.onListItemClick(l, v, position, id);
+        NavigationManager.startInfoActivity(this, ((GeoCache) this.getListAdapter().getItem(position)));
     }
 
     public void onHomeClick(View v) {
