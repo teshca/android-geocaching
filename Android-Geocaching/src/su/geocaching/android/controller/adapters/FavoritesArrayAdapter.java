@@ -9,15 +9,13 @@ import android.widget.Filterable;
 import android.widget.ImageView;
 import android.widget.TextView;
 import su.geocaching.android.controller.Controller;
-import su.geocaching.android.controller.compass.CompassSpeed;
-import su.geocaching.android.controller.compass.SmoothCompassThread;
 import su.geocaching.android.controller.managers.LogManager;
 import su.geocaching.android.controller.managers.ResourceManager;
 import su.geocaching.android.controller.managers.UserLocationManager;
 import su.geocaching.android.controller.utils.CoordinateHelper;
 import su.geocaching.android.model.GeoCache;
 import su.geocaching.android.ui.R;
-import su.geocaching.android.ui.compass.CompassView;
+import su.geocaching.android.ui.compass.OneThreadCompassView;
 
 import java.util.ArrayList;
 
@@ -32,7 +30,7 @@ public class FavoritesArrayAdapter extends BaseArrayAdapter<GeoCache> implements
     private ItemsFilter mFilter;
     public ArrayList<GeoCache> gcItems;
 
-    private SmoothCompassThread compassThread;
+    //private SmoothCompassThread compassThread;
     private UserLocationManager locationManager;
     private ResourceManager rm;
 
@@ -63,11 +61,11 @@ public class FavoritesArrayAdapter extends BaseArrayAdapter<GeoCache> implements
         holder.textViewStatus.setText(rm.getGeoCacheStatus(geoCache));
         holder.imageViewIcon.setImageResource(rm.getMarkerResId(geoCache.getType(), geoCache.getStatus()));
 
-        if (compassThread == null) {
-            compassThread = new SmoothCompassThread();
-            compassThread.setSpeed(CompassSpeed.FAST);
-        }
-        compassThread.addSubscriber(holder.compassView);
+//        if (compassThread == null) {
+//            compassThread = new SmoothCompassThread();
+//            compassThread.setSpeed(CompassSpeed.FAST);
+//        }
+//        compassThread.addSubscriber(holder.compassView);
 
         //TODO check/improve it;
         Location lastLocation = locationManager.getLastKnownLocation();
@@ -79,10 +77,11 @@ public class FavoritesArrayAdapter extends BaseArrayAdapter<GeoCache> implements
         float distance = CoordinateHelper.getDistanceBetween(geoCache.getLocationGeoPoint(), lastLocation);
         holder.textViewDistance.setText(CoordinateHelper.distanceToString(distance, hasPreciseLocation));
 
-        if (!compassThread.isRunning()) {
-            compassThread.setRunning(true);
-            compassThread.start();
-        }
+//        if (!compassThread.isRunning()) {
+//            compassThread.setRunning(true);
+//            compassThread.start();
+//        }
+        holder.compassView.invalidate();
 
         LogManager.d(TAG, "getView done for " + (System.currentTimeMillis() - time) + " ms. gc.name " + geoCache.getName() + " position " + position);
         return cv;
@@ -102,14 +101,14 @@ public class FavoritesArrayAdapter extends BaseArrayAdapter<GeoCache> implements
      * mast be called on activity onPause/onStop
      */
     public void stopAnimation() {
-        if (compassThread != null) {
-            compassThread.setRunning(false);
-            try {
-                compassThread.join(150);
-            } catch (InterruptedException ignored) {
-            }
-            compassThread = null;
-        }
+//        if (compassThread != null) {
+//            compassThread.setRunning(false);
+//            try {
+//                compassThread.join(150);
+//            } catch (InterruptedException ignored) {
+//            }
+//            compassThread = null;
+//        }
     }
 
     private class Holder {
@@ -118,7 +117,7 @@ public class FavoritesArrayAdapter extends BaseArrayAdapter<GeoCache> implements
         final TextView textViewStatus;
         final TextView textViewDistance;
         final ImageView imageViewIcon;
-        final CompassView compassView;
+        final OneThreadCompassView compassView;
 
 
         public Holder(final View textViewName, final View textViewType, final View textViewStatus, final View imageViewIcon, final View compassView, final View textViewDistance) {
@@ -126,7 +125,7 @@ public class FavoritesArrayAdapter extends BaseArrayAdapter<GeoCache> implements
             this.textViewType = (TextView) textViewType;
             this.textViewStatus = (TextView) textViewStatus;
             this.imageViewIcon = (ImageView) imageViewIcon;
-            this.compassView = (CompassView) compassView;
+            this.compassView = (OneThreadCompassView) compassView;
             this.textViewDistance = (TextView) textViewDistance;
             this.compassView.setHelper("PREVIEW");
         }
