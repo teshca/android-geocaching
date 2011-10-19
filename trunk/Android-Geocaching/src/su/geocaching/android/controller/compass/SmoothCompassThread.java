@@ -26,31 +26,11 @@ public class SmoothCompassThread extends Thread implements IBearingAware {
     private static final float SPEED_EPS = 0.55f;
 
     private CompassSpeed speed;
-
-    /**
-     * @param speed - Speed mode of compass needle
-     */
-    public void setSpeed(CompassSpeed speed) {
-        this.speed = speed;
-    }
-
     private List<ICompassAnimation> compassView = new LinkedList<ICompassAnimation>();
     private CompassManager compassManager;
 
     private float goalDirection = 0;
     private boolean isRunning = false;
-
-    public boolean isRunning() {
-        return isRunning;
-    }
-
-    public void setRunning(boolean isRunning) {
-        this.isRunning = isRunning;
-        if (!isRunning) {
-            LogManager.d(TAG, "SmoothCompassThread - isRunning false");
-            compassManager.removeSubscriber(this);
-        }
-    }
 
     public SmoothCompassThread(ICompassAnimation... compassView) {
         LogManager.d(TAG, "new SmoothCompassThread");
@@ -66,6 +46,26 @@ public class SmoothCompassThread extends Thread implements IBearingAware {
 
         speed = CompassSpeed.NORMAL;
         Thread.setDefaultUncaughtExceptionHandler(new UncaughtExceptionsHandler());
+    }
+
+
+    public boolean isRunning() {
+        return isRunning;
+    }
+
+    public void setRunning(boolean isRunning) {
+        this.isRunning = isRunning;
+        if (!isRunning) {
+            LogManager.d(TAG, "SmoothCompassThread - isRunning false");
+            compassManager.removeSubscriber(this);
+        }
+    }
+
+    /**
+     * @param speed - Speed mode of compass needle
+     */
+    public void setSpeed(CompassSpeed speed) {
+        this.speed = speed;
     }
 
     public void addSubscriber(ICompassAnimation compassView) {
