@@ -9,6 +9,7 @@ import android.widget.Filterable;
 import android.widget.ImageView;
 import android.widget.TextView;
 import su.geocaching.android.controller.Controller;
+import su.geocaching.android.controller.compass.CompassSpeed;
 import su.geocaching.android.controller.compass.SmoothCompassThread;
 import su.geocaching.android.controller.managers.LogManager;
 import su.geocaching.android.controller.managers.ResourceManager;
@@ -51,7 +52,7 @@ public class FavoritesArrayAdapter extends BaseArrayAdapter<GeoCache> implements
         if (cv == null) {
             long time2 = System.currentTimeMillis();
             cv = inflater.inflate(R.layout.row_favorites, null);
-            cv.setTag(new Holder(cv.findViewById(R.id.tvName), cv.findViewById(R.id.tvType), cv.findViewById(R.id.tvStatus), cv.findViewById(R.id.ivIcon), cv.findViewById(R.id.compassView)));
+            cv.setTag(new Holder(cv.findViewById(R.id.tvName), cv.findViewById(R.id.tvType), cv.findViewById(R.id.tvStatus), cv.findViewById(R.id.ivIcon), cv.findViewById(R.id.compassView), cv.findViewById(R.id.tvDistance)));
             LogManager.d(TAG, "inflater.inflate done for " + (System.currentTimeMillis() - time2) + " ms.");
         }
 
@@ -64,6 +65,7 @@ public class FavoritesArrayAdapter extends BaseArrayAdapter<GeoCache> implements
 
         if (compassThread == null) {
             compassThread = new SmoothCompassThread();
+            compassThread.setSpeed(CompassSpeed.FAST);
         }
         compassThread.addSubscriber(holder.compassView);
 
@@ -72,6 +74,10 @@ public class FavoritesArrayAdapter extends BaseArrayAdapter<GeoCache> implements
         if (lastLocation != null) {
             holder.compassView.setCacheDirection(CoordinateHelper.getBearingBetween(lastLocation, geoCache.getLocationGeoPoint()));
         }
+
+        boolean hasPreciseLocation = Controller.getInstance().getLocationManager().hasPreciseLocation();
+        float distance = CoordinateHelper.getDistanceBetween(geoCache.getLocationGeoPoint(), lastLocation);
+        holder.textViewDistance.setText(CoordinateHelper.distanceToString(distance, hasPreciseLocation));
 
         if (!compassThread.isRunning()) {
             compassThread.setRunning(true);
@@ -110,16 +116,18 @@ public class FavoritesArrayAdapter extends BaseArrayAdapter<GeoCache> implements
         final TextView textViewName;
         final TextView textViewType;
         final TextView textViewStatus;
+        final TextView textViewDistance;
         final ImageView imageViewIcon;
         final CompassView compassView;
 
 
-        public Holder(final View textViewName, final View textViewType, final View textViewStatus, final View imageViewIcon, final View compassView) {
+        public Holder(final View textViewName, final View textViewType, final View textViewStatus, final View imageViewIcon, final View compassView, final View textViewDistance) {
             this.textViewName = (TextView) textViewName;
             this.textViewType = (TextView) textViewType;
             this.textViewStatus = (TextView) textViewStatus;
             this.imageViewIcon = (ImageView) imageViewIcon;
             this.compassView = (CompassView) compassView;
+            this.textViewDistance = (TextView) textViewDistance;
             this.compassView.setHelper("PREVIEW");
         }
     }

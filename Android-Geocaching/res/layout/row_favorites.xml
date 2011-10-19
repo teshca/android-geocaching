@@ -20,40 +20,43 @@
 
         <!-- Name -->
         <TextView android:id="@+id/tvName"
+                  android:text="Name"
                   android:layout_width="wrap_content"
                   android:layout_height="wrap_content"
-                  android:textAppearance="@style/FavoritesFolderRowTextStyle"
-                  android:textSize="17sp"
-                  android:text="Name"
+                  android:textAppearance="@style/FavoritesFolderRowTitle"
                   android:textColor="@drawable/favorites_text_color_selector"/>
 
-        <!-- Type & Status -->
-        <LinearLayout android:layout_width="fill_parent"
-                      android:orientation="vertical"
-                      android:layout_marginTop="2dip"
-                      android:layout_marginBottom="5dip"
-                      android:layout_height="wrap_content">
-            <TextView android:layout_width="wrap_content"
-                      android:layout_height="wrap_content"
-                      android:id="@+id/tvType"
-                      android:textAppearance="@style/FavoritesFolderRowTextStyle"
-                      android:text="Type"
-                      android:textColor="@drawable/favorites_text_color_selector"/>
-            <TextView android:id="@+id/tvStatus"
-                      android:text="Status"
-                      android:textAppearance="@style/FavoritesFolderRowTextStyle"
-                      android:gravity="right"
-                      android:layout_height="wrap_content"
-                      android:layout_width="wrap_content"
-                      android:layout_weight="1"
-                      android:layout_marginRight="5dip"
-                      android:textColor="@drawable/favorites_text_color_selector"/>
-        </LinearLayout>
+        <!-- Type -->
+        <TextView android:id="@+id/tvType"
+                  android:text="Type"
+                  android:layout_width="wrap_content"
+                  android:layout_height="wrap_content"
+                  android:textAppearance="@style/FavoritesFolderRowSubText"
+                  android:textColor="@drawable/favorites_text_color_selector"/>
+
+        <!-- Status -->
+        <TextView android:id="@+id/tvStatus"
+                  android:text="Status"
+                  android:textAppearance="@style/FavoritesFolderRowSubText"
+                  android:gravity="right"
+                  android:layout_height="wrap_content"
+                  android:layout_width="wrap_content"
+                  android:textColor="@drawable/favorites_text_color_selector"/>
     </LinearLayout>
 
-    <su.geocaching.android.ui.compass.CompassView
-            android:id="@+id/compassView"
-            android:layout_width="32dp"
-            android:layout_height="32dp"
-            android:layout_gravity="center_vertical"/>
+    <LinearLayout android:layout_width="wrap_content"
+                  android:layout_height="fill_parent"
+                  android:orientation="vertical"
+                  android:gravity="center">
+        <TextView android:id="@+id/tvDistance"
+                  android:layout_width="wrap_content"
+                  android:layout_height="wrap_content"
+                  android:textAppearance="@style/FavoritesFolderRowDistanceText"/>
+
+        <su.geocaching.android.ui.compass.CompassView
+                android:layout_marginTop="3dp"
+                android:id="@+id/compassView"
+                android:layout_width="32dp"
+                android:layout_height="32dp"/>
+    </LinearLayout>
 </LinearLayout>

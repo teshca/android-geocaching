@@ -1,7 +1,7 @@
 package su.geocaching.android.ui;
 
-import android.app.Activity;
 import android.app.AlertDialog;
+import android.app.ListActivity;
 import android.app.SearchManager;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -12,7 +12,6 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
-import android.widget.ListView;
 import android.widget.TextView;
 import su.geocaching.android.controller.Controller;
 import su.geocaching.android.controller.adapters.FavoritesArrayAdapter;
@@ -26,16 +25,16 @@ import java.util.ArrayList;
 /**
  * Class for create ListActivity with favorites caches
  */
-public class FavoritesFolderActivity extends Activity implements AdapterView.OnItemClickListener {
+public class FavoritesFolderActivity extends ListActivity implements AdapterView.OnItemClickListener {
 
     private static final String TAG = FavoritesFolderActivity.class.getCanonicalName();
     private static final String FAVORITES_FOLDER = "/FavoritesActivity";
     private static final String LIST_STATE = "listState";
 
-    private TextView tvNoCache;
-    private ListView lvListShowCache;
+
+    private DbManager dbManager;
     private FavoritesArrayAdapter favoriteGeoCachesAdapter;
-    private DbManager dbm;
+    private TextView tvNoCache;
     private Parcelable listState = null;
 
     @Override
@@ -45,20 +44,19 @@ public class FavoritesFolderActivity extends Activity implements AdapterView.OnI
         setContentView(R.layout.favorites_folder_activity);
 
         favoriteGeoCachesAdapter = new FavoritesArrayAdapter(this);
-        dbm = Controller.getInstance().getDbManager();
-        favoriteGeoCachesAdapter.gcItems = dbm.getArrayGeoCache();
+        dbManager = Controller.getInstance().getDbManager();
+        favoriteGeoCachesAdapter.gcItems = dbManager.getArrayGeoCache();
 
-        lvListShowCache = (ListView) findViewById(R.id.favorite_folder_listCache);
         tvNoCache = (TextView) findViewById(R.id.favorite_folder_title_text);
 
-        lvListShowCache.setOnItemClickListener(this);
-        lvListShowCache.setTextFilterEnabled(true);
-        lvListShowCache.setAdapter(favoriteGeoCachesAdapter);
+        getListView().setTextFilterEnabled(true);
+
+        setListAdapter(favoriteGeoCachesAdapter);
 
         Intent intent = getIntent();
         if (Intent.ACTION_SEARCH.equals(intent.getAction())) {
             String query = intent.getStringExtra(SearchManager.QUERY);
-            lvListShowCache.setFilterText(query);
+            getListView().setFilterText(query);
         }
 
         Controller.getInstance().getGoogleAnalyticsManager().trackActivityLaunch(FAVORITES_FOLDER);
@@ -66,7 +64,7 @@ public class FavoritesFolderActivity extends Activity implements AdapterView.OnI
 
     @Override
     protected void onResume() {
-        ArrayList<GeoCache> geoCachesList = dbm.getArrayGeoCache();
+        ArrayList<GeoCache> geoCachesList = dbManager.getArrayGeoCache();
         favoriteGeoCachesAdapter.clear();
         if (geoCachesList.isEmpty()) {
             tvNoCache.setVisibility(View.VISIBLE);
@@ -79,7 +77,7 @@ public class FavoritesFolderActivity extends Activity implements AdapterView.OnI
         favoriteGeoCachesAdapter.notifyDataSetChanged();
 
         if (listState != null) {
-            lvListShowCache.onRestoreInstanceState(listState);
+            getListView().onRestoreInstanceState(listState);
         }
         listState = null;
         super.onResume();
@@ -95,13 +93,13 @@ public class FavoritesFolderActivity extends Activity implements AdapterView.OnI
     protected void onRestoreInstanceState(Bundle savedInstanceState) {
         super.onRestoreInstanceState(savedInstanceState);
         listState = savedInstanceState.getParcelable(LIST_STATE);
-        lvListShowCache.onRestoreInstanceState(listState);
+        getListView().onRestoreInstanceState(listState);
     }
 
     @Override
     protected void onSaveInstanceState(Bundle savedInstanceState) {
         super.onSaveInstanceState(savedInstanceState);
-        listState = lvListShowCache.onSaveInstanceState();
+        listState = getListView().onSaveInstanceState();
         savedInstanceState.putParcelable(LIST_STATE, listState);
     }
 
@@ -146,7 +144,7 @@ public class FavoritesFolderActivity extends Activity implements AdapterView.OnI
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
         builder.setMessage(this.getString(R.string.ask_delete_all_cache_in_database)).setPositiveButton(this.getString(R.string.yes), new DialogInterface.OnClickListener() {
             public void onClick(DialogInterface dialog, int id) {
-                dbm.clearDB();
+                dbManager.clearDB();
                 onResume();
                 dialog.cancel();
             }

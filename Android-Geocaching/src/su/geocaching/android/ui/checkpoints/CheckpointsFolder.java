@@ -1,14 +1,13 @@
 package su.geocaching.android.ui.checkpoints;
 
-import android.app.Activity;
 import android.app.AlertDialog;
+import android.app.ListActivity;
 import android.content.DialogInterface;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.AdapterView;
 import android.widget.ListView;
 import android.widget.TextView;
 import su.geocaching.android.controller.Controller;
@@ -28,7 +27,7 @@ import java.util.ArrayList;
  *
  * @author Nikita Bumakov
  */
-public class CheckpointsFolder extends Activity implements AdapterView.OnItemClickListener {
+public class CheckpointsFolder extends ListActivity {
 
     private static final String TAG = FavoritesFolderActivity.class.getCanonicalName();
 
@@ -37,7 +36,6 @@ public class CheckpointsFolder extends Activity implements AdapterView.OnItemCli
     private FavoritesArrayAdapter checkpointsAdapter;
     private AlertDialog removeAlert;
     private TextView tvNoCache;
-    private ListView lvListShowCache;
     private int cacheId;
 
     @Override
@@ -50,11 +48,9 @@ public class CheckpointsFolder extends Activity implements AdapterView.OnItemCli
         dbm = Controller.getInstance().getDbManager();
         checkpointsAdapter = new FavoritesArrayAdapter(this);
 
-        lvListShowCache = (ListView) findViewById(R.id.favorite_folder_listCache);
         tvNoCache = (TextView) findViewById(R.id.favorite_folder_title_text);
 
-        lvListShowCache.setOnItemClickListener(this);
-        lvListShowCache.setAdapter(checkpointsAdapter);
+        setListAdapter(checkpointsAdapter);
         initRemoveDialog();
     }
 
@@ -130,8 +126,9 @@ public class CheckpointsFolder extends Activity implements AdapterView.OnItemCli
     }
 
     @Override
-    public void onItemClick(AdapterView<?> adapter, View cv, int position, long id) {
-        NavigationManager.startCheckpointDialog(this, ((GeoCache) adapter.getItemAtPosition(position)).getId());
+    protected void onListItemClick(ListView l, View v, int position, long id) {
+        super.onListItemClick(l, v, position, id);
+        NavigationManager.startCheckpointDialog(this, ((GeoCache) this.getListAdapter().getItem(position)).getId());
     }
 
     public void onHomeClick(View v) {
