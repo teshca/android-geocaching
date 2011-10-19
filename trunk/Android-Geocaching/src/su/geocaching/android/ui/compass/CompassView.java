@@ -34,14 +34,14 @@ public class CompassView extends SurfaceView implements SurfaceHolder.Callback, 
 
     @Override
     public void onDraw(Canvas canvas) {
-        if (ready && compassDrawing!= null) {
+        if (ready && compassDrawing != null) {
             super.onDraw(canvas);
             compassDrawing.draw(canvas, northDirection);
             if (isLocationFixed) {
                 compassDrawing.drawCacheArrow(canvas, cacheDirection + northDirection);
             }
         } else {
-            LogManager.w("draw", "not ready");
+            LogManager.w("TAG", "draw not ready");
         }
     }
 
@@ -92,8 +92,7 @@ public class CompassView extends SurfaceView implements SurfaceHolder.Callback, 
     }
 
     /**
-     * @param direction
-     *         - direction to geocache in degrees
+     * @param direction - direction to geocache in degrees
      */
     public void setCacheDirection(float direction) {
         cacheDirection = direction;
@@ -117,8 +116,7 @@ public class CompassView extends SurfaceView implements SurfaceHolder.Callback, 
     }
 
     /**
-     * @param string
-     *         //TODO describe it
+     * @param string //TODO describe it
      */
     // TODO too many objects
     public void setHelper(String string) {
@@ -126,7 +124,7 @@ public class CompassView extends SurfaceView implements SurfaceHolder.Callback, 
             compassDrawing = new DefaultCompassDrawing();
         } else if (string.equals("PALE") && !(compassDrawing instanceof WhiteStandardCompassDrawing)) {
             compassDrawing = new WhiteStandardCompassDrawing();
-        }else     if (string.equals("PREVIEW") && !(compassDrawing instanceof PreviewCompassDrawing)) {
+        } else if (string.equals("PREVIEW") && !(compassDrawing instanceof PreviewCompassDrawing)) {
             compassDrawing = new PreviewCompassDrawing();
         }
 

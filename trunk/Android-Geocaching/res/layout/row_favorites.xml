@@ -54,10 +54,10 @@
                   android:layout_height="wrap_content"
                   android:textAppearance="@style/FavoritesFolderRowDistanceText"/>
 
-        <su.geocaching.android.ui.compass.CompassView
+        <su.geocaching.android.ui.compass.OneThreadCompassView
                 android:layout_marginTop="3dp"
                 android:id="@+id/compassView"
                 android:layout_width="32dp"
-                android:layout_height="32dp"      />
+                android:layout_height="32dp"/>
     </LinearLayout>
 </LinearLayout>
