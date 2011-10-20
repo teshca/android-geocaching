@@ -189,11 +189,21 @@ public class CompassActivity extends Activity {
                 showCompassPreferences();
                 return true;
             case R.id.compassOdometer:
-                onOdometerClick();
+                showHideOdometer();
                 return true;
             default:
                 return super.onOptionsItemSelected(item);
         }
+    }
+
+    @Override
+    public boolean onPrepareOptionsMenu(Menu menu) {
+        if (preferenceManager.getOdometerOnPreference()) {
+            menu.findItem(R.id.compassOdometer).setTitle(R.string.menu_compass_odometer_hide);
+        } else {
+            menu.findItem(R.id.compassOdometer).setTitle(R.string.menu_compass_odometer_show);
+        }
+        return super.onPrepareOptionsMenu(menu);
     }
 
     private void showCompassPreferences() {
@@ -202,7 +212,7 @@ public class CompassActivity extends Activity {
         startActivity(intent);
     }
 
-    private void onOdometerClick() {
+    private void showHideOdometer() {
         UserLocationManager lm = Controller.getInstance().getLocationManager();
         lm.refreshOdometer();
         boolean isOdometerOn = preferenceManager.getOdometerOnPreference();
@@ -251,20 +261,19 @@ public class CompassActivity extends Activity {
         NavigationManager.startDashboardActivity(this);
     }
 
-    public void onStartClick(View v) {
+    public void onStartStopOdometerClick(View v) {
         locationManager.setUpdatingOdometer(!locationManager.isUpdatingOdometer());
         toggleStartButton();
     }
 
-    public void onRefreshClick(View v) {
+    public void onRefreshOdometerClick(View v) {
         locationManager.refreshOdometer();
         tvOdometer.setText(CoordinateHelper.distanceToString(0));
     }
 
     public void onCloseOdometerClick(View v) {
-        onOdometerClick();
+        showHideOdometer();
     }
-
 
     class LocationListener implements ILocationAware {
         private final static float CLOSE_DISTANCE_TO_GC_VALUE = 100; // if we nearly than this distance in meters to geoCache - gps will be work maximal often
@@ -285,7 +294,7 @@ public class CompassActivity extends Activity {
             UiHelper.setGone(progressBarView);
             UiHelper.setGone(statusText);
             float distance = CoordinateHelper.getDistanceBetween(controller.getSearchingGeoCache().getLocationGeoPoint(), location);
-            if (distance < CLOSE_DISTANCE_TO_GC_VALUE || preferenceManager.getOdometerOnPreference()) {
+            if (distance < CLOSE_DISTANCE_TO_GC_VALUE || locationManager.isUpdatingOdometer()) {
                 controller.getLocationManager().updateFrequency(GpsUpdateFrequency.MAXIMAL);
             } else {
                 controller.getLocationManager().updateFrequencyFromPreferences();

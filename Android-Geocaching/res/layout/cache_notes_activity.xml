@@ -8,7 +8,7 @@
 	<EditText android:layout_width="fill_parent"
 			  android:layout_height="wrap_content"
 			  android:id="@+id/cache_notes_text"
-			  android:hint="@string/notes_for_cache"
+			  android:hint="@string/info_activity_notes_hint"
 			  android:maxLines="5"/>
 	<Button android:id="@+id/text_save_button"
 			android:text="@string/save"

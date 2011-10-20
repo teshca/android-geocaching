@@ -78,7 +78,7 @@
                   android:text="@string/location_unknown"/>
     </LinearLayout>
 
-    <!-- Ododmetr -->
+    <!-- Odometer -->
     <RelativeLayout android:id="@+id/odometer_layout"
                     android:layout_width="fill_parent"
                     android:layout_height="50dp"
@@ -92,7 +92,7 @@
                    android:src="@drawable/ic_play"
                    android:scaleType="centerCrop"
                    android:layout_marginLeft="6dp"
-                   android:onClick="onStartClick"
+                   android:onClick="onStartStopOdometerClick"
                    android:layout_alignParentLeft="true"/>
         <ImageView android:layout_height="30dp"
                    android:layout_width="30dp"
@@ -101,7 +101,7 @@
                    android:src="@drawable/ic_refresh"
                    android:scaleType="centerCrop"
                    android:layout_marginLeft="6dp"
-                   android:onClick="onRefreshClick"
+                   android:onClick="onRefreshOdometerClick"
                    android:layout_toRightOf="@id/startButton"/>
         <TextView android:id="@+id/tvOdometerInfo"
                   android:layout_height="wrap_content"

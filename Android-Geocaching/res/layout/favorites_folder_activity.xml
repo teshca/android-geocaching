@@ -21,7 +21,7 @@
                    android:layout_width="@dimen/header_action_icon_size"
                    android:layout_height="@dimen/header_action_icon_size"
                    android:layout_gravity="center_vertical"
-                   android:src="@drawable/ic_action_search"
+                   android:src="@drawable/ic_arrow"
                    android:scaleType="centerInside"
                    android:layout_marginLeft="2dp"
                    android:layout_marginRight="2dp"

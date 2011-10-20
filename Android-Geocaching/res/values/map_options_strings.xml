@@ -4,9 +4,9 @@
 	<string name="menu_default_zoom">Вместить всё</string>
 	<string name="menu_start_compass">Компас</string>
 	<string name="menu_start_map">Карта</string>
-	<string name="menu_main_menu">Главное меню</string>
-	<string name="menu_geocache_info">Инфо</string>
+	<string name="menu_geocache_info">Информация</string>
     <string name="menu_driving_directions">Проложить маршрут</string>
     <string name="menu_external_map">Внешняя карта</string>
-    <string name="menu_compass_odometer">Одометр</string>
+    <string name="menu_compass_odometer_show">Показать одометр</string>
+    <string name="menu_compass_odometer_hide">Скрыть одометр</string>
 </resources>

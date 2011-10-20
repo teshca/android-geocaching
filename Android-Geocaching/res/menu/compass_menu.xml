@@ -10,8 +10,8 @@
           android:icon="@drawable/ic_menu_checkpoint"/>
     <item android:id="@+id/compassOdometer"
           android:icon="@drawable/ic_menu_odometer"
-          android:titleCondensed="@string/menu_compass_odometer"/>
+          android:title="@string/menu_compass_odometer_show"/>
     <item android:id="@+id/compassSettings"
           android:icon="@drawable/ic_menu_settings"
-          android:titleCondensed="@string/settings"/>
+          android:title="@string/settings"/>
 </menu>
