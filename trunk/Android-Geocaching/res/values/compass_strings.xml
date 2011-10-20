@@ -51,9 +51,6 @@
 	</string-array>
 	<string name="sensor_preference_default_value">SENSOR</string>
     <!-- compass.odometer -->
-	<string name="prefer_odometer_on">Показывать одометр</string>
-	<string name="prefer_odometer_off">Не показывать одометр</string>
-	<string name="prefer_odometer_title">Одометр</string>
 	<string name="prefer_odometer_key">compass.odometer</string>
     <bool name="prefer_odometer_default_value">false</bool>
 </resources>
