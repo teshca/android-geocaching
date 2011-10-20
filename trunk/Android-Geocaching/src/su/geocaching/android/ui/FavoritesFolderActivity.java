@@ -155,4 +155,8 @@ public class FavoritesFolderActivity extends ListActivity {
     public void onHomeClick(View v) {
         NavigationManager.startDashboardActivity(this);
     }
+
+    public void onSearchClick(View v){
+        onSearchRequested();
+    }
 }
