@@ -5,7 +5,28 @@
               android:orientation="vertical"
               android:background="@color/dashboard_background">
 
-    <include layout="@layout/default_title_bar"/>
+    <!--Title bar -->
+    <LinearLayout style="@style/TitleBar"
+                  android:background="@drawable/geologo_background">
+        <ImageView android:src="@drawable/geologo"
+                   style="@style/TitleBarLogo"
+                   android:onClick="onHomeClick"/>
+
+        <!-- It view need for right align -->
+        <View style="@style/TitleBarSpring"/>
+
+        <View style="@style/TitleBarSeparator"/>
+
+        <ImageView android:id="@+id/actionSearch"
+                   android:layout_width="@dimen/header_action_icon_size"
+                   android:layout_height="@dimen/header_action_icon_size"
+                   android:layout_gravity="center_vertical"
+                   android:src="@drawable/ic_action_search"
+                   android:scaleType="centerInside"
+                   android:layout_marginLeft="2dp"
+                   android:layout_marginRight="2dp"
+                   android:onClick="onSearchClick"/>
+    </LinearLayout>
 
     <TextView android:id="@+id/favorite_folder_title_text"
               android:gravity="center_horizontal"
