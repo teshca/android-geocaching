@@ -22,7 +22,6 @@
               android:layout_width="fill_parent"
               android:layout_weight="1"
               android:background="@color/dashboard_background"
-              android:cacheColorHint="@android:color/transparent"
-           />
+              android:cacheColorHint="@android:color/transparent"/>
 </LinearLayout>
 

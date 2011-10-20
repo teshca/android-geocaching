@@ -95,9 +95,13 @@ public class CompassActivity extends Activity {
 
         compassView.setHelper(preferenceManager.getCompassAppearence());
         compassView.setKeepScreenOn(preferenceManager.getKeepScreenOnPreference());
-        Controller.getInstance().getCompassManager().setUsingGpsCompass(preferenceManager.getCompasSensorPreference().endsWith("GPS"));
-        cacheCoordinates.setText(CoordinateHelper.coordinateToString(controller.getSearchingGeoCache().getLocationGeoPoint()));
+        controller.getCompassManager().setUsingGpsCompass(preferenceManager.getCompasSensorPreference().endsWith("GPS"));
+
+        GeoCache gc = controller.getSearchingGeoCache();
+        cacheCoordinates.setText(CoordinateHelper.coordinateToString(gc.getLocationGeoPoint()));
+        ((ImageView) findViewById(R.id.ivCacheCoordinate)).setImageResource(controller.getResourceManager().getMarkerResId(gc.getType(), gc.getStatus()));
         updateOdometer();
+
 
         providerUnavailableToast = Toast.makeText(this, getString(R.string.search_geocache_best_provider_lost), Toast.LENGTH_LONG);
         runLogic();
