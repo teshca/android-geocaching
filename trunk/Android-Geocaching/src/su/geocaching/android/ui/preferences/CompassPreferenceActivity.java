@@ -6,7 +6,7 @@ import su.geocaching.android.controller.Controller;
 import su.geocaching.android.ui.R;
 
 public class CompassPreferenceActivity extends PreferenceActivity {
-    private static final String COMPASS_PREFERENCE_ACTIVITY_NAME = "/preference/Compass";
+    private static final String COMPASS_PREFERENCE_ACTIVITY_NAME = "/preferences/Compass";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
