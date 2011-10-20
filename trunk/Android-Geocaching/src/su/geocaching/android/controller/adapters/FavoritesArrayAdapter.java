@@ -18,6 +18,7 @@ import su.geocaching.android.ui.R;
 import su.geocaching.android.ui.compass.OneThreadCompassView;
 
 import java.util.ArrayList;
+import java.util.Comparator;
 
 /**
  * @author Nikita Bumakov
@@ -28,17 +29,25 @@ public class FavoritesArrayAdapter extends BaseArrayAdapter<GeoCache> implements
 
     private final Object mLock = new Object();
     private ItemsFilter mFilter;
+    private DistanceComparator distanceComparator = new DistanceComparator();
     public ArrayList<GeoCache> gcItems;
 
-    //private SmoothCompassThread compassThread;
     private UserLocationManager locationManager;
     private ResourceManager rm;
+    private Location lastLocation;
 
 
     public FavoritesArrayAdapter(final Context context) {
         super(context);
         locationManager = Controller.getInstance().getLocationManager();
+        lastLocation = locationManager.getLastKnownLocation();
         rm = Controller.getInstance().getResourceManager();
+    }
+
+    @Override
+    public void add(GeoCache object) {
+        super.add(object);
+        sort(distanceComparator);
     }
 
     @Override
@@ -61,14 +70,7 @@ public class FavoritesArrayAdapter extends BaseArrayAdapter<GeoCache> implements
         holder.textViewStatus.setText(rm.getGeoCacheStatus(geoCache));
         holder.imageViewIcon.setImageResource(rm.getMarkerResId(geoCache.getType(), geoCache.getStatus()));
 
-//        if (compassThread == null) {
-//            compassThread = new SmoothCompassThread();
-//            compassThread.setSpeed(CompassSpeed.FAST);
-//        }
-//        compassThread.addSubscriber(holder.compassView);
-
         //TODO check/improve it;
-        Location lastLocation = locationManager.getLastKnownLocation();
         if (lastLocation != null) {
             holder.compassView.setCacheDirection(CoordinateHelper.getBearingBetween(lastLocation, geoCache.getLocationGeoPoint()));
         }
@@ -76,11 +78,6 @@ public class FavoritesArrayAdapter extends BaseArrayAdapter<GeoCache> implements
         boolean hasPreciseLocation = Controller.getInstance().getLocationManager().hasPreciseLocation();
         float distance = CoordinateHelper.getDistanceBetween(geoCache.getLocationGeoPoint(), lastLocation);
         holder.textViewDistance.setText(CoordinateHelper.distanceToString(distance, hasPreciseLocation));
-
-//        if (!compassThread.isRunning()) {
-//            compassThread.setRunning(true);
-//            compassThread.start();
-//        }
         holder.compassView.invalidate();
 
         LogManager.d(TAG, "getView done for " + (System.currentTimeMillis() - time) + " ms. gc.name " + geoCache.getName() + " position " + position);
@@ -95,20 +92,6 @@ public class FavoritesArrayAdapter extends BaseArrayAdapter<GeoCache> implements
             mFilter = new ItemsFilter();
         }
         return mFilter;
-    }
-
-    /**
-     * mast be called on activity onPause/onStop
-     */
-    public void stopAnimation() {
-//        if (compassThread != null) {
-//            compassThread.setRunning(false);
-//            try {
-//                compassThread.join(150);
-//            } catch (InterruptedException ignored) {
-//            }
-//            compassThread = null;
-//        }
     }
 
     private class Holder {
@@ -128,6 +111,19 @@ public class FavoritesArrayAdapter extends BaseArrayAdapter<GeoCache> implements
             this.compassView = (OneThreadCompassView) compassView;
             this.textViewDistance = (TextView) textViewDistance;
             this.compassView.setHelper("PREVIEW");
+        }
+    }
+
+    class DistanceComparator implements Comparator<GeoCache> {
+
+        @Override
+        public int compare(GeoCache geoCache1, GeoCache geoCache2) {
+            if(lastLocation == null){
+                return 0;
+            }
+            float distance1 = CoordinateHelper.getDistanceBetween(geoCache1.getLocationGeoPoint(), lastLocation);
+            float distance2 = CoordinateHelper.getDistanceBetween(geoCache2.getLocationGeoPoint(), lastLocation);
+            return Float.compare(distance1, distance2);
         }
     }
 

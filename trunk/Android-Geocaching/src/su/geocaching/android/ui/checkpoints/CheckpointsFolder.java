@@ -90,12 +90,6 @@ public class CheckpointsFolder extends ListActivity {
     }
 
     @Override
-    protected void onPause() {
-        super.onPause();
-        checkpointsAdapter.stopAnimation();
-    }
-
-    @Override
     public boolean onPrepareOptionsMenu(Menu menu) {
         if (checkpointsAdapter.isEmpty()) {
             menu.getItem(1).setEnabled(false);
