@@ -2,7 +2,6 @@ package su.geocaching.android.ui.compass;
 
 import android.content.Context;
 import android.graphics.Canvas;
-import android.graphics.Color;
 import android.util.AttributeSet;
 import android.view.View;
 import su.geocaching.android.controller.Controller;
@@ -33,9 +32,7 @@ public class OneThreadCompassView extends View implements IBearingAware {
 
     @Override
     public void onDraw(Canvas canvas) {
-        canvas.drawColor(Color.WHITE);
         if (compassDrawing != null) {
-            super.onDraw(canvas);
             compassDrawing.draw(canvas, northDirection);
             if (isLocationFixed) {
                 compassDrawing.drawCacheArrow(canvas, cacheDirection + northDirection);
@@ -97,7 +94,7 @@ public class OneThreadCompassView extends View implements IBearingAware {
     //TODO check that this method work, onDetachedFromWindow don't work
     public void onWindowFocusChanged(boolean hasWindowFocus) {
         super.onWindowFocusChanged(hasWindowFocus);
-        LogManager.d("***", "onWindowFocusChanged " + hasWindowFocus);
+        LogManager.d(TAG, "onWindowFocusChanged " + hasWindowFocus);
         if (hasWindowFocus) {
             Controller.getInstance().getCompassManager().addSubscriber(this);
         } else {

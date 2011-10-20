@@ -1,9 +1,6 @@
 package su.geocaching.android.controller.compass;
 
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
-import android.graphics.Canvas;
-import android.graphics.Paint;
+import android.graphics.*;
 import su.geocaching.android.controller.Controller;
 import su.geocaching.android.ui.R;
 
@@ -25,7 +22,7 @@ public class PreviewCompassDrawing extends AbstractCompassDrawing {
 
     @Override
     public void draw(Canvas canvas, float northDirection) {
-        canvas.drawColor(bgColor);
+        canvas.drawColor(Color.TRANSPARENT);
         canvas.save();
         canvas.translate(centerX, centerY); // !!!
         canvas.rotate(direction);
