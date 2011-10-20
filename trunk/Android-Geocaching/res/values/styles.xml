@@ -40,19 +40,19 @@
     <style name="FavoritesFolderRowTitle">
         <item name="android:textSize">@dimen/text_size_list_name</item>
         <item name="android:textStyle">bold</item>
-        <item name="android:textColor">@color/dashboard_text_color</item>
+        <item name="android:textColor">@drawable/favorites_text_color_selector</item>
     </style>
 
     <style name="FavoritesFolderRowSubText">
         <item name="android:textSize">@dimen/text_size_list_status</item>
         <item name="android:textStyle">bold</item>
-        <item name="android:textColor">@color/dashboard_text_color</item>
+        <item name="android:textColor">@drawable/favorites_text_color_selector</item>
     </style>
 
     <style name="FavoritesFolderRowDistanceText">
         <item name="android:textSize">@dimen/text_size_small</item>
         <item name="android:textStyle">normal</item>
-        <item name="android:textColor">@color/dashboard_text_color</item>
+        <item name="android:textColor">@drawable/favorites_text_color_selector</item>
         <item name="android:maxLines">1</item>
     </style>
 </resources>

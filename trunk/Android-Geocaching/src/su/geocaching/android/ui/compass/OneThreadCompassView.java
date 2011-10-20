@@ -28,7 +28,7 @@ public class OneThreadCompassView extends View implements IBearingAware {
 
     public OneThreadCompassView(Context context, AttributeSet attributeSet) {
         super(context, attributeSet);
-        LogManager.d(TAG, "new CompassView");
+        LogManager.d(TAG, "new OneThreadCompassView");
     }
 
     @Override
@@ -61,7 +61,7 @@ public class OneThreadCompassView extends View implements IBearingAware {
         //doAnimation();
     }
 
-     /**
+    /**
      * @param string //TODO describe it
      */
     // TODO too many objects
@@ -79,16 +79,30 @@ public class OneThreadCompassView extends View implements IBearingAware {
         }
     }
 
-    @Override
-    protected void onAttachedToWindow() {
-        super.onAttachedToWindow();
-        Controller.getInstance().getCompassManager().addSubscriber(this);
-    }
+//    @Override
+//    protected void onAttachedToWindow() {
+//        super.onAttachedToWindow();
+//        LogManager.d("***", "onAttachedToWindow");
+//        Controller.getInstance().getCompassManager().addSubscriber(this);
+//    }
+//
+//    @Override
+//    protected void onDetachedFromWindow() {
+//        super.onDetachedFromWindow();
+//        LogManager.d("***", "onDetachedFromWindow");
+//        Controller.getInstance().getCompassManager().removeSubscriber(this);
+//    }
 
     @Override
-    protected void onDetachedFromWindow() {
-        super.onDetachedFromWindow();
-          Controller.getInstance().getCompassManager().removeSubscriber(this);
+    //TODO check that this method work, onDetachedFromWindow don't work
+    public void onWindowFocusChanged(boolean hasWindowFocus) {
+        super.onWindowFocusChanged(hasWindowFocus);
+        LogManager.d("***", "onWindowFocusChanged " + hasWindowFocus);
+        if (hasWindowFocus) {
+            Controller.getInstance().getCompassManager().addSubscriber(this);
+        } else {
+            Controller.getInstance().getCompassManager().removeSubscriber(this);
+        }
     }
 
     @Override
