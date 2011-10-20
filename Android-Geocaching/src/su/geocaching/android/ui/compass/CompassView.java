@@ -35,7 +35,6 @@ public class CompassView extends SurfaceView implements SurfaceHolder.Callback, 
     @Override
     public void onDraw(Canvas canvas) {
         if (ready && compassDrawing != null) {
-            super.onDraw(canvas);
             compassDrawing.draw(canvas, northDirection);
             if (isLocationFixed) {
                 compassDrawing.drawCacheArrow(canvas, cacheDirection + northDirection);
