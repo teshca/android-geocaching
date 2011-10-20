@@ -82,13 +82,15 @@
                           android:text="Пошаговый традиционный"
                           android:layout_width="wrap_content"
                           android:layout_height="wrap_content"
-                          style="@style/FavoritesFolderRowSubText"/>
+                          style="@style/FavoritesFolderRowSubText"
+                          android:textSize="12sp"/>
 
                 <TextView android:id="@+id/info_GeoCache_status"
                           android:text="Недействующий"
                           android:layout_width="wrap_content"
                           android:layout_height="wrap_content"
                           style="@style/FavoritesFolderRowSubText"
+                          android:textSize="12sp"
                           android:layout_weight="1"
                           android:gravity="right"
                           android:layout_marginRight="5dip"/>
