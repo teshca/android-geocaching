@@ -17,7 +17,7 @@
 
         <View style="@style/TitleBarSeparator"/>
 
-        <!-- Sort list -->
+        <!-- SortType list -->
         <ImageView android:id="@+id/actionSearch"
                    style="@style/ActionBarIcon"
                    android:src="@drawable/ic_action_sort"
@@ -52,7 +52,7 @@
               android:layout_below="@id/titleBar"
               android:layout_alignParentBottom="true"/>
 
-    <!-- Sort List -->
+    <!-- SortType List -->
     <LinearLayout android:id="@+id/layoutActionSortList"
                   android:layout_height="wrap_content"
                   android:layout_width="wrap_content"

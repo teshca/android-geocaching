@@ -37,19 +37,26 @@ public class FavoritesArrayAdapter extends BaseArrayAdapter<GeoCache> implements
     private ResourceManager rm;
     private Location lastLocation;
 
+    public enum SortType {
+        BY_DIST, BY_NAME
+    }
+
+    private SortType sortType;
+
 
     public FavoritesArrayAdapter(final Context context) {
         super(context);
         locationManager = Controller.getInstance().getLocationManager();
         lastLocation = locationManager.getLastKnownLocation();
         rm = Controller.getInstance().getResourceManager();
+        sortType = SortType.BY_DIST;
     }
 
-    @Override
-    public void add(GeoCache object) {
-        super.add(object);
-        sortByDistance();
-    }
+//    @Override
+//    public void add(GeoCache object) {
+//        super.add(object);
+//        sortByDistance();
+//    }
 
     @Override
     public View getView(int position, View cv, ViewGroup parent) {
@@ -95,12 +102,27 @@ public class FavoritesArrayAdapter extends BaseArrayAdapter<GeoCache> implements
         return mFilter;
     }
 
-    public void sortByDistance() {
+    private void sortByDistance() {
         sort(distanceComparator);
     }
 
-    public void sortByName() {
+    private void sortByName() {
         sort(nameComparator);
+    }
+
+    public void sort() {
+        switch (sortType) {
+            case BY_DIST:
+                sortByDistance();
+                break;
+            case BY_NAME:
+                sortByName();
+                break;
+        }
+    }
+
+    public void setSortType(SortType sortType) {
+        this.sortType = sortType;
     }
 
     private class Holder {
@@ -140,7 +162,7 @@ public class FavoritesArrayAdapter extends BaseArrayAdapter<GeoCache> implements
 
         @Override
         public int compare(GeoCache geoCache1, GeoCache geoCache2) {
-            return geoCache1.getName().compareTo(geoCache2.getName());
+            return geoCache1.getName().toLowerCase().compareTo(geoCache2.getName().toLowerCase());
         }
     }
 
@@ -189,6 +211,7 @@ public class FavoritesArrayAdapter extends BaseArrayAdapter<GeoCache> implements
             for (GeoCache gc : gcItems) {
                 add(gc);
             }
+            sort();
             // Let the adapter know about the updated list
             if (results.count > 0) {
                 notifyDataSetChanged();

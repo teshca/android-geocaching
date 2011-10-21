@@ -197,14 +197,25 @@ public class PreferencesManager {
         return preferences.getString(context.getString(R.string.prefs_speed_key), context.getString(R.string.prefer_speed_default_value));
     }
 
-    public String getCompassAppearence() {
+    public String getCompassAppearance() {
         return preferences.getString(context.getString(R.string.prefs_appearance_key), context.getString(R.string.prefer_appearance_default_value));
     }
 
-    public String getCompasSensorPreference() {
+    public String getCompassSensorPreference() {
         // keys located in resources, because settings logic described in xml and write it automatically to SharedPreferences
         return preferences.getString(context.getString(R.string.prefs_sensor_key), context.getString(R.string.sensor_preference_default_value));
     }
+
+    public int getFavoritesSortType() {
+        return preferences.getInt(context.getString(R.string.prefs_favorites_sort_key), 0);
+    }
+
+    public void setFavoritesSortType(int sortType) {
+        SharedPreferences.Editor editor = preferences.edit();
+        editor.putInt(context.getString(R.string.prefs_favorites_sort_key), sortType);
+        editor.commit();
+    }
+
 
     public String getIconType() {
         return preferences.getString(context.getString(R.string.prefer_icon_key), context.getString(R.string.prefer_icon_default_value));

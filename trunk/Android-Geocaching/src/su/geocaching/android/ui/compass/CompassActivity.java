@@ -93,9 +93,9 @@ public class CompassActivity extends Activity {
             return;
         }
 
-        compassView.setHelper(preferenceManager.getCompassAppearence());
+        compassView.setHelper(preferenceManager.getCompassAppearance());
         compassView.setKeepScreenOn(preferenceManager.getKeepScreenOnPreference());
-        controller.getCompassManager().setUsingGpsCompass(preferenceManager.getCompasSensorPreference().endsWith("GPS"));
+        controller.getCompassManager().setUsingGpsCompass(preferenceManager.getCompassSensorPreference().endsWith("GPS"));
 
         GeoCache gc = controller.getSearchingGeoCache();
         cacheCoordinates.setText(CoordinateHelper.coordinateToString(gc.getLocationGeoPoint()));

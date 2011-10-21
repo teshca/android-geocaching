@@ -51,7 +51,7 @@ public class CompassManager implements SensorEventListener, ILocationAware {
     public void addSubscriber(IBearingAware subscriber) {
         subscribers.add(subscriber);
         if (subscribers.size() == 1) {
-            setUsingGpsCompass(Controller.getInstance().getPreferencesManager().getCompasSensorPreference().endsWith("GPS"));
+            setUsingGpsCompass(Controller.getInstance().getPreferencesManager().getCompassSensorPreference().endsWith("GPS"));
         }
         LogManager.d(TAG, "addSubscriber, size: " + subscribers.size());
     }
