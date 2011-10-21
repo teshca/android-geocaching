@@ -8,9 +8,9 @@
     </style>
 
     <style name="TitleBarSeparator">
-        <item name="android:layout_width">1px</item>
+        <item name="android:layout_width">3px</item>
         <item name="android:layout_height">fill_parent</item>
-        <item name="android:background">@color/title_separator</item>
+        <item name="android:background">@drawable/action_bar_separator</item>
     </style>
 
     <style name="TitleBarLogo">
@@ -61,7 +61,7 @@
         <item name="android:layout_height">@dimen/header_action_icon_size</item>
         <item name="android:layout_gravity">center_vertical</item>
         <item name="android:scaleType">centerInside</item>
-        <item name="android:layout_marginLeft">2dp</item>
-        <item name="android:layout_marginRight">2dp</item>
+        <item name="android:layout_marginLeft">3dp</item>
+        <item name="android:layout_marginRight">3dp</item>
     </style>
 </resources>
