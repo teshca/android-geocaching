@@ -118,14 +118,13 @@ public class CompassActivity extends Activity {
             userCoordinates.setText(CoordinateHelper.coordinateToString(CoordinateHelper.locationToGeoPoint(locationManager.getLastKnownLocation())));
         }
         if (Controller.getInstance().getLocationManager().hasPreciseLocation()) {
-            statusText.setVisibility(View.GONE);
             progressBarView.setVisibility(View.GONE);
         } else {
             statusText.setText(R.string.gps_status_initialization);
             progressBarView.setVisibility(View.VISIBLE);
         }
 
-        locationManager.addSubscriber(locationListener, true);
+        locationManager.addSubscriber(locationListener);
         locationManager.enableBestProviderUpdates();
     }
 
@@ -286,8 +285,6 @@ public class CompassActivity extends Activity {
 
         @Override
         public void updateLocation(Location location) {
-            locationManager.removeStatusListening(this);
-
             if (tvOdometer.isShown()) {
                 tvOdometer.setText(CoordinateHelper.distanceToString(locationManager.getOdometerDistance()));
             }
@@ -307,33 +304,23 @@ public class CompassActivity extends Activity {
         @Override
         public void onStatusChanged(String provider, int status, Bundle extras) {
             switch (status) {
-                case LocationProvider.OUT_OF_SERVICE:
-                    onBestProviderUnavailable();
-                    LogManager.d(TAG, "GpsStatus: out of service.");
+                case UserLocationManager.GPS_EVENT_SATELLITE_STATUS:
+                    // just update status
+                    statusText.setText(Controller.getInstance().getLocationManager().getSatellitesStatusString());
                     break;
-                case LocationProvider.AVAILABLE:
-                    LogManager.d(TAG, "GpsStatus: available.");
-                    String statusString = Controller.getInstance().getLocationManager().getSatellitesStatusString();
-                    if (statusString != null) {
-                        statusText.setText(statusString);
-                        UiHelper.setVisible(progressBarView);
-                        UiHelper.setVisible(statusText);
-                    }
+                case UserLocationManager.OUT_OF_SERVICE:
+                    // provider unavailable
+                    UiHelper.setVisible(progressBarView);
+                    statusText.setText(R.string.gps_status_unavailable);
+                    providerUnavailableToast.show();
                     break;
-            }
-        }
-
-        @Override
-        public void onProviderEnabled(String provider) {
-        }
-
-        @Override
-        public void onProviderDisabled(String provider) {
-            LogManager.d(TAG, "onProviderDisabled provider: " + provider);
-            if (!locationManager.isBestProviderEnabled()) {
-                LogManager.d(TAG, "onStatusChanged: best provider (" + locationManager.getBestProvider(false) + ") disabled. Ask turn on.");
-                onBestProviderUnavailable();
-                NavigationManager.displayTurnOnGpsDialog(activity);
+                case UserLocationManager.TEMPORARILY_UNAVAILABLE:
+                    // gps connection lost. just show progress bar
+                    UiHelper.setVisible(progressBarView);
+                    break;
+                case UserLocationManager.GPS_EVENT_STOPPED:
+                    // gps has been turned off
+                    NavigationManager.displayTurnOnGpsDialog(CompassActivity.this);
             }
         }
     }

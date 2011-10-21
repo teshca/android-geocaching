@@ -16,8 +16,4 @@ public interface ILocationAware {
     public void updateLocation(Location location);
 
     public void onStatusChanged(String provider, int status, Bundle extras);
-
-    public void onProviderEnabled(String provider);
-
-    public void onProviderDisabled(String provider);
 }

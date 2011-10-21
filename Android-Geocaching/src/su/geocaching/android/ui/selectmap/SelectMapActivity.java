@@ -152,7 +152,7 @@ public class SelectMapActivity extends MapActivity implements IConnectionAware, 
         if (locationManager.getBestProvider(true) == null) {
             //NavigationManager.askTurnOnLocationService(this);
         } else {
-            locationManager.addSubscriber(this, false);
+            locationManager.addSubscriber(this);
         }
         // reset map center and zoom level
         updateMapInfoFromSettings();
@@ -336,14 +336,5 @@ public class SelectMapActivity extends MapActivity implements IConnectionAware, 
 
     @Override
     public void onStatusChanged(String provider, int status, Bundle extras) {
-    }
-
-    @Override
-    public void onProviderEnabled(String provider) {
-        locationManager.addSubscriber(this, false);
-    }
-
-    @Override
-    public void onProviderDisabled(String provider) {
     }
 }
