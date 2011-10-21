@@ -28,7 +28,7 @@
         <!-- Search -->
         <ImageView android:id="@+id/actionSearch"
                    style="@style/ActionBarIcon"
-                   android:src="@drawable/ic_arrow"
+                   android:src="@drawable/ic_action_search"
                    android:onClick="onSearchClick"/>
     </LinearLayout>
 
