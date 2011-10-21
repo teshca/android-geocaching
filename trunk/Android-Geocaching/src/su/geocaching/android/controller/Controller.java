@@ -4,6 +4,7 @@ import android.content.Context;
 import android.content.pm.PackageManager;
 import android.hardware.SensorManager;
 import android.location.LocationManager;
+import android.os.Handler;
 import com.google.android.maps.GeoPoint;
 import su.geocaching.android.controller.apimanager.DownloadGeoCachesTask;
 import su.geocaching.android.controller.apimanager.GeocachingSuApiManager;
@@ -11,6 +12,9 @@ import su.geocaching.android.controller.apimanager.IApiManager;
 import su.geocaching.android.controller.managers.*;
 import su.geocaching.android.model.GeoCache;
 import su.geocaching.android.ui.selectmap.SelectMapActivity;
+
+import java.util.LinkedList;
+import java.util.List;
 
 /**
  * @author Yuri Denison
@@ -20,6 +24,10 @@ public class Controller {
     private static final String TAG = Controller.class.getCanonicalName();
     public static final boolean DEBUG = true;// it is constant really need, because compiler can remove code blocks which cannot be execute. Visibility is public because LogManager and
                                              // AnalyticsManager use this constant
+
+
+    public static final int WHAT_ACTION_HIDE_SORT_LIST = 0;
+
 
     private static Controller instance;
     private Context applicationContext;
@@ -37,6 +45,8 @@ public class Controller {
     private CallbackManager callbackManager;
 
     private GeoCache searchingGeoCache;
+
+    private List<Handler> handlerList = new LinkedList<Handler>();
 
     private Controller() {
         apiManager = new GeocachingSuApiManager();
@@ -258,5 +268,29 @@ public class Controller {
 
     public void onTerminate() {
         dbManager.close();
+    }
+
+        public void addHandler(Handler handler) {
+        if (!handlerList.contains(handler)) {
+            handlerList.add(handler);
+        }
+    }
+
+       public void postHandlerMessage(final int what, final Object message) {
+        for (Handler handler : handlerList) {
+            handler.sendMessage(handler.obtainMessage(what, message));
+        }
+    }
+
+    public void postEmptyMessage(final int what) {
+        for (Handler handler : handlerList) {
+            handler.sendEmptyMessage(what);
+        }
+    }
+
+    public void postEmptyMessageDelayed(final int what, long delay) {
+        for (Handler handler : handlerList) {
+            handler.sendEmptyMessageDelayed(what, delay);
+        }
     }
 }

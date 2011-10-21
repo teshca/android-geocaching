@@ -6,11 +6,14 @@ import android.app.SearchManager;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.Message;
 import android.os.Parcelable;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.animation.Animation;
+import android.view.animation.AnimationUtils;
 import android.widget.ListView;
 import android.widget.TextView;
 import su.geocaching.android.controller.Controller;
@@ -25,7 +28,7 @@ import java.util.ArrayList;
 /**
  * Class for create ListActivity with favorites caches
  */
-public class FavoritesFolderActivity extends ListActivity {
+public class FavoritesFolderActivity extends ListActivity implements android.os.Handler.Callback {
 
     private static final String TAG = FavoritesFolderActivity.class.getCanonicalName();
     private static final String FAVORITES_FOLDER = "/FavoritesActivity";
@@ -35,7 +38,9 @@ public class FavoritesFolderActivity extends ListActivity {
     private DbManager dbManager;
     private FavoritesArrayAdapter favoriteGeoCachesAdapter;
     private TextView tvNoCache;
+    private View sortList;
     private Parcelable listState = null;
+    private android.os.Handler handler;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -48,6 +53,7 @@ public class FavoritesFolderActivity extends ListActivity {
         favoriteGeoCachesAdapter.gcItems = dbManager.getArrayGeoCache();
 
         tvNoCache = (TextView) findViewById(R.id.favorite_folder_title_text);
+        sortList = findViewById(R.id.layoutActionSortList);
 
         getListView().setTextFilterEnabled(true);
 
@@ -59,6 +65,8 @@ public class FavoritesFolderActivity extends ListActivity {
             getListView().setFilterText(query);
         }
 
+        handler = new android.os.Handler(this);
+        Controller.getInstance().addHandler(handler);
         Controller.getInstance().getGoogleAnalyticsManager().trackActivityLaunch(FAVORITES_FOLDER);
     }
 
@@ -156,7 +164,41 @@ public class FavoritesFolderActivity extends ListActivity {
         NavigationManager.startDashboardActivity(this);
     }
 
-    public void onSearchClick(View v){
+    public void onSearchClick(View v) {
         onSearchRequested();
+    }
+
+    public void onSortClick(View v) {
+        sortList.setVisibility(View.VISIBLE);
+
+        Animation animation = AnimationUtils.loadAnimation(FavoritesFolderActivity.this, R.anim.hide);
+        sortList.startAnimation(animation);
+
+        Controller.getInstance().postEmptyMessageDelayed(Controller.WHAT_ACTION_HIDE_SORT_LIST, 3000);
+    }
+
+
+    public void sortByName(View v) {
+        sortList.clearAnimation();
+        sortList.setVisibility(View.GONE);
+        favoriteGeoCachesAdapter.sortByName();
+        favoriteGeoCachesAdapter.notifyDataSetChanged();
+    }
+
+    public void sortByDistance(View v) {
+        sortList.clearAnimation();
+        sortList.setVisibility(View.GONE);
+        favoriteGeoCachesAdapter.sortByDistance();
+        favoriteGeoCachesAdapter.notifyDataSetChanged();
+    }
+
+    @Override
+    public boolean handleMessage(Message msg) {
+        switch (msg.what) {
+            case Controller.WHAT_ACTION_HIDE_SORT_LIST:
+                sortList.setVisibility(View.GONE);
+                break;
+        }
+        return false;
     }
 }
