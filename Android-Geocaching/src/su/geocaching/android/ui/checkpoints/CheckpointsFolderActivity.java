@@ -27,7 +27,7 @@ import java.util.ArrayList;
  *
  * @author Nikita Bumakov
  */
-public class CheckpointsFolder extends ListActivity {
+public class CheckpointsFolderActivity extends ListActivity {
 
     private static final String TAG = FavoritesFolderActivity.class.getCanonicalName();
 
@@ -41,7 +41,7 @@ public class CheckpointsFolder extends ListActivity {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.favorites_folder_activity);
+        setContentView(R.layout.checkpoints_folder_activity);
 
         cacheId = getIntent().getIntExtra(NavigationManager.CACHE_ID, 0);
         checkpointManager = Controller.getInstance().getCheckpointManager(cacheId);

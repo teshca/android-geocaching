@@ -1,7 +1,5 @@
 package su.geocaching.android.controller.managers;
 
-import java.util.List;
-
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.Context;
@@ -13,10 +11,11 @@ import android.net.Uri;
 import android.provider.Settings;
 import su.geocaching.android.controller.Controller;
 import su.geocaching.android.model.GeoCache;
-import su.geocaching.android.ui.*;
+import su.geocaching.android.ui.DashboardActivity;
+import su.geocaching.android.ui.FavoritesFolderActivity;
 import su.geocaching.android.ui.R;
 import su.geocaching.android.ui.checkpoints.CheckpointDialog;
-import su.geocaching.android.ui.checkpoints.CheckpointsFolder;
+import su.geocaching.android.ui.checkpoints.CheckpointsFolderActivity;
 import su.geocaching.android.ui.checkpoints.CreateCheckpointActivity;
 import su.geocaching.android.ui.compass.CompassActivity;
 import su.geocaching.android.ui.info.CacheNotesActivity;
@@ -24,6 +23,8 @@ import su.geocaching.android.ui.info.InfoActivity;
 import su.geocaching.android.ui.preferences.DashboardPreferenceActivity;
 import su.geocaching.android.ui.searchmap.SearchMapActivity;
 import su.geocaching.android.ui.selectmap.SelectMapActivity;
+
+import java.util.List;
 
 /**
  * @author Nikita Bumakov
@@ -87,7 +88,7 @@ public class NavigationManager {
     }
 
     public static void startCheckpointsFolder(Context context, int cacheId) {
-        Intent intent = new Intent(context, CheckpointsFolder.class);
+        Intent intent = new Intent(context, CheckpointsFolderActivity.class);
         intent.putExtra(CACHE_ID, cacheId);
         context.startActivity(intent);
     }

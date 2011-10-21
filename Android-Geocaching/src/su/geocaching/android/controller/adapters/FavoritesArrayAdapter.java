@@ -29,7 +29,8 @@ public class FavoritesArrayAdapter extends BaseArrayAdapter<GeoCache> implements
 
     private final Object mLock = new Object();
     private ItemsFilter mFilter;
-    private DistanceComparator distanceComparator = new DistanceComparator();
+    private Comparator distanceComparator = new DistanceComparator();
+    private Comparator nameComparator = new NameComparator();
     public ArrayList<GeoCache> gcItems;
 
     private UserLocationManager locationManager;
@@ -47,7 +48,7 @@ public class FavoritesArrayAdapter extends BaseArrayAdapter<GeoCache> implements
     @Override
     public void add(GeoCache object) {
         super.add(object);
-        sort(distanceComparator);
+        sortByDistance();
     }
 
     @Override
@@ -94,6 +95,14 @@ public class FavoritesArrayAdapter extends BaseArrayAdapter<GeoCache> implements
         return mFilter;
     }
 
+    public void sortByDistance() {
+        sort(distanceComparator);
+    }
+
+    public void sortByName() {
+        sort(nameComparator);
+    }
+
     private class Holder {
         final TextView textViewName;
         final TextView textViewType;
@@ -118,12 +127,20 @@ public class FavoritesArrayAdapter extends BaseArrayAdapter<GeoCache> implements
 
         @Override
         public int compare(GeoCache geoCache1, GeoCache geoCache2) {
-            if(lastLocation == null){
+            if (lastLocation == null) {
                 return 0;
             }
             float distance1 = CoordinateHelper.getDistanceBetween(geoCache1.getLocationGeoPoint(), lastLocation);
             float distance2 = CoordinateHelper.getDistanceBetween(geoCache2.getLocationGeoPoint(), lastLocation);
             return Float.compare(distance1, distance2);
+        }
+    }
+
+    class NameComparator implements Comparator<GeoCache> {
+
+        @Override
+        public int compare(GeoCache geoCache1, GeoCache geoCache2) {
+            return geoCache1.getName().compareTo(geoCache2.getName());
         }
     }
 
