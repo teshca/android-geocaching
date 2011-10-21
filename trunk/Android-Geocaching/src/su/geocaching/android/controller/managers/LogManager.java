@@ -86,7 +86,7 @@ public class LogManager {
      * @param ex  An exception to log
      */
     public static void e(String tag, String msg, Throwable ex) {
-        Controller.getInstance().getGoogleAnalyticsManager().trackException(tag, msg, ex);
+        Controller.getInstance().getGoogleAnalyticsManager().trackCaughtException(tag, ex);
         Log.e(tag, msg, ex);
     }
 

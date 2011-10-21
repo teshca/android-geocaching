@@ -22,7 +22,7 @@ public class UncaughtExceptionsHandler implements Thread.UncaughtExceptionHandle
     public void uncaughtException(Thread thread, Throwable ex) {
         try
         {
-           Controller.getInstance().getGoogleAnalyticsManager().trackException("UncaughtException", thread.getName(), ex);
+           Controller.getInstance().getGoogleAnalyticsManager().trackUncaughtException("Thread name: " + thread.getName(), ex);
         }
         catch (Exception e)
         {
