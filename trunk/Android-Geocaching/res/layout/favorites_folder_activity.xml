@@ -32,17 +32,6 @@
                    android:onClick="onSearchClick"/>
     </LinearLayout>
 
-    <TextView android:id="@+id/favorite_folder_title_text"
-              android:gravity="center_horizontal"
-              android:layout_width="fill_parent"
-              android:layout_height="wrap_content"
-              android:text="@string/favorite_list_In_DB_not_cache"
-              android:textSize="@dimen/text_size_medium"
-              android:textStyle="bold"
-              android:textColor="@color/dashboard_text_color"
-              android:layout_marginTop="10dip"
-              android:layout_below="@id/titleBar"/>
-
     <ListView android:id="@android:id/list"
               android:layout_height="wrap_content"
               android:layout_width="fill_parent"
@@ -51,6 +40,18 @@
               android:cacheColorHint="@android:color/transparent"
               android:layout_below="@id/titleBar"
               android:layout_alignParentBottom="true"/>
+
+    <TextView android:id="@+id/tvNoCacheFound"
+              android:gravity="center_horizontal"
+              android:layout_width="fill_parent"
+              android:layout_height="wrap_content"
+              android:text="@string/favorite_list_In_DB_not_cache"
+              android:textSize="@dimen/text_size_medium"
+              android:textStyle="bold"
+              android:textColor="@color/dashboard_text_color"
+              android:layout_marginTop="10dip"
+              android:visibility="gone"
+              android:layout_below="@id/titleBar"/>
 
     <!-- SortType List -->
     <LinearLayout android:id="@+id/layoutActionSortList"

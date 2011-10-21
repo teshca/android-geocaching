@@ -52,17 +52,23 @@ public class FavoritesFolderActivity extends ListActivity implements android.os.
         dbManager = Controller.getInstance().getDbManager();
         favoriteGeoCachesAdapter.gcItems = dbManager.getArrayGeoCache();
 
-        tvNoCache = (TextView) findViewById(R.id.favorite_folder_title_text);
+        tvNoCache = (TextView) findViewById(R.id.tvNoCacheFound);
         sortList = findViewById(R.id.layoutActionSortList);
 
         getListView().setTextFilterEnabled(true);
 
         setListAdapter(favoriteGeoCachesAdapter);
 
+        ArrayList<GeoCache> geoCachesList = dbManager.getArrayGeoCache();
+        for (GeoCache gc : geoCachesList) {
+            favoriteGeoCachesAdapter.add(gc);
+        }
+
         Intent intent = getIntent();
         if (Intent.ACTION_SEARCH.equals(intent.getAction())) {
             String query = intent.getStringExtra(SearchManager.QUERY);
             getListView().setFilterText(query);
+
         }
 
         handler = new android.os.Handler(this);
@@ -74,18 +80,12 @@ public class FavoritesFolderActivity extends ListActivity implements android.os.
 
     @Override
     protected void onResume() {
-        ArrayList<GeoCache> geoCachesList = dbManager.getArrayGeoCache();
-        favoriteGeoCachesAdapter.clear();
-        if (geoCachesList.isEmpty()) {
+
+        if (favoriteGeoCachesAdapter.gcItems.isEmpty()) {
             tvNoCache.setVisibility(View.VISIBLE);
         } else {
             tvNoCache.setVisibility(View.GONE);
-            for (GeoCache gc : geoCachesList) {
-                favoriteGeoCachesAdapter.add(gc);
-            }
         }
-        favoriteGeoCachesAdapter.sort();
-        favoriteGeoCachesAdapter.notifyDataSetChanged();
 
         if (listState != null) {
             getListView().onRestoreInstanceState(listState);
