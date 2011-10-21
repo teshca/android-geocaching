@@ -1,10 +1,10 @@
 package su.geocaching.android.ui.compass;
 
 import android.app.Activity;
+import android.app.Dialog;
 import android.content.Intent;
 import android.graphics.drawable.AnimationDrawable;
 import android.location.Location;
-import android.location.LocationProvider;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -50,6 +50,7 @@ public class CompassActivity extends Activity {
     private ImageView startButton;
 
     private Controller controller;
+    private static final int DIALOG_ID_TURN_ON_GPS = 1000;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -274,6 +275,25 @@ public class CompassActivity extends Activity {
         showHideOdometer();
     }
 
+    @Override
+    protected Dialog onCreateDialog(int id) {
+        switch (id) {
+            case DIALOG_ID_TURN_ON_GPS:
+                return NavigationManager.createTurnOnGpsDialog(this);
+        }
+        return super.onCreateDialog(id);
+    }
+
+    @Override
+    protected void onPrepareDialog(int id, Dialog dialog) {
+        switch (id) {
+            case DIALOG_ID_TURN_ON_GPS:
+                Controller.getInstance().getGoogleAnalyticsManager().trackActivityLaunch("/EnableGpsDialog");
+                break;
+        }
+        super.onPrepareDialog(id, dialog);
+    }
+
     class LocationListener implements ILocationAware {
         private final static float CLOSE_DISTANCE_TO_GC_VALUE = 100; // if we nearly than this distance in meters to geoCache - gps will be work maximal often
 
@@ -320,7 +340,12 @@ public class CompassActivity extends Activity {
                     break;
                 case UserLocationManager.GPS_EVENT_STOPPED:
                     // gps has been turned off
-                    NavigationManager.displayTurnOnGpsDialog(CompassActivity.this);
+                    CompassActivity.this.showDialog(DIALOG_ID_TURN_ON_GPS);
+                    break;
+                case UserLocationManager.GPS_EVENT_STARTED:
+                    // gps has been turned on
+                    CompassActivity.this.dismissDialog(DIALOG_ID_TURN_ON_GPS);
+                    break;
             }
         }
     }

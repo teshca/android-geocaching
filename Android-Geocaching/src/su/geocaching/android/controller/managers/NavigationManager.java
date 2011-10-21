@@ -2,6 +2,7 @@ package su.geocaching.android.controller.managers;
 
 import android.app.Activity;
 import android.app.AlertDialog;
+import android.app.Dialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -115,27 +116,24 @@ public class NavigationManager {
         context.startActivity(intent);
     }
 
-    public static void displayTurnOnGpsDialog(final Activity context) {
-        Controller.getInstance().getGoogleAnalyticsManager().trackActivityLaunch("/EnableGpsDialog");
-
-        new AlertDialog.Builder(context)
-            .setMessage(context.getString(R.string.ask_enable_gps_text))
-            .setCancelable(false)
-            .setPositiveButton(context.getString(R.string.yes), new DialogInterface.OnClickListener() {
-                public void onClick(DialogInterface dialog, int id) {
-                    Intent intent = new Intent(Settings.ACTION_LOCATION_SOURCE_SETTINGS);
-                    context.startActivity(intent);
-                    dialog.cancel();
-                }
-            })
-            .setNegativeButton(context.getString(R.string.no), new DialogInterface.OnClickListener() {
-                public void onClick(DialogInterface dialog, int id) {
-                    dialog.cancel();
-                    context.finish();
-                }
-            })
-            .create()
-            .show();
+    public static Dialog createTurnOnGpsDialog(final Activity context) {
+        return new AlertDialog.Builder(context)
+                .setMessage(context.getString(R.string.ask_enable_gps_text))
+                .setCancelable(false)
+                .setPositiveButton(context.getString(R.string.yes), new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int id) {
+                        Intent intent = new Intent(Settings.ACTION_LOCATION_SOURCE_SETTINGS);
+                        context.startActivity(intent);
+                        dialog.cancel();
+                    }
+                })
+                .setNegativeButton(context.getString(R.string.no), new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int id) {
+                        dialog.cancel();
+                        context.finish();
+                    }
+                })
+                .create();
     }
 
     /**
