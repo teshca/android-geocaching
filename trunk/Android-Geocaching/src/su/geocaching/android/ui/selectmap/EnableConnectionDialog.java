@@ -1,6 +1,5 @@
 package su.geocaching.android.ui.selectmap;
 
-import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -11,11 +10,8 @@ import su.geocaching.android.ui.R;
 
 public class EnableConnectionDialog extends AlertDialog {
 
-    private Activity parent;
-
-    protected EnableConnectionDialog(Activity parent) {
-        super(parent);
-        this.parent = parent;
+    protected EnableConnectionDialog(android.content.Context context) {
+        super(context);
     }
 
     @Override
@@ -34,7 +30,7 @@ public class EnableConnectionDialog extends AlertDialog {
         });
         setButton2(getContext().getString(R.string.no), new DialogInterface.OnClickListener() {
             public void onClick(DialogInterface dialog, int id) {
-                parent.finish();
+                getOwnerActivity().finish();
                 dialog.cancel();
             }
         });
