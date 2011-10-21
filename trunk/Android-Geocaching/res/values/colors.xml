@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <color name="dashboard_background">#fffafafa</color>
-    <color name="title_separator">#20000000</color>
+    <color name="title_separator">#50556856</color>
     <color name="dashboard_text_color">#ff56905D</color>
 	<color name="map_info_layer_bg">#7066906D</color>
 	<color name="status_text_color">#fffafafa</color>
