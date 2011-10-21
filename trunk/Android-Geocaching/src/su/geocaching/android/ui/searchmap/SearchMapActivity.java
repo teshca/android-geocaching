@@ -3,6 +3,7 @@ package su.geocaching.android.ui.searchmap;
 import java.util.List;
 import java.util.Locale;
 
+import android.app.Dialog;
 import android.content.Intent;
 import android.graphics.Point;
 import android.graphics.Rect;
@@ -54,6 +55,8 @@ public class SearchMapActivity extends MapActivity implements IConnectionAware, 
     private final static String TAG = SearchMapActivity.class.getCanonicalName();
     private final static float CLOSE_DISTANCE_TO_GC_VALUE = 100; // if we nearly than this distance in meters to geocache - gps will be work maximal often
     private final static String SEARCH_MAP_ACTIVITY_FOLDER = "/SearchMapActivity";
+
+    private static final int DIALOG_ID_TURN_ON_GPS = 1000;
 
     private CheckpointOverlay checkpointOverlay;
     private SearchGeoCacheOverlay searchGeoCacheOverlay;
@@ -195,7 +198,7 @@ public class SearchMapActivity extends MapActivity implements IConnectionAware, 
             if (!Controller.getInstance().getLocationManager().isBestProviderGps()) {
                 LogManager.w(TAG, "resume: device without gps");
             }
-            NavigationManager.displayTurnOnGpsDialog(this);
+            showDialog(DIALOG_ID_TURN_ON_GPS);
             LogManager.d(TAG, "resume: best provider (" + Controller.getInstance().getLocationManager().getBestProvider(false) + ") disabled. Current provider is "
                     + Controller.getInstance().getLocationManager().getCurrentProvider());
         } else {
@@ -487,7 +490,12 @@ public class SearchMapActivity extends MapActivity implements IConnectionAware, 
                 break;
             case UserLocationManager.GPS_EVENT_STOPPED:
                 // gps has been turned off
-                NavigationManager.displayTurnOnGpsDialog(this);
+                showDialog(DIALOG_ID_TURN_ON_GPS);
+                break;
+            case UserLocationManager.GPS_EVENT_STARTED:
+                // gps has been turned on
+                dismissDialog(DIALOG_ID_TURN_ON_GPS);
+                break;
         }
     }
 
@@ -588,5 +596,24 @@ public class SearchMapActivity extends MapActivity implements IConnectionAware, 
                 return true;
         }
         return false;
+    }
+
+    @Override
+    protected Dialog onCreateDialog(int id) {
+        switch (id) {
+            case DIALOG_ID_TURN_ON_GPS:
+                return NavigationManager.createTurnOnGpsDialog(this);
+        }
+        return super.onCreateDialog(id);
+    }
+
+    @Override
+    protected void onPrepareDialog(int id, Dialog dialog) {
+        switch (id) {
+            case DIALOG_ID_TURN_ON_GPS:
+                Controller.getInstance().getGoogleAnalyticsManager().trackActivityLaunch("/EnableGpsDialog");
+                break;
+        }
+        super.onPrepareDialog(id, dialog);
     }
 }
