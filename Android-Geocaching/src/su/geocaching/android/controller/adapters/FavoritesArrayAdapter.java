@@ -200,13 +200,14 @@ public class FavoritesArrayAdapter extends BaseArrayAdapter<GeoCache> implements
                 results.values = newItems;
                 results.count = newItems.size();
             }
+            gcItems = (ArrayList<GeoCache>) results.values;
             return results;
         }
 
         @SuppressWarnings("unchecked")
         protected void publishResults(CharSequence prefix, FilterResults results) {
             //noinspection unchecked
-            gcItems = (ArrayList<GeoCache>) results.values;
+
             clear();
             for (GeoCache gc : gcItems) {
                 add(gc);

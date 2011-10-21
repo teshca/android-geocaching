@@ -48,7 +48,7 @@ public class CheckpointsFolderActivity extends ListActivity {
         dbm = Controller.getInstance().getDbManager();
         checkpointsAdapter = new FavoritesArrayAdapter(this);
 
-        tvNoCache = (TextView) findViewById(R.id.favorite_folder_title_text);
+        tvNoCache = (TextView) findViewById(R.id.tvNoCacheFound);
 
         setListAdapter(checkpointsAdapter);
         initRemoveDialog();
