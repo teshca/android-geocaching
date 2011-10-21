@@ -85,6 +85,7 @@ public class CheckpointsFolderActivity extends ListActivity {
                 checkpointsAdapter.add(gc);
             }
         }
+       // checkpointsAdapter.sort();
         checkpointsAdapter.notifyDataSetChanged();
         super.onResume();
     }

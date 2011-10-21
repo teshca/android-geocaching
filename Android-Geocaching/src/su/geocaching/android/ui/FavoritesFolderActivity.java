@@ -67,6 +67,8 @@ public class FavoritesFolderActivity extends ListActivity implements android.os.
 
         handler = new android.os.Handler(this);
         Controller.getInstance().addHandler(handler);
+
+        favoriteGeoCachesAdapter.setSortType(FavoritesArrayAdapter.SortType.values()[Controller.getInstance().getPreferencesManager().getFavoritesSortType()]);
         Controller.getInstance().getGoogleAnalyticsManager().trackActivityLaunch(FAVORITES_FOLDER);
     }
 
@@ -82,6 +84,7 @@ public class FavoritesFolderActivity extends ListActivity implements android.os.
                 favoriteGeoCachesAdapter.add(gc);
             }
         }
+        favoriteGeoCachesAdapter.sort();
         favoriteGeoCachesAdapter.notifyDataSetChanged();
 
         if (listState != null) {
@@ -181,15 +184,19 @@ public class FavoritesFolderActivity extends ListActivity implements android.os.
     public void sortByName(View v) {
         sortList.clearAnimation();
         sortList.setVisibility(View.GONE);
-        favoriteGeoCachesAdapter.sortByName();
+        favoriteGeoCachesAdapter.setSortType(FavoritesArrayAdapter.SortType.BY_NAME);
+        favoriteGeoCachesAdapter.sort();
         favoriteGeoCachesAdapter.notifyDataSetChanged();
+        Controller.getInstance().getPreferencesManager().setFavoritesSortType(FavoritesArrayAdapter.SortType.BY_NAME.ordinal());
     }
 
     public void sortByDistance(View v) {
         sortList.clearAnimation();
         sortList.setVisibility(View.GONE);
-        favoriteGeoCachesAdapter.sortByDistance();
+        favoriteGeoCachesAdapter.setSortType(FavoritesArrayAdapter.SortType.BY_DIST);
+        favoriteGeoCachesAdapter.sort();
         favoriteGeoCachesAdapter.notifyDataSetChanged();
+        Controller.getInstance().getPreferencesManager().setFavoritesSortType(FavoritesArrayAdapter.SortType.BY_DIST.ordinal());
     }
 
     @Override
