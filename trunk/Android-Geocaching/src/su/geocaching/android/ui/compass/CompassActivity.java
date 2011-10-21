@@ -77,7 +77,7 @@ public class CompassActivity extends Activity {
         controller = Controller.getInstance();
         locationManager = controller.getLocationManager();
         preferenceManager = controller.getPreferencesManager();
-        locationListener = new LocationListener(this);
+        locationListener = new LocationListener();
 
         controller.getGoogleAnalyticsManager().trackActivityLaunch(COMPASS_ACTIVITY);
     }
@@ -296,12 +296,6 @@ public class CompassActivity extends Activity {
 
     class LocationListener implements ILocationAware {
         private final static float CLOSE_DISTANCE_TO_GC_VALUE = 100; // if we nearly than this distance in meters to geoCache - gps will be work maximal often
-
-        private Activity activity;
-
-        LocationListener(Activity activity) {
-            this.activity = activity;
-        }
 
         @Override
         public void updateLocation(Location location) {
