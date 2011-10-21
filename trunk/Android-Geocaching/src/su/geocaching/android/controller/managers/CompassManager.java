@@ -161,7 +161,7 @@ public class CompassManager implements SensorEventListener, ILocationAware {
 
         if (useGps) {
             removeUpdates();
-            locationManager.addSubscriber(this, false);
+            locationManager.addSubscriber(this);
         } else {
             addSensorUpdates();
             locationManager.removeSubscriber(this);
@@ -176,16 +176,6 @@ public class CompassManager implements SensorEventListener, ILocationAware {
 
     @Override
     public void onStatusChanged(String provider, int status, Bundle extras) {
-        //do nothing
-    }
-
-    @Override
-    public void onProviderEnabled(String provider) {
-        //do nothing
-    }
-
-    @Override
-    public void onProviderDisabled(String provider) {
         //do nothing
     }
 }

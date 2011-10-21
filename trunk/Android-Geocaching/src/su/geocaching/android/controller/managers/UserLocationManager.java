@@ -19,6 +19,44 @@ import java.util.TimerTask;
  * @since fall, 2010
  */
 public class UserLocationManager implements LocationListener, GpsStatus.Listener {
+    /**
+     * @see <a href="http://developer.android.com/reference/android/location/LocationProvider.html#OUT_OF_SERVICE">Android reference</a>
+     */
+    public static final int OUT_OF_SERVICE = 0;
+
+    /**
+     * @see <a href="http://developer.android.com/reference/android/location/LocationProvider.html#TEMPORARILY_UNAVAILABLE">Android reference</a>
+     */
+    public static final int TEMPORARILY_UNAVAILABLE = 1;
+
+    /**
+     * Event sent when the GPS system has started.
+     *
+     * @see <a href="http://developer.android.com/reference/android/location/GpsStatus.html#GPS_EVENT_STARTED">Android reference</a>
+     */
+    public static final int GPS_EVENT_STARTED = 3;
+
+    /**
+     * Event sent when the GPS system has stopped.
+     *
+     * @see <a href="http://developer.android.com/reference/android/location/GpsStatus.html#GPS_EVENT_STOPPED">Android reference</a>
+     */
+    public static final int GPS_EVENT_STOPPED = 4;
+
+    /**
+     * Event sent when the GPS system has received its first fix since starting.
+     *
+     * @see <a href="http://developer.android.com/reference/android/location/GpsStatus.html#GPS_EVENT_FIRST_FIX">Android reference</a>
+     */
+    public static final int GPS_EVENT_FIRST_FIX = 5;
+
+    /**
+     * Event sent periodically to report GPS satellite status.
+     *
+     * @see <a href="http://developer.android.com/reference/android/location/GpsStatus.html#GPS_EVENT_SATELLITE_STATUS">Android reference</a>
+     */
+    public static final int GPS_EVENT_SATELLITE_STATUS = 6;
+
     private static final String TAG = UserLocationManager.class.getCanonicalName();
     private static final String REMOVE_UPDATES_TIMER_NAME = "remove location updates mapupdatetimer";
     private static final String DEPRECATE_LOCATION_TIMER_NAME = "waiting for location deprecation";
@@ -31,7 +69,6 @@ public class UserLocationManager implements LocationListener, GpsStatus.Listener
     private long lastLocationTime = -1;
     private String provider = "none";
     private List<ILocationAware> subscribers;
-    private List<ILocationAware> statusSubscribers;
     private Timer removeUpdatesTimer;
     private DeprecateLocationNotifier deprecateLocationNotifier;
     private Timer deprecateLocationTimer;
@@ -49,13 +86,11 @@ public class UserLocationManager implements LocationListener, GpsStatus.Listener
         lastLocation = lastKnownLocation();
         updateFrequency = Controller.getInstance().getPreferencesManager().getGpsUpdateFrequency();
         subscribers = new ArrayList<ILocationAware>();
-        statusSubscribers = new ArrayList<ILocationAware>();
         isUpdating = false;
         removeUpdatesTimer = new Timer(REMOVE_UPDATES_TIMER_NAME);
         removeUpdatesTask = new RemoveUpdatesTask(this);
         deprecateLocationTimer = new Timer(DEPRECATE_LOCATION_TIMER_NAME);
         deprecateLocationNotifier = new DeprecateLocationNotifier();
-        LogManager.d(TAG, "Init");
     }
 
     private Location lastKnownLocation() {
@@ -85,9 +120,8 @@ public class UserLocationManager implements LocationListener, GpsStatus.Listener
 
     /**
      * @param subscriber activity which will be listen location updates
-     * @param withStatus true if subscriber want to recieve information about gps status
      */
-    public void addSubscriber(ILocationAware subscriber, boolean withStatus) {
+    public void addSubscriber(ILocationAware subscriber) {
         removeUpdatesTask.cancel();
 
         LogManager.d(TAG, "addSubscriber: remove task cancelled;\n	isUpdating=" + Boolean.toString(isUpdating) + ";\n	subscribers=" + Integer.toString(subscribers.size()));
@@ -98,12 +132,6 @@ public class UserLocationManager implements LocationListener, GpsStatus.Listener
         if (!subscribers.contains(subscriber)) {
             subscribers.add(subscriber);
         }
-        if (withStatus && statusSubscribers.size() == 0) {
-            addGpsStatusUpdates();
-        }
-        if (withStatus && !statusSubscribers.contains(subscriber)) {
-            statusSubscribers.add(subscriber);
-        }
         LogManager.d(TAG, "	Count of subscribers became " + Integer.toString(subscribers.size()));
     }
 
@@ -113,30 +141,14 @@ public class UserLocationManager implements LocationListener, GpsStatus.Listener
      */
     public boolean removeSubscriber(ILocationAware subscriber) {
         boolean res = subscribers.remove(subscriber);
-        statusSubscribers.remove(subscriber);
         if (subscribers.size() == 0 && res) {
             removeUpdatesTask.cancel();
             removeUpdatesTask = new RemoveUpdatesTask(this);
             removeUpdatesTimer.schedule(removeUpdatesTask, REMOVE_UPDATES_DELAY);
             LogManager.d(TAG, "none subscribers. wait " + Long.toString(REMOVE_UPDATES_DELAY / 1000) + " s from " + Long.toString(System.currentTimeMillis()));
         }
-        if (statusSubscribers.size() == 0) {
-            removeGpsStatusUpdates();
-        }
         LogManager.d(TAG, "remove subscriber. Count of subscribers became " + Integer.toString(subscribers.size()));
         return res;
-    }
-
-    /**
-     * Remove updates of gps status. Location updates remains
-     *
-     * @param subscriber activity which no need to listen gps status updates
-     */
-    public void removeStatusListening(ILocationAware subscriber) {
-        statusSubscribers.remove(subscriber);
-        if (statusSubscribers.size() == 0) {
-            removeGpsStatusUpdates();
-        }
     }
 
     /*
@@ -161,53 +173,77 @@ public class UserLocationManager implements LocationListener, GpsStatus.Listener
         }
     }
 
-    /*
-     * (non-Javadoc)
-     * 
-     * @see android.location.LocationListener#onProviderDisabled(java.lang.String)
+    /**
+     * <b>Do not use this method</b>
+     * <p>
+     * This functionality implemented in {@link #onStatusChanged} methods with event key {@link #GPS_EVENT_STOPPED}
+     * </p>
      */
     @Override
-    public void onProviderDisabled(String provider) {
-        LogManager.d(TAG, "Provider (" + provider + ") disabled: send msg to " + Integer.toString(subscribers.size()) + " activity(es)");
-        for (ILocationAware subscriber : subscribers) {
-            subscriber.onProviderDisabled(provider);
-        }
-    }
+    public void onProviderDisabled(String provider) { /* do nothing */ }
 
-    /*
-     * (non-Javadoc)
-     * 
-     * @see android.location.LocationListener#onProviderEnabled(java.lang.String)
+    /**
+     * <b>Do not use this method</b>
+     * <p>
+     * This functionality implemented in {@link #onStatusChanged} methods with event key {@link #GPS_EVENT_STARTED}
+     * </p>
      */
     @Override
-    public void onProviderEnabled(String provider) {
-        LogManager.d(TAG, "Provider (" + provider + ") locationAvailable: send msg to " + Integer.toString(subscribers.size()) + " activity(es)");
-        for (ILocationAware subsriber : subscribers) {
-            subsriber.onProviderEnabled(provider);
-        }
-    }
+    public void onProviderEnabled(String provider) { /* do nothing */ }
 
-    /*
-     * (non-Javadoc)
-     * 
-     * @see android.location.LocationListener#onStatusChanged(java.lang.String, int, android.os.Bundle)
+    /**
+     * {@inheritDoc}
      */
     @Override
     public void onStatusChanged(String provider, int status, Bundle extras) {
-        LogManager.d(TAG, "Provider (" + provider + ") status changed (new status is " + Integer.toString(status) + "): send msg to " + Integer.toString(subscribers.size()) + " activity(es)");
-        for (ILocationAware subscriber : statusSubscribers) {
-            subscriber.onStatusChanged(provider, status, extras);
+        switch (status) {
+            case LocationProvider.OUT_OF_SERVICE:
+                onAggregatedStatusChanged(provider, OUT_OF_SERVICE, extras);
+                break;
+            case LocationProvider.TEMPORARILY_UNAVAILABLE:
+                onAggregatedStatusChanged(provider, TEMPORARILY_UNAVAILABLE, extras);
+                break;
         }
     }
 
-    /*
-     * (non-Javadoc)
-     * 
-     * @see android.location.GpsStatus.Listener#onGpsStatusChanged(int)
+    /**
+     * {@inheritDoc}
      */
     @Override
-    public void onGpsStatusChanged(int arg0) {
-        onStatusChanged(provider, LocationProvider.AVAILABLE, null);
+    public void onGpsStatusChanged(int event) {
+        switch (event) {
+            case GpsStatus.GPS_EVENT_FIRST_FIX:
+                onAggregatedStatusChanged(provider, GPS_EVENT_FIRST_FIX, null);
+                break;
+            case GpsStatus.GPS_EVENT_SATELLITE_STATUS:
+                onAggregatedStatusChanged(provider, GPS_EVENT_SATELLITE_STATUS, null);
+                break;
+            case GpsStatus.GPS_EVENT_STARTED:
+                onAggregatedStatusChanged(provider, GPS_EVENT_STARTED, null);
+                break;
+            case GpsStatus.GPS_EVENT_STOPPED:
+                onAggregatedStatusChanged(provider, GPS_EVENT_STOPPED, null);
+                break;
+        }
+    }
+
+    /**
+     * Aggregate status changing from {@link #onStatusChanged(String, int, android.os.Bundle)} and {@link #onGpsStatusChanged(int)}
+     *
+     * @param provider the name of the location provider associated with this update
+     * @param status   one of
+     *                 <ul><li>{@link #GPS_EVENT_FIRST_FIX}
+     *                 <li>{@link #GPS_EVENT_SATELLITE_STATUS}
+     *                 <li>{@link #GPS_EVENT_STARTED}
+     *                 <li>{@link #GPS_EVENT_STOPPED}
+     *                 <li>{@link #OUT_OF_SERVICE}
+     *                 <li>{@link #TEMPORARILY_UNAVAILABLE}</ul>
+     * @param extras   an optional Bundle which will contain provider specific status variables (from {@link android.location.LocationListener#onStatusChanged(java.lang.String, int, android.os.Bundle)})
+     */
+    private void onAggregatedStatusChanged(String provider, int status, Bundle extras) {
+        for (ILocationAware subscriber : subscribers) {
+            subscriber.onStatusChanged(provider, status, extras);
+        }
     }
 
     /**
@@ -219,6 +255,7 @@ public class UserLocationManager implements LocationListener, GpsStatus.Listener
         }
         LogManager.d(TAG, "remove location updates at " + Long.toString(System.currentTimeMillis()));
         locationManager.removeUpdates(this);
+        locationManager.removeGpsStatusListener(this);
         provider = "none";
         isUpdating = false;
     }
@@ -232,20 +269,6 @@ public class UserLocationManager implements LocationListener, GpsStatus.Listener
         provider = locationManager.getBestProvider(criteria, true);
         requestLocationUpdates();
         LogManager.d(TAG, "add updates. Provider is " + provider);
-    }
-
-    /**
-     * Add updates of status gps engine
-     */
-    private void addGpsStatusUpdates() {
-        locationManager.addGpsStatusListener(this);
-    }
-
-    /**
-     * remove updates of gps engine status
-     */
-    private void removeGpsStatusUpdates() {
-        locationManager.removeGpsStatusListener(this);
     }
 
     /**
@@ -349,6 +372,7 @@ public class UserLocationManager implements LocationListener, GpsStatus.Listener
         LogManager.d(TAG, "update frequency: " + updateFrequency.toString());
         if (provider != null) {
             locationManager.requestLocationUpdates(provider, minTime, minDistance, this);
+            locationManager.addGpsStatusListener(this);
             isUpdating = true;
         } else {
             LogManager.w(TAG, "provider == null");
@@ -407,7 +431,7 @@ public class UserLocationManager implements LocationListener, GpsStatus.Listener
         int usedInFix = 0;
         int count = 0;
         if (gpsStatus.getSatellites() == null) {
-            return null;
+            return "";
         }
         for (GpsSatellite satellite : gpsStatus.getSatellites()) {
             count++;
@@ -415,7 +439,7 @@ public class UserLocationManager implements LocationListener, GpsStatus.Listener
                 usedInFix++;
             }
         }
-        return String.format("%s %d/%d", Controller.getInstance().getResourceManager().getString(R.string.gps_status_satellite_status), usedInFix, count);
+        return String.format(Controller.getInstance().getResourceManager().getString(R.string.gps_status_satellite_status), usedInFix, count);
     }
 
     /**

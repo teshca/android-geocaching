@@ -9,7 +9,6 @@ import android.graphics.Rect;
 import android.graphics.drawable.AnimationDrawable;
 import android.graphics.drawable.Drawable;
 import android.location.Location;
-import android.location.LocationProvider;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Handler;
@@ -209,14 +208,13 @@ public class SearchMapActivity extends MapActivity implements IConnectionAware, 
             }
 
             if (Controller.getInstance().getLocationManager().hasPreciseLocation()) {
-                gpsStatusTextView.setVisibility(View.GONE);
                 progressBarView.setVisibility(View.GONE);
             } else {
                 gpsStatusTextView.setText(R.string.gps_status_initialization);
                 progressBarView.setVisibility(View.VISIBLE);
             }
 
-            Controller.getInstance().getLocationManager().addSubscriber(this, true);
+            Controller.getInstance().getLocationManager().addSubscriber(this);
             Controller.getInstance().getLocationManager().enableBestProviderUpdates();
             Controller.getInstance().getConnectionManager().addSubscriber(this);
             Controller.getInstance().getCallbackManager().addSubscriber(handler);
@@ -228,7 +226,6 @@ public class SearchMapActivity extends MapActivity implements IConnectionAware, 
             onConnectionLost();
             LogManager.w(TAG, "internet not connected");
         }
-
     }
 
     /*
@@ -239,10 +236,8 @@ public class SearchMapActivity extends MapActivity implements IConnectionAware, 
     @Override
     public void updateLocation(Location location) {
         userOverlay.updateLocation(location);
-        Controller.getInstance().getLocationManager().removeStatusListening(this);
         LogManager.d(TAG, "update location");
         UiHelper.setGone(progressBarView);
-        UiHelper.setGone(gpsStatusTextView);
         if (CoordinateHelper.getDistanceBetween(location, Controller.getInstance().getSearchingGeoCache().getLocationGeoPoint()) < CLOSE_DISTANCE_TO_GC_VALUE) {
             Controller.getInstance().getLocationManager().updateFrequency(GpsUpdateFrequency.MAXIMAL);
         } else {
@@ -454,16 +449,6 @@ public class SearchMapActivity extends MapActivity implements IConnectionAware, 
         connectionLostToast.show();
     }
 
-    /**
-     * Show progressbar and send message when location updates from provider unavailable
-     */
-    public void onBestProviderUnavailable() {
-        UiHelper.setVisible(progressBarView);
-        UiHelper.setVisible(gpsStatusTextView);
-        gpsStatusTextView.setText(R.string.gps_status_unavailable);
-        providerUnavailableToast.show();
-    }
-
     /*
      * (non-Javadoc)
      *
@@ -486,43 +471,23 @@ public class SearchMapActivity extends MapActivity implements IConnectionAware, 
     @Override
     public void onStatusChanged(String provider, int status, Bundle extras) {
         switch (status) {
-            case LocationProvider.OUT_OF_SERVICE:
-                onBestProviderUnavailable();
-                LogManager.d(TAG, "GpsStatus: out of service.");
+            case UserLocationManager.GPS_EVENT_SATELLITE_STATUS:
+                // just update status
+                gpsStatusTextView.setText(Controller.getInstance().getLocationManager().getSatellitesStatusString());
                 break;
-            case LocationProvider.AVAILABLE:
-                LogManager.d(TAG, "GpsStatus: available.");
-                String statusString = Controller.getInstance().getLocationManager().getSatellitesStatusString();
-                if (statusString != null) {
-                    gpsStatusTextView.setText(statusString);
-                    UiHelper.setVisible(progressBarView);
-                    UiHelper.setVisible(gpsStatusTextView);
-                }
+            case UserLocationManager.OUT_OF_SERVICE:
+                // provider unavailable
+                UiHelper.setVisible(progressBarView);
+                gpsStatusTextView.setText(R.string.gps_status_unavailable);
+                providerUnavailableToast.show();
                 break;
-        }
-    }
-
-    /*
-     * (non-Javadoc)
-     *
-     * @see su.geocaching.android.controller.ILocationAware#onProviderEnabled(java.lang.String)
-     */
-    @Override
-    public void onProviderEnabled(String provider) {
-        LogManager.d(TAG, "onProviderEnabled: do nothing");
-    }
-
-    /*
-     * (non-Javadoc)
-     *
-     * @see su.geocaching.android.controller.ILocationAware#onProviderDisabled(java.lang.String)
-     */
-    @Override
-    public void onProviderDisabled(String provider) {
-        LogManager.d(TAG, "onProviderDisabled");
-        if (!Controller.getInstance().getLocationManager().isBestProviderEnabled()) {
-            LogManager.d(TAG, "onStatusChanged: best provider (" + Controller.getInstance().getLocationManager().getBestProvider(false) + ") disabled. Ask turn on.");
-            NavigationManager.displayTurnOnGpsDialog(this);
+            case UserLocationManager.TEMPORARILY_UNAVAILABLE:
+                // gps connection lost. just show progress bar
+                UiHelper.setVisible(progressBarView);
+                break;
+            case UserLocationManager.GPS_EVENT_STOPPED:
+                // gps has been turned off
+                NavigationManager.displayTurnOnGpsDialog(this);
         }
     }
 
