@@ -81,11 +81,11 @@ public class FavoritesArrayAdapter extends BaseArrayAdapter<GeoCache> implements
         //TODO check/improve it;
         if (lastLocation != null) {
             holder.compassView.setCacheDirection(CoordinateHelper.getBearingBetween(lastLocation, geoCache.getLocationGeoPoint()));
+            boolean hasPreciseLocation = Controller.getInstance().getLocationManager().hasPreciseLocation();
+            float distance = CoordinateHelper.getDistanceBetween(geoCache.getLocationGeoPoint(), lastLocation);
+            holder.textViewDistance.setText(CoordinateHelper.distanceToString(distance, hasPreciseLocation));
         }
 
-        boolean hasPreciseLocation = Controller.getInstance().getLocationManager().hasPreciseLocation();
-        float distance = CoordinateHelper.getDistanceBetween(geoCache.getLocationGeoPoint(), lastLocation);
-        holder.textViewDistance.setText(CoordinateHelper.distanceToString(distance, hasPreciseLocation));
         holder.compassView.invalidate();
 
         LogManager.d(TAG, "getView done for " + (System.currentTimeMillis() - time) + " ms. gc.name " + geoCache.getName() + " position " + position);
