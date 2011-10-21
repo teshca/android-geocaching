@@ -10,4 +10,5 @@
     <dimen name="text_size_list_name">17sp</dimen>
     <dimen name="text_size_list_status">13sp</dimen>
     <dimen name="coordinate_label_width">80dip</dimen>
+    <dimen name="adapter_photo_size">145dip</dimen>
 </resources>
