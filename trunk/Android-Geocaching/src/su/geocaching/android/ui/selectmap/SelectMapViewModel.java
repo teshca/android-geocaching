@@ -37,7 +37,7 @@ public class SelectMapViewModel {
         if (geoCacheList == null || geoCacheList.size() == 0) {
             return;
         }
-        if (Controller.getInstance().getPreferencesManager().getAddingCacheWayString() && geoCacheList.size() > MIN_GROUP_CACHE_NUMBER) {
+        if (Controller.getInstance().getPreferencesManager().isCacheGroupingEnabled() && geoCacheList.size() > MIN_GROUP_CACHE_NUMBER) {
             beginGroupGeoCacheList(geoCacheList);
         } else {
             currentGeoCacheOverlayItems.clear();
@@ -124,6 +124,13 @@ public class SelectMapViewModel {
             LogManager.e(TAG, "Attempt to register activity while activity is not null");
         }
         this.activity = activity;
+        // update activity state
+        if (groupTask != null) {
+            onShowGroupingInfo();
+        }
+        if (downloadTasksCount != 0) {
+            onShowDownloadingInfo();
+        }
     }
 
     public synchronized void unregisterActivity(SelectMapActivity activity) {
@@ -131,7 +138,5 @@ public class SelectMapViewModel {
             LogManager.e(TAG, "Attempt to unregister activity while activity is null");
         }
         this.activity = null;
-
-        //cancelGroupTask();
     }
 }
