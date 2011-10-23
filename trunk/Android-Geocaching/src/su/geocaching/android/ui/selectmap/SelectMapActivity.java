@@ -5,7 +5,6 @@ import android.content.Intent;
 import android.graphics.drawable.AnimationDrawable;
 import android.location.Location;
 import android.os.Bundle;
-import android.os.Handler;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
@@ -46,7 +45,6 @@ public class SelectMapActivity extends MapActivity implements IConnectionAware, 
     private ImageView progressBarView;
     private AnimationDrawable progressBarAnimation;
     private MapUpdateTimer mapTimer;
-    private Handler uiHandler;
     private TextView connectionInfoTextView;
     private TextView downloadingInfoTextView;
     private TextView groupingInfoTextView;
@@ -65,7 +63,6 @@ public class SelectMapActivity extends MapActivity implements IConnectionAware, 
         progressBarView.setBackgroundResource(R.anim.earth_anim);
         progressBarAnimation = (AnimationDrawable) progressBarView.getBackground();
         progressBarView.setVisibility(View.GONE);
-        uiHandler = new Handler();
 
         connectionInfoTextView = (TextView) findViewById(R.id.connectionInfoTextView);
         groupingInfoTextView = (TextView) findViewById(R.id.groupingInfoTextView);
@@ -82,14 +79,8 @@ public class SelectMapActivity extends MapActivity implements IConnectionAware, 
         mapView.setBuiltInZoomControls(true);
         mapView.invalidate();
 
-        mapTimer = new MapUpdateTimer(this);
-
         selectMapViewModel = Controller.getInstance().getSelectMapViewModel();
         Controller.getInstance().getGoogleAnalyticsManager().trackActivityLaunch(SELECT_ACTIVITY_FOLDER);
-    }
-
-    public Handler getUiHandler() {
-        return uiHandler;
     }
 
     private void updateMapInfoFromSettings() {
@@ -130,16 +121,15 @@ public class SelectMapActivity extends MapActivity implements IConnectionAware, 
         // register activity against view model
         selectMapViewModel.registerActivity(this);
         // schedule map update timer tasks
-        mapTimer.scheduleTasks();
+        mapTimer = new MapUpdateTimer(this);
     }
 
     @Override
     protected void onPause() {
         super.onPause();
         LogManager.d(TAG, "onPause");
-        // stop map update timer
+        // cancel current map update timer and all it's tasks
         mapTimer.cancel();
-        mapTimer.purge();
         // unsubscribe  form location and connection manager
         locationManager.removeSubscriber(this);
         connectionManager.removeSubscriber(this);

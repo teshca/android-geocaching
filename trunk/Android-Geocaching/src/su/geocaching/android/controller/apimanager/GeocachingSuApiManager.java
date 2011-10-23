@@ -101,7 +101,7 @@ public class GeocachingSuApiManager implements IApiManager {
             }
         }
 
-        LogManager.d(TAG, "Size of obtained listGeoCaches: " + geoCaches.size());
+        LogManager.d(TAG, "Total size of memory cached geocaches: " + geoCaches.size());
         return filterGeoCaches(maxLatitude, minLatitude, maxLongitude, minLongitude);
     }
 
@@ -120,7 +120,7 @@ public class GeocachingSuApiManager implements IApiManager {
                 filteredGeoCaches.add(gc);
             }
         }
-        LogManager.d(TAG, "filterGeoCaches: " + filteredGeoCaches.size());
+        LogManager.d(TAG, "Number of geocaches on  the screen: " + filteredGeoCaches.size());
         return filteredGeoCaches;
     }
 

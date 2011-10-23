@@ -77,11 +77,7 @@ public class SelectMapViewModel {
 
     private synchronized void onUpdateGeocacheOverlay() {
         if (activity != null) {
-            activity.getUiHandler().post(new Runnable() {
-                public void run() {
-                    activity.updateGeoCacheOverlay(currentGeoCacheOverlayItems);
-                }
-            });
+            activity.updateGeoCacheOverlay(currentGeoCacheOverlayItems);
         }
     }
 
@@ -101,41 +97,25 @@ public class SelectMapViewModel {
 
     private synchronized void onHideDownloadingInfo() {
         if (activity != null) {
-            activity.getUiHandler().post(new Runnable() {
-                public void run() {
-                    activity.hideDownloadingInfo();
-                }
-            });
+            activity.hideDownloadingInfo();
         }
     }
 
     private synchronized void onShowDownloadingInfo() {
         if (activity != null) {
-            activity.getUiHandler().post(new Runnable() {
-                public void run() {
-                    activity.showDownloadingInfo();
-                }
-            });
+            activity.showDownloadingInfo();
         }
     }
 
     private synchronized void onShowGroupingInfo() {
         if (activity != null) {
-            activity.getUiHandler().post(new Runnable() {
-                public void run() {
-                    activity.showGroupingInfo();
-                }
-            });
+            activity.showGroupingInfo();
         }
     }
 
     private synchronized void onHideGroupingInfo() {
         if (activity != null) {
-            activity.getUiHandler().post(new Runnable() {
-                public void run() {
-                    activity.hideGroupingInfo();
-                }
-            });
+            activity.hideGroupingInfo();
         }
     }
 
