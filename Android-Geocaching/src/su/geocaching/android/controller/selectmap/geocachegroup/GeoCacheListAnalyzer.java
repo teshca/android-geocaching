@@ -26,7 +26,7 @@ public class GeoCacheListAnalyzer {
     }
 
     private LinkedList<GeoCacheOverlayItem> createOverlayItemList(List<Centroid> centroidList) {
-        LinkedList<GeoCacheOverlayItem> overlayItemList = new LinkedList<GeoCacheOverlayItem>();
+        final LinkedList<GeoCacheOverlayItem> overlayItemList = new LinkedList<GeoCacheOverlayItem>();
         for (Centroid centroid : centroidList) {
             int num = centroid.getNumberOfView();
             if (num != 0) {
@@ -41,8 +41,8 @@ public class GeoCacheListAnalyzer {
     }
 
     private List<Centroid> generateCentroids() {
-        int sizeX = map.getWidth() / FINGER_SIZE_X;
-        int sizeY = map.getHeight() / FINGER_SIZE_Y;
+        final int sizeX = map.getWidth() / FINGER_SIZE_X;
+        final int sizeY = map.getHeight() / FINGER_SIZE_Y;
         List<Centroid> centroids = new LinkedList<Centroid>();
 
         for (int i = 0; i < sizeX; i++) {
@@ -54,11 +54,11 @@ public class GeoCacheListAnalyzer {
     }
 
     public List<GeoCacheOverlayItem> getGroupedList(List<GeoCache> geoCacheList, AsyncTask<?,?,?> asyncTask) {
-        List<Centroid> centroids = generateCentroids();
+        final List<Centroid> centroids = generateCentroids();
         if (asyncTask.isCancelled()) return null;
-        List<GeoCacheView> points = generatePointsList(geoCacheList);
+        final List<GeoCacheView> points = generatePointsList(geoCacheList);
         if (asyncTask.isCancelled()) return null;
-        List<Centroid> centroidList = new KMeans(points, centroids, asyncTask).getCentroids();
+        final List<Centroid> centroidList = new KMeans(points, centroids, asyncTask).getCentroids();
         if (asyncTask.isCancelled()) return null;
         return createOverlayItemList(centroidList);
     }

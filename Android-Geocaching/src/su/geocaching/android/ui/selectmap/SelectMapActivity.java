@@ -196,9 +196,7 @@ public class SelectMapActivity extends MapActivity implements IConnectionAware, 
         if (overlayItemList.size() > MAX_CACHE_NUMBER) {
             Toast.makeText(this, R.string.too_many_caches, Toast.LENGTH_LONG).show();
         } else {
-            for (GeoCacheOverlayItem item : overlayItemList) {
-                selectGeoCacheOverlay.addOverlayItem(item);
-            }
+            selectGeoCacheOverlay.AddOverlayItems(overlayItemList);
         }
         mapView.invalidate();
     }

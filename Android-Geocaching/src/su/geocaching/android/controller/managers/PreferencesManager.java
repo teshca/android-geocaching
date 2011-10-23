@@ -169,7 +169,7 @@ public class PreferencesManager {
         return (!preferences.getString(context.getString(R.string.prefer_map_type_key), mapValue).equals(mapValue));
     }
 
-    public Boolean getAddingCacheWayString() {
+    public Boolean isCacheGroupingEnabled() {
         // keys located in resources, because settings logic described in xml and write it automatically to SharedPreferences
         return preferences.getBoolean(context.getString(R.string.use_group_cache_key), resources.getBoolean(R.bool.use_group_cache_default_value));
     }
@@ -182,7 +182,7 @@ public class PreferencesManager {
         return GpsUpdateFrequency.valueOf(t);
     }
 
-    public boolean getOdometerOnPreference() {
+    public boolean isOdometerOnPreference() {
         // keys located in resources, because settings logic described in xml and write it automatically to SharedPreferences
         return preferences.getBoolean(context.getString(R.string.prefer_odometer_key), resources.getBoolean(R.bool.prefer_odometer_default_value));
     }

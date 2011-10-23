@@ -16,7 +16,6 @@ import com.google.android.maps.MapView;
 import com.google.android.maps.OverlayItem;
 import su.geocaching.android.controller.managers.LogManager;
 import su.geocaching.android.controller.managers.NavigationManager;
-import su.geocaching.android.model.GeoCache;
 import su.geocaching.android.ui.geocachemap.GeoCacheOverlayItem;
 
 /**
@@ -48,21 +47,12 @@ class SelectGeoCacheOverlay extends ItemizedOverlay<OverlayItem> {
         });
     }
 
-    public synchronized void addOverlayItem(GeoCacheOverlayItem overlayItem) {
-        if (!contains(overlayItem.getGeoCache()) || overlayItem.getTitle().equals("Group")) {
+    public void AddOverlayItems(List<GeoCacheOverlayItem> overlayItemList) {
+        for (GeoCacheOverlayItem overlayItem : overlayItemList) {
             items.add(overlayItem);
-            setLastFocusedIndex(-1);
-            populate();
         }
-    }
-
-    private boolean contains(GeoCache geoCache) {
-        for (GeoCacheOverlayItem item : items) {
-            if (item.getGeoCache().equals(geoCache)) {
-                return true;
-            }
-        }
-        return false;
+        setLastFocusedIndex(-1);
+        populate();
     }
 
     @Override

@@ -198,7 +198,7 @@ public class CompassActivity extends Activity {
 
     @Override
     public boolean onPrepareOptionsMenu(Menu menu) {
-        if (preferenceManager.getOdometerOnPreference()) {
+        if (preferenceManager.isOdometerOnPreference()) {
             menu.findItem(R.id.compassOdometer).setTitle(R.string.menu_compass_odometer_hide);
         } else {
             menu.findItem(R.id.compassOdometer).setTitle(R.string.menu_compass_odometer_show);
@@ -215,14 +215,14 @@ public class CompassActivity extends Activity {
     private void showHideOdometer() {
         UserLocationManager lm = Controller.getInstance().getLocationManager();
         lm.refreshOdometer();
-        boolean isOdometerOn = preferenceManager.getOdometerOnPreference();
+        boolean isOdometerOn = preferenceManager.isOdometerOnPreference();
         preferenceManager.setOdometerOnPreference(!isOdometerOn);
         lm.setUpdatingOdometer(!isOdometerOn);
         updateOdometer();
     }
 
     private void updateOdometer() {
-        if (preferenceManager.getOdometerOnPreference()) {
+        if (preferenceManager.isOdometerOnPreference()) {
             startButton = (ImageView) findViewById(R.id.startButton);
             odometerLayout.setVisibility(View.VISIBLE);
             tvOdometer.setText(CoordinateHelper.distanceToString(locationManager.getOdometerDistance()));
