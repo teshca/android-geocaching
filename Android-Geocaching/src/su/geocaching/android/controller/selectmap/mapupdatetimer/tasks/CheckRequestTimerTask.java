@@ -1,6 +1,6 @@
 package su.geocaching.android.controller.selectmap.mapupdatetimer.tasks;
 
-import su.geocaching.android.controller.selectmap.mapupdatetimer.State;
+import su.geocaching.android.controller.selectmap.mapupdatetimer.MapUpdateTimerState;
 
 import java.util.TimerTask;
 
@@ -9,9 +9,9 @@ import java.util.TimerTask;
  * @since 25.11.10
  */
 public class CheckRequestTimerTask extends TimerTask {
-    private final State state;
+    private final MapUpdateTimerState state;
 
-    public CheckRequestTimerTask(State state) {
+    public CheckRequestTimerTask(MapUpdateTimerState state) {
         this.state = state;
     }
 

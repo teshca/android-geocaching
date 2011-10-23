@@ -54,11 +54,15 @@
                 style="@style/TitleBarSpring"/>
 		<TextView
                 android:id="@+id/groupingInfoTextView"
+                android:text="@string/grouping_status_message"
+                android:visibility="gone"
                 style="@style/MapInfoItem"
 				android:layout_alignParentRight="true"
                 android:layout_marginRight="6dip"/>
 		<TextView
                 android:id="@+id/downloadingInfoTextView"
+                android:text="@string/downloading_status_message"
+                android:visibility="gone"
                 style="@style/MapInfoItem"/>
 	</LinearLayout>
 

@@ -46,8 +46,7 @@
 
         <activity
                 android:name="su.geocaching.android.ui.selectmap.SelectMapActivity"
-                android:theme="@android:style/Theme.Light.NoTitleBar"
-                android:configChanges="orientation|keyboardHidden">
+                android:theme="@android:style/Theme.Light.NoTitleBar">
         </activity>
 
         <activity

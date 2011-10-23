@@ -11,8 +11,10 @@ import android.graphics.Point;
 import android.graphics.drawable.Drawable;
 import android.view.GestureDetector;
 import android.view.MotionEvent;
+import com.google.android.maps.ItemizedOverlay;
 import com.google.android.maps.MapView;
 import com.google.android.maps.OverlayItem;
+import su.geocaching.android.controller.managers.LogManager;
 import su.geocaching.android.controller.managers.NavigationManager;
 import su.geocaching.android.model.GeoCache;
 import su.geocaching.android.ui.geocachemap.GeoCacheOverlayItem;
@@ -21,7 +23,10 @@ import su.geocaching.android.ui.geocachemap.GeoCacheOverlayItem;
  * @author Android-Geocaching.su student project team
  * @since October 2010 GeoCache Itemized Overlay for one or more caches
  */
-class SelectGeoCacheOverlay extends com.google.android.maps.ItemizedOverlay<OverlayItem> {
+
+// TODO: ItemizedOverlay<GeoCacheOverlayItem>
+class SelectGeoCacheOverlay extends ItemizedOverlay<OverlayItem> {
+    private static final String TAG = SelectGeoCacheOverlay.class.getCanonicalName();
     private final List<GeoCacheOverlayItem> items;
     private final Context context;
     private final MapView map;
@@ -96,9 +101,9 @@ class SelectGeoCacheOverlay extends com.google.android.maps.ItemizedOverlay<Over
         } catch (NoSuchMethodException e) {
             /* failure, must be older device */
         } catch (InvocationTargetException e) {
-            e.printStackTrace();
+            LogManager.e(TAG, e);
         } catch (IllegalAccessException e) {
-            e.printStackTrace();
+            LogManager.e(TAG, e);
         }
 
         return gestureDetector.onTouchEvent(event);

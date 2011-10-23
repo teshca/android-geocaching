@@ -1,0 +1,4 @@
+<resources>
+    <string name="grouping_status_message">Группировка</string>
+    <string name="downloading_status_message">Загрузка</string>
+</resources>

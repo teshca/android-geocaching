@@ -1,7 +1,5 @@
 package su.geocaching.android.ui.selectmap;
 
-import java.util.List;
-
 import android.app.Dialog;
 import android.content.Intent;
 import android.graphics.drawable.AnimationDrawable;
@@ -19,16 +17,9 @@ import com.google.android.maps.GeoPoint;
 import com.google.android.maps.MapActivity;
 import com.google.android.maps.MapView;
 import su.geocaching.android.controller.Controller;
-import su.geocaching.android.controller.utils.CoordinateHelper;
-import su.geocaching.android.controller.managers.ConnectionManager;
-import su.geocaching.android.controller.managers.IConnectionAware;
-import su.geocaching.android.controller.managers.ILocationAware;
-import su.geocaching.android.controller.managers.LogManager;
-import su.geocaching.android.controller.managers.NavigationManager;
-import su.geocaching.android.controller.managers.UserLocationManager;
-import su.geocaching.android.controller.selectmap.geocachegroup.GroupGeoCacheTask;
+import su.geocaching.android.controller.managers.*;
 import su.geocaching.android.controller.selectmap.mapupdatetimer.MapUpdateTimer;
-import su.geocaching.android.model.GeoCache;
+import su.geocaching.android.controller.utils.CoordinateHelper;
 import su.geocaching.android.model.GeoCacheStatus;
 import su.geocaching.android.model.GeoCacheType;
 import su.geocaching.android.model.MapInfo;
@@ -36,31 +27,31 @@ import su.geocaching.android.ui.R;
 import su.geocaching.android.ui.geocachemap.GeoCacheOverlayItem;
 import su.geocaching.android.ui.preferences.MapPreferenceActivity;
 
+import java.util.List;
+
 /**
  * @author Yuri Denison
  * @since 04.11.2010
  */
 public class SelectMapActivity extends MapActivity implements IConnectionAware, ILocationAware {
     private static final String TAG = SelectMapActivity.class.getCanonicalName();
-    private static final int MAX_CACHE_NUMBER = 300;
     private static final String SELECT_ACTIVITY_FOLDER = "/SelectActivity";
     private static final int ENABLE_CONNECTION_DIALOG_ID = 0;
-    private Controller controller;
-    private MapView map;
+    private static final int MAX_CACHE_NUMBER = 100;
+    private MapView mapView;
     private SelectGeoCacheOverlay selectGeoCacheOverlay;
     private StaticUserLocationOverlay locationOverlay;
     private UserLocationManager locationManager;
-    private MapUpdateTimer mapTimer;
     private ConnectionManager connectionManager;
     private ImageView progressBarView;
     private AnimationDrawable progressBarAnimation;
-    private int countDownloadTask;
-    private Handler handler;
-    private GroupGeoCacheTask groupTask = null;
-    private boolean firstRun = true;
+    private MapUpdateTimer mapTimer;
+    private Handler uiHandler;
     private TextView connectionInfoTextView;
     private TextView downloadingInfoTextView;
     private TextView groupingInfoTextView;
+
+    private SelectMapViewModel selectMapViewModel;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -68,112 +59,93 @@ public class SelectMapActivity extends MapActivity implements IConnectionAware, 
         LogManager.d(TAG, "onCreate");
         setContentView(R.layout.select_map_activity);
 
-        controller = Controller.getInstance();
-        map = (MapView) findViewById(R.id.selectGeocacheMap);
-        map.getOverlays().clear();
+        mapView = (MapView) findViewById(R.id.selectGeocacheMap);
 
         progressBarView = (ImageView) findViewById(R.id.progressCircle);
         progressBarView.setBackgroundResource(R.anim.earth_anim);
         progressBarAnimation = (AnimationDrawable) progressBarView.getBackground();
         progressBarView.setVisibility(View.GONE);
-        countDownloadTask = 0;
-        handler = new Handler();
+        uiHandler = new Handler();
 
         connectionInfoTextView = (TextView) findViewById(R.id.connectionInfoTextView);
         groupingInfoTextView = (TextView) findViewById(R.id.groupingInfoTextView);
         downloadingInfoTextView = (TextView) findViewById(R.id.downloadingInfoTextView);
 
-        locationOverlay = new StaticUserLocationOverlay(controller.getResourceManager().getUserLocationMarker());
-        selectGeoCacheOverlay = new SelectGeoCacheOverlay(controller.getResourceManager().getCacheMarker(GeoCacheType.TRADITIONAL, GeoCacheStatus.VALID), this, map);
-        map.getOverlays().add(selectGeoCacheOverlay);
-        map.getOverlays().add(locationOverlay);
+        locationOverlay = new StaticUserLocationOverlay(Controller.getInstance().getResourceManager().getUserLocationMarker());
+        selectGeoCacheOverlay = new SelectGeoCacheOverlay(Controller.getInstance().getResourceManager().getCacheMarker(GeoCacheType.TRADITIONAL, GeoCacheStatus.VALID), this, mapView);
+        mapView.getOverlays().add(selectGeoCacheOverlay);
+        mapView.getOverlays().add(locationOverlay);
 
-        locationManager = controller.getLocationManager();
-        connectionManager = controller.getConnectionManager();
+        locationManager = Controller.getInstance().getLocationManager();
+        connectionManager = Controller.getInstance().getConnectionManager();
 
-        map.setBuiltInZoomControls(true);
-        map.invalidate();
-        LogManager.d(TAG, "onCreate Done");
+        mapView.setBuiltInZoomControls(true);
+        mapView.invalidate();
 
-        controller.getGoogleAnalyticsManager().trackActivityLaunch(SELECT_ACTIVITY_FOLDER);
+        mapTimer = new MapUpdateTimer(this);
+
+        selectMapViewModel = Controller.getInstance().getSelectMapViewModel();
+        Controller.getInstance().getGoogleAnalyticsManager().trackActivityLaunch(SELECT_ACTIVITY_FOLDER);
     }
 
-    private synchronized void updateProgressStart() {
-        if (countDownloadTask == 0) {
-            LogManager.d(TAG, "set visible Visible for progress");
-            handler.post(new Runnable() {
-                public void run() {
-                    progressBarView.setVisibility(View.VISIBLE);
-                    downloadingInfoTextView.setText("Загрузка");
-                }
-            });
-        }
-        LogManager.d(TAG, "count plus. count = " + countDownloadTask);
-        countDownloadTask++;
-    }
-
-    private synchronized void updateProgressStop() {
-        countDownloadTask--;
-        LogManager.d(TAG, "count minus. count = " + countDownloadTask);
-        if (countDownloadTask == 0) {
-            LogManager.d(TAG, "set visible gone for progress");
-            handler.post(new Runnable() {
-                public void run() {
-                    progressBarView.setVisibility(View.GONE);
-                    downloadingInfoTextView.setText("");
-                }
-            });
-        }
+    public Handler getUiHandler() {
+        return uiHandler;
     }
 
     private void updateMapInfoFromSettings() {
-        MapInfo lastMapInfo = controller.getPreferencesManager().getLastSelectMapInfo();
+        MapInfo lastMapInfo = Controller.getInstance().getPreferencesManager().getLastSelectMapInfo();
         GeoPoint lastCenter = new GeoPoint(lastMapInfo.getCenterX(), lastMapInfo.getCenterY());
-        map.getController().setCenter(lastCenter);
-        map.getController().animateTo(lastCenter);
-        map.getController().setZoom(lastMapInfo.getZoom());
+        mapView.getController().setCenter(lastCenter);
+        mapView.getController().animateTo(lastCenter);
+        mapView.getController().setZoom(lastMapInfo.getZoom());
     }
 
     private void saveMapInfoToSettings() {
-        controller.getPreferencesManager().setLastSelectMapInfo(new MapInfo(map.getMapCenter().getLatitudeE6(), map.getMapCenter().getLongitudeE6(), map.getZoomLevel()));
+        MapInfo mapInfo = new MapInfo(mapView.getMapCenter().getLatitudeE6(), mapView.getMapCenter().getLongitudeE6(), mapView.getZoomLevel());
+        Controller.getInstance().getPreferencesManager().setLastSelectMapInfo(mapInfo);
     }
 
     @Override
     protected void onResume() {
         super.onResume();
-        // update map setting in case they were changed in preferences
-        map.setSatellite(controller.getPreferencesManager().useSatelliteMap());
+        LogManager.d(TAG, "onResume");
+        // update mapView setting in case they were changed in preferences
+        mapView.setSatellite(Controller.getInstance().getPreferencesManager().useSatelliteMap());
         // add subscriber to connection manager
         connectionManager.addSubscriber(this);
-        // add subscriber to location manager
+        // ask to enable if disabled
         if (!connectionManager.isActiveNetworkConnected()) {
             showDialog(ENABLE_CONNECTION_DIALOG_ID);
         }
+        // add subscriber to location manager
         if (locationManager.getBestProvider(true) == null) {
             //NavigationManager.askTurnOnLocationService(this);
         } else {
             locationManager.addSubscriber(this);
         }
-        // reset map center and zoom level
-        updateMapInfoFromSettings();
-
-        mapTimer = new MapUpdateTimer(this);
-
-        selectGeoCacheOverlay.clear();
-        updateCacheOverlay();
-
+        // set user location
         updateLocationOverlay(locationManager.getLastKnownLocation());
-        map.invalidate();
+        // update mapView center and zoom level
+        updateMapInfoFromSettings();
+        // register activity against view model
+        selectMapViewModel.registerActivity(this);
+        // schedule map update timer tasks
+        mapTimer.scheduleTasks();
     }
 
     @Override
     protected void onPause() {
+        super.onPause();
+        LogManager.d(TAG, "onPause");
+        // stop map update timer
         mapTimer.cancel();
-        cancelGroupTask();
+        mapTimer.purge();
+        // unsubscribe  form location and connection manager
         locationManager.removeSubscriber(this);
         connectionManager.removeSubscriber(this);
         saveMapInfoToSettings();
-        super.onPause();
+        // don't keep reference to this activity in view model
+        selectMapViewModel.unregisterActivity(this);
     }
 
     @Override
@@ -209,72 +181,72 @@ public class SelectMapActivity extends MapActivity implements IConnectionAware, 
         LogManager.d(TAG, "updateLocationOverlay");
         if (location != null) {
             locationOverlay.updateLocation(location);
-            map.invalidate();
+            mapView.invalidate();
         }
+        // TODO: if not
     }
 
-    /* Handles item selections */
-    public void updateCacheOverlay() {
-        LogManager.d(TAG, "updateCacheOverlay; count = " + countDownloadTask);
-        GeoPoint upperLeftCorner = map.getProjection().fromPixels(0, 0);
-        GeoPoint lowerRightCorner = map.getProjection().fromPixels(map.getWidth(), map.getHeight());
-        controller.updateSelectedGeoCaches(this, upperLeftCorner, lowerRightCorner);
-        cancelGroupTask();
-        updateProgressStart();
+    public void beginUpdateGeoCacheOverlay() {
+        LogManager.d(TAG, "beginUpdateGeoCacheOverlay");
+        final GeoPoint upperLeftCorner = mapView.getProjection().fromPixels(0, 0);
+        final GeoPoint lowerRightCorner = mapView.getProjection().fromPixels(mapView.getWidth(), mapView.getHeight());
+        runOnUiThread(
+                new Runnable() {
+                    @Override
+                    public void run() {
+                        selectMapViewModel.beginUpdateGeocacheOverlay(upperLeftCorner, lowerRightCorner);
+                    }
+                }
+        );
     }
 
-    private void cancelGroupTask()
-    {
-        if (groupTask != null) {
-            LogManager.d(TAG, "cancel group task");
-            groupTask.cancel(true);
-        }
-    }
-
-    public synchronized void simpleAddGeoCacheList(List<GeoCache> geoCacheList) {
-        if (geoCacheList == null || geoCacheList.size() == 0) {
-            updateProgressStop();
-            return;
-        }
-        if (geoCacheList.size() > MAX_CACHE_NUMBER) {
+    public synchronized void updateGeoCacheOverlay(List<GeoCacheOverlayItem> overlayItemList) {
+        LogManager.d(TAG, "overlayItemList updated");
+        selectGeoCacheOverlay.clear();
+        if (overlayItemList.size() > MAX_CACHE_NUMBER) {
             Toast.makeText(this, R.string.too_many_caches, Toast.LENGTH_LONG).show();
         } else {
-            selectGeoCacheOverlay.clear();
-            for (GeoCache geoCache : geoCacheList) {
-                selectGeoCacheOverlay.addOverlayItem(new GeoCacheOverlayItem(geoCache, "", ""));
+            for (GeoCacheOverlayItem item : overlayItemList) {
+                selectGeoCacheOverlay.addOverlayItem(item);
             }
-            updateProgressStop();
-            map.invalidate();
         }
+        mapView.invalidate();
     }
 
-    public synchronized void groupUseAddGeoCacheList(List<GeoCache> geoCacheList) {
-        if (geoCacheList == null || geoCacheList.size() == 0) {
-            updateProgressStop();
-            return;
-        }
-        cancelGroupTask();
-        groupTask = new GroupGeoCacheTask(this, geoCacheList);
-        groupTask.execute();
-        groupingInfoTextView.setText("Группировка");
-        updateProgressStop();
+    public void hideGroupingInfo() {
+        groupingInfoTextView.setVisibility(View.GONE);
+        updateAnimation();
     }
 
-    public synchronized void addOverlayItemList(List<GeoCacheOverlayItem> overlayItemList) {
-        groupingInfoTextView.setText("-");
-        selectGeoCacheOverlay.clear();
-        for (GeoCacheOverlayItem item : overlayItemList) {
-            selectGeoCacheOverlay.addOverlayItem(item);
+    public void showGroupingInfo() {
+        groupingInfoTextView.setVisibility(View.VISIBLE);
+        updateAnimation();
+    }
+
+    public void hideDownloadingInfo() {
+        downloadingInfoTextView.setVisibility(View.GONE);
+        updateAnimation();
+    }
+
+    public void showDownloadingInfo() {
+        downloadingInfoTextView.setVisibility(View.VISIBLE);
+        updateAnimation();
+    }
+
+    private void updateAnimation() {
+        if (downloadingInfoTextView.getVisibility() == View.VISIBLE || groupingInfoTextView.getVisibility() == View.VISIBLE) {
+            progressBarView.setVisibility(View.VISIBLE);
+        } else {
+            progressBarView.setVisibility(View.GONE);
         }
-        map.invalidate();
     }
 
     public int getZoom() {
-        return map.getZoomLevel();
+        return mapView.getZoomLevel();
     }
 
     public GeoPoint getCenter() {
-        return map.getMapCenter();
+        return mapView.getMapCenter();
     }
 
     @Override
@@ -299,14 +271,8 @@ public class SelectMapActivity extends MapActivity implements IConnectionAware, 
     @Override
     public void onWindowFocusChanged(boolean hasFocus) {
         super.onWindowFocusChanged(hasFocus);
-        if (hasFocus && firstRun) {
-            updateCacheOverlay();
-            firstRun = false;
-        }
-        if (!progressBarAnimation.isRunning()) {
+        if (hasFocus && !progressBarAnimation.isRunning()) {
             progressBarAnimation.start();
-        } else {
-            progressBarAnimation.stop();
         }
     }
 
@@ -318,15 +284,15 @@ public class SelectMapActivity extends MapActivity implements IConnectionAware, 
         Location lastLocation = locationManager.getLastKnownLocation();
         if (lastLocation != null) {
             GeoPoint center = CoordinateHelper.locationToGeoPoint(lastLocation);
-            map.getController().animateTo(center);
-            map.invalidate();
+            mapView.getController().animateTo(center);
+            mapView.invalidate();
         } else {
             Toast.makeText(getBaseContext(), getString(R.string.status_null_last_location), Toast.LENGTH_SHORT).show();
         }
     }
 
     public MapView getMapView() {
-        return map;
+        return mapView;
     }
 
     @Override

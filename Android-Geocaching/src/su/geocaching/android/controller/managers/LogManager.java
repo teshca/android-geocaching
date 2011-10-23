@@ -90,4 +90,8 @@ public class LogManager {
         Log.e(tag, msg, ex);
     }
 
+    public static void e(String tag, Throwable ex) {
+        Controller.getInstance().getGoogleAnalyticsManager().trackCaughtException(tag, ex);
+        Log.e(tag, ex.getMessage(), ex);
+    }
 }
