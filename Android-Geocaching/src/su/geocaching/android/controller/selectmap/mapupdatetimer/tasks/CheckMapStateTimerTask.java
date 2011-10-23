@@ -19,8 +19,8 @@ public class CheckMapStateTimerTask extends TimerTask {
     private boolean mapUpdateRunning;
 
     public CheckMapStateTimerTask(MapUpdateTimerState state, SelectMapActivity map) {
-        this.lastZoom = map.getZoom();
-        this.lastCenter = map.getCenter();
+        //this.lastZoom = map.getZoom();
+        //this.lastCenter = map.getCenter();
         this.mapUpdateRunning = false;
         this.map = map;
         this.state = state;
