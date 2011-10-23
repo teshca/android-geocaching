@@ -13,6 +13,7 @@ import su.geocaching.android.ui.selectmap.SelectMapActivity;
 import android.os.AsyncTask;
 
 import com.google.android.maps.GeoPoint;
+import su.geocaching.android.ui.selectmap.SelectMapViewModel;
 
 /**
  * Class downloads List of GeoCaches and adds them to SelectMapActivity
@@ -20,28 +21,23 @@ import com.google.android.maps.GeoPoint;
  * @author Nikita Bumakov
  */
 public class DownloadGeoCachesTask extends AsyncTask<GeoPoint, Integer, List<GeoCache>> {
-    private final SelectMapActivity map;
-    private final IApiManager apiManager;
-    private final Controller controller;
-    private static final int MIN_GROUP_CACHE_NUMBER = 8;
+    private final SelectMapViewModel selectMapViewModel;
 
-    public DownloadGeoCachesTask(IApiManager apiManager, SelectMapActivity map) {
-        this.apiManager = apiManager;
-        this.map = map;
-        controller = Controller.getInstance();
+    public DownloadGeoCachesTask(SelectMapViewModel selectMapViewModel) {
+        this.selectMapViewModel = selectMapViewModel;
         Thread.setDefaultUncaughtExceptionHandler(new UncaughtExceptionsHandler());
     }
 
     @Override
     protected List<GeoCache> doInBackground(GeoPoint... params) {
-        List<GeoCache> gcList = apiManager.getGeoCacheList(params[0], params[1]);
+        List<GeoCache> gcList = Controller.getInstance().getApiManager().getGeoCacheList(params[0], params[1]);
         filterCacheList(gcList);
         return gcList;
     }
 
     private synchronized void filterCacheList(List<GeoCache> list) {
-        EnumSet<GeoCacheType> typeSet = controller.getPreferencesManager().getTypeFilter();
-        EnumSet<GeoCacheStatus> statusSet = controller.getPreferencesManager().getStatusFilter();
+        EnumSet<GeoCacheType> typeSet = Controller.getInstance().getPreferencesManager().getTypeFilter();
+        EnumSet<GeoCacheStatus> statusSet = Controller.getInstance().getPreferencesManager().getStatusFilter();
 
         ListIterator<GeoCache> iterator = list.listIterator();
         while (iterator.hasNext()) {
@@ -54,12 +50,6 @@ public class DownloadGeoCachesTask extends AsyncTask<GeoPoint, Integer, List<Geo
 
     @Override
     protected void onPostExecute(List<GeoCache> gcList) {
-        if (!isCancelled()) {
-            if (Controller.getInstance().getPreferencesManager().getAddingCacheWayString() && gcList.size() > MIN_GROUP_CACHE_NUMBER) {
-                map.groupUseAddGeoCacheList(gcList);
-            } else {
-                map.simpleAddGeoCacheList(gcList);
-            }
-        }
+        selectMapViewModel.geocacheListDownloaded(gcList);
     }
 }

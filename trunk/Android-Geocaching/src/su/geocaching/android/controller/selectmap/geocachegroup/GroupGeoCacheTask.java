@@ -5,7 +5,7 @@ import su.geocaching.android.controller.managers.LogManager;
 import su.geocaching.android.controller.managers.UncaughtExceptionsHandler;
 import su.geocaching.android.model.GeoCache;
 import su.geocaching.android.ui.geocachemap.GeoCacheOverlayItem;
-import su.geocaching.android.ui.selectmap.SelectMapActivity;
+import su.geocaching.android.ui.selectmap.SelectMapViewModel;
 
 import java.util.List;
 
@@ -14,15 +14,15 @@ import java.util.List;
  * @since: 19.02.11
  */
 public class GroupGeoCacheTask extends AsyncTask<Void, Integer, List<GeoCacheOverlayItem>> {
-    private final SelectMapActivity map;
+    private final String TAG = GroupGeoCacheTask.class.getCanonicalName();
+    private final SelectMapViewModel selectMapViewModel;
     private final GeoCacheListAnalyzer analyzer;
-    private final String TAG = "GroupGeoCacheTask";
     private final List<GeoCache> geoCacheList;
 
-    public GroupGeoCacheTask(SelectMapActivity map, List<GeoCache> geoCacheList) {
-        this.map = map;
+    public GroupGeoCacheTask(SelectMapViewModel selectMapViewModel, List<GeoCache> geoCacheList) {
+        this.selectMapViewModel = selectMapViewModel;
         this.geoCacheList = geoCacheList;
-        analyzer = new GeoCacheListAnalyzer(map.getMapView());
+        analyzer = new GeoCacheListAnalyzer(selectMapViewModel.getMapView());
         Thread.setDefaultUncaughtExceptionHandler(new UncaughtExceptionsHandler());
     }
 
@@ -35,9 +35,9 @@ public class GroupGeoCacheTask extends AsyncTask<Void, Integer, List<GeoCacheOve
     @Override
     protected void onPostExecute(List<GeoCacheOverlayItem> items) {
         LogManager.d(TAG, "start add Overlay Items, items = " + items.size());
-        map.addOverlayItemList(items);
-        LogManager.d(TAG, "finish add Overlay Items");
+        selectMapViewModel.geocacheListGrouped(items);
     }
+
     @Override
     protected void onCancelled() {
         LogManager.d(TAG, "Group task cancelled");

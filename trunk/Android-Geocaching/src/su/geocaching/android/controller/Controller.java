@@ -12,6 +12,7 @@ import su.geocaching.android.controller.apimanager.IApiManager;
 import su.geocaching.android.controller.managers.*;
 import su.geocaching.android.model.GeoCache;
 import su.geocaching.android.ui.selectmap.SelectMapActivity;
+import su.geocaching.android.ui.selectmap.SelectMapViewModel;
 
 import java.util.LinkedList;
 import java.util.List;
@@ -44,6 +45,9 @@ public class Controller {
     private GoogleAnalyticsManager analyticsManager;
     private CallbackManager callbackManager;
 
+    // UI view models
+    private SelectMapViewModel selectMapViewModel;
+
     private GeoCache searchingGeoCache;
 
     private List<Handler> handlerList = new LinkedList<Handler>();
@@ -61,21 +65,6 @@ public class Controller {
             }
         }
         return instance;
-    }
-
-    /**
-     * Request for caches in the visible region
-     *
-     * @param map
-     *            - links to maps, which will be added caches
-     * @param upperLeftCorner
-     *            - upper left corner of the visible area
-     * @param lowerRightCorner
-     *            - lower right corner of the visible area
-     */
-    public void updateSelectedGeoCaches(SelectMapActivity map, GeoPoint upperLeftCorner, GeoPoint lowerRightCorner) {
-        GeoPoint[] d = { upperLeftCorner, lowerRightCorner };
-        new DownloadGeoCachesTask(apiManager, map).execute(d);
     }
 
     /**
@@ -292,5 +281,14 @@ public class Controller {
         for (Handler handler : handlerList) {
             handler.sendEmptyMessageDelayed(what, delay);
         }
+    }
+
+    public synchronized SelectMapViewModel getSelectMapViewModel()
+    {
+        if (selectMapViewModel == null)
+        {
+            selectMapViewModel = new SelectMapViewModel();
+        }
+        return selectMapViewModel;
     }
 }
