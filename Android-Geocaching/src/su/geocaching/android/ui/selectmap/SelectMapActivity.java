@@ -22,6 +22,7 @@ import su.geocaching.android.controller.utils.CoordinateHelper;
 import su.geocaching.android.model.GeoCacheStatus;
 import su.geocaching.android.model.GeoCacheType;
 import su.geocaching.android.model.MapInfo;
+import su.geocaching.android.ui.ProgressBarView;
 import su.geocaching.android.ui.R;
 import su.geocaching.android.ui.geocachemap.GeoCacheOverlayItem;
 import su.geocaching.android.ui.preferences.MapPreferenceActivity;
@@ -42,8 +43,7 @@ public class SelectMapActivity extends MapActivity implements IConnectionAware, 
     private StaticUserLocationOverlay locationOverlay;
     private UserLocationManager locationManager;
     private ConnectionManager connectionManager;
-    private ImageView progressBarView;
-    private AnimationDrawable progressBarAnimation;
+    private ProgressBarView progressBarView;
     private MapUpdateTimer mapTimer;
     private TextView connectionInfoTextView;
     private TextView downloadingInfoTextView;
@@ -59,9 +59,7 @@ public class SelectMapActivity extends MapActivity implements IConnectionAware, 
 
         mapView = (MapView) findViewById(R.id.selectGeocacheMap);
 
-        progressBarView = (ImageView) findViewById(R.id.progressCircle);
-        progressBarView.setBackgroundResource(R.anim.earth_anim);
-        progressBarAnimation = (AnimationDrawable) progressBarView.getBackground();
+        progressBarView = (ProgressBarView) findViewById(R.id.progressCircle);
         progressBarView.setVisibility(View.GONE);
 
         connectionInfoTextView = (TextView) findViewById(R.id.connectionInfoTextView);
@@ -136,6 +134,7 @@ public class SelectMapActivity extends MapActivity implements IConnectionAware, 
         saveMapInfoToSettings();
         // don't keep reference to this activity in view model
         selectMapViewModel.unregisterActivity(this);
+        progressBarView.stopAnimation();
     }
 
     @Override
@@ -259,9 +258,7 @@ public class SelectMapActivity extends MapActivity implements IConnectionAware, 
     @Override
     public void onWindowFocusChanged(boolean hasFocus) {
         super.onWindowFocusChanged(hasFocus);
-        if (hasFocus && !progressBarAnimation.isRunning()) {
-            progressBarAnimation.start();
-        }
+        progressBarView.startAnimation();
     }
 
     public void onHomeClick(View v) {

@@ -19,7 +19,6 @@ public class ProgressBarView extends View {
      */
     public ProgressBarView(Context context) {
         super(context);
-        initAnimation();
     }
 
     /**
@@ -27,7 +26,6 @@ public class ProgressBarView extends View {
      */
     public ProgressBarView(Context context, AttributeSet attrs) {
         super(context, attrs);
-        initAnimation();
     }
 
     /**
@@ -35,10 +33,11 @@ public class ProgressBarView extends View {
      */
     public ProgressBarView(Context context, AttributeSet attrs, int defStyle) {
         super(context, attrs, defStyle);
-        initAnimation();
     }
 
-    private void initAnimation() {
+    @Override
+    protected void onFinishInflate() {
+        super.onFinishInflate();
         setBackgroundResource(R.anim.earth_anim);
         animation = (AnimationDrawable) getBackground();
         isAnimationRunning = false;
