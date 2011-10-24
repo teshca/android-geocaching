@@ -13,11 +13,12 @@
 		<!-- It view need for right align -->
 		<View style="@style/TitleBarSpring"/>
 
-		<ImageView android:layout_width="@dimen/header_progress_bar_size"
-				   android:layout_height="@dimen/header_progress_bar_size"
-				   android:layout_gravity="center_vertical"
-				   android:id="@+id/progressCircle"
-				   android:layout_marginRight="5dip"/>
+		<su.geocaching.android.ui.ProgressBarView
+				android:layout_width="@dimen/header_progress_bar_size"
+				android:layout_height="@dimen/header_progress_bar_size"
+				android:layout_gravity="center_vertical"
+				android:id="@+id/progressCircle"
+				android:layout_marginRight="5dip"/>
 	</LinearLayout>
 
 	<com.google.android.maps.MapView

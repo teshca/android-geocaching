@@ -42,6 +42,7 @@ import su.geocaching.android.model.GeoCacheType;
 import su.geocaching.android.model.MapInfo;
 import su.geocaching.android.model.SearchMapInfo;
 import su.geocaching.android.ui.FavoritesFolderActivity;
+import su.geocaching.android.ui.ProgressBarView;
 import su.geocaching.android.ui.R;
 import su.geocaching.android.ui.geocachemap.GeoCacheOverlayItem;
 import su.geocaching.android.ui.preferences.MapPreferenceActivity;
@@ -70,8 +71,7 @@ public class SearchMapActivity extends MapActivity implements IConnectionAware, 
 
     private TextView gpsStatusTextView;
     private TextView distanceStatusTextView;
-    private ImageView progressBarView;
-    private AnimationDrawable progressBarAnimation;
+    private ProgressBarView progressBarView;
     private Toast providerUnavailableToast;
     private Toast connectionLostToast;
 
@@ -97,9 +97,7 @@ public class SearchMapActivity extends MapActivity implements IConnectionAware, 
 
         gpsStatusTextView = (TextView) findViewById(R.id.waitingLocationFixText);
         distanceStatusTextView = (TextView) findViewById(R.id.distanceToCacheText);
-        progressBarView = (ImageView) findViewById(R.id.progressCircle);
-        progressBarView.setBackgroundResource(R.anim.earth_anim);
-        progressBarAnimation = (AnimationDrawable) progressBarView.getBackground();
+        progressBarView = (ProgressBarView) findViewById(R.id.progressCircle);
         progressBarView.setOnClickListener(new OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -150,6 +148,7 @@ public class SearchMapActivity extends MapActivity implements IConnectionAware, 
         Controller.getInstance().getCallbackManager().removeSubscriber(handler);
         providerUnavailableToast.cancel();
         connectionLostToast.cancel();
+        progressBarView.stopAnimation();
     }
 
     @Override
@@ -196,10 +195,6 @@ public class SearchMapActivity extends MapActivity implements IConnectionAware, 
         mapOverlays.add(searchGeoCacheOverlay);
 
         if (!Controller.getInstance().getLocationManager().isBestProviderEnabled()) {
-            if (!Controller.getInstance().getLocationManager().isBestProviderGps()) {
-                // device without gps. very interesting
-                Controller.getInstance().getGoogleAnalyticsManager().trackError("gps", "device without gps");
-            }
             showDialog(DIALOG_ID_TURN_ON_GPS);
             LogManager.d(TAG, "resume: best provider (" + Controller.getInstance().getLocationManager().getBestProvider(false) + ") disabled. Current provider is "
                     + Controller.getInstance().getLocationManager().getCurrentProvider());
@@ -460,11 +455,8 @@ public class SearchMapActivity extends MapActivity implements IConnectionAware, 
      */
     public void onWindowFocusChanged(boolean hasFocus) {
         super.onWindowFocusChanged(hasFocus);
-        if (!progressBarAnimation.isRunning()) {
-            progressBarAnimation.start();
-        } else {
-            progressBarAnimation.stop();
-        }
+        // animation stopped in onPause
+        progressBarView.startAnimation();
     }
 
     /*
