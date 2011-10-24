@@ -190,7 +190,9 @@ public class UserLocationManager implements LocationListener, GpsStatus.Listener
      */
     @Override
     public void onProviderDisabled(String provider) {
-        onAggregatedStatusChanged(provider, GPS_EVENT_DISABLED, null);
+        if (provider.equals(LocationManager.GPS_PROVIDER)) {
+            onAggregatedStatusChanged(provider, GPS_EVENT_DISABLED, null);
+        }
     }
 
     /**
@@ -200,7 +202,9 @@ public class UserLocationManager implements LocationListener, GpsStatus.Listener
      */
     @Override
     public void onProviderEnabled(String provider) {
-        onAggregatedStatusChanged(provider, GPS_EVENT_ENABLED, null);
+        if (provider.equals(LocationManager.GPS_PROVIDER)) {
+            onAggregatedStatusChanged(provider, GPS_EVENT_ENABLED, null);
+        }
     }
 
     /**
