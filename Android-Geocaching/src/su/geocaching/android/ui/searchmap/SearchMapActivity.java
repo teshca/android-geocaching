@@ -488,11 +488,11 @@ public class SearchMapActivity extends MapActivity implements IConnectionAware, 
                 // gps connection lost. just show progress bar
                 UiHelper.setVisible(progressBarView);
                 break;
-            case UserLocationManager.GPS_EVENT_STOPPED:
+            case UserLocationManager.GPS_EVENT_DISABLED:
                 // gps has been turned off
                 showDialog(DIALOG_ID_TURN_ON_GPS);
                 break;
-            case UserLocationManager.GPS_EVENT_STARTED:
+            case UserLocationManager.GPS_EVENT_ENABLED:
                 // gps has been turned on
                 dismissDialog(DIALOG_ID_TURN_ON_GPS);
                 break;
