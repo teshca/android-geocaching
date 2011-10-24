@@ -315,12 +315,16 @@ public class CompassActivity extends Activity {
                     if (LocationManager.GPS_PROVIDER.equals(provider)) {
                         // gps has been turned off
                         showDialog(DIALOG_ID_TURN_ON_GPS);
+                        UiHelper.setGone(progressBarView);
+                        UiHelper.setGone(statusText);
                     }
                     break;
                 case UserLocationManager.EVENT_PROVIDER_ENABLED:
                     if (LocationManager.GPS_PROVIDER.equals(provider)) {
                         // gps has been turned on
                         dismissDialog(DIALOG_ID_TURN_ON_GPS);
+                        UiHelper.setVisible(progressBarView);
+                        UiHelper.setVisible(statusText);
                     }
                     break;
             }
