@@ -2,14 +2,12 @@ package su.geocaching.android.ui.selectmap;
 
 import android.app.Dialog;
 import android.content.Intent;
-import android.graphics.drawable.AnimationDrawable;
 import android.location.Location;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 import com.google.android.maps.GeoPoint;

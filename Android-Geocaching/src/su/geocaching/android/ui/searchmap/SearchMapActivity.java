@@ -194,21 +194,23 @@ public class SearchMapActivity extends MapActivity implements IConnectionAware, 
 
         if (!Controller.getInstance().getLocationManager().isBestProviderEnabled()) {
             showDialog(DIALOG_ID_TURN_ON_GPS);
+            UiHelper.setGone(progressBarView);
+            UiHelper.setGone(gpsStatusTextView);
             LogManager.d(TAG, "resume: best provider (" + Controller.getInstance().getLocationManager().getBestProvider(false) + ") disabled. Current provider is "
                     + Controller.getInstance().getLocationManager().getCurrentProvider());
+        } else {
+            if (Controller.getInstance().getLocationManager().hasPreciseLocation()) {
+                progressBarView.setVisibility(View.GONE);
+            } else {
+                gpsStatusTextView.setText(R.string.gps_status_initialization);
+                progressBarView.setVisibility(View.VISIBLE);
+            }
         }
 
         if (Controller.getInstance().getLocationManager().hasLocation()) {
             LogManager.d(TAG, "location fixed. Update location with last known location");
             updateLocation(Controller.getInstance().getLocationManager().getLastKnownLocation());
             startAnimation();
-        }
-
-        if (Controller.getInstance().getLocationManager().hasPreciseLocation()) {
-            progressBarView.setVisibility(View.GONE);
-        } else {
-            gpsStatusTextView.setText(R.string.gps_status_initialization);
-            progressBarView.setVisibility(View.VISIBLE);
         }
 
         Controller.getInstance().getLocationManager().addSubscriber(this);
@@ -483,12 +485,16 @@ public class SearchMapActivity extends MapActivity implements IConnectionAware, 
                 if (LocationManager.GPS_PROVIDER.equals(provider)) {
                     // gps has been turned off
                     showDialog(DIALOG_ID_TURN_ON_GPS);
+                    UiHelper.setGone(progressBarView);
+                    UiHelper.setGone(gpsStatusTextView);
                 }
                 break;
             case UserLocationManager.EVENT_PROVIDER_ENABLED:
                 if (LocationManager.GPS_PROVIDER.equals(provider)) {
                     // gps has been turned on
                     dismissDialog(DIALOG_ID_TURN_ON_GPS);
+                    UiHelper.setVisible(progressBarView);
+                    UiHelper.setVisible(gpsStatusTextView);
                 }
                 break;
         }
