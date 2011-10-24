@@ -3,8 +3,8 @@ package su.geocaching.android.ui.compass;
 import android.app.Activity;
 import android.app.Dialog;
 import android.content.Intent;
-import android.graphics.drawable.AnimationDrawable;
 import android.location.Location;
+import android.location.LocationManager;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -23,6 +23,7 @@ import su.geocaching.android.controller.managers.*;
 import su.geocaching.android.controller.utils.CoordinateHelper;
 import su.geocaching.android.controller.utils.UiHelper;
 import su.geocaching.android.model.GeoCache;
+import su.geocaching.android.ui.ProgressBarView;
 import su.geocaching.android.ui.R;
 import su.geocaching.android.ui.preferences.CompassPreferenceActivity;
 
@@ -43,8 +44,7 @@ public class CompassActivity extends Activity {
 
     private CompassView compassView;
     private TextView tvOdometer, statusText, cacheCoordinates, userCoordinates;
-    private ImageView progressBarView;
-    private AnimationDrawable progressBarAnimation;
+    private ProgressBarView progressBarView;
     private RelativeLayout odometerLayout;
     private Toast providerUnavailableToast;
     private ImageView startButton;
@@ -62,17 +62,16 @@ public class CompassActivity extends Activity {
         tvOdometer = (TextView) findViewById(R.id.tvOdometer);
         cacheCoordinates = (TextView) findViewById(R.id.cacheCoordinates);
         userCoordinates = (TextView) findViewById(R.id.userCoordinates);
-        progressBarView = (ImageView) findViewById(R.id.progressCircle);
-        progressBarView.setBackgroundResource(R.anim.earth_anim);
+        progressBarView = (ProgressBarView) findViewById(R.id.progressCircle);
         progressBarView.setOnClickListener(new OnClickListener() {
             @Override
             public void onClick(View v) {
                 NavigationManager.startExternalGpsStatusActivity(v.getContext());
             }
         });
-        progressBarAnimation = (AnimationDrawable) progressBarView.getBackground();
         statusText = (TextView) findViewById(R.id.waitingLocationFixText);
         odometerLayout = (RelativeLayout) findViewById(R.id.odometer_layout);
+        providerUnavailableToast = Toast.makeText(this, getString(R.string.search_geocache_best_provider_lost), Toast.LENGTH_LONG);
 
         controller = Controller.getInstance();
         locationManager = controller.getLocationManager();
@@ -103,16 +102,6 @@ public class CompassActivity extends Activity {
         ((ImageView) findViewById(R.id.ivCacheCoordinate)).setImageResource(controller.getResourceManager().getMarkerResId(gc.getType(), gc.getStatus()));
         updateOdometer();
 
-
-        providerUnavailableToast = Toast.makeText(this, getString(R.string.search_geocache_best_provider_lost), Toast.LENGTH_LONG);
-        runLogic();
-        startAnimation();
-    }
-
-    /**
-     * Run activity logic
-     */
-    private void runLogic() {
         if (locationManager.hasLocation()) {
             LogManager.d(TAG, "runLogic: has location. Update location with last known location");
             locationListener.updateLocation(locationManager.getLastKnownLocation());
@@ -127,6 +116,7 @@ public class CompassActivity extends Activity {
 
         locationManager.addSubscriber(locationListener);
         locationManager.enableBestProviderUpdates(true);
+        startAnimation();
     }
 
     @Override
@@ -135,6 +125,7 @@ public class CompassActivity extends Activity {
         locationManager.removeSubscriber(locationListener);
         stopAnimation();
         providerUnavailableToast.cancel();
+        progressBarView.stopAnimation();
         super.onPause();
     }
 
@@ -240,21 +231,10 @@ public class CompassActivity extends Activity {
         }
     }
 
-    private void onBestProviderUnavailable() {
-        UiHelper.setVisible(progressBarView);
-        UiHelper.setVisible(statusText);
-        statusText.setText(R.string.gps_status_unavailable);
-        providerUnavailableToast.show();
-    }
-
     @Override
     public void onWindowFocusChanged(boolean hasFocus) {
         super.onWindowFocusChanged(hasFocus);
-        if (progressBarAnimation.isRunning()) {
-            progressBarAnimation.stop();
-        } else {
-            progressBarAnimation.start();
-        }
+        progressBarView.startAnimation();
     }
 
     public void onHomeClick(View v) {
@@ -303,7 +283,6 @@ public class CompassActivity extends Activity {
                 tvOdometer.setText(CoordinateHelper.distanceToString(locationManager.getOdometerDistance()));
             }
             UiHelper.setGone(progressBarView);
-            UiHelper.setGone(statusText);
             float distance = CoordinateHelper.getDistanceBetween(controller.getSearchingGeoCache().getLocationGeoPoint(), location);
             if (distance < CLOSE_DISTANCE_TO_GC_VALUE || locationManager.isUpdatingOdometer()) {
                 controller.getLocationManager().updateFrequency(GpsUpdateFrequency.MAXIMAL);
@@ -332,13 +311,17 @@ public class CompassActivity extends Activity {
                     // gps connection lost. just show progress bar
                     UiHelper.setVisible(progressBarView);
                     break;
-                case UserLocationManager.GPS_EVENT_STOPPED:
-                    // gps has been turned off
-                    CompassActivity.this.showDialog(DIALOG_ID_TURN_ON_GPS);
+                case UserLocationManager.EVENT_PROVIDER_DISABLED:
+                    if (LocationManager.GPS_PROVIDER.equals(provider)) {
+                        // gps has been turned off
+                        showDialog(DIALOG_ID_TURN_ON_GPS);
+                    }
                     break;
-                case UserLocationManager.GPS_EVENT_STARTED:
-                    // gps has been turned on
-                    CompassActivity.this.dismissDialog(DIALOG_ID_TURN_ON_GPS);
+                case UserLocationManager.EVENT_PROVIDER_ENABLED:
+                    if (LocationManager.GPS_PROVIDER.equals(provider)) {
+                        // gps has been turned on
+                        dismissDialog(DIALOG_ID_TURN_ON_GPS);
+                    }
                     break;
             }
         }
