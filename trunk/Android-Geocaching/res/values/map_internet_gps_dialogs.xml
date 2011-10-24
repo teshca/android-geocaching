@@ -1,30 +1,17 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-	<string name="device_without_gps_alert">Внимание!\n\r На Вашем устройстве отстутствует
-		GPS.\n\rВаше положение может определяться не точно
-    </string>
     <string name="connection_problem_dialog_title">Сбой при подключении</string>
-	<string name="connection_problem_dialog_message">Для дальнейшей работы необходим Интернет. Включить?
-	</string>
-	<string name="ask_enable_gps_text">Для дальнейшей работы необходим GPS. Включить?
-	</string>
-	<string name="map_internet_lost">Подключение к интернету отсутствует. Могут
-		возникнуть проблемы с обновлением карты
-    </string>
+	<string name="connection_problem_dialog_message">Для дальнейшей работы необходим Интернет. Включить?</string>
+	<string name="ask_enable_gps_text">Для дальнейшей работы необходим GPS. Включить?</string>
+	<string name="map_internet_lost">Подключение к интернету отсутствует. Могут возникнуть проблемы с обновлением карты</string>
 	<string name="revert_center_to_location">Мое местоположение</string>
 	<string name="status_null_last_location">Местоположение не определено</string>
 	<string name="search_geocache_start_without_geocache">Перед поиском выберите тайник</string>
-	<string name="search_geocache_best_provider_lost">Обновление координат в данный момент недоступно
-	</string>
+	<string name="search_geocache_best_provider_lost">Обновление координат в данный момент недоступно</string>
 	<string name="search_geocache_error_no_geocache">Ошибка!\n\rНечего искать!</string>
-	<string name="search_geocache_error_geocache_not_in_db">Тайник отсутствует в базе данных. Пожалуйста,
-		добавьте его в избранные и попробуйте снова</string>
-	<string name="select_geocache_status_without_internet">Сеть не найдена. Попробуйте позже</string>
+	<string name="search_geocache_error_geocache_not_in_db">Тайник отсутствует в базе данных. Пожалуйста, добавьте его в избранные и попробуйте снова</string>
 	<string name="gps_status_satellite_status" formatted="false">GPS: Спутники %d/%d</string>
 	<string name="gps_status_unavailable">GPS недоступен</string>
 	<string name="gps_status_initialization">Инициализация</string>
-	<string name="too_many_caches">Слишком много тайников. Увеличьте масштаб</string>
-	<string name="dislocation">Ваше местоположение не определено.\nПовторите
-		попытку позже.
-    </string>
+	<string name="too_many_caches">Слишком много тайников. Увеличьте масштаб или включите группировку в настройках.</string>
 </resources>
