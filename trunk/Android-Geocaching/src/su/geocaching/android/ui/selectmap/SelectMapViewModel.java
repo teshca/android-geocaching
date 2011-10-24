@@ -1,5 +1,6 @@
 package su.geocaching.android.ui.selectmap;
 
+import android.os.AsyncTask;
 import com.google.android.maps.GeoPoint;
 import com.google.android.maps.MapView;
 import su.geocaching.android.controller.Controller;
@@ -125,7 +126,7 @@ public class SelectMapViewModel {
         }
         this.activity = activity;
         // update activity state
-        if (groupTask != null) {
+        if (groupTask != null && !groupTask.isCancelled() && (groupTask.getStatus() != AsyncTask.Status.FINISHED)) {
             onShowGroupingInfo();
         }
         if (downloadTasksCount != 0) {
