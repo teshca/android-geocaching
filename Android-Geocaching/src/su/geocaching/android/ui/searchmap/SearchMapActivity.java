@@ -416,7 +416,7 @@ public class SearchMapActivity extends MapActivity implements IConnectionAware, 
                     firstLat, firstLng, secondLat, secondLng)));
             startActivity(intent);
         } else {
-            Toast.makeText(getBaseContext(), getString(R.string.dislocation), Toast.LENGTH_LONG).show();
+            Toast.makeText(getBaseContext(), getString(R.string.status_null_last_location), Toast.LENGTH_LONG).show();
         }
     }
 
