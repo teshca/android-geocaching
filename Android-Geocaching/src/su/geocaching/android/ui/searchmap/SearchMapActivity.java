@@ -197,34 +197,32 @@ public class SearchMapActivity extends MapActivity implements IConnectionAware, 
 
         if (!Controller.getInstance().getLocationManager().isBestProviderEnabled()) {
             if (!Controller.getInstance().getLocationManager().isBestProviderGps()) {
-                LogManager.w(TAG, "resume: device without gps");
+                // device without gps. very interesting
+                Controller.getInstance().getGoogleAnalyticsManager().trackError("gps", "device without gps");
             }
             showDialog(DIALOG_ID_TURN_ON_GPS);
             LogManager.d(TAG, "resume: best provider (" + Controller.getInstance().getLocationManager().getBestProvider(false) + ") disabled. Current provider is "
                     + Controller.getInstance().getLocationManager().getCurrentProvider());
-        } else {
-            LogManager.d(TAG, "resume: best provider (" + Controller.getInstance().getLocationManager().getBestProvider(false) + ") locationAvailable. Run logic");
-
-            if (Controller.getInstance().getLocationManager().hasLocation()) {
-                LogManager.d(TAG, "runLogic: location fixed. Update location with last known location");
-                updateLocation(Controller.getInstance().getLocationManager().getLastKnownLocation());
-                startAnimation();
-            }
-
-            if (Controller.getInstance().getLocationManager().hasPreciseLocation()) {
-                progressBarView.setVisibility(View.GONE);
-            } else {
-                gpsStatusTextView.setText(R.string.gps_status_initialization);
-                progressBarView.setVisibility(View.VISIBLE);
-            }
-
-            Controller.getInstance().getLocationManager().addSubscriber(this);
-            Controller.getInstance().getLocationManager().enableBestProviderUpdates();
-            Controller.getInstance().getConnectionManager().addSubscriber(this);
-            Controller.getInstance().getCallbackManager().addSubscriber(handler);
-
-            map.invalidate();
         }
+
+        if (Controller.getInstance().getLocationManager().hasLocation()) {
+            LogManager.d(TAG, "location fixed. Update location with last known location");
+            updateLocation(Controller.getInstance().getLocationManager().getLastKnownLocation());
+            startAnimation();
+        }
+
+        if (Controller.getInstance().getLocationManager().hasPreciseLocation()) {
+            progressBarView.setVisibility(View.GONE);
+        } else {
+            gpsStatusTextView.setText(R.string.gps_status_initialization);
+            progressBarView.setVisibility(View.VISIBLE);
+        }
+
+        Controller.getInstance().getLocationManager().addSubscriber(this);
+        Controller.getInstance().getLocationManager().enableBestProviderUpdates(false);
+        Controller.getInstance().getConnectionManager().addSubscriber(this);
+        Controller.getInstance().getCallbackManager().addSubscriber(handler);
+        map.invalidate();
 
         if (!Controller.getInstance().getConnectionManager().isActiveNetworkConnected()) {
             onConnectionLost();

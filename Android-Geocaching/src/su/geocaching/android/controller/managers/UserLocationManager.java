@@ -330,16 +330,17 @@ public class UserLocationManager implements LocationListener, GpsStatus.Listener
     }
 
     /**
+     * @param enabledOnly if true, updates will be requested from best <b>enabled</b> provider
      * @return true if now Manager will be request updates from best provider by accuracy
      */
-    public boolean enableBestProviderUpdates() {
-        if (!isBestProviderEnabled()) {
+    public boolean enableBestProviderUpdates(boolean enabledOnly) {
+        if (enabledOnly && !isBestProviderEnabled()) {
             return false;
         }
         LogManager.d(TAG, "request for enable best provider");
         Criteria criteria = new Criteria();
         criteria.setAccuracy(Criteria.ACCURACY_FINE);
-        String bestProvider = locationManager.getBestProvider(criteria, true);
+        String bestProvider = locationManager.getBestProvider(criteria, enabledOnly);
         if (provider.equals(bestProvider)) {
             LogManager.d(TAG, "	best provider (" + provider + ") already running");
             return true;
