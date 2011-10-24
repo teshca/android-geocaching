@@ -126,7 +126,7 @@ public class CompassActivity extends Activity {
         }
 
         locationManager.addSubscriber(locationListener);
-        locationManager.enableBestProviderUpdates();
+        locationManager.enableBestProviderUpdates(true);
     }
 
     @Override
