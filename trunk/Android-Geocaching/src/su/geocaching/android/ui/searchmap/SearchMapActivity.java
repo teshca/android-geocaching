@@ -10,6 +10,7 @@ import android.graphics.Rect;
 import android.graphics.drawable.AnimationDrawable;
 import android.graphics.drawable.Drawable;
 import android.location.Location;
+import android.location.LocationManager;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Handler;
@@ -246,10 +247,12 @@ public class SearchMapActivity extends MapActivity implements IConnectionAware, 
         } else {
             Controller.getInstance().getLocationManager().updateFrequencyFromPreferences();
         }
+        boolean isPrecise = Controller.getInstance().getLocationManager().hasPreciseLocation();
         distanceStatusTextView.setText(
                 CoordinateHelper.distanceToString(
                         CoordinateHelper.getDistanceBetween(Controller.getInstance().getSearchingGeoCache().getLocationGeoPoint(), location),
-                        Controller.getInstance().getLocationManager().hasPreciseLocation()));
+                        isPrecise));
+        userOverlay.setLocationPrecise(isPrecise);
         if (distanceOverlay == null) {
             LogManager.d(TAG, "update location: add distance and user overlays");
             distanceOverlay = new DistanceToGeoCacheOverlay(CoordinateHelper.locationToGeoPoint(location), Controller.getInstance().getSearchingGeoCache().getLocationGeoPoint());
@@ -488,13 +491,17 @@ public class SearchMapActivity extends MapActivity implements IConnectionAware, 
                 // gps connection lost. just show progress bar
                 UiHelper.setVisible(progressBarView);
                 break;
-            case UserLocationManager.GPS_EVENT_DISABLED:
-                // gps has been turned off
-                showDialog(DIALOG_ID_TURN_ON_GPS);
+            case UserLocationManager.EVENT_PROVIDER_DISABLED:
+                if (LocationManager.GPS_PROVIDER.equals(provider)) {
+                    // gps has been turned off
+                    showDialog(DIALOG_ID_TURN_ON_GPS);
+                }
                 break;
-            case UserLocationManager.GPS_EVENT_ENABLED:
-                // gps has been turned on
-                dismissDialog(DIALOG_ID_TURN_ON_GPS);
+            case UserLocationManager.EVENT_PROVIDER_ENABLED:
+                if (LocationManager.GPS_PROVIDER.equals(provider)) {
+                    // gps has been turned on
+                    dismissDialog(DIALOG_ID_TURN_ON_GPS);
+                }
                 break;
         }
     }
@@ -589,10 +596,16 @@ public class SearchMapActivity extends MapActivity implements IConnectionAware, 
         switch (msg.what) {
             case CallbackManager.WHAT_LOCATION_DEPRECATED:
                 // update distance text view
-                distanceStatusTextView.setText(
-                        CoordinateHelper.distanceToString(
-                                CoordinateHelper.getDistanceBetween(Controller.getInstance().getSearchingGeoCache().getLocationGeoPoint(), Controller.getInstance().getLocationManager().getLastKnownLocation()),
-                                Controller.getInstance().getLocationManager().hasPreciseLocation()));
+                boolean isPrecise = Controller.getInstance().getLocationManager().hasPreciseLocation();
+                if (distanceStatusTextView != null) {
+                    distanceStatusTextView.setText(
+                            CoordinateHelper.distanceToString(
+                                    CoordinateHelper.getDistanceBetween(Controller.getInstance().getSearchingGeoCache().getLocationGeoPoint(), Controller.getInstance().getLocationManager().getLastKnownLocation()),
+                                    isPrecise));
+                }
+                if (userOverlay != null) {
+                    userOverlay.setLocationPrecise(isPrecise);
+                }
                 return true;
         }
         return false;

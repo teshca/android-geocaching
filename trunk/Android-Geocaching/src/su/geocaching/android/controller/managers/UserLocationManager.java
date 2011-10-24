@@ -58,14 +58,14 @@ public class UserLocationManager implements LocationListener, GpsStatus.Listener
     public static final int GPS_EVENT_SATELLITE_STATUS = 6;
 
     /**
-     * Event sent when the GPS system has enabled.
+     * Event sent when the provider has enabled.
      */
-    public static final int GPS_EVENT_ENABLED = 7;
+    public static final int EVENT_PROVIDER_ENABLED = 7;
 
     /**
-     * Event sent when the GPS system has disabled.
+     * Event sent when the provider has disabled.
      */
-    public static final int GPS_EVENT_DISABLED = 8;
+    public static final int EVENT_PROVIDER_DISABLED = 8;
 
     private static final String TAG = UserLocationManager.class.getCanonicalName();
     private static final String REMOVE_UPDATES_TIMER_NAME = "remove location updates mapupdatetimer";
@@ -190,9 +190,7 @@ public class UserLocationManager implements LocationListener, GpsStatus.Listener
      */
     @Override
     public void onProviderDisabled(String provider) {
-        if (provider.equals(LocationManager.GPS_PROVIDER)) {
-            onAggregatedStatusChanged(provider, GPS_EVENT_DISABLED, null);
-        }
+        onAggregatedStatusChanged(provider, EVENT_PROVIDER_DISABLED, null);
     }
 
     /**
@@ -202,9 +200,7 @@ public class UserLocationManager implements LocationListener, GpsStatus.Listener
      */
     @Override
     public void onProviderEnabled(String provider) {
-        if (provider.equals(LocationManager.GPS_PROVIDER)) {
-            onAggregatedStatusChanged(provider, GPS_EVENT_ENABLED, null);
-        }
+        onAggregatedStatusChanged(provider, EVENT_PROVIDER_ENABLED, null);
     }
 
     /**
@@ -254,8 +250,8 @@ public class UserLocationManager implements LocationListener, GpsStatus.Listener
      *                 <li>{@link #GPS_EVENT_STOPPED}
      *                 <li>{@link #OUT_OF_SERVICE}
      *                 <li>{@link #TEMPORARILY_UNAVAILABLE}</ul>
-     *                 <li>{@link #GPS_EVENT_DISABLED}</ul>
-     *                 <li>{@link #GPS_EVENT_ENABLED}</ul>
+     *                 <li>{@link #EVENT_PROVIDER_DISABLED}</ul>
+     *                 <li>{@link #EVENT_PROVIDER_ENABLED}</ul>
      * @param extras   an optional Bundle which will contain provider specific status variables (from {@link android.location.LocationListener#onStatusChanged(java.lang.String, int, android.os.Bundle)})
      */
     private void onAggregatedStatusChanged(String provider, int status, Bundle extras) {

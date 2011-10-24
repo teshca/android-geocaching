@@ -7,6 +7,7 @@ import com.google.android.maps.MapView;
 
 import su.geocaching.android.controller.compass.ICompassAnimation;
 import su.geocaching.android.controller.managers.NavigationManager;
+import su.geocaching.android.ui.R;
 import su.geocaching.android.ui.UserLocationOverlayBase;
 
 /**
@@ -14,16 +15,14 @@ import su.geocaching.android.ui.UserLocationOverlayBase;
  * @since November 2010
  */
 public class DynamicUserLocationOverlay extends UserLocationOverlayBase implements ICompassAnimation {
-
     private static final double COMPASS_ARROW_WIDTH_COEFF = 23.0 / 320.0;
     private static final double COMPASS_ARROW_HEIGHT_COEFF = 32.0 / 480.0;
-    private static final int COMPASS_ARROW_COLOR = 0xde3cde5a;
     private static final int MAP_INVALIDATE_INTERVAL = 50; // milliseconds
 
     private float bearing;
     private Paint paintCompassArrow;
+    private Paint paintStrokeCompassArrow;
     private Path pathCompassArrow;
-    private SearchMapActivity context;
     private MapView map;
     private long lastTimeInvalidate;
     private int compassArrowWidth;
@@ -35,13 +34,16 @@ public class DynamicUserLocationOverlay extends UserLocationOverlayBase implemen
         this.map = map;
         lastTimeInvalidate = -1;
 
-        this.context = context;
-
         paintCompassArrow = new Paint();
         paintCompassArrow.setAntiAlias(true);
-        paintCompassArrow.setStyle(Style.FILL_AND_STROKE);
-        paintCompassArrow.setStrokeWidth(1);
-        paintCompassArrow.setColor(COMPASS_ARROW_COLOR);
+        paintCompassArrow.setStyle(Style.FILL);
+        paintCompassArrow.setColor(map.getResources().getColor(R.color.user_location_arrow_color_precise));
+
+        paintStrokeCompassArrow = new Paint();
+        paintStrokeCompassArrow.setColor(map.getResources().getColor(R.color.user_location_arrow_stroke_color));
+        paintStrokeCompassArrow.setStyle(Style.STROKE);
+        paintStrokeCompassArrow.setStrokeWidth(1);
+        paintStrokeCompassArrow.setAntiAlias(true);
 
         pathCompassArrow = new Path();
         compassArrowWidth = (int) (Math.min(context.getWindowManager().getDefaultDisplay().getWidth(), context.getWindowManager().getDefaultDisplay().getHeight()) * COMPASS_ARROW_WIDTH_COEFF);
@@ -62,6 +64,7 @@ public class DynamicUserLocationOverlay extends UserLocationOverlayBase implemen
         canvas.translate(userPoint.x, userPoint.y);
         canvas.rotate(bearing);
         canvas.drawPath(pathCompassArrow, paintCompassArrow);
+        canvas.drawPath(pathCompassArrow, paintStrokeCompassArrow);
         canvas.restore();
     }
 
@@ -92,7 +95,21 @@ public class DynamicUserLocationOverlay extends UserLocationOverlayBase implemen
     }
 
     @Override
-    protected void onTapAction(){
-        NavigationManager.startCompassActivity(context);
+    protected void onTapAction() {
+        NavigationManager.startCompassActivity(map.getContext());
+    }
+
+    /**
+     * Change behaviour of arrow if location precise or not
+     *
+     * @param isLocationPrecise true if user location precise
+     * @see su.geocaching.android.controller.managers.UserLocationManager#hasPreciseLocation()
+     */
+    public void setLocationPrecise(boolean isLocationPrecise) {
+        if (isLocationPrecise) {
+            paintCompassArrow.setColor(map.getResources().getColor(R.color.user_location_arrow_color_precise));
+        } else {
+            paintCompassArrow.setColor(map.getResources().getColor(R.color.user_location_arrow_color_not_precise));
+        }
     }
 }
