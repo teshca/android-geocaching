@@ -18,7 +18,7 @@
         <!-- It view need for right align -->
         <View style="@style/TitleBarSpring"/>
 
-        <ImageView
+        <su.geocaching.android.ui.ProgressBarView
                 android:layout_width="@dimen/header_progress_bar_size"
                 android:layout_height="@dimen/header_progress_bar_size"
                 android:layout_gravity="center_vertical"
