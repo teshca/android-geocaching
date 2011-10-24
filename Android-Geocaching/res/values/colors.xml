@@ -5,4 +5,9 @@
     <color name="dashboard_text_color">#ff56905D</color>
 	<color name="map_info_layer_bg">#7066906D</color>
 	<color name="status_text_color">#fffafafa</color>
+
+	<!-- SearchMapActivity -->
+	<color name="user_location_arrow_stroke_color">#ff000000</color>
+	<color name="user_location_arrow_color_precise">#ff3cde5a</color>
+	<color name="user_location_arrow_color_not_precise">#ffbcbeba</color>
 </resources>
