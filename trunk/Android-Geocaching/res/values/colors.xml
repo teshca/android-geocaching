@@ -7,7 +7,7 @@
 	<color name="status_text_color">#fffafafa</color>
 
 	<!-- SearchMapActivity -->
-	<color name="user_location_arrow_stroke_color">#ff000000</color>
-	<color name="user_location_arrow_color_precise">#ff3cde5a</color>
-	<color name="user_location_arrow_color_not_precise">#ffbcbeba</color>
+	<color name="user_location_arrow_stroke_color">#88000000</color>
+	<color name="user_location_arrow_color_precise">#aa3cde5a</color>
+	<color name="user_location_arrow_color_not_precise">#88888888</color>
 </resources>

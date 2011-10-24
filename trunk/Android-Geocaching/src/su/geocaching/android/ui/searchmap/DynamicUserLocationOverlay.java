@@ -42,7 +42,7 @@ public class DynamicUserLocationOverlay extends UserLocationOverlayBase implemen
         paintStrokeCompassArrow = new Paint();
         paintStrokeCompassArrow.setColor(map.getResources().getColor(R.color.user_location_arrow_stroke_color));
         paintStrokeCompassArrow.setStyle(Style.STROKE);
-        paintStrokeCompassArrow.setStrokeWidth(1);
+        paintStrokeCompassArrow.setStrokeWidth(2);
         paintStrokeCompassArrow.setAntiAlias(true);
 
         pathCompassArrow = new Path();

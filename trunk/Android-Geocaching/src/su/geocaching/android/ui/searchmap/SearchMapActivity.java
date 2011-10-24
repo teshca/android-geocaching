@@ -249,7 +249,7 @@ public class SearchMapActivity extends MapActivity implements IConnectionAware, 
         if (distanceOverlay == null) {
             LogManager.d(TAG, "update location: add distance and user overlays");
             distanceOverlay = new DistanceToGeoCacheOverlay(CoordinateHelper.locationToGeoPoint(location), Controller.getInstance().getSearchingGeoCache().getLocationGeoPoint());
-            mapOverlays.add(distanceOverlay);
+            mapOverlays.add(0, distanceOverlay); // lower overlay
             mapOverlays.add(userOverlay);
 
             startAnimation();
