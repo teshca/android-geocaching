@@ -1,16 +1,25 @@
 <resources>
-    <style name="MapInfoLayer">
-        <item name="android:layout_width">fill_parent</item>
-        <item name="android:layout_height">wrap_content</item>
-        <item name="android:background">@color/map_info_layer_bg</item>
-        <item name="android:paddingLeft">3dp</item>
-        <item name="android:paddingRight">3dp</item>
-    </style>
+	<style name="MapInfoLayer">
+		<item name="android:layout_width">fill_parent</item>
+		<item name="android:layout_height">wrap_content</item>
+		<item name="android:background">@color/map_info_layer_bg</item>
+		<item name="android:paddingLeft">3dp</item>
+		<item name="android:paddingRight">3dp</item>
+	</style>
 
-    <style name="MapInfoItem">
-        <item name="android:layout_width">wrap_content</item>
-        <item name="android:layout_height">wrap_content</item>
-        <item name="android:textColor">@color/status_text_color</item>
-        <item name="android:textSize">@dimen/text_size_small</item>
-    </style>
+	<style name="MapInfoItem">
+		<item name="android:layout_width">wrap_content</item>
+		<item name="android:layout_height">wrap_content</item>
+		<item name="android:textColor">@color/status_text_color</item>
+		<item name="android:textSize">@dimen/text_size_small</item>
+	</style>
+
+	<style name="MyLocationButton">
+		<item name="android:layout_width">wrap_content</item>
+		<item name="android:layout_height">wrap_content</item>
+		<item name="android:adjustViewBounds">true</item>
+		<item name="android:src">@drawable/ic_menu_mylocation</item>
+		<item name="android:background">@android:color/transparent</item>
+		<item name="android:layout_marginRight">5dp</item>
+	</style>
 </resources>

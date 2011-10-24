@@ -7,7 +7,6 @@ import android.app.Dialog;
 import android.content.Intent;
 import android.graphics.Point;
 import android.graphics.Rect;
-import android.graphics.drawable.AnimationDrawable;
 import android.graphics.drawable.Drawable;
 import android.location.Location;
 import android.location.LocationManager;
@@ -20,7 +19,6 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.View.OnClickListener;
-import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 import com.google.android.maps.GeoPoint;
@@ -46,7 +44,6 @@ import su.geocaching.android.ui.ProgressBarView;
 import su.geocaching.android.ui.R;
 import su.geocaching.android.ui.geocachemap.GeoCacheOverlayItem;
 import su.geocaching.android.ui.preferences.DashboardPreferenceActivity;
-import su.geocaching.android.ui.preferences.MapPreferenceActivity;
 
 /**
  * Search GeoCache with the map
@@ -619,5 +616,21 @@ public class SearchMapActivity extends MapActivity implements IConnectionAware, 
                 break;
         }
         super.onPrepareDialog(id, dialog);
+    }
+
+    /**
+     * Called when 'my location' image button was clicked
+     *
+     * @param v
+     */
+    public void onMyLocationClick(View v) {
+        Location lastLocation = Controller.getInstance().getLocationManager().getLastKnownLocation();
+        if (lastLocation != null) {
+            GeoPoint center = CoordinateHelper.locationToGeoPoint(lastLocation);
+            map.getController().animateTo(center);
+            map.invalidate();
+        } else {
+            Toast.makeText(getBaseContext(), getString(R.string.status_null_last_location), Toast.LENGTH_SHORT).show();
+        }
     }
 }

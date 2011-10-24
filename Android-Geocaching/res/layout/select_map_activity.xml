@@ -25,14 +25,8 @@
                 android:id="@+id/progressCircle"
                 android:layout_marginRight="5dip"/>
 
-        <ImageButton
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:adjustViewBounds="true"
-                android:src="@drawable/ic_menu_mylocation"
-                android:background="@android:color/transparent"
-                android:onClick="onMyLocationClick"
-                android:layout_marginRight="5dip"/>
+		<ImageButton style="@style/MyLocationButton"
+				android:onClick="onMyLocationClick"/>
     </LinearLayout>
 
     <com.google.android.maps.MapView
