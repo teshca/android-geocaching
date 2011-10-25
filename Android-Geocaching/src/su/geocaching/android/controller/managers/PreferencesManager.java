@@ -201,9 +201,9 @@ public class PreferencesManager {
         return preferences.getString(context.getString(R.string.prefs_appearance_key), context.getString(R.string.prefer_appearance_default_value));
     }
 
-    public String getCompassSensorPreference() {
+    public boolean isUsingGpsCompassPreference() {
         // keys located in resources, because settings logic described in xml and write it automatically to SharedPreferences
-        return preferences.getString(context.getString(R.string.prefs_sensor_key), context.getString(R.string.sensor_preference_default_value));
+        return preferences.getString(context.getString(R.string.prefs_sensor_key), context.getString(R.string.sensor_preference_default_value)).endsWith("GPS");
     }
 
     public int getFavoritesSortType() {

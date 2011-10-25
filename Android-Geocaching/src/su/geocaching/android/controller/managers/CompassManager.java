@@ -33,6 +33,7 @@ public class CompassManager implements SensorEventListener, ILocationAware {
     private int lastDirection;
     private boolean isCompassAvailable;
     private List<IBearingAware> subscribers;
+    private boolean isUsingGps;
 
     /**
      * @param sensorManager manager which can add or remove updates of sensors
@@ -51,7 +52,12 @@ public class CompassManager implements SensorEventListener, ILocationAware {
     public void addSubscriber(IBearingAware subscriber) {
         subscribers.add(subscriber);
         if (subscribers.size() == 1) {
-            setUsingGpsCompass(Controller.getInstance().getPreferencesManager().getCompassSensorPreference().endsWith("GPS"));
+            isUsingGps = !isCompassAvailable || Controller.getInstance().getPreferencesManager().isUsingGpsCompassPreference();
+            if (isUsingGps) {
+                locationManager.addSubscriber(this);
+            } else {
+                addSensorUpdates();
+            }
         }
         LogManager.d(TAG, "addSubscriber, size: " + subscribers.size());
     }
@@ -63,15 +69,18 @@ public class CompassManager implements SensorEventListener, ILocationAware {
     public boolean removeSubscriber(IBearingAware subscriber) {
         boolean res = subscribers.remove(subscriber);
         if (subscribers.size() == 0) {
-            removeUpdates();
+            if (isUsingGps) {
+                locationManager.removeSubscriber(this);
+            } else {
+                removeSensorUpdates();
+            }
         }
         LogManager.d(TAG, "removeSubscriber, size: " + subscribers.size());
         return res;
     }
 
     @Override
-    public void onAccuracyChanged(Sensor sensor, int accuracy) {
-    }
+    public void onAccuracyChanged(Sensor sensor, int accuracy) { /* do nothing */ }
 
     @Override
     public void onSensorChanged(SensorEvent event) {
@@ -128,9 +137,8 @@ public class CompassManager implements SensorEventListener, ILocationAware {
     /**
      * Remove updates of sensors
      */
-    private synchronized void removeUpdates() {
-        LogManager.d(TAG, "removeUpdates");
-        locationManager.removeSubscriber(this);
+    private synchronized void removeSensorUpdates() {
+        LogManager.d(TAG, "removeSensorUpdates");
         if (!isCompassAvailable) {
             return;
         }
@@ -138,34 +146,25 @@ public class CompassManager implements SensorEventListener, ILocationAware {
     }
 
     /**
-     * @return last known direction
-     */
-    public int getLastDirection() {
-        return lastDirection;
-    }
-
-    /**
-     * @return true if we can calculate azimuth using hardware
-     */
-    public boolean isCompassAvailable() {
-        return isCompassAvailable;
-    }
-
-    /**
-     * Set mode of compass - use bearing from gps or hardware sensors(accelerometer and magnetic field)
+     * Set mode of compass - use bearing from gps or hardware sensors(accelerometer and magnetic field).
+     * If manager already using this 'provider' - do nothing.
      *
      * @param useGps true if using gps
      */
-    public void setUsingGpsCompass(boolean useGps) {
-        LogManager.d(TAG, "setUsingGpsCompass " + useGps);
-
+    void resetUpdates(boolean useGps) {
+        LogManager.d(TAG, "resetUpdates=" + useGps);
+        if (useGps == isUsingGps) {
+            // already using
+            return;
+        }
         if (useGps) {
-            removeUpdates();
+            removeSensorUpdates();
             locationManager.addSubscriber(this);
         } else {
-            addSensorUpdates();
             locationManager.removeSubscriber(this);
+            addSensorUpdates();
         }
+        isUsingGps = useGps;
     }
 
     @Override
@@ -175,7 +174,5 @@ public class CompassManager implements SensorEventListener, ILocationAware {
     }
 
     @Override
-    public void onStatusChanged(String provider, int status, Bundle extras) {
-        //do nothing
-    }
+    public void onStatusChanged(String provider, int status, Bundle extras) { /* do nothing */ }
 }

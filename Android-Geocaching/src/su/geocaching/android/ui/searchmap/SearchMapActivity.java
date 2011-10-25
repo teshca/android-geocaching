@@ -180,7 +180,6 @@ public class SearchMapActivity extends MapActivity implements IConnectionAware, 
             checkpointOverlay.addOverlayItem(new GeoCacheOverlayItem(checkpoint, "", ""));
         }
 
-        Controller.getInstance().getCompassManager().setUsingGpsCompass(Controller.getInstance().getPreferencesManager().getCompassSensorPreference().endsWith("GPS"));
         map.setKeepScreenOn(Controller.getInstance().getPreferencesManager().getKeepScreenOnPreference());
         updateMapInfoFromSettings();
         map.setSatellite(Controller.getInstance().getPreferencesManager().useSatelliteMap());
