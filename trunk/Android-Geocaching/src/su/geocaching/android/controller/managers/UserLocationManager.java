@@ -73,6 +73,7 @@ public class UserLocationManager implements LocationListener, GpsStatus.Listener
     private static final long REMOVE_UPDATES_DELAY = 30000; // in milliseconds
     private static final int PRECISE_LOCATION_MAX_TIME = 60 * 1000; // in milliseconds
     private static final float PRECISE_LOCATION_MAX_ACCURACY = 20f; // in meters
+    private static final float MAX_SPEED_OF_HARDWARE_COMPASS = 20 * 1000 / 3600; // (in m/s) if user speed lower than this - use hardware compass otherwise use GPS compass
 
     private LocationManager locationManager;
     private Location lastLocation;
@@ -186,6 +187,7 @@ public class UserLocationManager implements LocationListener, GpsStatus.Listener
         for (ILocationAware subscriber : subscribers) {
             subscriber.updateLocation(location);
         }
+        Controller.getInstance().getCompassManager().resetUpdates(location.getSpeed() > MAX_SPEED_OF_HARDWARE_COMPASS && location.hasBearing());
     }
 
     /**
