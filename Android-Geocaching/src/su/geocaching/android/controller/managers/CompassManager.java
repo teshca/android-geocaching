@@ -49,7 +49,7 @@ public class CompassManager implements SensorEventListener, ILocationAware {
     /**
      * @param subscriber activity which will be listen location updates
      */
-    public void addSubscriber(IBearingAware subscriber) {
+    public synchronized void addSubscriber(IBearingAware subscriber) {
         subscribers.add(subscriber);
         if (subscribers.size() == 1) {
             isUsingGps = !isCompassAvailable || Controller.getInstance().getPreferencesManager().isUsingGpsCompassPreference();
@@ -66,7 +66,7 @@ public class CompassManager implements SensorEventListener, ILocationAware {
      * @param subscriber activity which no need to listen location updates
      * @return true if activity was subscribed on location updates
      */
-    public boolean removeSubscriber(IBearingAware subscriber) {
+    public synchronized boolean removeSubscriber(IBearingAware subscriber) {
         boolean res = subscribers.remove(subscriber);
         if (subscribers.size() == 0) {
             if (isUsingGps) {
