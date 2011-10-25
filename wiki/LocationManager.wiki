@@ -48,8 +48,8 @@ ILocationAware - интерфейс с которым работает LocationM
  * [http://developer.android.com/reference/android/location/GpsStatus.html#GPS_EVENT_STOPPED GpsStatus.GPS_EVENT_STOPPED] когда система gps останавливается
  * [http://developer.android.com/reference/android/location/GpsStatus.html#GPS_EVENT_FIRST_FIX GpsStatus.GPS_EVENT_FIRST_FIX] когда система gps получает первое положение после запуска
  * [http://developer.android.com/reference/android/location/GpsStatus.html#GPS_EVENT_SATELLITE_STATUS GpsStatus.GPS_EVENT_SATELLITE_STATUS] когда изменяется статус, связанный с количеством спутников
- * [http://developer.android.com/reference/android/location/GpsStatus.html#EVENT_PROVIDER_ENABLED GpsStatus.EVENT_PROVIDER_ENABLED] когда данный провайдер был включен пользователем
- * [http://developer.android.com/reference/android/location/GpsStatus.html#EVENT_PROVIDER_DISABLED GpsStatus.EVENT_PROVIDER_DISABLED] когда данный провайдер был выключен пользователем
+ * EVENT_PROVIDER_ENABLED когда данный провайдер был включен пользователем
+ * EVENT_PROVIDER_DISABLED когда данный провайдер был выключен пользователем
 
 Параметр extras может содержать специальную информацию о провайдере. Например, с ключом satellites сопоставлено количество спутников, использованных в определении текущего местоположения.
 
