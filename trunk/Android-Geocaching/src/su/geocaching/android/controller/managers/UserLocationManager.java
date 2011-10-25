@@ -83,8 +83,7 @@ public class UserLocationManager implements LocationListener, GpsStatus.Listener
     private DeprecateLocationNotifier deprecateLocationNotifier;
     private Timer deprecateLocationTimer;
     private RemoveUpdatesTask removeUpdatesTask;
-    private boolean isUpdating, isUpdatingOdometer;
-    private float odometerDistance;
+    private boolean isUpdating;
 
     private GpsUpdateFrequency updateFrequency;
 
@@ -103,23 +102,31 @@ public class UserLocationManager implements LocationListener, GpsStatus.Listener
         deprecateLocationNotifier = new DeprecateLocationNotifier();
     }
 
+    /**
+     * Returns the most accurate and timely previously detected location.
+     *
+     * @return The most accurate and / or timely previously detected location.
+     */
     private Location lastKnownLocation() {
         Location bestResult = null;
         float bestAccuracy = Float.MAX_VALUE;
         long bestTime = Long.MIN_VALUE;
         List<String> matchingProviders = locationManager.getAllProviders();
+
+        // Iterate through all the providers on the system, keeping
+        // note of the most accurate result.
+        // If no result is found within accuracy, return the newest Location.
         for (String provider : matchingProviders) {
             Location location = locationManager.getLastKnownLocation(provider);
             if (location != null) {
                 float accuracy = location.getAccuracy();
                 long time = location.getTime();
 
-                if ((time > 100 && accuracy < bestAccuracy)) {
+                if (location.hasAccuracy() && accuracy < bestAccuracy) {
                     bestResult = location;
                     bestAccuracy = accuracy;
                     bestTime = time;
-                } else if (time < 100 &&
-                        bestAccuracy == Float.MAX_VALUE && time > bestTime) {
+                } else if (bestAccuracy == Float.MAX_VALUE && time > bestTime) {
                     bestResult = location;
                     bestTime = time;
                 }
@@ -168,9 +175,7 @@ public class UserLocationManager implements LocationListener, GpsStatus.Listener
      */
     @Override
     public void onLocationChanged(Location location) {
-        if (isUpdatingOdometer && lastLocation != null) {
-            odometerDistance += CoordinateHelper.getDistanceBetween(location, lastLocation);
-        }
+        Odometer.onLocationChanged(location);
         lastLocation = location;
         lastLocationTime = System.currentTimeMillis();
         // start timer which notify about deprecation
@@ -320,16 +325,6 @@ public class UserLocationManager implements LocationListener, GpsStatus.Listener
     }
 
     /**
-     * @return true if best provider by accuracy is gps
-     */
-    public boolean isBestProviderGps() {
-        Criteria criteria = new Criteria();
-        criteria.setAccuracy(Criteria.ACCURACY_FINE);
-        String bestProv = locationManager.getBestProvider(criteria, false);
-        return bestProv.equals(LocationManager.GPS_PROVIDER);
-    }
-
-    /**
      * @param enabledOnly if true, updates will be requested from best <b>enabled</b> provider
      * @return true if now Manager will be request updates from best provider by accuracy
      */
@@ -458,40 +453,6 @@ public class UserLocationManager implements LocationListener, GpsStatus.Listener
     }
 
     /**
-     * Return the distance in meters after last odometer refresh
-     *
-     * @return distance in meters
-     */
-    public float getOdometerDistance() {
-        return odometerDistance;
-    }
-
-    /**
-     * Refresh the odometer distance value
-     */
-    public void refreshOdometer() {
-        odometerDistance = 0;
-    }
-
-    /**
-     * Enable/Disable odometer
-     *
-     * @param isUpdating - flag Enable/Disable updating
-     */
-    public void setUpdatingOdometer(boolean isUpdating) {
-        isUpdatingOdometer = isUpdating;
-    }
-
-    /**
-     * Is odometer updating
-     *
-     * @return isUpdatingOdometer
-     */
-    public boolean isUpdatingOdometer() {
-        return isUpdatingOdometer;
-    }
-
-    /**
      * task which remove updates from LocationManager
      *
      * @author Grigory Kalabin. grigory.kalabin@gmail.com
@@ -536,6 +497,62 @@ public class UserLocationManager implements LocationListener, GpsStatus.Listener
          */
         public void run() {
             Controller.getInstance().getCallbackManager().postEmptyMessage(CallbackManager.WHAT_LOCATION_DEPRECATED);
+        }
+    }
+
+    /**
+     * Class calculate distance of user path
+     *
+     * @author Grigory Kalabin. grigory.kalabin@gmail.com
+     */
+    public static class Odometer {
+        private static final String TAG = Odometer.class.getCanonicalName();
+
+        private static boolean isEnabled = false;
+        private static float distance = 0f;
+        private static Location lastLocation = Controller.getInstance().getLocationManager().getLastKnownLocation();
+
+        /**
+         * @return true, if odometer enabled
+         */
+        public static boolean isEnabled() {
+            return isEnabled;
+        }
+
+        /**
+         * This method <b>not</b> reset accumulated distance value
+         */
+        public static void setEnabled(boolean enabled) {
+            isEnabled = enabled;
+        }
+
+        /**
+         * Reset accumulated distance of odometer
+         */
+        public static void refresh() {
+            if (!isEnabled) {
+                LogManager.w(TAG, "odometer is disabled");
+            }
+            distance = 0;
+        }
+
+        /**
+         * @return accumulated distance of user path
+         */
+        public static float getDistance() {
+            return distance;
+        }
+
+        /**
+         * Increase distance of user path
+         *
+         * @param location new location of user
+         */
+        private static void onLocationChanged(Location location) {
+            if (isEnabled && lastLocation != null) {
+                distance += CoordinateHelper.getDistanceBetween(location, lastLocation);
+            }
+            lastLocation = location;
         }
     }
 }

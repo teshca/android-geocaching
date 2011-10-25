@@ -204,11 +204,10 @@ public class CompassActivity extends Activity {
     }
 
     private void showHideOdometer() {
-        UserLocationManager lm = Controller.getInstance().getLocationManager();
-        lm.refreshOdometer();
+        UserLocationManager.Odometer.refresh();
         boolean isOdometerOn = preferenceManager.isOdometerOnPreference();
         preferenceManager.setOdometerOnPreference(!isOdometerOn);
-        lm.setUpdatingOdometer(!isOdometerOn);
+        UserLocationManager.Odometer.setEnabled(!isOdometerOn);
         updateOdometer();
     }
 
@@ -216,7 +215,7 @@ public class CompassActivity extends Activity {
         if (preferenceManager.isOdometerOnPreference()) {
             startButton = (ImageView) findViewById(R.id.startButton);
             odometerLayout.setVisibility(View.VISIBLE);
-            tvOdometer.setText(CoordinateHelper.distanceToString(locationManager.getOdometerDistance()));
+            tvOdometer.setText(CoordinateHelper.distanceToString(UserLocationManager.Odometer.getDistance()));
             toggleStartButton();
         } else {
             odometerLayout.setVisibility(View.GONE);
@@ -224,7 +223,7 @@ public class CompassActivity extends Activity {
     }
 
     private void toggleStartButton() {
-        if (locationManager.isUpdatingOdometer()) {
+        if (UserLocationManager.Odometer.isEnabled()) {
             startButton.setImageResource(R.drawable.ic_pause);
         } else {
             startButton.setImageResource(R.drawable.ic_play);
@@ -242,12 +241,12 @@ public class CompassActivity extends Activity {
     }
 
     public void onStartStopOdometerClick(View v) {
-        locationManager.setUpdatingOdometer(!locationManager.isUpdatingOdometer());
+        UserLocationManager.Odometer.setEnabled(!UserLocationManager.Odometer.isEnabled());
         toggleStartButton();
     }
 
     public void onRefreshOdometerClick(View v) {
-        locationManager.refreshOdometer();
+        UserLocationManager.Odometer.refresh();
         tvOdometer.setText(CoordinateHelper.distanceToString(0));
     }
 
@@ -280,11 +279,11 @@ public class CompassActivity extends Activity {
         @Override
         public void updateLocation(Location location) {
             if (tvOdometer.isShown()) {
-                tvOdometer.setText(CoordinateHelper.distanceToString(locationManager.getOdometerDistance()));
+                tvOdometer.setText(CoordinateHelper.distanceToString(UserLocationManager.Odometer.getDistance()));
             }
             UiHelper.setGone(progressBarView);
             float distance = CoordinateHelper.getDistanceBetween(controller.getSearchingGeoCache().getLocationGeoPoint(), location);
-            if (distance < CLOSE_DISTANCE_TO_GC_VALUE || locationManager.isUpdatingOdometer()) {
+            if (distance < CLOSE_DISTANCE_TO_GC_VALUE || UserLocationManager.Odometer.isEnabled()) {
                 controller.getLocationManager().updateFrequency(GpsUpdateFrequency.MAXIMAL);
             } else {
                 controller.getLocationManager().updateFrequencyFromPreferences();

@@ -192,6 +192,12 @@ public class SearchMapActivity extends MapActivity implements IConnectionAware, 
         searchGeoCacheOverlay.addOverlayItem(cacheOverlayItem);
         mapOverlays.add(searchGeoCacheOverlay);
 
+        if (Controller.getInstance().getLocationManager().hasLocation()) {
+            LogManager.d(TAG, "location fixed. Update location with last known location");
+            updateLocation(Controller.getInstance().getLocationManager().getLastKnownLocation());
+            startAnimation();
+        }
+
         if (!Controller.getInstance().getLocationManager().isBestProviderEnabled()) {
             showDialog(DIALOG_ID_TURN_ON_GPS);
             UiHelper.setGone(progressBarView);
@@ -205,12 +211,6 @@ public class SearchMapActivity extends MapActivity implements IConnectionAware, 
                 gpsStatusTextView.setText(R.string.gps_status_initialization);
                 progressBarView.setVisibility(View.VISIBLE);
             }
-        }
-
-        if (Controller.getInstance().getLocationManager().hasLocation()) {
-            LogManager.d(TAG, "location fixed. Update location with last known location");
-            updateLocation(Controller.getInstance().getLocationManager().getLastKnownLocation());
-            startAnimation();
         }
 
         Controller.getInstance().getLocationManager().addSubscriber(this);
