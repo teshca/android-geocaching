@@ -12,7 +12,6 @@ import android.view.View;
 public class ProgressBarView extends View {
 
     private AnimationDrawable animation;
-    private boolean isAnimationRunning;
 
     /**
      * {@inheritDoc}
@@ -40,26 +39,18 @@ public class ProgressBarView extends View {
         super.onFinishInflate();
         setBackgroundResource(R.anim.earth_anim);
         animation = (AnimationDrawable) getBackground();
-        isAnimationRunning = false;
     }
 
-    /**
-     * Start animation of progress bar. If animation already running - do nothing.
-     */
-    public void startAnimation() {
-        if (!isAnimationRunning) {
-            animation.start();
-            isAnimationRunning = true;
-        }
+    @Override
+    protected void onAttachedToWindow() {
+        animation.start();
     }
 
-    /**
-     * Stop animation of progress bar. If animation already stopped - do nothing.
-     */
-    public void stopAnimation() {
-        if (isAnimationRunning) {
-            animation.stop();
-            isAnimationRunning = false;
-        }
+    public void show() {
+        setVisibility(VISIBLE);
+    }
+
+    public void hide() {
+        setVisibility(GONE);
     }
 }
