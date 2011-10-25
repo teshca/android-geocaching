@@ -49,14 +49,16 @@ public class CompassManager implements SensorEventListener, ILocationAware {
     /**
      * @param subscriber activity which will be listen location updates
      */
-    public synchronized void addSubscriber(IBearingAware subscriber) {
-        subscribers.add(subscriber);
-        if (subscribers.size() == 1) {
-            isUsingGps = !isCompassAvailable || Controller.getInstance().getPreferencesManager().isUsingGpsCompassPreference();
-            if (isUsingGps) {
-                locationManager.addSubscriber(this);
-            } else {
-                addSensorUpdates();
+    public void addSubscriber(IBearingAware subscriber) {
+        synchronized (subscribers) {
+            subscribers.add(subscriber);
+            if (subscribers.size() == 1) {
+                isUsingGps = !isCompassAvailable || Controller.getInstance().getPreferencesManager().isUsingGpsCompassPreference();
+                if (isUsingGps) {
+                    locationManager.addSubscriber(this);
+                } else {
+                    addSensorUpdates();
+                }
             }
         }
         LogManager.d(TAG, "addSubscriber, size: " + subscribers.size());
@@ -66,8 +68,11 @@ public class CompassManager implements SensorEventListener, ILocationAware {
      * @param subscriber activity which no need to listen location updates
      * @return true if activity was subscribed on location updates
      */
-    public synchronized boolean removeSubscriber(IBearingAware subscriber) {
-        boolean res = subscribers.remove(subscriber);
+    public boolean removeSubscriber(IBearingAware subscriber) {
+        boolean res;
+        synchronized (subscribers) {
+            res = subscribers.remove(subscriber);
+        }
         if (subscribers.size() == 0) {
             if (isUsingGps) {
                 locationManager.removeSubscriber(this);

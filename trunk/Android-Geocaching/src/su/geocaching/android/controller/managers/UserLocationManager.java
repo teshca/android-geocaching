@@ -139,15 +139,17 @@ public class UserLocationManager implements LocationListener, GpsStatus.Listener
     /**
      * @param subscriber activity which will be listen location updates
      */
-    public synchronized void addSubscriber(ILocationAware subscriber) {
+    public void addSubscriber(ILocationAware subscriber) {
         removeUpdatesTask.cancel();
 
         LogManager.d(TAG, "addSubscriber: remove task cancelled;\n	isUpdating=" + Boolean.toString(isUpdating) + ";\n	subscribers=" + Integer.toString(subscribers.size()));
-        if (((subscribers.size() == 0) && !isUpdating)) {
-            addUpdates();
-        }
-        if (!subscribers.contains(subscriber)) {
-            subscribers.add(subscriber);
+        synchronized (subscribers) {
+            if (((subscribers.size() == 0) && !isUpdating)) {
+                addUpdates();
+            }
+            if (!subscribers.contains(subscriber)) {
+                subscribers.add(subscriber);
+            }
         }
         LogManager.d(TAG, "	Count of subscribers became " + Integer.toString(subscribers.size()));
     }
@@ -156,8 +158,11 @@ public class UserLocationManager implements LocationListener, GpsStatus.Listener
      * @param subscriber activity which no need to listen location updates
      * @return true if activity was subscribed on location updates
      */
-    public synchronized boolean removeSubscriber(ILocationAware subscriber) {
-        boolean res = subscribers.remove(subscriber);
+    public boolean removeSubscriber(ILocationAware subscriber) {
+        boolean res;
+        synchronized (subscribers) {
+            res = subscribers.remove(subscriber);
+        }
         if (subscribers.size() == 0 && res) {
             removeUpdatesTask.cancel();
             removeUpdatesTask = new RemoveUpdatesTask(this);
