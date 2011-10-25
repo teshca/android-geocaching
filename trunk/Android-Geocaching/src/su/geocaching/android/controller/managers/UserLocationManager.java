@@ -139,11 +139,10 @@ public class UserLocationManager implements LocationListener, GpsStatus.Listener
     /**
      * @param subscriber activity which will be listen location updates
      */
-    public void addSubscriber(ILocationAware subscriber) {
+    public synchronized void addSubscriber(ILocationAware subscriber) {
         removeUpdatesTask.cancel();
 
         LogManager.d(TAG, "addSubscriber: remove task cancelled;\n	isUpdating=" + Boolean.toString(isUpdating) + ";\n	subscribers=" + Integer.toString(subscribers.size()));
-
         if (((subscribers.size() == 0) && !isUpdating)) {
             addUpdates();
         }
@@ -157,7 +156,7 @@ public class UserLocationManager implements LocationListener, GpsStatus.Listener
      * @param subscriber activity which no need to listen location updates
      * @return true if activity was subscribed on location updates
      */
-    public boolean removeSubscriber(ILocationAware subscriber) {
+    public synchronized boolean removeSubscriber(ILocationAware subscriber) {
         boolean res = subscribers.remove(subscriber);
         if (subscribers.size() == 0 && res) {
             removeUpdatesTask.cancel();
