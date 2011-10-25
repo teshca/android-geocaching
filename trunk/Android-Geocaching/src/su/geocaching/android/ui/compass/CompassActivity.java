@@ -124,7 +124,6 @@ public class CompassActivity extends Activity {
         locationManager.removeSubscriber(locationListener);
         stopAnimation();
         providerUnavailableToast.cancel();
-        progressBarView.stopAnimation();
         super.onPause();
     }
 
@@ -227,12 +226,6 @@ public class CompassActivity extends Activity {
         } else {
             startButton.setImageResource(R.drawable.ic_play);
         }
-    }
-
-    @Override
-    public void onWindowFocusChanged(boolean hasFocus) {
-        super.onWindowFocusChanged(hasFocus);
-        progressBarView.startAnimation();
     }
 
     public void onHomeClick(View v) {

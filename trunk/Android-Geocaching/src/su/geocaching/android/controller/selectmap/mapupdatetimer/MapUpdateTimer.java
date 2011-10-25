@@ -19,6 +19,6 @@ public class MapUpdateTimer extends Timer {
     public MapUpdateTimer(SelectMapActivity map) {
         final MapUpdateTimerState state = new MapUpdateTimerState(map);
         this.schedule(new CheckRequestTimerTask(state), REQUEST_TIMER_DELAY, REQUEST_TIMER_PERIOD);
-        this.schedule(new CheckMapStateTimerTask(state, map), MAP_STATE_TIMER_DELAY, MAP_STATE_TIMER_PERIOD);
+        this.schedule(new CheckMapStateTimerTask(state, map.getMapView()), MAP_STATE_TIMER_DELAY, MAP_STATE_TIMER_PERIOD);
     }
 }

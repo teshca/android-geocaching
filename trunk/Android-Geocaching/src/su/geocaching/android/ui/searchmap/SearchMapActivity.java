@@ -146,7 +146,6 @@ public class SearchMapActivity extends MapActivity implements IConnectionAware, 
         Controller.getInstance().getCallbackManager().removeSubscriber(handler);
         providerUnavailableToast.cancel();
         connectionLostToast.cancel();
-        progressBarView.stopAnimation();
     }
 
     @Override
@@ -193,22 +192,23 @@ public class SearchMapActivity extends MapActivity implements IConnectionAware, 
 
         if (Controller.getInstance().getLocationManager().hasLocation()) {
             LogManager.d(TAG, "location fixed. Update location with last known location");
+            // this update will hide progressBarView
             updateLocation(Controller.getInstance().getLocationManager().getLastKnownLocation());
             startAnimation();
         }
 
         if (!Controller.getInstance().getLocationManager().isBestProviderEnabled()) {
             showDialog(DIALOG_ID_TURN_ON_GPS);
-            UiHelper.setGone(progressBarView);
+            progressBarView.hide();
             UiHelper.setGone(gpsStatusTextView);
             LogManager.d(TAG, "resume: best provider (" + Controller.getInstance().getLocationManager().getBestProvider(false) + ") disabled. Current provider is "
                     + Controller.getInstance().getLocationManager().getCurrentProvider());
         } else {
             if (Controller.getInstance().getLocationManager().hasPreciseLocation()) {
-                progressBarView.setVisibility(View.GONE);
+                progressBarView.hide();
             } else {
                 gpsStatusTextView.setText(R.string.gps_status_initialization);
-                progressBarView.setVisibility(View.VISIBLE);
+                progressBarView.show();
             }
         }
 
@@ -233,7 +233,7 @@ public class SearchMapActivity extends MapActivity implements IConnectionAware, 
     public void updateLocation(Location location) {
         userOverlay.updateLocation(location);
         LogManager.d(TAG, "update location");
-        UiHelper.setGone(progressBarView);
+        progressBarView.hide();
         if (CoordinateHelper.getDistanceBetween(location, Controller.getInstance().getSearchingGeoCache().getLocationGeoPoint()) < CLOSE_DISTANCE_TO_GC_VALUE) {
             Controller.getInstance().getLocationManager().updateFrequency(GpsUpdateFrequency.MAXIMAL);
         } else {
@@ -450,17 +450,6 @@ public class SearchMapActivity extends MapActivity implements IConnectionAware, 
     /*
      * (non-Javadoc)
      *
-     * @see android.app.Activity#onWindowFocusChanged(boolean)
-     */
-    public void onWindowFocusChanged(boolean hasFocus) {
-        super.onWindowFocusChanged(hasFocus);
-        // animation stopped in onPause
-        progressBarView.startAnimation();
-    }
-
-    /*
-     * (non-Javadoc)
-     *
      * @see su.geocaching.android.controller.ILocationAware#onStatusChanged(java.lang.String, int, android.os.Bundle)
      */
     @Override
@@ -472,19 +461,19 @@ public class SearchMapActivity extends MapActivity implements IConnectionAware, 
                 break;
             case UserLocationManager.OUT_OF_SERVICE:
                 // provider unavailable
-                UiHelper.setVisible(progressBarView);
+                progressBarView.show();
                 gpsStatusTextView.setText(R.string.gps_status_unavailable);
                 providerUnavailableToast.show();
                 break;
             case UserLocationManager.TEMPORARILY_UNAVAILABLE:
                 // gps connection lost. just show progress bar
-                UiHelper.setVisible(progressBarView);
+                progressBarView.show();
                 break;
             case UserLocationManager.EVENT_PROVIDER_DISABLED:
                 if (LocationManager.GPS_PROVIDER.equals(provider)) {
                     // gps has been turned off
                     showDialog(DIALOG_ID_TURN_ON_GPS);
-                    UiHelper.setGone(progressBarView);
+                    progressBarView.hide();
                     UiHelper.setGone(gpsStatusTextView);
                 }
                 break;
@@ -492,7 +481,7 @@ public class SearchMapActivity extends MapActivity implements IConnectionAware, 
                 if (LocationManager.GPS_PROVIDER.equals(provider)) {
                     // gps has been turned on
                     dismissDialog(DIALOG_ID_TURN_ON_GPS);
-                    UiHelper.setVisible(progressBarView);
+                    progressBarView.show();
                     UiHelper.setVisible(gpsStatusTextView);
                 }
                 break;

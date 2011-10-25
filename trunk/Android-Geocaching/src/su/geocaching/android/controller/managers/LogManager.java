@@ -25,6 +25,19 @@ public class LogManager {
     }
 
     /**
+     * Send a DEBUG log message.
+     *
+     * @param tag Used to identify the source of a log message. It usually identifies the class or activity where the log call occurs.
+     * @param msgFormat Formatted message you would like logged.
+     * @param params Params for formatted string
+     */
+    public static void d(String tag, String msgFormat, Object... params) {
+        if (DEBUG) {
+            Log.d(tag, String.format(msgFormat, params));
+        }
+    }
+
+    /**
      * Send a INFO log message.
      *
      * @param tag Used to identify the source of a log message. It usually identifies the class or activity where the log call occurs.

@@ -50,7 +50,8 @@ public class DashboardActivity extends Activity {
                 this.showDialog(ABOUT_DIALOG_ID);
                 return true;
             case R.id.give_feedback:
-                NavigationManager.startAndroidMarketActivity(this);
+                throw new NullPointerException("TEST EXCEPTION");
+                //NavigationManager.startAndroidMarketActivity(this);
             default:
                 return super.onOptionsItemSelected(item);
         }

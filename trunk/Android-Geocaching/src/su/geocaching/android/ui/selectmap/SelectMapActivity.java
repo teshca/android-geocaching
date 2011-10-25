@@ -47,6 +47,9 @@ public class SelectMapActivity extends MapActivity implements IConnectionAware, 
     private TextView downloadingInfoTextView;
     private TextView groupingInfoTextView;
 
+    private Toast tooManyCachesToast;
+    private Toast statusNullLastLocationToast;
+
     private SelectMapViewModel selectMapViewModel;
 
     @Override
@@ -132,7 +135,6 @@ public class SelectMapActivity extends MapActivity implements IConnectionAware, 
         saveMapInfoToSettings();
         // don't keep reference to this activity in view model
         selectMapViewModel.unregisterActivity(this);
-        progressBarView.stopAnimation();
     }
 
     @Override
@@ -145,7 +147,7 @@ public class SelectMapActivity extends MapActivity implements IConnectionAware, 
      */
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-        MenuInflater inflater = getMenuInflater();
+        final MenuInflater inflater = getMenuInflater();
         inflater.inflate(R.menu.select_map_menu, menu);
         return true;
     }
@@ -188,14 +190,28 @@ public class SelectMapActivity extends MapActivity implements IConnectionAware, 
     }
 
     public synchronized void updateGeoCacheOverlay(List<GeoCacheOverlayItem> overlayItemList) {
-        LogManager.d(TAG, "overlayItemList updated");
+        LogManager.d(TAG, "overlayItemList updated; size: {0}", overlayItemList.size());
         selectGeoCacheOverlay.clear();
         if (overlayItemList.size() > MAX_CACHE_NUMBER) {
-            Toast.makeText(this, R.string.too_many_caches, Toast.LENGTH_LONG).show();
+            showTooMayCachesToast();
         } else {
+            hideTooMayCachesToast();
             selectGeoCacheOverlay.AddOverlayItems(overlayItemList);
         }
         mapView.invalidate();
+    }
+
+    private void showTooMayCachesToast() {
+        if (tooManyCachesToast == null) {
+            tooManyCachesToast = Toast.makeText(this, R.string.too_many_caches, Toast.LENGTH_LONG);
+        }
+        tooManyCachesToast.show();
+    }
+
+    private void hideTooMayCachesToast() {
+        if (tooManyCachesToast != null) {
+            tooManyCachesToast.cancel();
+        }
     }
 
     public void hideGroupingInfo() {
@@ -219,44 +235,25 @@ public class SelectMapActivity extends MapActivity implements IConnectionAware, 
     }
 
     private void updateAnimation() {
-        if (downloadingInfoTextView.getVisibility() == View.VISIBLE || groupingInfoTextView.getVisibility() == View.VISIBLE) {
-            progressBarView.setVisibility(View.VISIBLE);
+        if (downloadingInfoTextView.isShown() || groupingInfoTextView.isShown()) {
+            progressBarView.show();
         } else {
-            progressBarView.setVisibility(View.GONE);
+            progressBarView.hide();
         }
-    }
-
-    public int getZoom() {
-        return mapView.getZoomLevel();
-    }
-
-    public GeoPoint getCenter() {
-        return mapView.getMapCenter();
     }
 
     @Override
     public void onConnectionLost() {
-        connectionInfoTextView.setText(R.string.map_internet_lost);
+        connectionInfoTextView.setVisibility(View.VISIBLE);
     }
 
     @Override
     public void onConnectionFound() {
-        connectionInfoTextView.setText("");
+        connectionInfoTextView.setVisibility(View.GONE);
     }
 
     protected Dialog onCreateDialog(int id) {
         return (id == ENABLE_CONNECTION_DIALOG_ID) ? new EnableConnectionDialog(this) : null;
-    }
-
-    /*
-     * (non-Javadoc)
-     *
-     * @see android.app.Activity#onWindowFocusChanged(boolean)
-     */
-    @Override
-    public void onWindowFocusChanged(boolean hasFocus) {
-        super.onWindowFocusChanged(hasFocus);
-        progressBarView.startAnimation();
     }
 
     public void onHomeClick(View v) {
@@ -264,13 +261,16 @@ public class SelectMapActivity extends MapActivity implements IConnectionAware, 
     }
 
     public void onMyLocationClick(View v) {
-        Location lastLocation = locationManager.getLastKnownLocation();
+        final Location lastLocation = locationManager.getLastKnownLocation();
         if (lastLocation != null) {
             GeoPoint center = CoordinateHelper.locationToGeoPoint(lastLocation);
             mapView.getController().animateTo(center);
             mapView.invalidate();
         } else {
-            Toast.makeText(getBaseContext(), getString(R.string.status_null_last_location), Toast.LENGTH_SHORT).show();
+            if (statusNullLastLocationToast == null) {
+                statusNullLastLocationToast = Toast.makeText(getBaseContext(), getString(R.string.status_null_last_location), Toast.LENGTH_SHORT);
+            }
+            statusNullLastLocationToast.show();
         }
     }
 

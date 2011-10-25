@@ -6,6 +6,8 @@ import com.google.android.apps.analytics.GoogleAnalyticsTracker;
 import su.geocaching.android.ui.R;
 
 public class GoogleAnalyticsManager {
+    private static final int MAX_STACK_TRACE_LENGTH = 100;
+
     private GoogleAnalyticsTracker tracker;
     private String applicationVersionName;
 
@@ -41,14 +43,19 @@ public class GoogleAnalyticsManager {
     }
 
     private void trackException(String category, String tag, Throwable ex) {
+        final String NEW_LINE = " ___ ";
         String message = ex.getMessage() != null ? ex.getMessage() : "";
         StringBuilder stackTrace = new StringBuilder(message);
-        final String NEW_LINE = " _____ ";
+        stackTrace.append(NEW_LINE);
         for (StackTraceElement s : ex.getStackTrace()) {
             stackTrace.append(String.format(" at %s.%s(%s:%d)", s.getClassName(), s.getMethodName(), s.getFileName(), s.getLineNumber()));
+            if (stackTrace.length() > MAX_STACK_TRACE_LENGTH) {
+                stackTrace.append("...");
+                break;
+            }
             stackTrace.append(NEW_LINE);
         }
-        tracker.trackEvent(category + ": " + applicationVersionName, tag, stackTrace.toString(), 0);
+        tracker.trackEvent(category + ": " + applicationVersionName + ":t100", tag, stackTrace.toString(), 0);
         tracker.dispatch();
     }
 }
