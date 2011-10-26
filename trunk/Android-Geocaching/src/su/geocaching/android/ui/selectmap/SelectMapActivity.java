@@ -190,7 +190,7 @@ public class SelectMapActivity extends MapActivity implements IConnectionAware, 
     }
 
     public synchronized void updateGeoCacheOverlay(List<GeoCacheOverlayItem> overlayItemList) {
-        LogManager.d(TAG, "overlayItemList updated; size: {0}", overlayItemList.size());
+        LogManager.d(TAG, "overlayItemList updated; size: %d", overlayItemList.size());
         selectGeoCacheOverlay.clear();
         if (overlayItemList.size() > MAX_CACHE_NUMBER) {
             showTooMayCachesToast();

@@ -106,7 +106,7 @@ public class GeocachingSuApiManager implements IApiManager {
     }
 
     private URL generateUrl(double maxLatitude, double minLatitude, double maxLongitude, double minLongitude) throws MalformedURLException {
-        String request = String.format(enLocale, LINK_GEOCACHE_LIST, maxLongitude, minLongitude, maxLatitude, minLatitude, id);
+        String request = String.format(Locale.ENGLISH, LINK_GEOCACHE_LIST, maxLongitude, minLongitude, maxLatitude, minLatitude, id);
         LogManager.d(TAG, "generated Url: " + request);
         return new URL(request);
     }

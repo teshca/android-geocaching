@@ -134,7 +134,7 @@ public class SearchMapActivity extends MapActivity implements IConnectionAware, 
     @Override
     protected void onPause() {
         super.onPause();
-        LogManager.d(TAG, "on pause");
+        LogManager.d(TAG, "onPause");
         saveMapInfoToSettings();
 
         if (Controller.getInstance().getLocationManager().hasLocation()) {
@@ -191,7 +191,7 @@ public class SearchMapActivity extends MapActivity implements IConnectionAware, 
         mapOverlays.add(searchGeoCacheOverlay);
 
         if (Controller.getInstance().getLocationManager().hasLocation()) {
-            LogManager.d(TAG, "location fixed. Update location with last known location");
+            LogManager.d(TAG, "Update location with last known location");
             // this update will hide progressBarView
             updateLocation(Controller.getInstance().getLocationManager().getLastKnownLocation());
             startAnimation();
@@ -201,8 +201,9 @@ public class SearchMapActivity extends MapActivity implements IConnectionAware, 
             showDialog(DIALOG_ID_TURN_ON_GPS);
             progressBarView.hide();
             UiHelper.setGone(gpsStatusTextView);
-            LogManager.d(TAG, "resume: best provider (" + Controller.getInstance().getLocationManager().getBestProvider(false) + ") disabled. Current provider is "
-                    + Controller.getInstance().getLocationManager().getCurrentProvider());
+            LogManager.d(TAG, "resume: best provider %s disabled. Current provider is %s",
+                    Controller.getInstance().getLocationManager().getBestProvider(false),
+                    Controller.getInstance().getLocationManager().getCurrentProvider());
         } else {
             if (Controller.getInstance().getLocationManager().hasPreciseLocation()) {
                 progressBarView.hide();
@@ -268,13 +269,15 @@ public class SearchMapActivity extends MapActivity implements IConnectionAware, 
         int maxLat = Integer.MIN_VALUE;
         int minLon = Integer.MAX_VALUE;
         int maxLon = Integer.MIN_VALUE;
-        GeoCache gc = (GeoCache) getIntent().getParcelableExtra(GeoCache.class.getCanonicalName());
+        final GeoCache gc = (GeoCache) getIntent().getParcelableExtra(GeoCache.class.getCanonicalName());
 
-        if (Controller.getInstance().getLocationManager().hasLocation()) {
-            minLat = CoordinateHelper.locationToGeoPoint(Controller.getInstance().getLocationManager().getLastKnownLocation()).getLatitudeE6();
-            maxLat = CoordinateHelper.locationToGeoPoint(Controller.getInstance().getLocationManager().getLastKnownLocation()).getLatitudeE6();
-            minLon = CoordinateHelper.locationToGeoPoint(Controller.getInstance().getLocationManager().getLastKnownLocation()).getLongitudeE6();
-            maxLon = CoordinateHelper.locationToGeoPoint(Controller.getInstance().getLocationManager().getLastKnownLocation()).getLongitudeE6();
+        final Location location = Controller.getInstance().getLocationManager().getLastKnownLocation();
+        final GeoPoint locationPoint = CoordinateHelper.locationToGeoPoint(location);
+        if (location != null) {
+            minLat = locationPoint.getLatitudeE6();
+            maxLat = locationPoint.getLatitudeE6();
+            minLon = locationPoint.getLongitudeE6();
+            maxLon = locationPoint.getLongitudeE6();
         }
         minLat = Math.min(gc.getLocationGeoPoint().getLatitudeE6(), minLat);
         maxLat = Math.max(gc.getLocationGeoPoint().getLatitudeE6(), maxLat);
@@ -304,31 +307,21 @@ public class SearchMapActivity extends MapActivity implements IConnectionAware, 
         mapController.setCenter(center);
 
         // if markers not in map - zoom out. logic below
-
-        // Get map boundaries
-        int mapRight = map.getRight();
-        int mapBottom = map.getBottom();
-        int mapLeft = map.getLeft();
-        int mapTop = map.getTop();
-        // if map not init - go out of here!
-        if (mapRight == 0 && mapLeft == 0 && mapTop == 0 && mapBottom == 0) {
-            map.invalidate();
-            return;
-        }
-
         boolean needZoomOut = false;
-        Projection proj = map.getProjection();
+        final Projection proj = map.getProjection();
         Rect rect;
-        Point point = new Point();
+        final Point point = new Point();
 
-        if (Controller.getInstance().getLocationManager().hasLocation()) {
-            // is user marker in visible map
+        if (location != null) {
+            // is user accuracy circle visible
             GeoPoint currentGeoPoint = CoordinateHelper.locationToGeoPoint(Controller.getInstance().getLocationManager().getLastKnownLocation());
-            int userPadding = (int) proj.metersToEquatorPixels(Controller.getInstance().getLocationManager().getLastKnownLocation().getAccuracy());
+            int locationAccuracy = (int) proj.metersToEquatorPixels(Controller.getInstance().getLocationManager().getLastKnownLocation().getAccuracy());
             proj.toPixels(currentGeoPoint, point);
-            needZoomOut = (point.x - userPadding < mapLeft) || (point.x + userPadding > mapRight) || (point.y - userPadding < mapTop) || (point.y + userPadding > mapBottom);
-
+            needZoomOut = (point.x - locationAccuracy < 0) || (point.x + locationAccuracy > map.getWidth()) || (point.y - locationAccuracy < 0) || (point.y + locationAccuracy > map.getHeight());
+            // is user marker visible
+            // TODO: implement function getBounds for location overlay that returns both marker and accuracy sizes.
         }
+
         if (!needZoomOut) {
             // still not need zoom out
             // calculate padding
@@ -336,18 +329,16 @@ public class SearchMapActivity extends MapActivity implements IConnectionAware, 
             // Get points on screen
             proj.toPixels(gc.getLocationGeoPoint(), point);
             // Check contains markers in visible part of map
-            needZoomOut = (point.x + rect.left < mapLeft) || (point.x + rect.right > mapRight) || (point.y + rect.top < mapTop) || (point.y + rect.bottom > mapBottom);
+            needZoomOut = (point.x + rect.left < 0) || (point.x + rect.right > map.getWidth()) || (point.y + rect.top < 0) || (point.y + rect.bottom > map.getHeight());
         }
 
         // check contains checkpoints markers in visible part of map if still not need zoom out
         if (!needZoomOut) {
-            // Get marker of checkpoint
-            // gc.setType(GeoCacheType.CHECKPOINT); //No!, never set checkpoint to Intent
             rect = Controller.getInstance().getResourceManager().getCacheMarker(GeoCacheType.CHECKPOINT, GeoCacheStatus.NOT_ACTIVE_CHECKPOINT).getBounds();
 
             for (GeoCache i : Controller.getInstance().getCheckpointManager(gc.getId()).getCheckpoints()) {
                 proj.toPixels(i.getLocationGeoPoint(), point);
-                needZoomOut = (point.x + rect.left < mapLeft) || (point.x + rect.right > mapRight) || (point.y + rect.top < mapTop) || (point.y + rect.bottom > mapBottom);
+                needZoomOut = (point.x + rect.left < 0) || (point.x + rect.right > map.getWidth()) || (point.y + rect.top < 0) || (point.y + rect.bottom > map.getHeight());
                 if (needZoomOut) {
                     // already need zoom out
                     break;
@@ -405,14 +396,19 @@ public class SearchMapActivity extends MapActivity implements IConnectionAware, 
     }
 
     private void onDrivingDirectionsSelected() {
-        if (Controller.getInstance().getLocationManager().getLastKnownLocation() != null) {
-            GeoPoint second = Controller.getInstance().getSearchingGeoCache().getLocationGeoPoint();
-            double firstLat = Controller.getInstance().getLocationManager().getLastKnownLocation().getLatitude();
-            double firstLng = Controller.getInstance().getLocationManager().getLastKnownLocation().getLongitude();
-            double secondLat = second.getLatitudeE6() / 1E6;
-            double secondLng = second.getLongitudeE6() / 1E6;
-            Intent intent = new Intent(android.content.Intent.ACTION_VIEW, Uri.parse(String.format(Locale.ENGLISH, "http://maps.google.com/maps?saddr=%f,%f&daddr=%f,%f&ie=UTF8&om=0&output=kml",
-                    firstLat, firstLng, secondLat, secondLng)));
+        final Location location = Controller.getInstance().getLocationManager().getLastKnownLocation();
+        if (location != null) {
+            final GeoPoint destination = Controller.getInstance().getSearchingGeoCache().getLocationGeoPoint();
+            final double sourceLat = location.getLatitude();
+            final double sourceLng = location.getLongitude();
+            final double destinationLat = destination.getLatitudeE6() / 1E6;
+            final double destinationLng = destination.getLongitudeE6() / 1E6;
+            final String uri = String.format(
+                    Locale.ENGLISH,
+                    "http://maps.google.com/maps?saddr=%f,%f&daddr=%f,%f&ie=UTF8&om=0&output=kml",
+                    sourceLat, sourceLng, destinationLat, destinationLng);
+
+            final Intent intent = new Intent(android.content.Intent.ACTION_VIEW, Uri.parse(uri));
             startActivity(intent);
         } else {
             Toast.makeText(getBaseContext(), getString(R.string.status_null_last_location), Toast.LENGTH_LONG).show();
@@ -420,10 +416,16 @@ public class SearchMapActivity extends MapActivity implements IConnectionAware, 
     }
 
     private void onExternalMapSelected() {
-        GeoPoint point = Controller.getInstance().getSearchingGeoCache().getLocationGeoPoint();
-        double latitude = point.getLatitudeE6() / 1E6;
-        double longitude = point.getLongitudeE6() / 1E6;
-        String uri = String.format(GeocachingSuApiManager.enLocale, "geo:%f,%f?z=%d&q=%f,%f", latitude, longitude, MapInfo.DEFAULT_ZOOM, latitude, longitude);
+        final double latitude = map.getMapCenter().getLatitudeE6() / 1E6;
+        final double longitude = map.getMapCenter().getLongitudeE6() / 1E6;
+        final GeoCache geoCache = Controller.getInstance().getSearchingGeoCache();
+        final GeoPoint geoCachePoint = Controller.getInstance().getSearchingGeoCache().getLocationGeoPoint();
+        final double geoCacheLatitude = geoCachePoint.getLatitudeE6() / 1E6;
+        final double geoCacheLongitude = geoCachePoint.getLongitudeE6() / 1E6;
+        final String uri = String.format(
+                Locale.ENGLISH,
+                "geo:%f,%f?z=%d&q=%f,%f (%s)",
+                latitude, longitude, map.getZoomLevel(), geoCacheLatitude, geoCacheLongitude, geoCache.getName());
         startActivity(new Intent(android.content.Intent.ACTION_VIEW, Uri.parse(uri)));
     }
 
@@ -578,11 +580,13 @@ public class SearchMapActivity extends MapActivity implements IConnectionAware, 
         switch (msg.what) {
             case CallbackManager.WHAT_LOCATION_DEPRECATED:
                 // update distance text view
-                boolean isPrecise = Controller.getInstance().getLocationManager().hasPreciseLocation();
+                final boolean isPrecise = Controller.getInstance().getLocationManager().hasPreciseLocation();
                 if (distanceStatusTextView != null) {
                     distanceStatusTextView.setText(
                             CoordinateHelper.distanceToString(
-                                    CoordinateHelper.getDistanceBetween(Controller.getInstance().getSearchingGeoCache().getLocationGeoPoint(), Controller.getInstance().getLocationManager().getLastKnownLocation()),
+                                    CoordinateHelper.getDistanceBetween(
+                                            Controller.getInstance().getSearchingGeoCache().getLocationGeoPoint(),
+                                            Controller.getInstance().getLocationManager().getLastKnownLocation()),
                                     isPrecise));
                 }
                 if (userOverlay != null) {

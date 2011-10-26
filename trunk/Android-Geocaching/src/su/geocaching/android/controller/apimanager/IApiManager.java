@@ -17,8 +17,6 @@ public interface IApiManager {
 
     public static final String UTF8_ENCODING = "UTF-8";
     public static final String CP1251_ENCODING = "windows-1251";
-    public static final Locale enLocale = new Locale("en");
-    //public static final Locale ruLocale = new Locale("ru");
 
     /**
      * Get list of GeoCache in search area. This method synchronous.
