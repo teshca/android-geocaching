@@ -16,7 +16,6 @@ public class AboutDialog extends AlertDialog {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-        Controller.getInstance().getGoogleAnalyticsManager().trackActivityLaunch("/AboutDialog");
         // set icon
         setIcon(R.drawable.ic_launcher);
         // set title
@@ -37,5 +36,11 @@ public class AboutDialog extends AlertDialog {
         setCancelable(true);
 
         super.onCreate(savedInstanceState);
+    }
+
+    @Override
+    public void onAttachedToWindow()
+    {
+        Controller.getInstance().getGoogleAnalyticsManager().trackActivityLaunch("/AboutDialog");
     }
 }
