@@ -215,7 +215,7 @@ public class SelectMapActivity extends MapActivity implements IConnectionAware, 
     }
 
     public void hideGroupingInfo() {
-        groupingInfoTextView.setVisibility(View.GONE);
+        groupingInfoTextView.setVisibility(View.INVISIBLE);
         updateAnimation();
     }
 
@@ -249,6 +249,7 @@ public class SelectMapActivity extends MapActivity implements IConnectionAware, 
 
     @Override
     public void onConnectionFound() {
+        // TODO: make text sorter and use INVISIBLE instead of GONE
         connectionInfoTextView.setVisibility(View.GONE);
     }
 

@@ -3,13 +3,13 @@
 		<item name="android:layout_width">fill_parent</item>
 		<item name="android:layout_height">wrap_content</item>
 		<item name="android:background">@color/map_info_layer_bg</item>
-		<item name="android:paddingLeft">3dp</item>
-		<item name="android:paddingRight">3dp</item>
 	</style>
 
 	<style name="MapInfoItem">
 		<item name="android:layout_width">wrap_content</item>
 		<item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_marginLeft">3dp</item>
+        <item name="android:layout_marginRight">3dp</item>
 		<item name="android:textColor">@color/status_text_color</item>
 		<item name="android:textSize">@dimen/text_size_small</item>
 	</style>
@@ -18,6 +18,13 @@
         <item name="android:layout_width">0dp</item>
         <item name="android:layout_height">fill_parent</item>
         <item name="android:layout_weight">1</item>
+    </style>
+
+    <style name="ProgressBarView">
+        <item name="android:layout_width">@dimen/header_progress_bar_size</item>
+        <item name="android:layout_height">@dimen/header_progress_bar_size</item>
+        <item name="android:layout_gravity">center_vertical</item>
+        <item name="android:background">@anim/earth_anim</item>
     </style>
 
 	<style name="MyLocationButton">
