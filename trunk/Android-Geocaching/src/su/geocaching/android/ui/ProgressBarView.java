@@ -37,7 +37,6 @@ public class ProgressBarView extends View {
     @Override
     protected void onFinishInflate() {
         super.onFinishInflate();
-        setBackgroundResource(R.anim.earth_anim);
         animation = (AnimationDrawable) getBackground();
     }
 
@@ -51,6 +50,6 @@ public class ProgressBarView extends View {
     }
 
     public void hide() {
-        setVisibility(GONE);
+        setVisibility(INVISIBLE);
     }
 }

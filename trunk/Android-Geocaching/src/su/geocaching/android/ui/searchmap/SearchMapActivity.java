@@ -284,11 +284,11 @@ public class SearchMapActivity extends MapActivity implements IConnectionAware, 
         minLon = Math.min(gc.getLocationGeoPoint().getLongitudeE6(), minLon);
         maxLon = Math.max(gc.getLocationGeoPoint().getLongitudeE6(), maxLon);
 
-        for (GeoCache i : Controller.getInstance().getCheckpointManager(gc.getId()).getCheckpoints()) {
-            minLat = Math.min(i.getLocationGeoPoint().getLatitudeE6(), minLat);
-            maxLat = Math.max(i.getLocationGeoPoint().getLatitudeE6(), maxLat);
-            minLon = Math.min(i.getLocationGeoPoint().getLongitudeE6(), minLon);
-            maxLon = Math.max(i.getLocationGeoPoint().getLongitudeE6(), maxLon);
+        for (GeoCache checkpoint : Controller.getInstance().getCheckpointManager(gc.getId()).getCheckpoints()) {
+            minLat = Math.min(checkpoint.getLocationGeoPoint().getLatitudeE6(), minLat);
+            maxLat = Math.max(checkpoint.getLocationGeoPoint().getLatitudeE6(), maxLat);
+            minLon = Math.min(checkpoint.getLocationGeoPoint().getLongitudeE6(), minLon);
+            maxLon = Math.max(checkpoint.getLocationGeoPoint().getLongitudeE6(), maxLon);
         }
 
         // Calculate span
@@ -308,39 +308,25 @@ public class SearchMapActivity extends MapActivity implements IConnectionAware, 
 
         // if markers not in map - zoom out. logic below
         boolean needZoomOut = false;
-        final Projection proj = map.getProjection();
-        Rect rect;
-        final Point point = new Point();
 
         if (location != null) {
-            // is user accuracy circle visible
-            GeoPoint currentGeoPoint = CoordinateHelper.locationToGeoPoint(Controller.getInstance().getLocationManager().getLastKnownLocation());
-            int locationAccuracy = (int) proj.metersToEquatorPixels(Controller.getInstance().getLocationManager().getLastKnownLocation().getAccuracy());
-            proj.toPixels(currentGeoPoint, point);
-            needZoomOut = (point.x - locationAccuracy < 0) || (point.x + locationAccuracy > map.getWidth()) || (point.y - locationAccuracy < 0) || (point.y + locationAccuracy > map.getHeight());
             // is user marker visible
-            // TODO: implement function getBounds for location overlay that returns both marker and accuracy sizes.
+            GeoPoint currentGeoPoint = CoordinateHelper.locationToGeoPoint(Controller.getInstance().getLocationManager().getLastKnownLocation());
+            needZoomOut = !mapContains(currentGeoPoint, userOverlay.getBounds());
         }
 
         if (!needZoomOut) {
             // still not need zoom out
-            // calculate padding
-            rect = cacheMarker.getBounds();
-            // Get points on screen
-            proj.toPixels(gc.getLocationGeoPoint(), point);
             // Check contains markers in visible part of map
-            needZoomOut = (point.x + rect.left < 0) || (point.x + rect.right > map.getWidth()) || (point.y + rect.top < 0) || (point.y + rect.bottom > map.getHeight());
+            needZoomOut = !mapContains(gc.getLocationGeoPoint(), cacheMarker.getBounds());
         }
 
         // check contains checkpoints markers in visible part of map if still not need zoom out
         if (!needZoomOut) {
-            rect = Controller.getInstance().getResourceManager().getCacheMarker(GeoCacheType.CHECKPOINT, GeoCacheStatus.NOT_ACTIVE_CHECKPOINT).getBounds();
+            Rect bounds = Controller.getInstance().getResourceManager().getCacheMarker(GeoCacheType.CHECKPOINT, GeoCacheStatus.NOT_ACTIVE_CHECKPOINT).getBounds();
 
-            for (GeoCache i : Controller.getInstance().getCheckpointManager(gc.getId()).getCheckpoints()) {
-                proj.toPixels(i.getLocationGeoPoint(), point);
-                needZoomOut = (point.x + rect.left < 0) || (point.x + rect.right > map.getWidth()) || (point.y + rect.top < 0) || (point.y + rect.bottom > map.getHeight());
-                if (needZoomOut) {
-                    // already need zoom out
+            for (GeoCache checkpoint : Controller.getInstance().getCheckpointManager(gc.getId()).getCheckpoints()) {
+                if (needZoomOut = !mapContains(checkpoint.getLocationGeoPoint(), bounds)) {
                     break;
                 }
             }
@@ -349,8 +335,15 @@ public class SearchMapActivity extends MapActivity implements IConnectionAware, 
         // if markers are not visible then zoomOut
         if (needZoomOut) {
             LogManager.d(TAG, "markers not in the visible part of map. Zoom out.");
-            mapController.setZoom(map.getZoomLevel() - 1);
+            mapController.zoomOut();
         }
+    }
+
+    private boolean mapContains(GeoPoint center, Rect bounds) {
+        final Point point = new Point();
+        map.getProjection().toPixels(center, point);
+        return (point.x + bounds.left > 0) && (point.x + bounds.right < map.getWidth()) &&
+                (point.y + bounds.top > 0) && (point.y + bounds.bottom < map.getHeight());
     }
 
     /**
@@ -382,7 +375,7 @@ public class SearchMapActivity extends MapActivity implements IConnectionAware, 
                 onDrivingDirectionsSelected();
                 return true;
             case R.id.show_external_map:
-                onExternalMapSelected();
+                showExternalMap();
                 return true;
             case R.id.stepByStep:
                 NavigationManager.startCheckpointsFolder(this, Controller.getInstance().getPreferencesManager().getLastSearchedGeoCache().getId());
@@ -415,17 +408,21 @@ public class SearchMapActivity extends MapActivity implements IConnectionAware, 
         }
     }
 
-    private void onExternalMapSelected() {
-        final double latitude = map.getMapCenter().getLatitudeE6() / 1E6;
-        final double longitude = map.getMapCenter().getLongitudeE6() / 1E6;
+    // TODO: implement menu item
+    // Currently only google maps can handle this intent correctly, so it's kind of the same map
+    private void showCacheOnExternalMap() {
         final GeoCache geoCache = Controller.getInstance().getSearchingGeoCache();
-        final GeoPoint geoCachePoint = Controller.getInstance().getSearchingGeoCache().getLocationGeoPoint();
+        final GeoPoint geoCachePoint = geoCache.getLocationGeoPoint();
         final double geoCacheLatitude = geoCachePoint.getLatitudeE6() / 1E6;
         final double geoCacheLongitude = geoCachePoint.getLongitudeE6() / 1E6;
-        final String uri = String.format(
-                Locale.ENGLISH,
-                "geo:%f,%f?z=%d&q=%f,%f (%s)",
-                latitude, longitude, map.getZoomLevel(), geoCacheLatitude, geoCacheLongitude, geoCache.getName());
+        final String uri = String.format(Locale.ENGLISH, "geo:0,0?q=%f,%f (%s)", geoCacheLatitude, geoCacheLongitude, geoCache.getName());
+        startActivity(new Intent(android.content.Intent.ACTION_VIEW, Uri.parse(uri)));
+    }
+
+    private void showExternalMap() {
+        final double latitude = map.getMapCenter().getLatitudeE6() / 1E6;
+        final double longitude = map.getMapCenter().getLongitudeE6() / 1E6;
+        final String uri = String.format(Locale.ENGLISH, "geo:%f,%f?z=%d", latitude, longitude, map.getZoomLevel());
         startActivity(new Intent(android.content.Intent.ACTION_VIEW, Uri.parse(uri)));
     }
 

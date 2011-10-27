@@ -14,7 +14,8 @@ import su.geocaching.android.controller.utils.CoordinateHelper;
  */
 public abstract class UserLocationOverlayBase extends com.google.android.maps.Overlay {
     private GeoPoint position;
-    private Float accuracyRadius;
+    private Float accuracyRadiusInMeters;
+    protected Float accuracyRadiusInPixels;
 
     private Paint paintStroke;
     private Paint paintCircle;
@@ -45,7 +46,7 @@ public abstract class UserLocationOverlayBase extends com.google.android.maps.Ov
         tapDistance = 24;
         tapPoint = new Point();
 
-        accuracyRadius = Float.NaN;
+        accuracyRadiusInMeters = Float.NaN;
     }
 
     @Override
@@ -54,9 +55,9 @@ public abstract class UserLocationOverlayBase extends com.google.android.maps.Ov
         if (locationAvailable) {
             // Translate the GeoPoint to screen pixels
             mapView.getProjection().toPixels(position, userPoint);
-            if (!Float.isNaN(accuracyRadius)) {
-                float radiusInPixels = mapView.getProjection().metersToEquatorPixels(accuracyRadius);
-                drawAccuracyCircle(canvas, radiusInPixels);
+            if (!Float.isNaN(accuracyRadiusInMeters)) {
+                accuracyRadiusInPixels = mapView.getProjection().metersToEquatorPixels(accuracyRadiusInMeters);
+                drawAccuracyCircle(canvas);
             }
             drawUserLocation(canvas);
         }
@@ -64,9 +65,9 @@ public abstract class UserLocationOverlayBase extends com.google.android.maps.Ov
 
     protected abstract void drawUserLocation(Canvas canvas);
 
-    protected void drawAccuracyCircle(Canvas canvas, float radiusInPixels) {
-        canvas.drawCircle(userPoint.x, userPoint.y, radiusInPixels, paintCircle);
-        canvas.drawCircle(userPoint.x, userPoint.y, radiusInPixels, paintStroke);
+    protected void drawAccuracyCircle(Canvas canvas) {
+        canvas.drawCircle(userPoint.x, userPoint.y, accuracyRadiusInPixels, paintCircle);
+        canvas.drawCircle(userPoint.x, userPoint.y, accuracyRadiusInPixels, paintStroke);
     }
 
     public void updateLocation(Location location) {
@@ -74,7 +75,7 @@ public abstract class UserLocationOverlayBase extends com.google.android.maps.Ov
         if (locationAvailable)
         {
             this.position = CoordinateHelper.locationToGeoPoint(location);
-            this.accuracyRadius = location.getAccuracy();
+            this.accuracyRadiusInMeters = location.getAccuracy();
         }
     }
 
