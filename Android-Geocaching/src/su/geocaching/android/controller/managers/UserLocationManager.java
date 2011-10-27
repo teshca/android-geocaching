@@ -68,11 +68,11 @@ public class UserLocationManager implements LocationListener, GpsStatus.Listener
     public static final int EVENT_PROVIDER_DISABLED = 8;
 
     private static final String TAG = UserLocationManager.class.getCanonicalName();
-    private static final String REMOVE_UPDATES_TIMER_NAME = "remove location updates mapupdatetimer";
+    private static final String REMOVE_UPDATES_TIMER_NAME = "remove location updates timer";
     private static final String DEPRECATE_LOCATION_TIMER_NAME = "waiting for location deprecation";
     private static final long REMOVE_UPDATES_DELAY = 30000; // in milliseconds
-    private static final int PRECISE_LOCATION_MAX_TIME = 60 * 1000; // in milliseconds
-    private static final float PRECISE_LOCATION_MAX_ACCURACY = 20f; // in meters
+    private static final int PRECISE_LOCATION_MAX_TIME = 30 * 1000; // in milliseconds
+    private static final float PRECISE_LOCATION_MAX_ACCURACY = 40f; // in meters
     private static final float MAX_SPEED_OF_HARDWARE_COMPASS = 20 * 1000 / 3600; // (in m/s) if user speed lower than this - use hardware compass otherwise use GPS compass
 
     private LocationManager locationManager;

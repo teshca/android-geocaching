@@ -26,18 +26,15 @@ import com.google.android.maps.MapActivity;
 import com.google.android.maps.MapController;
 import com.google.android.maps.MapView;
 import com.google.android.maps.Overlay;
-import com.google.android.maps.Projection;
 import su.geocaching.android.controller.Controller;
 import su.geocaching.android.controller.managers.*;
 import su.geocaching.android.controller.utils.CoordinateHelper;
 import su.geocaching.android.controller.GpsUpdateFrequency;
-import su.geocaching.android.controller.apimanager.GeocachingSuApiManager;
 import su.geocaching.android.controller.compass.SmoothCompassThread;
 import su.geocaching.android.controller.utils.UiHelper;
 import su.geocaching.android.model.GeoCache;
 import su.geocaching.android.model.GeoCacheStatus;
 import su.geocaching.android.model.GeoCacheType;
-import su.geocaching.android.model.MapInfo;
 import su.geocaching.android.model.SearchMapInfo;
 import su.geocaching.android.ui.FavoritesFolderActivity;
 import su.geocaching.android.ui.ProgressBarView;
@@ -138,7 +135,7 @@ public class SearchMapActivity extends MapActivity implements IConnectionAware, 
         saveMapInfoToSettings();
 
         if (Controller.getInstance().getLocationManager().hasLocation()) {
-            stopAnimation();
+            stopCompassAnimation();
         }
 
         Controller.getInstance().getConnectionManager().removeSubscriber(this);
@@ -194,7 +191,7 @@ public class SearchMapActivity extends MapActivity implements IConnectionAware, 
             LogManager.d(TAG, "Update location with last known location");
             // this update will hide progressBarView
             updateLocation(Controller.getInstance().getLocationManager().getLastKnownLocation());
-            startAnimation();
+            startCompassAnimation();
         }
 
         if (!Controller.getInstance().getLocationManager().isBestProviderEnabled()) {
@@ -252,7 +249,7 @@ public class SearchMapActivity extends MapActivity implements IConnectionAware, 
             mapOverlays.add(0, distanceOverlay); // lower overlay
             mapOverlays.add(userOverlay);
 
-            startAnimation();
+            startCompassAnimation();
             return;
         }
         distanceOverlay.setUserPoint(CoordinateHelper.locationToGeoPoint(location));
@@ -468,6 +465,10 @@ public class SearchMapActivity extends MapActivity implements IConnectionAware, 
                 // gps connection lost. just show progress bar
                 progressBarView.show();
                 break;
+            case UserLocationManager.GPS_EVENT_FIRST_FIX:
+                // location fixed. hide progress bar
+                progressBarView.hide();
+                break;
             case UserLocationManager.EVENT_PROVIDER_DISABLED:
                 if (LocationManager.GPS_PROVIDER.equals(provider)) {
                     // gps has been turned off
@@ -490,7 +491,7 @@ public class SearchMapActivity extends MapActivity implements IConnectionAware, 
     /**
      * run animation for user location overlay
      */
-    private void startAnimation() {
+    private void startCompassAnimation() {
         if (animationThread == null) {
             animationThread = new SmoothCompassThread(userOverlay);
             animationThread.setRunning(true);
@@ -501,7 +502,7 @@ public class SearchMapActivity extends MapActivity implements IConnectionAware, 
     /**
      * Stop animation for user location overlay
      */
-    private void stopAnimation() {
+    private void stopCompassAnimation() {
         if (animationThread != null) {
             animationThread.setRunning(false);
             try {
