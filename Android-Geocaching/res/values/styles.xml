@@ -10,7 +10,7 @@
     <style name="TitleBarSeparator">
         <item name="android:layout_width">3px</item>
         <item name="android:layout_height">fill_parent</item>
-        <item name="android:background">@drawable/action_bar_separator</item>
+        <item name="android:background">@drawable/action_bar_divider</item>
     </style>
 
     <style name="TitleBarLogo">
