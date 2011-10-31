@@ -524,7 +524,12 @@ public class SearchMapActivity extends MapActivity implements IConnectionAware, 
         SearchMapInfo lastMapInfo = Controller.getInstance().getPreferencesManager().getLastSearchMapInfo();
         GeoCache geoCache = (GeoCache) getIntent().getParcelableExtra(GeoCache.class.getCanonicalName());
         if (lastMapInfo.getGeoCacheId() != geoCache.getId()) {
-            resetZoom();
+            map.post( new Runnable() {
+                @Override
+                public void run() {
+                    resetZoom();
+                }
+            });
         } else {
             updateMap(lastMapInfo);
         }

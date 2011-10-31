@@ -75,8 +75,8 @@ public class DynamicUserLocationOverlay extends UserLocationOverlayBase implemen
 
     public Rect getBounds()
     {
-        final int max = Math.max(Math.max(compassArrowHeight, compassArrowWidth), accuracyRadiusInPixels.intValue());
-        return new Rect(-max, -max, 2 * max, 2 * max);
+        final int max = Math.max(Math.max(compassArrowHeight / 2, compassArrowWidth / 2), accuracyRadiusInPixels.intValue());
+        return new Rect(-max, -max, max, max);
     }
 
     /*
