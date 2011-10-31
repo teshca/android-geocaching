@@ -267,14 +267,13 @@ public class SearchMapActivity extends MapActivity implements IConnectionAware, 
         int minLon = Integer.MAX_VALUE;
         int maxLon = Integer.MIN_VALUE;
         final GeoCache gc = (GeoCache) getIntent().getParcelableExtra(GeoCache.class.getCanonicalName());
-
         final Location location = Controller.getInstance().getLocationManager().getLastKnownLocation();
-        final GeoPoint locationPoint = CoordinateHelper.locationToGeoPoint(location);
         if (location != null) {
-            minLat = locationPoint.getLatitudeE6();
-            maxLat = locationPoint.getLatitudeE6();
-            minLon = locationPoint.getLongitudeE6();
-            maxLon = locationPoint.getLongitudeE6();
+            final GeoPoint currentGeoPoint = CoordinateHelper.locationToGeoPoint(location);
+            minLat = currentGeoPoint.getLatitudeE6();
+            maxLat = currentGeoPoint.getLatitudeE6();
+            minLon = currentGeoPoint.getLongitudeE6();
+            maxLon = currentGeoPoint.getLongitudeE6();
         }
         minLat = Math.min(gc.getLocationGeoPoint().getLatitudeE6(), minLat);
         maxLat = Math.max(gc.getLocationGeoPoint().getLatitudeE6(), maxLat);
@@ -308,7 +307,7 @@ public class SearchMapActivity extends MapActivity implements IConnectionAware, 
 
         if (location != null) {
             // is user marker visible
-            GeoPoint currentGeoPoint = CoordinateHelper.locationToGeoPoint(Controller.getInstance().getLocationManager().getLastKnownLocation());
+            GeoPoint currentGeoPoint = CoordinateHelper.locationToGeoPoint(location);
             needZoomOut = !mapContains(currentGeoPoint, userOverlay.getBounds());
         }
 
