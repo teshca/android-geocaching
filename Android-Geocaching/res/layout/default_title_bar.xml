@@ -1,11 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 
 <LinearLayout
-        xmlns:android="http://schemas.android.com/apk/res/android"
-		style="@style/TitleBar"
-		android:background="@drawable/geologo_background">
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    style="@style/TitleBar">
 	<ImageView
-            android:src="@drawable/geologo"
-			style="@style/TitleBarLogo"
-			android:onClick="onHomeClick"/>
+        style="@style/TitleBarLogo"
+        android:onClick="onHomeClick"/>
 </LinearLayout>

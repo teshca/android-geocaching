@@ -14,6 +14,7 @@
     </style>
 
     <style name="TitleBarLogo">
+        <item name="android:src">@drawable/geologo</item>
         <item name="android:layout_width">wrap_content</item>
         <item name="android:layout_height">fill_parent</item>
         <item name="android:clickable">true</item>
