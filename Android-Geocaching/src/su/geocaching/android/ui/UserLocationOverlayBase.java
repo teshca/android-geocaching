@@ -47,6 +47,7 @@ public abstract class UserLocationOverlayBase extends com.google.android.maps.Ov
         tapPoint = new Point();
 
         accuracyRadiusInMeters = Float.NaN;
+        accuracyRadiusInPixels = Float.NaN;
     }
 
     @Override
