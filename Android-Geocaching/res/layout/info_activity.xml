@@ -7,7 +7,6 @@
 
     <LinearLayout style="@style/TitleBar"
                   android:id="@+id/title_bar"
-                  android:background="@drawable/geologo_background"
                   android:gravity="center_vertical">
         <ImageView android:src="@drawable/geologo2"
                    style="@style/TitleBarLogo"
