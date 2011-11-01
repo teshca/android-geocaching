@@ -6,8 +6,7 @@
               android:background="@color/dashboard_background">
 
     <!--Title bar -->
-    <LinearLayout style="@style/TitleBar"
-                  android:background="@drawable/geologo_background">
+    <LinearLayout style="@style/TitleBar">
         <ImageView android:src="@drawable/geologo"
                    style="@style/TitleBarLogo"
                    android:onClick="onHomeClick"/>
