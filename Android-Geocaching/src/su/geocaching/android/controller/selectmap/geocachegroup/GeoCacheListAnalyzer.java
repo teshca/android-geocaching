@@ -3,6 +3,7 @@ package su.geocaching.android.controller.selectmap.geocachegroup;
 import android.graphics.Point;
 import android.os.AsyncTask;
 import com.google.android.maps.MapView;
+import com.google.android.maps.Projection;
 import su.geocaching.android.model.GeoCache;
 import su.geocaching.android.ui.geocachemap.GeoCacheOverlayItem;
 
@@ -15,14 +16,17 @@ import java.util.List;
  */
 
 public class GeoCacheListAnalyzer {
-    private MapView map;
+    private Projection projection;
+    private int mapWidth, mapHeight;
 
     private static final int MINIMUM_GROUP_SIZE_TO_CREATE_CLUSTER = 2;
     private static final int FINGER_SIZE_X = 60;
     private static final int FINGER_SIZE_Y = 80;
 
-    public GeoCacheListAnalyzer(MapView map) {
-        this.map = map;
+    public GeoCacheListAnalyzer(Projection projection, int mapWidth, int mapHeight) {
+        this.projection = projection;
+        this.mapWidth = mapWidth;
+        this.mapHeight = mapHeight;
     }
 
     private LinkedList<GeoCacheOverlayItem> createOverlayItemList(List<Centroid> centroidList) {
@@ -33,7 +37,7 @@ public class GeoCacheListAnalyzer {
                 if (num < MINIMUM_GROUP_SIZE_TO_CREATE_CLUSTER) {
                     overlayItemList.add(new GeoCacheOverlayItem(centroid.getCache(), "", ""));
                 } else {
-                    overlayItemList.add(new GeoCacheOverlayItem(map.getProjection().fromPixels(centroid.getX(), centroid.getY()), "Group", ""));
+                    overlayItemList.add(new GeoCacheOverlayItem(projection.fromPixels(centroid.getX(), centroid.getY()), "Group", ""));
                 }
             }
         }
@@ -41,8 +45,8 @@ public class GeoCacheListAnalyzer {
     }
 
     private List<Centroid> generateCentroids() {
-        final int sizeX = map.getWidth() / FINGER_SIZE_X;
-        final int sizeY = map.getHeight() / FINGER_SIZE_Y;
+        final int sizeX = mapWidth / FINGER_SIZE_X;
+        final int sizeY = mapHeight / FINGER_SIZE_Y;
         List<Centroid> centroids = new LinkedList<Centroid>();
 
         for (int i = 0; i < sizeX; i++) {
@@ -66,7 +70,7 @@ public class GeoCacheListAnalyzer {
     private List<GeoCacheView> generatePointsList(List<GeoCache> geoCacheList) {
         List<GeoCacheView> list = new LinkedList<GeoCacheView>();
         for (GeoCache cache : geoCacheList) {
-            Point point = map.getProjection().toPixels(cache.getLocationGeoPoint(), null);
+            Point point = projection.toPixels(cache.getLocationGeoPoint(), null);
             list.add(new GeoCacheView(point.x, point.y, cache));
         }
         return list;
