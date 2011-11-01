@@ -22,7 +22,7 @@ public class GroupGeoCacheTask extends AsyncTask<Void, Integer, List<GeoCacheOve
     public GroupGeoCacheTask(SelectMapViewModel selectMapViewModel, List<GeoCache> geoCacheList) {
         this.selectMapViewModel = selectMapViewModel;
         this.geoCacheList = geoCacheList;
-        analyzer = new GeoCacheListAnalyzer(selectMapViewModel.getMapView());
+        analyzer = new GeoCacheListAnalyzer(selectMapViewModel.getProjection(), selectMapViewModel.getMapWidth(), selectMapViewModel.getMapHeight());
         Thread.setDefaultUncaughtExceptionHandler(new UncaughtExceptionsHandler());
     }
 

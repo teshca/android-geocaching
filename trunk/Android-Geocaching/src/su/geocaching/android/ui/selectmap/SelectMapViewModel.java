@@ -2,7 +2,7 @@ package su.geocaching.android.ui.selectmap;
 
 import android.os.AsyncTask;
 import com.google.android.maps.GeoPoint;
-import com.google.android.maps.MapView;
+import com.google.android.maps.Projection;
 import su.geocaching.android.controller.Controller;
 import su.geocaching.android.controller.apimanager.DownloadGeoCachesTask;
 import su.geocaching.android.controller.managers.LogManager;
@@ -26,11 +26,20 @@ public class SelectMapViewModel {
     private GroupGeoCacheTask groupTask = null;
     private List<GeoCacheOverlayItem> currentGeoCacheOverlayItems = new LinkedList<GeoCacheOverlayItem>();
 
-    public void beginUpdateGeocacheOverlay(GeoPoint upperLeftCorner, GeoPoint lowerRightCorner) {
+    private Projection projection;
+    private int mapWidth, mapHeight;
+
+    public void beginUpdateGeocacheOverlay(Projection projection, int mapWidth, int mapHeight) {
         cancelGroupTask();
+        final GeoPoint upperLeftCorner = projection.fromPixels(0, 0);
+        final GeoPoint lowerRightCorner = projection.fromPixels(mapWidth, mapHeight);
         GeoPoint[] d = {upperLeftCorner, lowerRightCorner};
         new DownloadGeoCachesTask(this).execute(d);
         increaseDownloadTaskCount();
+
+        this.projection = projection;
+        this.mapWidth = mapWidth;
+        this.mapHeight = mapHeight;
     }
 
     public synchronized void geocacheListDownloaded(List<GeoCache> geoCacheList) {
@@ -56,11 +65,6 @@ public class SelectMapViewModel {
         onShowGroupingInfo();
     }
 
-    public MapView getMapView() {
-        //TODO: refactor this.
-        return activity.getMapView();
-    }
-
     public synchronized void geocacheListGrouped(List<GeoCacheOverlayItem> geoCacheList) {
         onHideGroupingInfo();
         currentGeoCacheOverlayItems.clear();
@@ -80,6 +84,21 @@ public class SelectMapViewModel {
         if (activity != null) {
             activity.updateGeoCacheOverlay(currentGeoCacheOverlayItems);
         }
+    }
+
+    public Projection getProjection()
+    {
+        return projection;
+    }
+
+    public int getMapHeight()
+    {
+        return mapHeight;
+    }
+
+    public int getMapWidth()
+    {
+        return mapWidth;
     }
 
     private synchronized void increaseDownloadTaskCount() {
@@ -139,5 +158,6 @@ public class SelectMapViewModel {
             LogManager.e(TAG, "Attempt to unregister activity while activity is null");
         }
         this.activity = null;
+        cancelGroupTask();
     }
 }

@@ -1,10 +1,6 @@
 package su.geocaching.android.controller.selectmap.geocachegroup;
 
-
 import android.os.AsyncTask;
-import android.os.Debug;
-import android.text.method.DateTimeKeyListener;
-import su.geocaching.android.controller.managers.LogManager;
 
 import java.util.List;
 

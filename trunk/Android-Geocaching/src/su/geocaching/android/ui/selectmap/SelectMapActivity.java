@@ -172,18 +172,15 @@ public class SelectMapActivity extends MapActivity implements IConnectionAware, 
             locationOverlay.updateLocation(location);
             mapView.invalidate();
         }
-        // TODO: if not
     }
 
     public void beginUpdateGeoCacheOverlay() {
         LogManager.d(TAG, "beginUpdateGeoCacheOverlay");
-        final GeoPoint upperLeftCorner = mapView.getProjection().fromPixels(0, 0);
-        final GeoPoint lowerRightCorner = mapView.getProjection().fromPixels(mapView.getWidth(), mapView.getHeight());
         runOnUiThread(
                 new Runnable() {
                     @Override
                     public void run() {
-                        selectMapViewModel.beginUpdateGeocacheOverlay(upperLeftCorner, lowerRightCorner);
+                        selectMapViewModel.beginUpdateGeocacheOverlay(mapView.getProjection(), mapView.getWidth(), mapView.getHeight());
                     }
                 }
         );
@@ -235,7 +232,7 @@ public class SelectMapActivity extends MapActivity implements IConnectionAware, 
     }
 
     private void updateAnimation() {
-        if (downloadingInfoTextView.isShown() || groupingInfoTextView.isShown()) {
+        if (downloadingInfoTextView.getVisibility() == View.VISIBLE || groupingInfoTextView.getVisibility() == View.VISIBLE) {
             progressBarView.show();
         } else {
             progressBarView.hide();
