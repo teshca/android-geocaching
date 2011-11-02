@@ -522,6 +522,7 @@ public class SearchMapActivity extends MapActivity implements IConnectionAware, 
     private void updateMapInfoFromSettings() {
         SearchMapInfo lastMapInfo = Controller.getInstance().getPreferencesManager().getLastSearchMapInfo();
         GeoCache geoCache = (GeoCache) getIntent().getParcelableExtra(GeoCache.class.getCanonicalName());
+        // TODO: also resetZoom if user location and all markers are out of the current view port
         if (lastMapInfo.getGeoCacheId() != geoCache.getId()) {
             map.post( new Runnable() {
                 @Override
