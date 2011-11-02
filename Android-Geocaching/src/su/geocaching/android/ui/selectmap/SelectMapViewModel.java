@@ -25,6 +25,7 @@ public class SelectMapViewModel {
     private SelectMapActivity activity;
 
     private GroupGeoCacheTask groupTask = null;
+    // TODO: also keep current viewport, don't run any update if viewport is the same
     private List<GeoCacheOverlayItem> currentGeoCacheOverlayItems = new LinkedList<GeoCacheOverlayItem>();
 
     private Projection projection;
@@ -145,6 +146,8 @@ public class SelectMapViewModel {
             LogManager.e(TAG, "Attempt to register activity while activity is not null");
         }
         this.activity = activity;
+        // display [grouped] caches
+        onUpdateGeocacheOverlay();
         // update activity state
         if (groupTask != null && !groupTask.isCancelled() && (groupTask.getStatus() != AsyncTask.Status.FINISHED)) {
             onShowGroupingInfo();

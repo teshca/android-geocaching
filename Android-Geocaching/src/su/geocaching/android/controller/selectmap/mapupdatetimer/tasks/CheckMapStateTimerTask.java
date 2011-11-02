@@ -3,7 +3,6 @@ package su.geocaching.android.controller.selectmap.mapupdatetimer.tasks;
 import com.google.android.maps.GeoPoint;
 import com.google.android.maps.MapView;
 import su.geocaching.android.controller.selectmap.mapupdatetimer.MapUpdateTimerState;
-import su.geocaching.android.ui.selectmap.SelectMapActivity;
 
 import java.util.TimerTask;
 
