@@ -5,6 +5,7 @@ import com.google.android.maps.GeoPoint;
 import com.google.android.maps.Projection;
 import su.geocaching.android.controller.Controller;
 import su.geocaching.android.controller.apimanager.DownloadGeoCachesTask;
+import su.geocaching.android.controller.apimanager.GeoRect;
 import su.geocaching.android.controller.managers.LogManager;
 import su.geocaching.android.controller.selectmap.geocachegroup.GroupGeoCacheTask;
 import su.geocaching.android.model.GeoCache;
@@ -31,10 +32,10 @@ public class SelectMapViewModel {
 
     public void beginUpdateGeocacheOverlay(Projection projection, int mapWidth, int mapHeight) {
         cancelGroupTask();
-        final GeoPoint upperLeftCorner = projection.fromPixels(0, 0);
-        final GeoPoint lowerRightCorner = projection.fromPixels(mapWidth, mapHeight);
-        GeoPoint[] d = {upperLeftCorner, lowerRightCorner};
-        new DownloadGeoCachesTask(this).execute(d);
+        final GeoPoint tl = projection.fromPixels(0, 0);
+        final GeoPoint br = projection.fromPixels(mapWidth, mapHeight);
+        final GeoRect rect = new GeoRect(tl, br);
+        new DownloadGeoCachesTask(this).execute(rect);
         increaseDownloadTaskCount();
 
         this.projection = projection;

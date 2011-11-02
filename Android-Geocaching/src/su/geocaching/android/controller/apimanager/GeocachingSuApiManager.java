@@ -41,49 +41,46 @@ public class GeocachingSuApiManager implements IApiManager {
     private static final String LINK_GEOCACHE_LIST = "http://www.geocaching.su/pages/1031.ajax.php?lngmax=%f&lngmin=%f&latmax=%f&latmin=%f&id=%d&geocaching=5767e405a17c4b0e1cbaecffdb93475d&exactly=1";
 
     private int id;
-    private HashSet<GeoCache> geoCaches = new HashSet<GeoCache>();
+    private GeoCacheMemoryStorage memoryStorage;
     private AsyncTask<Void, Void, String> downloadInfoTask;
 
     public GeocachingSuApiManager() {
         id = (int) (Math.random() * 1E7);
+        memoryStorage = new GeoCacheMemoryStorage();
         LogManager.d(TAG, "new GeocachingSuApiManager Created");
     }
 
     @Override
-    public synchronized List<GeoCache> getGeoCacheList(GeoPoint upperLeftCorner, GeoPoint lowerRightCorner) {
+    public synchronized List<GeoCache> getGeoCacheList(GeoRect rect) {
         LogManager.d(TAG, "getGeoCacheList");
 
-        double maxLatitude = (double) upperLeftCorner.getLatitudeE6() / 1E6;
-        double minLatitude = (double) lowerRightCorner.getLatitudeE6() / 1E6;
-        double maxLongitude = (double) lowerRightCorner.getLongitudeE6() / 1E6;
-        double minLongitude = (double) upperLeftCorner.getLongitudeE6() / 1E6;
-
-        if (!Controller.getInstance().getConnectionManager().isActiveNetworkConnected()) {
-            return filterGeoCaches(maxLatitude, minLatitude, maxLongitude, minLongitude);
+        if (!Controller.getInstance().getConnectionManager().isActiveNetworkConnected() ||
+                memoryStorage.isRectangleStored(rect)) {
+            LogManager.d(TAG, "Get response from cache");
+            return memoryStorage.getCaches(rect);
         }
 
-        if (maxLatitude == minLatitude && maxLongitude == minLongitude) {
-            LogManager.d(TAG, "Size of obtained listGeoCaches: 0");
-            return new LinkedList<GeoCache>();
-        }
-
-        GeoCachesSaxHandler handler;
+        final GeoCachesSaxHandler handler;
         HttpURLConnection connection = null;
         try {
             SAXParserFactory factory = SAXParserFactory.newInstance();
             SAXParser parser = factory.newSAXParser();
+            double maxLatitude = (double) rect.tl.getLatitudeE6() / 1E6;
+            double minLatitude = (double) rect.br.getLatitudeE6() / 1E6;
+            double maxLongitude = (double) rect.br.getLongitudeE6() / 1E6;
+            double minLongitude = (double) rect.tl.getLongitudeE6() / 1E6;
             URL url = generateUrl(maxLatitude, minLatitude, maxLongitude, minLongitude);
             connection = (HttpURLConnection) url.openConnection();
 
             if (connection.getResponseCode() != HttpURLConnection.HTTP_OK) {
                 LogManager.e(TAG, "Can't connect to geocaching.su. Response: " + connection.getResponseCode());
-                return filterGeoCaches(maxLatitude, minLatitude, maxLongitude, minLongitude);
+                return memoryStorage.getCaches(rect);
             }
 
             InputSource geoCacheXml = new InputSource(new InputStreamReader(connection.getInputStream(), CP1251_ENCODING));
             handler = new GeoCachesSaxHandler();
             parser.parse(geoCacheXml, handler);
-            geoCaches.addAll(handler.getGeoCaches());
+            memoryStorage.addCaches(handler.getGeoCaches(), rect);
         } catch (MalformedURLException e) {
             LogManager.e(TAG, e.getMessage(), e);
         } catch (IOException e) {
@@ -98,27 +95,13 @@ public class GeocachingSuApiManager implements IApiManager {
             }
         }
 
-        LogManager.d(TAG, "Total size of memory cached geocaches: " + geoCaches.size());
-        return filterGeoCaches(maxLatitude, minLatitude, maxLongitude, minLongitude);
+        return memoryStorage.getCaches(rect);
     }
 
     private URL generateUrl(double maxLatitude, double minLatitude, double maxLongitude, double minLongitude) throws MalformedURLException {
         String request = String.format(Locale.ENGLISH, LINK_GEOCACHE_LIST, maxLongitude, minLongitude, maxLatitude, minLatitude, id);
         LogManager.d(TAG, "generated Url: " + request);
         return new URL(request);
-    }
-
-    private List<GeoCache> filterGeoCaches(double maxLatitude, double minLatitude, double maxLongitude, double minLongitude) {
-        List<GeoCache> filteredGeoCaches = new LinkedList<GeoCache>();
-        GeoPoint gp;
-        for (GeoCache gc : geoCaches) {
-            gp = gc.getLocationGeoPoint();
-            if ((gp.getLatitudeE6() < maxLatitude * 1E6) && (gp.getLatitudeE6() > minLatitude * 1E6) && (gp.getLongitudeE6() < maxLongitude * 1e6) && (gp.getLongitudeE6() > minLongitude * 1e6)) {
-                filteredGeoCaches.add(gc);
-            }
-        }
-        LogManager.d(TAG, "Number of geocaches on  the screen: " + filteredGeoCaches.size());
-        return filteredGeoCaches;
     }
 
   /**
