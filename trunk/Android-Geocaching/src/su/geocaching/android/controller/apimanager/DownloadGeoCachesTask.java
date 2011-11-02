@@ -20,7 +20,7 @@ import su.geocaching.android.ui.selectmap.SelectMapViewModel;
  * 
  * @author Nikita Bumakov
  */
-public class DownloadGeoCachesTask extends AsyncTask<GeoPoint, Integer, List<GeoCache>> {
+public class DownloadGeoCachesTask extends AsyncTask<GeoRect, Integer, List<GeoCache>> {
     private final SelectMapViewModel selectMapViewModel;
 
     public DownloadGeoCachesTask(SelectMapViewModel selectMapViewModel) {
@@ -29,8 +29,8 @@ public class DownloadGeoCachesTask extends AsyncTask<GeoPoint, Integer, List<Geo
     }
 
     @Override
-    protected List<GeoCache> doInBackground(GeoPoint... params) {
-        List<GeoCache> gcList = Controller.getInstance().getApiManager().getGeoCacheList(params[0], params[1]);
+    protected List<GeoCache> doInBackground(GeoRect... params) {
+        List<GeoCache> gcList = Controller.getInstance().getApiManager().getGeoCacheList(params[0]);
         filterCacheList(gcList);
         return gcList;
     }

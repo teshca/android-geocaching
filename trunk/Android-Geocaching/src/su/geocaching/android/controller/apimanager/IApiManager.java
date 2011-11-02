@@ -21,7 +21,7 @@ public interface IApiManager {
     /**
      * Get list of GeoCache in search area. This method synchronous.
      */
-    public List<GeoCache> getGeoCacheList(GeoPoint upperLeftCorner, GeoPoint lowerRightCorner);
+    public List<GeoCache> getGeoCacheList(GeoRect rect);
 
     /**
      * Get info/notebook about geocache. This method asynchronous.
