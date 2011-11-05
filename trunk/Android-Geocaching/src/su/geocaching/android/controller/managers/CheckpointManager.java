@@ -17,7 +17,6 @@ import java.util.regex.Pattern;
 public class CheckpointManager {
 
     private List<GeoCache> checkpoints;
-    private GeoPoint lastInputGP;
     private int checkpointNumber = 0;
     private int cacheId;
 
@@ -48,11 +47,6 @@ public class CheckpointManager {
         return cacheId;
     }
 
-    /**
-     * @param latitudeE6
-     * @param longitudeE6
-     * @return
-     */
     public GeoCacheOverlayItem addCheckpoint(int cacheId, String name, int latitudeE6, int longitudeE6) {
         deactivateCheckpoints();
         checkpointNumber++;
@@ -152,15 +146,10 @@ public class CheckpointManager {
         checkpoints.clear();
     }
 
-    public void setLastInputGeoPoint(GeoPoint geoPoint) {
-        lastInputGP = geoPoint;
-    }
-
-    public GeoPoint getLastInputGeoPoint() {
-        return lastInputGP;
-    }
-
-    private static Pattern geoPattern = Pattern.compile("[N|S]\\s*(\\d+)\\s*(?:<sup>&#9702;</sup>|&#176;|\\D+)\\s*(\\d+)\\s*.\\s*(\\d+)\\D{1,20}[E|W]\\s*(\\d+)\\s*(?:<sup>&#9702;</sup>|&#176;|\\D+)\\s*(\\d+)\\s*.\\s*(\\d+)(?:&rsquo;|'|&#39;)?");
+    //TODO: (?:<\D+?>)?'(?:</\D+?>)?          <--->        <strong>'</strong>
+    private static final String degPattern = "(?:<sup>&#9702;</sup>|&#176;|\\D+)";
+    private static final String coordinatePattern = "(\\d+)\\s*" + degPattern + "\\s*(\\d+)\\s*.\\s*(\\d+)";
+    private static final Pattern geoPattern = Pattern.compile("[N|S]\\s*" + coordinatePattern + "\\D{1,}[E|W]\\s*" + coordinatePattern + "(?:&rsquo;|'|&#39;)?");
     public static String insertCheckpointsLink(String text) {
         if (text == null) throw new IllegalArgumentException("text is null");
 
