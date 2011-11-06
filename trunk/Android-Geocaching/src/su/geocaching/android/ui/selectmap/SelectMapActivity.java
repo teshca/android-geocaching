@@ -4,6 +4,7 @@ import android.app.Dialog;
 import android.content.Intent;
 import android.location.Location;
 import android.os.Bundle;
+import android.os.Debug;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
@@ -13,6 +14,7 @@ import android.widget.Toast;
 import com.google.android.maps.GeoPoint;
 import com.google.android.maps.MapActivity;
 import com.google.android.maps.MapView;
+import org.apache.commons.logging.Log;
 import su.geocaching.android.controller.Controller;
 import su.geocaching.android.controller.managers.*;
 import su.geocaching.android.controller.selectmap.mapupdatetimer.MapUpdateTimer;
@@ -26,6 +28,7 @@ import su.geocaching.android.ui.geocachemap.GeoCacheOverlayItem;
 import su.geocaching.android.ui.preferences.MapPreferenceActivity;
 
 import java.util.List;
+import java.util.logging.Logger;
 
 /**
  * @author Yuri Denison
@@ -35,7 +38,6 @@ public class SelectMapActivity extends MapActivity implements IConnectionAware, 
     private static final String TAG = SelectMapActivity.class.getCanonicalName();
     private static final String SELECT_ACTIVITY_FOLDER = "/SelectActivity";
     private static final int ENABLE_CONNECTION_DIALOG_ID = 0;
-    private static final int MAX_CACHE_NUMBER = 100;
     private MapView mapView;
     private SelectGeoCacheOverlay selectGeoCacheOverlay;
     private StaticUserLocationOverlay locationOverlay;
@@ -180,6 +182,11 @@ public class SelectMapActivity extends MapActivity implements IConnectionAware, 
                 new Runnable() {
                     @Override
                     public void run() {
+                        if (mapView.getLongitudeSpan() >= 360E6 && mapView.getLatitudeSpan() >= 160E6)
+                        {
+                            LogManager.w(TAG, "Request to update whole the map");
+                            // TODO: process this situation
+                        }
                         selectMapViewModel.beginUpdateGeocacheOverlay(mapView.getProjection(), mapView.getWidth(), mapView.getHeight());
                     }
                 }
@@ -189,12 +196,14 @@ public class SelectMapActivity extends MapActivity implements IConnectionAware, 
     public synchronized void updateGeoCacheOverlay(List<GeoCacheOverlayItem> overlayItemList) {
         LogManager.d(TAG, "overlayItemList updated; size: %d", overlayItemList.size());
         selectGeoCacheOverlay.clear();
-        if (overlayItemList.size() > MAX_CACHE_NUMBER) {
-            showTooMayCachesToast();
-        } else {
-            hideTooMayCachesToast();
-            selectGeoCacheOverlay.AddOverlayItems(overlayItemList);
-        }
+        hideTooMayCachesToast();
+        selectGeoCacheOverlay.AddOverlayItems(overlayItemList);
+        mapView.invalidate();
+    }
+
+    public void tooManyOverlayItems() {
+        showTooMayCachesToast();
+        selectGeoCacheOverlay.clear();
         mapView.invalidate();
     }
 

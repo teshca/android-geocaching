@@ -20,6 +20,7 @@ import java.util.List;
 public class SelectMapViewModel {
     private static final String TAG = SelectMapViewModel.class.getCanonicalName();
     private static final int MIN_GROUP_CACHE_NUMBER = 8;
+    private static final int MAX_OVERLAY_ITEMS_NUMBER = 100;
 
     private int downloadTasksCount = 0;
     private SelectMapActivity activity;
@@ -53,10 +54,14 @@ public class SelectMapViewModel {
             beginGroupGeoCacheList(geoCacheList);
         } else {
             currentGeoCacheOverlayItems.clear();
-            for (GeoCache geoCache : geoCacheList) {
-                currentGeoCacheOverlayItems.add(new GeoCacheOverlayItem(geoCache, "", ""));
+            if (geoCacheList.size() < MAX_OVERLAY_ITEMS_NUMBER) {
+                for (GeoCache geoCache : geoCacheList) {
+                    currentGeoCacheOverlayItems.add(new GeoCacheOverlayItem(geoCache, "", ""));
+                }
+                onUpdateGeocacheOverlay();
+            } else {
+                onTooManyOverlayItems();
             }
-            onUpdateGeocacheOverlay();
         }
     }
 
@@ -85,6 +90,12 @@ public class SelectMapViewModel {
     private synchronized void onUpdateGeocacheOverlay() {
         if (activity != null) {
             activity.updateGeoCacheOverlay(currentGeoCacheOverlayItems);
+        }
+    }
+
+    private synchronized void onTooManyOverlayItems() {
+        if (activity != null) {
+            activity.tooManyOverlayItems();
         }
     }
 
