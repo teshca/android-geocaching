@@ -50,7 +50,7 @@ public class GeoCacheMemoryStorage {
     {
         geoCaches.addAll(newCaches);
         addRectangle(rect);
-        LogManager.d(TAG, "Total size of memory cached geocaches: %d", geoCaches.size());
+        LogManager.d(TAG, "%d caches added. Total size of memory cached geocaches: %d", newCaches.size(), geoCaches.size());
     }
 }
 
