@@ -38,7 +38,7 @@ public class FavoritesArrayAdapter extends BaseArrayAdapter<GeoCache> implements
     private Location lastLocation;
 
     public enum SortType {
-        BY_DIST, BY_NAME
+        BY_NAME, BY_DIST
     }
 
     private SortType sortType;

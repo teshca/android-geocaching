@@ -53,6 +53,7 @@
               android:layout_below="@id/titleBar"/>
 
     <!-- SortType List -->
+    <!--
     <LinearLayout android:id="@+id/layoutActionSortList"
                   android:layout_height="wrap_content"
                   android:layout_width="wrap_content"
@@ -81,5 +82,6 @@
                 android:text="@string/by_distance"
                 android:onClick="sortByDistance"/>
     </LinearLayout>
+    -->
 </RelativeLayout>
 

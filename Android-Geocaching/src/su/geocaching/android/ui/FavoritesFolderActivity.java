@@ -1,6 +1,7 @@
 package su.geocaching.android.ui;
 
 import android.app.AlertDialog;
+import android.app.Dialog;
 import android.app.ListActivity;
 import android.app.SearchManager;
 import android.content.DialogInterface;
@@ -28,19 +29,19 @@ import java.util.ArrayList;
 /**
  * Class for create ListActivity with favorites caches
  */
-public class FavoritesFolderActivity extends ListActivity implements android.os.Handler.Callback {
+public class FavoritesFolderActivity extends ListActivity {
 
     private static final String TAG = FavoritesFolderActivity.class.getCanonicalName();
     private static final String FAVORITES_FOLDER = "/FavoritesActivity";
     private static final String LIST_STATE = "listState";
+    private static final int SORT_TYPE_DIALOG_ID = 0;
+    private static final int DELETE_CACHE_DIALOG_ID = 1;
 
 
     private DbManager dbManager;
     private FavoritesArrayAdapter favoriteGeoCachesAdapter;
     private TextView tvNoCache;
-    private View sortList;
     private Parcelable listState = null;
-    private android.os.Handler handler;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -53,7 +54,6 @@ public class FavoritesFolderActivity extends ListActivity implements android.os.
         favoriteGeoCachesAdapter.gcItems = dbManager.getArrayGeoCache();
 
         tvNoCache = (TextView) findViewById(R.id.tvNoCacheFound);
-        sortList = findViewById(R.id.layoutActionSortList);
 
         getListView().setTextFilterEnabled(true);
 
@@ -70,9 +70,6 @@ public class FavoritesFolderActivity extends ListActivity implements android.os.
             getListView().setFilterText(query);
 
         }
-
-        handler = new android.os.Handler(this);
-        Controller.getInstance().addHandler(handler);
 
         favoriteGeoCachesAdapter.setSortType(FavoritesArrayAdapter.SortType.values()[Controller.getInstance().getPreferencesManager().getFavoritesSortType()]);
         Controller.getInstance().getGoogleAnalyticsManager().trackActivityLaunch(FAVORITES_FOLDER);
@@ -133,28 +130,11 @@ public class FavoritesFolderActivity extends ListActivity implements android.os.
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
             case R.id.delete_all_cache_in_database:
-                createAlertDialog();
+                showDialog(DELETE_CACHE_DIALOG_ID);
                 return true;
             default:
                 return super.onOptionsItemSelected(item);
         }
-    }
-
-    private void createAlertDialog() {
-        AlertDialog.Builder builder = new AlertDialog.Builder(this);
-        builder.setMessage(this.getString(R.string.ask_delete_all_cache_in_database)).setPositiveButton(this.getString(R.string.yes), new DialogInterface.OnClickListener() {
-            public void onClick(DialogInterface dialog, int id) {
-                dbManager.clearDB();
-                onResume();
-                dialog.cancel();
-            }
-        }).setNegativeButton(this.getString(R.string.no), new DialogInterface.OnClickListener() {
-            public void onClick(DialogInterface dialog, int id) {
-                dialog.cancel();
-            }
-        });
-        AlertDialog turnOnInternetAlert = builder.create();
-        turnOnInternetAlert.show();
     }
 
     @Override
@@ -172,40 +152,65 @@ public class FavoritesFolderActivity extends ListActivity implements android.os.
     }
 
     public void onSortClick(View v) {
-        sortList.setVisibility(View.VISIBLE);
-
-        Animation animation = AnimationUtils.loadAnimation(FavoritesFolderActivity.this, R.anim.hide);
-        sortList.startAnimation(animation);
-
-        Controller.getInstance().postEmptyMessageDelayed(Controller.WHAT_ACTION_HIDE_SORT_LIST, 3000);
-    }
-
-
-    public void sortByName(View v) {
-        sortList.clearAnimation();
-        sortList.setVisibility(View.GONE);
-        favoriteGeoCachesAdapter.setSortType(FavoritesArrayAdapter.SortType.BY_NAME);
-        favoriteGeoCachesAdapter.sort();
-        favoriteGeoCachesAdapter.notifyDataSetChanged();
-        Controller.getInstance().getPreferencesManager().setFavoritesSortType(FavoritesArrayAdapter.SortType.BY_NAME.ordinal());
-    }
-
-    public void sortByDistance(View v) {
-        sortList.clearAnimation();
-        sortList.setVisibility(View.GONE);
-        favoriteGeoCachesAdapter.setSortType(FavoritesArrayAdapter.SortType.BY_DIST);
-        favoriteGeoCachesAdapter.sort();
-        favoriteGeoCachesAdapter.notifyDataSetChanged();
-        Controller.getInstance().getPreferencesManager().setFavoritesSortType(FavoritesArrayAdapter.SortType.BY_DIST.ordinal());
+        showDialog(SORT_TYPE_DIALOG_ID);
     }
 
     @Override
-    public boolean handleMessage(Message msg) {
-        switch (msg.what) {
-            case Controller.WHAT_ACTION_HIDE_SORT_LIST:
-                sortList.setVisibility(View.GONE);
-                break;
+    protected Dialog onCreateDialog(int id) {
+        switch (id) {
+            case SORT_TYPE_DIALOG_ID: {
+                final String sortBy = getString(R.string.sort_by);
+                final String byName = getString(R.string.by_name);
+                final String byDistance = getString(R.string.by_distance);
+                final String[] items = {byName, byDistance};
+                int selectedPosition = Controller.getInstance().getPreferencesManager().getFavoritesSortType();
+
+                AlertDialog.Builder builder = new AlertDialog.Builder(this);
+                builder.setTitle(sortBy);
+                builder.setSingleChoiceItems(items, selectedPosition, new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int item) {
+                        switch (item) {
+                            case 0:
+                                sort(FavoritesArrayAdapter.SortType.BY_NAME);
+                                break;
+                            case 1:
+                                sort(FavoritesArrayAdapter.SortType.BY_DIST);
+                                break;
+                        }
+                        dialog.cancel();
+                    }
+                });
+                return builder.create();
+            }
+            case DELETE_CACHE_DIALOG_ID: {
+                AlertDialog.Builder builder = new AlertDialog.Builder(this);
+                builder.setMessage(this.getString(R.string.ask_delete_all_cache_in_database)).setPositiveButton(getString(R.string.yes), new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int id) {
+                        dbManager.clearDB();
+                        favoriteGeoCachesAdapter.clear();
+                        favoriteGeoCachesAdapter.notifyDataSetChanged();
+                        tvNoCache.setVisibility(View.VISIBLE);
+                        dialog.cancel();
+                    }
+                }).setNegativeButton(getString(R.string.no), new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int id) {
+                        dialog.cancel();
+                    }
+                });
+                return builder.create();
+            }
+            default: {
+                return null;
+            }
         }
-        return false;
+
     }
+
+    private void sort(FavoritesArrayAdapter.SortType sortType) {
+        favoriteGeoCachesAdapter.setSortType(sortType);
+        favoriteGeoCachesAdapter.sort();
+        favoriteGeoCachesAdapter.notifyDataSetChanged();
+        Controller.getInstance().getPreferencesManager().setFavoritesSortType(sortType.ordinal());
+    }
+
 }
