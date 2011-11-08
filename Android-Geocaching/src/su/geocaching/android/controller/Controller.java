@@ -24,7 +24,7 @@ import java.util.List;
 public class Controller {
     private static final String TAG = Controller.class.getCanonicalName();
     public static final boolean DEBUG = true;// it is constant really need, because compiler can remove code blocks which cannot be execute. Visibility is public because LogManager and
-                                             // AnalyticsManager use this constant
+    // AnalyticsManager use this constant
 
 
     public static final int WHAT_ACTION_HIDE_SORT_LIST = 0;
@@ -117,8 +117,7 @@ public class Controller {
     }
 
     /**
-     * @param context
-     *            for init manager
+     * @param context for init manager
      * @return location manager which can send to ILocationAware location updates
      */
     public synchronized UserLocationManager getLocationManager(Context context) {
@@ -141,8 +140,7 @@ public class Controller {
     }
 
     /**
-     * @param context
-     *            for init manager
+     * @param context for init manager
      * @return compass manager which can send to IBearingAware updates of bearing
      */
     public synchronized CompassManager getCompassManager(Context context) {
@@ -154,8 +152,7 @@ public class Controller {
     }
 
     /**
-     * @param context
-     *            for init manager
+     * @param context for init manager
      * @return connection manager which can send to IConnectionAware updates of Internet connection status
      */
     public synchronized ConnectionManager getConnectionManager(Context context) {
@@ -167,8 +164,7 @@ public class Controller {
     }
 
     /**
-     * @param context
-     *            for init manager
+     * @param context for init manager
      * @return resource manager which can give you application resources
      */
     public synchronized ResourceManager getResourceManager(Context context) {
@@ -180,8 +176,7 @@ public class Controller {
     }
 
     /**
-     * @param context
-     *            for init manager
+     * @param context for init manager
      * @return resource manager which can give you application preferences
      */
     public synchronized PreferencesManager getPreferencesManager(Context context) {
@@ -193,8 +188,7 @@ public class Controller {
     }
 
     /**
-     * @param context
-     *            for init manager
+     * @param context for init manager
      * @return resource manager which can give you interface to working with database
      */
     public synchronized DbManager getDbManager(Context context) {
@@ -236,15 +230,13 @@ public class Controller {
     /**
      * Set global application context which will be used for initialize of managers
      *
-     * @param applicationContext
-     *            global application context of application
+     * @param applicationContext global application context of application
      */
     protected void setApplicationContext(Context applicationContext) {
         this.applicationContext = applicationContext;
     }
 
-    public String getApplicationVersionName()
-    {
+    public String getApplicationVersionName() {
         String versionName = "0.0.0";
         try {
             String packageName = this.applicationContext.getPackageName();
@@ -259,13 +251,13 @@ public class Controller {
         dbManager.close();
     }
 
-        public void addHandler(Handler handler) {
+    public void addHandler(Handler handler) {
         if (!handlerList.contains(handler)) {
             handlerList.add(handler);
         }
     }
 
-       public void postHandlerMessage(final int what, final Object message) {
+    public void postHandlerMessage(final int what, final Object message) {
         for (Handler handler : handlerList) {
             handler.sendMessage(handler.obtainMessage(what, message));
         }
@@ -283,10 +275,8 @@ public class Controller {
         }
     }
 
-    public synchronized SelectMapViewModel getSelectMapViewModel()
-    {
-        if (selectMapViewModel == null)
-        {
+    public synchronized SelectMapViewModel getSelectMapViewModel() {
+        if (selectMapViewModel == null) {
             selectMapViewModel = new SelectMapViewModel();
         }
         return selectMapViewModel;

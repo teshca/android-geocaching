@@ -29,7 +29,7 @@ import su.geocaching.android.controller.managers.LogManager;
 import su.geocaching.android.controller.managers.NavigationManager;
 import su.geocaching.android.model.GeoCache;
 import su.geocaching.android.model.GeoCacheType;
-import su.geocaching.android.model.GeocacheInfo;
+import su.geocaching.android.model.InfoState;
 import su.geocaching.android.ui.R;
 
 
@@ -79,12 +79,12 @@ public class InfoActivity extends Activity {
         context = this;
         geoCache = getIntent().getParcelableExtra(GeoCache.class.getCanonicalName());
         initViews();
-        GeocacheInfo info = controller.getPreferencesManager().getLastGeocacheInfo();
-        if (info.getCacheId() == geoCache.getId()) {
-            pageState = PageState.values()[info.getPageState()];
-            scroll = info.getScroll();
-            webView.setInitialScale((int) (info.getScale() * 100));
-            lastWidth = info.getWidth();
+        InfoState infoState = controller.getPreferencesManager().getLastInfoState();
+        if (infoState.getCacheId() == geoCache.getId()) {
+            pageState = PageState.values()[infoState.getPageState()];
+            scroll = infoState.getScroll();
+            webView.setInitialScale((int) (infoState.getScale() * 100));
+            lastWidth = infoState.getWidth();
         }
         controller.getGoogleAnalyticsManager().trackActivityLaunch(GEOCACHE_INFO_ACTIVITY_FOLDER);
     }
@@ -189,7 +189,7 @@ public class InfoActivity extends Activity {
 
     @Override
     protected void onPause() {
-        controller.getPreferencesManager().setLastGeocacheInfo(new GeocacheInfo(geoCache.getId(), webView.getScrollY(), pageState.ordinal(), webView.getWidth(), webView.getScale()));
+        controller.getPreferencesManager().setLastInfoState(new InfoState(geoCache.getId(), webView.getScrollY(), pageState.ordinal(), webView.getWidth(), webView.getScale()));
         super.onPause();
     }
 
