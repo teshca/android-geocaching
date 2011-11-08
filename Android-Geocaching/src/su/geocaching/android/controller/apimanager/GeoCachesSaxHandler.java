@@ -2,6 +2,7 @@ package su.geocaching.android.controller.apimanager;
 
 import java.util.LinkedList;
 import java.util.List;
+
 import com.google.android.maps.GeoPoint;
 import org.xml.sax.Attributes;
 import org.xml.sax.SAXException;
@@ -13,7 +14,7 @@ import su.geocaching.android.model.GeoCacheType;
 
 /**
  * Class for parsing data from geocaching.su and put it in the List of GeoCache. Parse XML file is as follows:
- *
+ * <p/>
  * <pre>
  *         {@code
  *         <c>
@@ -28,7 +29,7 @@ import su.geocaching.android.model.GeoCacheType;
  *         </c>
  *         }
  * </pre>
- * 
+ *
  * @author Nikita Bumakov
  */
 class GeoCachesSaxHandler extends DefaultHandler {
@@ -75,7 +76,7 @@ class GeoCachesSaxHandler extends DefaultHandler {
     @Override
     public void endElement(String uri, String localName, String qName) throws SAXException {
         if (text != null) {
-            text.trim();
+            text = text.trim();
         }
 
         if (localName.equalsIgnoreCase(ID)) {
