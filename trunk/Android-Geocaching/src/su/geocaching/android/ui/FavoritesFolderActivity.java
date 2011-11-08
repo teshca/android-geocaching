@@ -162,21 +162,14 @@ public class FavoritesFolderActivity extends ListActivity {
                 final String sortBy = getString(R.string.sort_by);
                 final String byName = getString(R.string.by_name);
                 final String byDistance = getString(R.string.by_distance);
-                final String[] items = {byName, byDistance};
+                final String[] items = {byDistance, byName};
                 int selectedPosition = Controller.getInstance().getPreferencesManager().getFavoritesSortType();
 
                 AlertDialog.Builder builder = new AlertDialog.Builder(this);
                 builder.setTitle(sortBy);
                 builder.setSingleChoiceItems(items, selectedPosition, new DialogInterface.OnClickListener() {
-                    public void onClick(DialogInterface dialog, int item) {
-                        switch (item) {
-                            case 0:
-                                sort(FavoritesArrayAdapter.SortType.BY_NAME);
-                                break;
-                            case 1:
-                                sort(FavoritesArrayAdapter.SortType.BY_DIST);
-                                break;
-                        }
+                    public void onClick(DialogInterface dialog, int position) {
+                        sort(FavoritesArrayAdapter.SortType.values()[position]);
                         dialog.cancel();
                     }
                 });
