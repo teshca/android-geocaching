@@ -3,7 +3,7 @@ package su.geocaching.android.model;
 /**
  * @author dmitry
  */
-public class GeocacheInfo {
+public class InfoState {
 
   private int cacheId;
   private int scroll;
@@ -11,7 +11,7 @@ public class GeocacheInfo {
   private int width;
   private float scale;
 
-  public GeocacheInfo(int cacheId, int scroll, int pageState, int width, float scale) {
+  public InfoState(int cacheId, int scroll, int pageState, int width, float scale) {
     this.cacheId = cacheId;
     this.scroll = scroll;
     this.pageState = pageState;

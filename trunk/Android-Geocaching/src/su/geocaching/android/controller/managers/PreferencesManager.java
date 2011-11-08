@@ -125,27 +125,27 @@ public class PreferencesManager {
     }
 
     /**
-     * @param info with data to save
+     * @param infoState with data to save
      */
-    public synchronized void setLastGeocacheInfo(GeocacheInfo info) {
-        if (info != null) {
+    public synchronized void setLastInfoState(InfoState infoState) {
+        if (infoState != null) {
             SharedPreferences.Editor editor = preferences.edit();
-            editor.putInt("info_cacheId", info.getCacheId());
-            editor.putInt("info_pagestate", info.getPageState());
-            editor.putInt("info_scroll", info.getScroll());
-            editor.putInt("info_width", info.getWidth());
-            editor.putFloat("info_scale", info.getScale());
+            editor.putInt("info_cacheId", infoState.getCacheId());
+            editor.putInt("info_pagestate", infoState.getPageState());
+            editor.putInt("info_scroll", infoState.getScroll());
+            editor.putInt("info_width", infoState.getWidth());
+            editor.putFloat("info_scale", infoState.getScale());
             editor.commit();
         }
     }
 
-    public synchronized GeocacheInfo getLastGeocacheInfo() {
+    public synchronized InfoState getLastInfoState() {
         int cacheId = preferences.getInt("info_cacheId", -1);
         int state = preferences.getInt("info_pagestate", 0);
         int scroll = preferences.getInt("info_scroll", 0);
         int width = preferences.getInt("info_width", 0);
         float scale = preferences.getFloat("info_scale", 0);
-        return new GeocacheInfo(cacheId, scroll, state, width, scale);
+        return new InfoState(cacheId, scroll, state, width, scale);
     }
 
     public void setDownloadNoteBookAlways(boolean downloadAlways) {

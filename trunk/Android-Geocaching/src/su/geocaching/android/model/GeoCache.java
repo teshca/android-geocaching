@@ -84,10 +84,8 @@ public class GeoCache implements Parcelable {
         // ! Important order of writing to parcel
         arg0.writeInt(id);
         arg0.writeString(name);
-        int[] data = new int[2];
-        data[0] = locationGeoPoint.getLatitudeE6();
-        data[1] = locationGeoPoint.getLongitudeE6();
-        arg0.writeIntArray(data);
+        arg0.writeInt(locationGeoPoint.getLatitudeE6());
+        arg0.writeInt(locationGeoPoint.getLongitudeE6());
         arg0.writeInt(type.ordinal());
         arg0.writeInt(status.ordinal());
     }
@@ -106,9 +104,7 @@ public class GeoCache implements Parcelable {
             GeoCache res = new GeoCache();
             res.id = in.readInt();
             res.name = in.readString();
-            int[] location = new int[2];
-            in.readIntArray(location);
-            res.locationGeoPoint = new GeoPoint(location[0], location[1]);
+            res.locationGeoPoint = new GeoPoint(in.readInt(), in.readInt());
             res.type = GeoCacheType.values()[in.readInt()];
             res.status = GeoCacheStatus.values()[in.readInt()];
             return res;
