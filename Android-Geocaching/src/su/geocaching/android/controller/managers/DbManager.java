@@ -175,7 +175,7 @@ public class DbManager extends SQLiteOpenHelper {
     /**
      * @return ArrayList GeoCaches in database. Null if in database haven't GeoCache
      */
-    public ArrayList<GeoCache> getArrayGeoCache() {
+    public ArrayList<GeoCache> getFavoritesGeoCaches() {
         ArrayList<GeoCache> exitCollection = new ArrayList<GeoCache>();
         Cursor cur = db.rawQuery(String.format("select %s,%s,%s,%s,%s,%s from %s", COLUMN_ID, COLUMN_NAME, COLUMN_TYPE, COLUMN_STATUS, COLUMN_LAT, COLUMN_LON, DATABASE_NAME_TABLE), null);
 

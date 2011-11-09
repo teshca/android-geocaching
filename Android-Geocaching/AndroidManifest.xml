@@ -64,7 +64,8 @@
 
         <activity
                 android:name="su.geocaching.android.ui.FavoritesFolderActivity"
-                android:theme="@android:style/Theme.Light.NoTitleBar">
+                android:theme="@android:style/Theme.Light.NoTitleBar"
+                android:launchMode="singleTop">
             <intent-filter>
                 <action android:name="android.intent.action.RUN"/>
                 <category android:name="android.intent.category.DEFAULT"/>

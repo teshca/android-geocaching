@@ -5,13 +5,12 @@ import android.content.pm.PackageManager;
 import android.hardware.SensorManager;
 import android.location.LocationManager;
 import android.os.Handler;
-import com.google.android.maps.GeoPoint;
-import su.geocaching.android.controller.apimanager.DownloadGeoCachesTask;
+import android.widget.ArrayAdapter;
+import su.geocaching.android.controller.adapters.FavoritesArrayAdapter;
 import su.geocaching.android.controller.apimanager.GeocachingSuApiManager;
 import su.geocaching.android.controller.apimanager.IApiManager;
 import su.geocaching.android.controller.managers.*;
 import su.geocaching.android.model.GeoCache;
-import su.geocaching.android.ui.selectmap.SelectMapActivity;
 import su.geocaching.android.ui.selectmap.SelectMapViewModel;
 
 import java.util.LinkedList;
@@ -25,10 +24,6 @@ public class Controller {
     private static final String TAG = Controller.class.getCanonicalName();
     public static final boolean DEBUG = true;// it is constant really need, because compiler can remove code blocks which cannot be execute. Visibility is public because LogManager and
     // AnalyticsManager use this constant
-
-
-    public static final int WHAT_ACTION_HIDE_SORT_LIST = 0;
-
 
     private static Controller instance;
     private Context applicationContext;

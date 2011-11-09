@@ -7,14 +7,11 @@ import android.app.SearchManager;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
-import android.os.Message;
 import android.os.Parcelable;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
-import android.view.animation.Animation;
-import android.view.animation.AnimationUtils;
 import android.widget.ListView;
 import android.widget.TextView;
 import su.geocaching.android.controller.Controller;
@@ -24,7 +21,7 @@ import su.geocaching.android.controller.managers.LogManager;
 import su.geocaching.android.controller.managers.NavigationManager;
 import su.geocaching.android.model.GeoCache;
 
-import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Class for create ListActivity with favorites caches
@@ -37,7 +34,6 @@ public class FavoritesFolderActivity extends ListActivity {
     private static final int SORT_TYPE_DIALOG_ID = 0;
     private static final int DELETE_CACHE_DIALOG_ID = 1;
 
-
     private DbManager dbManager;
     private FavoritesArrayAdapter favoriteGeoCachesAdapter;
     private TextView tvNoCache;
@@ -49,36 +45,33 @@ public class FavoritesFolderActivity extends ListActivity {
         LogManager.d(TAG, "onCreate");
         setContentView(R.layout.favorites_folder_activity);
 
-        favoriteGeoCachesAdapter = new FavoritesArrayAdapter(this);
-        dbManager = Controller.getInstance().getDbManager();
-        favoriteGeoCachesAdapter.gcItems = dbManager.getArrayGeoCache();
-
         tvNoCache = (TextView) findViewById(R.id.tvNoCacheFound);
+        dbManager = Controller.getInstance().getDbManager();
 
+        favoriteGeoCachesAdapter = new FavoritesArrayAdapter(this);
+        favoriteGeoCachesAdapter.setSortType(FavoritesArrayAdapter.GeoCacheSortType.values()[Controller.getInstance().getPreferencesManager().getFavoritesSortType()]);
         getListView().setTextFilterEnabled(true);
-
         setListAdapter(favoriteGeoCachesAdapter);
 
-        ArrayList<GeoCache> geoCachesList = dbManager.getArrayGeoCache();
-        for (GeoCache gc : geoCachesList) {
-            favoriteGeoCachesAdapter.add(gc);
-        }
-
         Intent intent = getIntent();
-        if (Intent.ACTION_SEARCH.equals(intent.getAction())) {
-            String query = intent.getStringExtra(SearchManager.QUERY);
-            getListView().setFilterText(query);
+        handleIntent(intent);
 
-        }
-
-        favoriteGeoCachesAdapter.setSortType(FavoritesArrayAdapter.SortType.values()[Controller.getInstance().getPreferencesManager().getFavoritesSortType()]);
         Controller.getInstance().getGoogleAnalyticsManager().trackActivityLaunch(FAVORITES_FOLDER);
     }
 
     @Override
     protected void onResume() {
+        super.onResume();
 
-        if (favoriteGeoCachesAdapter.gcItems.isEmpty()) {
+        List<GeoCache> favoritesList = dbManager.getFavoritesGeoCaches();
+
+        favoriteGeoCachesAdapter.clear();
+        favoriteGeoCachesAdapter.add(favoritesList);
+        favoriteGeoCachesAdapter.setAllItemsArray(favoritesList);
+        favoriteGeoCachesAdapter.sort();
+        favoriteGeoCachesAdapter.notifyDataSetChanged();
+
+        if (favoriteGeoCachesAdapter.isEmpty()) {
             tvNoCache.setVisibility(View.VISIBLE);
         } else {
             tvNoCache.setVisibility(View.GONE);
@@ -88,7 +81,19 @@ public class FavoritesFolderActivity extends ListActivity {
             getListView().onRestoreInstanceState(listState);
         }
         listState = null;
-        super.onResume();
+    }
+
+    @Override
+    protected void onNewIntent(Intent intent) {
+        setIntent(intent);
+        handleIntent(intent);
+    }
+
+    private void handleIntent(Intent intent) {
+        if (Intent.ACTION_SEARCH.equals(intent.getAction())) {
+            String query = intent.getStringExtra(SearchManager.QUERY);
+            getListView().setFilterText(query);
+        }
     }
 
     @Override
@@ -169,7 +174,7 @@ public class FavoritesFolderActivity extends ListActivity {
                 builder.setTitle(sortBy);
                 builder.setSingleChoiceItems(items, selectedPosition, new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int position) {
-                        sort(FavoritesArrayAdapter.SortType.values()[position]);
+                        sort(FavoritesArrayAdapter.GeoCacheSortType.values()[position]);
                         dialog.cancel();
                     }
                 });
@@ -199,7 +204,7 @@ public class FavoritesFolderActivity extends ListActivity {
 
     }
 
-    private void sort(FavoritesArrayAdapter.SortType sortType) {
+    private void sort(FavoritesArrayAdapter.GeoCacheSortType sortType) {
         favoriteGeoCachesAdapter.setSortType(sortType);
         favoriteGeoCachesAdapter.sort();
         favoriteGeoCachesAdapter.notifyDataSetChanged();
