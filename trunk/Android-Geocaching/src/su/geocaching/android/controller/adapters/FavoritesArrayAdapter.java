@@ -18,7 +18,9 @@ import su.geocaching.android.ui.R;
 import su.geocaching.android.ui.compass.OneThreadCompassView;
 
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.Comparator;
+import java.util.List;
 
 /**
  * @author Nikita Bumakov
@@ -27,21 +29,22 @@ public class FavoritesArrayAdapter extends BaseArrayAdapter<GeoCache> implements
 
     private static final String TAG = FavoritesArrayAdapter.class.getCanonicalName();
 
-    private final Object mLock = new Object();
-    private ItemsFilter mFilter;
     private Comparator distanceComparator = new DistanceComparator();
     private Comparator nameComparator = new NameComparator();
-    public ArrayList<GeoCache> gcItems;
+
+    private List<GeoCache> allItemsArray;
+    private List<GeoCache> filteredItemsArray;
+    private ModelFilter filter;
 
     private UserLocationManager locationManager;
     private ResourceManager rm;
     private Location lastLocation;
 
-    public enum SortType {
+    public enum GeoCacheSortType {
         BY_DIST, BY_NAME
     }
 
-    private SortType sortType;
+    private GeoCacheSortType sortType;
 
 
     public FavoritesArrayAdapter(final Context context) {
@@ -49,14 +52,21 @@ public class FavoritesArrayAdapter extends BaseArrayAdapter<GeoCache> implements
         locationManager = Controller.getInstance().getLocationManager();
         lastLocation = locationManager.getLastKnownLocation();
         rm = Controller.getInstance().getResourceManager();
-        sortType = SortType.BY_DIST;
+        sortType = GeoCacheSortType.BY_DIST;
+
+        this.allItemsArray = new ArrayList<GeoCache>();
+//        allItemsArray.addAll(list);
+//        this.add(list);
+        this.filteredItemsArray = new ArrayList<GeoCache>();
+        filteredItemsArray.addAll(allItemsArray);
+        getFilter();
     }
 
-//    @Override
-//    public void add(GeoCache object) {
-//        super.add(object);
-//        sortByDistance();
-//    }
+    public void add(Collection<GeoCache> collection) {
+        for (GeoCache geoCache : collection) {
+            add(geoCache);
+        }
+    }
 
     @Override
     public View getView(int position, View cv, ViewGroup parent) {
@@ -96,10 +106,10 @@ public class FavoritesArrayAdapter extends BaseArrayAdapter<GeoCache> implements
      * Implementing the Filterable interface.
      */
     public Filter getFilter() {
-        if (mFilter == null) {
-            mFilter = new ItemsFilter();
+        if (filter == null) {
+            filter = new ModelFilter();
         }
-        return mFilter;
+        return filter;
     }
 
     private void sortByDistance() {
@@ -121,7 +131,7 @@ public class FavoritesArrayAdapter extends BaseArrayAdapter<GeoCache> implements
         }
     }
 
-    public void setSortType(SortType sortType) {
+    public void setSortType(GeoCacheSortType sortType) {
         this.sortType = sortType;
     }
 
@@ -166,59 +176,48 @@ public class FavoritesArrayAdapter extends BaseArrayAdapter<GeoCache> implements
         }
     }
 
-    private class ItemsFilter extends Filter {
+    private class ModelFilter extends Filter {
 
-        protected FilterResults performFiltering(CharSequence query) {
-            // Initiate our results object
-            FilterResults results = new FilterResults();
-            // If the adapter array is empty, check the actual items array and use it
-            if (gcItems == null) {
-                synchronized (mLock) {
-                    gcItems = new ArrayList<GeoCache>(gcItems);
+        @Override
+        protected FilterResults performFiltering(CharSequence constraint) {
+
+            constraint = constraint.toString().toLowerCase();
+            FilterResults result = new FilterResults();
+            if (constraint != null && constraint.toString().length() > 0) {
+                ArrayList<GeoCache> filteredItems = new ArrayList<GeoCache>();
+
+                for (int i = 0, l = allItemsArray.size(); i < l; i++) {
+                    GeoCache m = allItemsArray.get(i);
+                    if (m.getName().toLowerCase().contains(constraint))
+                        filteredItems.add(m);
                 }
-            }
-            // No prefix is sent to filter by so we're going to send back the original array
-            if (query == null || query.length() == 0) {
-                synchronized (mLock) {
-                    results.values = gcItems;
-                    results.count = gcItems.size();
-                }
+                result.count = filteredItems.size();
+                result.values = filteredItems;
             } else {
-                // Local to here so we're not changing actual array
-                final ArrayList<GeoCache> items = gcItems;
-                final int count = items.size();
-                final ArrayList<GeoCache> newItems = new ArrayList<GeoCache>(count);
-                for (int i = 0; i < count; i++) {
-                    final GeoCache item = items.get(i);
-                    final String itemName = item.getName().toString().toLowerCase();
-                    // First match against the whole, non-splitted value
-                    if (itemName.contains(query.toString().toLowerCase())) {
-                        newItems.add(item);
-                    }
+                synchronized (this) {
+                    result.values = allItemsArray;
+                    result.count = allItemsArray.size();
                 }
-                // Set and return
-                results.values = newItems;
-                results.count = newItems.size();
             }
-            gcItems = (ArrayList<GeoCache>) results.values;
-            return results;
+            return result;
         }
 
         @SuppressWarnings("unchecked")
-        protected void publishResults(CharSequence prefix, FilterResults results) {
-            //noinspection unchecked
+        @Override
+        protected void publishResults(CharSequence constraint, FilterResults results) {
 
+            filteredItemsArray = (ArrayList<GeoCache>) results.values;
+            notifyDataSetChanged();
             clear();
-            for (GeoCache gc : gcItems) {
-                add(gc);
-            }
+            for (int i = 0, l = filteredItemsArray.size(); i < l; i++)
+                add(filteredItemsArray.get(i));
             sort();
-            // Let the adapter know about the updated list
-            if (results.count > 0) {
-                notifyDataSetChanged();
-            } else {
-                notifyDataSetInvalidated();
-            }
+            notifyDataSetInvalidated();
+             notifyDataSetChanged();
         }
+    }
+
+    public void setAllItemsArray(List<GeoCache> allItemsArray) {
+        this.allItemsArray = allItemsArray;
     }
 }

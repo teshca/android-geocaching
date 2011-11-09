@@ -16,7 +16,7 @@
 
         <View style="@style/TitleBarSeparator"/>
 
-        <!-- SortType list -->
+        <!-- GeoCacheSortType list -->
         <ImageView android:id="@+id/actionSearch"
                    style="@style/ActionBarIcon"
                    android:src="@drawable/ic_action_sort"
@@ -52,36 +52,5 @@
               android:visibility="gone"
               android:layout_below="@id/titleBar"/>
 
-    <!-- SortType List -->
-    <!--
-    <LinearLayout android:id="@+id/layoutActionSortList"
-                  android:layout_height="wrap_content"
-                  android:layout_width="wrap_content"
-                  android:layout_margin="2dp"
-                  android:orientation="vertical"
-                  android:background="@drawable/action_list_bg"
-                  android:visibility="gone"
-                  android:clickable="true"
-                  android:layout_below="@id/titleBar"
-                  android:layout_alignParentRight="true">
-        <TextView android:layout_height="wrap_content"
-                  android:layout_width="fill_parent"
-                  android:layout_margin="3dp"
-                  android:text="@string/sort_by"
-                  android:textSize="@dimen/text_size_medium"
-                  android:textColor="@color/dashboard_text_color"
-                  android:textStyle="bold"/>
-        <Button android:layout_height="wrap_content"
-                android:layout_width="fill_parent"
-                android:layout_margin="3dp"
-                android:text="@string/by_name"
-                android:onClick="sortByName"/>
-        <Button android:layout_height="wrap_content"
-                android:layout_width="fill_parent"
-                android:layout_margin="3dp"
-                android:text="@string/by_distance"
-                android:onClick="sortByDistance"/>
-    </LinearLayout>
-    -->
 </RelativeLayout>
 
