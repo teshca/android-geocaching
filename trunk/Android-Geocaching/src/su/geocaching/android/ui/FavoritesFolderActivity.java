@@ -118,9 +118,6 @@ public class FavoritesFolderActivity extends ListActivity {
         } else {
             menu.getItem(0).setEnabled(true);
         }
-        if (Intent.ACTION_SEARCH.equals(getIntent().getAction())) {
-            menu.getItem(0).setVisible(false);
-        }
         return super.onPrepareOptionsMenu(menu);
     }
 
