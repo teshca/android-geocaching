@@ -155,7 +155,7 @@ public class NavigationManager {
     }
 
 
-    private static Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse("market://details?id=su.geocaching.android.ui"));
+    private static Intent marketIntent = new Intent(Intent.ACTION_VIEW, Uri.parse("market://details?id=su.geocaching.android.ui"));
     /**
      * Run Android Market application
      * @param context parent context
@@ -164,7 +164,7 @@ public class NavigationManager {
         if (isAndroidMarketAvailable(context))
         {
             Controller.getInstance().getGoogleAnalyticsManager().trackExternalActivityLaunch("/AndroidMarket");
-            context.startActivity(intent);
+            context.startActivity(marketIntent);
         }
     }
     /**
@@ -173,6 +173,6 @@ public class NavigationManager {
      */
     public static boolean isAndroidMarketAvailable(Context context)
     {
-        return context.getPackageManager().queryIntentActivities(intent, PackageManager.COMPONENT_ENABLED_STATE_DEFAULT).size() > 0;
+        return context.getPackageManager().queryIntentActivities(marketIntent, PackageManager.COMPONENT_ENABLED_STATE_DEFAULT).size() > 0;
     }
 }
