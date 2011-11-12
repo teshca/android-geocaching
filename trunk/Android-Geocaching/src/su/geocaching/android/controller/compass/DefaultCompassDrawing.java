@@ -8,7 +8,7 @@ import su.geocaching.android.ui.R;
 
 /**
  * Default appearance of the compass
- * 
+ *
  * @author Nikita Bumakov
  */
 public class DefaultCompassDrawing extends AbstractCompassDrawing {
@@ -26,7 +26,7 @@ public class DefaultCompassDrawing extends AbstractCompassDrawing {
         textPaint.setAntiAlias(true);
         textPaint.setStyle(Style.STROKE);
         textPaint.setStrokeWidth(0.8f);
-        
+
         bitmapPaint.setFilterBitmap(true);
     }
 
@@ -132,5 +132,10 @@ public class DefaultCompassDrawing extends AbstractCompassDrawing {
         canvas.drawCircle(0, 0, needleWidth * 1.5f, paint);
 
         return bitmap;
+    }
+
+    @Override
+    public String getType() {
+        return TYPE_CLASSIC;
     }
 }

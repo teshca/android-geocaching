@@ -9,7 +9,9 @@ import su.geocaching.android.ui.R;
  */
 public class PreviewCompassDrawing extends AbstractCompassDrawing {
 
+    private float direction;
     private Paint bitmapPaint = new Paint();
+
     private static Bitmap arrowBitmap;       //one bitmap used for all views     TODO recycle it
 
     public PreviewCompassDrawing() {
@@ -37,17 +39,13 @@ public class PreviewCompassDrawing extends AbstractCompassDrawing {
         centerY = h / 2;
     }
 
-    private float direction;
-
     @Override
     public void drawCacheArrow(Canvas canvas, float direction) {
         this.direction = direction;
+    }
 
-//        canvas.save();
-//        canvas.translate(centerX, centerY); // !!!
-//        canvas.rotate(direction);
-//        canvas.drawBitmap(arrowBitmap, -arrowBitmap.getWidth() / 2, -arrowBitmap.getHeight() / 2, bitmapPaint);
-//        canvas.rotate(-direction);
-//        canvas.restore();
+    @Override
+    public String getType() {
+        return TYPE_PREVIEW;
     }
 }
