@@ -175,6 +175,11 @@ public class FavoritesFolderActivity extends ListActivity {
                         dialog.cancel();
                     }
                 });
+                builder.setNegativeButton(getString(R.string.cancel), new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int id) {
+                        dialog.cancel();
+                    }
+                });
                 return builder.create();
             }
             case DELETE_CACHE_DIALOG_ID: {
@@ -187,7 +192,8 @@ public class FavoritesFolderActivity extends ListActivity {
                         tvNoCache.setVisibility(View.VISIBLE);
                         dialog.cancel();
                     }
-                }).setNegativeButton(getString(R.string.no), new DialogInterface.OnClickListener() {
+                });
+                builder.setNegativeButton(getString(R.string.no), new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int id) {
                         dialog.cancel();
                     }
