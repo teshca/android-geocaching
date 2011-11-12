@@ -41,20 +41,17 @@ public class NavigationManager {
         context.startActivity(intent);
     }
 
-    public static void startSelectMapActivity(Context context)
-    {
+    public static void startSelectMapActivity(Context context){
         Intent intent = new Intent(context, SelectMapActivity.class);
         context.startActivity(intent);
     }
 
-    public static void startPreferencesActivity(Context context)
-    {
+    public static void startPreferencesActivity(Context context){
         Intent intent = new Intent(context, DashboardPreferenceActivity.class);
         context.startActivity(intent);
     }
 
-    public static void startFavoritesActivity(Context context)
-    {
+    public static void startFavoritesActivity(Context context){
         Intent intent = new Intent(context, FavoritesFolderActivity.class);
         context.startActivity(intent);
     }
@@ -171,8 +168,7 @@ public class NavigationManager {
      * Check if Android Market application is available
      * @param context parent context
      */
-    public static boolean isAndroidMarketAvailable(Context context)
-    {
+    public static boolean isAndroidMarketAvailable(Context context){
         return context.getPackageManager().queryIntentActivities(marketIntent, PackageManager.COMPONENT_ENABLED_STATE_DEFAULT).size() > 0;
     }
 }

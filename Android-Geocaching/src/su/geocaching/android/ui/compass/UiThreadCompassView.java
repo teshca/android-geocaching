@@ -8,16 +8,17 @@ import su.geocaching.android.controller.Controller;
 import su.geocaching.android.controller.compass.AbstractCompassDrawing;
 import su.geocaching.android.controller.compass.DefaultCompassDrawing;
 import su.geocaching.android.controller.compass.PreviewCompassDrawing;
-import su.geocaching.android.controller.compass.WhiteStandardCompassDrawing;
+import su.geocaching.android.controller.compass.PaleStandardCompassDrawing;
 import su.geocaching.android.controller.managers.IBearingAware;
 import su.geocaching.android.controller.managers.LogManager;
 
 /**
  * @author Nikita Bumakov
  */
-public class OneThreadCompassView extends View implements IBearingAware {
+public class UiThreadCompassView extends View implements IBearingAware {
 
-    private static final String TAG = OneThreadCompassView.class.getCanonicalName();
+    private static final String TAG = UiThreadCompassView.class.getCanonicalName();
+    private static final long MIN_INVALIDATE_TIME = 100; //in ms
 
     private AbstractCompassDrawing compassDrawing;
 
@@ -25,9 +26,9 @@ public class OneThreadCompassView extends View implements IBearingAware {
     private float cacheDirection;
     private boolean isLocationFixed = false;
 
-    public OneThreadCompassView(Context context, AttributeSet attributeSet) {
+    public UiThreadCompassView(Context context, AttributeSet attributeSet) {
         super(context, attributeSet);
-        LogManager.d(TAG, "new OneThreadCompassView");
+        LogManager.d(TAG, "new UiThreadCompassView");
     }
 
     @Override
@@ -59,15 +60,18 @@ public class OneThreadCompassView extends View implements IBearingAware {
     }
 
     /**
-     * @param string //TODO describe it
+     * @param helperType //TODO describe it
      */
-    // TODO too many objects
-    public void setHelper(String string) {
-        if (string.equals("CLASSIC") && !(compassDrawing instanceof DefaultCompassDrawing)) {
+    public void setHelper(String helperType) {
+        if (compassDrawing != null && helperType.equals(compassDrawing.getType())) {
+            return;
+        }
+
+        if (helperType.equals(AbstractCompassDrawing.TYPE_CLASSIC)) {
             compassDrawing = new DefaultCompassDrawing();
-        } else if (string.equals("PALE") && !(compassDrawing instanceof WhiteStandardCompassDrawing)) {
-            compassDrawing = new WhiteStandardCompassDrawing();
-        } else if (string.equals("PREVIEW") && !(compassDrawing instanceof PreviewCompassDrawing)) {
+        } else if (helperType.equals(AbstractCompassDrawing.TYPE_PALE)) {
+            compassDrawing = new PaleStandardCompassDrawing();
+        } else if (helperType.equals(AbstractCompassDrawing.TYPE_PREVIEW)) {
             compassDrawing = new PreviewCompassDrawing();
         }
 
@@ -75,20 +79,6 @@ public class OneThreadCompassView extends View implements IBearingAware {
             compassDrawing.onSizeChanged(getWidth(), getHeight());
         }
     }
-
-//    @Override
-//    protected void onAttachedToWindow() {
-//        super.onAttachedToWindow();
-//        LogManager.d("***", "onAttachedToWindow");
-//        Controller.getInstance().getCompassManager().addSubscriber(this);
-//    }
-//
-//    @Override
-//    protected void onDetachedFromWindow() {
-//        super.onDetachedFromWindow();
-//        LogManager.d("***", "onDetachedFromWindow");
-//        Controller.getInstance().getCompassManager().removeSubscriber(this);
-//    }
 
     @Override
     //TODO check that this method work, onDetachedFromWindow don't work
@@ -102,9 +92,16 @@ public class OneThreadCompassView extends View implements IBearingAware {
         }
     }
 
+    private long time = 0;
+
     @Override
+    //TODO: check this method
     public void updateBearing(float bearing) {
-        northDirection = -bearing;
-        invalidate();
+        long newTime = System.currentTimeMillis();
+        if (newTime - time > MIN_INVALIDATE_TIME) {
+            northDirection = -bearing;
+            invalidate();
+            time = newTime;
+        }
     }
 }

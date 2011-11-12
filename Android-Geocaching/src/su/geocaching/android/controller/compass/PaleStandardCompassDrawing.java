@@ -9,10 +9,15 @@ import su.geocaching.android.ui.R;
  *
  * @author Nikita Bumakov
  */
-public class WhiteStandardCompassDrawing extends DefaultCompassDrawing {
+public class PaleStandardCompassDrawing extends DefaultCompassDrawing {
 
-    public WhiteStandardCompassDrawing() {
+    public PaleStandardCompassDrawing() {
         super();
         roseBitmap = BitmapFactory.decodeResource(Controller.getInstance().getResourceManager().getResources(), R.drawable.compass_rose_pale);
+    }
+
+    @Override
+    public String getType() {
+        return TYPE_PALE;
     }
 }

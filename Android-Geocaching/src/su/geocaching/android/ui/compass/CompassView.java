@@ -115,15 +115,18 @@ public class CompassView extends SurfaceView implements SurfaceHolder.Callback, 
     }
 
     /**
-     * @param string //TODO describe it
+     * @param helperType //TODO describe it
      */
-    // TODO too many objects
-    public void setHelper(String string) {
-        if (string.equals("CLASSIC") && !(compassDrawing instanceof DefaultCompassDrawing)) {
+    public void setHelper(String helperType) {
+        if(compassDrawing != null && helperType.equals(compassDrawing.getType())){
+            return;
+        }
+
+        if (helperType.equals(AbstractCompassDrawing.TYPE_CLASSIC)) {
             compassDrawing = new DefaultCompassDrawing();
-        } else if (string.equals("PALE") && !(compassDrawing instanceof WhiteStandardCompassDrawing)) {
-            compassDrawing = new WhiteStandardCompassDrawing();
-        } else if (string.equals("PREVIEW") && !(compassDrawing instanceof PreviewCompassDrawing)) {
+        } else if (helperType.equals(AbstractCompassDrawing.TYPE_PALE)) {
+            compassDrawing = new PaleStandardCompassDrawing();
+        } else if (helperType.equals(AbstractCompassDrawing.TYPE_PREVIEW)) {
             compassDrawing = new PreviewCompassDrawing();
         }
 

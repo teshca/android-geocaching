@@ -12,6 +12,10 @@ import su.geocaching.android.ui.R;
  */
 public abstract class AbstractCompassDrawing {
 
+    public static final String TYPE_CLASSIC = "CLASSIC"; //TODO: this taken from pref xml. Something must be done with this
+    public static final String TYPE_PALE = "PALE"; //TODO: this taken from pref xml. Something must be done with this
+    public static final String TYPE_PREVIEW = "PREVIEW"; //TODO: this taken from pref xml. Something must be done with this
+
     public static final String AZIMUTH_FORMAT = "%.1f°";
 
     protected int centerX, centerY;
@@ -60,4 +64,6 @@ public abstract class AbstractCompassDrawing {
      *            - direction to the cache relative to 0 degrees
      */
     public abstract void drawCacheArrow(Canvas canvas, float cacheDirection);
+
+    public abstract String getType();
 }

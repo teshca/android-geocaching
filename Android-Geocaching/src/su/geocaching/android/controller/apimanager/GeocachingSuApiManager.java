@@ -3,7 +3,9 @@ package su.geocaching.android.controller.apimanager;
 import javax.xml.parsers.ParserConfigurationException;
 import javax.xml.parsers.SAXParser;
 import javax.xml.parsers.SAXParserFactory;
+import java.io.FilterInputStream;
 import java.io.IOException;
+import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
@@ -12,9 +14,18 @@ import java.util.*;
 import java.util.concurrent.ExecutionException;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
+
 import android.content.Context;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.net.http.AndroidHttpClient;
 import android.os.AsyncTask;
+import android.util.Log;
 import android.widget.Toast;
+import org.apache.http.HttpEntity;
+import org.apache.http.HttpResponse;
+import org.apache.http.HttpStatus;
+import org.apache.http.client.methods.HttpGet;
 import org.xml.sax.InputSource;
 import org.xml.sax.SAXException;
 import su.geocaching.android.controller.Controller;
@@ -103,14 +114,14 @@ public class GeocachingSuApiManager implements IApiManager {
         return new URL(request);
     }
 
-  /**
-   * This method starts DownloadInfoTask
-   *
-   * @param context ontext for showing progress bar while photos downloading
-   * @param state of downloading process
-   * @param infoActivity  infoActivity need for callback
-   * @param cacheId cacheId id of geocache
-   */
+    /**
+     * This method starts DownloadInfoTask
+     *
+     * @param context      ontext for showing progress bar while photos downloading
+     * @param state        of downloading process
+     * @param infoActivity infoActivity need for callback
+     * @param cacheId      cacheId id of geocache
+     */
     @Override
     public void getInfo(Context context, DownloadInfoState state, InfoActivity infoActivity, int cacheId) {
         if (downloadInfoTask != null) {
@@ -120,13 +131,13 @@ public class GeocachingSuApiManager implements IApiManager {
         downloadInfoTask.execute();
     }
 
-   /**
-    * This method download html page with photo links from geocaching.su, extract links and start DownloadPhotoTask for this urls
-    *
-    * @param context for showing progress bar while photos downloading
-    * @param infoActivity need for callback
-    * @param cacheId id of geocache
-    */
+    /**
+     * This method download html page with photo links from geocaching.su, extract links and start DownloadPhotoTask for this urls
+     *
+     * @param context      for showing progress bar while photos downloading
+     * @param infoActivity need for callback
+     * @param cacheId      id of geocache
+     */
     @Override
     public void getPhotos(Context context, InfoActivity infoActivity, int cacheId) {
 
@@ -135,21 +146,21 @@ public class GeocachingSuApiManager implements IApiManager {
             return;
         }
 
-        String HtmlWithPhotoLinks = "";
+        String htmlWithPhotoLinks = "";
         try {
-            HtmlWithPhotoLinks = new DownloadInfoTask(null, cacheId, infoActivity, DownloadInfoState.DOWNLOAD_PHOTO_PAGE).execute().get();
+            htmlWithPhotoLinks = new DownloadInfoTask(null, cacheId, infoActivity, DownloadInfoState.DOWNLOAD_PHOTO_PAGE).execute().get();
         } catch (InterruptedException e) {
             LogManager.e(TAG, e.getMessage(), e);
         } catch (ExecutionException e) {
             LogManager.e(TAG, e.getMessage(), e);
         }
 
-        if (HtmlWithPhotoLinks == null) {
+        if (htmlWithPhotoLinks == null) {
             Toast.makeText(context, context.getString(R.string.no_photo_from_server), Toast.LENGTH_LONG).show();
             return;
         }
         Pattern linkPattern = Pattern.compile("\\s*(?i)href\\s*=\\s*(\"([^\"]*\")|'[^']*'|([^'\">\\s]+))");
-        Matcher pageMatcher = linkPattern.matcher(HtmlWithPhotoLinks);
+        Matcher pageMatcher = linkPattern.matcher(htmlWithPhotoLinks);
         ArrayList<String> links = new ArrayList<String>();
         while (pageMatcher.find()) {
             links.add(pageMatcher.group());
@@ -171,6 +182,30 @@ public class GeocachingSuApiManager implements IApiManager {
             infoActivity.showErrorMessage(R.string.no_photo);
         } else {
             new DownloadPhotoTask(context, infoActivity, cacheId).execute(photoUrls.toArray(new URL[photoUrls.size()]));
+        }
+    }
+
+    public static class FlushedInputStream extends FilterInputStream {
+        public FlushedInputStream(InputStream inputStream) {
+            super(inputStream);
+        }
+
+        @Override
+        public long skip(long n) throws IOException {
+            long totalBytesSkipped = 0L;
+            while (totalBytesSkipped < n) {
+                long bytesSkipped = in.skip(n - totalBytesSkipped);
+                if (bytesSkipped == 0L) {
+                    int b = read();
+                    if (b < 0) {
+                        break;  // we reached EOF
+                    } else {
+                        bytesSkipped = 1; // we read one byte
+                    }
+                }
+                totalBytesSkipped += bytesSkipped;
+            }
+            return totalBytesSkipped;
         }
     }
 }

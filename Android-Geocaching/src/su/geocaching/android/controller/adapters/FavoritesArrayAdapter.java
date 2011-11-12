@@ -9,13 +9,14 @@ import android.widget.Filterable;
 import android.widget.ImageView;
 import android.widget.TextView;
 import su.geocaching.android.controller.Controller;
+import su.geocaching.android.controller.compass.AbstractCompassDrawing;
 import su.geocaching.android.controller.managers.LogManager;
 import su.geocaching.android.controller.managers.ResourceManager;
 import su.geocaching.android.controller.managers.UserLocationManager;
 import su.geocaching.android.controller.utils.CoordinateHelper;
 import su.geocaching.android.model.GeoCache;
 import su.geocaching.android.ui.R;
-import su.geocaching.android.ui.compass.OneThreadCompassView;
+import su.geocaching.android.ui.compass.UiThreadCompassView;
 
 import java.util.ArrayList;
 import java.util.Collection;
@@ -141,7 +142,7 @@ public class FavoritesArrayAdapter extends BaseArrayAdapter<GeoCache> implements
         final TextView textViewStatus;
         final TextView textViewDistance;
         final ImageView imageViewIcon;
-        final OneThreadCompassView compassView;
+        final UiThreadCompassView compassView;
 
 
         public Holder(final View textViewName, final View textViewType, final View textViewStatus, final View imageViewIcon, final View compassView, final View textViewDistance) {
@@ -149,9 +150,9 @@ public class FavoritesArrayAdapter extends BaseArrayAdapter<GeoCache> implements
             this.textViewType = (TextView) textViewType;
             this.textViewStatus = (TextView) textViewStatus;
             this.imageViewIcon = (ImageView) imageViewIcon;
-            this.compassView = (OneThreadCompassView) compassView;
+            this.compassView = (UiThreadCompassView) compassView;
             this.textViewDistance = (TextView) textViewDistance;
-            this.compassView.setHelper("PREVIEW");
+            this.compassView.setHelper(AbstractCompassDrawing.TYPE_PREVIEW);
         }
     }
 
