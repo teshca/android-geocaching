@@ -32,12 +32,11 @@ public class SelectMapViewModel {
     private Projection projection;
     private int mapWidth, mapHeight;
 
-    public void beginUpdateGeocacheOverlay(Projection projection, int mapWidth, int mapHeight) {
+    public void beginUpdateGeocacheOverlay(GeoRect viewPort, Projection projection, int mapWidth, int mapHeight) {
         cancelGroupTask();
-        final GeoPoint tl = projection.fromPixels(0, 0);
-        final GeoPoint br = projection.fromPixels(mapWidth, mapHeight);
-        final GeoRect rect = new GeoRect(tl, br);
-        new DownloadGeoCachesTask(this).execute(rect);
+
+        LogManager.d(TAG, "Update rectangle %s", viewPort);
+        new DownloadGeoCachesTask(this).execute(viewPort);
         increaseDownloadTaskCount();
 
         this.projection = projection;
