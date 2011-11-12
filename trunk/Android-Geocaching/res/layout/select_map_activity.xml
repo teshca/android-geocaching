@@ -30,7 +30,7 @@
     <com.google.android.maps.MapView
             android:id="@+id/selectGeocacheMap"
             android:layout_width="fill_parent"
-            android:layout_height="fill_parent"
+            android:layout_height="wrap_content"
             android:layout_below="@id/titleBar"
             android:clickable="true"
             android:apiKey="@string/google_map_api_key"/>

@@ -2,6 +2,8 @@ package su.geocaching.android.ui.selectmap;
 
 import android.app.Dialog;
 import android.content.Intent;
+import android.graphics.Point;
+import android.graphics.Rect;
 import android.location.Location;
 import android.os.Bundle;
 import android.os.Debug;
@@ -16,6 +18,7 @@ import com.google.android.maps.MapActivity;
 import com.google.android.maps.MapView;
 import org.apache.commons.logging.Log;
 import su.geocaching.android.controller.Controller;
+import su.geocaching.android.controller.apimanager.GeoRect;
 import su.geocaching.android.controller.managers.*;
 import su.geocaching.android.controller.selectmap.mapupdatetimer.MapUpdateTimer;
 import su.geocaching.android.controller.utils.CoordinateHelper;
@@ -182,15 +185,24 @@ public class SelectMapActivity extends MapActivity implements IConnectionAware, 
                 new Runnable() {
                     @Override
                     public void run() {
-                        if (mapView.getLongitudeSpan() >= 360E6 && mapView.getLatitudeSpan() >= 160E6)
-                        {
-                            LogManager.w(TAG, "Request to update whole the map");
-                            // TODO: process this situation
-                        }
-                        selectMapViewModel.beginUpdateGeocacheOverlay(mapView.getProjection(), mapView.getWidth(), mapView.getHeight());
+                        GeoRect viewPort = getCurrentGeoRect();
+                        selectMapViewModel.beginUpdateGeocacheOverlay(viewPort, mapView.getProjection(), mapView.getWidth(), mapView.getHeight());
                     }
                 }
         );
+    }
+
+    private GeoRect getCurrentGeoRect()
+    {
+        final int MAX_LONG = (int) 180E6;
+        GeoPoint tl = mapView.getProjection().fromPixels(0, 0);
+        GeoPoint br = mapView.getProjection().fromPixels(mapView.getWidth(), mapView.getHeight());
+        if (mapView.getLongitudeSpan() >= 2 * MAX_LONG)
+        {
+            tl = new GeoPoint(tl.getLatitudeE6(), -MAX_LONG + 1);
+            br = new GeoPoint(br.getLatitudeE6(), MAX_LONG);
+        }
+        return new GeoRect(tl, br);
     }
 
     public synchronized void updateGeoCacheOverlay(List<GeoCacheOverlayItem> overlayItemList) {
