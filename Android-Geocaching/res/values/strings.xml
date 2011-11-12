@@ -5,4 +5,5 @@
 	<string name="yes">Да</string>
 	<string name="no">Нет</string>
 	<string name="save">Сохранить</string>
+    <string name="cancel">Отмена</string>
 </resources>
