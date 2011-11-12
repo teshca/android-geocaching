@@ -1,7 +1,6 @@
 package su.geocaching.android.ui.selectmap;
 
 import android.os.AsyncTask;
-import com.google.android.maps.GeoPoint;
 import com.google.android.maps.Projection;
 import su.geocaching.android.controller.Controller;
 import su.geocaching.android.controller.apimanager.DownloadGeoCachesTask;
@@ -22,22 +21,24 @@ public class SelectMapViewModel {
     private static final int MIN_GROUP_CACHE_NUMBER = 8;
     private static final int MAX_OVERLAY_ITEMS_NUMBER = 100;
 
-    private int downloadTasksCount = 0;
     private SelectMapActivity activity;
 
     private GroupGeoCacheTask groupTask = null;
+    private DownloadGeoCachesTask downloadTask = null;
     // TODO: also keep current viewport, don't run any update if viewport is the same
     private List<GeoCacheOverlayItem> currentGeoCacheOverlayItems = new LinkedList<GeoCacheOverlayItem>();
 
     private Projection projection;
     private int mapWidth, mapHeight;
 
-    public void beginUpdateGeocacheOverlay(GeoRect viewPort, Projection projection, int mapWidth, int mapHeight) {
+    public synchronized void beginUpdateGeocacheOverlay(GeoRect viewPort, Projection projection, int mapWidth, int mapHeight) {
         cancelGroupTask();
 
         LogManager.d(TAG, "Update rectangle %s", viewPort);
-        new DownloadGeoCachesTask(this).execute(viewPort);
-        increaseDownloadTaskCount();
+        cancelDownloadTask();
+        downloadTask = new DownloadGeoCachesTask(this);
+        downloadTask.execute(viewPort);
+        onShowDownloadingInfo();
 
         this.projection = projection;
         this.mapWidth = mapWidth;
@@ -45,7 +46,7 @@ public class SelectMapViewModel {
     }
 
     public synchronized void geocacheListDownloaded(List<GeoCache> geoCacheList) {
-        decreaseDownloadTaskCount();
+        onHideDownloadingInfo();
         if (geoCacheList == null || geoCacheList.size() == 0) {
             return;
         }
@@ -86,6 +87,13 @@ public class SelectMapViewModel {
         }
     }
 
+    private synchronized void cancelDownloadTask() {
+        if (downloadTask != null && !downloadTask.isCancelled()) {
+            // don't interrupt if already running
+            downloadTask.cancel(false);
+        }
+    }
+
     private synchronized void onUpdateGeocacheOverlay() {
         if (activity != null) {
             activity.updateGeoCacheOverlay(currentGeoCacheOverlayItems);
@@ -98,33 +106,16 @@ public class SelectMapViewModel {
         }
     }
 
-    public Projection getProjection()
-    {
+    public Projection getProjection() {
         return projection;
     }
 
-    public int getMapHeight()
-    {
+    public int getMapHeight() {
         return mapHeight;
     }
 
-    public int getMapWidth()
-    {
+    public int getMapWidth() {
         return mapWidth;
-    }
-
-    private synchronized void increaseDownloadTaskCount() {
-        if (downloadTasksCount == 0) {
-            onShowDownloadingInfo();
-        }
-        downloadTasksCount++;
-    }
-
-    private synchronized void decreaseDownloadTaskCount() {
-        downloadTasksCount--;
-        if (downloadTasksCount == 0) {
-            onHideDownloadingInfo();
-        }
     }
 
     private synchronized void onHideDownloadingInfo() {
@@ -162,7 +153,7 @@ public class SelectMapViewModel {
         if (groupTask != null && !groupTask.isCancelled() && (groupTask.getStatus() != AsyncTask.Status.FINISHED)) {
             onShowGroupingInfo();
         }
-        if (downloadTasksCount != 0) {
+        if (downloadTask != null && !downloadTask.isCancelled() && (downloadTask.getStatus() != AsyncTask.Status.FINISHED)) {
             onShowDownloadingInfo();
         }
     }
@@ -172,6 +163,7 @@ public class SelectMapViewModel {
             LogManager.e(TAG, "Attempt to unregister activity while activity is null");
         }
         this.activity = null;
+        cancelDownloadTask();
         cancelGroupTask();
     }
 }
