@@ -41,7 +41,8 @@ import su.geocaching.android.ui.R;
 public class InfoActivity extends Activity {
 
     private static final String TAG = InfoActivity.class.getCanonicalName();
-    private static final String GEOCACHE_INFO_ACTIVITY_FOLDER = "/GeoCacheInfoActivity";
+    private static final int DOWNLOAD_NOTEBOOK_DIALOG_ID = 0;
+    private static final String GEOCACHE_INFO_ACTIVITY_NAME = "/GeoCacheInfoActivity";
 
     private static final String PAGE_TYPE = "page type";
     private static final String SCROLLY = "scrollY";
@@ -86,7 +87,7 @@ public class InfoActivity extends Activity {
             webView.setInitialScale((int) (infoState.getScale() * 100));
             lastWidth = infoState.getWidth();
         }
-        controller.getGoogleAnalyticsManager().trackActivityLaunch(GEOCACHE_INFO_ACTIVITY_FOLDER);
+        controller.getGoogleAnalyticsManager().trackActivityLaunch(GEOCACHE_INFO_ACTIVITY_NAME);
     }
 
     private void initViews() {
@@ -195,8 +196,19 @@ public class InfoActivity extends Activity {
 
     @Override
     protected Dialog onCreateDialog(int id) {
-        return new DownloadNotebookDialog(this, this, geoCache.getId());
+        switch (id) {
+            case DOWNLOAD_NOTEBOOK_DIALOG_ID:
+                return new DownloadNotebookDialog(this, downloadNotebookListener);
+            default:
+                return null;
+        }
     }
+
+    private ConfirmDialogResultListener downloadNotebookListener = new ConfirmDialogResultListener() {
+        public void onConfirm() {
+           downloadNotebookInformation();
+        }
+    };
 
     @Override
     protected void onSaveInstanceState(Bundle outState) {
@@ -396,17 +408,19 @@ public class InfoActivity extends Activity {
         if (cbFavoriteCache.isChecked()) {
             if (notebook == null) {
                 if (controller.getPreferencesManager().getDownloadNoteBookAlways()) {
-                    {
-                        controller.getApiManager().getInfo(this, DownloadInfoState.SAVE_CACHE_NOTEBOOK, this, geoCache.getId());
-                    }
+                    downloadNotebookInformation();
                 } else {
-                    showDialog(0);
+                    showDialog(DOWNLOAD_NOTEBOOK_DIALOG_ID);
                 }
             }
             saveCache();
         } else {
             deleteCache();
         }
+    }
+
+    private void downloadNotebookInformation() {
+        controller.getApiManager().getInfo(this, DownloadInfoState.SAVE_CACHE_NOTEBOOK, this, geoCache.getId());
     }
 
     private void saveCache() {
@@ -505,7 +519,8 @@ public class InfoActivity extends Activity {
 
     private void askSavePicture() {
         AlertDialog.Builder builder = new AlertDialog.Builder(context);
-        builder.setMessage(context.getString(R.string.ask_download_photos)).setPositiveButton(context.getString(R.string.yes), new DialogInterface.OnClickListener() {
+        builder.setMessage(context.getString(R.string.ask_download_photos))
+        .setPositiveButton(context.getString(R.string.yes), new DialogInterface.OnClickListener() {
             public void onClick(DialogInterface dialog, int id) {
                 controller.getApiManager().getPhotos(context, InfoActivity.this, InfoActivity.this.geoCache.getId());
             }

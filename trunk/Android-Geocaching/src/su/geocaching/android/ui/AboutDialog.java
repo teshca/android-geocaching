@@ -10,7 +10,7 @@ import su.geocaching.android.controller.Controller;
 
 public class AboutDialog extends AlertDialog {
 
-    protected AboutDialog(Context context) {
+    public AboutDialog(Context context) {
         super(context);
     }
 
@@ -26,7 +26,7 @@ public class AboutDialog extends AlertDialog {
         View aboutContentView = inflater.inflate(R.layout.about_dialog, null);
         setView(aboutContentView);
         // add exit button
-        setButton(getContext().getString(R.string.about_exit_button_text),
+        setButton(BUTTON_NEUTRAL, getContext().getString(R.string.about_exit_button_text),
                 new OnClickListener() {
                     public void onClick(DialogInterface dialog, int id) {
                         dialog.dismiss();

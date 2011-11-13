@@ -21,14 +21,14 @@ public class EnableConnectionDialog extends AlertDialog {
         setTitle(getContext().getString(R.string.connection_problem_dialog_title));
         setMessage(getContext().getString(R.string.connection_problem_dialog_message));
         setCancelable(false);
-        setButton(getContext().getString(R.string.yes), new DialogInterface.OnClickListener() {
+        setButton(BUTTON_POSITIVE, getContext().getString(R.string.yes), new DialogInterface.OnClickListener() {
             public void onClick(DialogInterface dialog, int id) {
                 Intent intent = new Intent(Settings.ACTION_WIRELESS_SETTINGS);
                 getContext().startActivity(intent);
                 dialog.dismiss();
             }
         });
-        setButton2(getContext().getString(R.string.no), new DialogInterface.OnClickListener() {
+        setButton(BUTTON_NEGATIVE, getContext().getString(R.string.no), new DialogInterface.OnClickListener() {
             public void onClick(DialogInterface dialog, int id) {
                 getOwnerActivity().finish();
                 dialog.cancel();
