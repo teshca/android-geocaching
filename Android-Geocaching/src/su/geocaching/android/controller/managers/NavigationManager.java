@@ -66,7 +66,7 @@ public class NavigationManager {
     }
 
     /**
-     * Open SearchMapActivity activity and finish this
+     * Open SearchMapActivity activity
      */
     public static void startSearchMapActivity(Context context, GeoCache geoCache) {
         Intent intent = new Intent(context, SearchMapActivity.class);
@@ -158,8 +158,7 @@ public class NavigationManager {
      * @param context parent context
      */
     public static void startAndroidMarketActivity(Context context) {
-        if (isAndroidMarketAvailable(context))
-        {
+        if (isAndroidMarketAvailable(context)) {
             Controller.getInstance().getGoogleAnalyticsManager().trackExternalActivityLaunch("/AndroidMarket");
             context.startActivity(marketIntent);
         }
@@ -168,7 +167,7 @@ public class NavigationManager {
      * Check if Android Market application is available
      * @param context parent context
      */
-    public static boolean isAndroidMarketAvailable(Context context){
+    public static boolean isAndroidMarketAvailable(Context context) {
         return context.getPackageManager().queryIntentActivities(marketIntent, PackageManager.COMPONENT_ENABLED_STATE_DEFAULT).size() > 0;
     }
 }

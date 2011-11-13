@@ -1,52 +1,55 @@
 package su.geocaching.android.ui.info;
 
-import su.geocaching.android.controller.Controller;
-import su.geocaching.android.controller.apimanager.DownloadInfoTask.DownloadInfoState;
-import su.geocaching.android.controller.managers.LogManager;
-import android.app.Dialog;
-import android.content.Context;
+import android.app.AlertDialog;
+import android.content.DialogInterface;
+import android.os.Bundle;
+import android.view.LayoutInflater;
 import android.view.View;
-import android.widget.Button;
+import su.geocaching.android.controller.Controller;
+import su.geocaching.android.controller.managers.LogManager;
+import android.content.Context;
 import android.widget.CheckBox;
-import android.widget.CompoundButton;
-import android.widget.CompoundButton.OnCheckedChangeListener;
 import su.geocaching.android.ui.R;
 
-public class DownloadNotebookDialog extends Dialog {
+public class DownloadNotebookDialog extends AlertDialog {
 
     private static final String TAG = DownloadNotebookDialog.class.getCanonicalName();
 
-    public DownloadNotebookDialog(final Context context, final InfoActivity infoActivity, final int cacheId) {
-        super(context);
-        LogManager.d(TAG, "New DownloadNotebookDialog created");
+    private ConfirmDialogResultListener resultListener;
 
-        setContentView(R.layout.save_notebook_dialog);
+    protected DownloadNotebookDialog(final Context context, final ConfirmDialogResultListener resultListener) {
+        super(context);
+        this.resultListener = resultListener;
+    }
+
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        // set icon
+        //setIcon(R.drawable.ic_launcher);
+        // set title
         setTitle(R.string.ask_download_notebook_title);
+        // set content
+        LayoutInflater inflater = (LayoutInflater)getContext().getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+        View aboutContentView = inflater.inflate(R.layout.save_notebook_dialog, null);
+        setView(aboutContentView);
+        // add yes button
+        setButton(BUTTON_POSITIVE, getContext().getString(R.string.yes), new DialogInterface.OnClickListener() {
+            public void onClick(DialogInterface dialog, int id) {
+                final CheckBox downloadNoteBookAlways = (CheckBox) findViewById(R.id.downloadNoteBookAlways);
+                Controller.getInstance().getPreferencesManager().setDownloadNoteBookAlways(downloadNoteBookAlways.isChecked());
+                resultListener.onConfirm();
+                dialog.dismiss();
+            }
+        });
+        // add no button
+        setButton(BUTTON_NEGATIVE, getContext().getString(R.string.no), new DialogInterface.OnClickListener() {
+            public void onClick(DialogInterface dialog, int id) {
+                dialog.dismiss();
+            }
+        });
         setCancelable(true);
 
-        CheckBox cbDownloadAlways = (CheckBox) findViewById(R.id.downloadNoteBookAlways);
-        cbDownloadAlways.setOnCheckedChangeListener(new OnCheckedChangeListener() {
-            @Override
-            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                Controller.getInstance().getPreferencesManager().setDownloadNoteBookAlways(isChecked);
-            }
-        });
-
-        Button buttonYes = (Button) findViewById(R.id.ButtonYes);
-        buttonYes.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Controller.getInstance().getApiManager().getInfo(context, DownloadInfoState.SAVE_CACHE_NOTEBOOK, infoActivity, cacheId);
-                dismiss();
-            }
-        });
-
-        Button buttonNo = (Button) findViewById(R.id.ButtonNo);
-        buttonNo.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                dismiss();
-            }
-        });
+        super.onCreate(savedInstanceState);
+        LogManager.d(TAG, "OnCreate");
     }
 }
