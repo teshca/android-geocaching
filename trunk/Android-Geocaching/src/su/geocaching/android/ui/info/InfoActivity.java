@@ -88,6 +88,7 @@ public class InfoActivity extends Activity {
             lastWidth = infoState.getWidth();
         }
         controller.getGoogleAnalyticsManager().trackActivityLaunch(GEOCACHE_INFO_ACTIVITY_NAME);
+        errorMessage = getString(R.string.info_geocach_not_internet_and_not_in_DB);
     }
 
     private void initViews() {
