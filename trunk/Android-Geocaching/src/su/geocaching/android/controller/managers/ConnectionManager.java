@@ -4,15 +4,14 @@ import android.content.Context;
 import android.content.IntentFilter;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
+import su.geocaching.android.controller.ConnectionStateReceiver;
 
 import java.util.ArrayList;
 import java.util.List;
 
-import su.geocaching.android.controller.ConnectionStateReceiver;
-
 /**
  * This class manage classes (named subscribers) which want to get messages about InternetConnectionState
- * 
+ *
  * @author Grigory Kalabin. grigory.kalabin@gmail.com
  * @since December 2010
  */
@@ -27,8 +26,7 @@ public class ConnectionManager {
     private ConnectivityManager connectivityManager;
 
     /**
-     * @param context
-     *            which can give ConnectivityManager
+     * @param context which can give ConnectivityManager
      */
     public ConnectionManager(Context context) {
         this.connectivityManager = (ConnectivityManager) context.getSystemService(Context.CONNECTIVITY_SERVICE);
@@ -40,10 +38,9 @@ public class ConnectionManager {
     }
 
     /**
-     * @param activity
-     *            which will be added
+     * @param activity which will be added
      */
-    public synchronized void  addSubscriber(IConnectionAware activity) {
+    public synchronized void addSubscriber(IConnectionAware activity) {
         if (subscribers.contains(activity)) {
             LogManager.w(TAG, "add subscriber: already added. Not change list. Count of list " + Integer.toString(subscribers.size()));
             return;
@@ -56,8 +53,7 @@ public class ConnectionManager {
     }
 
     /**
-     * @param activity
-     *            which will be removed
+     * @param activity which will be removed
      * @return true if that activity has been contain in list of subscribers
      */
     public synchronized boolean removeSubscriber(IConnectionAware activity) {
@@ -95,6 +91,11 @@ public class ConnectionManager {
 
     public boolean isActiveNetworkConnected() {
         NetworkInfo activeNetInfo = connectivityManager.getActiveNetworkInfo();
+        return activeNetInfo != null && activeNetInfo.isConnectedOrConnecting();
+    }
+
+    public boolean isWifiConnected() {
+        NetworkInfo activeNetInfo = connectivityManager.getNetworkInfo(ConnectivityManager.TYPE_WIFI);
         return activeNetInfo != null && activeNetInfo.isConnectedOrConnecting();
     }
 
