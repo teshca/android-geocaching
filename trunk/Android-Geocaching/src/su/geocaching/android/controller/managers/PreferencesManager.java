@@ -158,6 +158,16 @@ public class PreferencesManager {
         return preferences.getBoolean(context.getString(R.string.remove_cache_without_confirm_key), false);
     }
 
+     public void setDownloadPhotosAlways(boolean downloadPhotosAlways) {
+        SharedPreferences.Editor editor = preferences.edit();
+        editor.putBoolean(context.getString(R.string.remove_cache_without_confirm_key), downloadPhotosAlways);
+        editor.commit();
+    }
+
+     public boolean getDownloadPhotosAlways() {
+        return preferences.getBoolean(context.getString(R.string.remove_cache_without_confirm_key), false);
+    }
+
     public boolean getDownloadNoteBookAlways() {
         return preferences.getBoolean(context.getString(R.string.save_notebook_always_key), false);
     }
