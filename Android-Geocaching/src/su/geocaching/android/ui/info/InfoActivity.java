@@ -409,7 +409,11 @@ public class InfoActivity extends Activity {
                     controller.getApiManager().getPhotos(context, InfoActivity.this, InfoActivity.this.geoCache.getId());
                     refresh = false;
                 } else {
-                    showDialog(DOWNLOAD_PICTURE_ALERT_DIALOG_ID);
+                    if (controller.getConnectionManager().isWifiConnected()) {
+                        controller.getApiManager().getPhotos(context, InfoActivity.this, InfoActivity.this.geoCache.getId());
+                    } else {
+                        showDialog(DOWNLOAD_PICTURE_ALERT_DIALOG_ID);
+                    }
                 }
                 break;
             case ERROR:
@@ -544,7 +548,11 @@ public class InfoActivity extends Activity {
                     public void onClick(DialogInterface dialog, int id) {
                         controller.getApiManager().getPhotos(context, InfoActivity.this, InfoActivity.this.geoCache.getId());
                     }
-                }).setCancelable(true);
+                }).setNegativeButton(context.getString(R.string.no), new DialogInterface.OnClickListener() {
+            public void onClick(DialogInterface dialog, int id) {
+                dialog.cancel();
+            }
+        });
         return builder.create();
     }
 }
