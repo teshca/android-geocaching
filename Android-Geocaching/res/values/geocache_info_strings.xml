@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-	<string name="menu_show_web_notebook_cache">Интернет
-		блокнот</string>
+	<string name="menu_show_web_notebook_cache">Интернет блокнот</string>
 	<string name="menu_show_web_add_cache">Сохранить</string>
 	<string name="menu_show_web_delete_cache">Удалить</string>
 	<string name="menu_show_web_search_cache">Искать</string>
@@ -11,7 +10,19 @@
 	<string name="menu_download_cache_photos">Загрузить фотоальбом</string>
 	<string name="menu_refresh">Обновить</string>
     <string name="info_activity_dialog_always_keep">Cохранять всегда</string>
+    <string name="info_activity_dialog_dont_show_again">Больше не спрашивать</string>
 	<string name="info_activity_notes_hint">Заметки для тайника</string>
     <string name="ask_add_cache_in_db">Добавьте тайник в избранное, чтобы иметь возможность добавлять контрольные точки</string>
 	<string name="ask_download_photos">Осторожно трафик. Продолжить?</string>
+
+    <string name="download_info">Загрузка информации</string>
+	<string name="download_notebook">Загрузка блокнота тайника</string>
+	<string name="ask_download_notebook_title">Сохранить вместе с блокнотом?</string>
+	<string name="ask_remove_cache_title">Удалить тайник?</string>
+	<string name="no_free_space">Недостаточно места на SD карте</string>
+	<string name="impossible_to_save_img">Невозможно сохранить фотографии</string>
+	<string name="insert_sd_card">Вставте SD карту</string>
+	<string name="no_internet">Отсутствует соединение с интернетом. Попробуйте позже</string>
+	<string name="no_photo_from_server">Не удалось получить фотографии с сервера. Попробуйте позже</string>
+	<string name="no_photo">Фотографий этого тайника нет</string>
 </resources>

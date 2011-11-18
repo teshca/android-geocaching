@@ -1,7 +1,5 @@
 package su.geocaching.android.ui.info;
 
-import java.io.File;
-
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.Dialog;
@@ -23,14 +21,16 @@ import android.widget.TextView;
 import android.widget.Toast;
 import com.google.android.maps.GeoPoint;
 import su.geocaching.android.controller.Controller;
-import su.geocaching.android.controller.apimanager.GeocachingSuApiManager;
 import su.geocaching.android.controller.apimanager.DownloadInfoTask.DownloadInfoState;
+import su.geocaching.android.controller.apimanager.GeocachingSuApiManager;
 import su.geocaching.android.controller.managers.LogManager;
 import su.geocaching.android.controller.managers.NavigationManager;
 import su.geocaching.android.model.GeoCache;
 import su.geocaching.android.model.GeoCacheType;
 import su.geocaching.android.model.InfoState;
 import su.geocaching.android.ui.R;
+
+import java.io.File;
 
 
 /**
@@ -42,6 +42,8 @@ public class InfoActivity extends Activity {
 
     private static final String TAG = InfoActivity.class.getCanonicalName();
     private static final int DOWNLOAD_NOTEBOOK_DIALOG_ID = 0;
+    private static final int DOWNLOAD_PICTURE_ALERT_DIALOG_ID = 1;
+    private static final int REMOVE_CACHE_ALERT_DIALOG_ID = 2;
     private static final String GEOCACHE_INFO_ACTIVITY_NAME = "/GeoCacheInfoActivity";
 
     private static final String PAGE_TYPE = "page type";
@@ -200,6 +202,10 @@ public class InfoActivity extends Activity {
         switch (id) {
             case DOWNLOAD_NOTEBOOK_DIALOG_ID:
                 return new DownloadNotebookDialog(this, downloadNotebookListener);
+            case DOWNLOAD_PICTURE_ALERT_DIALOG_ID:
+                return createSavePictureAlertDialog();
+            case REMOVE_CACHE_ALERT_DIALOG_ID:
+                return new RemoveFavoriteCacheDialog(this, removeCacheListener);
             default:
                 return null;
         }
@@ -207,7 +213,14 @@ public class InfoActivity extends Activity {
 
     private ConfirmDialogResultListener downloadNotebookListener = new ConfirmDialogResultListener() {
         public void onConfirm() {
-           downloadNotebookInformation();
+            downloadNotebookInformation();
+        }
+    };
+
+    private ConfirmDialogResultListener removeCacheListener = new ConfirmDialogResultListener() {
+        public void onConfirm() {
+            cbFavoriteCache.setChecked(false);
+            deleteCache();
         }
     };
 
@@ -396,7 +409,7 @@ public class InfoActivity extends Activity {
                     controller.getApiManager().getPhotos(context, InfoActivity.this, InfoActivity.this.geoCache.getId());
                     refresh = false;
                 } else {
-                    askSavePicture();
+                    showDialog(DOWNLOAD_PICTURE_ALERT_DIALOG_ID);
                 }
                 break;
             case ERROR:
@@ -416,7 +429,13 @@ public class InfoActivity extends Activity {
             }
             saveCache();
         } else {
-            deleteCache();
+            boolean forceDelete = controller.getPreferencesManager().getRemoveFavoriteWithoutConfirm();
+            if (forceDelete) {
+                deleteCache();
+            } else {
+                cbFavoriteCache.setChecked(true);
+                showDialog(REMOVE_CACHE_ALERT_DIALOG_ID);
+            }
         }
     }
 
@@ -518,18 +537,14 @@ public class InfoActivity extends Activity {
         return (imageNames != null) && (imageNames.length != 0);
     }
 
-    private void askSavePicture() {
+    private Dialog createSavePictureAlertDialog() {
         AlertDialog.Builder builder = new AlertDialog.Builder(context);
         builder.setMessage(context.getString(R.string.ask_download_photos))
-        .setPositiveButton(context.getString(R.string.yes), new DialogInterface.OnClickListener() {
-            public void onClick(DialogInterface dialog, int id) {
-                controller.getApiManager().getPhotos(context, InfoActivity.this, InfoActivity.this.geoCache.getId());
-            }
-        }).setNegativeButton(context.getString(R.string.no), new DialogInterface.OnClickListener() {
-            public void onClick(DialogInterface dialog, int id) {
-                dialog.cancel();
-            }
-        });
-        builder.show();
+                .setPositiveButton(context.getString(R.string.yes), new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int id) {
+                        controller.getApiManager().getPhotos(context, InfoActivity.this, InfoActivity.this.geoCache.getId());
+                    }
+                }).setCancelable(true);
+        return builder.create();
     }
 }

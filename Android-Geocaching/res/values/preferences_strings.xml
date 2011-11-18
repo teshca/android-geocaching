@@ -184,6 +184,11 @@
 
     <!-- Other -->
     <string name="prefs_favorites_sort_key">favorites_sort</string>
+    <string name="remove_cache_without_confirm_key">removeCacheWithoutConfirm</string>
+    <string name="save_notebook_always_title">Сохранять блокнот</string>
+    <string name="save_notebook_always_key">downloadNoteBookAlways</string>
+    <string name="save_notebook_always_summary">Всегда сохранять блокнот тайника</string>
+    <bool name="save_notebook_always_value">false</bool>
 
 
 </resources>

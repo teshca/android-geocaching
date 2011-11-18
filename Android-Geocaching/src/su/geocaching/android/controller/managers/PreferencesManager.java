@@ -148,10 +148,14 @@ public class PreferencesManager {
         return new InfoState(cacheId, scroll, state, width, scale);
     }
 
-    public void setDownloadNoteBookAlways(boolean downloadAlways) {
+    public void setRemoveFavoriteWithoutConfirm(boolean forceRemove) {
         SharedPreferences.Editor editor = preferences.edit();
-        editor.putBoolean(context.getString(R.string.save_notebook_always_key), downloadAlways);
+        editor.putBoolean(context.getString(R.string.remove_cache_without_confirm_key), forceRemove);
         editor.commit();
+    }
+
+     public boolean getRemoveFavoriteWithoutConfirm() {
+        return preferences.getBoolean(context.getString(R.string.remove_cache_without_confirm_key), false);
     }
 
     public boolean getDownloadNoteBookAlways() {
