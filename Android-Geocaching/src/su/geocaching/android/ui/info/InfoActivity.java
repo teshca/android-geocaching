@@ -1,10 +1,8 @@
 package su.geocaching.android.ui.info;
 
 import android.app.Activity;
-import android.app.AlertDialog;
 import android.app.Dialog;
 import android.content.Context;
-import android.content.DialogInterface;
 import android.graphics.Picture;
 import android.os.Bundle;
 import android.os.Environment;
@@ -203,7 +201,7 @@ public class InfoActivity extends Activity {
             case DOWNLOAD_NOTEBOOK_DIALOG_ID:
                 return new DownloadNotebookDialog(this, downloadNotebookListener);
             case DOWNLOAD_PICTURE_ALERT_DIALOG_ID:
-                return createSavePictureAlertDialog();
+                return new DownloadPhotosDialog(this, downloadPhotoListener);
             case REMOVE_CACHE_ALERT_DIALOG_ID:
                 return new RemoveFavoriteCacheDialog(this, removeCacheListener);
             default:
@@ -221,6 +219,12 @@ public class InfoActivity extends Activity {
         public void onConfirm() {
             cbFavoriteCache.setChecked(false);
             deleteCache();
+        }
+    };
+
+    private ConfirmDialogResultListener downloadPhotoListener = new ConfirmDialogResultListener() {
+        public void onConfirm() {
+            controller.getApiManager().getPhotos(context, InfoActivity.this, InfoActivity.this.geoCache.getId());
         }
     };
 
@@ -409,7 +413,7 @@ public class InfoActivity extends Activity {
                     controller.getApiManager().getPhotos(context, InfoActivity.this, InfoActivity.this.geoCache.getId());
                     refresh = false;
                 } else {
-                    if (controller.getConnectionManager().isWifiConnected()) {
+                    if (controller.getConnectionManager().isWifiConnected() || controller.getPreferencesManager().getDownloadPhotosAlways()) {
                         controller.getApiManager().getPhotos(context, InfoActivity.this, InfoActivity.this.geoCache.getId());
                     } else {
                         showDialog(DOWNLOAD_PICTURE_ALERT_DIALOG_ID);
@@ -539,20 +543,5 @@ public class InfoActivity extends Activity {
         File dir = new File(Environment.getExternalStorageDirectory(), String.format(this.getString(R.string.cache_directory), cacheId));
         String[] imageNames = dir.list();
         return (imageNames != null) && (imageNames.length != 0);
-    }
-
-    private Dialog createSavePictureAlertDialog() {
-        AlertDialog.Builder builder = new AlertDialog.Builder(context);
-        builder.setMessage(context.getString(R.string.ask_download_photos))
-                .setPositiveButton(context.getString(R.string.yes), new DialogInterface.OnClickListener() {
-                    public void onClick(DialogInterface dialog, int id) {
-                        controller.getApiManager().getPhotos(context, InfoActivity.this, InfoActivity.this.geoCache.getId());
-                    }
-                }).setNegativeButton(context.getString(R.string.no), new DialogInterface.OnClickListener() {
-            public void onClick(DialogInterface dialog, int id) {
-                dialog.cancel();
-            }
-        });
-        return builder.create();
     }
 }
