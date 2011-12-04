@@ -12,7 +12,6 @@ import su.geocaching.android.controller.Controller;
 import su.geocaching.android.controller.compass.AbstractCompassDrawing;
 import su.geocaching.android.controller.managers.LogManager;
 import su.geocaching.android.controller.managers.ResourceManager;
-import su.geocaching.android.controller.managers.UserLocationManager;
 import su.geocaching.android.controller.utils.CoordinateHelper;
 import su.geocaching.android.model.GeoCache;
 import su.geocaching.android.ui.R;
@@ -30,14 +29,13 @@ public class FavoritesArrayAdapter extends BaseArrayAdapter<GeoCache> implements
 
     private static final String TAG = FavoritesArrayAdapter.class.getCanonicalName();
 
-    private Comparator distanceComparator = new DistanceComparator();
-    private Comparator nameComparator = new NameComparator();
+    private Comparator<GeoCache> distanceComparator = new DistanceComparator();
+    private Comparator<GeoCache> nameComparator = new NameComparator();
 
     private List<GeoCache> allItemsArray;
     private List<GeoCache> filteredItemsArray;
     private ModelFilter filter;
 
-    private UserLocationManager locationManager;
     private ResourceManager rm;
     private Location lastLocation;
 
@@ -50,8 +48,7 @@ public class FavoritesArrayAdapter extends BaseArrayAdapter<GeoCache> implements
 
     public FavoritesArrayAdapter(final Context context) {
         super(context);
-        locationManager = Controller.getInstance().getLocationManager();
-        lastLocation = locationManager.getLastKnownLocation();
+        lastLocation = Controller.getInstance().getLocationManager().getLastKnownLocation();
         rm = Controller.getInstance().getResourceManager();
         sortType = GeoCacheSortType.BY_DIST;
 
