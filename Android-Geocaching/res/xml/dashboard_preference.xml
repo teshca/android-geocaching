@@ -13,17 +13,15 @@
                 android:title="@string/energy_saving_preference_title" />
 
         <Preference
+                android:key="trafficPreference"
+                android:title="@string/traffic_preference_title" />
+
+        <Preference
                 android:key="internetPreference"
                 android:title="@string/connection_preference_title" />
         <Preference
                 android:key="gpsPreference"
                 android:title="@string/location_preference_title" />
-
-        <CheckBoxPreference
-                android:key="@string/save_notebook_always_key"
-                android:title="@string/save_notebook_always_title"
-                android:defaultValue="@bool/save_notebook_always_value"
-                android:summary="@string/save_notebook_always_summary"/>
 
     </PreferenceCategory>
 </PreferenceScreen>
