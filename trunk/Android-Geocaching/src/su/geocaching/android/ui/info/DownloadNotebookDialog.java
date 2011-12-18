@@ -36,7 +36,7 @@ public class DownloadNotebookDialog extends AlertDialog {
         setButton(BUTTON_POSITIVE, getContext().getString(R.string.yes), new DialogInterface.OnClickListener() {
             public void onClick(DialogInterface dialog, int id) {
                 final CheckBox downloadNoteBookAlways = (CheckBox) findViewById(R.id.downloadNoteBookAlways);
-                Controller.getInstance().getPreferencesManager().setRemoveFavoriteWithoutConfirm(downloadNoteBookAlways.isChecked());
+                Controller.getInstance().getPreferencesManager().setDownloadNoteBookAlways(downloadNoteBookAlways.isChecked());
                 resultListener.onConfirm();
                 dialog.dismiss();
             }
