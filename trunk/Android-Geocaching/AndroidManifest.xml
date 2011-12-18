@@ -81,6 +81,7 @@
         <activity android:name=".preferences.MapPreferenceActivity"/>
         <activity android:name=".preferences.CompassPreferenceActivity"/>
         <activity android:name=".preferences.EnergySavingPreferenceActivity"/>
+        <activity android:name=".preferences.TrafficPreferenceActivity"/>
 
         <!-- checkpoints -->
         <activity

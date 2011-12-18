@@ -45,6 +45,15 @@ public class DashboardPreferenceActivity extends PreferenceActivity {
             }
         });
 
+        Preference trafficPreference = findPreference("trafficPreference");
+        trafficPreference.setOnPreferenceClickListener(new OnPreferenceClickListener() {
+
+            public boolean onPreferenceClick(Preference preference) {
+                startActivity(new Intent(getBaseContext(), TrafficPreferenceActivity.class));
+                return true;
+            }
+        });
+
         Preference internetPreference = findPreference("internetPreference");
         internetPreference.setOnPreferenceClickListener(new OnPreferenceClickListener() {
 

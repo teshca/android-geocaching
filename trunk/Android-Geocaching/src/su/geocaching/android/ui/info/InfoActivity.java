@@ -429,7 +429,7 @@ public class InfoActivity extends Activity {
     public void onFavoritesStarClick(View v) {
         if (cbFavoriteCache.isChecked()) {
             if (notebook == null) {
-                if (controller.getPreferencesManager().getDownloadNoteBookAlways()) {
+                if (controller.getPreferencesManager().getDownloadNoteBookAlways() || controller.getConnectionManager().isWifiConnected()) {
                     downloadNotebookInformation();
                 } else {
                     showDialog(DOWNLOAD_NOTEBOOK_DIALOG_ID);
@@ -514,7 +514,7 @@ public class InfoActivity extends Activity {
         isCacheStored = controller.getDbManager().isCacheStored(geoCache.getId());
         if (!isCacheStored) {
             cbFavoriteCache.setChecked(true);
-            if ((notebook == null) && controller.getPreferencesManager().getDownloadNoteBookAlways()) {
+            if ((notebook == null) && (controller.getPreferencesManager().getDownloadNoteBookAlways() || controller.getConnectionManager().isWifiConnected())) {
                 controller.getApiManager().getInfo(this, DownloadInfoState.SAVE_CACHE_NOTEBOOK_AND_GO_TO_MAP, this, geoCache.getId());
                 return;
             }

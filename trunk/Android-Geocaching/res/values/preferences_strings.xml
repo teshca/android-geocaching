@@ -182,14 +182,22 @@
     <string name="prefer_odometer_key">compass.odometer</string>
     <bool name="prefer_odometer_default_value">false</bool>
 
-    <!-- Other -->
-    <string name="prefs_favorites_sort_key">favorites_sort</string>
-    <string name="remove_cache_without_confirm_key">removeCacheWithoutConfirm</string>
+    <!-- Mobile internet traffic -->
+    <string name="traffic_preference_category_title">Трафик мобильного интернета</string>
+    <string name="traffic_preference_title">Трафик мобильного интернета</string>
+
+    <string name="download_photos_always_title">Сохранять фотографии</string>
     <string name="download_photos_always_key">downloadPhotosAlwaysKey</string>
+    <string name="download_photos_always_summary">Всегда сохранять фотографии тайника</string>
+    <bool name="download_photos_always_value">false</bool>
+
     <string name="save_notebook_always_title">Сохранять блокнот</string>
     <string name="save_notebook_always_key">downloadNoteBookAlways</string>
     <string name="save_notebook_always_summary">Всегда сохранять блокнот тайника</string>
     <bool name="save_notebook_always_value">false</bool>
 
+    <!-- Other -->
+    <string name="prefs_favorites_sort_key">favorites_sort</string>
+    <string name="remove_cache_without_confirm_key">removeCacheWithoutConfirm</string>
 
 </resources>
