@@ -29,16 +29,16 @@ public class CompassManager implements SensorEventListener, ILocationAware {
     private float[] afOrientation = new float[3];
 
     private SensorManager sensorManager;
-    private UserLocationManager locationManager;
+    private AccurateUserLocationManager locationManager;
     private int lastDirection;
     private boolean isCompassAvailable;
-    private List<IBearingAware> subscribers;
+    private final List<IBearingAware> subscribers;
     private boolean isUsingGps;
 
     /**
      * @param sensorManager manager which can add or remove updates of sensors
      */
-    public CompassManager(SensorManager sensorManager, UserLocationManager userLocationManager) {
+    public CompassManager(SensorManager sensorManager, AccurateUserLocationManager userLocationManager) {
         this.sensorManager = sensorManager;
         this.locationManager = userLocationManager;
         isCompassAvailable = sensorManager != null;

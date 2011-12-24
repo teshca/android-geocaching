@@ -19,7 +19,7 @@ import su.geocaching.android.controller.compass.CompassHelper;
 import su.geocaching.android.controller.managers.CheckpointManager;
 import su.geocaching.android.controller.managers.LogManager;
 import su.geocaching.android.controller.managers.NavigationManager;
-import su.geocaching.android.controller.managers.UserLocationManager;
+import su.geocaching.android.controller.managers.AccurateUserLocationManager;
 import su.geocaching.android.model.GeoCache;
 import su.geocaching.android.ui.R;
 
@@ -114,7 +114,7 @@ public class CreateCheckpointActivity extends Activity {
         etAzimuth = (EditText) findViewById(R.id.azimuth);
         etDistance = (EditText) findViewById(R.id.distance);
 
-        UserLocationManager locationManager = Controller.getInstance().getLocationManager();
+        AccurateUserLocationManager locationManager = Controller.getInstance().getLocationManager();
 
         if (locationManager.hasLocation()) {
             currentLocation = CoordinateHelper.locationToGeoPoint(locationManager.getLastKnownLocation());

@@ -38,7 +38,7 @@ public class CompassActivity extends Activity {
     private static final String COMPASS_ACTIVITY = "/CompassActivity";
 
     private SmoothCompassThread animationThread;
-    private UserLocationManager locationManager;
+    private AccurateUserLocationManager locationManager;
     private LocationListener locationListener;
     private PreferencesManager preferenceManager;
 
@@ -202,10 +202,10 @@ public class CompassActivity extends Activity {
     }
 
     private void showHideOdometer() {
-        UserLocationManager.Odometer.refresh();
+        AccurateUserLocationManager.Odometer.refresh();
         boolean isOdometerOn = preferenceManager.isOdometerOnPreference();
         preferenceManager.setOdometerOnPreference(!isOdometerOn);
-        UserLocationManager.Odometer.setEnabled(!isOdometerOn);
+        AccurateUserLocationManager.Odometer.setEnabled(!isOdometerOn);
         updateOdometer();
     }
 
@@ -213,7 +213,7 @@ public class CompassActivity extends Activity {
         if (preferenceManager.isOdometerOnPreference()) {
             startButton = (ImageView) findViewById(R.id.startButton);
             odometerLayout.setVisibility(View.VISIBLE);
-            tvOdometer.setText(CoordinateHelper.distanceToString(UserLocationManager.Odometer.getDistance()));
+            tvOdometer.setText(CoordinateHelper.distanceToString(AccurateUserLocationManager.Odometer.getDistance()));
             toggleStartButton();
         } else {
             odometerLayout.setVisibility(View.GONE);
@@ -221,7 +221,7 @@ public class CompassActivity extends Activity {
     }
 
     private void toggleStartButton() {
-        if (UserLocationManager.Odometer.isEnabled()) {
+        if (AccurateUserLocationManager.Odometer.isEnabled()) {
             startButton.setImageResource(R.drawable.ic_pause);
         } else {
             startButton.setImageResource(R.drawable.ic_play);
@@ -233,12 +233,12 @@ public class CompassActivity extends Activity {
     }
 
     public void onStartStopOdometerClick(View v) {
-        UserLocationManager.Odometer.setEnabled(!UserLocationManager.Odometer.isEnabled());
+        AccurateUserLocationManager.Odometer.setEnabled(!AccurateUserLocationManager.Odometer.isEnabled());
         toggleStartButton();
     }
 
     public void onRefreshOdometerClick(View v) {
-        UserLocationManager.Odometer.refresh();
+        AccurateUserLocationManager.Odometer.refresh();
         tvOdometer.setText(CoordinateHelper.distanceToString(0));
     }
 
@@ -271,11 +271,11 @@ public class CompassActivity extends Activity {
         @Override
         public void updateLocation(Location location) {
             if (tvOdometer.isShown()) {
-                tvOdometer.setText(CoordinateHelper.distanceToString(UserLocationManager.Odometer.getDistance()));
+                tvOdometer.setText(CoordinateHelper.distanceToString(AccurateUserLocationManager.Odometer.getDistance()));
             }
             UiHelper.setGone(progressBarView);
             float distance = CoordinateHelper.getDistanceBetween(controller.getSearchingGeoCache().getLocationGeoPoint(), location);
-            if (distance < CLOSE_DISTANCE_TO_GC_VALUE || UserLocationManager.Odometer.isEnabled()) {
+            if (distance < CLOSE_DISTANCE_TO_GC_VALUE || AccurateUserLocationManager.Odometer.isEnabled()) {
                 controller.getLocationManager().updateFrequency(GpsUpdateFrequency.MAXIMAL);
             } else {
                 controller.getLocationManager().updateFrequencyFromPreferences();
@@ -288,21 +288,21 @@ public class CompassActivity extends Activity {
         @Override
         public void onStatusChanged(String provider, int status, Bundle extras) {
             switch (status) {
-                case UserLocationManager.GPS_EVENT_SATELLITE_STATUS:
+                case AccurateUserLocationManager.GPS_EVENT_SATELLITE_STATUS:
                     // just update status
                     statusText.setText(Controller.getInstance().getLocationManager().getSatellitesStatusString());
                     break;
-                case UserLocationManager.OUT_OF_SERVICE:
+                case AccurateUserLocationManager.OUT_OF_SERVICE:
                     // provider unavailable
                     UiHelper.setVisible(progressBarView);
                     statusText.setText(R.string.gps_status_unavailable);
                     providerUnavailableToast.show();
                     break;
-                case UserLocationManager.TEMPORARILY_UNAVAILABLE:
+                case AccurateUserLocationManager.TEMPORARILY_UNAVAILABLE:
                     // gps connection lost. just show progress bar
                     UiHelper.setVisible(progressBarView);
                     break;
-                case UserLocationManager.EVENT_PROVIDER_DISABLED:
+                case AccurateUserLocationManager.EVENT_PROVIDER_DISABLED:
                     if (LocationManager.GPS_PROVIDER.equals(provider)) {
                         // gps has been turned off
                         showDialog(DIALOG_ID_TURN_ON_GPS);
@@ -310,7 +310,7 @@ public class CompassActivity extends Activity {
                         UiHelper.setGone(statusText);
                     }
                     break;
-                case UserLocationManager.EVENT_PROVIDER_ENABLED:
+                case AccurateUserLocationManager.EVENT_PROVIDER_ENABLED:
                     if (LocationManager.GPS_PROVIDER.equals(provider)) {
                         // gps has been turned on
                         dismissDialog(DIALOG_ID_TURN_ON_GPS);

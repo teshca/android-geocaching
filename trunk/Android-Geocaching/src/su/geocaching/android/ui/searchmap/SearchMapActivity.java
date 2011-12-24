@@ -450,25 +450,25 @@ public class SearchMapActivity extends MapActivity implements IConnectionAware, 
     @Override
     public void onStatusChanged(String provider, int status, Bundle extras) {
         switch (status) {
-            case UserLocationManager.GPS_EVENT_SATELLITE_STATUS:
+            case AccurateUserLocationManager.GPS_EVENT_SATELLITE_STATUS:
                 // just update status
                 gpsStatusTextView.setText(Controller.getInstance().getLocationManager().getSatellitesStatusString());
                 break;
-            case UserLocationManager.OUT_OF_SERVICE:
+            case AccurateUserLocationManager.OUT_OF_SERVICE:
                 // provider unavailable
                 progressBarView.show();
                 gpsStatusTextView.setText(R.string.gps_status_unavailable);
                 providerUnavailableToast.show();
                 break;
-            case UserLocationManager.TEMPORARILY_UNAVAILABLE:
+            case AccurateUserLocationManager.TEMPORARILY_UNAVAILABLE:
                 // gps connection lost. just show progress bar
                 progressBarView.show();
                 break;
-            case UserLocationManager.GPS_EVENT_FIRST_FIX:
+            case AccurateUserLocationManager.GPS_EVENT_FIRST_FIX:
                 // location fixed. hide progress bar
                 progressBarView.hide();
                 break;
-            case UserLocationManager.EVENT_PROVIDER_DISABLED:
+            case AccurateUserLocationManager.EVENT_PROVIDER_DISABLED:
                 if (LocationManager.GPS_PROVIDER.equals(provider)) {
                     // gps has been turned off
                     showDialog(DIALOG_ID_TURN_ON_GPS);
@@ -476,7 +476,7 @@ public class SearchMapActivity extends MapActivity implements IConnectionAware, 
                     UiHelper.setGone(gpsStatusTextView);
                 }
                 break;
-            case UserLocationManager.EVENT_PROVIDER_ENABLED:
+            case AccurateUserLocationManager.EVENT_PROVIDER_ENABLED:
                 if (LocationManager.GPS_PROVIDER.equals(provider)) {
                     // gps has been turned on
                     dismissDialog(DIALOG_ID_TURN_ON_GPS);

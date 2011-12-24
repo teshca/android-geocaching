@@ -109,7 +109,7 @@ public class DynamicUserLocationOverlay extends UserLocationOverlayBase implemen
      * Change behaviour of arrow if location precise or not
      *
      * @param isLocationPrecise true if user location precise
-     * @see su.geocaching.android.controller.managers.UserLocationManager#hasPreciseLocation()
+     * @see su.geocaching.android.controller.managers.AccurateUserLocationManager#hasPreciseLocation()
      */
     public void setLocationPrecise(boolean isLocationPrecise) {
         if (isLocationPrecise) {

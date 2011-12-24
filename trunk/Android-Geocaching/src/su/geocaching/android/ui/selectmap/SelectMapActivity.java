@@ -2,11 +2,8 @@ package su.geocaching.android.ui.selectmap;
 
 import android.app.Dialog;
 import android.content.Intent;
-import android.graphics.Point;
-import android.graphics.Rect;
 import android.location.Location;
 import android.os.Bundle;
-import android.os.Debug;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
@@ -16,7 +13,6 @@ import android.widget.Toast;
 import com.google.android.maps.GeoPoint;
 import com.google.android.maps.MapActivity;
 import com.google.android.maps.MapView;
-import org.apache.commons.logging.Log;
 import su.geocaching.android.controller.Controller;
 import su.geocaching.android.controller.apimanager.GeoRect;
 import su.geocaching.android.controller.managers.*;
@@ -31,7 +27,6 @@ import su.geocaching.android.ui.geocachemap.GeoCacheOverlayItem;
 import su.geocaching.android.ui.preferences.MapPreferenceActivity;
 
 import java.util.List;
-import java.util.logging.Logger;
 
 /**
  * @author Yuri Denison
@@ -44,7 +39,7 @@ public class SelectMapActivity extends MapActivity implements IConnectionAware, 
     private MapView mapView;
     private SelectGeoCacheOverlay selectGeoCacheOverlay;
     private StaticUserLocationOverlay locationOverlay;
-    private UserLocationManager locationManager;
+    private AccurateUserLocationManager locationManager;
     private ConnectionManager connectionManager;
     private ProgressBarView progressBarView;
     private MapUpdateTimer mapTimer;
