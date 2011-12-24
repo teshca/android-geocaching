@@ -92,6 +92,9 @@ public class FavoritesArrayAdapter extends BaseArrayAdapter<GeoCache> implements
             boolean hasPreciseLocation = Controller.getInstance().getLocationManager().hasPreciseLocation();
             float distance = CoordinateHelper.getDistanceBetween(geoCache.getLocationGeoPoint(), lastLocation);
             holder.textViewDistance.setText(CoordinateHelper.distanceToString(distance, hasPreciseLocation));
+        } else {
+            holder.compassView.setVisibility(View.GONE);
+            holder.textViewDistance.setVisibility(View.GONE);
         }
 
         holder.compassView.invalidate();
