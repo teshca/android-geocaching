@@ -5,8 +5,6 @@ import android.content.pm.PackageManager;
 import android.hardware.SensorManager;
 import android.location.LocationManager;
 import android.os.Handler;
-import android.widget.ArrayAdapter;
-import su.geocaching.android.controller.adapters.FavoritesArrayAdapter;
 import su.geocaching.android.controller.apimanager.GeocachingSuApiManager;
 import su.geocaching.android.controller.apimanager.IApiManager;
 import su.geocaching.android.controller.managers.*;
@@ -30,7 +28,7 @@ public class Controller {
 
     private IApiManager apiManager;
 
-    private UserLocationManager locationManager;
+    private AccurateUserLocationManager locationManager;
     private CompassManager compassManager;
     private ConnectionManager connectionManager;
     private ResourceManager resourceManager;
@@ -65,7 +63,7 @@ public class Controller {
     /**
      * @return location manager which can send to ILocationAware location updates
      */
-    public synchronized UserLocationManager getLocationManager() {
+    public synchronized AccurateUserLocationManager getLocationManager() {
         return getLocationManager(applicationContext);
     }
 
@@ -115,10 +113,10 @@ public class Controller {
      * @param context for init manager
      * @return location manager which can send to ILocationAware location updates
      */
-    public synchronized UserLocationManager getLocationManager(Context context) {
+    public synchronized AccurateUserLocationManager getLocationManager(Context context) {
         if (locationManager == null) {
             LogManager.d(TAG, "location manager wasn't init yet. init.");
-            locationManager = new UserLocationManager((LocationManager) context.getSystemService(Context.LOCATION_SERVICE));
+            locationManager = new AccurateUserLocationManager((LocationManager) context.getSystemService(Context.LOCATION_SERVICE));
         }
         return locationManager;
     }

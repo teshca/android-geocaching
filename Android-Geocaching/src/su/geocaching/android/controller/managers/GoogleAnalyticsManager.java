@@ -5,8 +5,11 @@ import android.content.Context;
 import com.google.android.apps.analytics.GoogleAnalyticsTracker;
 import su.geocaching.android.ui.R;
 
+import java.io.PrintWriter;
+import java.io.StringWriter;
+
 public class GoogleAnalyticsManager {
-    private static final int MAX_STACK_TRACE_LENGTH = 100;
+    private static final int MAX_STACK_TRACE_LENGTH = 300;
 
     private GoogleAnalyticsTracker tracker;
     private String applicationVersionName;
@@ -43,19 +46,13 @@ public class GoogleAnalyticsManager {
     }
 
     private void trackException(String category, String tag, Throwable ex) {
-        final String NEW_LINE = " ___ ";
-        String message = ex.getMessage() != null ? ex.getMessage() : "";
-        StringBuilder stackTrace = new StringBuilder(message);
-        stackTrace.append(NEW_LINE);
-        for (StackTraceElement s : ex.getStackTrace()) {
-            stackTrace.append(String.format(" at %s.%s(%s:%d)", s.getClassName(), s.getMethodName(), s.getFileName(), s.getLineNumber()));
-            if (stackTrace.length() > MAX_STACK_TRACE_LENGTH) {
-                stackTrace.append("...");
-                break;
-            }
-            stackTrace.append(NEW_LINE);
-        }
-        tracker.trackEvent(category + ": " + applicationVersionName + ":t100", tag, stackTrace.toString(), 0);
+        final String NEW_LINE = System.getProperty("line.separator");
+        final StringWriter stackTrace = new StringWriter();
+        final PrintWriter printWriter = new PrintWriter(stackTrace);
+        ex.printStackTrace(printWriter);
+        final String exception = stackTrace.toString().substring(0, MAX_STACK_TRACE_LENGTH);
+
+        tracker.trackEvent(category + ": " + applicationVersionName + ":t300-no replace", tag, exception , 0);
         tracker.dispatch();
     }
 }

@@ -18,7 +18,7 @@ import java.util.TimerTask;
  * @author Grigory Kalabin. grigory.kalabin@gmail.com
  * @since fall, 2010
  */
-public class UserLocationManager implements LocationListener, GpsStatus.Listener {
+public class AccurateUserLocationManager implements LocationListener, GpsStatus.Listener {
     /**
      * @see <a href="http://developer.android.com/reference/android/location/LocationProvider.html#OUT_OF_SERVICE">Android reference</a>
      */
@@ -67,7 +67,7 @@ public class UserLocationManager implements LocationListener, GpsStatus.Listener
      */
     public static final int EVENT_PROVIDER_DISABLED = 8;
 
-    private static final String TAG = UserLocationManager.class.getCanonicalName();
+    private static final String TAG = AccurateUserLocationManager.class.getCanonicalName();
     private static final String REMOVE_UPDATES_TIMER_NAME = "remove location updates timer";
     private static final String DEPRECATE_LOCATION_TIMER_NAME = "waiting for location deprecation";
     private static final long REMOVE_UPDATES_DELAY = 30000; // in milliseconds
@@ -75,23 +75,24 @@ public class UserLocationManager implements LocationListener, GpsStatus.Listener
     private static final float PRECISE_LOCATION_MAX_ACCURACY = 40f; // in meters
     private static final float MAX_SPEED_OF_HARDWARE_COMPASS = 20 * 1000 / 3600; // (in m/s) if user speed lower than this - use hardware compass otherwise use GPS compass
 
-    private LocationManager locationManager;
+    private final LocationManager locationManager;
     private Location lastLocation;
     private long lastLocationTime = -1;
-    private String provider = "none";
-    private List<ILocationAware> subscribers;
-    private Timer removeUpdatesTimer;
+    private String provider = null;
+    private final List<ILocationAware> subscribers;
+    private final Timer removeUpdatesTimer;
     private DeprecateLocationNotifier deprecateLocationNotifier;
-    private Timer deprecateLocationTimer;
+    private final Timer deprecateLocationTimer;
     private RemoveUpdatesTask removeUpdatesTask;
     private boolean isUpdating;
+    private final Criteria criteria;
 
     private GpsUpdateFrequency updateFrequency;
 
     /**
      * @param locationManager manager which can add or remove updates of location services
      */
-    public UserLocationManager(LocationManager locationManager) {
+    public AccurateUserLocationManager(LocationManager locationManager) {
         this.locationManager = locationManager;
         lastLocation = lastKnownLocation();
         updateFrequency = Controller.getInstance().getPreferencesManager().getGpsUpdateFrequency();
@@ -101,6 +102,9 @@ public class UserLocationManager implements LocationListener, GpsStatus.Listener
         removeUpdatesTask = new RemoveUpdatesTask(this);
         deprecateLocationTimer = new Timer(DEPRECATE_LOCATION_TIMER_NAME);
         deprecateLocationNotifier = new DeprecateLocationNotifier();
+
+        criteria = new Criteria();
+        criteria.setAccuracy(Criteria.ACCURACY_FINE);
     }
 
     /**
@@ -281,16 +285,14 @@ public class UserLocationManager implements LocationListener, GpsStatus.Listener
         LogManager.d(TAG, "remove location updates at " + Long.toString(System.currentTimeMillis()));
         locationManager.removeUpdates(this);
         locationManager.removeGpsStatusListener(this);
-        provider = "none";
+        provider = null;
         isUpdating = false;
     }
 
     /**
      * Add updates of location
      */
-    private void addUpdates() {
-        Criteria criteria = new Criteria();
-        criteria.setAccuracy(Criteria.ACCURACY_FINE);
+    private synchronized void addUpdates() {
         provider = locationManager.getBestProvider(criteria, true);
         requestLocationUpdates();
         LogManager.d(TAG, "add updates. Provider is " + provider);
@@ -324,8 +326,6 @@ public class UserLocationManager implements LocationListener, GpsStatus.Listener
      * @return true if best provider by accuracy locationAvailable
      */
     public boolean isBestProviderEnabled() {
-        Criteria criteria = new Criteria();
-        criteria.setAccuracy(Criteria.ACCURACY_FINE);
         String bestProv = locationManager.getBestProvider(criteria, false);
         return locationManager.isProviderEnabled(bestProv);
     }
@@ -339,8 +339,6 @@ public class UserLocationManager implements LocationListener, GpsStatus.Listener
             return false;
         }
         LogManager.d(TAG, "request for enable best provider");
-        Criteria criteria = new Criteria();
-        criteria.setAccuracy(Criteria.ACCURACY_FINE);
         String bestProvider = locationManager.getBestProvider(criteria, enabledOnly);
         if (provider.equals(bestProvider)) {
             LogManager.d(TAG, "	best provider (" + provider + ") already running");
@@ -399,8 +397,6 @@ public class UserLocationManager implements LocationListener, GpsStatus.Listener
      * @return name of the best provider by accuracy on device
      */
     public String getBestProvider(boolean isEnable) {
-        Criteria criteria = new Criteria();
-        criteria.setAccuracy(Criteria.ACCURACY_FINE);
         return locationManager.getBestProvider(criteria, isEnable);
     }
 
@@ -464,12 +460,12 @@ public class UserLocationManager implements LocationListener, GpsStatus.Listener
      * @author Grigory Kalabin. grigory.kalabin@gmail.com
      */
     private class RemoveUpdatesTask extends TimerTask {
-        private UserLocationManager parent;
+        private AccurateUserLocationManager parent;
 
         /**
          * @param parent listener which want remove updates
          */
-        public RemoveUpdatesTask(UserLocationManager parent) {
+        public RemoveUpdatesTask(AccurateUserLocationManager parent) {
             this.parent = parent;
             Thread.setDefaultUncaughtExceptionHandler(new UncaughtExceptionsHandler());
         }
