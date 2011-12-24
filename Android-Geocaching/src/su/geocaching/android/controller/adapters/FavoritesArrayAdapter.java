@@ -184,8 +184,7 @@ public class FavoritesArrayAdapter extends BaseArrayAdapter<GeoCache> implements
             if (constraint != null && constraint.toString().length() > 0) {
                 ArrayList<GeoCache> filteredItems = new ArrayList<GeoCache>();
 
-                for (int i = 0, l = allItemsArray.size(); i < l; i++) {
-                    GeoCache m = allItemsArray.get(i);
+                for (GeoCache m : allItemsArray) {
                     if (m.getName().toLowerCase().contains(constraint))
                         filteredItems.add(m);
                 }
@@ -203,15 +202,13 @@ public class FavoritesArrayAdapter extends BaseArrayAdapter<GeoCache> implements
         @SuppressWarnings("unchecked")
         @Override
         protected void publishResults(CharSequence constraint, FilterResults results) {
-
             filteredItemsArray = (ArrayList<GeoCache>) results.values;
             notifyDataSetChanged();
             clear();
-            for (int i = 0, l = filteredItemsArray.size(); i < l; i++)
-                add(filteredItemsArray.get(i));
+            for (GeoCache aFilteredItemsArray : filteredItemsArray) add(aFilteredItemsArray);
             sort();
             notifyDataSetInvalidated();
-             notifyDataSetChanged();
+            notifyDataSetChanged();
         }
     }
 
