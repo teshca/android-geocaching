@@ -39,7 +39,7 @@ public class SelectMapActivity extends MapActivity implements IConnectionAware, 
     private MapView mapView;
     private SelectGeoCacheOverlay selectGeoCacheOverlay;
     private StaticUserLocationOverlay locationOverlay;
-    private AccurateUserLocationManager locationManager;
+    private LowPowerUserLocationManager locationManager;
     private ConnectionManager connectionManager;
     private ProgressBarView progressBarView;
     private MapUpdateTimer mapTimer;
@@ -72,7 +72,7 @@ public class SelectMapActivity extends MapActivity implements IConnectionAware, 
         mapView.getOverlays().add(selectGeoCacheOverlay);
         mapView.getOverlays().add(locationOverlay);
 
-        locationManager = Controller.getInstance().getLocationManager();
+        locationManager = Controller.getInstance().getLowPowerLocationManager();
         connectionManager = Controller.getInstance().getConnectionManager();
 
         mapView.setBuiltInZoomControls(true);
@@ -107,12 +107,7 @@ public class SelectMapActivity extends MapActivity implements IConnectionAware, 
         if (!connectionManager.isActiveNetworkConnected()) {
             showDialog(ENABLE_CONNECTION_DIALOG_ID);
         }
-        // add subscriber to location manager
-        if (locationManager.getBestProvider(true) == null) {
-            //NavigationManager.askTurnOnLocationService(this);
-        } else {
-            locationManager.addSubscriber(this);
-        }
+        locationManager.addSubscriber(this);
         // set user location
         updateLocationOverlay(locationManager.getLastKnownLocation());
         // update mapView center and zoom level
