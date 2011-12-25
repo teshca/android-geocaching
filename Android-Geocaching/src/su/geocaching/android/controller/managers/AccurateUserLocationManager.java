@@ -493,9 +493,14 @@ public class AccurateUserLocationManager extends AbstractUserLocationManager imp
          */
         private static void onLocationChanged(Location location) {
             if (isEnabled && lastLocation != null) {
-                distance += CoordinateHelper.getDistanceBetween(location, lastLocation);
+                float delta = CoordinateHelper.getDistanceBetween(location, lastLocation);
+                if (delta > location.getAccuracy()) {
+                    distance += delta;
+                    lastLocation = location;
+                }
+            } else {
+                lastLocation = location;
             }
-            lastLocation = location;
         }
     }
 }
