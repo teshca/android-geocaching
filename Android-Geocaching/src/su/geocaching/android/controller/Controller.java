@@ -29,6 +29,7 @@ public class Controller {
     private IApiManager apiManager;
 
     private AccurateUserLocationManager locationManager;
+    private LowPowerUserLocationManager lowPowerLocationManager;
     private CompassManager compassManager;
     private ConnectionManager connectionManager;
     private ResourceManager resourceManager;
@@ -42,8 +43,6 @@ public class Controller {
     private SelectMapViewModel selectMapViewModel;
 
     private GeoCache searchingGeoCache;
-
-    private List<Handler> handlerList = new LinkedList<Handler>();
 
     private Controller() {
         apiManager = new GeocachingSuApiManager();
@@ -65,6 +64,13 @@ public class Controller {
      */
     public synchronized AccurateUserLocationManager getLocationManager() {
         return getLocationManager(applicationContext);
+    }
+
+    /**
+     * @return location manager which can send to ILocationAware location updates
+     */
+    public synchronized LowPowerUserLocationManager getLowPowerLocationManager() {
+        return getLowPowerLocationManager(applicationContext);
     }
 
     /**
@@ -119,6 +125,17 @@ public class Controller {
             locationManager = new AccurateUserLocationManager((LocationManager) context.getSystemService(Context.LOCATION_SERVICE));
         }
         return locationManager;
+    }
+
+    /**
+     * @param context for init manager
+     * @return location manager which can send to ILocationAware location updates
+     */
+    public synchronized LowPowerUserLocationManager getLowPowerLocationManager(Context context) {
+        if (lowPowerLocationManager == null) {
+            lowPowerLocationManager = new LowPowerUserLocationManager((LocationManager) context.getSystemService(Context.LOCATION_SERVICE));
+        }
+        return lowPowerLocationManager;
     }
 
     /**
@@ -242,30 +259,6 @@ public class Controller {
 
     public void onTerminate() {
         dbManager.close();
-    }
-
-    public void addHandler(Handler handler) {
-        if (!handlerList.contains(handler)) {
-            handlerList.add(handler);
-        }
-    }
-
-    public void postHandlerMessage(final int what, final Object message) {
-        for (Handler handler : handlerList) {
-            handler.sendMessage(handler.obtainMessage(what, message));
-        }
-    }
-
-    public void postEmptyMessage(final int what) {
-        for (Handler handler : handlerList) {
-            handler.sendEmptyMessage(what);
-        }
-    }
-
-    public void postEmptyMessageDelayed(final int what, long delay) {
-        for (Handler handler : handlerList) {
-            handler.sendEmptyMessageDelayed(what, delay);
-        }
     }
 
     public synchronized SelectMapViewModel getSelectMapViewModel() {

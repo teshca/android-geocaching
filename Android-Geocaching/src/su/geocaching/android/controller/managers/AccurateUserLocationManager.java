@@ -7,8 +7,6 @@ import su.geocaching.android.controller.GpsUpdateFrequency;
 import su.geocaching.android.controller.utils.CoordinateHelper;
 import su.geocaching.android.ui.R;
 
-import java.util.ArrayList;
-import java.util.List;
 import java.util.Timer;
 import java.util.TimerTask;
 
@@ -18,7 +16,7 @@ import java.util.TimerTask;
  * @author Grigory Kalabin. grigory.kalabin@gmail.com
  * @since fall, 2010
  */
-public class AccurateUserLocationManager implements LocationListener, GpsStatus.Listener {
+public class AccurateUserLocationManager extends AbstractUserLocationManager implements GpsStatus.Listener {
     /**
      * @see <a href="http://developer.android.com/reference/android/location/LocationProvider.html#OUT_OF_SERVICE">Android reference</a>
      */
@@ -75,17 +73,12 @@ public class AccurateUserLocationManager implements LocationListener, GpsStatus.
     private static final float PRECISE_LOCATION_MAX_ACCURACY = 40f; // in meters
     private static final float MAX_SPEED_OF_HARDWARE_COMPASS = 20 * 1000 / 3600; // (in m/s) if user speed lower than this - use hardware compass otherwise use GPS compass
 
-    private final LocationManager locationManager;
-    private Location lastLocation;
     private long lastLocationTime = -1;
-    private String provider = null;
-    private final List<ILocationAware> subscribers;
     private final Timer removeUpdatesTimer;
     private DeprecateLocationNotifier deprecateLocationNotifier;
     private final Timer deprecateLocationTimer;
     private RemoveUpdatesTask removeUpdatesTask;
     private boolean isUpdating;
-    private final Criteria criteria;
 
     private GpsUpdateFrequency updateFrequency;
 
@@ -93,51 +86,16 @@ public class AccurateUserLocationManager implements LocationListener, GpsStatus.
      * @param locationManager manager which can add or remove updates of location services
      */
     public AccurateUserLocationManager(LocationManager locationManager) {
-        this.locationManager = locationManager;
-        lastLocation = lastKnownLocation();
+        super(locationManager);
+        criteria.setAccuracy(Criteria.ACCURACY_FINE);
+
         updateFrequency = Controller.getInstance().getPreferencesManager().getGpsUpdateFrequency();
-        subscribers = new ArrayList<ILocationAware>();
+
         isUpdating = false;
         removeUpdatesTimer = new Timer(REMOVE_UPDATES_TIMER_NAME);
         removeUpdatesTask = new RemoveUpdatesTask(this);
         deprecateLocationTimer = new Timer(DEPRECATE_LOCATION_TIMER_NAME);
         deprecateLocationNotifier = new DeprecateLocationNotifier();
-
-        criteria = new Criteria();
-        criteria.setAccuracy(Criteria.ACCURACY_FINE);
-    }
-
-    /**
-     * Returns the most accurate and timely previously detected location.
-     *
-     * @return The most accurate and / or timely previously detected location.
-     */
-    private Location lastKnownLocation() {
-        Location bestResult = null;
-        float bestAccuracy = Float.MAX_VALUE;
-        long bestTime = Long.MIN_VALUE;
-        List<String> matchingProviders = locationManager.getAllProviders();
-
-        // Iterate through all the providers on the system, keeping
-        // note of the most accurate result.
-        // If no result is found within accuracy, return the newest Location.
-        for (String provider : matchingProviders) {
-            Location location = locationManager.getLastKnownLocation(provider);
-            if (location != null) {
-                float accuracy = location.getAccuracy();
-                long time = location.getTime();
-
-                if (location.hasAccuracy() && accuracy < bestAccuracy) {
-                    bestResult = location;
-                    bestAccuracy = accuracy;
-                    bestTime = time;
-                } else if (bestAccuracy == Float.MAX_VALUE && time > bestTime) {
-                    bestResult = location;
-                    bestTime = time;
-                }
-            }
-        }
-        return bestResult;
     }
 
     /**
@@ -184,17 +142,14 @@ public class AccurateUserLocationManager implements LocationListener, GpsStatus.
      */
     @Override
     public void onLocationChanged(Location location) {
+        super.onLocationChanged(location);
         Odometer.onLocationChanged(location);
-        lastLocation = location;
         lastLocationTime = System.currentTimeMillis();
         // start timer which notify about deprecation
         deprecateLocationNotifier.cancel();
         deprecateLocationNotifier = new DeprecateLocationNotifier();
         deprecateLocationTimer.schedule(deprecateLocationNotifier, PRECISE_LOCATION_MAX_TIME);
-        LogManager.d(TAG, "Location changed: send msg to " + Integer.toString(subscribers.size()) + " activity(es)");
-        for (ILocationAware subscriber : subscribers) {
-            subscriber.updateLocation(location);
-        }
+
         Controller.getInstance().getCompassManager().resetUpdates(location.getSpeed() > MAX_SPEED_OF_HARDWARE_COMPASS && location.hasBearing());
     }
 
@@ -278,7 +233,7 @@ public class AccurateUserLocationManager implements LocationListener, GpsStatus.
     /**
      * Remove updates of location
      */
-    private synchronized void removeUpdates() {
+    protected synchronized void removeUpdates() {
         if (!isUpdating) {
             LogManager.w(TAG, "updates already removed");
         }
@@ -292,17 +247,10 @@ public class AccurateUserLocationManager implements LocationListener, GpsStatus.
     /**
      * Add updates of location
      */
-    private synchronized void addUpdates() {
+    protected synchronized void addUpdates() {
         provider = locationManager.getBestProvider(criteria, true);
         requestLocationUpdates();
         LogManager.d(TAG, "add updates. Provider is " + provider);
-    }
-
-    /**
-     * @return last known location
-     */
-    public Location getLastKnownLocation() {
-        return lastLocation;
     }
 
     /**
@@ -313,13 +261,6 @@ public class AccurateUserLocationManager implements LocationListener, GpsStatus.
     public boolean hasPreciseLocation() {
         return hasLocation() && lastLocationTime + PRECISE_LOCATION_MAX_TIME > System.currentTimeMillis()
                 && lastLocation.hasAccuracy() && lastLocation.getAccuracy() < PRECISE_LOCATION_MAX_ACCURACY;
-    }
-
-    /**
-     * @return true if last known location not null
-     */
-    public boolean hasLocation() {
-        return lastLocation != null;
     }
 
     /**
