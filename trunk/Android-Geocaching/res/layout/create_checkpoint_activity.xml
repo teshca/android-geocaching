@@ -13,23 +13,13 @@
 					  android:layout_height="fill_parent"
 					  android:orientation="vertical">
 
-			<LinearLayout android:layout_width="fill_parent"
-						  android:id="@+id/LinerLayout1"
-						  android:layout_height="wrap_content"
-						  android:orientation="horizontal"
-						  android:padding="5dip">
-				<TextView android:layout_height="wrap_content"
-						  android:text="@string/checkpoint_name"
-						  android:layout_width="wrap_content"
-						  android:textSize="@dimen/text_size_big"
-						  android:paddingRight="5dip"/>
-				<EditText android:text=""
-						  android:id="@+id/checkpointName"
-						  android:maxLines="2"
-						  android:layout_width="wrap_content"
-						  android:layout_height="wrap_content"
-						  android:layout_weight="1"/>
-			</LinearLayout>
+            <EditText android:text=""
+                      android:id="@+id/checkpointName"
+                      android:maxLines="2"
+                      android:hint="@string/checkpoint_name"
+                      android:layout_width="fill_parent"
+                      android:layout_height="wrap_content"
+                      android:layout_weight="1"/>
 
 			<Button android:layout_height="wrap_content"
 					android:text="@string/sexagestimal_template"
