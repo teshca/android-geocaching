@@ -46,13 +46,12 @@ public class GoogleAnalyticsManager {
     }
 
     private void trackException(String category, String tag, Throwable ex) {
-        final String NEW_LINE = System.getProperty("line.separator");
         final StringWriter stackTrace = new StringWriter();
         final PrintWriter printWriter = new PrintWriter(stackTrace);
         ex.printStackTrace(printWriter);
         final String exception = stackTrace.toString().substring(0, MAX_STACK_TRACE_LENGTH);
 
-        tracker.trackEvent(category + ": " + applicationVersionName + ":t300-no replace", tag, exception , 0);
+        tracker.trackEvent(category + ": " + applicationVersionName, tag, exception , 0);
         tracker.dispatch();
     }
 }
