@@ -93,11 +93,7 @@ public class CheckpointsFolderActivity extends ListActivity {
 
     @Override
     public boolean onPrepareOptionsMenu(Menu menu) {
-        if (checkpointsAdapter.isEmpty()) {
-            menu.getItem(1).setEnabled(false);
-        } else {
-            menu.getItem(1).setEnabled(true);
-        }
+        menu.findItem(R.id.removeAllCheckpointMenu).setEnabled(!checkpointsAdapter.isEmpty());
         return super.onPrepareOptionsMenu(menu);
     }
 

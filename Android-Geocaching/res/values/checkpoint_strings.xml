@@ -25,4 +25,5 @@
     <string name="are_you_sure">Удалить все контрольные точки.\nВы уверены?
     </string>
     <string name="checkpoint_name">Название:</string>
+    <string name="no_related_checkpoints">Нет котрольных точек связанных с тайником</string>
 </resources>

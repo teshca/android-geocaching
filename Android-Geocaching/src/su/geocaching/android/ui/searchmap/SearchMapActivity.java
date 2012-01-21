@@ -186,7 +186,6 @@ public class SearchMapActivity extends MapActivity implements IConnectionAware, 
         GeoCacheOverlayItem cacheOverlayItem = new GeoCacheOverlayItem(geoCache, "", "");
         searchGeoCacheOverlay.clear();
         searchGeoCacheOverlay.addOverlayItem(cacheOverlayItem);
-        mapOverlays.add(searchGeoCacheOverlay);
 
         if (Controller.getInstance().getLocationManager().hasLocation()) {
             LogManager.d(TAG, "Update location with last known location");
