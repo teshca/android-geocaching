@@ -16,16 +16,8 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 import android.content.Context;
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
-import android.net.http.AndroidHttpClient;
 import android.os.AsyncTask;
-import android.util.Log;
 import android.widget.Toast;
-import org.apache.http.HttpEntity;
-import org.apache.http.HttpResponse;
-import org.apache.http.HttpStatus;
-import org.apache.http.client.methods.HttpGet;
 import org.xml.sax.InputSource;
 import org.xml.sax.SAXException;
 import su.geocaching.android.controller.Controller;
@@ -75,10 +67,10 @@ public class GeocachingSuApiManager implements IApiManager {
         try {
             SAXParserFactory factory = SAXParserFactory.newInstance();
             SAXParser parser = factory.newSAXParser();
-            double maxLatitude = (double) rect.tl.getLatitudeE6() / 1E6;
-            double minLatitude = (double) rect.br.getLatitudeE6() / 1E6;
-            double maxLongitude = (double) rect.br.getLongitudeE6() / 1E6;
-            double minLongitude = (double) rect.tl.getLongitudeE6() / 1E6;
+            double maxLatitude = rect.tl.getLatitudeE6() * 1E-6;
+            double minLatitude = rect.br.getLatitudeE6() * 1E-6;
+            double maxLongitude = rect.br.getLongitudeE6() * 1E-6;
+            double minLongitude = rect.tl.getLongitudeE6() * 1E-6;
             URL url = generateUrl(maxLatitude, minLatitude, maxLongitude, minLongitude);
             connection = (HttpURLConnection) url.openConnection();
 

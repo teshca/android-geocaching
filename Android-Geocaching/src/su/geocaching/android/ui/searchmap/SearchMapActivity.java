@@ -57,7 +57,6 @@ public class SearchMapActivity extends MapActivity implements IConnectionAware, 
 
     private CheckpointOverlay checkpointOverlay;
     private SearchGeoCacheOverlay searchGeoCacheOverlay;
-    private Drawable cacheMarker;
     private DistanceToGeoCacheOverlay distanceOverlay;
     private DynamicUserLocationOverlay userOverlay;
     private MapView map;
@@ -120,6 +119,10 @@ public class SearchMapActivity extends MapActivity implements IConnectionAware, 
             }
         }
         mapOverlays.add(checkpointOverlay);
+
+        searchGeoCacheOverlay = new SearchGeoCacheOverlay(null, this, map);
+        mapOverlays.add(searchGeoCacheOverlay);
+
         handler = new Handler(this);
     }
 
@@ -180,10 +183,8 @@ public class SearchMapActivity extends MapActivity implements IConnectionAware, 
         updateMapInfoFromSettings();
         map.setSatellite(Controller.getInstance().getPreferencesManager().useSatelliteMap());
 
-        mapOverlays.remove(searchGeoCacheOverlay);
-        cacheMarker = Controller.getInstance().getResourceManager().getCacheMarker(geoCache.getType(), geoCache.getStatus());
-        searchGeoCacheOverlay = new SearchGeoCacheOverlay(cacheMarker, this, map);
         GeoCacheOverlayItem cacheOverlayItem = new GeoCacheOverlayItem(geoCache, "", "");
+        searchGeoCacheOverlay.clear();
         searchGeoCacheOverlay.addOverlayItem(cacheOverlayItem);
         mapOverlays.add(searchGeoCacheOverlay);
 
@@ -314,7 +315,8 @@ public class SearchMapActivity extends MapActivity implements IConnectionAware, 
         if (!needZoomOut) {
             // still not need zoom out
             // Check contains markers in visible part of map
-            needZoomOut = !mapContains(gc.getLocationGeoPoint(), cacheMarker.getBounds());
+            Drawable marker = Controller.getInstance().getResourceManager().getCacheMarker(gc.getType(), gc.getStatus());
+            needZoomOut = !mapContains(gc.getLocationGeoPoint(), marker.getBounds());
         }
 
         // check contains checkpoints markers in visible part of map if still not need zoom out
