@@ -16,7 +16,7 @@
               android:gravity="center_horizontal"
               android:layout_width="fill_parent"
               android:layout_height="wrap_content"
-              android:text="@string/favorite_list_In_DB_not_cache"
+              android:text="@string/no_related_checkpoints"
               android:textSize="@dimen/text_size_medium"
               android:textStyle="bold"
               android:textColor="@color/dashboard_text_color"
