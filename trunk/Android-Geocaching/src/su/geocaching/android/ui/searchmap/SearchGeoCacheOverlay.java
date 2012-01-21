@@ -19,7 +19,7 @@ import com.google.android.maps.OverlayItem;
  * @author Android-Geocaching.su student project team
  * @since October 2010 GeoCache Itemized Overlay for one or more caches
  */
-class SearchGeoCacheOverlay extends ItemizedOverlay<OverlayItem> {
+class SearchGeoCacheOverlay extends ItemizedOverlay<GeoCacheOverlayItem> {
 
     private GeoCacheOverlayItem item;
     private Activity activity;
@@ -40,7 +40,7 @@ class SearchGeoCacheOverlay extends ItemizedOverlay<OverlayItem> {
     }
 
     @Override
-    public boolean onTouchEvent(MotionEvent event, MapView map) {
+    public boolean onTouchEvent(MotionEvent event, MapView mapView) {
         if (event.getAction() == MotionEvent.ACTION_DOWN) {
             multiTouchFlag = false;
         }
@@ -69,12 +69,8 @@ class SearchGeoCacheOverlay extends ItemizedOverlay<OverlayItem> {
         populate();
     }
 
-    public GeoCache getGeoCache(int index) {
-        return item.getGeoCache();
-    }
-
     @Override
-    protected OverlayItem createItem(int i) {
+    protected GeoCacheOverlayItem createItem(int i) {
         return item;
     }
 
