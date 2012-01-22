@@ -112,8 +112,7 @@ public class FavoritesFolderActivity extends ListActivity {
 
     @Override
     public boolean onPrepareOptionsMenu(Menu menu) {
-        MenuItem delete_all_cache_in_database = menu.findItem(R.id.delete_all_cache_in_database);
-        delete_all_cache_in_database.setEnabled(!favoriteGeoCachesAdapter.isEmpty());
+        menu.findItem(R.id.delete_all_cache_in_database).setEnabled(!favoriteGeoCachesAdapter.isEmpty());
         return super.onPrepareOptionsMenu(menu);
     }
 

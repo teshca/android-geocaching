@@ -9,7 +9,7 @@ import java.io.PrintWriter;
 import java.io.StringWriter;
 
 public class GoogleAnalyticsManager {
-    private static final int MAX_STACK_TRACE_LENGTH = 300;
+    private static final int MAX_STACK_TRACE_LENGTH = 400;
 
     private GoogleAnalyticsTracker tracker;
     private String applicationVersionName;
