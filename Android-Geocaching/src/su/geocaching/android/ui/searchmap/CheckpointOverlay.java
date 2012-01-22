@@ -24,7 +24,7 @@ import com.google.android.maps.OverlayItem;
  *
  * @author Nikita Bumakov
  */
-public class CheckpointOverlay extends ItemizedOverlay<OverlayItem> {
+public class CheckpointOverlay extends ItemizedOverlay<GeoCacheOverlayItem> {
 
     private final GestureDetector gestureDetector;
     private final List<GeoCacheOverlayItem> items;
@@ -99,7 +99,7 @@ public class CheckpointOverlay extends ItemizedOverlay<OverlayItem> {
     }
 
     @Override
-    protected OverlayItem createItem(int i) {
+    protected GeoCacheOverlayItem createItem(int i) {
         return items.get(i);
     }
 

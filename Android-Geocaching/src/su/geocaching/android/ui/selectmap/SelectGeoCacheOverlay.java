@@ -32,17 +32,41 @@ class SelectGeoCacheOverlay extends ItemizedOverlay<OverlayItem> {
     private final MapView map;
     private final GestureDetector gestureDetector;
 
-    public SelectGeoCacheOverlay(Drawable defaultMarker, Context context, final MapView map) {
+    public SelectGeoCacheOverlay(Drawable defaultMarker, final Context context, final MapView mapView) {
         super(defaultMarker);
         items = Collections.synchronizedList(new LinkedList<GeoCacheOverlayItem>());
         this.context = context;
-        this.map = map;
+        this.map = mapView;
         populate();
 
         gestureDetector = new GestureDetector(context, new GestureDetector.SimpleOnGestureListener() {
             public boolean onDoubleTap(MotionEvent e) {
                 map.getController().zoomInFixing((int) e.getX(), (int) e.getY());
                 return true;
+            }
+
+            public boolean onSingleTapConfirmed(MotionEvent e) {
+                for (GeoCacheOverlayItem gcItem : items) {
+                    if (hitTest(e, gcItem))
+                    {
+                        if (!gcItem.getTitle().equals("Group")) {
+                            NavigationManager.startInfoActivity(context, gcItem.getGeoCache());
+                        } else {
+                            Point p = map.getProjection().toPixels(gcItem.getGeoCache().getLocationGeoPoint(), null);
+                            map.getController().zoomInFixing(p.x, p.y);
+                            map.invalidate();
+                        }
+                        return true;
+                    }
+                }
+                return false;
+            }
+
+            private boolean hitTest(MotionEvent event, OverlayItem item) {
+                Point itemPoint = mapView.getProjection().toPixels(item.getPoint(), null);
+                int relativeX = (int)event.getX() - itemPoint.x;
+                int relativeY = (int)event.getY() - itemPoint.y;
+                return item.getMarker(0).getBounds().contains(relativeX, relativeY);
             }
         });
     }
@@ -80,20 +104,5 @@ class SelectGeoCacheOverlay extends ItemizedOverlay<OverlayItem> {
     public boolean onTouchEvent(MotionEvent event, MapView map) {
         if (OverlayUtils.isMultiTouch(event)) return false;
         return gestureDetector.onTouchEvent(event);
-    }
-
-    @Override
-    public boolean onTap(int index) {
-        // TODO: Repalce onTap with onSignleTapConfirmed in gestureDetector
-        // in order to allow zoom in cache by double tap without opening info
-        GeoCacheOverlayItem gcItem = items.get(index);
-        if (!gcItem.getTitle().equals("Group")) {
-            NavigationManager.startInfoActivity(context, gcItem.getGeoCache());
-        } else {
-            Point p = map.getProjection().toPixels(gcItem.getGeoCache().getLocationGeoPoint(), null);
-            map.getController().zoomInFixing(p.x, p.y);
-            map.invalidate();
-        }
-        return true;
     }
 }
