@@ -126,6 +126,12 @@ public class CompassActivity extends Activity {
         providerUnavailableToast.cancel();
         super.onPause();
     }
+    
+    @Override
+    protected void onStop() {
+        super.onStop();
+        locationManager.checkSubscribers();
+    }
 
     private void startAnimation() {
         if (animationThread == null) {

@@ -68,7 +68,7 @@ public class AccurateUserLocationManager extends AbstractUserLocationManager imp
     private static final String TAG = AccurateUserLocationManager.class.getCanonicalName();
     private static final String REMOVE_UPDATES_TIMER_NAME = "remove location updates timer";
     private static final String DEPRECATE_LOCATION_TIMER_NAME = "waiting for location deprecation";
-    private static final long REMOVE_UPDATES_DELAY = 30000; // in milliseconds
+    private static final long REMOVE_UPDATES_DELAY = 5000; // in milliseconds
     private static final int PRECISE_LOCATION_MAX_TIME = 30 * 1000; // in milliseconds
     private static final float PRECISE_LOCATION_MAX_ACCURACY = 40f; // in meters
     private static final float MAX_SPEED_OF_HARDWARE_COMPASS = 20 * 1000 / 3600; // (in m/s) if user speed lower than this - use hardware compass otherwise use GPS compass
@@ -124,15 +124,27 @@ public class AccurateUserLocationManager extends AbstractUserLocationManager imp
         boolean res;
         synchronized (subscribers) {
             res = subscribers.remove(subscriber);
-        }
-        if (subscribers.size() == 0 && res) {
-            removeUpdatesTask.cancel();
-            removeUpdatesTask = new RemoveUpdatesTask(this);
-            removeUpdatesTimer.schedule(removeUpdatesTask, REMOVE_UPDATES_DELAY);
-            LogManager.d(TAG, "none subscribers. wait " + Long.toString(REMOVE_UPDATES_DELAY / 1000) + " s from " + Long.toString(System.currentTimeMillis()));
+            if (subscribers.size() == 0 && res) {
+                removeUpdatesTask.cancel();
+                removeUpdatesTask = new RemoveUpdatesTask(this);
+                removeUpdatesTimer.schedule(removeUpdatesTask, REMOVE_UPDATES_DELAY);
+                LogManager.d(TAG, "none subscribers. wait " + Long.toString(REMOVE_UPDATES_DELAY / 1000) + " s from " + Long.toString(System.currentTimeMillis()));
+            }
         }
         LogManager.d(TAG, "remove subscriber. Count of subscribers became " + Integer.toString(subscribers.size()));
         return res;
+    }
+
+    public void checkSubscribers()
+    {
+        synchronized (subscribers)
+        {
+            if (subscribers.size() == 0)
+            {
+                removeUpdatesTask.cancel();
+                removeUpdates();
+            }
+        }
     }
 
     /*
@@ -225,8 +237,11 @@ public class AccurateUserLocationManager extends AbstractUserLocationManager imp
      * @param extras   an optional Bundle which will contain provider specific status variables (from {@link android.location.LocationListener#onStatusChanged(java.lang.String, int, android.os.Bundle)})
      */
     private void onAggregatedStatusChanged(String provider, int status, Bundle extras) {
-        for (ILocationAware subscriber : subscribers) {
-            subscriber.onStatusChanged(provider, status, extras);
+        synchronized (subscribers)
+        {
+            for (ILocationAware subscriber : subscribers) {
+                subscriber.onStatusChanged(provider, status, extras);
+            }
         }
     }
 
