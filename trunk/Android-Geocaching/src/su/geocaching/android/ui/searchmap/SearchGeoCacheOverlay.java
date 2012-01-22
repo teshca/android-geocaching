@@ -1,10 +1,9 @@
 package su.geocaching.android.ui.searchmap;
 
-import java.lang.reflect.InvocationTargetException;
-import java.lang.reflect.Method;
-
+import android.graphics.Point;
 import su.geocaching.android.controller.managers.NavigationManager;
 import su.geocaching.android.model.GeoCache;
+import su.geocaching.android.ui.OverlayUtils;
 import su.geocaching.android.ui.geocachemap.GeoCacheOverlayItem;
 import android.app.Activity;
 import android.graphics.drawable.Drawable;
@@ -13,7 +12,6 @@ import android.view.MotionEvent;
 
 import com.google.android.maps.ItemizedOverlay;
 import com.google.android.maps.MapView;
-import com.google.android.maps.OverlayItem;
 
 /**
  * @author Android-Geocaching.su student project team
@@ -22,18 +20,20 @@ import com.google.android.maps.OverlayItem;
 class SearchGeoCacheOverlay extends ItemizedOverlay<GeoCacheOverlayItem> {
 
     private GeoCacheOverlayItem item;
-    private Activity activity;
     private final GestureDetector gestureDetector;
-    private boolean multiTouchFlag = false;
 
-    public SearchGeoCacheOverlay(Drawable defaultMarker, Activity context, final MapView map) {
+    public SearchGeoCacheOverlay(Drawable defaultMarker, final Activity context, final MapView mapView) {
         super(defaultMarker);
-        this.activity = context;
         populate();
 
         gestureDetector = new GestureDetector(context, new GestureDetector.SimpleOnGestureListener() {
             public boolean onDoubleTap(MotionEvent e) {
-                map.getController().zoomInFixing((int) e.getX(), (int) e.getY());
+                mapView.getController().zoomInFixing((int) e.getX(), (int) e.getY());
+                return true;
+            }
+            public boolean onSingleTapConfirmed(MotionEvent e) {
+                GeoCache gc = item.getGeoCache();
+                NavigationManager.startInfoActivity(context, gc);
                 return true;
             }
         });
@@ -41,26 +41,22 @@ class SearchGeoCacheOverlay extends ItemizedOverlay<GeoCacheOverlayItem> {
 
     @Override
     public boolean onTouchEvent(MotionEvent event, MapView mapView) {
-        if (event.getAction() == MotionEvent.ACTION_DOWN) {
-            multiTouchFlag = false;
+        if (OverlayUtils.isMultiTouch(event))
+            return false;
+
+        if (hitTest(event, mapView)) {
+            gestureDetector.onTouchEvent(event);
+            return true;
         }
 
-        try {
-            Method getPointer = MotionEvent.class.getMethod("getPointerCount");
-            if (Integer.parseInt(getPointer.invoke(event).toString()) > 1) {
-                // prevent tap on geocache icon on multitouch
-                multiTouchFlag = true;
-            }
-            /* success, this is a newer device */
-        } catch (NoSuchMethodException e) {
-            /* failure, must be older device */
-        } catch (InvocationTargetException e) {
-            e.printStackTrace();
-        } catch (IllegalAccessException e) {
-            e.printStackTrace();
-        }
+        return false;
+    }
 
-        return gestureDetector.onTouchEvent(event);
+    private boolean hitTest(MotionEvent event, MapView mapView) {
+        Point itemPoint = mapView.getProjection().toPixels(item.getPoint(), null);
+        int relativeX = (int)event.getX() - itemPoint.x;
+        int relativeY = (int)event.getY() - itemPoint.y;
+        return hitTest(item, item.getMarker(0), relativeX, relativeY);
     }
 
     public void addOverlayItem(GeoCacheOverlayItem overlayItem) {
@@ -88,14 +84,5 @@ class SearchGeoCacheOverlay extends ItemizedOverlay<GeoCacheOverlayItem> {
     @Override
     public void draw(android.graphics.Canvas canvas, MapView mapView, boolean shadow) {
         super.draw(canvas, mapView, false);
-    }
-
-    @Override
-    public boolean onTap(int index) {
-        if (!multiTouchFlag) {
-            GeoCache gc = item.getGeoCache();
-            NavigationManager.startInfoActivity(activity, gc);
-        }
-        return true;
     }
 }
