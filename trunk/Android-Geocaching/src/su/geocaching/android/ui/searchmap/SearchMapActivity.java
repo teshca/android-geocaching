@@ -149,6 +149,12 @@ public class SearchMapActivity extends MapActivity implements IConnectionAware, 
     }
 
     @Override
+    protected void onStop() {
+        super.onStop();
+        Controller.getInstance().getLocationManager().checkSubscribers();
+    }
+
+    @Override
     protected void onResume() {
         super.onResume();
         LogManager.d(TAG, "onResume");
