@@ -149,12 +149,6 @@ public class SearchMapActivity extends MapActivity implements IConnectionAware, 
     }
 
     @Override
-    protected void onStop() {
-        super.onStop();
-        Controller.getInstance().getLocationManager().checkSubscribers();
-    }
-
-    @Override
     protected void onResume() {
         super.onResume();
         LogManager.d(TAG, "onResume");
@@ -251,7 +245,10 @@ public class SearchMapActivity extends MapActivity implements IConnectionAware, 
         userOverlay.setLocationPrecise(isPrecise);
         if (distanceOverlay == null) {
             LogManager.d(TAG, "update location: add distance and user overlays");
-            distanceOverlay = new DistanceToGeoCacheOverlay(CoordinateHelper.locationToGeoPoint(location), Controller.getInstance().getSearchingGeoCache().getLocationGeoPoint());
+            distanceOverlay = new DistanceToGeoCacheOverlay(
+                    CoordinateHelper.locationToGeoPoint(location),
+                    Controller.getInstance().getSearchingGeoCache().getLocationGeoPoint(),
+                    map);
             mapOverlays.add(0, distanceOverlay); // lower overlay
             mapOverlays.add(userOverlay);
 

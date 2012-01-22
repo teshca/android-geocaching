@@ -3,10 +3,13 @@ package su.geocaching.android.ui.searchmap;
 import android.graphics.*;
 import android.graphics.Paint.Style;
 import android.location.Location;
+import android.view.GestureDetector;
+import android.view.MotionEvent;
 import com.google.android.maps.MapView;
 
 import su.geocaching.android.controller.compass.ICompassAnimation;
 import su.geocaching.android.controller.managers.NavigationManager;
+import su.geocaching.android.ui.OverlayUtils;
 import su.geocaching.android.ui.R;
 import su.geocaching.android.ui.UserLocationOverlayBase;
 
@@ -28,10 +31,12 @@ public class DynamicUserLocationOverlay extends UserLocationOverlayBase implemen
     private int compassArrowWidth;
     private int compassArrowHeight;
 
-    public DynamicUserLocationOverlay(SearchMapActivity context, MapView map) {
+    private final GestureDetector gestureDetector;
+
+    public DynamicUserLocationOverlay(final SearchMapActivity context, final MapView mapView) {
         bearing = Float.NaN;
 
-        this.map = map;
+        this.map = mapView;
         lastTimeInvalidate = -1;
 
         paintCompassArrow = new Paint();
@@ -56,6 +61,17 @@ public class DynamicUserLocationOverlay extends UserLocationOverlayBase implemen
         pathCompassArrow.lineTo(w, h);
         pathCompassArrow.lineTo(0, h / 2);
         pathCompassArrow.close();
+
+        gestureDetector = new GestureDetector(context, new GestureDetector.SimpleOnGestureListener() {
+            public boolean onDoubleTap(MotionEvent e) {
+                mapView.getController().zoomInFixing((int) e.getX(), (int) e.getY());
+                return true;
+            }
+            public boolean onSingleTapConfirmed(MotionEvent e) {
+                NavigationManager.startCompassActivity(context);
+                return true;
+            }
+        });
     }
 
     @Override
@@ -101,8 +117,22 @@ public class DynamicUserLocationOverlay extends UserLocationOverlayBase implemen
     }
 
     @Override
-    protected void onTapAction() {
-        NavigationManager.startCompassActivity(map.getContext());
+    public boolean onTouchEvent(MotionEvent event, MapView mapView) {
+        if (OverlayUtils.isMultiTouch(event))
+            return false;
+
+        if (hitTest(event, mapView)) {
+            gestureDetector.onTouchEvent(event);
+            return true;
+        }
+
+        return false;
+    }
+
+    private boolean hitTest(MotionEvent event, MapView mapView) {
+        int relativeX = (int)event.getX() - userPoint.x;
+        int relativeY = (int)event.getY() - userPoint.y;
+        return getBounds().contains(relativeX, relativeY);
     }
 
     /**

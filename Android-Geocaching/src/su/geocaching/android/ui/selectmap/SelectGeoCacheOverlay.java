@@ -16,6 +16,7 @@ import com.google.android.maps.MapView;
 import com.google.android.maps.OverlayItem;
 import su.geocaching.android.controller.managers.LogManager;
 import su.geocaching.android.controller.managers.NavigationManager;
+import su.geocaching.android.ui.OverlayUtils;
 import su.geocaching.android.ui.geocachemap.GeoCacheOverlayItem;
 
 /**
@@ -29,7 +30,6 @@ class SelectGeoCacheOverlay extends ItemizedOverlay<OverlayItem> {
     private final List<GeoCacheOverlayItem> items;
     private final Context context;
     private final MapView map;
-    private boolean multiTouchFlag = false;
     private final GestureDetector gestureDetector;
 
     public SelectGeoCacheOverlay(Drawable defaultMarker, Context context, final MapView map) {
@@ -78,38 +78,21 @@ class SelectGeoCacheOverlay extends ItemizedOverlay<OverlayItem> {
 
     @Override
     public boolean onTouchEvent(MotionEvent event, MapView map) {
-        if (event.getAction() == MotionEvent.ACTION_DOWN) {
-            multiTouchFlag = false;
-        }
-
-        try {
-            Method getPointer = MotionEvent.class.getMethod("getPointerCount");
-            if (Integer.parseInt(getPointer.invoke(event).toString()) > 1) {
-                multiTouchFlag = true;
-            }
-            /* success, this is a newer device */
-        } catch (NoSuchMethodException e) {
-            /* failure, must be older device */
-        } catch (InvocationTargetException e) {
-            LogManager.e(TAG, e);
-        } catch (IllegalAccessException e) {
-            LogManager.e(TAG, e);
-        }
-
+        if (OverlayUtils.isMultiTouch(event)) return false;
         return gestureDetector.onTouchEvent(event);
     }
 
     @Override
     public boolean onTap(int index) {
-        if (!multiTouchFlag) {
-            GeoCacheOverlayItem gcItem = items.get(index);
-            if (!gcItem.getTitle().equals("Group")) {
-                NavigationManager.startInfoActivity(context, gcItem.getGeoCache());
-            } else {
-                Point p = map.getProjection().toPixels(gcItem.getGeoCache().getLocationGeoPoint(), null);
-                map.getController().zoomInFixing(p.x, p.y);
-                map.invalidate();
-            }
+        // TODO: Repalce onTap with onSignleTapConfirmed in gestureDetector
+        // in order to allow zoom in cache by double tap without opening info
+        GeoCacheOverlayItem gcItem = items.get(index);
+        if (!gcItem.getTitle().equals("Group")) {
+            NavigationManager.startInfoActivity(context, gcItem.getGeoCache());
+        } else {
+            Point p = map.getProjection().toPixels(gcItem.getGeoCache().getLocationGeoPoint(), null);
+            map.getController().zoomInFixing(p.x, p.y);
+            map.invalidate();
         }
         return true;
     }
