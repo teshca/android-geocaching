@@ -51,6 +51,7 @@ public class CheckpointOverlay extends ItemizedOverlay<GeoCacheOverlayItem> {
             }
 
             public boolean onSingleTapConfirmed(MotionEvent e) {
+                if (OverlayUtils.isMultiTouch(e)) return false;
                 for (GeoCacheOverlayItem item : items) {
                     if (hitTest(e, item))
                     {
@@ -124,8 +125,6 @@ public class CheckpointOverlay extends ItemizedOverlay<GeoCacheOverlayItem> {
 
     @Override
     public boolean onTouchEvent(MotionEvent event, MapView mapView) {
-        if (OverlayUtils.isMultiTouch(event))
-            return false;
         return gestureDetector.onTouchEvent(event);
     }
 }
