@@ -1,8 +1,10 @@
 package su.geocaching.android.ui.searchmap;
 
 import android.graphics.Point;
+import su.geocaching.android.controller.Controller;
 import su.geocaching.android.controller.managers.NavigationManager;
 import su.geocaching.android.model.GeoCache;
+import su.geocaching.android.model.GeoCacheType;
 import su.geocaching.android.ui.OverlayUtils;
 import su.geocaching.android.ui.geocachemap.GeoCacheOverlayItem;
 import android.app.Activity;
@@ -22,19 +24,24 @@ class SearchGeoCacheOverlay extends ItemizedOverlay<GeoCacheOverlayItem> {
     private GeoCacheOverlayItem item;
     private final GestureDetector gestureDetector;
 
-    public SearchGeoCacheOverlay(Drawable defaultMarker, final Activity context, final MapView mapView) {
+    public SearchGeoCacheOverlay(Drawable defaultMarker, final SearchMapActivity searchMapActivity, final MapView mapView) {
         super(defaultMarker);
         populate();
 
-        gestureDetector = new GestureDetector(context, new GestureDetector.SimpleOnGestureListener() {
+        gestureDetector = new GestureDetector(searchMapActivity, new GestureDetector.SimpleOnGestureListener() {
             public boolean onDoubleTap(MotionEvent e) {
                 mapView.getController().zoomInFixing((int) e.getX(), (int) e.getY());
                 return true;
             }
+
             public boolean onSingleTapConfirmed(MotionEvent e) {
                 GeoCache gc = item.getGeoCache();
-                NavigationManager.startInfoActivity(context, gc);
+                NavigationManager.startInfoActivity(searchMapActivity, gc);
                 return true;
+            }
+
+            public void onLongPress(MotionEvent e) {
+                searchMapActivity.setActiveItem(item.getGeoCache());
             }
         });
     }

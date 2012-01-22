@@ -4,13 +4,13 @@ import java.util.LinkedList;
 import java.util.List;
 
 import android.graphics.Point;
+import android.graphics.Rect;
 import su.geocaching.android.controller.Controller;
 import su.geocaching.android.controller.managers.NavigationManager;
 import su.geocaching.android.model.GeoCache;
 import su.geocaching.android.model.GeoCacheType;
 import su.geocaching.android.ui.OverlayUtils;
 import su.geocaching.android.ui.geocachemap.GeoCacheOverlayItem;
-import android.app.Activity;
 import android.graphics.drawable.Drawable;
 import android.view.GestureDetector;
 import android.view.MotionEvent;
@@ -28,36 +28,33 @@ public class CheckpointOverlay extends ItemizedOverlay<GeoCacheOverlayItem> {
 
     private final GestureDetector gestureDetector;
     private final List<GeoCacheOverlayItem> items;
-    private final Activity activity;
 
-    public CheckpointOverlay(Drawable defaultMarker, final Activity context, final MapView mapView) {
+    public CheckpointOverlay(Drawable defaultMarker, final SearchMapActivity searchMapActivity, final MapView mapView) {
         super(defaultMarker);
 
-        this.activity = context;
         items = new LinkedList<GeoCacheOverlayItem>();
 
-        gestureDetector = new GestureDetector(context, new GestureDetector.SimpleOnGestureListener() {
+        gestureDetector = new GestureDetector(searchMapActivity, new GestureDetector.SimpleOnGestureListener() {
             public void onLongPress(MotionEvent e) {
-                int cacheId = Controller.getInstance().getPreferencesManager().getLastSearchedGeoCache().getId();
                 for (GeoCacheOverlayItem item : items) {
                     if (hitTest(e, item))
                     {
-                        //Controller.getInstance().getCheckpointManager(cacheId).setActiveItem(item.getGeoCache().getId());
+                        searchMapActivity.setActiveItem(item.getGeoCache());
                         return;
                     }
                 }
                 GeoCache gc = new GeoCache();
                 gc.setType(GeoCacheType.CHECKPOINT);
-                gc.setId(cacheId);
+                gc.setId(Controller.getInstance().getPreferencesManager().getLastSearchedGeoCache().getId());
                 gc.setLocationGeoPoint(mapView.getProjection().fromPixels((int) e.getX(), (int) e.getY()));
-                NavigationManager.startCreateCheckpointActivity(activity, gc);
+                NavigationManager.startCreateCheckpointActivity(searchMapActivity, gc);
             }
 
             public boolean onSingleTapConfirmed(MotionEvent e) {
                 for (GeoCacheOverlayItem item : items) {
                     if (hitTest(e, item))
                     {
-                        NavigationManager.startCheckpointDialog(activity, item.getGeoCache().getId());
+                        NavigationManager.startCheckpointDialog(searchMapActivity, item.getGeoCache().getId());
                         return true;
                     }
                 }
@@ -68,7 +65,13 @@ public class CheckpointOverlay extends ItemizedOverlay<GeoCacheOverlayItem> {
                 Point itemPoint = mapView.getProjection().toPixels(item.getPoint(), null);
                 int relativeX = (int)event.getX() - itemPoint.x;
                 int relativeY = (int)event.getY() - itemPoint.y;
-                return item.getMarker(0).getBounds().contains(relativeX, relativeY);
+                int touchMargin = 10;
+                Rect bounds = item.getMarker(0).getBounds();
+                bounds.left -=  touchMargin;
+                bounds.top -= touchMargin;
+                bounds.bottom += touchMargin;
+                bounds.right += touchMargin;
+                return bounds.contains(relativeX, relativeY);
             }
         });
 

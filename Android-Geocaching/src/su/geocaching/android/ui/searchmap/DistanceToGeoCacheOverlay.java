@@ -9,11 +9,11 @@ import android.view.MotionEvent;
 import com.google.android.maps.GeoPoint;
 import com.google.android.maps.MapView;
 import com.google.android.maps.Projection;
+import su.geocaching.android.controller.Controller;
 
 public class DistanceToGeoCacheOverlay extends com.google.android.maps.Overlay {
 
     private GeoPoint userPoint;
-    private GeoPoint cachePoint;
     private Paint paintLine;
     private Point to;
     private Point from;
@@ -22,9 +22,8 @@ public class DistanceToGeoCacheOverlay extends com.google.android.maps.Overlay {
 
     private final GestureDetector gestureDetector;
 
-    public DistanceToGeoCacheOverlay(GeoPoint userPoint, GeoPoint cachePoint, final MapView mapView) {
+    public DistanceToGeoCacheOverlay(GeoPoint userPoint, final MapView mapView) {
         this.userPoint = userPoint;
-        this.cachePoint = cachePoint;
         from = new Point();
         to = new Point();
         paintLine = new Paint();
@@ -47,16 +46,12 @@ public class DistanceToGeoCacheOverlay extends com.google.android.maps.Overlay {
 
         Projection proj = mapView.getProjection();
         proj.toPixels(userPoint, from);
-        proj.toPixels(cachePoint, to);
+        proj.toPixels(Controller.getInstance().getSearchingGeoCache().getLocationGeoPoint(), to);
         canvas.drawLine(from.x, from.y, to.x, to.y, paintLine);
     }
 
     protected void setUserPoint(GeoPoint userPoint) {
         this.userPoint = userPoint;
-    }
-
-    public void setCachePoint(GeoPoint cachePoint) {
-        this.cachePoint = cachePoint;
     }
 
     @Override
