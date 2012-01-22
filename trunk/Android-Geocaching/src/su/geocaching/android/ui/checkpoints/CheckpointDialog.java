@@ -1,5 +1,6 @@
 package su.geocaching.android.ui.checkpoints;
 
+import android.widget.Button;
 import su.geocaching.android.controller.Controller;
 import su.geocaching.android.controller.utils.CoordinateHelper;
 import su.geocaching.android.controller.managers.CheckpointManager;
@@ -31,6 +32,9 @@ public class CheckpointDialog extends Activity {
 
         TextView coordinates = (TextView) findViewById(R.id.checkpointCoordinate);
         TextView status = (TextView) findViewById(R.id.tvCheckpointDialogStatus);
+
+        Button checkpointDeleteButton = (Button) findViewById(R.id.checkpointDeleteButton);
+        checkpointDeleteButton.setEnabled(checkpointId != cacheId);
 
         GeoCache cache;
         if (checkpointId == cacheId) {

@@ -104,7 +104,7 @@ public class SearchMapActivity extends MapActivity implements IConnectionAware, 
         mapController = map.getController();
         userOverlay = new DynamicUserLocationOverlay(this, map);
         map.setBuiltInZoomControls(true);
-        GeoCache geoCache = (GeoCache) getIntent().getParcelableExtra(GeoCache.class.getCanonicalName());
+        GeoCache geoCache = getCurrentGeoCache();
 
         Controller.getInstance().setSearchingGeoCache(geoCache);
         Controller.getInstance().getPreferencesManager().setLastSearchedGeoCache(geoCache);
@@ -152,7 +152,7 @@ public class SearchMapActivity extends MapActivity implements IConnectionAware, 
     protected void onResume() {
         super.onResume();
         LogManager.d(TAG, "onResume");
-        GeoCache geoCache = (GeoCache) getIntent().getParcelableExtra(GeoCache.class.getCanonicalName());
+        GeoCache geoCache = getCurrentGeoCache();
 
         if (geoCache == null) {
             LogManager.e(TAG, "Geocache is null. Finishing.");
@@ -167,10 +167,6 @@ public class SearchMapActivity extends MapActivity implements IConnectionAware, 
             this.finish();
             startActivity(new Intent(this, FavoritesFolderActivity.class));
             return;
-        }
-
-        if (distanceOverlay != null) {
-            distanceOverlay.setCachePoint(Controller.getInstance().getSearchingGeoCache().getLocationGeoPoint());
         }
 
         checkpointManager = Controller.getInstance().getCheckpointManager(Controller.getInstance().getPreferencesManager().getLastSearchedGeoCache().getId());
@@ -245,10 +241,7 @@ public class SearchMapActivity extends MapActivity implements IConnectionAware, 
         userOverlay.setLocationPrecise(isPrecise);
         if (distanceOverlay == null) {
             LogManager.d(TAG, "update location: add distance and user overlays");
-            distanceOverlay = new DistanceToGeoCacheOverlay(
-                    CoordinateHelper.locationToGeoPoint(location),
-                    Controller.getInstance().getSearchingGeoCache().getLocationGeoPoint(),
-                    map);
+            distanceOverlay = new DistanceToGeoCacheOverlay(CoordinateHelper.locationToGeoPoint(location), map);
             mapOverlays.add(0, distanceOverlay); // lower overlay
             mapOverlays.add(userOverlay);
 
@@ -269,7 +262,7 @@ public class SearchMapActivity extends MapActivity implements IConnectionAware, 
         int maxLat = Integer.MIN_VALUE;
         int minLon = Integer.MAX_VALUE;
         int maxLon = Integer.MIN_VALUE;
-        final GeoCache gc = (GeoCache) getIntent().getParcelableExtra(GeoCache.class.getCanonicalName());
+        final GeoCache gc = getCurrentGeoCache();
         final Location location = Controller.getInstance().getLocationManager().getLastKnownLocation();
         if (location != null) {
             final GeoPoint currentGeoPoint = CoordinateHelper.locationToGeoPoint(location);
@@ -525,7 +518,7 @@ public class SearchMapActivity extends MapActivity implements IConnectionAware, 
      */
     private void updateMapInfoFromSettings() {
         SearchMapInfo lastMapInfo = Controller.getInstance().getPreferencesManager().getLastSearchMapInfo();
-        GeoCache geoCache = (GeoCache) getIntent().getParcelableExtra(GeoCache.class.getCanonicalName());
+        GeoCache geoCache = getCurrentGeoCache();
         // TODO: also resetZoom if user location and all markers are out of the current view port
         if (lastMapInfo.getGeoCacheId() != geoCache.getId()) {
             map.post( new Runnable() {
@@ -558,7 +551,7 @@ public class SearchMapActivity extends MapActivity implements IConnectionAware, 
         int centerX = map.getMapCenter().getLatitudeE6();
         int centerY = map.getMapCenter().getLongitudeE6();
         int zoom = map.getZoomLevel();
-        int geocacheId = ((GeoCache) getIntent().getParcelableExtra(GeoCache.class.getCanonicalName())).getId();
+        int geocacheId = getCurrentGeoCache().getId();
         return new SearchMapInfo(centerX, centerY, zoom, geocacheId);
     }
 
@@ -588,20 +581,25 @@ public class SearchMapActivity extends MapActivity implements IConnectionAware, 
             case CallbackManager.WHAT_LOCATION_DEPRECATED:
                 // update distance text view
                 final boolean isPrecise = Controller.getInstance().getLocationManager().hasPreciseLocation();
-                if (distanceStatusTextView != null) {
-                    distanceStatusTextView.setText(
-                            CoordinateHelper.distanceToString(
-                                    CoordinateHelper.getDistanceBetween(
-                                            Controller.getInstance().getSearchingGeoCache().getLocationGeoPoint(),
-                                            Controller.getInstance().getLocationManager().getLastKnownLocation()),
-                                    isPrecise));
-                }
+                updateDistanceTextView(isPrecise);
                 if (userOverlay != null) {
                     userOverlay.setLocationPrecise(isPrecise);
                 }
                 return true;
         }
         return false;
+    }
+
+    private void updateDistanceTextView(boolean isPrecise)
+    {
+        if (distanceStatusTextView != null) {
+            distanceStatusTextView.setText(
+                    CoordinateHelper.distanceToString(
+                            CoordinateHelper.getDistanceBetween(
+                                    Controller.getInstance().getSearchingGeoCache().getLocationGeoPoint(),
+                                    Controller.getInstance().getLocationManager().getLastKnownLocation()),
+                            isPrecise));
+        }
     }
 
     @Override
@@ -637,5 +635,25 @@ public class SearchMapActivity extends MapActivity implements IConnectionAware, 
         } else {
             Toast.makeText(getBaseContext(), getString(R.string.status_null_last_location), Toast.LENGTH_SHORT).show();
         }
+    }
+
+    public void setActiveItem(GeoCache geoCache) {
+        if (geoCache.getType() == GeoCacheType.CHECKPOINT)
+        {
+            Controller.getInstance().getCheckpointManager(getCurrentGeoCache().getId()).setActiveItem(geoCache.getId());
+        }
+        else
+        {
+            Controller.getInstance().getCheckpointManager(getCurrentGeoCache().getId()).deactivateCheckpoints();
+            Controller.getInstance().setSearchingGeoCache(geoCache);
+        }
+        final boolean isPrecise = Controller.getInstance().getLocationManager().hasPreciseLocation();
+        updateDistanceTextView(isPrecise);
+        map.invalidate();
+    }
+
+    private GeoCache getCurrentGeoCache()
+    {
+        return (GeoCache) getIntent().getParcelableExtra(GeoCache.class.getCanonicalName());
     }
 }
