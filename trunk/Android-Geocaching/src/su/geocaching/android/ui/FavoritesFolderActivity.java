@@ -3,17 +3,20 @@ package su.geocaching.android.ui;
 import android.app.AlertDialog;
 import android.app.Dialog;
 import android.app.ListActivity;
-import android.app.SearchManager;
+import android.content.Context;
 import android.content.DialogInterface;
-import android.content.Intent;
+import android.content.res.Configuration;
 import android.os.Bundle;
 import android.os.Parcelable;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.inputmethod.InputMethodManager;
+import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
+import android.widget.Toast;
 import su.geocaching.android.controller.Controller;
 import su.geocaching.android.controller.adapters.FavoritesArrayAdapter;
 import su.geocaching.android.controller.managers.DbManager;
@@ -37,6 +40,8 @@ public class FavoritesFolderActivity extends ListActivity {
     private DbManager dbManager;
     private FavoritesArrayAdapter favoriteGeoCachesAdapter;
     private TextView tvNoCache;
+    private ImageView actionSearch;
+    private ImageView actionSort;
     private Parcelable listState = null;
 
     @Override
@@ -46,15 +51,15 @@ public class FavoritesFolderActivity extends ListActivity {
         setContentView(R.layout.favorites_folder_activity);
 
         tvNoCache = (TextView) findViewById(R.id.tvNoCacheFound);
+        actionSearch = (ImageView) findViewById(R.id.actionSearch);
+        actionSort = (ImageView) findViewById(R.id.actionSort);
+
         dbManager = Controller.getInstance().getDbManager();
 
         favoriteGeoCachesAdapter = new FavoritesArrayAdapter(this);
         favoriteGeoCachesAdapter.setSortType(FavoritesArrayAdapter.GeoCacheSortType.values()[Controller.getInstance().getPreferencesManager().getFavoritesSortType()]);
         getListView().setTextFilterEnabled(true);
         setListAdapter(favoriteGeoCachesAdapter);
-
-        Intent intent = getIntent();
-        handleIntent(intent);
 
         Controller.getInstance().getGoogleAnalyticsManager().trackActivityLaunch(FAVORITES_FOLDER);
     }
@@ -73,26 +78,12 @@ public class FavoritesFolderActivity extends ListActivity {
 
         if (favoriteGeoCachesAdapter.isEmpty()) {
             tvNoCache.setVisibility(View.VISIBLE);
+            actionSearch.setVisibility(View.GONE);
+            actionSort.setVisibility(View.GONE);
         } else {
             tvNoCache.setVisibility(View.GONE);
-        }
-
-        if (listState != null) {
-            getListView().onRestoreInstanceState(listState);
-        }
-        listState = null;
-    }
-
-    @Override
-    protected void onNewIntent(Intent intent) {
-        setIntent(intent);
-        handleIntent(intent);
-    }
-
-    private void handleIntent(Intent intent) {
-        if (Intent.ACTION_SEARCH.equals(intent.getAction())) {
-            String query = intent.getStringExtra(SearchManager.QUERY);
-            getListView().setFilterText(query);
+            actionSearch.setVisibility(View.VISIBLE);
+            actionSort.setVisibility(View.VISIBLE);
         }
     }
 
@@ -146,6 +137,24 @@ public class FavoritesFolderActivity extends ListActivity {
 
     public void onSearchClick(View v) {
         onSearchRequested();
+    }
+
+    @Override
+    public boolean onSearchRequested() {
+        Configuration config = this.getResources().getConfiguration();
+        if (config.hardKeyboardHidden == Configuration.HARDKEYBOARDHIDDEN_NO)
+        {
+            Toast.makeText(this, R.string.favorites_hardware_keyboard_alert, Toast.LENGTH_SHORT).show();
+        }
+        else
+        {
+            InputMethodManager keyboard = (InputMethodManager)getSystemService(Context.INPUT_METHOD_SERVICE);
+            boolean isKeyboardShown = keyboard.showSoftInput(getListView(), InputMethodManager.SHOW_FORCED);
+            if (!isKeyboardShown){
+                LogManager.e(TAG, "Keyboard is not displayed for filtering");
+            }
+        }
+        return false;
     }
 
     public void onSortClick(View v) {

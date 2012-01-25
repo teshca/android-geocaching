@@ -17,7 +17,7 @@
         <View style="@style/TitleBarSeparator"/>
 
         <!-- GeoCacheSortType list -->
-        <ImageView android:id="@+id/actionSearch"
+        <ImageView android:id="@+id/actionSort"
                    style="@style/ActionBarIcon"
                    android:src="@drawable/ic_action_sort"
                    android:onClick="onSortClick"/>
