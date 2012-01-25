@@ -140,11 +140,11 @@ public class ResourceManager {
                     case STEP_BY_STEP_VIRTUAL:
                         switch (status) {
                             case VALID:
-                                return R.drawable.ic_cache_custom_step_by_step_virtual_valid; // TODO draw icons
+                                return R.drawable.ic_cache_custom_step_by_step_virtual_valid;
                             case NOT_VALID:
-                                return R.drawable.ic_cache_custom_step_by_step_virtual_not_valid; // TODO draw icons
+                                return R.drawable.ic_cache_custom_step_by_step_virtual_not_valid;
                             case NOT_CONFIRMED:
-                                return R.drawable.ic_cache_custom_step_by_step_virtual_not_confirmed; // TODO draw icons
+                                return R.drawable.ic_cache_custom_step_by_step_virtual_not_confirmed;
                         }
                         break;
                     case CONTEST:

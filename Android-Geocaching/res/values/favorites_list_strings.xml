@@ -20,6 +20,5 @@
     <!--
     <string name="sort_by">Дате добавления</string>
     -->
-
-
+    <string name="favorites_hardware_keyboard_alert">Начните ввод текста</string>
 </resources>
