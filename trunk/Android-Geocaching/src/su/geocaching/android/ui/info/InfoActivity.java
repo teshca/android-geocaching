@@ -5,7 +5,6 @@ import android.app.Dialog;
 import android.content.Context;
 import android.graphics.Picture;
 import android.os.Bundle;
-import android.os.Environment;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
@@ -27,8 +26,6 @@ import su.geocaching.android.model.GeoCache;
 import su.geocaching.android.model.GeoCacheType;
 import su.geocaching.android.model.InfoState;
 import su.geocaching.android.ui.R;
-
-import java.io.File;
 
 
 /**
@@ -259,7 +256,7 @@ public class InfoActivity extends Activity {
 
     @Override
     public boolean onPrepareOptionsMenu(Menu menu) {
-        isPhotoStored = isPhotoStored(geoCache.getId());
+        isPhotoStored = Controller.getInstance().getExternalStorageManager().hasPhotos(geoCache.getId());
         if (pageState == PageState.PHOTO) {
             menu.getItem(3).setTitle(R.string.menu_delete_photos_cache);
             menu.getItem(3).setIcon(R.drawable.ic_menu_delete);
@@ -312,7 +309,7 @@ public class InfoActivity extends Activity {
                 return true;
             case R.id.show_cache_photos:
                 if (pageState == PageState.PHOTO) {
-                    controller.getDbManager().deletePhotos(geoCache.getId());
+                    controller.getExternalStorageManager().deletePhotos(geoCache.getId());
                     galleryAdapter = null;
                     galleryView.setAdapter(null);
                     loadView(PageState.INFO);
@@ -352,7 +349,7 @@ public class InfoActivity extends Activity {
                 ivInfo.setImageResource(R.drawable.ic_info_default);
                 ivNotebook.setImageResource(R.drawable.ic_notebook_default);
                 ivPhoto.setImageResource(R.drawable.ic_gallery_selected);
-                isPhotoStored = isPhotoStored(geoCache.getId());
+                isPhotoStored = Controller.getInstance().getExternalStorageManager().hasPhotos(geoCache.getId());
                 webView.setVisibility(View.GONE);
                 galleryView.setVisibility(View.VISIBLE);
                 break;
@@ -401,7 +398,7 @@ public class InfoActivity extends Activity {
                 }
                 break;
             case PHOTO:
-                isPhotoStored = isPhotoStored(geoCache.getId());
+                isPhotoStored = Controller.getInstance().getExternalStorageManager().hasPhotos(geoCache.getId());
                 if (isPhotoStored) {
                     if (galleryAdapter == null) {
                         galleryAdapter = new GalleryImageAdapter(this, geoCache.getId());
@@ -537,11 +534,5 @@ public class InfoActivity extends Activity {
 
     public void onPhotoClick(View v) {
         loadView(PageState.PHOTO);
-    }
-
-    private boolean isPhotoStored(int cacheId) {
-        File dir = new File(Environment.getExternalStorageDirectory(), String.format(this.getString(R.string.cache_directory), cacheId));
-        String[] imageNames = dir.list();
-        return (imageNames != null) && (imageNames.length != 0);
     }
 }

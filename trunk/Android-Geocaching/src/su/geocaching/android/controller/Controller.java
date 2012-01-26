@@ -4,7 +4,6 @@ import android.content.Context;
 import android.content.pm.PackageManager;
 import android.hardware.SensorManager;
 import android.location.LocationManager;
-import android.os.Handler;
 import su.geocaching.android.controller.apimanager.GeocachingSuApiManager;
 import su.geocaching.android.controller.apimanager.IApiManager;
 import su.geocaching.android.controller.managers.*;
@@ -38,6 +37,7 @@ public class Controller {
     private CheckpointManager checkpointManager;
     private GoogleAnalyticsManager analyticsManager;
     private CallbackManager callbackManager;
+    private ExternalStorageManager externalStorageManager;
 
     // UI view models
     private SelectMapViewModel selectMapViewModel;
@@ -113,6 +113,13 @@ public class Controller {
      */
     public synchronized DbManager getDbManager() {
         return getDbManager(applicationContext);
+    }
+
+    /**
+     * @return resource manager which can give you interface to working with SD card
+     */
+    public synchronized ExternalStorageManager getExternalStorageManager() {
+        return getExternalStorageManager(applicationContext);
     }
 
     /**
@@ -207,6 +214,18 @@ public class Controller {
             dbManager = new DbManager(context);
         }
         return dbManager;
+    }
+
+    /**
+     * @param context for init manager
+     * @return resource manager which can give you interface to working with SD card
+     */
+    public synchronized ExternalStorageManager getExternalStorageManager(Context context) {
+        if (externalStorageManager == null) {
+            LogManager.d(TAG, "externalStorageManager manager wasn't init yet. init");
+            externalStorageManager = new ExternalStorageManager(context);
+        }
+        return externalStorageManager;
     }
 
     public synchronized GoogleAnalyticsManager getGoogleAnalyticsManager() {

@@ -8,14 +8,11 @@ import android.database.Cursor;
 import android.database.SQLException;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
-import android.os.Environment;
-import android.provider.MediaStore;
-import android.util.Log;
 import com.google.android.maps.GeoPoint;
+import su.geocaching.android.controller.Controller;
 import su.geocaching.android.model.GeoCache;
 import su.geocaching.android.model.GeoCacheStatus;
 import su.geocaching.android.model.GeoCacheType;
-import su.geocaching.android.ui.R;
 
 /**
  * This class contains method for working with database.
@@ -285,7 +282,7 @@ public class DbManager extends SQLiteOpenHelper {
     public void deleteCacheById(int id) {
         db.execSQL(String.format("DELETE FROM %s WHERE %s=%d;", DATABASE_NAME_TABLE, COLUMN_ID, id));
         db.execSQL(String.format("DELETE FROM %s WHERE %s=%d;", DATABASE_CHECKPOINT_NAME_TABLE, CACHE_ID, id));
-        deletePhotos(id);
+        Controller.getInstance().getExternalStorageManager().deletePhotos(id);
     }
 
     /**
@@ -329,26 +326,8 @@ public class DbManager extends SQLiteOpenHelper {
 
     public void clearDB() {
         LogManager.d(TAG, "clearDB");
-        // FIXME: Delete all related photos
-        // FIXME: Delete all related checkpoints
         db.delete(DATABASE_NAME_TABLE, null, null);
+        db.delete(DATABASE_CHECKPOINT_NAME_TABLE, null, null);
+        Controller.getInstance().getExternalStorageManager().deleteAllPhotos();
     }
-
-
-  public void deletePhotos(int cacheId) {
-    File images = new File(Environment.getExternalStorageDirectory(), String.format(context.getString(R.string.cache_directory), cacheId));
-    if (images == null || images.list() == null) {
-      // TODO need some message
-      return;
-    }
-
-    for (File f : images.listFiles()) {
-      try {
-        context.getContentResolver().delete(MediaStore.Images.Media.EXTERNAL_CONTENT_URI, String.format("%s=\"%s\"", MediaStore.Images.Media.DATA, f.toString()), null);
-      } catch (Exception e) {
-        Log.e(TAG, e.getMessage(), e);
-      }
-    }
-    images.delete();
-  }
 }

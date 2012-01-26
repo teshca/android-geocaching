@@ -2,7 +2,6 @@ package su.geocaching.android.controller.apimanager;
 
 import java.io.*;
 import java.net.URL;
-import java.net.URLConnection;
 
 import android.app.ProgressDialog;
 import android.content.ContentValues;
@@ -83,7 +82,7 @@ public class DownloadPhotoTask extends AsyncTask<URL, Void, Void> {
         if (externalStorageAvailable && externalStorageWriteable && enoughFreeSpace) {
             if (Controller.getInstance().getConnectionManager().isActiveNetworkConnected()) {
                 for (URL url : params) {
-                    Uri uri = prepareFile(url);
+                    Uri uri = Controller.getInstance().getExternalStorageManager().preparePhotoFile(url.getFile(), cacheId);
                     boolean success = false;
                     for (int attempt = 0; attempt < 5 && !success; attempt++)
                         try {
@@ -95,22 +94,6 @@ public class DownloadPhotoTask extends AsyncTask<URL, Void, Void> {
             }
         }
         return null;
-    }
-
-    private Uri prepareFile(URL photoURL) {
-        File sdImageMainDirectory = new File(Environment.getExternalStorageDirectory(), context.getString(R.string.main_directory));
-        File sdImagePhotoDirectory = new File(sdImageMainDirectory, context.getString(R.string.photo_directory));
-        File sdImageCacheDirectory = new File(sdImagePhotoDirectory, Integer.toString(cacheId));
-        sdImageCacheDirectory.mkdirs();  //TODO we should catch exceptions and correctly process situation when folder don't created
-
-        String filename = photoURL.toString().substring(photoURL.toString().lastIndexOf('/') + 1);
-        File outputFile = new File(sdImageCacheDirectory, filename);
-        ContentValues values = new ContentValues();
-        values.put(MediaStore.MediaColumns.DATA, outputFile.toString());
-        values.put(MediaStore.MediaColumns.TITLE, filename);
-        values.put(MediaStore.MediaColumns.DATE_ADDED, System.currentTimeMillis());
-        values.put(MediaStore.MediaColumns.MIME_TYPE, "image/jpg");
-        return context.getContentResolver().insert(android.provider.MediaStore.Images.Media.EXTERNAL_CONTENT_URI, values);
     }
 
     private boolean downloadAndSavePhoto(URL from, Uri where) throws IOException {
