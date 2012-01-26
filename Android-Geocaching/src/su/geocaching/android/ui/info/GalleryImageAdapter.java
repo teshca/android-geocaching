@@ -13,6 +13,7 @@ import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.GridView;
 import android.widget.ImageView;
+import su.geocaching.android.controller.Controller;
 import su.geocaching.android.controller.managers.LogManager;
 import su.geocaching.android.ui.R;
 
@@ -36,16 +37,7 @@ class GalleryImageAdapter extends BaseAdapter {
 
     public GalleryImageAdapter(final Context context, int cacheId) {
         this(context);
-
-        File imagesDirectory = new File(Environment.getExternalStorageDirectory(), String.format(context.getString(R.string.cache_directory), cacheId));
-        FilenameFilter imageFilter = new FilenameFilter() {
-
-            @Override
-            public boolean accept(File dir, String name) {
-                return (name.endsWith(".jpg") || name.endsWith(".png"));
-            }
-        };
-        imageList = imagesDirectory.listFiles(imageFilter);
+        imageList = Controller.getInstance().getExternalStorageManager().getPhotos(cacheId);
     }
 
     @Override
