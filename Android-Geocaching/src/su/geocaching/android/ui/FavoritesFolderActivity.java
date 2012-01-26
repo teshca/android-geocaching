@@ -103,7 +103,8 @@ public class FavoritesFolderActivity extends ListActivity {
 
     @Override
     public boolean onPrepareOptionsMenu(Menu menu) {
-        menu.findItem(R.id.delete_all_cache_in_database).setEnabled(!favoriteGeoCachesAdapter.isEmpty());
+        boolean listIsNotFiltered = favoriteGeoCachesAdapter.getAllItemsCount() == favoriteGeoCachesAdapter.getCount();
+        menu.findItem(R.id.delete_all_cache_in_database).setEnabled(listIsNotFiltered);
         return super.onPrepareOptionsMenu(menu);
     }
 
@@ -188,16 +189,19 @@ public class FavoritesFolderActivity extends ListActivity {
             }
             case DELETE_CACHE_DIALOG_ID: {
                 AlertDialog.Builder builder = new AlertDialog.Builder(this);
-                builder.setMessage(this.getString(R.string.ask_delete_all_cache_in_database)).setPositiveButton(getString(R.string.yes), new DialogInterface.OnClickListener() {
+                builder.setMessage(String.format(this.getString(R.string.ask_delete_all_cache_in_database), favoriteGeoCachesAdapter.getAllItemsCount()))
+                .setPositiveButton(getString(R.string.yes), new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int id) {
                         dbManager.clearDB();
                         favoriteGeoCachesAdapter.clear();
                         favoriteGeoCachesAdapter.notifyDataSetChanged();
                         tvNoCache.setVisibility(View.VISIBLE);
+                        actionSearch.setVisibility(View.GONE);
+                        actionSort.setVisibility(View.GONE);
                         dialog.cancel();
                     }
-                });
-                builder.setNegativeButton(getString(R.string.no), new DialogInterface.OnClickListener() {
+                })
+                .setNegativeButton(getString(R.string.no), new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int id) {
                         dialog.cancel();
                     }

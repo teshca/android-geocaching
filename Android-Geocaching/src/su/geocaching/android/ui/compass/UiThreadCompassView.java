@@ -23,8 +23,7 @@ public class UiThreadCompassView extends View implements IBearingAware {
     private AbstractCompassDrawing compassDrawing;
 
     private float northDirection; // in degrees
-    private float cacheDirection;
-    private boolean isLocationFixed = false;
+    private Float cacheDirection;
 
     public UiThreadCompassView(Context context, AttributeSet attributeSet) {
         super(context, attributeSet);
@@ -35,11 +34,11 @@ public class UiThreadCompassView extends View implements IBearingAware {
     public void onDraw(Canvas canvas) {
         if (compassDrawing != null) {
             compassDrawing.draw(canvas, northDirection);
-            if (isLocationFixed) {
+            if (cacheDirection != null) {
                 compassDrawing.drawCacheArrow(canvas, cacheDirection + northDirection);
             }
         } else {
-            LogManager.w("TAG", "draw not ready");
+            LogManager.w(TAG, "draw not ready");
         }
     }
 
@@ -55,8 +54,6 @@ public class UiThreadCompassView extends View implements IBearingAware {
      */
     public void setCacheDirection(float direction) {
         cacheDirection = direction;
-        isLocationFixed = true;
-        //doAnimation();
     }
 
     /**
@@ -91,7 +88,19 @@ public class UiThreadCompassView extends View implements IBearingAware {
             Controller.getInstance().getCompassManager().removeSubscriber(this);
         }
     }
+    /*
+    @Override
+    protected void onAttachedToWindow() {
+        Controller.getInstance().getCompassManager().addSubscriber(this);
+        super.onAttachedToWindow();
+    }
 
+    @Override
+    protected void onDetachedFromWindow() {
+        Controller.getInstance().getCompassManager().removeSubscriber(this);
+        super.onDetachedFromWindow();
+    }
+    */
     private long time = 0;
 
     @Override

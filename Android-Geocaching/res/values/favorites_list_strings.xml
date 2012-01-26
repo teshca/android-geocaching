@@ -11,7 +11,7 @@
     <string name="info_not_save_but_cache_in_DB">Невозможно показать информацию о тайнике, поскольку
         возможно текст не сохранился, и отсутсвует соединение с интернетом
     </string>
-    <string name="ask_delete_all_cache_in_database">Вы точно хотите удалить все тайники?</string>
+    <string name="ask_delete_all_cache_in_database">Вы точно хотите удалить все тайники (%d шт.)?</string>
     <string name="menu_delete_all_cache_in_database">Удалить все тайники</string>
     <string name="caches_with_appropriate_name_not_found">Не найдено тайников с подходящим именем</string>
     <string name="sort_by">Сортировать по:</string>
