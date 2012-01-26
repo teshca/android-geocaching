@@ -218,4 +218,9 @@ public class FavoritesArrayAdapter extends BaseArrayAdapter<GeoCache> implements
     public void setAllItemsArray(List<GeoCache> allItemsArray) {
         this.allItemsArray = allItemsArray;
     }
+    
+    public int getAllItemsCount()
+    {
+        return this.allItemsArray.size();
+    }
 }

@@ -329,6 +329,8 @@ public class DbManager extends SQLiteOpenHelper {
 
     public void clearDB() {
         LogManager.d(TAG, "clearDB");
+        // FIXME: Delete all related photos
+        // FIXME: Delete all related checkpoints
         db.delete(DATABASE_NAME_TABLE, null, null);
     }
 
