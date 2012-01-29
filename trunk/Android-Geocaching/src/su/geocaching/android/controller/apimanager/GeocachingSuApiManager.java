@@ -3,9 +3,7 @@ package su.geocaching.android.controller.apimanager;
 import javax.xml.parsers.ParserConfigurationException;
 import javax.xml.parsers.SAXParser;
 import javax.xml.parsers.SAXParserFactory;
-import java.io.FilterInputStream;
 import java.io.IOException;
-import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
@@ -135,7 +133,7 @@ public class GeocachingSuApiManager implements IApiManager {
             return;
         }
 
-        String htmlWithPhotoLinks = "";
+        String htmlWithPhotoLinks = null;
         try {
             htmlWithPhotoLinks = new DownloadInfoTask(cacheId, infoActivity, DownloadInfoState.DOWNLOAD_PHOTO_PAGE).execute().get();
         } catch (InterruptedException e) {
@@ -171,30 +169,6 @@ public class GeocachingSuApiManager implements IApiManager {
             infoActivity.showErrorMessage(R.string.no_photo);
         } else {
             new DownloadPhotoTask(infoActivity, cacheId).execute(photoUrls.toArray(new URL[photoUrls.size()]));
-        }
-    }
-
-    public static class FlushedInputStream extends FilterInputStream {
-        public FlushedInputStream(InputStream inputStream) {
-            super(inputStream);
-        }
-
-        @Override
-        public long skip(long n) throws IOException {
-            long totalBytesSkipped = 0L;
-            while (totalBytesSkipped < n) {
-                long bytesSkipped = in.skip(n - totalBytesSkipped);
-                if (bytesSkipped == 0L) {
-                    int b = read();
-                    if (b < 0) {
-                        break;  // we reached EOF
-                    } else {
-                        bytesSkipped = 1; // we read one byte
-                    }
-                }
-                totalBytesSkipped += bytesSkipped;
-            }
-            return totalBytesSkipped;
         }
     }
 }
