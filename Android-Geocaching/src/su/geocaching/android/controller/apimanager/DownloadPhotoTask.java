@@ -43,8 +43,6 @@ public class DownloadPhotoTask extends AsyncTask<URL, Void, Void> {
 
     @Override
     protected void onPreExecute() {
-        LogManager.d(TAG, "TestTime onPreExecute - Start");
-
         checkSDCard();
         if (externalStorageAvailable && externalStorageWriteable && enoughFreeSpace) {
             progressDialog = new ProgressDialog(infoActivity);
@@ -106,7 +104,7 @@ public class DownloadPhotoTask extends AsyncTask<URL, Void, Void> {
             HttpResponse response = client.execute(getRequest);
             final int statusCode = response.getStatusLine().getStatusCode();
             if (statusCode != HttpStatus.SC_OK) {
-                LogManager.w("downloadAndSavePhoto", "Error " + statusCode + " while retrieving bitmap from " + from.toString());
+                LogManager.w(TAG, "Error " + statusCode + " while retrieving bitmap from " + from.toString());
                 return false;
             }
 
@@ -115,7 +113,7 @@ public class DownloadPhotoTask extends AsyncTask<URL, Void, Void> {
                 InputStream inputStream = null;
                 try {
                     outputStream = infoActivity.getContentResolver().openOutputStream(where);
-                    inputStream = new BufferedInputStream(new GeocachingSuApiManager.FlushedInputStream(entity.getContent()), 1024);
+                    inputStream = new BufferedInputStream(new FlushedInputStream(entity.getContent()), 1024);
                     outputStream = infoActivity.getContentResolver().openOutputStream(where);
                     int size;
                     byte[] buffer = new byte[1024];
@@ -135,7 +133,7 @@ public class DownloadPhotoTask extends AsyncTask<URL, Void, Void> {
         } catch (Exception e) {
             // Could provide a more explicit error message for IOException or IllegalStateException
             getRequest.abort();
-            LogManager.e("downloadAndSavePhoto", "Error while retrieving bitmap from " + from.toString(), e);
+            LogManager.e(TAG, "Error while retrieving bitmap from " + from.toString(), e);
         } finally {
             if (client != null) {
                 client.close();
@@ -168,5 +166,29 @@ public class DownloadPhotoTask extends AsyncTask<URL, Void, Void> {
 
         infoActivity.showPhoto();
         super.onPostExecute(result);
+    }
+
+    public static class FlushedInputStream extends FilterInputStream {
+        public FlushedInputStream(InputStream inputStream) {
+            super(inputStream);
+        }
+
+        @Override
+        public long skip(long n) throws IOException {
+            long totalBytesSkipped = 0L;
+            while (totalBytesSkipped < n) {
+                long bytesSkipped = in.skip(n - totalBytesSkipped);
+                if (bytesSkipped == 0L) {
+                    int b = read();
+                    if (b < 0) {
+                        break;  // we reached EOF
+                    } else {
+                        bytesSkipped = 1; // we read one byte
+                    }
+                }
+                totalBytesSkipped += bytesSkipped;
+            }
+            return totalBytesSkipped;
+        }
     }
 }
