@@ -26,10 +26,10 @@ public interface IApiManager {
     /**
      * Get info/notebook about geocache. This method asynchronous.
      */
-    public void getInfo(Context context, DownloadInfoState state, InfoActivity infoActivity, int cacheId);
+    public void getInfo(DownloadInfoState state, InfoActivity infoActivity, int cacheId);
 
     /**
      * Get photo about geocache. This method asynchronous.
      */
-    public void getPhotos(Context context, InfoActivity infoActivity, int cacheId);
+    public void getPhotos(InfoActivity infoActivity, int cacheId);
 }

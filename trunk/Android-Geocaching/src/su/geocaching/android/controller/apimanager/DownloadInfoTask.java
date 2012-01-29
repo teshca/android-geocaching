@@ -5,9 +5,7 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.net.URL;
 import android.app.ProgressDialog;
-import android.content.Context;
 import android.os.AsyncTask;
-import android.util.Log;
 import su.geocaching.android.controller.Controller;
 import su.geocaching.android.controller.managers.CheckpointManager;
 import su.geocaching.android.controller.managers.LogManager;
@@ -30,15 +28,13 @@ public class DownloadInfoTask extends AsyncTask<Void, Void, String> {
 
     private int cacheId;
     private DownloadInfoState state;
-    private Context context;
     private ProgressDialog progressDialog;
     private InfoActivity infoActivity;
     private URL downloadUrl;
 
-    public DownloadInfoTask(Context context, int cacheId, InfoActivity infoActivity, DownloadInfoState state) {
+    public DownloadInfoTask(int cacheId, InfoActivity infoActivity, DownloadInfoState state) {
         this.state = state;
         this.cacheId = cacheId;
-        this.context = context;
         this.infoActivity = infoActivity;
         Thread.setDefaultUncaughtExceptionHandler(new UncaughtExceptionsHandler());
     }
@@ -51,13 +47,13 @@ public class DownloadInfoTask extends AsyncTask<Void, Void, String> {
         try {
             switch (state) {
                 case SHOW_INFO:
-                    progressMessage = context.getString(R.string.download_info);
+                    progressMessage = infoActivity.getString(R.string.download_info);
                     downloadUrl = new URL(String.format(GeocachingSuApiManager.LINK_INFO_CACHE, cacheId));
                     break;
                 case SHOW_NOTEBOOK:
                 case SAVE_CACHE_NOTEBOOK:
                 case SAVE_CACHE_NOTEBOOK_AND_GO_TO_MAP:
-                    progressMessage = context.getString(R.string.download_notebook);
+                    progressMessage = infoActivity.getString(R.string.download_notebook);
                     downloadUrl = new URL(String.format(GeocachingSuApiManager.LINK_NOTEBOOK_TEXT, cacheId));
                     break;
                 case DOWNLOAD_PHOTO_PAGE:
@@ -68,8 +64,8 @@ public class DownloadInfoTask extends AsyncTask<Void, Void, String> {
             LogManager.e(TAG, "IOException getWebText", e);
         }
 
-        if (context != null) {
-            progressDialog = new ProgressDialog(context);
+        if (infoActivity != null) {
+            progressDialog = new ProgressDialog(infoActivity);
             progressDialog.setMessage(progressMessage);
             progressDialog.show();
         }
