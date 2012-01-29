@@ -2,7 +2,6 @@ package su.geocaching.android.ui.info;
 
 import android.app.Activity;
 import android.app.Dialog;
-import android.content.Context;
 import android.graphics.Picture;
 import android.os.Bundle;
 import android.view.Menu;
@@ -59,7 +58,6 @@ public class InfoActivity extends Activity {
     private CheckBox cbFavoriteCache;
     private GalleryView galleryView;
     private GalleryImageAdapter galleryAdapter;
-    private Context context;
     private boolean isCacheStored, isPhotoStored;
     private PageState pageState = PageState.INFO;
     private ImageView ivInfo, ivNotebook, ivPhoto;
@@ -74,7 +72,6 @@ public class InfoActivity extends Activity {
         LogManager.d(TAG, "onCreate");
         setContentView(R.layout.info_activity);
         controller = Controller.getInstance();
-        context = this;
         geoCache = getIntent().getParcelableExtra(GeoCache.class.getCanonicalName());
         initViews();
         InfoState infoState = controller.getPreferencesManager().getLastInfoState();
@@ -144,7 +141,7 @@ public class InfoActivity extends Activity {
                 }
                 if (url.contains("geo:")) {
                     if (!isCacheStored) {
-                        Toast.makeText(context, R.string.ask_add_cache_in_db, Toast.LENGTH_LONG).show();
+                        Toast.makeText(InfoActivity.this, R.string.ask_add_cache_in_db, Toast.LENGTH_LONG).show();
                         return true;
                     }
 
@@ -155,7 +152,7 @@ public class InfoActivity extends Activity {
                     checkpoint.setId(geoCache.getId());
                     checkpoint.setType(GeoCacheType.CHECKPOINT);
                     checkpoint.setLocationGeoPoint(new GeoPoint(lat, lng));
-                    NavigationManager.startCreateCheckpointActivity(context, checkpoint);
+                    NavigationManager.startCreateCheckpointActivity(InfoActivity.this, checkpoint);
                     return true;
                 }
 
@@ -174,7 +171,6 @@ public class InfoActivity extends Activity {
 
     @Override
     protected void onPostCreate(Bundle savedInstanceState) {
-        context = this;
         isCacheStored = controller.getDbManager().isCacheStored(geoCache.getId());
         if (isCacheStored) {
             cbFavoriteCache.setChecked(true);
@@ -221,7 +217,7 @@ public class InfoActivity extends Activity {
 
     private ConfirmDialogResultListener downloadPhotoListener = new ConfirmDialogResultListener() {
         public void onConfirm() {
-            controller.getApiManager().getPhotos(context, InfoActivity.this, InfoActivity.this.geoCache.getId());
+            controller.getApiManager().getPhotos(InfoActivity.this, InfoActivity.this.geoCache.getId());
         }
     };
 
@@ -385,14 +381,14 @@ public class InfoActivity extends Activity {
         switch (pageState) {
             case INFO:
                 if (info == null) {
-                    controller.getApiManager().getInfo(this, DownloadInfoState.SHOW_INFO, this, geoCache.getId());
+                    controller.getApiManager().getInfo(DownloadInfoState.SHOW_INFO, this, geoCache.getId());
                 } else {
                     webView.loadDataWithBaseURL(GeocachingSuApiManager.HTTP_PDA_GEOCACHING_SU, info, "text/html", GeocachingSuApiManager.UTF8_ENCODING, null);
                 }
                 break;
             case NOTEBOOK:
                 if (notebook == null) {
-                    controller.getApiManager().getInfo(this, DownloadInfoState.SHOW_NOTEBOOK, this, geoCache.getId());
+                    controller.getApiManager().getInfo( DownloadInfoState.SHOW_NOTEBOOK, this, geoCache.getId());
                 } else {
                     webView.loadDataWithBaseURL(GeocachingSuApiManager.HTTP_PDA_GEOCACHING_SU, notebook, "text/html", GeocachingSuApiManager.UTF8_ENCODING, null);
                 }
@@ -407,11 +403,11 @@ public class InfoActivity extends Activity {
                         galleryAdapter.notifyDataSetChanged();
                     }
                 } else if (refresh) {
-                    controller.getApiManager().getPhotos(context, InfoActivity.this, InfoActivity.this.geoCache.getId());
+                    controller.getApiManager().getPhotos(InfoActivity.this, InfoActivity.this.geoCache.getId());
                     refresh = false;
                 } else {
                     if (controller.getConnectionManager().isWifiConnected() || controller.getPreferencesManager().getDownloadPhotosAlways()) {
-                        controller.getApiManager().getPhotos(context, InfoActivity.this, InfoActivity.this.geoCache.getId());
+                        controller.getApiManager().getPhotos(InfoActivity.this, InfoActivity.this.geoCache.getId());
                     } else {
                         showDialog(DOWNLOAD_PICTURE_ALERT_DIALOG_ID);
                     }
@@ -445,7 +441,7 @@ public class InfoActivity extends Activity {
     }
 
     private void downloadNotebookInformation() {
-        controller.getApiManager().getInfo(this, DownloadInfoState.SAVE_CACHE_NOTEBOOK, this, geoCache.getId());
+        controller.getApiManager().getInfo(DownloadInfoState.SAVE_CACHE_NOTEBOOK, this, geoCache.getId());
     }
 
     private void saveCache() {
@@ -512,7 +508,7 @@ public class InfoActivity extends Activity {
         if (!isCacheStored) {
             cbFavoriteCache.setChecked(true);
             if ((notebook == null) && (controller.getPreferencesManager().getDownloadNoteBookAlways() || controller.getConnectionManager().isWifiConnected())) {
-                controller.getApiManager().getInfo(this, DownloadInfoState.SAVE_CACHE_NOTEBOOK_AND_GO_TO_MAP, this, geoCache.getId());
+                controller.getApiManager().getInfo(DownloadInfoState.SAVE_CACHE_NOTEBOOK_AND_GO_TO_MAP, this, geoCache.getId());
                 return;
             }
         }

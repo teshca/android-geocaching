@@ -15,7 +15,6 @@ import java.util.concurrent.ExecutionException;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-import android.content.Context;
 import android.os.AsyncTask;
 import android.widget.Toast;
 import org.xml.sax.InputSource;
@@ -109,29 +108,27 @@ public class GeocachingSuApiManager implements IApiManager {
     /**
      * This method starts DownloadInfoTask
      *
-     * @param context      ontext for showing progress bar while photos downloading
      * @param state        of downloading process
      * @param infoActivity infoActivity need for callback
      * @param cacheId      cacheId id of geocache
      */
     @Override
-    public void getInfo(Context context, DownloadInfoState state, InfoActivity infoActivity, int cacheId) {
+    public void getInfo(DownloadInfoState state, InfoActivity infoActivity, int cacheId) {
         if (downloadInfoTask != null) {
             downloadInfoTask.cancel(false); // TODO check it
         }
-        downloadInfoTask = new DownloadInfoTask(context, cacheId, infoActivity, state);
+        downloadInfoTask = new DownloadInfoTask(cacheId, infoActivity, state);
         downloadInfoTask.execute();
     }
 
     /**
      * This method download html page with photo links from geocaching.su, extract links and start DownloadPhotoTask for this urls
      *
-     * @param context      for showing progress bar while photos downloading
      * @param infoActivity need for callback
      * @param cacheId      id of geocache
      */
     @Override
-    public void getPhotos(Context context, InfoActivity infoActivity, int cacheId) {
+    public void getPhotos(InfoActivity infoActivity, int cacheId) {
 
         if (!Controller.getInstance().getConnectionManager().isActiveNetworkConnected()) {
             infoActivity.showErrorMessage(R.string.no_internet);
@@ -140,7 +137,7 @@ public class GeocachingSuApiManager implements IApiManager {
 
         String htmlWithPhotoLinks = "";
         try {
-            htmlWithPhotoLinks = new DownloadInfoTask(null, cacheId, infoActivity, DownloadInfoState.DOWNLOAD_PHOTO_PAGE).execute().get();
+            htmlWithPhotoLinks = new DownloadInfoTask(cacheId, infoActivity, DownloadInfoState.DOWNLOAD_PHOTO_PAGE).execute().get();
         } catch (InterruptedException e) {
             LogManager.e(TAG, e.getMessage(), e);
         } catch (ExecutionException e) {
@@ -148,7 +145,7 @@ public class GeocachingSuApiManager implements IApiManager {
         }
 
         if (htmlWithPhotoLinks == null) {
-            Toast.makeText(context, context.getString(R.string.no_photo_from_server), Toast.LENGTH_LONG).show();
+            Toast.makeText(infoActivity, infoActivity.getString(R.string.no_photo_from_server), Toast.LENGTH_LONG).show();
             return;
         }
         Pattern linkPattern = Pattern.compile("\\s*(?i)href\\s*=\\s*(\"([^\"]*\")|'[^']*'|([^'\">\\s]+))");
@@ -173,7 +170,7 @@ public class GeocachingSuApiManager implements IApiManager {
         if (photoUrls.size() == 0) {
             infoActivity.showErrorMessage(R.string.no_photo);
         } else {
-            new DownloadPhotoTask(context, infoActivity, cacheId).execute(photoUrls.toArray(new URL[photoUrls.size()]));
+            new DownloadPhotoTask(infoActivity, cacheId).execute(photoUrls.toArray(new URL[photoUrls.size()]));
         }
     }
 

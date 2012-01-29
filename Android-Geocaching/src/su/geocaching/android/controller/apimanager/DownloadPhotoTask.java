@@ -4,14 +4,11 @@ import java.io.*;
 import java.net.URL;
 
 import android.app.ProgressDialog;
-import android.content.ContentValues;
-import android.content.Context;
 import android.net.Uri;
 import android.net.http.AndroidHttpClient;
 import android.os.AsyncTask;
 import android.os.Environment;
 import android.os.StatFs;
-import android.provider.MediaStore;
 import org.apache.http.HttpEntity;
 import org.apache.http.HttpResponse;
 import org.apache.http.HttpStatus;
@@ -35,12 +32,10 @@ public class DownloadPhotoTask extends AsyncTask<URL, Void, Void> {
     private int cacheId;
     private boolean externalStorageAvailable, externalStorageWriteable, enoughFreeSpace;
 
-    private Context context;
     private ProgressDialog progressDialog;
     private InfoActivity infoActivity;
 
-    public DownloadPhotoTask(Context context, InfoActivity infoActivity, int cacheId) {
-        this.context = context;
+    public DownloadPhotoTask(InfoActivity infoActivity, int cacheId) {
         this.infoActivity = infoActivity;
         this.cacheId = cacheId;
         Thread.setDefaultUncaughtExceptionHandler(new UncaughtExceptionsHandler());
@@ -52,8 +47,8 @@ public class DownloadPhotoTask extends AsyncTask<URL, Void, Void> {
 
         checkSDCard();
         if (externalStorageAvailable && externalStorageWriteable && enoughFreeSpace) {
-            progressDialog = new ProgressDialog(context);
-            progressDialog.setMessage(context.getString(R.string.download_photo_message));
+            progressDialog = new ProgressDialog(infoActivity);
+            progressDialog.setMessage(infoActivity.getString(R.string.download_photo_message));
             progressDialog.show();
         }
     }
@@ -119,9 +114,9 @@ public class DownloadPhotoTask extends AsyncTask<URL, Void, Void> {
             if (entity != null) {
                 InputStream inputStream = null;
                 try {
-                    outputStream = context.getContentResolver().openOutputStream(where);
+                    outputStream = infoActivity.getContentResolver().openOutputStream(where);
                     inputStream = new BufferedInputStream(new GeocachingSuApiManager.FlushedInputStream(entity.getContent()), 1024);
-                    outputStream = context.getContentResolver().openOutputStream(where);
+                    outputStream = infoActivity.getContentResolver().openOutputStream(where);
                     int size;
                     byte[] buffer = new byte[1024];
                     while ((size = inputStream.read(buffer)) != -1) {
