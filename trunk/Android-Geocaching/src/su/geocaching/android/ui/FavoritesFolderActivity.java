@@ -104,7 +104,7 @@ public class FavoritesFolderActivity extends ListActivity {
     @Override
     public boolean onPrepareOptionsMenu(Menu menu) {
         boolean listIsNotFiltered = favoriteGeoCachesAdapter.getAllItemsCount() == favoriteGeoCachesAdapter.getCount();
-        menu.findItem(R.id.delete_all_cache_in_database).setEnabled(listIsNotFiltered);
+        menu.findItem(R.id.delete_all_cache_in_database).setEnabled(listIsNotFiltered && favoriteGeoCachesAdapter.getCount() > 0);
         return super.onPrepareOptionsMenu(menu);
     }
 

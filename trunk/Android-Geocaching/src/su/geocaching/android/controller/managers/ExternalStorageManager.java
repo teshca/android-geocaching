@@ -23,26 +23,34 @@ public class ExternalStorageManager {
     }
     
     public void deletePhotos(int cacheId) {
-        File imagesDirectory = getPhotosDirectory(cacheId);
-        deleteDirectory(imagesDirectory);
+        File photosDirectory = getPhotosDirectory(cacheId);
+        deleteMediaDirectory(photosDirectory);
     }
 
     public void deleteAllPhotos() {
         File photosDirectory = new File(Environment.getExternalStorageDirectory(), PHOTOS_DIRECTORY);
-        deleteDirectory(photosDirectory);
+        deleteMediaDirectory(photosDirectory);
     }
 
-    private void deleteDirectory(File photosDirectory) {
+    private void deleteMediaDirectory(File photosDirectory) {
         try {
             context.getContentResolver().delete(
                     MediaStore.Images.Media.EXTERNAL_CONTENT_URI,
-                    String.format("%s like '%s%'",  MediaStore.Images.Media.DATA, photosDirectory.getAbsolutePath()),
+                    String.format("%s like '%s%%'",  MediaStore.Images.Media.DATA, photosDirectory.getAbsolutePath()),
                     null);
         } catch (Exception e) {
             Log.e(TAG, e.getMessage(), e);
         }
 
-        photosDirectory.delete();
+        deleteRecursive(photosDirectory);
+    }
+
+    private void deleteRecursive(File fileOrDirectory) {
+        if (fileOrDirectory.isDirectory())
+            for (File child : fileOrDirectory.listFiles())
+                deleteRecursive(child);
+
+        fileOrDirectory.delete();
     }
 
     public boolean hasPhotos(int cacheId) {
