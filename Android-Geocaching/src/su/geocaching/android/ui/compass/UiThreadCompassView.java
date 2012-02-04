@@ -78,29 +78,19 @@ public class UiThreadCompassView extends View implements IBearingAware {
     }
 
     @Override
-    //TODO check that this method work, onDetachedFromWindow don't work
-    public void onWindowFocusChanged(boolean hasWindowFocus) {
-        super.onWindowFocusChanged(hasWindowFocus);
-        LogManager.d(TAG, "onWindowFocusChanged " + hasWindowFocus);
-        if (hasWindowFocus) {
-            Controller.getInstance().getCompassManager().addSubscriber(this);
-        } else {
-            Controller.getInstance().getCompassManager().removeSubscriber(this);
-        }
-    }
-    /*
-    @Override
     protected void onAttachedToWindow() {
+        LogManager.d(TAG, "onAttachedToWindow");
         Controller.getInstance().getCompassManager().addSubscriber(this);
         super.onAttachedToWindow();
     }
 
     @Override
     protected void onDetachedFromWindow() {
+        LogManager.d(TAG, "onDetachedFromWindow");
         Controller.getInstance().getCompassManager().removeSubscriber(this);
         super.onDetachedFromWindow();
     }
-    */
+
     private long time = 0;
 
     @Override
