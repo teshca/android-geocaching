@@ -5,10 +5,7 @@ import android.graphics.Canvas;
 import android.util.AttributeSet;
 import android.view.View;
 import su.geocaching.android.controller.Controller;
-import su.geocaching.android.controller.compass.AbstractCompassDrawing;
-import su.geocaching.android.controller.compass.DefaultCompassDrawing;
-import su.geocaching.android.controller.compass.PreviewCompassDrawing;
-import su.geocaching.android.controller.compass.PaleStandardCompassDrawing;
+import su.geocaching.android.controller.compass.*;
 import su.geocaching.android.controller.managers.IBearingAware;
 import su.geocaching.android.controller.managers.LogManager;
 
@@ -24,6 +21,7 @@ public class UiThreadCompassView extends View implements IBearingAware {
 
     private float northDirection; // in degrees
     private Float cacheDirection;
+    private CompassSourceType sourceType;
 
     public UiThreadCompassView(Context context, AttributeSet attributeSet) {
         super(context, attributeSet);
@@ -95,7 +93,8 @@ public class UiThreadCompassView extends View implements IBearingAware {
 
     @Override
     //TODO: check this method
-    public void updateBearing(float bearing) {
+    public void updateBearing(float bearing, CompassSourceType sourceType) {
+        this.sourceType = sourceType;
         long newTime = System.currentTimeMillis();
         if (newTime - time > MIN_INVALIDATE_TIME) {
             northDirection = -bearing;

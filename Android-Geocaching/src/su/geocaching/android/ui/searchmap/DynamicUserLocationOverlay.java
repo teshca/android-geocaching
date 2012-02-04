@@ -7,7 +7,8 @@ import android.view.GestureDetector;
 import android.view.MotionEvent;
 import com.google.android.maps.MapView;
 
-import su.geocaching.android.controller.compass.ICompassAnimation;
+import su.geocaching.android.controller.compass.CompassSourceType;
+import su.geocaching.android.controller.compass.ICompassView;
 import su.geocaching.android.controller.managers.NavigationManager;
 import su.geocaching.android.ui.OverlayUtils;
 import su.geocaching.android.ui.R;
@@ -17,7 +18,7 @@ import su.geocaching.android.ui.UserLocationOverlayBase;
  * @author Grigory Kalabin. grigory.kalabin@gmail.com
  * @since November 2010
  */
-public class DynamicUserLocationOverlay extends UserLocationOverlayBase implements ICompassAnimation {
+public class DynamicUserLocationOverlay extends UserLocationOverlayBase implements ICompassView {
     private static final double COMPASS_ARROW_WIDTH_COEFF = 23.0 / 320.0;
     private static final double COMPASS_ARROW_HEIGHT_COEFF = 32.0 / 480.0;
     private static final int MAP_INVALIDATE_INTERVAL = 50; // milliseconds
@@ -98,13 +99,18 @@ public class DynamicUserLocationOverlay extends UserLocationOverlayBase implemen
     /*
      * (non-Javadoc)
      * 
-     * @see su.geocaching.android.controller.compass.ICompassAnimation#setDirection(float)
+     * @see su.geocaching.android.controller.compass.ICompassView#setDirection(float)
      */
     @Override
     public boolean setDirection(float direction) {
         bearing = direction;
         postInvalidate();
         return true;
+    }
+
+    @Override
+    public void setSourceType(CompassSourceType sourceType) {
+        //To change body of implemented methods use File | Settings | File Templates.
     }
 
     private void postInvalidate() {

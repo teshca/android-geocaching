@@ -13,7 +13,7 @@ import su.geocaching.android.controller.managers.LogManager;
  *
  * @author Nikita Bumakov
  */
-public class CompassView extends SurfaceView implements SurfaceHolder.Callback, ICompassAnimation {
+public class CompassView extends SurfaceView implements SurfaceHolder.Callback, ICompassView {
 
     private static final String TAG = CompassView.class.getCanonicalName();
 
@@ -23,6 +23,7 @@ public class CompassView extends SurfaceView implements SurfaceHolder.Callback, 
     private float cacheDirection;
     private boolean ready = false;
     private boolean isLocationFixed = false;
+    private CompassSourceType sourceType;
 
     public CompassView(Context context, AttributeSet attributeSet) {
         super(context, attributeSet);
@@ -39,6 +40,7 @@ public class CompassView extends SurfaceView implements SurfaceHolder.Callback, 
             if (isLocationFixed) {
                 compassDrawing.drawCacheArrow(canvas, cacheDirection + northDirection);
             }
+            compassDrawing.drawSourceType(canvas, sourceType);
         } else {
             LogManager.w("TAG", "draw not ready");
         }
@@ -55,6 +57,11 @@ public class CompassView extends SurfaceView implements SurfaceHolder.Callback, 
     public boolean setDirection(float direction) {
         northDirection = -direction;
         return doAnimation();
+    }
+
+    @Override
+    public void setSourceType(CompassSourceType sourceType) {
+        this.sourceType = sourceType;
     }
 
     private boolean doAnimation() {
@@ -101,17 +108,6 @@ public class CompassView extends SurfaceView implements SurfaceHolder.Callback, 
 
     public void setDistance(float distance) {
         compassDrawing.setDistance(distance);
-    }
-
-    public void setLocationFix(boolean isLocationFix) {
-        this.isLocationFixed = isLocationFix;
-    }
-
-    /**
-     * @return the helper
-     */
-    public AbstractCompassDrawing getHelper() {
-        return compassDrawing;
     }
 
     /**

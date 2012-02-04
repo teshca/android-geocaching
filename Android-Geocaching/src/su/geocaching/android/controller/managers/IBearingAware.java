@@ -1,5 +1,7 @@
 package su.geocaching.android.controller.managers;
 
+import su.geocaching.android.controller.compass.CompassSourceType;
+
 /**
  * Interface of activities uses compass sensor
  *
@@ -10,5 +12,5 @@ public interface IBearingAware {
     /**
      * @param bearing - new bearing in degrees
      */
-    public void updateBearing(float bearing);
+    public void updateBearing(float bearing, CompassSourceType sourceType);
 }

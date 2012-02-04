@@ -7,6 +7,7 @@ import android.hardware.SensorManager;
 import android.location.Location;
 import android.os.Bundle;
 import su.geocaching.android.controller.Controller;
+import su.geocaching.android.controller.compass.CompassSourceType;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -85,7 +86,20 @@ public class CompassManager implements SensorEventListener, ILocationAware {
     }
 
     @Override
-    public void onAccuracyChanged(Sensor sensor, int accuracy) { /* do nothing */ }
+    public void onAccuracyChanged(Sensor sensor, int accuracy) {
+        switch (sensor.getType()) {
+            case Sensor.TYPE_ACCELEROMETER:
+                LogManager.d(TAG, "onAccuracyChanged(TYPE_ACCELEROMETER): %d", accuracy);
+                break;
+            case Sensor.TYPE_MAGNETIC_FIELD:
+                LogManager.d(TAG, "onAccuracyChanged(TYPE_MAGNETIC_FIELD): %d", accuracy);
+                break;
+        }
+        if (accuracy == SensorManager.SENSOR_STATUS_ACCURACY_LOW)
+        {
+            //TODO: switch to gps
+        }
+    }
 
     @Override
     public void onSensorChanged(SensorEvent event) {
@@ -117,7 +131,7 @@ public class CompassManager implements SensorEventListener, ILocationAware {
      */
     private void notifyObservers(int lastDirection) {
         for (IBearingAware observer : subscribers) {
-            observer.updateBearing(lastDirection);
+            observer.updateBearing(lastDirection, !isUsingGps ? CompassSourceType.GPS : CompassSourceType.SENSOR);
         }
     }
 

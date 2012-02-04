@@ -65,5 +65,7 @@ public abstract class AbstractCompassDrawing {
      */
     public abstract void drawCacheArrow(Canvas canvas, float cacheDirection);
 
+    public abstract void drawSourceType(Canvas canvas, CompassSourceType sourceType);
+
     public abstract String getType();
 }
