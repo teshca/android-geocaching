@@ -9,6 +9,11 @@ import su.geocaching.android.ui.R;
  */
 public class PreviewCompassDrawing extends AbstractCompassDrawing {
 
+    @Override
+    public void drawSourceType(Canvas canvas, CompassSourceType sourceType) {
+        //To change body of implemented methods use File | Settings | File Templates.
+    }
+
     private float direction;
     private Paint bitmapPaint = new Paint();
 

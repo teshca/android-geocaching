@@ -26,31 +26,26 @@ public class SmoothCompassThread extends Thread implements IBearingAware {
     private static final float SPEED_EPS = 0.55f;
 
     private CompassSpeed speed;
-    private List<ICompassAnimation> compassView = new LinkedList<ICompassAnimation>();
+    private List<ICompassView> compassView = new LinkedList<ICompassView>();
     private CompassManager compassManager;
 
     private float goalDirection = 0;
     private boolean isRunning = false;
 
-    public SmoothCompassThread(ICompassAnimation... compassView) {
+    public SmoothCompassThread(ICompassView... compassView) {
         LogManager.d(TAG, "new SmoothCompassThread");
         compassManager = Controller.getInstance().getCompassManager();
         compassManager.addSubscriber(this);
 
 
         if (compassView != null) {
-            for (ICompassAnimation compass : compassView) {
+            for (ICompassView compass : compassView) {
                 this.compassView.add(compass);
             }
         }
 
         speed = CompassSpeed.NORMAL;
         Thread.setDefaultUncaughtExceptionHandler(new UncaughtExceptionsHandler());
-    }
-
-
-    public boolean isRunning() {
-        return isRunning;
     }
 
     public void setRunning(boolean isRunning) {
@@ -68,7 +63,7 @@ public class SmoothCompassThread extends Thread implements IBearingAware {
         this.speed = speed;
     }
 
-    public void addSubscriber(ICompassAnimation compassView) {
+    public void addSubscriber(ICompassView compassView) {
         synchronized (this.compassView) {
             if (!this.compassView.contains(compassView)) {
                 this.compassView.add(compassView);
@@ -97,7 +92,7 @@ public class SmoothCompassThread extends Thread implements IBearingAware {
 
                 synchronized (compassView) {
                     if (compassView != null)
-                        for (ICompassAnimation compass : compassView) {
+                        for (ICompassView compass : compassView) {
                             forcePaint |= !compass.setDirection(needleDirection);
                         }
                 }
@@ -119,7 +114,15 @@ public class SmoothCompassThread extends Thread implements IBearingAware {
     private float averageDirection = 0;
 
     @Override
-    public void updateBearing(float bearing) {
+    public void updateBearing(float bearing, CompassSourceType sourceType) {
+        // update source type
+        synchronized (compassView) {
+            if (compassView != null)
+                for (ICompassView compass : compassView) {
+                    compass.setSourceType(sourceType);
+                }
+        }
+        // update bearing
         float newDirection = bearing;
         float difference = newDirection - averageDirection;
         difference = CompassHelper.normalizeAngle(difference);
@@ -127,8 +130,7 @@ public class SmoothCompassThread extends Thread implements IBearingAware {
         newDirection = averageDirection + difference / 4; // TODO extract constant
 
         newDirection = CompassHelper.normalizeAngle(newDirection);
-        averageDirection = newDirection;
-        goalDirection = averageDirection;
+        goalDirection = averageDirection = newDirection;
     }
 
     private float calculateSpeed(float difference, float oldSpeed) {
