@@ -131,7 +131,7 @@ public class CompassManager implements SensorEventListener, ILocationAware {
      */
     private void notifyObservers(int lastDirection) {
         for (IBearingAware observer : subscribers) {
-            observer.updateBearing(lastDirection, !isUsingGps ? CompassSourceType.GPS : CompassSourceType.SENSOR);
+            observer.updateBearing(lastDirection, isUsingGps ? CompassSourceType.GPS : CompassSourceType.SENSOR);
         }
     }
 
