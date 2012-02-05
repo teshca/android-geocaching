@@ -16,7 +16,7 @@ import su.geocaching.android.ui.R;
  */
 public class DownloadPhotosDialog extends AlertDialog{
 
-     private static final String TAG = RemoveFavoriteCacheDialog.class.getCanonicalName();
+    private static final String TAG = DownloadPhotosDialog.class.getCanonicalName();
 
     private ConfirmDialogResultListener resultListener;
 
