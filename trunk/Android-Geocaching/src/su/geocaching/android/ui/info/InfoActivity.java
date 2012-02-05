@@ -80,9 +80,9 @@ public class InfoActivity extends Activity {
             scroll = infoState.getScroll();
             webView.setInitialScale((int) (infoState.getScale() * 100));
             lastWidth = infoState.getWidth();
+            errorMessage = infoState.getErrorMessage();
         }
         controller.getGoogleAnalyticsManager().trackActivityLaunch(GEOCACHE_INFO_ACTIVITY_NAME);
-        errorMessage = getString(R.string.info_geocach_not_internet_and_not_in_DB);
     }
 
     private void initViews() {
@@ -184,7 +184,14 @@ public class InfoActivity extends Activity {
 
     @Override
     protected void onPause() {
-        controller.getPreferencesManager().setLastInfoState(new InfoState(geoCache.getId(), webView.getScrollY(), pageState.ordinal(), webView.getWidth(), webView.getScale()));
+        controller.getPreferencesManager().setLastInfoState(
+                new InfoState(
+                        geoCache.getId(),
+                        webView.getScrollY(),
+                        pageState.ordinal(),
+                        webView.getWidth(),
+                        webView.getScale(),
+                        errorMessage));
         super.onPause();
     }
 
