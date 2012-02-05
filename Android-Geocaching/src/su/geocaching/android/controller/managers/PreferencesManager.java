@@ -135,6 +135,7 @@ public class PreferencesManager {
             editor.putInt("info_scroll", infoState.getScroll());
             editor.putInt("info_width", infoState.getWidth());
             editor.putFloat("info_scale", infoState.getScale());
+            editor.putString("info_error_message", infoState.getErrorMessage());
             editor.commit();
         }
     }
@@ -145,7 +146,8 @@ public class PreferencesManager {
         int scroll = preferences.getInt("info_scroll", 0);
         int width = preferences.getInt("info_width", 0);
         float scale = preferences.getFloat("info_scale", 0);
-        return new InfoState(cacheId, scroll, state, width, scale);
+        String errorMessage = preferences.getString("info_error_message", "");
+        return new InfoState(cacheId, scroll, state, width, scale, errorMessage);
     }
 
     public void setRemoveFavoriteWithoutConfirm(boolean forceRemove) {
