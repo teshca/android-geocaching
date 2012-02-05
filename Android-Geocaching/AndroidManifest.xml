@@ -57,7 +57,8 @@
 
         <activity
                 android:name="su.geocaching.android.ui.info.CacheNotesActivity"
-                android:theme="@android:style/Theme.Light.NoTitleBar">
+                android:theme="@android:style/Theme.Light.NoTitleBar"
+                android:windowSoftInputMode="adjustResize">
         </activity>
 
         <activity
