@@ -88,6 +88,12 @@ public class FavoritesFolderActivity extends ListActivity {
     }
 
     @Override
+    protected void onPause() {
+        super.onPause();
+        favoriteGeoCachesAdapter.clear();
+    }
+
+    @Override
     protected void onRestoreInstanceState(Bundle savedInstanceState) {
         super.onRestoreInstanceState(savedInstanceState);
         listState = savedInstanceState.getParcelable(LIST_STATE);
