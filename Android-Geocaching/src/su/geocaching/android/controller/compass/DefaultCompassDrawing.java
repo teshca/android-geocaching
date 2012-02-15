@@ -15,13 +15,13 @@ public class DefaultCompassDrawing extends AbstractCompassDrawing {
 
     protected Paint bitmapPaint = new Paint();
     protected Paint textPaint = new Paint();
-    protected Paint gpsSourcePaint = new Paint();
-    protected Bitmap roseBitmap, needleBitmap, arrowBitmap;
+    protected Bitmap roseBitmap, needleBitmap, arrowBitmap, gpsSourceBitmap;
 
     public DefaultCompassDrawing() {
         super();
 
         roseBitmap = BitmapFactory.decodeResource(Controller.getInstance().getResourceManager().getResources(), R.drawable.compass_rose_yellow);
+        gpsSourceBitmap = BitmapFactory.decodeResource(Controller.getInstance().getResourceManager().getResources(), R.drawable.ic_satellite_dish);
 
         textPaint.setColor(Color.parseColor(Controller.getInstance().getResourceManager().getString(R.color.dashboard_text_color)));
         textPaint.setAntiAlias(true);
@@ -29,10 +29,6 @@ public class DefaultCompassDrawing extends AbstractCompassDrawing {
         textPaint.setStrokeWidth(0.8f);
 
         bitmapPaint.setFilterBitmap(true);
-
-        gpsSourcePaint.setColor(Color.LTGRAY);
-        gpsSourcePaint.setAntiAlias(true);
-        gpsSourcePaint.setStyle(Style.FILL_AND_STROKE);
     }
 
     private int bitmapX, bitmapY, size;
@@ -71,13 +67,10 @@ public class DefaultCompassDrawing extends AbstractCompassDrawing {
 
     @Override
     public void drawSourceType(Canvas canvas, CompassSourceType sourceType) {
-        switch (sourceType){
-            case GPS:
-                //TODO: Draw bitmap of satellite
-                canvas.drawCircle(0, 0, 10, gpsSourcePaint);
-                break;
-            case SENSOR:
-                break;
+        if (sourceType == CompassSourceType.GPS) {
+            int halfWidth = gpsSourceBitmap.getWidth() / 2;
+            int halfHeight = gpsSourceBitmap.getHeight() / 2;
+            canvas.drawBitmap(gpsSourceBitmap, -halfWidth,  -halfHeight, bitmapPaint);
         }
     }
 
