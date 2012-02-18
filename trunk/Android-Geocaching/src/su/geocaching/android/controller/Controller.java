@@ -4,12 +4,17 @@ import android.content.Context;
 import android.content.pm.PackageManager;
 import android.hardware.SensorManager;
 import android.location.LocationManager;
+import android.view.Display;
+import android.view.Surface;
+import android.view.WindowManager;
 import su.geocaching.android.controller.apimanager.GeocachingSuApiManager;
 import su.geocaching.android.controller.apimanager.IApiManager;
 import su.geocaching.android.controller.managers.*;
 import su.geocaching.android.model.GeoCache;
 import su.geocaching.android.ui.selectmap.SelectMapViewModel;
 
+import java.lang.reflect.InvocationTargetException;
+import java.lang.reflect.Method;
 import java.util.LinkedList;
 import java.util.List;
 
@@ -274,6 +279,26 @@ public class Controller {
             LogManager.e(TAG, e.getMessage(), e);
         }
         return versionName;
+    }
+
+    public int getScreenRotation() {
+        Display display = ((WindowManager)this.applicationContext.getSystemService(Context.WINDOW_SERVICE)).getDefaultDisplay();
+
+        int rotation;
+        try {
+            // Since API Level 8
+            Method getRotationMethod = Display.class.getMethod("getRotation", new Class[] {} );
+            rotation = (Integer) getRotationMethod.invoke(display);
+        } catch (Exception e) {
+            rotation =  display.getOrientation();
+        }
+
+        if (rotation == Surface.ROTATION_0) return 0;
+        if (rotation == Surface.ROTATION_90) return 90;
+        if (rotation == Surface.ROTATION_180) return 180;
+        if (rotation == Surface.ROTATION_270) return 270;
+
+        return 0;
     }
 
     public void onTerminate() {
