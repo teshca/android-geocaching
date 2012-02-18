@@ -46,6 +46,10 @@ public class CompassManager implements SensorEventListener, ILocationAware {
         subscribers = new ArrayList<IBearingAware>();
         LogManager.d(TAG, "new CompassManager created");
     }
+    
+    public boolean IsCompassAvailable() {
+       return isCompassAvailable;
+    }
 
     /**
      * @param subscriber activity which will be listen location updates
@@ -89,15 +93,15 @@ public class CompassManager implements SensorEventListener, ILocationAware {
     public void onAccuracyChanged(Sensor sensor, int accuracy) {
         switch (sensor.getType()) {
             case Sensor.TYPE_ACCELEROMETER:
-                LogManager.d(TAG, "onAccuracyChanged(TYPE_ACCELEROMETER): %d", accuracy);
+                //LogManager.d(TAG, "onAccuracyChanged(TYPE_ACCELEROMETER): %d", accuracy);
                 break;
             case Sensor.TYPE_MAGNETIC_FIELD:
-                LogManager.d(TAG, "onAccuracyChanged(TYPE_MAGNETIC_FIELD): %d", accuracy);
+                //LogManager.d(TAG, "onAccuracyChanged(TYPE_MAGNETIC_FIELD): %d", accuracy);
                 break;
         }
-        if (accuracy == SensorManager.SENSOR_STATUS_ACCURACY_LOW)
-        {
-            //TODO: switch to gps
+
+        if (accuracy == SensorManager.SENSOR_STATUS_ACCURACY_LOW) {
+            //TODO: add some indication for user
         }
     }
 
@@ -120,6 +124,9 @@ public class CompassManager implements SensorEventListener, ILocationAware {
         SensorManager.getRotationMatrix(afRotation, afInclination, afGravity, afGeomagnetic);
         SensorManager.getOrientation(afRotation, afOrientation);
         int lastBearingLocal = (int) (afOrientation[0] * RAD2DEG);
+
+        lastBearingLocal = lastBearingLocal + Controller.getInstance().getScreenRotation();
+
         if (lastBearingLocal != lastDirection) {
             lastDirection = lastBearingLocal;
             notifyObservers(lastDirection);
