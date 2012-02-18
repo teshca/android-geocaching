@@ -86,16 +86,18 @@ public class FavoritesArrayAdapter extends BaseArrayAdapter<GeoCache> implements
         holder.textViewStatus.setText(rm.getGeoCacheStatus(geoCache));
         holder.imageViewIcon.setImageResource(rm.getMarkerResId(geoCache.getType(), geoCache.getStatus()));
 
-        //TODO check/improve it;
-        //TODO also check if sensor compass is available
         if (lastLocation != null) {
-            holder.compassView.setCacheDirection(CoordinateHelper.getBearingBetween(lastLocation, geoCache.getLocationGeoPoint()));
             boolean hasPreciseLocation = Controller.getInstance().getLocationManager().hasPreciseLocation();
             float distance = CoordinateHelper.getDistanceBetween(geoCache.getLocationGeoPoint(), lastLocation);
             holder.textViewDistance.setText(CoordinateHelper.distanceToString(distance, hasPreciseLocation));
         } else {
-            holder.compassView.setVisibility(View.GONE);
             holder.textViewDistance.setVisibility(View.GONE);
+        }
+
+        if (lastLocation != null && Controller.getInstance().getCompassManager().IsCompassAvailable()) {
+            holder.compassView.setCacheDirection(CoordinateHelper.getBearingBetween(lastLocation, geoCache.getLocationGeoPoint()));
+        } else {
+            holder.compassView.setVisibility(View.GONE);
         }
 
         holder.compassView.invalidate();
