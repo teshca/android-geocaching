@@ -11,7 +11,7 @@ public class OverlayUtils {
     {
         try {
             Method getPointer = MotionEvent.class.getMethod("getPointerCount");
-            if (Integer.parseInt(getPointer.invoke(event).toString()) > 1) {
+            if ((Integer) getPointer.invoke(event) > 1) {
                 // prevent tap on geocache icon on multitouch
                 return true;
             }
