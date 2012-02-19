@@ -28,6 +28,7 @@ public class CheckpointOverlay extends ItemizedOverlay<GeoCacheOverlayItem> {
 
     private final GestureDetector gestureDetector;
     private final List<GeoCacheOverlayItem> items;
+    private boolean isMultiTouch;
 
     public CheckpointOverlay(Drawable defaultMarker, final SearchMapActivity searchMapActivity, final MapView mapView) {
         super(defaultMarker);
@@ -36,6 +37,8 @@ public class CheckpointOverlay extends ItemizedOverlay<GeoCacheOverlayItem> {
 
         gestureDetector = new GestureDetector(searchMapActivity, new GestureDetector.SimpleOnGestureListener() {
             public void onLongPress(MotionEvent e) {
+                if (isMultiTouch) return;
+
                 for (GeoCacheOverlayItem item : items) {
                     if (hitTest(e, item))
                     {
@@ -125,6 +128,7 @@ public class CheckpointOverlay extends ItemizedOverlay<GeoCacheOverlayItem> {
 
     @Override
     public boolean onTouchEvent(MotionEvent event, MapView mapView) {
+        isMultiTouch = OverlayUtils.isMultiTouch(event);
         return gestureDetector.onTouchEvent(event);
     }
 }
