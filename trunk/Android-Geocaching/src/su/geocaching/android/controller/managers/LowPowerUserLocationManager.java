@@ -20,7 +20,7 @@ public class LowPowerUserLocationManager extends AbstractUserLocationManager imp
      */
     public LowPowerUserLocationManager(LocationManager locationManager) {
         super(locationManager);
-        criteria.setAccuracy(Criteria.POWER_LOW);
+        criteria.setPowerRequirement(Criteria.POWER_LOW);
     }
 
     /**
