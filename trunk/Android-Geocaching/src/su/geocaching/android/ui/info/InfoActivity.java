@@ -35,8 +35,8 @@ import su.geocaching.android.ui.R;
 public class InfoActivity extends Activity {
 
     private static final String TAG = InfoActivity.class.getCanonicalName();
-    private static final int DOWNLOAD_NOTEBOOK_DIALOG_ID = 0;
-    private static final int DOWNLOAD_PICTURE_ALERT_DIALOG_ID = 1;
+    private static final int DOWNLOAD_NOTEBOOK_ALERT_DIALOG_ID = 0;
+    private static final int DOWNLOAD_PHOTOS_ALERT_DIALOG_ID = 1;
     private static final int REMOVE_CACHE_ALERT_DIALOG_ID = 2;
     private static final String GEOCACHE_INFO_ACTIVITY_NAME = "/GeoCacheInfoActivity";
 
@@ -58,7 +58,7 @@ public class InfoActivity extends Activity {
     private CheckBox cbFavoriteCache;
     private GalleryView galleryView;
     private GalleryImageAdapter galleryAdapter;
-    private boolean isCacheStored, isPhotoStored;
+    private boolean isCacheStored;
     private PageState pageState = PageState.INFO;
     private ImageView ivInfo, ivNotebook, ivPhoto;
 
@@ -198,9 +198,9 @@ public class InfoActivity extends Activity {
     @Override
     protected Dialog onCreateDialog(int id) {
         switch (id) {
-            case DOWNLOAD_NOTEBOOK_DIALOG_ID:
+            case DOWNLOAD_NOTEBOOK_ALERT_DIALOG_ID:
                 return new DownloadNotebookDialog(this, downloadNotebookListener);
-            case DOWNLOAD_PICTURE_ALERT_DIALOG_ID:
+            case DOWNLOAD_PHOTOS_ALERT_DIALOG_ID:
                 return new DownloadPhotosDialog(this, downloadPhotoListener);
             case REMOVE_CACHE_ALERT_DIALOG_ID:
                 return new RemoveFavoriteCacheDialog(this, removeCacheListener);
@@ -209,9 +209,15 @@ public class InfoActivity extends Activity {
         }
     }
 
+    private ConfirmDialogResultListener downloadPhotoListener = new ConfirmDialogResultListener() {
+        public void onConfirm() {
+            downloadPhotos();
+        }
+    };
+
     private ConfirmDialogResultListener downloadNotebookListener = new ConfirmDialogResultListener() {
         public void onConfirm() {
-            downloadNotebookInformation();
+            downloadNotebook();
         }
     };
 
@@ -219,12 +225,6 @@ public class InfoActivity extends Activity {
         public void onConfirm() {
             cbFavoriteCache.setChecked(false);
             deleteCache();
-        }
-    };
-
-    private ConfirmDialogResultListener downloadPhotoListener = new ConfirmDialogResultListener() {
-        public void onConfirm() {
-            controller.getApiManager().getPhotos(InfoActivity.this, InfoActivity.this.geoCache.getId());
         }
     };
 
@@ -259,7 +259,6 @@ public class InfoActivity extends Activity {
 
     @Override
     public boolean onPrepareOptionsMenu(Menu menu) {
-        isPhotoStored = Controller.getInstance().getExternalStorageManager().hasPhotos(geoCache.getId());
         if (pageState == PageState.PHOTO) {
             menu.getItem(3).setTitle(R.string.menu_delete_photos_cache);
             menu.getItem(3).setIcon(R.drawable.ic_menu_delete);
@@ -352,7 +351,6 @@ public class InfoActivity extends Activity {
                 ivInfo.setImageResource(R.drawable.ic_info_default);
                 ivNotebook.setImageResource(R.drawable.ic_notebook_default);
                 ivPhoto.setImageResource(R.drawable.ic_gallery_selected);
-                isPhotoStored = Controller.getInstance().getExternalStorageManager().hasPhotos(geoCache.getId());
                 webView.setVisibility(View.GONE);
                 galleryView.setVisibility(View.VISIBLE);
                 break;
@@ -401,7 +399,7 @@ public class InfoActivity extends Activity {
                 }
                 break;
             case PHOTO:
-                isPhotoStored = Controller.getInstance().getExternalStorageManager().hasPhotos(geoCache.getId());
+                boolean isPhotoStored = Controller.getInstance().getExternalStorageManager().hasPhotos(geoCache.getId());
                 if (isPhotoStored) {
                     if (galleryAdapter == null) {
                         galleryAdapter = new GalleryImageAdapter(this, geoCache.getId());
@@ -416,7 +414,7 @@ public class InfoActivity extends Activity {
                     if (controller.getConnectionManager().isWifiConnected() || controller.getPreferencesManager().getDownloadPhotosAlways()) {
                         controller.getApiManager().getPhotos(InfoActivity.this, InfoActivity.this.geoCache.getId());
                     } else {
-                        showDialog(DOWNLOAD_PICTURE_ALERT_DIALOG_ID);
+                        showDialog(DOWNLOAD_PHOTOS_ALERT_DIALOG_ID);
                     }
                 }
                 break;
@@ -430,11 +428,23 @@ public class InfoActivity extends Activity {
         if (cbFavoriteCache.isChecked()) {
             if (notebook == null) {
                 if (controller.getPreferencesManager().getDownloadNoteBookAlways() || controller.getConnectionManager().isWifiConnected()) {
-                    downloadNotebookInformation();
+                    downloadNotebook();
                 } else {
-                    showDialog(DOWNLOAD_NOTEBOOK_DIALOG_ID);
+                    showDialog(DOWNLOAD_NOTEBOOK_ALERT_DIALOG_ID);
                 }
             }
+            // TODO: implement better way for auto download photos
+			/*
+            boolean isPhotoStored = Controller.getInstance().getExternalStorageManager().hasPhotos(geoCache.getId());
+            if (!isPhotoStored)
+            {
+                if (controller.getPreferencesManager().getDownloadPhotosAlways() || controller.getConnectionManager().isWifiConnected()) {
+                    downloadPhotos();
+                } else {
+                    showDialog(DOWNLOAD_PHOTOS_ALERT_DIALOG_ID);
+                }
+            }
+			*/
             saveCache();
         } else {
             boolean forceDelete = controller.getPreferencesManager().getRemoveFavoriteWithoutConfirm();
@@ -447,8 +457,12 @@ public class InfoActivity extends Activity {
         }
     }
 
-    private void downloadNotebookInformation() {
+    private void downloadNotebook() {
         controller.getApiManager().getInfo(DownloadInfoState.SAVE_CACHE_NOTEBOOK, this, geoCache.getId());
+    }
+
+    private void downloadPhotos() {
+        controller.getApiManager().getPhotos(this, this.geoCache.getId());
     }
 
     private void saveCache() {
@@ -486,8 +500,10 @@ public class InfoActivity extends Activity {
         loadView(PageState.NOTEBOOK);
     }
 
-    public void showPhoto() {
-        loadView(PageState.PHOTO);
+    public void notifyPhotoDownloaded() {
+        if (galleryAdapter != null) {
+            galleryAdapter.notifyDataSetChanged();
+        }
     }
 
     public void showErrorMessage(int stringId) {
@@ -511,7 +527,6 @@ public class InfoActivity extends Activity {
     }
 
     private void goToMap() {
-        isCacheStored = controller.getDbManager().isCacheStored(geoCache.getId());
         if (!isCacheStored) {
             cbFavoriteCache.setChecked(true);
             if ((notebook == null) && (controller.getPreferencesManager().getDownloadNoteBookAlways() || controller.getConnectionManager().isWifiConnected())) {

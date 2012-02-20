@@ -165,7 +165,7 @@ public class DownloadPhotoTask extends AsyncTask<URL, Void, Void> {
             return;
         }
 
-        infoActivity.showPhoto();
+        infoActivity.notifyPhotoDownloaded();
         super.onPostExecute(result);
     }
 

@@ -23,7 +23,12 @@ public class DownloadInfoTask extends AsyncTask<Void, Void, String> {
     private static final String TAG = DownloadInfoTask.class.getCanonicalName();
 
     public enum DownloadInfoState {
-        ERROR, SHOW_INFO, SHOW_NOTEBOOK, SAVE_CACHE_NOTEBOOK, SAVE_CACHE_NOTEBOOK_AND_GO_TO_MAP, DOWNLOAD_PHOTO_PAGE
+        ERROR,
+        SHOW_INFO,
+        SHOW_NOTEBOOK,
+        SAVE_CACHE_NOTEBOOK,
+        SAVE_CACHE_NOTEBOOK_AND_GO_TO_MAP,
+        DOWNLOAD_PHOTO_PAGE
     }
 
     private int cacheId;
