@@ -1,13 +1,11 @@
 package su.geocaching.android.ui.info;
 
 import java.io.File;
-import java.io.FilenameFilter;
 
 import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.net.Uri;
-import android.os.Environment;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
@@ -24,19 +22,20 @@ class GalleryImageAdapter extends BaseAdapter {
 
     private static final String TAG = GalleryImageAdapter.class.getCanonicalName();
 
+    private final int cacheId;
+    private final Context context;
+    private final int thumbnailsPhotoSize;
     private File[] imageList;
-    private Context context;
-
-    private int thumbnailsPhotoSize;
-
-    private GalleryImageAdapter(Context context) {
-        this.context = context;
-        LogManager.d(TAG, "new GalleryImageAdapter created");
-        thumbnailsPhotoSize = context.getResources().getDimensionPixelSize(R.dimen.adapter_photo_size);
-    }
 
     public GalleryImageAdapter(final Context context, int cacheId) {
-        this(context);
+        this.context = context;
+        LogManager.d(TAG, "created");
+        thumbnailsPhotoSize = context.getResources().getDimensionPixelSize(R.dimen.adapter_photo_size);
+        this.cacheId = cacheId;
+        updateImageList();
+    }
+
+    public void updateImageList() {
         imageList = Controller.getInstance().getExternalStorageManager().getPhotos(cacheId);
     }
 
@@ -52,7 +51,7 @@ class GalleryImageAdapter extends BaseAdapter {
 
     @Override
     public long getItemId(int i) {
-        return 0;
+        return i;
     }
 
     @Override

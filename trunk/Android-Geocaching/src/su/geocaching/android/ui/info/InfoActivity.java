@@ -399,22 +399,20 @@ public class InfoActivity extends Activity {
                 }
                 break;
             case PHOTO:
-                boolean isPhotoStored = Controller.getInstance().getExternalStorageManager().hasPhotos(geoCache.getId());
-                if (isPhotoStored) {
-                    if (galleryAdapter == null) {
-                        galleryAdapter = new GalleryImageAdapter(this, geoCache.getId());
-                        galleryView.setAdapter(galleryAdapter);
-                    } else {
-                        galleryAdapter.notifyDataSetChanged();
-                    }
-                } else if (refresh) {
-                    controller.getApiManager().getPhotos(InfoActivity.this, InfoActivity.this.geoCache.getId());
-                    refresh = false;
-                } else {
-                    if (controller.getConnectionManager().isWifiConnected() || controller.getPreferencesManager().getDownloadPhotosAlways()) {
+                if (galleryAdapter == null) {
+                    galleryAdapter = new GalleryImageAdapter(this, geoCache.getId());
+                    galleryView.setAdapter(galleryAdapter);
+                }
+                if (!Controller.getInstance().getExternalStorageManager().hasPhotos(geoCache.getId())) {
+                    if (refresh) {
                         controller.getApiManager().getPhotos(InfoActivity.this, InfoActivity.this.geoCache.getId());
+                        refresh = false;
                     } else {
-                        showDialog(DOWNLOAD_PHOTOS_ALERT_DIALOG_ID);
+                        if (controller.getConnectionManager().isWifiConnected() || controller.getPreferencesManager().getDownloadPhotosAlways()) {
+                            controller.getApiManager().getPhotos(InfoActivity.this, InfoActivity.this.geoCache.getId());
+                        } else {
+                            showDialog(DOWNLOAD_PHOTOS_ALERT_DIALOG_ID);
+                        }
                     }
                 }
                 break;
@@ -502,6 +500,7 @@ public class InfoActivity extends Activity {
 
     public void notifyPhotoDownloaded() {
         if (galleryAdapter != null) {
+            galleryAdapter.updateImageList();
             galleryAdapter.notifyDataSetChanged();
         }
     }
