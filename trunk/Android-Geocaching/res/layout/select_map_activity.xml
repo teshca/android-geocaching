@@ -23,8 +23,11 @@
                 android:id="@+id/progressCircle"
                 android:layout_marginRight="5dip"/>
 
-		<ImageButton style="@style/MyLocationButton"
-				android:onClick="onMyLocationClick"/>
+        <View style="@style/TitleBarSeparator"/>
+
+		<ImageButton
+			style="@style/MyLocationButton"
+			android:onClick="onMyLocationClick"/>
     </LinearLayout>
 
     <com.google.android.maps.MapView
