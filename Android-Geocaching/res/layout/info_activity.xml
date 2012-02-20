@@ -30,19 +30,25 @@
                    android:onClick="onPhotoClick"
                    android:layout_margin="2dip"/>
         <View style="@style/TitleBarSpring"/>
+
+        <View style="@style/TitleBarSeparator"/>
         <CheckBox android:id="@+id/info_geocache_add_del"
                   android:layout_width="wrap_content"
                   android:layout_height="fill_parent"
                   style="?android:attr/starStyle"
+                  android:layout_gravity="center_vertical"
                   android:onClick="onFavoritesStarClick"
-                  android:layout_marginRight="10dip"/>
+                  android:layout_marginLeft="5dip"
+                  android:layout_marginRight="5dip"/>
+
+        <View style="@style/TitleBarSeparator"/>
         <ImageView android:id="@+id/info_geocach_Go_button"
                    android:src="@drawable/icon_search"
                    android:layout_width="wrap_content"
                    android:layout_height="fill_parent"
                    android:layout_gravity="center"
                    android:scaleType="center"
-                   android:padding="10dip"
+                   android:padding="5dip"
                    android:clickable="true"
                    android:onClick="onMapClick"/>
     </LinearLayout>
