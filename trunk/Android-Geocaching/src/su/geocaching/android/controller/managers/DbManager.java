@@ -1,6 +1,5 @@
 package su.geocaching.android.controller.managers;
 
-import java.io.File;
 import java.util.ArrayList;
 import android.content.ContentValues;
 import android.content.Context;
@@ -41,7 +40,6 @@ public class DbManager extends SQLiteOpenHelper {
     private static final String CHECKPOINT_ID = "checkpoint_id";
 
     private SQLiteDatabase db;
-    private Context context;
 
     private static final String SQL_CREATE_DATABASE_TABLE = String.format("CREATE TABLE %s (%s INTEGER, %s STRING, %s INTEGER, %s INTEGER, %s INTEGER, %s INTEGER, %s STRING, %s STRING, %s STRING);",
             DATABASE_NAME_TABLE, COLUMN_ID, COLUMN_NAME, COLUMN_TYPE, COLUMN_STATUS, COLUMN_LAT, COLUMN_LON, COLUMN_WEB_TEXT, COLUMN_NOTEBOOK_TEXT, COLUMN_USER_NOTES);
@@ -54,7 +52,6 @@ public class DbManager extends SQLiteOpenHelper {
      */
     public DbManager(Context context) {
         super(context, DATABASE_NAME_BASE, null, DATABASE_VERSION);
-        this.context = context;
         db = getWritableDatabase();
     }
 

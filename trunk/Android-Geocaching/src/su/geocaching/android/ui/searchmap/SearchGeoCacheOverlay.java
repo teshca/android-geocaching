@@ -1,13 +1,10 @@
 package su.geocaching.android.ui.searchmap;
 
 import android.graphics.Point;
-import su.geocaching.android.controller.Controller;
 import su.geocaching.android.controller.managers.NavigationManager;
 import su.geocaching.android.model.GeoCache;
-import su.geocaching.android.model.GeoCacheType;
 import su.geocaching.android.ui.OverlayUtils;
 import su.geocaching.android.ui.geocachemap.GeoCacheOverlayItem;
-import android.app.Activity;
 import android.graphics.drawable.Drawable;
 import android.view.GestureDetector;
 import android.view.MotionEvent;

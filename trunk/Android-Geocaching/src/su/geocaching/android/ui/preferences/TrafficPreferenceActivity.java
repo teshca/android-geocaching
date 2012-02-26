@@ -1,10 +1,8 @@
 package su.geocaching.android.ui.preferences;
 
 import android.os.Bundle;
-import android.preference.Preference;
 import android.preference.PreferenceActivity;
 import su.geocaching.android.controller.Controller;
-import su.geocaching.android.controller.GpsUpdateFrequency;
 import su.geocaching.android.ui.R;
 
 public class TrafficPreferenceActivity extends PreferenceActivity {

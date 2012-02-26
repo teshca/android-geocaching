@@ -13,10 +13,7 @@ import su.geocaching.android.controller.managers.*;
 import su.geocaching.android.model.GeoCache;
 import su.geocaching.android.ui.selectmap.SelectMapViewModel;
 
-import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
-import java.util.LinkedList;
-import java.util.List;
 
 /**
  * @author Yuri Denison
