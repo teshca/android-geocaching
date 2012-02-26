@@ -21,7 +21,6 @@ import su.geocaching.android.ui.FavoritesFolderActivity;
 import su.geocaching.android.ui.R;
 
 import java.util.ArrayList;
-import java.util.LinkedList;
 
 /**
  * Class for create ListActivity with checkpoints caches
