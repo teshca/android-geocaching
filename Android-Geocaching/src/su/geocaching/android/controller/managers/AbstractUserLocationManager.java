@@ -19,6 +19,8 @@ public abstract class AbstractUserLocationManager implements LocationListener {
 
     private static final String TAG = AbstractUserLocationManager.class.getCanonicalName();
 
+    private static final float AVERAGE_WALK_SPEED = 1f / 720; // 5 km/h = 5 * 1000 / 60 * 60 * 1000
+
     protected final LocationManager locationManager;
     protected final HashSet<ILocationAware> subscribers;
     protected final Criteria criteria;
@@ -41,31 +43,54 @@ public abstract class AbstractUserLocationManager implements LocationListener {
      * @return The most accurate and / or timely previously detected location.
      */
     protected Location calculateLastKnownLocation() {
-        Location bestResult = null;
-        float bestAccuracy = Float.MAX_VALUE;
-        long bestTime = Long.MIN_VALUE;
+        Location currentBestLocation = null;
         List<String> matchingProviders = locationManager.getAllProviders();
 
-        // Iterate through all the providers on the system, keeping
-        // note of the most accurate result.
-        // If no result is found within accuracy, return the newest Location.
         for (String provider : matchingProviders) {
             Location location = locationManager.getLastKnownLocation(provider);
-            if (location != null) {
-                float accuracy = location.getAccuracy();
-                long time = location.getTime();
-
-                if (location.hasAccuracy() && accuracy < bestAccuracy) {
-                    bestResult = location;
-                    bestAccuracy = accuracy;
-                    bestTime = time;
-                } else if (bestAccuracy == Float.MAX_VALUE && time > bestTime) {
-                    bestResult = location;
-                    bestTime = time;
-                }
+            if (isBetterLocation(location, currentBestLocation))
+            {
+                currentBestLocation = location;
             }
         }
-        return bestResult;
+        return currentBestLocation;
+    }
+
+    /** Determines whether one Location reading is better than the current Location fix
+     * @param location  The new Location that you want to evaluate
+     * @param currentBestLocation  The current Location fix, to which you want to compare the new one
+     */
+    private boolean isBetterLocation(Location location, Location currentBestLocation) {
+        if (currentBestLocation == null) {
+            // A new location is always better than no location
+            return true;
+        }
+
+        // Check whether the new location fix is newer or older
+        long timeDelta = location.getTime() - currentBestLocation.getTime();
+
+        // Check whether the new location fix is more or less accurate
+        float accuracyDelta = location.getAccuracy() - currentBestLocation.getAccuracy();
+
+        if (accuracyDelta < 0) {
+            if (timeDelta < 0) {
+                // more accurate but older
+                float speed = (accuracyDelta / timeDelta);
+                return speed > AVERAGE_WALK_SPEED;
+            } else {
+                // more accurate and newer
+                return true;
+            }
+        } else {
+            if (timeDelta > 0) {
+                // less accurate but newer
+                float speed = (accuracyDelta / timeDelta);
+                return speed < AVERAGE_WALK_SPEED;
+            } else {
+                // less accurate and older
+                return false;
+            }
+        }
     }
 
     /**
