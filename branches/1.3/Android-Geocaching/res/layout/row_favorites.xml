@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              android:layout_width="fill_parent"
+              android:orientation="horizontal"
+              android:layout_height="wrap_content">
+
+    <!--Icon-->
+    <ImageView android:id="@+id/ivIcon"
+               android:minWidth="38dip"
+               android:layout_width="wrap_content"
+               android:layout_height="wrap_content"
+               android:layout_gravity="center_vertical"
+               android:layout_marginLeft="2dip"/>
+
+    <LinearLayout android:layout_width="fill_parent"
+                  android:orientation="vertical"
+                  android:layout_marginLeft="2dip"
+                  android:layout_marginTop="1dip"
+                  android:layout_marginBottom="1dip"
+                  android:layout_height="wrap_content"
+                  android:layout_weight="1">
+
+        <!-- Name -->
+        <TextView android:id="@+id/tvName"
+                  android:text="Name"
+                  android:layout_width="wrap_content"
+                  android:layout_height="wrap_content"
+                  android:textAppearance="@style/FavoritesFolderRowTitle"/>
+
+        <!-- Type -->
+        <TextView android:id="@+id/tvType"
+                  android:text="Type"
+                  android:layout_width="wrap_content"
+                  android:layout_height="wrap_content"
+                  android:textAppearance="@style/FavoritesFolderRowSubText"/>
+
+        <!-- Status -->
+        <TextView android:id="@+id/tvStatus"
+                  android:text="Status"
+                  android:textAppearance="@style/FavoritesFolderRowSubText"
+                  android:gravity="right"
+                  android:layout_height="wrap_content"
+                  android:layout_width="wrap_content"/>
+    </LinearLayout>
+
+    <LinearLayout android:layout_width="wrap_content"
+                  android:layout_height="fill_parent"
+                  android:layout_marginRight="1dp"
+                  android:orientation="vertical"
+                  android:gravity="center">
+        <TextView android:id="@+id/tvDistance"
+                  android:layout_width="wrap_content"
+                  android:layout_height="wrap_content"
+                  android:layout_marginRight="1dp"
+                  android:textAppearance="@style/FavoritesFolderRowDistanceText"/>
+
+        <su.geocaching.android.ui.compass.UiThreadCompassView
+                android:layout_marginTop="3dp"
+                android:id="@+id/compassView"
+                android:layout_gravity="center_vertical|right"
+                android:layout_marginRight="3dp"
+                android:layout_width="32dp"
+                android:layout_height="32dp"/>
+    </LinearLayout>
+</LinearLayout>

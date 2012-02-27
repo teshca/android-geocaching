@@ -1,0 +1,5 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="menu_delete_photos_cache">Удалить фотографии</string>
+    <string name="download_photo_message">Загрузка фотографий</string>
+</resources>

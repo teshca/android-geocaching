@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="dashboard_background">#fffafafa</color>
+    <color name="title_separator">#50556856</color>
+    <color name="dashboard_text_color">#ff56905D</color>
+	<color name="map_info_layer_bg">#7066906D</color>
+	<color name="status_text_color">#fffafafa</color>
+
+	<!-- SearchMapActivity -->
+	<color name="user_location_arrow_stroke_color">#88000000</color>
+	<color name="user_location_arrow_color_precise">#aa3cde5a</color>
+	<color name="user_location_arrow_color_not_precise">#88888888</color>
+</resources>

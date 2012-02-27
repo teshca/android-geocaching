@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+				android:layout_width="fill_parent"
+				android:layout_height="fill_parent">
+
+	<LinearLayout style="@style/TitleBar"
+				  android:id="@+id/titleBarSearchMap">
+		<ImageView android:src="@drawable/geologo"
+				   style="@style/TitleBarLogo"
+				   android:id="@+id/title_logo"
+				   android:onClick="onHomeClick"/>
+
+		<!-- It view need for right align -->
+		<View style="@style/TitleBarSpring"/>
+
+		<su.geocaching.android.ui.ProgressBarView
+                style="@style/ProgressBarView"
+				android:id="@+id/progressCircle"
+				android:layout_marginRight="5dip"/>
+
+        <View style="@style/TitleBarSeparator"/>
+
+		<ImageButton
+                style="@style/MyLocationButton"
+				android:onClick="onMyLocationClick"/>
+	</LinearLayout>
+
+	<com.google.android.maps.MapView
+			android:id="@+id/searchGeocacheMap"
+			android:layout_width="fill_parent"
+			android:layout_height="wrap_content"
+			android:clickable="true"
+			android:apiKey="@string/google_map_api_key"
+			android:layout_below="@id/titleBarSearchMap"
+			android:layout_alignParentBottom="true"/>
+
+	<!-- semitransparent info layer -->
+	<RelativeLayout style="@style/MapInfoLayer" android:layout_below="@id/titleBarSearchMap">
+		<TextView android:id="@+id/distanceToCacheText" style="@style/MapInfoItem"
+				  android:layout_alignParentLeft="true"/>
+		<TextView android:id="@+id/waitingLocationFixText" style="@style/MapInfoItem"
+				  android:layout_alignParentRight="true"/>
+	</RelativeLayout>
+</RelativeLayout>

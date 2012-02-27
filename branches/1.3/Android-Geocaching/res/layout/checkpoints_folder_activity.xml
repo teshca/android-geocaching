@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              android:layout_width="fill_parent"
+              android:layout_height="fill_parent"
+              android:orientation="vertical"
+              android:background="@color/dashboard_background">
+
+    <!--Title bar -->
+    <LinearLayout style="@style/TitleBar">
+        <ImageView android:src="@drawable/geologo"
+                   style="@style/TitleBarLogo"
+                   android:onClick="onHomeClick"/>
+    </LinearLayout>
+
+    <TextView android:id="@+id/tvNoCheckpoints"
+              android:gravity="center_horizontal"
+              android:layout_width="fill_parent"
+              android:layout_height="wrap_content"
+              android:text="@string/no_related_checkpoints"
+              android:textSize="@dimen/text_size_medium"
+              android:textStyle="bold"
+              android:textColor="@color/dashboard_text_color"
+              android:layout_marginTop="10dip"/>
+
+    <ListView android:id="@android:id/list"
+              android:layout_height="wrap_content"
+              android:layout_width="fill_parent"
+              android:layout_weight="1"
+              android:background="@color/dashboard_background"
+              android:cacheColorHint="@android:color/transparent"/>
+</LinearLayout>
+
