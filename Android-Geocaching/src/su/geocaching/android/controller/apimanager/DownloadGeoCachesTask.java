@@ -9,8 +9,10 @@ import su.geocaching.android.controller.managers.UncaughtExceptionsHandler;
 import su.geocaching.android.model.GeoCache;
 import su.geocaching.android.model.GeoCacheStatus;
 import su.geocaching.android.model.GeoCacheType;
+import su.geocaching.android.ui.selectmap.SelectMapActivity;
 import android.os.AsyncTask;
 
+import com.google.android.maps.GeoPoint;
 import su.geocaching.android.ui.selectmap.SelectMapViewModel;
 
 /**

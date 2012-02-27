@@ -19,7 +19,6 @@ import su.geocaching.android.ui.checkpoints.CheckpointDialog;
 import su.geocaching.android.ui.checkpoints.CheckpointsFolderActivity;
 import su.geocaching.android.ui.checkpoints.CreateCheckpointActivity;
 import su.geocaching.android.ui.compass.CompassActivity;
-import su.geocaching.android.ui.info.AdvancedInfoActivity;
 import su.geocaching.android.ui.info.CacheNotesActivity;
 import su.geocaching.android.ui.info.InfoActivity;
 import su.geocaching.android.ui.preferences.DashboardPreferenceActivity;
@@ -65,15 +64,6 @@ public class NavigationManager {
         intent.putExtra(GeoCache.class.getCanonicalName(), geoCache);
         context.startActivity(intent);
     }
-    
-    /**
-     * Open AdvancedGeoCache info activity
-     */
-    public static void startAdvancedInfoActivity(Context context, GeoCache geoCache) {
-        Intent intent = new Intent(context, AdvancedInfoActivity.class);
-        intent.putExtra(GeoCache.class.getCanonicalName(), geoCache);
-        context.startActivity(intent);
-    }    
 
     /**
      * Open SearchMapActivity activity

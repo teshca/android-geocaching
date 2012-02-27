@@ -2,6 +2,7 @@ package su.geocaching.android.controller.selectmap.geocachegroup;
 
 import android.graphics.Point;
 import android.os.AsyncTask;
+import com.google.android.maps.MapView;
 import com.google.android.maps.Projection;
 import su.geocaching.android.model.GeoCache;
 import su.geocaching.android.ui.geocachemap.GeoCacheOverlayItem;

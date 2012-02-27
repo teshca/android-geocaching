@@ -538,8 +538,7 @@ public class InfoActivity extends Activity {
     }
 
     public void onHomeClick(View v) {
-        NavigationManager.startAdvancedInfoActivity(this, geoCache);
-        // NavigationManager.startDashboardActivity(this);
+        NavigationManager.startDashboardActivity(this);
     }
 
     public void onInfoClick(View v) {

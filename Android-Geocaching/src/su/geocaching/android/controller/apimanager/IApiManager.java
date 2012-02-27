@@ -1,9 +1,14 @@
 package su.geocaching.android.controller.apimanager;
 
 import java.util.List;
+import java.util.Locale;
+
 import su.geocaching.android.controller.apimanager.DownloadInfoTask.DownloadInfoState;
 import su.geocaching.android.model.GeoCache;
 import su.geocaching.android.ui.info.InfoActivity;
+import android.content.Context;
+
+import com.google.android.maps.GeoPoint;
 
 /**
  * @author Nikita Bumakov
