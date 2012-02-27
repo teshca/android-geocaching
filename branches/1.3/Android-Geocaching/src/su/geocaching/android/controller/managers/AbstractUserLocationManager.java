@@ -48,8 +48,7 @@ public abstract class AbstractUserLocationManager implements LocationListener {
 
         for (String provider : matchingProviders) {
             Location location = locationManager.getLastKnownLocation(provider);
-            if (isBetterLocation(location, currentBestLocation))
-            {
+            if (isBetterLocation(location, currentBestLocation)) {
                 currentBestLocation = location;
             }
         }
@@ -64,6 +63,10 @@ public abstract class AbstractUserLocationManager implements LocationListener {
         if (currentBestLocation == null) {
             // A new location is always better than no location
             return true;
+        }
+
+        if (location == null) {
+            return false;
         }
 
         // Check whether the new location fix is newer or older
