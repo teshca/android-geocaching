@@ -30,18 +30,25 @@ class SearchGeoCacheOverlay extends ItemizedOverlay<GeoCacheOverlayItem> {
 
         gestureDetector = new GestureDetector(searchMapActivity, new GestureDetector.SimpleOnGestureListener() {
             public boolean onDoubleTap(MotionEvent e) {
-                mapView.getController().zoomInFixing((int) e.getX(), (int) e.getY());
-                return true;
+                if (hitTest(e, mapView)) {
+                    mapView.getController().zoomInFixing((int) e.getX(), (int) e.getY());
+                    return true;
+                }
+                return false;
             }
 
             public boolean onSingleTapConfirmed(MotionEvent e) {
-                GeoCache gc = item.getGeoCache();
-                NavigationManager.startInfoActivity(searchMapActivity, gc);
-                return true;
+                if (hitTest(e, mapView)) {
+                    NavigationManager.startInfoActivity(searchMapActivity, item.getGeoCache());
+                    return true;
+                }
+                return false;
             }
 
             public void onLongPress(MotionEvent e) {
-                searchMapActivity.setActiveItem(item.getGeoCache());
+                if (hitTest(e, mapView)) {
+                    searchMapActivity.setActiveItem(item.getGeoCache());
+                }
             }
         });
     }
@@ -51,12 +58,7 @@ class SearchGeoCacheOverlay extends ItemizedOverlay<GeoCacheOverlayItem> {
         if (OverlayUtils.isMultiTouch(event))
             return false;
 
-        if (hitTest(event, mapView)) {
-            gestureDetector.onTouchEvent(event);
-            return true;
-        }
-
-        return false;
+        return gestureDetector.onTouchEvent(event);
     }
 
     private boolean hitTest(MotionEvent event, MapView mapView) {
