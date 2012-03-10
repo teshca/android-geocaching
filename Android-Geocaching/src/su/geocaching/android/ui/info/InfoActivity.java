@@ -372,7 +372,7 @@ public class InfoActivity extends Activity {
                 pageState = PageState.INFO;
                 break;
             case PHOTO:
-                controller.getDbManager().deleteCacheById(geoCache.getId());
+                Controller.getInstance().getExternalStorageManager().deletePhotos(geoCache.getId());
                 break;
         }
         refresh = true;
