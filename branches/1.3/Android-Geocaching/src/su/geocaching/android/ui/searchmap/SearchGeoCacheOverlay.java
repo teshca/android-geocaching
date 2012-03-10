@@ -61,7 +61,7 @@ class SearchGeoCacheOverlay extends ItemizedOverlay<GeoCacheOverlayItem> {
         return gestureDetector.onTouchEvent(event);
     }
 
-    private boolean hitTest(MotionEvent event, MapView mapView) {
+    public boolean hitTest(MotionEvent event, MapView mapView) {
         Point itemPoint = mapView.getProjection().toPixels(item.getPoint(), null);
         int relativeX = (int)event.getX() - itemPoint.x;
         int relativeY = (int)event.getY() - itemPoint.y;

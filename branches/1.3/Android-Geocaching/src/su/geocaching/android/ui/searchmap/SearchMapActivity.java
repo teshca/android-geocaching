@@ -662,4 +662,14 @@ public class SearchMapActivity extends MapActivity implements IConnectionAware, 
     {
         return (GeoCache) getIntent().getParcelableExtra(GeoCache.class.getCanonicalName());
     }
+
+    public SearchGeoCacheOverlay getGeoCacheOverlay()
+    {
+        return searchGeoCacheOverlay;
+    }
+
+    public DynamicUserLocationOverlay getLocationOverlay()
+    {
+        return userOverlay;
+    }
 }
