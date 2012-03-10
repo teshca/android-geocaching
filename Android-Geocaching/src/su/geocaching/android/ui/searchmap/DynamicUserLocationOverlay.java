@@ -65,14 +65,14 @@ public class DynamicUserLocationOverlay extends UserLocationOverlayBase implemen
 
         gestureDetector = new GestureDetector(context, new GestureDetector.SimpleOnGestureListener() {
             public boolean onDoubleTap(MotionEvent e) {
-                if (hitTest(e, mapView)) {
+                if (hitTest(e)) {
                     mapView.getController().zoomInFixing((int) e.getX(), (int) e.getY());
                     return true;
                 }
                 return false;
             }
             public boolean onSingleTapConfirmed(MotionEvent e) {
-                if (hitTest(e, mapView)) {
+                if (hitTest(e)) {
                     NavigationManager.startCompassActivity(context);
                     return true;
                 }
@@ -136,7 +136,7 @@ public class DynamicUserLocationOverlay extends UserLocationOverlayBase implemen
         return gestureDetector.onTouchEvent(event);
     }
 
-    private boolean hitTest(MotionEvent event, MapView mapView) {
+    public boolean hitTest(MotionEvent event) {
         int relativeX = (int)event.getX() - userPoint.x;
         int relativeY = (int)event.getY() - userPoint.y;
         return getBounds().contains(relativeX, relativeY);
