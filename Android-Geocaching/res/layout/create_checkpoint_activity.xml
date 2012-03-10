@@ -276,7 +276,8 @@
 							  android:layout_width="wrap_content"
 							  android:textSize="@dimen/text_size_big"
 							  android:layout_height="wrap_content"/>
-					<EditText android:text="00" android:id="@+id/dLatFraction"
+					<EditText android:text="00"
+                              android:id="@+id/dLatFraction"
 							  android:maxLines="1"
 							  android:numeric="integer"
 							  android:maxLength="6"
@@ -298,8 +299,10 @@
 							  android:textSize="@dimen/text_size_big"
 							  android:layout_width="wrap_content"
 							  android:layout_height="wrap_content"/>
-					<EditText android:text="00" android:id="@+id/dLngDegrees"
-							  android:maxLines="1" android:numeric="signed"
+					<EditText android:text="00"
+                              android:id="@+id/dLngDegrees"
+							  android:maxLines="1"
+                              android:numeric="signed"
 							  android:maxLength="4"
 							  android:layout_width="50dip"
 							  android:layout_height="wrap_content"
@@ -361,6 +364,7 @@
 							  android:layout_width="75dip"
 							  android:layout_height="wrap_content"
 							  android:nextFocusDown="@+id/distance"
+                              android:nextFocusRight="@+id/distance"
 							  android:imeOptions="actionNext"/>
 					<TextView android:text="°"
 							  android:layout_width="wrap_content"
@@ -384,6 +388,9 @@
 							  android:layout_width="75dip"
 							  android:layout_height="wrap_content"
 							  android:nextFocusDown="@+id/enterButton"
+                              android:nextFocusRight="@+id/enterButton"
+                              android:nextFocusUp="@+id/azimuth"
+                              android:nextFocusLeft="@+id/azimuth"
 							  android:imeOptions="actionDone"/>
 					<TextView android:text="@string/meter"
 							  android:layout_width="wrap_content"

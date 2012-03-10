@@ -38,6 +38,8 @@ public class CheckpointOverlay extends ItemizedOverlay<GeoCacheOverlayItem> {
         gestureDetector = new GestureDetector(searchMapActivity, new GestureDetector.SimpleOnGestureListener() {
             public void onLongPress(MotionEvent e) {
                 if (isMultiTouch) return;
+                if (searchMapActivity.getGeoCacheOverlay().hitTest(e, mapView)) return;
+                if (searchMapActivity.getLocationOverlay().hitTest(e)) return;
 
                 for (GeoCacheOverlayItem item : items) {
                     if (hitTest(e, item))
