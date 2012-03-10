@@ -97,6 +97,7 @@ class SelectGeoCacheOverlay extends ItemizedOverlay<GeoCacheOverlayItem> {
     @Override
     public boolean onTouchEvent(MotionEvent event, MapView map) {
         if (OverlayUtils.isMultiTouch(event)) return false;
+
         return gestureDetector.onTouchEvent(event);
     }
 }
