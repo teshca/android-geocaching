@@ -171,7 +171,7 @@
     <string name="prefs_sensor_key">compass.sensor</string>
     <string-array name="sensor_type_preference_entries">
         <item>Магнитный сенсор</item>
-        <item>GPS</item>
+        <item>Спутники GPS</item>
     </string-array>
     <string-array name="sensor_preference_values">
         <item>SENSOR</item>

@@ -58,13 +58,14 @@ public class CompassManager implements SensorEventListener, ILocationAware {
         synchronized (subscribers) {
             subscribers.add(subscriber);
             if (subscribers.size() == 1) {
-                isUsingGps = !isCompassAvailable || Controller.getInstance().getPreferencesManager().isUsingGpsCompassPreference();
+                isUsingGps = GetDefaultGpsUsing();
                 if (isUsingGps) {
                     locationManager.addSubscriber(this);
                 } else {
                     addSensorUpdates();
                 }
             }
+            notifyObservers(lastDirection);
         }
         LogManager.d(TAG, "addSubscriber, size: " + subscribers.size());
     }
@@ -77,15 +78,15 @@ public class CompassManager implements SensorEventListener, ILocationAware {
         boolean res;
         synchronized (subscribers) {
             res = subscribers.remove(subscriber);
-        }
-        if (subscribers.size() == 0) {
-            if (isUsingGps) {
-                locationManager.removeSubscriber(this);
-            } else {
-                removeSensorUpdates();
+            if (subscribers.size() == 0) {
+                if (isUsingGps) {
+                    locationManager.removeSubscriber(this);
+                } else {
+                    removeSensorUpdates();
+                }
             }
+            LogManager.d(TAG, "removeSubscriber, size: " + subscribers.size());
         }
-        LogManager.d(TAG, "removeSubscriber, size: " + subscribers.size());
         return res;
     }
 
@@ -179,6 +180,7 @@ public class CompassManager implements SensorEventListener, ILocationAware {
      */
     void resetUpdates(boolean useGps) {
         LogManager.d(TAG, "resetUpdates=" + useGps);
+        useGps = useGps || GetDefaultGpsUsing();
         if (useGps == isUsingGps) {
             // already using
             return;
@@ -191,6 +193,12 @@ public class CompassManager implements SensorEventListener, ILocationAware {
             addSensorUpdates();
         }
         isUsingGps = useGps;
+
+        notifyObservers(lastDirection);
+    }
+    
+    private boolean GetDefaultGpsUsing() {
+        return !isCompassAvailable || Controller.getInstance().getPreferencesManager().isUsingGpsCompassPreference();
     }
 
     @Override
