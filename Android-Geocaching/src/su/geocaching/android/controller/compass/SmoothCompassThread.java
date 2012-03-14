@@ -34,17 +34,17 @@ public class SmoothCompassThread extends Thread implements IBearingAware {
 
     public SmoothCompassThread(ICompassView... compassView) {
         LogManager.d(TAG, "new SmoothCompassThread");
-        compassManager = Controller.getInstance().getCompassManager();
-        compassManager.addSubscriber(this);
-
 
         if (compassView != null) {
             for (ICompassView compass : compassView) {
                 this.compassView.add(compass);
             }
         }
-
         speed = CompassSpeed.NORMAL;
+
+        compassManager = Controller.getInstance().getCompassManager();
+        compassManager.addSubscriber(this);
+
         Thread.setDefaultUncaughtExceptionHandler(new UncaughtExceptionsHandler());
     }
 
