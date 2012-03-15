@@ -34,7 +34,6 @@
     <ListView android:id="@android:id/list"
               android:layout_height="wrap_content"
               android:layout_width="fill_parent"
-              android:layout_weight="1"
               android:background="@color/dashboard_background"
               android:cacheColorHint="@android:color/transparent"
               android:layout_below="@id/titleBar"
