@@ -53,7 +53,6 @@
                 android:text="@string/grouping_status_message"
                 android:visibility="invisible"
                 style="@style/MapInfoItem"
-				android:layout_alignParentRight="true"
                 android:layout_marginRight="6dip"/>
 		<TextView
                 android:id="@+id/downloadingInfoTextView"
