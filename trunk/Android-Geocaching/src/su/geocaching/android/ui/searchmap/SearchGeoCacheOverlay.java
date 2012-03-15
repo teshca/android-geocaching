@@ -2,7 +2,6 @@ package su.geocaching.android.ui.searchmap;
 
 import android.graphics.Point;
 import su.geocaching.android.controller.managers.NavigationManager;
-import su.geocaching.android.model.GeoCache;
 import su.geocaching.android.ui.OverlayUtils;
 import su.geocaching.android.ui.geocachemap.GeoCacheOverlayItem;
 import android.graphics.drawable.Drawable;

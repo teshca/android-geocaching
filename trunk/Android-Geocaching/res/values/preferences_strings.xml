@@ -39,23 +39,6 @@
     <string name="map_category_title">Карта</string>
 
     <!-- Map Preferences -->
-    <!-- map.frequency -->
-    <string name="prefer_requests_frequency_title">Частота запросов</string>
-    <string name="prefer_requests_frequency_default_value">FAST</string>
-    <string name="prefer_requests_frequency_key">map.frequency</string>
-    <string name="prefer_requests_frequency_summary">Выберите частоту обновления списка тайников на
-        карте
-    </string>
-    <string-array name="requests_frequency_preference_entries">
-        <item>Часто</item>
-        <item>Нормально</item>
-        <item>Редко</item>
-    </string-array>
-    <string-array name="requests_frequency_preference_values">
-        <item>FAST</item>
-        <item>NORMAL</item>
-        <item>SLOW</item>
-    </string-array>
     <!-- map.icon -->
     <string name="map_markers_title">Иконки тайников</string>
     <string name="prefer_icon_key">map.icon</string>
@@ -71,7 +54,6 @@
     <!-- map.type -->
     <string name="prefer_map_type_title">Тип карты</string>
     <string name="prefer_map_type_key">map.type</string>
-    <string name="prefer_map_type_summary">Выберите тип отображаемой карты</string>
     <string-array name="requests_map_type_entries">
         <item>Карта</item>
         <item>Спутник</item>

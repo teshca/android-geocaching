@@ -4,7 +4,6 @@
 	<string name="connection_problem_dialog_message">Для дальнейшей работы необходим Интернет. Включить?</string>
 	<string name="ask_enable_gps_text">Для дальнейшей работы необходим GPS. Включить?</string>
 	<string name="map_internet_lost">Подключение к интернету отсутствует. Могут возникнуть проблемы с обновлением карты</string>
-	<string name="revert_center_to_location">Мое местоположение</string>
 	<string name="status_null_last_location">Местоположение не определено</string>
 	<string name="search_geocache_start_without_geocache">Перед поиском выберите тайник</string>
 	<string name="search_geocache_best_provider_lost">Обновление координат в данный момент недоступно</string>
