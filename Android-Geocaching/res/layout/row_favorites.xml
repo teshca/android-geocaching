@@ -12,7 +12,7 @@
                android:layout_gravity="center_vertical"
                android:layout_marginLeft="2dip"/>
 
-    <LinearLayout android:layout_width="fill_parent"
+    <LinearLayout android:layout_width="0dip"
                   android:orientation="vertical"
                   android:layout_marginLeft="2dip"
                   android:layout_marginTop="1dip"
@@ -22,21 +22,18 @@
 
         <!-- Name -->
         <TextView android:id="@+id/tvName"
-                  android:text="Name"
                   android:layout_width="wrap_content"
                   android:layout_height="wrap_content"
                   android:textAppearance="@style/FavoritesFolderRowTitle"/>
 
         <!-- Type -->
         <TextView android:id="@+id/tvType"
-                  android:text="Type"
                   android:layout_width="wrap_content"
                   android:layout_height="wrap_content"
                   android:textAppearance="@style/FavoritesFolderRowSubText"/>
 
         <!-- Status -->
         <TextView android:id="@+id/tvStatus"
-                  android:text="Status"
                   android:textAppearance="@style/FavoritesFolderRowSubText"
                   android:gravity="right"
                   android:layout_height="wrap_content"
