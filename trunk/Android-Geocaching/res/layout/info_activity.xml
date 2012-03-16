@@ -74,7 +74,6 @@
             <TextView android:layout_width="wrap_content"
                       android:layout_height="wrap_content"
                       android:id="@+id/info_text_name"
-                      android:text="Name"
                       style="@style/FavoritesFolderRowTitle"/>
 
             <LinearLayout android:layout_width="fill_parent"
@@ -84,15 +83,13 @@
                           android:layout_marginTop="2dip">
 
                 <TextView android:id="@+id/info_GeoCache_type"
-                          android:text="Пошаговый традиционный"
                           android:layout_width="wrap_content"
                           android:layout_height="wrap_content"
                           style="@style/FavoritesFolderRowSubText"
                           android:textSize="12sp"/>
 
                 <TextView android:id="@+id/info_GeoCache_status"
-                          android:text="Недействующий"
-                          android:layout_width="wrap_content"
+                          android:layout_width="0dip"
                           android:layout_height="wrap_content"
                           style="@style/FavoritesFolderRowSubText"
                           android:textSize="12sp"

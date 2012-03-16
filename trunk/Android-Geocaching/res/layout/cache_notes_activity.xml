@@ -6,7 +6,7 @@
 			  android:background="@color/dashboard_background">
 	<include layout="@layout/default_title_bar"/>
 	<EditText android:layout_width="fill_parent"
-			  android:layout_height="fill_parent"
+			  android:layout_height="0dip"
               android:layout_weight="1"
               android:gravity="top"
 			  android:id="@+id/cache_notes_text"
