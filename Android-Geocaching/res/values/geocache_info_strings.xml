@@ -25,4 +25,8 @@
 	<string name="no_internet">Отсутствует соединение с интернетом. Попробуйте позже</string>
 	<string name="no_photo_from_server">Не удалось получить фотографии с сервера. Попробуйте позже</string>
 	<string name="no_photo">Фотографий этого тайника нет</string>
+	
+	<string name="info_tab_name_info">Информация</string>
+	<string name="info_tab_name_notebook">Блокнот</string>
+	<string name="info_tab_name_photo">Фотографии</string>
 </resources>
