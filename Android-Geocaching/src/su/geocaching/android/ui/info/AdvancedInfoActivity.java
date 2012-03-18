@@ -8,6 +8,9 @@ package su.geocaching.android.ui.info;
 
 import java.util.ArrayList;
 
+import su.geocaching.android.controller.Controller;
+import su.geocaching.android.controller.apimanager.GeocachingSuApiManager;
+import su.geocaching.android.model.GeoCache;
 import su.geocaching.android.ui.R;
 import android.content.Context;
 import android.os.Bundle;
@@ -21,30 +24,36 @@ import android.support.v4.view.ViewPager;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.webkit.WebView;
 import android.widget.TextView;
 
 
 public class AdvancedInfoActivity extends FragmentActivity {
     ViewPager  mViewPager;
     TabsAdapter mTabsAdapter;
+    
+    private InfoViewModel infoViewModel;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        
+        infoViewModel = Controller.getInstance().getInfoViewModel(); 
+        GeoCache geoCache = getIntent().getParcelableExtra(GeoCache.class.getCanonicalName());
+        infoViewModel.SetGeoCache(geoCache);
 
         setContentView(su.geocaching.android.ui.R.layout.advanced_info_activity);
         getSupportActionBar().setNavigationMode(ActionBar.NAVIGATION_MODE_TABS);
         
-        ActionBar.Tab tab1 = getSupportActionBar().newTab().setText(R.string.info_tab_name_info);
-        ActionBar.Tab tab2 = getSupportActionBar().newTab().setText(R.string.info_tab_name_notebook);
-        ActionBar.Tab tab3 = getSupportActionBar().newTab().setText(R.string.info_tab_name_photo);
+        ActionBar.Tab infoTab = getSupportActionBar().newTab().setText(R.string.info_tab_name_info);
+        ActionBar.Tab notebookTab = getSupportActionBar().newTab().setText(R.string.info_tab_name_notebook);
+        ActionBar.Tab photoTab = getSupportActionBar().newTab().setText(R.string.info_tab_name_photo);
 
         mViewPager = (ViewPager)findViewById(R.id.pager);
         mTabsAdapter = new TabsAdapter(this, getSupportActionBar(), mViewPager);
-        mTabsAdapter.addTab(tab1, AdvancedInfoActivity.CountingFragment.class);
-
-        mTabsAdapter.addTab(tab2, AdvancedInfoActivity.CountingFragment.class);
-        mTabsAdapter.addTab(tab3, AdvancedInfoActivity.CountingFragment.class);
+        mTabsAdapter.addTab(infoTab, AdvancedInfoActivity.InfoInfoFragment.class);
+        mTabsAdapter.addTab(notebookTab, AdvancedInfoActivity.InfoInfoFragment.class);
+        mTabsAdapter.addTab(photoTab, AdvancedInfoActivity.InfoInfoFragment.class);
 
         if (savedInstanceState != null) {
             getSupportActionBar().setSelectedNavigationItem(savedInstanceState.getInt("index"));
@@ -126,45 +135,33 @@ public class AdvancedInfoActivity extends FragmentActivity {
         }    
     }
     
-    public static class CountingFragment extends Fragment {
-        int mNum;
-
-        /**
-         * Create a new instance of CountingFragment, providing "num"
-         * as an argument.
-         */
-        static CountingFragment newInstance(int num) {
-            CountingFragment f = new CountingFragment();
-
-            // Supply num input as an argument.
-            Bundle args = new Bundle();
-            args.putInt("num", num);
-            f.setArguments(args);
-
-            return f;
-        }
-
-        /**
-         * When creating, retrieve this instance's number from its arguments.
-         */
+    public static class InfoInfoFragment extends Fragment {      
+        private WebView webView;
+        private InfoViewModel infoViewModel;
+        
         @Override
         public void onCreate(Bundle savedInstanceState) {
             super.onCreate(savedInstanceState);
-            mNum = getArguments() != null ? getArguments().getInt("num") : 1;
+            infoViewModel = Controller.getInstance().getInfoViewModel();            
         }
-
-        /**
-         * The Fragment's UI is just a simple text view showing its
-         * instance number.
-         */
+        
         @Override
-        public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                Bundle savedInstanceState) {
-            View v = inflater.inflate(R.layout.hello_world, container, false);
-            View tv = v.findViewById(R.id.text);
-            ((TextView)tv).setText("Fragment #" + mNum);
-            tv.setBackgroundDrawable(getResources().getDrawable(android.R.drawable.gallery_thumb));
+        public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+            View v = inflater.inflate(R.layout.info_info_fragment, container, false);
+            webView = (WebView) v.findViewById(R.id.info_web_brouse);
+            webView.getSettings().setJavaScriptEnabled(true);
+            webView.getSettings().setBuiltInZoomControls(true);
             return v;
-        }
-    }    
+        }        
+        
+        @Override 
+        public void onActivityCreated(Bundle savedInstanceState) {
+            super.onActivityCreated(savedInstanceState);
+            setWebViewData(infoViewModel.getInformation());            
+        }      
+        
+        private void setWebViewData(String info) {
+            webView.loadDataWithBaseURL(GeocachingSuApiManager.HTTP_PDA_GEOCACHING_SU, info, "text/html", GeocachingSuApiManager.UTF8_ENCODING, null);
+        }        
+    }
 }
