@@ -11,6 +11,7 @@ import su.geocaching.android.controller.apimanager.GeocachingSuApiManager;
 import su.geocaching.android.controller.apimanager.IApiManager;
 import su.geocaching.android.controller.managers.*;
 import su.geocaching.android.model.GeoCache;
+import su.geocaching.android.ui.info.InfoViewModel;
 import su.geocaching.android.ui.selectmap.SelectMapViewModel;
 
 import java.lang.reflect.Method;
@@ -43,6 +44,7 @@ public class Controller {
 
     // UI view models
     private SelectMapViewModel selectMapViewModel;
+    private InfoViewModel infoViewModel;
 
     private GeoCache searchingGeoCache;
 
@@ -307,5 +309,12 @@ public class Controller {
             selectMapViewModel = new SelectMapViewModel();
         }
         return selectMapViewModel;
+    }
+
+    public InfoViewModel getInfoViewModel() {
+        if (infoViewModel == null) {
+            infoViewModel = new InfoViewModel();
+        }
+        return infoViewModel;
     }
 }
