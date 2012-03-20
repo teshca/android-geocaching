@@ -57,8 +57,7 @@
         
         <activity
                 android:name="su.geocaching.android.ui.info.AdvancedInfoActivity"
-                android:theme="@style/Theme.Geocaching"
-                android:windowSoftInputMode="adjustResize">
+                android:theme="@style/Theme.Geocaching">
         </activity>        
 
         <activity

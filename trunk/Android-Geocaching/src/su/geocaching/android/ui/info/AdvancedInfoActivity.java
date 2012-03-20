@@ -9,10 +9,10 @@ package su.geocaching.android.ui.info;
 import java.util.ArrayList;
 
 import su.geocaching.android.controller.Controller;
-import su.geocaching.android.controller.apimanager.GeocachingSuApiManager;
 import su.geocaching.android.model.GeoCache;
 import su.geocaching.android.ui.R;
 import android.content.Context;
+
 import android.os.Bundle;
 import android.support.v4.app.ActionBar;
 import android.support.v4.app.Fragment;
@@ -21,12 +21,6 @@ import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v4.app.ActionBar.Tab;
 import android.support.v4.view.ViewPager;
-import android.view.LayoutInflater;
-import android.view.View;
-import android.view.ViewGroup;
-import android.webkit.WebView;
-import android.widget.TextView;
-
 
 public class AdvancedInfoActivity extends FragmentActivity {
     ViewPager  mViewPager;
@@ -40,7 +34,7 @@ public class AdvancedInfoActivity extends FragmentActivity {
         
         infoViewModel = Controller.getInstance().getInfoViewModel(); 
         GeoCache geoCache = getIntent().getParcelableExtra(GeoCache.class.getCanonicalName());
-        infoViewModel.SetGeoCache(geoCache);
+        infoViewModel.SetGeoCache(geoCache.getId());
 
         setContentView(su.geocaching.android.ui.R.layout.advanced_info_activity);
         getSupportActionBar().setNavigationMode(ActionBar.NAVIGATION_MODE_TABS);
@@ -50,20 +44,21 @@ public class AdvancedInfoActivity extends FragmentActivity {
         ActionBar.Tab photoTab = getSupportActionBar().newTab().setText(R.string.info_tab_name_photo);
 
         mViewPager = (ViewPager)findViewById(R.id.pager);
+        mViewPager.setOffscreenPageLimit(2); // always keep all 3 fragments available for performance reason
         mTabsAdapter = new TabsAdapter(this, getSupportActionBar(), mViewPager);
-        mTabsAdapter.addTab(infoTab, AdvancedInfoActivity.InfoInfoFragment.class);
-        mTabsAdapter.addTab(notebookTab, AdvancedInfoActivity.InfoInfoFragment.class);
-        mTabsAdapter.addTab(photoTab, AdvancedInfoActivity.InfoInfoFragment.class);
+        mTabsAdapter.addTab(infoTab, InfoFragment.class);
+        mTabsAdapter.addTab(notebookTab, NotebookFragment.class);
+        mTabsAdapter.addTab(photoTab, PhotoFragment.class);
 
         if (savedInstanceState != null) {
-            getSupportActionBar().setSelectedNavigationItem(savedInstanceState.getInt("index"));
+            getSupportActionBar().setSelectedNavigationItem(infoViewModel.getSelectedTabIndex());
         }
     }
 
     @Override
     protected void onSaveInstanceState(Bundle outState) {
         super.onSaveInstanceState(outState);
-        outState.putInt("index", getSupportActionBar().getSelectedNavigationIndex());
+        infoViewModel.setSelectedTabIndex(getSupportActionBar().getSelectedNavigationIndex());
     }
 
     /**
@@ -133,35 +128,5 @@ public class AdvancedInfoActivity extends FragmentActivity {
         @Override
         public void onTabUnselected(Tab tab, FragmentTransaction ft) {
         }    
-    }
-    
-    public static class InfoInfoFragment extends Fragment {      
-        private WebView webView;
-        private InfoViewModel infoViewModel;
-        
-        @Override
-        public void onCreate(Bundle savedInstanceState) {
-            super.onCreate(savedInstanceState);
-            infoViewModel = Controller.getInstance().getInfoViewModel();            
-        }
-        
-        @Override
-        public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-            View v = inflater.inflate(R.layout.info_info_fragment, container, false);
-            webView = (WebView) v.findViewById(R.id.info_web_brouse);
-            webView.getSettings().setJavaScriptEnabled(true);
-            webView.getSettings().setBuiltInZoomControls(true);
-            return v;
-        }        
-        
-        @Override 
-        public void onActivityCreated(Bundle savedInstanceState) {
-            super.onActivityCreated(savedInstanceState);
-            setWebViewData(infoViewModel.getInformation());            
-        }      
-        
-        private void setWebViewData(String info) {
-            webView.loadDataWithBaseURL(GeocachingSuApiManager.HTTP_PDA_GEOCACHING_SU, info, "text/html", GeocachingSuApiManager.UTF8_ENCODING, null);
-        }        
     }
 }
