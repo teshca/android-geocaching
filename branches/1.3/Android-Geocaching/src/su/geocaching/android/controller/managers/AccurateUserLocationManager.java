@@ -287,27 +287,6 @@ public class AccurateUserLocationManager extends AbstractUserLocationManager imp
     }
 
     /**
-     * @param enabledOnly if true, updates will be requested from best <b>enabled</b> provider
-     * @return true if now Manager will be request updates from best provider by accuracy
-     */
-    public boolean enableBestProviderUpdates(boolean enabledOnly) {
-        if (enabledOnly && !isBestProviderEnabled()) {
-            return false;
-        }
-        LogManager.d(TAG, "request for enable best provider");
-        String bestProvider = locationManager.getBestProvider(criteria, enabledOnly);
-        if (provider.equals(bestProvider)) {
-            LogManager.d(TAG, "	best provider (" + provider + ") already running");
-            return true;
-        }
-        removeUpdates();
-        provider = bestProvider;
-        requestLocationUpdates();
-        LogManager.d(TAG, "request for enable best provider: locationAvailable");
-        return true;
-    }
-
-    /**
      * call request location updates on location manager with right min time and min distance
      */
     private void requestLocationUpdates() {
