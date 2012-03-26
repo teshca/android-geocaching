@@ -207,7 +207,6 @@ public class SearchMapActivity extends MapActivity implements IConnectionAware, 
         }
 
         Controller.getInstance().getLocationManager().addSubscriber(this);
-        Controller.getInstance().getLocationManager().enableBestProviderUpdates(false);
         Controller.getInstance().getConnectionManager().addSubscriber(this);
         Controller.getInstance().getCallbackManager().addSubscriber(handler);
         map.invalidate();
