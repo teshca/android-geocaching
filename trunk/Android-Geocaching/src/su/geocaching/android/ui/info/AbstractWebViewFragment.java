@@ -60,11 +60,10 @@ public abstract class AbstractWebViewFragment extends Fragment {
         
         WebViewClient webViewClient = new WebViewClient() {
             @Override
-            public boolean shouldOverrideUrlLoading(WebView view, String url) {
-                /*
-                String urlNotebook = String.format(GeocachingSuApiManager.LINK_NOTEBOOK_TEXT, geoCache.getId());
-                String urlInfo = String.format(GeocachingSuApiManager.LINK_INFO_CACHE, geoCache.getId());
-                String urlPhoto = String.format(GeocachingSuApiManager.LINK_PHOTO_PAGE, geoCache.getId());
+            public boolean shouldOverrideUrlLoading(WebView view, String url) {                
+                String urlNotebook = String.format(GeocachingSuApiManager.LINK_NOTEBOOK_TEXT, infoViewModel.getGeoCachceId());
+                String urlInfo = String.format(GeocachingSuApiManager.LINK_INFO_CACHE, infoViewModel.getGeoCachceId());
+                String urlPhoto = String.format(GeocachingSuApiManager.LINK_PHOTO_PAGE, infoViewModel.getGeoCachceId());
 
                 if (urlInfo.contains(url)) {
                     loadView(PageState.INFO);
@@ -95,7 +94,7 @@ public abstract class AbstractWebViewFragment extends Fragment {
                     checkpoint.setLocationGeoPoint(new GeoPoint(lat, lng));
                     NavigationManager.startCreateCheckpointActivity(InfoActivity.this, checkpoint);
                     return true;
-                }*/
+                }
 
                 return false;
             }
