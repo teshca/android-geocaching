@@ -586,7 +586,7 @@ public class SearchMapActivity extends MapActivity implements IConnectionAware, 
             case CallbackManager.WHAT_LOCATION_DEPRECATED:
                 // update distance text view
                 final boolean isPrecise = Controller.getInstance().getLocationManager().hasPreciseLocation();
-                updateDistanceTextView(isPrecise);
+                updateDistanceTextView();
                 if (userOverlay != null) {
                     userOverlay.setLocationPrecise(isPrecise);
                 }
@@ -595,15 +595,15 @@ public class SearchMapActivity extends MapActivity implements IConnectionAware, 
         return false;
     }
 
-    private void updateDistanceTextView(boolean isPrecise)
+    private void updateDistanceTextView()
     {
-        if (distanceStatusTextView != null) {
+        if (distanceStatusTextView != null && Controller.getInstance().getLocationManager().hasLocation()) {
             distanceStatusTextView.setText(
                     CoordinateHelper.distanceToString(
                             CoordinateHelper.getDistanceBetween(
                                     Controller.getInstance().getSearchingGeoCache().getLocationGeoPoint(),
                                     Controller.getInstance().getLocationManager().getLastKnownLocation()),
-                            isPrecise));
+                            Controller.getInstance().getLocationManager().hasPreciseLocation()));
         }
     }
 
@@ -652,8 +652,7 @@ public class SearchMapActivity extends MapActivity implements IConnectionAware, 
             Controller.getInstance().getCheckpointManager(getCurrentGeoCache().getId()).deactivateCheckpoints();
             Controller.getInstance().setSearchingGeoCache(geoCache);
         }
-        final boolean isPrecise = Controller.getInstance().getLocationManager().hasPreciseLocation();
-        updateDistanceTextView(isPrecise);
+        updateDistanceTextView();
         map.invalidate();
     }
 
