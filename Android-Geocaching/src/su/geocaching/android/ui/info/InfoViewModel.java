@@ -44,6 +44,10 @@ public class InfoViewModel {
         return infoState2;
     }
     
+    public int getGeoCachceId() {
+        return geoCacheId; 
+    }
+    
     public int getSelectedTabIndex()
     {
         return selectedTabIndex;
