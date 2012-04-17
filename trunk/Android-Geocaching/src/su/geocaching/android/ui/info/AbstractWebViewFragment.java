@@ -1,11 +1,17 @@
 package su.geocaching.android.ui.info;
 
+import com.google.android.maps.GeoPoint;
+
 import su.geocaching.android.controller.Controller;
+import su.geocaching.android.model.GeoCache;
+import su.geocaching.android.model.GeoCacheType;
 import su.geocaching.android.ui.R;
 import su.geocaching.android.controller.apimanager.GeocachingSuApiManager;
+import su.geocaching.android.controller.managers.NavigationManager;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentActivity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -66,33 +72,25 @@ public abstract class AbstractWebViewFragment extends Fragment {
                 String urlPhoto = String.format(GeocachingSuApiManager.LINK_PHOTO_PAGE, infoViewModel.getGeoCachceId());
 
                 if (urlInfo.contains(url)) {
-                    loadView(PageState.INFO);
+                    ((AdvancedInfoActivity)getActivity()).navigateToInfoTab();
                     return true;
                 }
 
                 if (urlNotebook.contains(url)) {
-                    loadView(PageState.NOTEBOOK);
+                    ((AdvancedInfoActivity)getActivity()).naviagteToNotebookTab();
                     return true;
                 }
 
                 if (urlPhoto.contains(url)) {
-                    loadView(PageState.PHOTO);
+                    ((AdvancedInfoActivity)getActivity()).naviagteToPhotosTab();
                     return true;
                 }
+                
                 if (url.contains("geo:")) {
-                    if (!isCacheStored) {
-                        Toast.makeText(InfoActivity.this, R.string.ask_add_cache_in_db, Toast.LENGTH_LONG).show();
-                        return true;
-                    }
-
                     String[] coordinates = url.split("[^0-9]++");
                     int lat = Integer.parseInt(coordinates[1]);
                     int lng = Integer.parseInt(coordinates[2]);
-                    GeoCache checkpoint = new GeoCache();
-                    checkpoint.setId(geoCache.getId());
-                    checkpoint.setType(GeoCacheType.CHECKPOINT);
-                    checkpoint.setLocationGeoPoint(new GeoPoint(lat, lng));
-                    NavigationManager.startCreateCheckpointActivity(InfoActivity.this, checkpoint);
+                    ((AdvancedInfoActivity)getActivity()).openCheckpointDialog(new GeoPoint(lat, lng));
                     return true;
                 }
 

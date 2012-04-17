@@ -28,7 +28,7 @@ public class InfoViewModel {
             this.infoState1 = new WebViewState();
             this.infoState2 = new WebViewState();
             
-            if (dbManager.isCacheStored(geoCacheId)) {
+            if (isCacheStored()) {
                 this.infoState0.setText(dbManager.getCacheInfoById(geoCacheId));
                 this.infoState1.setText(dbManager.getCacheNotebookTextById(geoCacheId));
                 this.infoState2.setText("<center>ФОТОГРАФИИ</center>");
@@ -36,6 +36,10 @@ public class InfoViewModel {
             
             setSelectedTabIndex(0);
         }
+    }
+    
+    public boolean isCacheStored()  {
+        return dbManager.isCacheStored(geoCacheId);        
     }
     
     public WebViewState getInfoState(int num) {
@@ -71,12 +75,14 @@ public class InfoViewModel {
         public void setScrollY(int scrollY) {
             this.scrollY = scrollY;
         }
+        
         public int getWidth() {
            return this.width;
         }
         public void setWidth(int width) {
             this.width = width;
         }
+        
         public float getScale() {
             return this.scale;
         }
