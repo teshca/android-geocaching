@@ -8,8 +8,12 @@ package su.geocaching.android.ui.info;
 
 import java.util.ArrayList;
 
+import com.google.android.maps.GeoPoint;
+
 import su.geocaching.android.controller.Controller;
+import su.geocaching.android.controller.managers.NavigationManager;
 import su.geocaching.android.model.GeoCache;
+import su.geocaching.android.model.GeoCacheType;
 import su.geocaching.android.ui.R;
 import android.content.Context;
 
@@ -21,6 +25,7 @@ import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v4.app.ActionBar.Tab;
 import android.support.v4.view.ViewPager;
+import android.widget.Toast;
 
 public class AdvancedInfoActivity extends FragmentActivity {
     ViewPager  mViewPager;
@@ -59,6 +64,34 @@ public class AdvancedInfoActivity extends FragmentActivity {
     protected void onSaveInstanceState(Bundle outState) {
         super.onSaveInstanceState(outState);
         infoViewModel.setSelectedTabIndex(getSupportActionBar().getSelectedNavigationIndex());
+    }
+    
+    public void navigateToInfoTab() {
+        getSupportActionBar().setSelectedNavigationItem(0);
+        
+    }
+
+    public void naviagteToNotebookTab() {
+        getSupportActionBar().setSelectedNavigationItem(1);        
+    }
+
+    public void naviagteToPhotosTab() {
+        getSupportActionBar().setSelectedNavigationItem(2);
+        
+    }    
+    
+    public void openCheckpointDialog(GeoPoint geoPoint) {
+        
+        if (!infoViewModel.isCacheStored()) {
+            Toast.makeText(this, R.string.ask_add_cache_in_db, Toast.LENGTH_LONG).show();
+            return;
+        }
+
+        GeoCache checkpoint = new GeoCache();
+        checkpoint.setId(infoViewModel.getGeoCachceId());
+        checkpoint.setType(GeoCacheType.CHECKPOINT);
+        checkpoint.setLocationGeoPoint(geoPoint);
+        NavigationManager.startCreateCheckpointActivity(this, checkpoint);      
     }
 
     /**
