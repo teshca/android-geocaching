@@ -3,6 +3,8 @@ package su.geocaching.android.controller.apimanager;
 import javax.xml.parsers.ParserConfigurationException;
 import javax.xml.parsers.SAXParser;
 import javax.xml.parsers.SAXParserFactory;
+
+import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
@@ -33,6 +35,7 @@ public class GeocachingSuApiManager implements IApiManager {
 
     private static final String TAG = GeocachingSuApiManager.class.getCanonicalName();
 
+    //TODO: Make all constants private    
     public static final String LINK_INFO_CACHE = "http://pda.geocaching.su/cache.php?cid=%d&mode=0";
     public static final String LINK_NOTEBOOK_TEXT = "http://pda.geocaching.su/note.php?cid=%d&mode=0";
     public static final String LINK_PHOTO_PAGE = "http://pda.geocaching.su/pict.php?cid=%d&mode=0";
@@ -68,7 +71,7 @@ public class GeocachingSuApiManager implements IApiManager {
             double minLatitude = rect.br.getLatitudeE6() * 1E-6;
             double maxLongitude = rect.br.getLongitudeE6() * 1E-6;
             double minLongitude = rect.tl.getLongitudeE6() * 1E-6;
-            URL url = generateUrl(maxLatitude, minLatitude, maxLongitude, minLongitude);
+            URL url = getCacheListUrl(maxLatitude, minLatitude, maxLongitude, minLongitude);
             connection = (HttpURLConnection) url.openConnection();
 
             if (connection.getResponseCode() != HttpURLConnection.HTTP_OK) {
@@ -97,7 +100,7 @@ public class GeocachingSuApiManager implements IApiManager {
         return memoryStorage.getCaches(rect);
     }
 
-    private URL generateUrl(double maxLatitude, double minLatitude, double maxLongitude, double minLongitude) throws MalformedURLException {
+    private URL getCacheListUrl(double maxLatitude, double minLatitude, double maxLongitude, double minLongitude) throws MalformedURLException {
         String request = String.format(Locale.ENGLISH, LINK_GEOCACHE_LIST, maxLongitude, minLongitude, maxLatitude, minLatitude, id);
         LogManager.d(TAG, "generated Url: " + request);
         return new URL(request);
@@ -171,4 +174,52 @@ public class GeocachingSuApiManager implements IApiManager {
             new DownloadPhotoTask(infoActivity, cacheId).execute(photoUrls.toArray(new URL[photoUrls.size()]));
         }
     }
+
+    @Override
+    public String getInfo(int cacheId) {
+        String result = null;
+
+        if (Controller.getInstance().getConnectionManager().isActiveNetworkConnected()) {
+            boolean success = false;
+            for (int attempt = 0; attempt < 5 && !success; attempt++)
+                try {
+                    result = downloadText(getInfoUrl(cacheId));
+                    success = true;
+                } catch (IOException e) {
+                    // result is null in this case
+                    LogManager.e(TAG, "getInfo failed", e);
+                }
+        }
+        
+        return result;
+    }
+    
+    private URL getInfoUrl(int cacheId) throws MalformedURLException 
+    {
+        return new URL(String.format(LINK_INFO_CACHE, cacheId));
+    }
+    
+    private String downloadText(URL url) throws IOException {
+        StringBuilder html = new StringBuilder();
+        char[] buffer = new char[1024];
+        
+        BufferedReader in = null;
+        try {
+            in = new BufferedReader(new InputStreamReader(url.openStream(), CP1251_ENCODING));
+            int size;
+            while ((size = in.read(buffer)) != -1) {
+                html.append(buffer, 0, size);
+            }                    
+        } finally {
+            if (in != null) {
+                in.close();   
+            }
+        }
+
+        String resultHtml = html.toString();
+        resultHtml = resultHtml.replace(CP1251_ENCODING, UTF8_ENCODING);
+        resultHtml = resultHtml.replaceAll("\\r|\\n", "");
+        
+        return resultHtml;
+    }    
 }

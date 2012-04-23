@@ -31,6 +31,10 @@ public class AdvancedInfoActivity extends FragmentActivity {
     ViewPager  mViewPager;
     TabsAdapter mTabsAdapter;
     
+    private static int INFO_TAB_INDEX = 0;
+    private static int NOTEBOOK_TAB_INDEX = 1;
+    private static int PHOTOS_TAB_INDEX = 2;
+    
     private InfoViewModel infoViewModel;
 
     @Override
@@ -67,16 +71,16 @@ public class AdvancedInfoActivity extends FragmentActivity {
     }
     
     public void navigateToInfoTab() {
-        getSupportActionBar().setSelectedNavigationItem(0);
+        getSupportActionBar().setSelectedNavigationItem(INFO_TAB_INDEX);
         
     }
 
     public void naviagteToNotebookTab() {
-        getSupportActionBar().setSelectedNavigationItem(1);        
+        getSupportActionBar().setSelectedNavigationItem(NOTEBOOK_TAB_INDEX);        
     }
 
     public void naviagteToPhotosTab() {
-        getSupportActionBar().setSelectedNavigationItem(2);
+        getSupportActionBar().setSelectedNavigationItem(PHOTOS_TAB_INDEX);
         
     }    
     
@@ -93,6 +97,42 @@ public class AdvancedInfoActivity extends FragmentActivity {
         checkpoint.setLocationGeoPoint(geoPoint);
         NavigationManager.startCreateCheckpointActivity(this, checkpoint);      
     }
+    
+    @Override
+    public void onResume() {
+        super.onResume();
+        infoViewModel.registerActivity(this);
+    }
+    
+    @Override
+    public void onPause() {
+        super.onPause();
+        infoViewModel.unregisterActivity(this);
+    }
+        
+    public void showInfoProgressBar() {
+        AbstractWebViewFragment webViewFragment = (AbstractWebViewFragment) getSupportFragmentManager().findFragmentByTag(mTabsAdapter.getFragmentName(INFO_TAB_INDEX));
+        if (webViewFragment != null)
+        {
+            webViewFragment.showProgressBar();            
+        }        
+    }
+    
+    public void hideInfoProgressBar() {
+        AbstractWebViewFragment webViewFragment = (AbstractWebViewFragment) getSupportFragmentManager().findFragmentByTag(mTabsAdapter.getFragmentName(INFO_TAB_INDEX));
+        if (webViewFragment != null)
+        {        
+            webViewFragment.hideProgressBar();
+        }
+    }
+    
+    public void setInfoText(String text) {
+        AbstractWebViewFragment webViewFragment = (AbstractWebViewFragment) getSupportFragmentManager().findFragmentByTag(mTabsAdapter.getFragmentName(INFO_TAB_INDEX));
+        if (webViewFragment != null)
+        {
+            webViewFragment.setWebViewData(text);
+        }
+    }    
 
     /**
      * This is a helper class that implements the management of tabs and all
@@ -124,6 +164,10 @@ public class AdvancedInfoActivity extends FragmentActivity {
             mTabs.add(clss.getName());
             mActionBar.addTab(tab.setTabListener(this));
             notifyDataSetChanged();
+        }
+        
+        public String getFragmentName(int position) {
+            return makeFragmentName(mViewPager.getId(), position);
         }
 
         @Override
