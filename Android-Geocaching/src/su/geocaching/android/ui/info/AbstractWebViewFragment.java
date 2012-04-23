@@ -3,15 +3,12 @@ package su.geocaching.android.ui.info;
 import com.google.android.maps.GeoPoint;
 
 import su.geocaching.android.controller.Controller;
-import su.geocaching.android.model.GeoCache;
-import su.geocaching.android.model.GeoCacheType;
 import su.geocaching.android.ui.R;
 import su.geocaching.android.controller.apimanager.GeocachingSuApiManager;
-import su.geocaching.android.controller.managers.NavigationManager;
 import android.os.Bundle;
-import android.os.Handler;
 import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentActivity;
+import android.support.v4.app.LoaderManager;
+import android.support.v4.content.Loader;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -19,9 +16,12 @@ import android.webkit.WebView;
 import android.webkit.WebViewClient;
 import android.graphics.Picture;
 import android.webkit.WebView.PictureListener;
+import android.widget.ProgressBar;
 
-public abstract class AbstractWebViewFragment extends Fragment {      
+public abstract class AbstractWebViewFragment extends Fragment {
+    
     private WebView webView;
+    private ProgressBar progressBar;
     protected InfoViewModel infoViewModel;
     private InfoViewModel.WebViewState state;
     
@@ -41,6 +41,9 @@ public abstract class AbstractWebViewFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View v = inflater.inflate(R.layout.info_info_fragment, container, false);
         webView = (WebView) v.findViewById(R.id.info_web_brouse);
+        
+        progressBar = (ProgressBar) v.findViewById(R.id.info_progress);
+        
         webView.getSettings().setJavaScriptEnabled(true);
         webView.getSettings().setBuiltInZoomControls(true);
         webView.setHorizontalScrollBarEnabled(false);
@@ -111,8 +114,13 @@ public abstract class AbstractWebViewFragment extends Fragment {
     @Override 
     public void onActivityCreated(Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
-        setWebViewData(state.getText());            
-    }
+        String text = state.getText();  
+        if (text != null) {
+            setWebViewData(text);
+        } else {
+            infoViewModel.BeginLoadInfo();
+        }
+    }    
       
     @Override
     public void onDestroyView() {
@@ -122,7 +130,15 @@ public abstract class AbstractWebViewFragment extends Fragment {
         state.setWidth(webView.getWidth());
     }
     
-    private void setWebViewData(String data) {
+    public void showProgressBar() {
+        progressBar.setVisibility(View.VISIBLE);
+    }
+    
+    public void hideProgressBar() {
+        progressBar.setVisibility(View.GONE);
+    }    
+    
+    public void setWebViewData(String data) {
         webView.loadDataWithBaseURL(GeocachingSuApiManager.HTTP_PDA_GEOCACHING_SU, data, "text/html", GeocachingSuApiManager.UTF8_ENCODING, null);
-    } 
+    }  
 }
