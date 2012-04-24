@@ -18,7 +18,7 @@ import android.graphics.Picture;
 import android.webkit.WebView.PictureListener;
 import android.widget.ProgressBar;
 
-public abstract class AbstractWebViewFragment extends Fragment {
+public abstract class AbstractWebViewFragment extends Fragment implements IInfoFragment {
     
     private WebView webView;
     private ProgressBar progressBar;
@@ -71,7 +71,7 @@ public abstract class AbstractWebViewFragment extends Fragment {
             @Override
             public boolean shouldOverrideUrlLoading(WebView view, String url) {                
                 String urlNotebook = String.format(GeocachingSuApiManager.LINK_NOTEBOOK_TEXT, infoViewModel.getGeoCachceId());
-                String urlInfo = String.format(GeocachingSuApiManager.LINK_INFO_CACHE, infoViewModel.getGeoCachceId());
+                String urlInfo = String.format(GeocachingSuApiManager.LINK_INFO_TEXT, infoViewModel.getGeoCachceId());
                 String urlPhoto = String.format(GeocachingSuApiManager.LINK_PHOTO_PAGE, infoViewModel.getGeoCachceId());
 
                 if (urlInfo.contains(url)) {
@@ -114,13 +114,16 @@ public abstract class AbstractWebViewFragment extends Fragment {
     @Override 
     public void onActivityCreated(Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
-        String text = state.getText();  
-        if (text != null) {
-            setWebViewData(text);
-        } else {
-            infoViewModel.BeginLoadInfo();
-        }
-    }    
+        setWebViewData(state.getText());
+    } 
+    
+    public void onNavigatedTo() {
+        if (state.getText() == null) {
+            BeginLoadData();
+        }      
+    }
+    
+    protected abstract void BeginLoadData();
       
     @Override
     public void onDestroyView() {

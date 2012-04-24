@@ -122,7 +122,7 @@ public class InfoActivity extends Activity {
             @Override
             public boolean shouldOverrideUrlLoading(WebView view, String url) {
                 String urlNotebook = String.format(GeocachingSuApiManager.LINK_NOTEBOOK_TEXT, geoCache.getId());
-                String urlInfo = String.format(GeocachingSuApiManager.LINK_INFO_CACHE, geoCache.getId());
+                String urlInfo = String.format(GeocachingSuApiManager.LINK_INFO_TEXT, geoCache.getId());
                 String urlPhoto = String.format(GeocachingSuApiManager.LINK_PHOTO_PAGE, geoCache.getId());
 
                 if (urlInfo.contains(url)) {

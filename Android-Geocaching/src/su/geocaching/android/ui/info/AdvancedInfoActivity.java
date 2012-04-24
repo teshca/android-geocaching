@@ -57,7 +57,7 @@ public class AdvancedInfoActivity extends FragmentActivity {
         mTabsAdapter = new TabsAdapter(this, getSupportActionBar(), mViewPager);
         mTabsAdapter.addTab(infoTab, InfoFragment.class);
         mTabsAdapter.addTab(notebookTab, NotebookFragment.class);
-        mTabsAdapter.addTab(photoTab, PhotoFragment.class);
+        mTabsAdapter.addTab(photoTab, PhotoFragment.class);                
 
         if (savedInstanceState != null) {
             getSupportActionBar().setSelectedNavigationItem(infoViewModel.getSelectedTabIndex());
@@ -71,8 +71,7 @@ public class AdvancedInfoActivity extends FragmentActivity {
     }
     
     public void navigateToInfoTab() {
-        getSupportActionBar().setSelectedNavigationItem(INFO_TAB_INDEX);
-        
+        getSupportActionBar().setSelectedNavigationItem(INFO_TAB_INDEX);       
     }
 
     public void naviagteToNotebookTab() {
@@ -111,7 +110,7 @@ public class AdvancedInfoActivity extends FragmentActivity {
     }
         
     public void showInfoProgressBar() {
-        AbstractWebViewFragment webViewFragment = (AbstractWebViewFragment) getSupportFragmentManager().findFragmentByTag(mTabsAdapter.getFragmentName(INFO_TAB_INDEX));
+        AbstractWebViewFragment webViewFragment = (AbstractWebViewFragment) mTabsAdapter.getFragment(INFO_TAB_INDEX);
         if (webViewFragment != null)
         {
             webViewFragment.showProgressBar();            
@@ -119,7 +118,7 @@ public class AdvancedInfoActivity extends FragmentActivity {
     }
     
     public void hideInfoProgressBar() {
-        AbstractWebViewFragment webViewFragment = (AbstractWebViewFragment) getSupportFragmentManager().findFragmentByTag(mTabsAdapter.getFragmentName(INFO_TAB_INDEX));
+        AbstractWebViewFragment webViewFragment = (AbstractWebViewFragment) mTabsAdapter.getFragment(INFO_TAB_INDEX);
         if (webViewFragment != null)
         {        
             webViewFragment.hideProgressBar();
@@ -127,7 +126,7 @@ public class AdvancedInfoActivity extends FragmentActivity {
     }
     
     public void setInfoText(String text) {
-        AbstractWebViewFragment webViewFragment = (AbstractWebViewFragment) getSupportFragmentManager().findFragmentByTag(mTabsAdapter.getFragmentName(INFO_TAB_INDEX));
+        AbstractWebViewFragment webViewFragment = (AbstractWebViewFragment) mTabsAdapter.getFragment(INFO_TAB_INDEX);
         if (webViewFragment != null)
         {
             webViewFragment.setWebViewData(text);
@@ -146,14 +145,14 @@ public class AdvancedInfoActivity extends FragmentActivity {
      * tab changes.
      */
     public static class TabsAdapter extends FragmentPagerAdapter implements ViewPager.OnPageChangeListener, ActionBar.TabListener {
-        private final Context mContext;
+        private final FragmentActivity mActivity;
         private final ActionBar mActionBar;
         private final ViewPager mViewPager;
         private final ArrayList<String> mTabs = new ArrayList<String>();
 
         public TabsAdapter(FragmentActivity activity, ActionBar actionBar, ViewPager pager) {
             super(activity.getSupportFragmentManager());
-            mContext = activity;
+            mActivity = activity;
             mActionBar = actionBar;
             mViewPager = pager;
             mViewPager.setAdapter(this);
@@ -166,8 +165,12 @@ public class AdvancedInfoActivity extends FragmentActivity {
             notifyDataSetChanged();
         }
         
-        public String getFragmentName(int position) {
+        private String getFragmentName(int position) {
             return makeFragmentName(mViewPager.getId(), position);
+        }
+        
+        public Fragment getFragment(int position) {
+            return mActivity.getSupportFragmentManager().findFragmentByTag(getFragmentName(position));    
         }
 
         @Override
@@ -177,7 +180,7 @@ public class AdvancedInfoActivity extends FragmentActivity {
 
         @Override
         public Fragment getItem(int position) {
-            return Fragment.instantiate(mContext, mTabs.get(position), null);
+            return Fragment.instantiate(mActivity, mTabs.get(position), null);
         }
 
         @Override
@@ -187,6 +190,10 @@ public class AdvancedInfoActivity extends FragmentActivity {
         @Override
         public void onPageSelected(int position) {
             mActionBar.setSelectedNavigationItem(position);
+            Fragment fragment = getFragment(position);
+            if (fragment instanceof IInfoFragment) {
+                ((IInfoFragment) fragment).onNavigatedTo();
+            }             
         }
 
         @Override
@@ -195,7 +202,7 @@ public class AdvancedInfoActivity extends FragmentActivity {
 
         @Override
         public void onTabSelected(Tab tab, FragmentTransaction ft) {
-            mViewPager.setCurrentItem(tab.getPosition());
+            mViewPager.setCurrentItem(tab.getPosition());           
         }
 
         @Override

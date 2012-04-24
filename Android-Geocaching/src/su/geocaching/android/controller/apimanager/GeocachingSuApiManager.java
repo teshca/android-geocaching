@@ -36,7 +36,7 @@ public class GeocachingSuApiManager implements IApiManager {
     private static final String TAG = GeocachingSuApiManager.class.getCanonicalName();
 
     //TODO: Make all constants private    
-    public static final String LINK_INFO_CACHE = "http://pda.geocaching.su/cache.php?cid=%d&mode=0";
+    public static final String LINK_INFO_TEXT = "http://pda.geocaching.su/cache.php?cid=%d&mode=0";
     public static final String LINK_NOTEBOOK_TEXT = "http://pda.geocaching.su/note.php?cid=%d&mode=0";
     public static final String LINK_PHOTO_PAGE = "http://pda.geocaching.su/pict.php?cid=%d&mode=0";
     public static final String HTTP_PDA_GEOCACHING_SU = "http://pda.geocaching.su/";
@@ -176,14 +176,41 @@ public class GeocachingSuApiManager implements IApiManager {
     }
 
     @Override
+    public String getNotebook(int cacheId) {
+        try {
+            return getText(getNotebookUrl(cacheId));
+        } catch (MalformedURLException e) {
+            return null;
+        }
+    }
+    
+    private URL getNotebookUrl(int cacheId) throws MalformedURLException 
+    {
+        return new URL(String.format(LINK_NOTEBOOK_TEXT, cacheId));
+    }      
+    
+    @Override
     public String getInfo(int cacheId) {
+        try {
+            return getText(getInfoUrl(cacheId));
+        } catch (MalformedURLException e) {
+            return null;
+        }
+    }
+    
+    private URL getInfoUrl(int cacheId) throws MalformedURLException 
+    {
+        return new URL(String.format(LINK_INFO_TEXT, cacheId));
+    }    
+    
+    private String getText(URL url) {
         String result = null;
 
         if (Controller.getInstance().getConnectionManager().isActiveNetworkConnected()) {
             boolean success = false;
             for (int attempt = 0; attempt < 5 && !success; attempt++)
                 try {
-                    result = downloadText(getInfoUrl(cacheId));
+                    result = downloadText(url);
                     success = true;
                 } catch (IOException e) {
                     // result is null in this case
@@ -192,11 +219,6 @@ public class GeocachingSuApiManager implements IApiManager {
         }
         
         return result;
-    }
-    
-    private URL getInfoUrl(int cacheId) throws MalformedURLException 
-    {
-        return new URL(String.format(LINK_INFO_CACHE, cacheId));
     }
     
     private String downloadText(URL url) throws IOException {

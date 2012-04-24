@@ -53,7 +53,7 @@ public class DownloadInfoTask extends AsyncTask<Void, Void, String> {
             switch (state) {
                 case SHOW_INFO:
                     progressMessage = infoActivity.getString(R.string.download_info);
-                    downloadUrl = new URL(String.format(GeocachingSuApiManager.LINK_INFO_CACHE, cacheId));
+                    downloadUrl = new URL(String.format(GeocachingSuApiManager.LINK_INFO_TEXT, cacheId));
                     break;
                 case SHOW_NOTEBOOK:
                 case SAVE_CACHE_NOTEBOOK:
