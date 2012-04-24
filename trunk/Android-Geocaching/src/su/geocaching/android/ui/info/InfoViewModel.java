@@ -12,13 +12,13 @@ public class InfoViewModel {
     private int geoCacheId;
     private DbManager dbManager;
     
-    private AdvancedDownloadInfoTask downloadTask = null;
+    private AdvancedDownloadInfoTask downloadInfoTask = null;
     
     private int selectedTabIndex;
     
-    private WebViewState infoState0;
-    private WebViewState infoState1;
-    private WebViewState infoState2;
+    private WebViewState infoState;
+    private WebViewState notebookState;
+    private WebViewState photosState;
     
     private AdvancedInfoActivity activity;
     
@@ -30,14 +30,14 @@ public class InfoViewModel {
         if (this.geoCacheId != geoCacheId) {
             this.geoCacheId = geoCacheId;
             
-            this.infoState0 = new WebViewState();
-            this.infoState1 = new WebViewState();
-            this.infoState2 = new WebViewState();
+            this.infoState = new WebViewState();
+            this.notebookState = new WebViewState();
+            this.photosState = new WebViewState();
             
             if (isCacheStored()) {
-                this.infoState0.setText(dbManager.getCacheInfoById(geoCacheId));
-                this.infoState1.setText(dbManager.getCacheNotebookTextById(geoCacheId));
-                this.infoState2.setText("<center>ФОТОГРАФ�?�?</center>");
+                this.infoState.setText(dbManager.getCacheInfoById(geoCacheId));
+                this.notebookState.setText(dbManager.getCacheNotebookTextById(geoCacheId));
+                this.photosState.setText("<center>ФОТОГРАФ�?�?</center>");
             }
             
             setSelectedTabIndex(0);
@@ -45,15 +45,19 @@ public class InfoViewModel {
     }
     
     public synchronized void BeginLoadInfo() {
-        downloadTask = new AdvancedDownloadInfoTask(this);
-        downloadTask.execute();
+        downloadInfoTask = new AdvancedDownloadInfoTask(this);
+        downloadInfoTask.execute();
         if (activity != null) {
             activity.showInfoProgressBar();
         }
-    }  
+    }
+    
+    public synchronized void BeginLoadNotebook() {
+        // TODO Auto-generated method stub        
+    }
     
     public synchronized void geocacheInfoDownloaded(String result) {
-        this.infoState0.setText(result);
+        this.infoState.setText(result);
         if (activity != null) {
             activity.setInfoText(result);
             activity.hideInfoProgressBar();
@@ -70,23 +74,27 @@ public class InfoViewModel {
         return dbManager.isCacheStored(geoCacheId);        
     }
     
-    public WebViewState getInfoState(int num) {
-        if (num == 0) return infoState0;
-        if (num == 1) return infoState1;
-        return infoState2;
+    public WebViewState getInfoState() {
+        return infoState;
+    }
+    
+    public WebViewState getNotebookState() {
+        return notebookState;
+    }
+
+    public WebViewState getPhotosState() {
+        return photosState;
     }
     
     public int getGeoCachceId() {
         return geoCacheId; 
     }
     
-    public int getSelectedTabIndex()
-    {
+    public int getSelectedTabIndex() {
         return selectedTabIndex;
     }
 
-    public void setSelectedTabIndex(int selectedTabIndex)
-    {
+    public void setSelectedTabIndex(int selectedTabIndex) {
         this.selectedTabIndex = selectedTabIndex;
     }
     
@@ -95,7 +103,7 @@ public class InfoViewModel {
             LogManager.e(TAG, "Attempt to register activity while activity is not null");
         }
         this.activity = activity;
-        if (downloadTask != null && !downloadTask.isCancelled() && (downloadTask.getStatus() != AsyncTask.Status.FINISHED)) {
+        if (downloadInfoTask != null && !downloadInfoTask.isCancelled() && (downloadInfoTask.getStatus() != AsyncTask.Status.FINISHED)) {
             onShowDownloadingInfo();
         }
     }

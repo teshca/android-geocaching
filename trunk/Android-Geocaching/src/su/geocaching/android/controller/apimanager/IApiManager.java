@@ -24,6 +24,11 @@ public interface IApiManager {
     public String getInfo(int cacheId);
     
     /**
+     * Get info about geocache.This method synchronous.
+     */
+    public String getNotebook(int cacheId);    
+    
+    /**
      * Get info/notebook about geocache. This method asynchronous.
      */
     public void getInfo(DownloadInfoState state, InfoActivity infoActivity, int cacheId);
