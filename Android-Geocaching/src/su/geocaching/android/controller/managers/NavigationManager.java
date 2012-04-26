@@ -27,6 +27,7 @@ import su.geocaching.android.ui.searchmap.SearchMapActivity;
 import su.geocaching.android.ui.selectmap.SelectMapActivity;
 
 import java.util.List;
+import java.util.Locale;
 
 /**
  * @author Nikita Bumakov
@@ -160,6 +161,25 @@ public class NavigationManager {
             Controller.getInstance().getGoogleAnalyticsManager().trackExternalActivityLaunch("/GpsStatus/0");
         }
     }
+    
+    /**
+     * Run external Map application
+     * @param context parent context
+     */
+    public static void startExternalMap(Context context, double latitude, double longitude, int zoom) {
+        final String uri = String.format(Locale.ENGLISH, "geo:%f,%f?z=%d", latitude, longitude, zoom);
+        Intent intent = new Intent(android.content.Intent.ACTION_VIEW, Uri.parse(uri));
+
+        List<ResolveInfo> list = context.getPackageManager().queryIntentActivities(intent, PackageManager.COMPONENT_ENABLED_STATE_DEFAULT);
+        if (list.size() > 0) {
+            // Application installed
+            Controller.getInstance().getGoogleAnalyticsManager().trackExternalActivityLaunch("/ExtternalMap/1");
+            context.startActivity(intent);
+        } else {
+            // Application isn't installed
+            Controller.getInstance().getGoogleAnalyticsManager().trackExternalActivityLaunch("/ExtternalMap/0");
+        }
+    }
 
 
     private static Intent marketIntent = new Intent(Intent.ACTION_VIEW, Uri.parse("market://details?id=su.geocaching.android.ui"));
@@ -179,5 +199,42 @@ public class NavigationManager {
      */
     public static boolean isAndroidMarketAvailable(Context context) {
         return context.getPackageManager().queryIntentActivities(marketIntent, PackageManager.COMPONENT_ENABLED_STATE_DEFAULT).size() > 0;
+    }
+    
+    /**
+     * Run driving directions application.
+     * Prefer Yandex maps if exists
+     * @param context parent context
+     */
+    public static void startExternalDrivingDirrections(Context context, double sourceLat, double sourceLng, double destinationLat, double destinationLng) {
+        Intent intent = new Intent("ru.yandex.yandexmaps.action.BUILD_ROUTE_ON_MAP");
+        intent.putExtra("lat_from", sourceLat);
+        intent.putExtra("lon_from", sourceLng);
+        intent.putExtra("lat_to", destinationLat);
+        intent.putExtra("lon_to", destinationLng);       
+        
+        List<ResolveInfo> list = context.getPackageManager().queryIntentActivities(intent, PackageManager.COMPONENT_ENABLED_STATE_DEFAULT);
+        if (list.size() > 0) {
+            // Application installed
+            Controller.getInstance().getGoogleAnalyticsManager().trackExternalActivityLaunch("/ExternalDrivingDirrections/Yandex");
+            context.startActivity(intent);
+        } else {
+            // Yandex maps is not found
+            final String uri = String.format(
+                    Locale.ENGLISH,
+                    "http://maps.google.com/maps?saddr=%f,%f&daddr=%f,%f&ie=UTF8&om=0&output=kml",
+                    sourceLat, sourceLng, destinationLat, destinationLng);
+            intent = new Intent(android.content.Intent.ACTION_VIEW, Uri.parse(uri));
+
+            list = context.getPackageManager().queryIntentActivities(intent, PackageManager.COMPONENT_ENABLED_STATE_DEFAULT);
+            if (list.size() > 0) {
+                // Application installed
+                Controller.getInstance().getGoogleAnalyticsManager().trackExternalActivityLaunch("/ExternalDrivingDirrections/1");
+                context.startActivity(intent);
+            } else {
+                // Application isn't installed
+                Controller.getInstance().getGoogleAnalyticsManager().trackExternalActivityLaunch("/ExternalDrivingDirrections/0");
+            }                    
+        }                
     }
 }
