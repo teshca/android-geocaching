@@ -395,34 +395,16 @@ public class SearchMapActivity extends MapActivity implements IConnectionAware, 
             final double sourceLng = location.getLongitude();
             final double destinationLat = destination.getLatitudeE6() / 1E6;
             final double destinationLng = destination.getLongitudeE6() / 1E6;
-            final String uri = String.format(
-                    Locale.ENGLISH,
-                    "http://maps.google.com/maps?saddr=%f,%f&daddr=%f,%f&ie=UTF8&om=0&output=kml",
-                    sourceLat, sourceLng, destinationLat, destinationLng);
-
-            final Intent intent = new Intent(android.content.Intent.ACTION_VIEW, Uri.parse(uri));
-            startActivity(intent);
+            NavigationManager.startExternalDrivingDirrections(this, sourceLat, sourceLng, destinationLat, destinationLng);
         } else {
             Toast.makeText(getBaseContext(), getString(R.string.status_null_last_location), Toast.LENGTH_LONG).show();
         }
     }
 
-    // TODO: implement menu item
-    // Currently only google maps can handle this intent correctly, so it's kind of the same map
-    private void showCacheOnExternalMap() {
-        final GeoCache geoCache = Controller.getInstance().getSearchingGeoCache();
-        final GeoPoint geoCachePoint = geoCache.getLocationGeoPoint();
-        final double geoCacheLatitude = geoCachePoint.getLatitudeE6() / 1E6;
-        final double geoCacheLongitude = geoCachePoint.getLongitudeE6() / 1E6;
-        final String uri = String.format(Locale.ENGLISH, "geo:0,0?q=%f,%f (%s)", geoCacheLatitude, geoCacheLongitude, geoCache.getName());
-        startActivity(new Intent(android.content.Intent.ACTION_VIEW, Uri.parse(uri)));
-    }
-
     private void showExternalMap() {
         final double latitude = map.getMapCenter().getLatitudeE6() / 1E6;
         final double longitude = map.getMapCenter().getLongitudeE6() / 1E6;
-        final String uri = String.format(Locale.ENGLISH, "geo:%f,%f?z=%d", latitude, longitude, map.getZoomLevel());
-        startActivity(new Intent(android.content.Intent.ACTION_VIEW, Uri.parse(uri)));
+        NavigationManager.startExternalMap(this, latitude, longitude, map.getZoomLevel());
     }
 
     /*
