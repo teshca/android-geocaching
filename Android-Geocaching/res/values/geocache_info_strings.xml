@@ -29,4 +29,6 @@
 	<string name="info_tab_name_info">Информация</string>
 	<string name="info_tab_name_notebook">Блокнот</string>
 	<string name="info_tab_name_photo">Фотографии</string>
+	
+	<string name="info_download_error_message">Ошибка загрузки данных</string>
 </resources>

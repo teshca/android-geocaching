@@ -1,5 +1,6 @@
 package su.geocaching.android.controller.apimanager;
 
+
 import android.os.AsyncTask;
 import su.geocaching.android.controller.Controller;
 import su.geocaching.android.controller.managers.CheckpointManager;
@@ -8,18 +9,17 @@ import su.geocaching.android.controller.managers.UncaughtExceptionsHandler;
 import su.geocaching.android.ui.info.InfoViewModel;
 
 /**
- * This AsyncTask for downloading info of geocache
+ * This AsyncTask for downloading notebook of geocache
  *
  * @author Nikita Bumakov
  */
-public class AdvancedDownloadInfoTask extends AsyncTask<Void, Void, String> {
+public class AdvancedDownloadNotebookTask extends AsyncTask<Void, Void, String> {
 
-    private static final String TAG = AdvancedDownloadInfoTask.class.getCanonicalName();
+    private static final String TAG = AdvancedDownloadNotebookTask.class.getCanonicalName();
 
     private InfoViewModel infoViewModel;
     
-
-    public AdvancedDownloadInfoTask(InfoViewModel infoViewModel) {
+    public AdvancedDownloadNotebookTask(InfoViewModel infoViewModel) {
         this.infoViewModel = infoViewModel;
         Thread.setDefaultUncaughtExceptionHandler(new UncaughtExceptionsHandler());
     }
@@ -31,12 +31,12 @@ public class AdvancedDownloadInfoTask extends AsyncTask<Void, Void, String> {
 
     @Override
     protected String doInBackground(Void... arg0) {
-        String cacheInfo = Controller.getInstance().getApiManager().getInfo(this.infoViewModel.getGeoCachceId());
-        if (cacheInfo != null)
+        String cacheNotebook = Controller.getInstance().getApiManager().getNotebook(this.infoViewModel.getGeoCachceId());
+        if (cacheNotebook != null)
         {
-            cacheInfo = CheckpointManager.insertCheckpointsLink(cacheInfo);
+            cacheNotebook = CheckpointManager.insertCheckpointsLink(cacheNotebook);
         }        
-        return cacheInfo;
+        return cacheNotebook;
     }
 
     @Override
@@ -44,10 +44,10 @@ public class AdvancedDownloadInfoTask extends AsyncTask<Void, Void, String> {
         LogManager.d(TAG, "onPreExecute");
         
         if (result == null) {
-            this.infoViewModel.geocacheInfoDownloadFailed();
+            this.infoViewModel.geocacheNotebookDownloadFailed();
             return;
         }
         
-        this.infoViewModel.geocacheInfoDownloaded(result);        
+        this.infoViewModel.geocacheNotebookDownloaded(result);        
     }
 }
