@@ -7,21 +7,24 @@ import su.geocaching.android.ui.R;
 import su.geocaching.android.controller.apimanager.GeocachingSuApiManager;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
-import android.support.v4.app.LoaderManager;
-import android.support.v4.content.Loader;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
 import android.graphics.Picture;
 import android.webkit.WebView.PictureListener;
+import android.widget.ImageButton;
 import android.widget.ProgressBar;
 
 public abstract class AbstractWebViewFragment extends Fragment implements IInfoFragment {
     
     private WebView webView;
     private ProgressBar progressBar;
+    private View errorMessage;
+    private ImageButton refreshButton;
+    
     protected InfoViewModel infoViewModel;
     private InfoViewModel.WebViewState state;
     
@@ -39,10 +42,18 @@ public abstract class AbstractWebViewFragment extends Fragment implements IInfoF
     
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        View v = inflater.inflate(R.layout.info_info_fragment, container, false);
+        View v = inflater.inflate(R.layout.info_web_view_fragment, container, false);
         webView = (WebView) v.findViewById(R.id.info_web_brouse);
         
-        progressBar = (ProgressBar) v.findViewById(R.id.info_progress);
+        progressBar = (ProgressBar) v.findViewById(R.id.info_progress_bar);
+        errorMessage = (View) v.findViewById(R.id.info_error_panel);
+        refreshButton = (ImageButton) v.findViewById(R.id.refresh_button);
+        refreshButton.setOnClickListener(new OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                BeginLoadData();
+            }}
+        );
         
         webView.getSettings().setJavaScriptEnabled(true);
         webView.getSettings().setBuiltInZoomControls(true);
@@ -115,6 +126,9 @@ public abstract class AbstractWebViewFragment extends Fragment implements IInfoF
     public void onActivityCreated(Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
         setWebViewData(state.getText());
+        if (infoViewModel.getSelectedTabIndex() == state.getIndex()) {
+            onNavigatedTo();
+        }
     } 
     
     public void onNavigatedTo() {
@@ -139,9 +153,17 @@ public abstract class AbstractWebViewFragment extends Fragment implements IInfoF
     
     public void hideProgressBar() {
         progressBar.setVisibility(View.GONE);
-    }    
+    }
+    
+    public void showErrorMessage() {
+       errorMessage.setVisibility(View.VISIBLE);      
+    }
+
+    public void hideErrorMessage() {
+        errorMessage.setVisibility(View.GONE);        
+    }      
     
     public void setWebViewData(String data) {
         webView.loadDataWithBaseURL(GeocachingSuApiManager.HTTP_PDA_GEOCACHING_SU, data, "text/html", GeocachingSuApiManager.UTF8_ENCODING, null);
-    }  
+    }
 }

@@ -15,7 +15,6 @@ import su.geocaching.android.controller.managers.NavigationManager;
 import su.geocaching.android.model.GeoCache;
 import su.geocaching.android.model.GeoCacheType;
 import su.geocaching.android.ui.R;
-import android.content.Context;
 
 import android.os.Bundle;
 import android.support.v4.app.ActionBar;
@@ -25,15 +24,12 @@ import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v4.app.ActionBar.Tab;
 import android.support.v4.view.ViewPager;
+import android.view.View;
 import android.widget.Toast;
 
 public class AdvancedInfoActivity extends FragmentActivity {
     ViewPager  mViewPager;
     TabsAdapter mTabsAdapter;
-    
-    private static int INFO_TAB_INDEX = 0;
-    private static int NOTEBOOK_TAB_INDEX = 1;
-    private static int PHOTOS_TAB_INDEX = 2;
     
     private InfoViewModel infoViewModel;
 
@@ -57,30 +53,19 @@ public class AdvancedInfoActivity extends FragmentActivity {
         mTabsAdapter = new TabsAdapter(this, getSupportActionBar(), mViewPager);
         mTabsAdapter.addTab(infoTab, InfoFragment.class);
         mTabsAdapter.addTab(notebookTab, NotebookFragment.class);
-        mTabsAdapter.addTab(photoTab, PhotoFragment.class);                
-
-        if (savedInstanceState != null) {
-            getSupportActionBar().setSelectedNavigationItem(infoViewModel.getSelectedTabIndex());
-        }
-    }
-
-    @Override
-    protected void onSaveInstanceState(Bundle outState) {
-        super.onSaveInstanceState(outState);
-        infoViewModel.setSelectedTabIndex(getSupportActionBar().getSelectedNavigationIndex());
+        mTabsAdapter.addTab(photoTab, PhotoFragment.class);
     }
     
     public void navigateToInfoTab() {
-        getSupportActionBar().setSelectedNavigationItem(INFO_TAB_INDEX);       
+        getSupportActionBar().setSelectedNavigationItem(infoViewModel.getInfoState().getIndex());       
     }
 
     public void naviagteToNotebookTab() {
-        getSupportActionBar().setSelectedNavigationItem(NOTEBOOK_TAB_INDEX);        
+        getSupportActionBar().setSelectedNavigationItem(infoViewModel.getNotebookState().getIndex());        
     }
 
     public void naviagteToPhotosTab() {
-        getSupportActionBar().setSelectedNavigationItem(PHOTOS_TAB_INDEX);
-        
+        getSupportActionBar().setSelectedNavigationItem(infoViewModel.getPhotosState().getIndex());        
     }    
     
     public void openCheckpointDialog(GeoPoint geoPoint) {
@@ -101,38 +86,94 @@ public class AdvancedInfoActivity extends FragmentActivity {
     public void onResume() {
         super.onResume();
         infoViewModel.registerActivity(this);
+        getSupportActionBar().setSelectedNavigationItem(infoViewModel.getSelectedTabIndex());
     }
     
     @Override
     public void onPause() {
         super.onPause();
         infoViewModel.unregisterActivity(this);
+        infoViewModel.setSelectedTabIndex(getSupportActionBar().getSelectedNavigationIndex());
+    }
+    
+    private AbstractWebViewFragment getInfoFragment() {
+        return (AbstractWebViewFragment) mTabsAdapter.getFragment(infoViewModel.getInfoState().getIndex());        
     }
         
     public void showInfoProgressBar() {
-        AbstractWebViewFragment webViewFragment = (AbstractWebViewFragment) mTabsAdapter.getFragment(INFO_TAB_INDEX);
-        if (webViewFragment != null)
-        {
+        AbstractWebViewFragment webViewFragment = getInfoFragment();
+        if (webViewFragment != null) {
             webViewFragment.showProgressBar();            
         }        
     }
     
     public void hideInfoProgressBar() {
-        AbstractWebViewFragment webViewFragment = (AbstractWebViewFragment) mTabsAdapter.getFragment(INFO_TAB_INDEX);
-        if (webViewFragment != null)
-        {        
+        AbstractWebViewFragment webViewFragment = getInfoFragment();
+        if (webViewFragment != null) {
             webViewFragment.hideProgressBar();
         }
     }
     
+    public void showInfoErrorMessage() {
+        AbstractWebViewFragment webViewFragment = getInfoFragment();
+        if (webViewFragment != null) {
+            webViewFragment.showErrorMessage();            
+        }
+    }
+    
+    public void hideInfoErrorMessage() {
+        AbstractWebViewFragment webViewFragment = getInfoFragment();
+        if (webViewFragment != null) {        
+            webViewFragment.hideErrorMessage();
+        }
+    }    
+    
     public void setInfoText(String text) {
-        AbstractWebViewFragment webViewFragment = (AbstractWebViewFragment) mTabsAdapter.getFragment(INFO_TAB_INDEX);
-        if (webViewFragment != null)
-        {
+        AbstractWebViewFragment webViewFragment = getInfoFragment();
+        if (webViewFragment != null) {
             webViewFragment.setWebViewData(text);
         }
     }    
 
+    private AbstractWebViewFragment getNotebookFragment() {
+        return (AbstractWebViewFragment) mTabsAdapter.getFragment(infoViewModel.getNotebookState().getIndex());        
+    }
+        
+    public void showNotebookProgressBar() {
+        AbstractWebViewFragment webViewFragment = getNotebookFragment();
+        if (webViewFragment != null) {
+            webViewFragment.showProgressBar();            
+        }        
+    }
+    
+    public void hideNotebookProgressBar() {
+        AbstractWebViewFragment webViewFragment = getNotebookFragment();
+        if (webViewFragment != null) {        
+            webViewFragment.hideProgressBar();
+        }
+    }
+    
+    public void showNotebookErrorMessage() {
+        AbstractWebViewFragment webViewFragment = getNotebookFragment();
+        if (webViewFragment != null) {
+            webViewFragment.showErrorMessage();            
+        }
+    }
+    
+    public void hideNotebookErrorMessage() {
+        AbstractWebViewFragment webViewFragment = getNotebookFragment();
+        if (webViewFragment != null) {        
+            webViewFragment.hideErrorMessage();
+        }
+    }     
+    
+    public void setNotebookText(String text) {
+        AbstractWebViewFragment webViewFragment = getNotebookFragment();
+        if (webViewFragment != null) {
+            webViewFragment.setWebViewData(text);
+        }
+    }    
+    
     /**
      * This is a helper class that implements the management of tabs and all
      * details of connecting a ViewPager with associated TabHost.  It relies on a
