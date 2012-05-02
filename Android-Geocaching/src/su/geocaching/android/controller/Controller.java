@@ -130,7 +130,7 @@ public class Controller {
      * @param context for init manager
      * @return location manager which can send to ILocationAware location updates
      */
-    public synchronized AccurateUserLocationManager getLocationManager(Context context) {
+    private synchronized AccurateUserLocationManager getLocationManager(Context context) {
         if (locationManager == null) {
             LogManager.d(TAG, "location manager wasn't init yet. init.");
             locationManager = new AccurateUserLocationManager((LocationManager) context.getSystemService(Context.LOCATION_SERVICE));
@@ -142,7 +142,7 @@ public class Controller {
      * @param context for init manager
      * @return location manager which can send to ILocationAware location updates
      */
-    public synchronized LowPowerUserLocationManager getLowPowerLocationManager(Context context) {
+    private synchronized LowPowerUserLocationManager getLowPowerLocationManager(Context context) {
         if (lowPowerLocationManager == null) {
             lowPowerLocationManager = new LowPowerUserLocationManager((LocationManager) context.getSystemService(Context.LOCATION_SERVICE));
         }
@@ -164,7 +164,7 @@ public class Controller {
      * @param context for init manager
      * @return compass manager which can send to IBearingAware updates of bearing
      */
-    public synchronized CompassManager getCompassManager(Context context) {
+    private synchronized CompassManager getCompassManager(Context context) {
         if (compassManager == null) {
             LogManager.d(TAG, "compass manager wasn't init yet. init.");
             compassManager = new CompassManager((SensorManager) context.getSystemService(Context.SENSOR_SERVICE), getLocationManager());
@@ -176,7 +176,7 @@ public class Controller {
      * @param context for init manager
      * @return connection manager which can send to IConnectionAware updates of Internet connection status
      */
-    public synchronized ConnectionManager getConnectionManager(Context context) {
+    private synchronized ConnectionManager getConnectionManager(Context context) {
         if (connectionManager == null) {
             LogManager.d(TAG, "connection manager wasn't init yet. init.");
             connectionManager = new ConnectionManager(context);
@@ -188,7 +188,7 @@ public class Controller {
      * @param context for init manager
      * @return resource manager which can give you application resources
      */
-    public synchronized ResourceManager getResourceManager(Context context) {
+    private synchronized ResourceManager getResourceManager(Context context) {
         if (resourceManager == null) {
             LogManager.d(TAG, "resource manager wasn't init yet. init.");
             resourceManager = new ResourceManager(context);
@@ -200,7 +200,7 @@ public class Controller {
      * @param context for init manager
      * @return resource manager which can give you application preferences
      */
-    public synchronized PreferencesManager getPreferencesManager(Context context) {
+    private synchronized PreferencesManager getPreferencesManager(Context context) {
         if (preferencesManager == null) {
             LogManager.d(TAG, "preferences manager wasn't init yet. init.");
             preferencesManager = new PreferencesManager(context);
@@ -212,7 +212,7 @@ public class Controller {
      * @param context for init manager
      * @return resource manager which can give you interface to working with database
      */
-    public synchronized DbManager getDbManager(Context context) {
+    private synchronized DbManager getDbManager(Context context) {
         if (dbManager == null) {
             LogManager.d(TAG, "db manager wasn't init yet. init");
             dbManager = new DbManager(context);
@@ -224,7 +224,7 @@ public class Controller {
      * @param context for init manager
      * @return resource manager which can give you interface to working with SD card
      */
-    public synchronized ExternalStorageManager getExternalStorageManager(Context context) {
+    private synchronized ExternalStorageManager getExternalStorageManager(Context context) {
         if (externalStorageManager == null) {
             LogManager.d(TAG, "externalStorageManager manager wasn't init yet. init");
             externalStorageManager = new ExternalStorageManager(context);

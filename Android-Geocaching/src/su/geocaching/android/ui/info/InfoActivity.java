@@ -97,7 +97,7 @@ public class InfoActivity extends Activity {
         tvName.setText(geoCache.getName());
         tvTypeGeoCache.setText(controller.getResourceManager().getGeoCacheType(geoCache));
         tvStatusGeoCache.setText(controller.getResourceManager().getGeoCacheStatus(geoCache));
-        image.setImageDrawable(controller.getResourceManager(this).getCacheMarker(geoCache.getType(), geoCache.getStatus()));
+        image.setImageDrawable(controller.getResourceManager().getCacheMarker(geoCache.getType(), geoCache.getStatus()));
 
         cbFavoriteCache = (CheckBox) findViewById(R.id.info_geocache_add_del);
         galleryView = (GalleryView) findViewById(R.id.galleryView);
