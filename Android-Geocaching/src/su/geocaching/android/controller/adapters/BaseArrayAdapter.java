@@ -1,5 +1,7 @@
 package su.geocaching.android.controller.adapters;
 
+import java.util.Collection;
+
 import android.content.Context;
 import android.view.LayoutInflater;
 import android.widget.ArrayAdapter;
@@ -16,10 +18,9 @@ public class BaseArrayAdapter<T> extends ArrayAdapter<T> {
         inflater = (LayoutInflater) getContext().getSystemService(Context.LAYOUT_INFLATER_SERVICE);
     }
 
-    /* @Override
-    public void add(T object) {
-        if (getPosition(object) == -1) {
-            super.add(object);
+    public void add(Collection<T> collection) {
+        for (T o : collection) {
+            add(o);
         }
-    }*/
+    }
 }

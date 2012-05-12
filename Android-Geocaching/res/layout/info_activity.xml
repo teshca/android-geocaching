@@ -119,7 +119,6 @@
             android:horizontalSpacing="5dip"
             android:stretchMode="columnWidth"
             android:gravity="center"
-            android:columnWidth="150dip"
             android:layout_weight="1"
             android:visibility="gone"/>
 </LinearLayout>

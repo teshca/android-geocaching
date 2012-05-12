@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout    
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"    
+	android:background="@android:drawable/gallery_thumb"
+	android:padding="4dip">
+    <su.geocaching.android.ui.info.GalleryView
+        android:id="@+id/galleryView"
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent"
+        android:numColumns="auto_fit"
+        android:verticalSpacing="5dip"
+        android:horizontalSpacing="5dip"
+        android:stretchMode="columnWidth"
+        android:columnWidth="@dimen/adapter_photo_size"        
+        android:gravity="center"/>
+	<ProgressBar 
+	    android:id="@+id/info_progress_bar"
+	    android:visibility="gone"
+	    android:layout_width="wrap_content"
+	    android:layout_height="wrap_content"
+	    android:layout_gravity="center"/>
+	<LinearLayout
+	    android:id="@+id/info_error_panel"
+	    android:visibility="gone"
+	    android:orientation="vertical"
+	    android:layout_width="wrap_content"
+	    android:layout_height="wrap_content"
+	    android:layout_gravity="center">	    
+	    <TextView
+		    android:layout_width="wrap_content"
+		    android:layout_height="wrap_content"
+		    android:padding="12dip"	         
+	        android:text="@string/info_download_error_message" />
+	    <ImageButton
+	        android:id="@+id/refresh_button"
+	        android:padding="24dip"
+	        android:contentDescription="@string/menu_refresh" 
+		    android:layout_width="wrap_content"
+		    android:layout_height="wrap_content"
+		    android:layout_gravity="center"	    
+	        android:src="@drawable/ic_menu_refresh" />
+	</LinearLayout>
+</FrameLayout>
