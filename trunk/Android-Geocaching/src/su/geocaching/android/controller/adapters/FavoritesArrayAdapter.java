@@ -60,12 +60,6 @@ public class FavoritesArrayAdapter extends BaseArrayAdapter<GeoCache> implements
         getFilter();
     }
 
-    public void add(Collection<GeoCache> collection) {
-        for (GeoCache geoCache : collection) {
-            add(geoCache);
-        }
-    }
-
     @Override
     public View getView(int position, View cv, ViewGroup parent) {
 

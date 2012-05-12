@@ -9,6 +9,8 @@ import android.util.Log;
 
 import java.io.File;
 import java.io.FilenameFilter;
+import java.util.Collection;
+import java.util.LinkedList;
 
 public class ExternalStorageManager {
 
@@ -17,6 +19,13 @@ public class ExternalStorageManager {
     private static final String PHOTOS_DIRECTORY = APPLICATION_DIRECTORY + "/photos";
     private static final String CACHE_PHOTOS_DIRECTORY = PHOTOS_DIRECTORY + "/%d";
     private Context context;
+    
+    private static final FilenameFilter imageFilter = new FilenameFilter() {
+        @Override
+        public boolean accept(File dir, String name) {
+            return (name.endsWith(".jpg") || name.endsWith(".png"));
+        }
+    };
 
     public ExternalStorageManager(Context context){
         this.context = context;
@@ -54,19 +63,20 @@ public class ExternalStorageManager {
     }
 
     public boolean hasPhotos(int cacheId) {
-        File[] photos = getPhotos(cacheId);
-        return (photos != null) && (photos.length != 0);
+        Collection<Uri> photos = getPhotos(cacheId);
+        return photos.isEmpty();
     }
 
-    public File[] getPhotos(int cacheId) {
-        File imagesDirectory = getPhotosDirectory(cacheId);
-        FilenameFilter imageFilter = new FilenameFilter() {
-            @Override
-            public boolean accept(File dir, String name) {
-                return (name.endsWith(".jpg") || name.endsWith(".png"));
-            }
-        };
-        return imagesDirectory.listFiles(imageFilter);
+    public Collection<Uri> getPhotos(int cacheId) {
+        final File imagesDirectory = getPhotosDirectory(cacheId);
+        final File[] photoFiles = imagesDirectory.listFiles(imageFilter); 
+        final LinkedList<Uri> photosUrls = new LinkedList<Uri>();
+        if (photoFiles == null) return photosUrls;
+        
+        for (File f : imagesDirectory.listFiles(imageFilter)) {
+            photosUrls.add(Uri.fromFile(f));
+        }
+        return photosUrls;
     }
     
     private File getPhotosDirectory(int cacheId)

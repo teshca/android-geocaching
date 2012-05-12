@@ -154,7 +154,7 @@ public class InfoViewModel {
         }        
     }
     
-    private static boolean isTaskActive(AsyncTask task) {
+    private static boolean isTaskActive(AsyncTask<?,?,?> task) {
         return task != null && !task.isCancelled() && (task.getStatus() != AsyncTask.Status.FINISHED);
     }
 
