@@ -7,6 +7,7 @@ import android.content.Context;
 import android.os.Debug;
 import android.os.Handler;
 import android.os.Message;
+import android.view.Gravity;
 import android.widget.Toast;
 
 public class MemoryManager {
@@ -18,7 +19,8 @@ public class MemoryManager {
     
     public MemoryManager(Context context) {
         
-        final Toast memoryToast = Toast.makeText(context, "Memory usage", UPDATE_INTERVAL);
+        final Toast memoryToast = Toast.makeText(context, "Memory usage", Toast.LENGTH_SHORT);
+        memoryToast.setGravity(Gravity.BOTTOM | Gravity.RIGHT, 0, 0);
         
         memoryReporterTask = new TimerTask() {
             private Handler updateUI = new Handler(){
@@ -26,6 +28,7 @@ public class MemoryManager {
                 public void dispatchMessage(Message msg) {
                     super.dispatchMessage(msg);
                     if (memoryToast != null) {
+                        memoryToast.cancel();
                         memoryToast.setText(Integer.toString(msg.arg1 / 1024) + "Kb");
                         memoryToast.show();
                     }
