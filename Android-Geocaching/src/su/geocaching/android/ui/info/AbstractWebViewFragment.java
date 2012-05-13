@@ -145,6 +145,8 @@ public abstract class AbstractWebViewFragment extends Fragment implements IInfoF
         state.setScale(webView.getScale());
         state.setScrollY(webView.getScrollY());
         state.setWidth(webView.getWidth());
+        
+        webView.destroy();
     }
     
     public void showProgressBar() {

@@ -22,8 +22,12 @@ import java.lang.reflect.Method;
  */
 public class Controller {
     private static final String TAG = Controller.class.getCanonicalName();
-    public static final boolean DEBUG = true;// it is constant really need, because compiler can remove code blocks which cannot be execute. Visibility is public because LogManager and
-    // AnalyticsManager use this constant
+    /**
+     * This constant is really needed, because compiler can remove code blocks which cannot be execute. 
+     * Visibility is public because LogManager and AnalyticsManager use this constant
+     */
+    public static final boolean DEBUG = true;
+    private static boolean SHOW_MEMORY_TOAST = true;
 
     private static Controller instance;
     private Context applicationContext;
@@ -267,6 +271,10 @@ public class Controller {
      */
     protected void setApplicationContext(Context applicationContext) {
         this.applicationContext = applicationContext;
+        if (SHOW_MEMORY_TOAST) {
+            MemoryManager memoryManager = new MemoryManager(applicationContext);
+            memoryManager.showMemoryToast();
+        }            
     }
 
     public String getApplicationVersionName() {
