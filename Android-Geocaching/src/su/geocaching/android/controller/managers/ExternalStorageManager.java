@@ -64,7 +64,7 @@ public class ExternalStorageManager {
 
     public boolean hasPhotos(int cacheId) {
         Collection<Uri> photos = getPhotos(cacheId);
-        return photos.isEmpty();
+        return !photos.isEmpty();
     }
 
     public Collection<Uri> getPhotos(int cacheId) {
