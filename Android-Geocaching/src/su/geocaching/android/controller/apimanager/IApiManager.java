@@ -1,6 +1,8 @@
 package su.geocaching.android.controller.apimanager;
 
+import java.net.URL;
 import java.util.List;
+
 import su.geocaching.android.controller.apimanager.DownloadInfoTask.DownloadInfoState;
 import su.geocaching.android.model.GeoCache;
 import su.geocaching.android.ui.info.InfoActivity;
@@ -24,9 +26,14 @@ public interface IApiManager {
     public String getInfo(int cacheId);
     
     /**
-     * Get info about geocache.This method synchronous.
+     * Get notebook of geocache.This method synchronous.
      */
-    public String getNotebook(int cacheId);    
+    public String getNotebook(int cacheId); 
+    
+    /**
+     * Get list of photos of geocache.This method synchronous.
+     */
+    public List<URL> getPhotoList(int cacheId);     
     
     /**
      * Get info/notebook about geocache. This method asynchronous.

@@ -171,6 +171,38 @@ public class AdvancedInfoActivity extends FragmentActivity {
         if (webViewFragment != null) {
             webViewFragment.setWebViewData(text);
         }
+    }
+    
+    private PhotoFragment getPhotoFragment() {
+        return (PhotoFragment) mTabsAdapter.getFragment(infoViewModel.getPhotosState().getIndex());        
+    }
+    
+    public void showPhotoListProgressBar() {
+        PhotoFragment photoFragment = getPhotoFragment();
+        if (photoFragment != null) {
+            photoFragment.showProgressBar();            
+        }        
+    }
+    
+    public void hidePhotoListProgressBar() {
+        PhotoFragment photoFragment = getPhotoFragment();
+        if (photoFragment != null) {
+            photoFragment.hideProgressBar();            
+        }
+    }
+
+    public void showPhotoListErrorMessage() {
+        PhotoFragment photoFragment = getPhotoFragment();
+        if (photoFragment != null) {
+            photoFragment.showErrorMessage();            
+        }       
+    }
+
+    public void hidePhotoListErrorMessage() {
+        PhotoFragment photoFragment = getPhotoFragment();
+        if (photoFragment != null) {        
+            photoFragment.hideErrorMessage();
+        }        
     }    
     
     /**
