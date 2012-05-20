@@ -26,7 +26,7 @@ public abstract class AbstractWebViewFragment extends Fragment implements IInfoF
     private ImageButton refreshButton;
     
     protected InfoViewModel infoViewModel;
-    private InfoViewModel.WebViewState state;
+    private InfoViewModel.WebViewTabState state;
     
     // we need this counter in order to restore WebView scroll when initial scale is not 100%
     private int onNewPictureCounter;
@@ -38,7 +38,7 @@ public abstract class AbstractWebViewFragment extends Fragment implements IInfoF
         state = getFragmentState();
     }
     
-    protected abstract InfoViewModel.WebViewState getFragmentState();
+    protected abstract InfoViewModel.WebViewTabState getFragmentState();
     
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {

@@ -1,9 +1,13 @@
 package su.geocaching.android.ui.info;
 
+import java.net.URL;
+import java.util.List;
+
 import android.os.AsyncTask;
 import su.geocaching.android.controller.Controller;
 import su.geocaching.android.controller.apimanager.AdvancedDownloadInfoTask;
 import su.geocaching.android.controller.apimanager.AdvancedDownloadNotebookTask;
+import su.geocaching.android.controller.apimanager.AdvancedDownloadPhotoUrlsTask;
 import su.geocaching.android.controller.managers.DbManager;
 import su.geocaching.android.controller.managers.LogManager;
 
@@ -19,12 +23,13 @@ public class InfoViewModel {
     
     private AdvancedDownloadInfoTask downloadInfoTask = null;
     private AdvancedDownloadNotebookTask downloadNotebookTask = null;
+    private AdvancedDownloadPhotoUrlsTask downloadPhotoUrlsTask = null;
     
     private int selectedTabIndex;
     
-    private WebViewState infoState;
-    private WebViewState notebookState;
-    private WebViewState photosState;
+    private WebViewTabState infoState;
+    private WebViewTabState notebookState;
+    private PhotosTabState photosState;
     
     private AdvancedInfoActivity activity;
     
@@ -36,14 +41,15 @@ public class InfoViewModel {
         if (this.geoCacheId != geoCacheId) {
             this.geoCacheId = geoCacheId;
             
-            this.infoState = new WebViewState(INFO_TAB_INDEX);
-            this.notebookState = new WebViewState(NOTEBOOK_TAB_INDEX);
-            this.photosState = new WebViewState(PHOTOS_TAB_INDEX);
+            this.infoState = new WebViewTabState(INFO_TAB_INDEX);
+            this.notebookState = new WebViewTabState(NOTEBOOK_TAB_INDEX);
+            this.photosState = new PhotosTabState(PHOTOS_TAB_INDEX);
             
             if (isCacheStored()) {
                 this.infoState.setText(dbManager.getCacheInfoById(geoCacheId));
                 this.notebookState.setText(dbManager.getCacheNotebookTextById(geoCacheId));
-                this.photosState.setText("<center>ФОТОГРАФИЯ</center>");
+                //TODO
+                //this.photosState.setText("<center>ФОТОГРАФИЯ</center>");
             }
             
             cancelDownloadTasks();            
@@ -59,9 +65,12 @@ public class InfoViewModel {
         if (isTaskActive(downloadNotebookTask)) {
             downloadInfoTask.cancel(true);
         }
+        if (isTaskActive(downloadPhotoUrlsTask)) {
+            downloadPhotoUrlsTask.cancel(true);
+        }        
     }
 
-    public synchronized void BeginLoadInfo() {
+    public synchronized void beginLoadInfo() {
         if (isTaskActive(downloadInfoTask)) return;
         
         downloadInfoTask = new AdvancedDownloadInfoTask(this);
@@ -72,7 +81,7 @@ public class InfoViewModel {
         }
     }
     
-    public synchronized void BeginLoadNotebook() {
+    public synchronized void beginLoadNotebook() {
         if (isTaskActive(downloadNotebookTask)) return;
         
         downloadNotebookTask = new AdvancedDownloadNotebookTask(this);
@@ -82,6 +91,17 @@ public class InfoViewModel {
             activity.hideNotebookErrorMessage();
         }
     }
+    
+    public synchronized void beginLoadPhotoUrls() {
+        if (isTaskActive(downloadPhotoUrlsTask)) return;
+        
+        downloadPhotoUrlsTask = new AdvancedDownloadPhotoUrlsTask(this);
+        downloadPhotoUrlsTask.execute();
+        if (activity != null) {
+            activity.showPhotoListProgressBar();
+            activity.hidePhotoListErrorMessage();
+        }       
+    }    
     
     public synchronized void geocacheInfoDownloaded(String result) {
         this.infoState.setText(result);
@@ -111,21 +131,37 @@ public class InfoViewModel {
             activity.hideNotebookProgressBar();
             activity.showNotebookErrorMessage();
         }
+    }
+    
+    public void geocachePhotoListDownloaded(List<URL> result) {
+        this.photosState.setPhotoUrls(result);
+        if (activity != null) {
+            //TODO
+            //activity.setNotebookText(result);
+            activity.hidePhotoListProgressBar();
+        }
+    }
+
+    public void geocachePhotoListDownloadFailed() {
+        if (activity != null) {
+            activity.hidePhotoListProgressBar();
+            activity.showPhotoListErrorMessage();
+        }        
     }    
     
     public boolean isCacheStored()  {
         return dbManager.isCacheStored(geoCacheId);        
     }
     
-    public WebViewState getInfoState() {
+    public WebViewTabState getInfoState() {
         return infoState;
     }
     
-    public WebViewState getNotebookState() {
+    public WebViewTabState getNotebookState() {
         return notebookState;
     }
 
-    public WebViewState getPhotosState() {
+    public PhotosTabState getPhotosState() {
         return photosState;
     }
     
@@ -151,6 +187,9 @@ public class InfoViewModel {
         }
         if (isTaskActive(downloadNotebookTask)) {
             onShowDownloadingNotebook();
+        }
+        if (isTaskActive(downloadPhotoUrlsTask)) {
+            onShowDownloadingPhotoUrls();
         }        
     }
     
@@ -168,6 +207,12 @@ public class InfoViewModel {
         if (activity != null) {
             activity.showNotebookProgressBar();
         }        
+    }
+    
+    private synchronized void onShowDownloadingPhotoUrls() {
+        if (activity != null) {
+            activity.showPhotoListProgressBar();
+        }        
     }    
 
     public synchronized void unregisterActivity(AdvancedInfoActivity activity) {
@@ -177,20 +222,15 @@ public class InfoViewModel {
         this.activity = null;
     }    
     
-    public static class WebViewState
-    {
-        private int index;               
-        public WebViewState(int index){
-           this.index = index; 
-        }
-        public int getIndex() {
-            return this.index;
-        }
-        
+    public static class WebViewTabState extends InfoTabState {       
         private int scrollY;
         private float scale;
         private int width;
         private String text;
+        
+        public WebViewTabState(int index) {
+            super(index);
+        }        
         
         public int getScrollY() {
             return this.scrollY;
@@ -219,5 +259,30 @@ public class InfoViewModel {
         public void setText(String text) {
             this.text = text;
         }           
+    }  
+
+    public static class PhotosTabState extends InfoTabState {
+        private List<URL> photosUrls;
+        
+        public PhotosTabState(int index) {
+            super(index);
+        }
+
+        public List<URL> getPhotoUrls() {
+            return this.photosUrls;
+        }
+        public void setPhotoUrls(List<URL> photosUrls) {
+            this.photosUrls = photosUrls;
+        }        
+    }
+    
+    public static class InfoTabState {
+        private int index;               
+        public InfoTabState(int index) {
+           this.index = index; 
+        }
+        public int getIndex() {
+            return this.index;
+        }        
     }
 }

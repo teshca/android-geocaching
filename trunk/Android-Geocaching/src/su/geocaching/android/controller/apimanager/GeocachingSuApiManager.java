@@ -184,8 +184,7 @@ public class GeocachingSuApiManager implements IApiManager {
         }
     }
     
-    private URL getNotebookUrl(int cacheId) throws MalformedURLException 
-    {
+    private URL getNotebookUrl(int cacheId) throws MalformedURLException {
         return new URL(String.format(LINK_NOTEBOOK_TEXT, cacheId));
     }      
     
@@ -198,9 +197,40 @@ public class GeocachingSuApiManager implements IApiManager {
         }
     }
     
-    private URL getInfoUrl(int cacheId) throws MalformedURLException 
-    {
+    private URL getInfoUrl(int cacheId) throws MalformedURLException {
         return new URL(String.format(LINK_INFO_TEXT, cacheId));
+    }
+    
+    @Override
+    public List<URL> getPhotoList(int cacheId) {
+        try {
+            String photoPage = getText(getPhotoUrl(cacheId));
+            if (photoPage == null) return null;
+            
+            Pattern linkPattern = Pattern.compile("<a href=\"([^>]*)\"><img [^>]*></a>");
+            Matcher pageMatcher = linkPattern.matcher(photoPage);
+            ArrayList<String> links = new ArrayList<String>();
+            while (pageMatcher.find()) {
+                links.add(pageMatcher.group(1));
+            }
+
+            List<URL> photoUrls = new ArrayList<URL>();
+            for (String photoLink : links) {
+                try {
+                    photoUrls.add(new URL(photoLink));                
+                } catch (MalformedURLException e) {
+                    LogManager.e(TAG, e.getMessage(), e);
+                }
+            }
+            
+            return photoUrls;
+        } catch (MalformedURLException e) {
+            return null;
+        }
+    }  
+
+    private URL getPhotoUrl(int cacheId) throws MalformedURLException {
+        return new URL(String.format(LINK_PHOTO_PAGE, cacheId));
     }    
     
     private String getText(URL url) {
@@ -243,5 +273,5 @@ public class GeocachingSuApiManager implements IApiManager {
         resultHtml = resultHtml.replaceAll("\\r|\\n", "");
         
         return resultHtml;
-    }    
+    }  
 }

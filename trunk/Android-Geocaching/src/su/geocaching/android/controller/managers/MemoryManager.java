@@ -29,7 +29,7 @@ public class MemoryManager {
                     super.dispatchMessage(msg);
                     if (memoryToast != null) {
                         memoryToast.cancel();
-                        memoryToast.setText(Integer.toString(msg.arg1 / 1024) + "Kb");
+                        memoryToast.setText(String.format("%d Kb", msg.arg1 / 1024));
                         memoryToast.show();
                     }
                 }
