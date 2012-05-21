@@ -1,13 +1,13 @@
 package su.geocaching.android.ui.info;
 
 import android.content.Context;
-import android.net.Uri;
 import android.util.AttributeSet;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.GridView;
 import su.geocaching.android.controller.managers.LogManager;
 import su.geocaching.android.controller.managers.NavigationManager;
+import su.geocaching.android.model.GeoCachePhoto;
 
 /**
  * @author Nikita Bumakov
@@ -23,8 +23,8 @@ public class GalleryView extends GridView {
         setOnItemClickListener(new AdapterView.OnItemClickListener() {
 
             public void onItemClick(AdapterView<?> parent, View v, int position, long id) {
-                Uri fileUri = (Uri) getAdapter().getItem(position);
-                NavigationManager.startPictureViewer(context, fileUri);
+                GeoCachePhoto photo = (GeoCachePhoto) getAdapter().getItem(position);
+                NavigationManager.startPictureViewer(context, photo.localUri);
             }
         });
     }

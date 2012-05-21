@@ -31,4 +31,5 @@
 	<string name="info_tab_name_photo">Фотографии</string>
 	
 	<string name="info_download_error_message">Ошибка загрузки данных</string>
+	<string name="info_no_photo_message">Фотографий этого тайника нет</string>
 </resources>

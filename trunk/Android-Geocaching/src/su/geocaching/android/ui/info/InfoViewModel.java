@@ -1,15 +1,20 @@
 package su.geocaching.android.ui.info;
 
 import java.net.URL;
+import java.util.Collection;
+import java.util.HashMap;
 import java.util.List;
 
+import android.net.Uri;
 import android.os.AsyncTask;
 import su.geocaching.android.controller.Controller;
 import su.geocaching.android.controller.apimanager.AdvancedDownloadInfoTask;
 import su.geocaching.android.controller.apimanager.AdvancedDownloadNotebookTask;
+import su.geocaching.android.controller.apimanager.AdvancedDownloadPhotoTask;
 import su.geocaching.android.controller.apimanager.AdvancedDownloadPhotoUrlsTask;
 import su.geocaching.android.controller.managers.DbManager;
 import su.geocaching.android.controller.managers.LogManager;
+import su.geocaching.android.model.GeoCachePhoto;
 
 public class InfoViewModel {
     private static final String TAG = InfoViewModel.class.getCanonicalName();
@@ -24,6 +29,7 @@ public class InfoViewModel {
     private AdvancedDownloadInfoTask downloadInfoTask = null;
     private AdvancedDownloadNotebookTask downloadNotebookTask = null;
     private AdvancedDownloadPhotoUrlsTask downloadPhotoUrlsTask = null;
+    private HashMap<URL, AdvancedDownloadPhotoTask> downloadPhotoTasks = new HashMap<URL, AdvancedDownloadPhotoTask>();
     
     private int selectedTabIndex;
     
@@ -106,7 +112,7 @@ public class InfoViewModel {
     public synchronized void geocacheInfoDownloaded(String result) {
         this.infoState.setText(result);
         if (activity != null) {
-            activity.setInfoText(result);
+            activity.updateInfoText();
             activity.hideInfoProgressBar();
         }
     }
@@ -121,7 +127,7 @@ public class InfoViewModel {
     public void geocacheNotebookDownloaded(String result) {
         this.notebookState.setText(result);
         if (activity != null) {
-            activity.setNotebookText(result);
+            activity.updateNotebookText();
             activity.hideNotebookProgressBar();
         }        
     }
@@ -135,18 +141,44 @@ public class InfoViewModel {
     
     public void geocachePhotoListDownloaded(List<URL> result) {
         this.photosState.setPhotoUrls(result);
+
+        beginLoadPhotos();
+        
         if (activity != null) {
-            //TODO
-            //activity.setNotebookText(result);
+            activity.updatePhotosList();
             activity.hidePhotoListProgressBar();
         }
     }
-
+    
     public void geocachePhotoListDownloadFailed() {
         if (activity != null) {
             activity.hidePhotoListProgressBar();
             activity.showPhotoListErrorMessage();
         }        
+    }
+    
+    public synchronized void beginLoadPhotos() {
+        for (GeoCachePhoto photo : this.photosState.getPhotos()) {
+            AdvancedDownloadPhotoTask downloadPhotoTask = new AdvancedDownloadPhotoTask(this, photo.getRemoteUrl());
+            downloadPhotoTasks.put(photo.getRemoteUrl(), downloadPhotoTask); 
+            downloadPhotoTask.execute();
+        }
+    }        
+    
+    // TODO
+    public void geocachePhotoDownloadFailed(URL remoteURL) {
+        downloadPhotoTasks.remove(remoteURL);
+        if (activity != null) {
+            activity.updatePhotos();
+        }      
+    }
+    // TODO
+    public void geocachePhotoDownloaded(URL remoteURL) {
+        downloadPhotoTasks.remove(remoteURL);
+        photosState.getPhoto(remoteURL).localUri = Controller.getInstance().getExternalStorageManager().getLocalPhotoUri(remoteURL, geoCacheId);
+        if (activity != null) {
+            activity.updatePhotos();
+        }
     }    
     
     public boolean isCacheStored()  {
@@ -262,17 +294,30 @@ public class InfoViewModel {
     }  
 
     public static class PhotosTabState extends InfoTabState {
-        private List<URL> photosUrls;
+        
+        private HashMap<URL, GeoCachePhoto> photos;
         
         public PhotosTabState(int index) {
             super(index);
         }
 
-        public List<URL> getPhotoUrls() {
-            return this.photosUrls;
+        public Collection<GeoCachePhoto> getPhotos() {
+            return this.photos == null ? null : this.photos.values();
         }
+        
+        public GeoCachePhoto getPhoto(URL photoURL) {
+            return this.photos.get(photoURL);
+        }        
+        
         public void setPhotoUrls(List<URL> photosUrls) {
-            this.photosUrls = photosUrls;
+            if (photosUrls == null) {
+                this.photos = null;
+                return;
+            }                
+            this.photos = new HashMap<URL, GeoCachePhoto>();
+            for (URL url : photosUrls) {
+                this.photos.put(url, new GeoCachePhoto(url));
+            }
         }        
     }
     

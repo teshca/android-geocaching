@@ -127,10 +127,10 @@ public class AdvancedInfoActivity extends FragmentActivity {
         }
     }    
     
-    public void setInfoText(String text) {
+    public void updateInfoText() {
         AbstractWebViewFragment webViewFragment = getInfoFragment();
         if (webViewFragment != null) {
-            webViewFragment.setWebViewData(text);
+            webViewFragment.updateText();
         }
     }    
 
@@ -166,10 +166,10 @@ public class AdvancedInfoActivity extends FragmentActivity {
         }
     }     
     
-    public void setNotebookText(String text) {
+    public void updateNotebookText() {
         AbstractWebViewFragment webViewFragment = getNotebookFragment();
         if (webViewFragment != null) {
-            webViewFragment.setWebViewData(text);
+            webViewFragment.updateText();
         }
     }
     
@@ -203,6 +203,20 @@ public class AdvancedInfoActivity extends FragmentActivity {
         if (photoFragment != null) {        
             photoFragment.hideErrorMessage();
         }        
+    }
+    
+    public void updatePhotosList() {
+        PhotoFragment photoFragment = getPhotoFragment();
+        if (photoFragment != null) {        
+            photoFragment.updatePhotosList();
+        }
+    }     
+    
+    public void updatePhotos() {
+        PhotoFragment photoFragment = getPhotoFragment();
+        if (photoFragment != null) {        
+            photoFragment.updatePhotos();
+        }
     }    
     
     /**

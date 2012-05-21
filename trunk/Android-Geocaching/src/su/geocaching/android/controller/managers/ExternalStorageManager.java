@@ -9,6 +9,7 @@ import android.util.Log;
 
 import java.io.File;
 import java.io.FilenameFilter;
+import java.net.URL;
 import java.util.Collection;
 import java.util.LinkedList;
 
@@ -86,10 +87,8 @@ public class ExternalStorageManager {
 
     public Uri preparePhotoFile(String fileName, int cacheId) {
         File imagesDirectory = getPhotosDirectory(cacheId);
-        if (!imagesDirectory.exists())
-        {
-            boolean created = imagesDirectory.mkdirs();
-            //TODO we should check created and correctly process situation when folder don't created
+        if (!imagesDirectory.exists()) {
+            if (!imagesDirectory.mkdirs()) return null;
         }
         File outputFile = new File(imagesDirectory, fileName);
         ContentValues values = new ContentValues();
@@ -97,6 +96,14 @@ public class ExternalStorageManager {
         values.put(MediaStore.MediaColumns.TITLE, fileName);
         values.put(MediaStore.MediaColumns.DATE_ADDED, System.currentTimeMillis());
         values.put(MediaStore.MediaColumns.MIME_TYPE, "image/jpg");
-        return context.getContentResolver().insert(android.provider.MediaStore.Images.Media.EXTERNAL_CONTENT_URI, values);
+        Uri photoUri = context.getContentResolver().insert(android.provider.MediaStore.Images.Media.EXTERNAL_CONTENT_URI, values);
+        return photoUri;
     }
-}
+    
+    public Uri getLocalPhotoUri(URL remoteUrl, int cacheId) {
+        String fileName = remoteUrl.getPath().substring(remoteUrl.getPath().lastIndexOf("/"));
+        File imagesDirectory = getPhotosDirectory(cacheId);
+        File photoFile = new File(imagesDirectory, fileName); 
+        return Uri.fromFile(photoFile);
+    }
+ }
