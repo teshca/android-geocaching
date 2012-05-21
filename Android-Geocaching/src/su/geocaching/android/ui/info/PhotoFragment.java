@@ -2,6 +2,7 @@ package su.geocaching.android.ui.info;
 
 import su.geocaching.android.controller.Controller;
 import su.geocaching.android.ui.R;
+import su.geocaching.android.ui.info.InfoViewModel.PhotosTabState;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
@@ -10,16 +11,20 @@ import android.view.ViewGroup;
 import android.view.View.OnClickListener;
 import android.widget.ImageButton;
 import android.widget.ProgressBar;
+import android.widget.TextView;
 
 public class PhotoFragment extends Fragment implements IInfoFragment {
     
     private InfoViewModel infoViewModel;
     private GalleryView galleryView;
-    private GalleryImageAdapter galleryAdapter;   
+    private AdvancedGalleryImageAdapter galleryAdapter;   
     
     private ProgressBar progressBar;
     private View errorMessage;
     private ImageButton refreshButton;
+    private TextView noPhotosTextView;
+    
+    private PhotosTabState state;
    
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -27,6 +32,7 @@ public class PhotoFragment extends Fragment implements IInfoFragment {
         
         progressBar = (ProgressBar) v.findViewById(R.id.info_progress_bar);
         errorMessage = (View) v.findViewById(R.id.info_error_panel);
+        noPhotosTextView = (TextView) v.findViewById(R.id.info_no_photos_text);
         refreshButton = (ImageButton) v.findViewById(R.id.refresh_button);
         refreshButton.setOnClickListener(new OnClickListener() {
             @Override
@@ -36,16 +42,19 @@ public class PhotoFragment extends Fragment implements IInfoFragment {
         );
         
         infoViewModel = Controller.getInstance().getInfoViewModel();
+        state = infoViewModel.getPhotosState();
+        
         galleryView = (GalleryView)v.findViewById(R.id.galleryView);
-        galleryAdapter = new GalleryImageAdapter(this.getActivity(), Controller.getInstance().getInfoViewModel().getGeoCachceId());
+        galleryAdapter = new AdvancedGalleryImageAdapter(this.getActivity(), Controller.getInstance().getInfoViewModel());
         galleryView.setAdapter(galleryAdapter);
+        updatePhotosList();
         return v;
     }
     
     @Override 
     public void onActivityCreated(Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
-        if (infoViewModel.getSelectedTabIndex() == infoViewModel.getPhotosState().getIndex()) {
+        if (infoViewModel.getSelectedTabIndex() == state.getIndex()) {
             onNavigatedTo();
         }
     } 
@@ -53,33 +62,16 @@ public class PhotoFragment extends Fragment implements IInfoFragment {
     @Override
     public void onResume() {
         super.onResume();
-
-        galleryAdapter.updateImageList();
-        galleryAdapter.notifyDataSetChanged();
-        
-        //TODO No photos message
-/*
-        if (favoriteGeoCachesAdapter.isEmpty()) {
-            tvNoCache.setVisibility(View.VISIBLE);
-            actionSearch.setVisibility(View.GONE);
-            actionSort.setVisibility(View.GONE);
-        } else {
-            tvNoCache.setVisibility(View.GONE);
-            actionSearch.setVisibility(View.VISIBLE);
-            actionSort.setVisibility(View.VISIBLE);
-        }
-        */
     }
 
     @Override
     public void onPause() {
         super.onPause();
-        galleryAdapter.clear();
     }    
     
     @Override
     public void onNavigatedTo() {
-        if (infoViewModel.getPhotosState().getPhotoUrls() == null) {
+        if (state.getPhotos() == null) {
             infoViewModel.beginLoadPhotoUrls();
         }
     }
@@ -98,5 +90,23 @@ public class PhotoFragment extends Fragment implements IInfoFragment {
 
     public void hideErrorMessage() {
         errorMessage.setVisibility(View.GONE);        
+    }
+
+    public void updatePhotosList() {
+        if (state.getPhotos() == null) return;
+        
+        if (state.getPhotos().isEmpty()) {
+            galleryView.setVisibility(View.GONE);
+            noPhotosTextView.setVisibility(View.VISIBLE);
+        } else {           
+            galleryView.setVisibility(View.VISIBLE);
+            noPhotosTextView.setVisibility(View.GONE);
+            galleryAdapter.updateImageList();         
+        }        
+    }    
+    
+    public void updatePhotos() {     
+        galleryAdapter.notifyDataSetChanged();
+        //galleryView.invalidateViews(); // TODO Invalidate specific view     
     }
 }

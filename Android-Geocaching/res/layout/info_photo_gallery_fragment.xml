@@ -15,6 +15,13 @@
         android:stretchMode="columnWidth"
         android:columnWidth="@dimen/adapter_photo_size"        
         android:gravity="center"/>
+    <TextView
+        android:id="@+id/info_no_photos_text"	    
+        android:visibility="gone"
+		android:text="@string/info_no_photo_message"
+	    android:layout_width="wrap_content"
+	    android:layout_height="wrap_content"
+	    android:layout_gravity="center"/>
 	<ProgressBar 
 	    android:id="@+id/info_progress_bar"
 	    android:visibility="gone"

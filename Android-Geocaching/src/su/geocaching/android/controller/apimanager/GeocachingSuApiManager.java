@@ -4,9 +4,13 @@ import javax.xml.parsers.ParserConfigurationException;
 import javax.xml.parsers.SAXParser;
 import javax.xml.parsers.SAXParserFactory;
 
+import java.io.BufferedInputStream;
 import java.io.BufferedReader;
+import java.io.FilterInputStream;
 import java.io.IOException;
+import java.io.InputStream;
 import java.io.InputStreamReader;
+import java.io.OutputStream;
 import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.URL;
@@ -15,8 +19,15 @@ import java.util.concurrent.ExecutionException;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+import android.net.Uri;
+import android.net.http.AndroidHttpClient;
 import android.os.AsyncTask;
 import android.widget.Toast;
+
+import org.apache.http.HttpEntity;
+import org.apache.http.HttpResponse;
+import org.apache.http.HttpStatus;
+import org.apache.http.client.methods.HttpGet;
 import org.xml.sax.InputSource;
 import org.xml.sax.SAXException;
 import su.geocaching.android.controller.Controller;
@@ -273,5 +284,102 @@ public class GeocachingSuApiManager implements IApiManager {
         resultHtml = resultHtml.replaceAll("\\r|\\n", "");
         
         return resultHtml;
-    }  
+    }
+
+    @Override
+    public Boolean downloadPhoto(int cacheId, URL photoUrl) {
+        String fileName = photoUrl.getPath().substring(photoUrl.getPath().lastIndexOf("/"));
+        Uri uri = Controller.getInstance().getExternalStorageManager().preparePhotoFile(fileName, cacheId);
+        boolean success = false;
+        for (int attempt = 0; attempt < 5 && !success; attempt++)
+            try {
+                success = downloadAndSavePhoto(photoUrl, uri);
+            } catch (IOException e) {
+                LogManager.e(TAG, e.getMessage(), e);
+            }
+        return success;
+    } 
+    
+    private boolean downloadAndSavePhoto(URL from, Uri where) throws IOException {
+
+        if (where == null || from == null) {
+            return false;
+        }
+        
+        if (!Controller.getInstance().getConnectionManager().isActiveNetworkConnected()) {
+            return false;
+        }
+
+        final AndroidHttpClient client = AndroidHttpClient.newInstance("Android");
+        final HttpGet getRequest = new HttpGet(from.toString());  //TODO overhead
+        OutputStream outputStream = null;
+
+        try {
+            HttpResponse response = client.execute(getRequest);
+            final int statusCode = response.getStatusLine().getStatusCode();
+            if (statusCode != HttpStatus.SC_OK) {
+                LogManager.w(TAG, "Error " + statusCode + " while retrieving bitmap from " + from.toString());
+                return false;
+            }
+
+            final HttpEntity entity = response.getEntity();
+            if (entity != null) {
+                InputStream inputStream = null;
+                try {
+                    outputStream = Controller.getInstance().getContentResolver().openOutputStream(where);
+                    inputStream = new BufferedInputStream(new FlushedInputStream(entity.getContent()), 1024);
+                    int size;
+                    byte[] buffer = new byte[1024];
+                    while ((size = inputStream.read(buffer)) != -1) {
+                        outputStream.write(buffer, 0, size);
+                    }
+                    outputStream.flush();
+                    outputStream.close();
+                    inputStream.close();
+                } finally {
+                    if (inputStream != null) {
+                        inputStream.close();
+                    }
+                    entity.consumeContent();
+                }
+            }
+        } catch (Exception e) {
+            // Could provide a more explicit error message for IOException or IllegalStateException
+            getRequest.abort();
+            LogManager.e(TAG, "Error while retrieving bitmap from " + from.toString(), e);
+        } finally {
+            if (client != null) {
+                client.close();
+            }
+            if (outputStream != null) {
+                outputStream.close();
+            }
+        }
+
+        return true;
+    }
+    
+    private static class FlushedInputStream extends FilterInputStream {
+        public FlushedInputStream(InputStream inputStream) {
+            super(inputStream);
+        }
+
+        @Override
+        public long skip(long n) throws IOException {
+            long totalBytesSkipped = 0L;
+            while (totalBytesSkipped < n) {
+                long bytesSkipped = in.skip(n - totalBytesSkipped);
+                if (bytesSkipped == 0L) {
+                    int b = read();
+                    if (b < 0) {
+                        break;  // we reached EOF
+                    } else {
+                        bytesSkipped = 1; // we read one byte
+                    }
+                }
+                totalBytesSkipped += bytesSkipped;
+            }
+            return totalBytesSkipped;
+        }
+    }
 }

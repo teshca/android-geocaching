@@ -1,5 +1,6 @@
 package su.geocaching.android.controller;
 
+import android.content.ContentResolver;
 import android.content.Context;
 import android.content.pm.PackageManager;
 import android.hardware.SensorManager;
@@ -307,6 +308,10 @@ public class Controller {
 
         return 0;
     }
+    
+    public ContentResolver getContentResolver() {
+        return applicationContext.getContentResolver();
+    }    
 
     public void onTerminate() {
         dbManager.close();

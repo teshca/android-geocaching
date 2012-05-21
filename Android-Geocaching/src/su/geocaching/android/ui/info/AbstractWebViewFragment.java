@@ -125,7 +125,7 @@ public abstract class AbstractWebViewFragment extends Fragment implements IInfoF
     @Override 
     public void onActivityCreated(Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
-        setWebViewData(state.getText());
+        updateText();
         if (infoViewModel.getSelectedTabIndex() == state.getIndex()) {
             onNavigatedTo();
         }
@@ -163,9 +163,13 @@ public abstract class AbstractWebViewFragment extends Fragment implements IInfoF
 
     public void hideErrorMessage() {
         errorMessage.setVisibility(View.GONE);        
-    }      
+    }
     
-    public void setWebViewData(String data) {
+    public void updateText() {
+        setWebViewData(state.getText());
+    }
+    
+    private void setWebViewData(String data) {
         webView.loadDataWithBaseURL(GeocachingSuApiManager.HTTP_PDA_GEOCACHING_SU, data, "text/html", GeocachingSuApiManager.UTF8_ENCODING, null);
     }
 }
