@@ -13,6 +13,8 @@ import java.net.URL;
 import java.util.Collection;
 import java.util.LinkedList;
 
+import su.geocaching.android.controller.Controller;
+
 public class ExternalStorageManager {
 
     private static final String TAG = ExternalStorageManager.class.getCanonicalName();
@@ -30,6 +32,7 @@ public class ExternalStorageManager {
 
     public ExternalStorageManager(Context context){
         this.context = context;
+        updatePhotoCache();
     }
     
     public void deletePhotos(int cacheId) {
@@ -85,15 +88,34 @@ public class ExternalStorageManager {
         return new File(Environment.getExternalStorageDirectory(), String.format(CACHE_PHOTOS_DIRECTORY, cacheId));
     }
 
-    public Uri preparePhotoFile(String fileName, int cacheId) {
+    public synchronized File getPhotoFile(String fileName, int cacheId) {
         File imagesDirectory = getPhotosDirectory(cacheId);
         if (!imagesDirectory.exists()) {
             if (!imagesDirectory.mkdirs()) return null;
         }
-        File outputFile = new File(imagesDirectory, fileName);
+        return new File(imagesDirectory, fileName);
+    }
+    
+    public void updatePhotoCache() {
+        File photosDirectory = new File(Environment.getExternalStorageDirectory(), PHOTOS_DIRECTORY);
+        for (File file : photosDirectory.listFiles()) {
+            try {
+                int cacheId = Integer.parseInt(file.getName());
+                if (Controller.getInstance().getDbManager().isCacheStored(cacheId)) {
+                    continue;
+                }
+                deletePhotos(cacheId);
+            } catch(NumberFormatException e) {
+                LogManager.w(TAG, e.getMessage());
+            }            
+        }        
+    }
+    
+    //TODO: Remove?
+    public Uri addFileToMediaFirectory(File file) {        
         ContentValues values = new ContentValues();
-        values.put(MediaStore.MediaColumns.DATA, outputFile.getAbsolutePath());
-        values.put(MediaStore.MediaColumns.TITLE, fileName);
+        values.put(MediaStore.MediaColumns.DATA, file.getAbsolutePath());
+        values.put(MediaStore.MediaColumns.TITLE, file.getName());
         values.put(MediaStore.MediaColumns.DATE_ADDED, System.currentTimeMillis());
         values.put(MediaStore.MediaColumns.MIME_TYPE, "image/jpg");
         Uri photoUri = context.getContentResolver().insert(android.provider.MediaStore.Images.Media.EXTERNAL_CONTENT_URI, values);

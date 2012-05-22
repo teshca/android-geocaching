@@ -3,9 +3,6 @@ package su.geocaching.android.controller.apimanager;
 import java.net.URL;
 import java.util.List;
 
-import android.R.bool;
-import android.net.Uri;
-
 import su.geocaching.android.controller.apimanager.DownloadInfoTask.DownloadInfoState;
 import su.geocaching.android.model.GeoCache;
 import su.geocaching.android.ui.info.InfoActivity;
