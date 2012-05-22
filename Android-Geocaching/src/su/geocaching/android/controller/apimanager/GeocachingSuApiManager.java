@@ -6,6 +6,8 @@ import javax.xml.parsers.SAXParserFactory;
 
 import java.io.BufferedInputStream;
 import java.io.BufferedReader;
+import java.io.File;
+import java.io.FileOutputStream;
 import java.io.FilterInputStream;
 import java.io.IOException;
 import java.io.InputStream;
@@ -19,7 +21,6 @@ import java.util.concurrent.ExecutionException;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-import android.net.Uri;
 import android.net.http.AndroidHttpClient;
 import android.os.AsyncTask;
 import android.widget.Toast;
@@ -289,36 +290,42 @@ public class GeocachingSuApiManager implements IApiManager {
     @Override
     public Boolean downloadPhoto(int cacheId, URL photoUrl) {
         String fileName = photoUrl.getPath().substring(photoUrl.getPath().lastIndexOf("/"));
-        Uri uri = Controller.getInstance().getExternalStorageManager().preparePhotoFile(fileName, cacheId);
+        File file = Controller.getInstance().getExternalStorageManager().getPhotoFile(fileName, cacheId);
         boolean success = false;
         for (int attempt = 0; attempt < 5 && !success; attempt++)
             try {
-                success = downloadAndSavePhoto(photoUrl, uri);
+                success = downloadAndSavePhoto(photoUrl, file);
             } catch (IOException e) {
                 LogManager.e(TAG, e.getMessage(), e);
             }
         return success;
     } 
     
-    private boolean downloadAndSavePhoto(URL from, Uri where) throws IOException {
+    private boolean downloadAndSavePhoto(URL url, File file) throws IOException {
 
-        if (where == null || from == null) {
+        if (file == null) {
+            LogManager.e(TAG, "file is null");
             return false;
         }
         
+        if (url == null) {
+            LogManager.e(TAG, "url is null");
+            return false;
+        }
+                
         if (!Controller.getInstance().getConnectionManager().isActiveNetworkConnected()) {
             return false;
         }
 
         final AndroidHttpClient client = AndroidHttpClient.newInstance("Android");
-        final HttpGet getRequest = new HttpGet(from.toString());  //TODO overhead
+        final HttpGet getRequest = new HttpGet(url.toString());  //TODO overhead
         OutputStream outputStream = null;
 
         try {
             HttpResponse response = client.execute(getRequest);
             final int statusCode = response.getStatusLine().getStatusCode();
             if (statusCode != HttpStatus.SC_OK) {
-                LogManager.w(TAG, "Error " + statusCode + " while retrieving bitmap from " + from.toString());
+                LogManager.w(TAG, String.format("Error %d while retrieving bitmap from %s",  statusCode, url));
                 return false;
             }
 
@@ -326,7 +333,7 @@ public class GeocachingSuApiManager implements IApiManager {
             if (entity != null) {
                 InputStream inputStream = null;
                 try {
-                    outputStream = Controller.getInstance().getContentResolver().openOutputStream(where);
+                    outputStream = new FileOutputStream(file);
                     inputStream = new BufferedInputStream(new FlushedInputStream(entity.getContent()), 1024);
                     int size;
                     byte[] buffer = new byte[1024];
@@ -346,7 +353,7 @@ public class GeocachingSuApiManager implements IApiManager {
         } catch (Exception e) {
             // Could provide a more explicit error message for IOException or IllegalStateException
             getRequest.abort();
-            LogManager.e(TAG, "Error while retrieving bitmap from " + from.toString(), e);
+            LogManager.e(TAG,  String.format("Error while retrieving bitmap from %s", url), e);
         } finally {
             if (client != null) {
                 client.close();

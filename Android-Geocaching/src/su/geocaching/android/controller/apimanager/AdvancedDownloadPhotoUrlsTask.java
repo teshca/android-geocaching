@@ -39,7 +39,7 @@ public class AdvancedDownloadPhotoUrlsTask extends AsyncTask<Void, Void, List<UR
 
     @Override
     protected void onPostExecute(List<URL> result) {
-        LogManager.d(TAG, "onPreExecute");
+        LogManager.d(TAG, "onPostExecute");
         
         if (result == null) {
             this.infoViewModel.geocachePhotoListDownloadFailed();

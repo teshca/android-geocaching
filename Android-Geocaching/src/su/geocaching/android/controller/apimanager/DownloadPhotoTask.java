@@ -75,6 +75,7 @@ public class DownloadPhotoTask extends AsyncTask<URL, Void, Void> {
         if (externalStorageAvailable && externalStorageWriteable && enoughFreeSpace) {
             if (Controller.getInstance().getConnectionManager().isActiveNetworkConnected()) {
                 for (URL url : params) {
+                    /*
                     String fileName = url.getPath().substring(url.getPath().lastIndexOf("/"));
                     Uri uri = Controller.getInstance().getExternalStorageManager().preparePhotoFile(fileName, cacheId);
                     boolean success = false;
@@ -84,6 +85,7 @@ public class DownloadPhotoTask extends AsyncTask<URL, Void, Void> {
                         } catch (IOException e) {
                             LogManager.e(TAG, e.getMessage(), e);
                         }
+                        */
                 }
             }
         }

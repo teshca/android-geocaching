@@ -62,15 +62,6 @@ public class NavigationManager {
      * Open GeoCache info activity
      */
     public static void startInfoActivity(Context context, GeoCache geoCache) {
-        Intent intent = new Intent(context, InfoActivity.class);
-        intent.putExtra(GeoCache.class.getCanonicalName(), geoCache);
-        context.startActivity(intent);
-    }
-    
-    /**
-     * Open AdvancedGeoCache info activity
-     */
-    public static void startAdvancedInfoActivity(Context context, GeoCache geoCache) {
         Intent intent = new Intent(context, AdvancedInfoActivity.class);
         intent.putExtra(GeoCache.class.getCanonicalName(), geoCache);
         context.startActivity(intent);

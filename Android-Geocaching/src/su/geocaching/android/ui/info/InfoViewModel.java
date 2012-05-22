@@ -5,7 +5,6 @@ import java.util.Collection;
 import java.util.HashMap;
 import java.util.List;
 
-import android.net.Uri;
 import android.os.AsyncTask;
 import su.geocaching.android.controller.Controller;
 import su.geocaching.android.controller.apimanager.AdvancedDownloadInfoTask;
@@ -73,7 +72,12 @@ public class InfoViewModel {
         }
         if (isTaskActive(downloadPhotoUrlsTask)) {
             downloadPhotoUrlsTask.cancel(true);
-        }        
+        }
+        for (AdvancedDownloadPhotoTask downloadPhotoTask : downloadPhotoTasks.values()) {
+            if (isTaskActive(downloadPhotoTask)) {
+                downloadPhotoTask.cancel(true);
+            }            
+        }
     }
 
     public synchronized void beginLoadInfo() {

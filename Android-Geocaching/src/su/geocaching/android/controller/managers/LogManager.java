@@ -32,9 +32,7 @@ public class LogManager {
      * @param params Params for formatted string
      */
     public static void d(String tag, String msgFormat, Object... params) {
-        if (DEBUG) {
-            Log.d(tag, String.format(msgFormat, params));
-        }
+        d(tag, String.format(msgFormat, params));
     }
 
     /**
