@@ -5,6 +5,7 @@ import java.util.Collection;
 import java.util.HashMap;
 import java.util.List;
 
+import android.net.Uri;
 import android.os.AsyncTask;
 import su.geocaching.android.controller.Controller;
 import su.geocaching.android.controller.apimanager.AdvancedDownloadInfoTask;
@@ -179,7 +180,8 @@ public class InfoViewModel {
     // TODO
     public void geocachePhotoDownloaded(URL remoteURL) {
         downloadPhotoTasks.remove(remoteURL);
-        photosState.getPhoto(remoteURL).localUri = Controller.getInstance().getExternalStorageManager().getLocalPhotoUri(remoteURL, geoCacheId);
+        Uri localPhtoUri = Controller.getInstance().getExternalStorageManager().getLocalPhotoUri(remoteURL, geoCacheId);
+        photosState.getPhoto(remoteURL).setLocalUri(localPhtoUri);
         if (activity != null) {
             activity.updatePhotos();
         }

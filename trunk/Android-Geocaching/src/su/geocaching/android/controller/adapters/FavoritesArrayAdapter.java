@@ -68,7 +68,7 @@ public class FavoritesArrayAdapter extends BaseArrayAdapter<GeoCache> implements
 
         if (cv == null) {
             long time2 = System.currentTimeMillis();
-            cv = inflater.inflate(R.layout.row_favorites, null);
+            cv = inflater.inflate(R.layout.favorites_folder_row, null);
             cv.setTag(new Holder(cv.findViewById(R.id.tvName), cv.findViewById(R.id.tvType), cv.findViewById(R.id.tvStatus), cv.findViewById(R.id.ivIcon), cv.findViewById(R.id.compassView), cv.findViewById(R.id.tvDistance)));
             LogManager.d(TAG, "inflater.inflate done for " + (System.currentTimeMillis() - time2) + " ms.");
         }
