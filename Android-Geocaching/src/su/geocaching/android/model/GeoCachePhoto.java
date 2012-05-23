@@ -1,6 +1,5 @@
 package su.geocaching.android.model;
 
-import java.io.File;
 import java.net.URL;
 import android.net.Uri;
 
@@ -11,16 +10,15 @@ public class GeoCachePhoto {
     }
     
     private URL remoteUrl;
-    private File file;
-    
     public URL getRemoteUrl() {
         return remoteUrl;
     }
     
-    //TODO: implement get/set
-    public Uri localUri;
-
-    public File getFile() {
-        return file;
+    private Uri localUri;
+    public Uri getLocalUri() {
+        return localUri;
+    }
+    public void setLocalUri(Uri localUri) {
+        this.localUri = localUri;
     }    
 }

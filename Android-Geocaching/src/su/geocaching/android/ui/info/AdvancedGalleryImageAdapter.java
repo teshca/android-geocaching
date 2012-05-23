@@ -4,10 +4,13 @@ import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.net.Uri;
+import android.opengl.Visibility;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.GridView;
 import android.widget.ImageView;
+import android.widget.ProgressBar;
+import su.geocaching.android.controller.Controller;
 import su.geocaching.android.controller.adapters.BaseArrayAdapter;
 import su.geocaching.android.controller.managers.LogManager;
 import su.geocaching.android.model.GeoCachePhoto;
@@ -39,31 +42,36 @@ class AdvancedGalleryImageAdapter extends BaseArrayAdapter<GeoCachePhoto> {
 
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
-        ImageView image;
         if (convertView == null) { // if it's not recycled, initialize some attributes
-            image = new ImageView(getContext());
-            image.setLayoutParams(new GridView.LayoutParams(thumbnailsPhotoSize, thumbnailsPhotoSize));
-            image.setScaleType(ImageView.ScaleType.CENTER_CROP); // ImageView.ScaleType.CENTER_INSIDE         
-        } else {
-            image = (ImageView) convertView;
-        }
-
+            convertView = inflater.inflate(R.layout.info_photo_gallery_item, null);
+            convertView.setLayoutParams(new GridView.LayoutParams(GridView.LayoutParams.WRAP_CONTENT, thumbnailsPhotoSize));
+            convertView.setMinimumWidth(thumbnailsPhotoSize);
+        }        
+        ImageView image = (ImageView) convertView.findViewById(R.id.photo_image);
+        ProgressBar progressBar = (ProgressBar) convertView.findViewById(R.id.photo_progress_bar);
+        
         Bitmap scaleBm = scaleBitmap(position);
         if (scaleBm == null) {
             image.setImageResource(R.drawable.no_photo_square);
-            image.setEnabled(false);
+            progressBar.setVisibility(View.VISIBLE);
         } else {
+            progressBar.setVisibility(View.GONE);            
             image.setImageBitmap(scaleBm);
-            image.setEnabled(true);
         }
 
-        return image;
+        return convertView;
     }
+    
+    @Override
+    public boolean isEnabled(int position) { 
+        return false;
+           // return getItem(position).getLocalUri() != null; 
+    } 
 
     private Bitmap scaleBitmap(int position) {
         BitmapFactory.Options justDecodeBoundsOptions = new BitmapFactory.Options();
         justDecodeBoundsOptions.inJustDecodeBounds = true;
-        Uri localUri = getItem(position).localUri;
+        Uri localUri = getItem(position).getLocalUri();
         if (localUri == null) {
             return null;
         }        

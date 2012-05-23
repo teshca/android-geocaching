@@ -24,7 +24,7 @@ public class GalleryView extends GridView {
 
             public void onItemClick(AdapterView<?> parent, View v, int position, long id) {
                 GeoCachePhoto photo = (GeoCachePhoto) getAdapter().getItem(position);
-                NavigationManager.startPictureViewer(context, photo.localUri);
+                NavigationManager.startPictureViewer(context, photo.getLocalUri());
             }
         });
     }
