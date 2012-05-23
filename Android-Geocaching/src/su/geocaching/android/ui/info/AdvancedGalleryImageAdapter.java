@@ -44,7 +44,7 @@ class AdvancedGalleryImageAdapter extends BaseArrayAdapter<GeoCachePhoto> {
     public View getView(int position, View convertView, ViewGroup parent) {
         if (convertView == null) { // if it's not recycled, initialize some attributes
             convertView = inflater.inflate(R.layout.info_photo_gallery_item, null);
-            convertView.setLayoutParams(new GridView.LayoutParams(GridView.LayoutParams.WRAP_CONTENT, thumbnailsPhotoSize));
+            convertView.setLayoutParams(new GridView.LayoutParams(GridView.LayoutParams.FILL_PARENT, thumbnailsPhotoSize));
             convertView.setMinimumWidth(thumbnailsPhotoSize);
         }        
         ImageView image = (ImageView) convertView.findViewById(R.id.photo_image);
@@ -64,8 +64,7 @@ class AdvancedGalleryImageAdapter extends BaseArrayAdapter<GeoCachePhoto> {
     
     @Override
     public boolean isEnabled(int position) { 
-        return false;
-           // return getItem(position).getLocalUri() != null; 
+        return getItem(position).getLocalUri() != null; 
     } 
 
     private Bitmap scaleBitmap(int position) {
