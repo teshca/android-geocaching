@@ -7,6 +7,7 @@ import android.os.AsyncTask;
 import su.geocaching.android.controller.Controller;
 import su.geocaching.android.controller.managers.LogManager;
 import su.geocaching.android.controller.managers.UncaughtExceptionsHandler;
+import su.geocaching.android.ui.info.GeoCachePhotoViewModel;
 import su.geocaching.android.ui.info.InfoViewModel;
 
 /**
@@ -18,12 +19,10 @@ public class AdvancedDownloadPhotoTask extends AsyncTask<Void, Void, Boolean> {
 
     private static final String TAG = AdvancedDownloadPhotoTask.class.getCanonicalName();
 
-    private InfoViewModel infoViewModel;
-    private URL remotePhotoUrl;
+    private GeoCachePhotoViewModel cachePhotoViewModel;
     
-    public AdvancedDownloadPhotoTask(InfoViewModel infoViewModel, URL remotePhotoUrl) {
-        this.infoViewModel = infoViewModel;
-        this.remotePhotoUrl = remotePhotoUrl;
+    public AdvancedDownloadPhotoTask(GeoCachePhotoViewModel cachePhotoViewModel) {
+        this.cachePhotoViewModel = cachePhotoViewModel;
         Thread.setDefaultUncaughtExceptionHandler(new UncaughtExceptionsHandler());
     }
 
@@ -34,7 +33,7 @@ public class AdvancedDownloadPhotoTask extends AsyncTask<Void, Void, Boolean> {
 
     @Override
     protected Boolean doInBackground(Void... params) {
-        return Controller.getInstance().getApiManager().downloadPhoto(this.infoViewModel.getGeoCachceId(), remotePhotoUrl);
+        return Controller.getInstance().getApiManager().downloadPhoto(this.cachePhotoViewModel.getGeoCachceId(), this.cachePhotoViewModel.getRemoteUrl());
     }
 
     @Override
@@ -42,10 +41,10 @@ public class AdvancedDownloadPhotoTask extends AsyncTask<Void, Void, Boolean> {
         LogManager.d(TAG, "onPostExecute");
         
         if (!success) {
-            this.infoViewModel.geocachePhotoDownloadFailed(remotePhotoUrl);
+            this.cachePhotoViewModel.geocachePhotoDownloadFailed();
             return;
         }
         
-        this.infoViewModel.geocachePhotoDownloaded(remotePhotoUrl);        
+        this.cachePhotoViewModel.geocachePhotoDownloaded();        
     }
 }
