@@ -5,6 +5,7 @@ import com.google.android.maps.GeoPoint;
 import su.geocaching.android.controller.Controller;
 import su.geocaching.android.ui.R;
 import su.geocaching.android.controller.apimanager.GeocachingSuApiManager;
+import android.os.Build;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
@@ -57,6 +58,9 @@ public abstract class AbstractWebViewFragment extends Fragment implements IInfoF
         
         webView.getSettings().setJavaScriptEnabled(true);
         webView.getSettings().setBuiltInZoomControls(true);
+        if (Build.VERSION.SDK_INT >= 11) {
+            webView.getSettings().setDisplayZoomControls(false);
+        }
         webView.setHorizontalScrollBarEnabled(false);
         
         webView.setInitialScale((int) (state.getScale() * 100));
