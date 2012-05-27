@@ -52,12 +52,11 @@ class AdvancedGalleryImageAdapter extends BaseArrayAdapter<GeoCachePhoto> {
         
         Bitmap scaleBm = scaleBitmap(position);
         if (scaleBm == null) {
-            image.setImageResource(R.drawable.no_photo_square);
             progressBar.setVisibility(View.VISIBLE);
         } else {
-            progressBar.setVisibility(View.GONE);            
-            image.setImageBitmap(scaleBm);
+            progressBar.setVisibility(View.GONE);   
         }
+        image.setImageBitmap(scaleBm);
 
         return convertView;
     }

@@ -48,7 +48,7 @@ class GalleryImageAdapter extends BaseArrayAdapter<Uri> {
 
         Bitmap scaleBm = scaleBitmap(position);
         if (scaleBm == null) {
-            image.setImageResource(R.drawable.no_photo);
+            image.setImageResource(R.drawable.photo_bg);
         } else {
             image.setImageBitmap(scaleBm);
         }
