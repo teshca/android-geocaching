@@ -5,7 +5,6 @@ import java.util.Collection;
 import java.util.HashMap;
 import java.util.List;
 
-import android.net.Uri;
 import android.os.AsyncTask;
 import su.geocaching.android.controller.Controller;
 import su.geocaching.android.controller.apimanager.AdvancedDownloadInfoTask;
@@ -14,7 +13,6 @@ import su.geocaching.android.controller.apimanager.AdvancedDownloadPhotoTask;
 import su.geocaching.android.controller.apimanager.AdvancedDownloadPhotoUrlsTask;
 import su.geocaching.android.controller.managers.DbManager;
 import su.geocaching.android.controller.managers.LogManager;
-import su.geocaching.android.model.GeoCachePhoto;
 
 public class InfoViewModel {
     private static final String TAG = InfoViewModel.class.getCanonicalName();
@@ -55,7 +53,7 @@ public class InfoViewModel {
                 this.infoState.setText(dbManager.getCacheInfoById(geoCacheId));
                 this.notebookState.setText(dbManager.getCacheNotebookTextById(geoCacheId));
                 //TODO
-                //this.photosState.setText("<center>ФОТОГРАФИЯ</center>");
+                //this.photosState.setText("<center>ФОТОГРАФ�?Я</center>");
             }
             
             cancelDownloadTasks();            
@@ -145,7 +143,7 @@ public class InfoViewModel {
     }
     
     public void geocachePhotoListDownloaded(List<URL> result) {
-        this.photosState.setPhotoUrls(result);
+        this.photosState.setPhotoUrls(result, this.geoCacheId);
 
         beginLoadPhotos();
         
@@ -163,27 +161,29 @@ public class InfoViewModel {
     }
     
     public synchronized void beginLoadPhotos() {
-        for (GeoCachePhoto photo : this.photosState.getPhotos()) {
+        for (GeoCachePhotoViewModel photo : this.photosState.getPhotos()) {
             AdvancedDownloadPhotoTask downloadPhotoTask = new AdvancedDownloadPhotoTask(this, photo.getRemoteUrl());
             downloadPhotoTasks.put(photo.getRemoteUrl(), downloadPhotoTask); 
             downloadPhotoTask.execute();
+            photo.setHasErrors(false);
+            photo.setIsDownloading(true);
         }
     }        
     
-    // TODO
     public void geocachePhotoDownloadFailed(URL remoteURL) {
         downloadPhotoTasks.remove(remoteURL);
-        if (activity != null) {
-            activity.updatePhotos();
-        }      
+        GeoCachePhotoViewModel photo = photosState.getPhoto(remoteURL);
+        if (photo != null) {
+            photo.setHasErrors(true);
+            photo.setIsDownloading(false);
+        }        
     }
-    // TODO
+
     public void geocachePhotoDownloaded(URL remoteURL) {
         downloadPhotoTasks.remove(remoteURL);
-        Uri localPhtoUri = Controller.getInstance().getExternalStorageManager().getLocalPhotoUri(remoteURL, geoCacheId);
-        photosState.getPhoto(remoteURL).setLocalUri(localPhtoUri);
-        if (activity != null) {
-            activity.updatePhotos();
+        GeoCachePhotoViewModel photo = photosState.getPhoto(remoteURL);
+        if (photo != null) {
+            photo.setIsDownloading(false);
         }
     }    
     
@@ -301,28 +301,28 @@ public class InfoViewModel {
 
     public static class PhotosTabState extends InfoTabState {
         
-        private HashMap<URL, GeoCachePhoto> photos;
+        private HashMap<URL, GeoCachePhotoViewModel> photos;
         
         public PhotosTabState(int index) {
             super(index);
         }
 
-        public Collection<GeoCachePhoto> getPhotos() {
+        public Collection<GeoCachePhotoViewModel> getPhotos() {
             return this.photos == null ? null : this.photos.values();
         }
         
-        public GeoCachePhoto getPhoto(URL photoURL) {
+        public GeoCachePhotoViewModel getPhoto(URL photoURL) {
             return this.photos.get(photoURL);
         }        
         
-        public void setPhotoUrls(List<URL> photosUrls) {
+        public void setPhotoUrls(List<URL> photosUrls, int geocacheId) {
             if (photosUrls == null) {
                 this.photos = null;
                 return;
             }                
-            this.photos = new HashMap<URL, GeoCachePhoto>();
+            this.photos = new HashMap<URL, GeoCachePhotoViewModel>();
             for (URL url : photosUrls) {
-                this.photos.put(url, new GeoCachePhoto(url));
+                this.photos.put(url, new GeoCachePhotoViewModel(url, geocacheId));
             }
         }        
     }

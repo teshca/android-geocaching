@@ -210,14 +210,7 @@ public class AdvancedInfoActivity extends FragmentActivity {
         if (photoFragment != null) {        
             photoFragment.updatePhotosList();
         }
-    }     
-    
-    public void updatePhotos() {
-        PhotoFragment photoFragment = getPhotoFragment();
-        if (photoFragment != null) {        
-            photoFragment.updatePhotos();
-        }
-    }    
+    }   
     
     /**
      * This is a helper class that implements the management of tabs and all

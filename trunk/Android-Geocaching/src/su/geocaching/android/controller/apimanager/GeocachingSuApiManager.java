@@ -354,6 +354,7 @@ public class GeocachingSuApiManager implements IApiManager {
             // Could provide a more explicit error message for IOException or IllegalStateException
             getRequest.abort();
             LogManager.e(TAG,  String.format("Error while retrieving bitmap from %s", url), e);
+            return false;
         } finally {
             if (client != null) {
                 client.close();
