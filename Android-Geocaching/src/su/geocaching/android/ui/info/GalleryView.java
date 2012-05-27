@@ -7,7 +7,6 @@ import android.widget.AdapterView;
 import android.widget.GridView;
 import su.geocaching.android.controller.managers.LogManager;
 import su.geocaching.android.controller.managers.NavigationManager;
-import su.geocaching.android.model.GeoCachePhoto;
 
 /**
  * @author Nikita Bumakov
@@ -23,7 +22,7 @@ public class GalleryView extends GridView {
         setOnItemClickListener(new AdapterView.OnItemClickListener() {
 
             public void onItemClick(AdapterView<?> parent, View v, int position, long id) {
-                GeoCachePhoto photo = (GeoCachePhoto) getAdapter().getItem(position);
+                GeoCachePhotoViewModel photo = (GeoCachePhotoViewModel) getAdapter().getItem(position);
                 NavigationManager.startPictureViewer(context, photo.getLocalUri());
             }
         });

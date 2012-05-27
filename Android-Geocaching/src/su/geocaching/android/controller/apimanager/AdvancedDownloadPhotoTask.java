@@ -3,7 +3,6 @@ package su.geocaching.android.controller.apimanager;
 
 import java.net.URL;
 
-import android.net.Uri;
 import android.os.AsyncTask;
 import su.geocaching.android.controller.Controller;
 import su.geocaching.android.controller.managers.LogManager;

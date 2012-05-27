@@ -103,10 +103,5 @@ public class PhotoFragment extends Fragment implements IInfoFragment {
             noPhotosTextView.setVisibility(View.GONE);
             galleryAdapter.updateImageList();         
         }        
-    }    
-    
-    public void updatePhotos() {     
-        galleryAdapter.notifyDataSetChanged();
-        //galleryView.invalidateViews(); // TODO Invalidate specific view     
     }
 }
