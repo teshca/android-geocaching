@@ -9,7 +9,6 @@ import android.os.AsyncTask;
 import su.geocaching.android.controller.Controller;
 import su.geocaching.android.controller.apimanager.AdvancedDownloadInfoTask;
 import su.geocaching.android.controller.apimanager.AdvancedDownloadNotebookTask;
-import su.geocaching.android.controller.apimanager.AdvancedDownloadPhotoTask;
 import su.geocaching.android.controller.apimanager.AdvancedDownloadPhotoUrlsTask;
 import su.geocaching.android.controller.managers.DbManager;
 import su.geocaching.android.controller.managers.LogManager;
@@ -27,7 +26,6 @@ public class InfoViewModel {
     private AdvancedDownloadInfoTask downloadInfoTask = null;
     private AdvancedDownloadNotebookTask downloadNotebookTask = null;
     private AdvancedDownloadPhotoUrlsTask downloadPhotoUrlsTask = null;
-    private HashMap<URL, AdvancedDownloadPhotoTask> downloadPhotoTasks = new HashMap<URL, AdvancedDownloadPhotoTask>();
     
     private int selectedTabIndex;
     
@@ -53,7 +51,7 @@ public class InfoViewModel {
                 this.infoState.setText(dbManager.getCacheInfoById(geoCacheId));
                 this.notebookState.setText(dbManager.getCacheNotebookTextById(geoCacheId));
                 //TODO
-                //this.photosState.setText("<center>ФОТОГРАФ�?Я</center>");
+                //this.photosState.setText("<center>ФОТОГРАФ�?Я</center>");
             }
             
             cancelDownloadTasks();            
@@ -72,9 +70,10 @@ public class InfoViewModel {
         if (isTaskActive(downloadPhotoUrlsTask)) {
             downloadPhotoUrlsTask.cancel(true);
         }
-        for (AdvancedDownloadPhotoTask downloadPhotoTask : downloadPhotoTasks.values()) {
-            if (isTaskActive(downloadPhotoTask)) {
-                downloadPhotoTask.cancel(true);
+        Collection<GeoCachePhotoViewModel> photos = this.photosState.getPhotos();
+        if (photos != null) {
+            for (GeoCachePhotoViewModel photo : this.photosState.getPhotos()) {
+                photo.cancelLoadPhoto();
             }            
         }
     }
@@ -162,31 +161,10 @@ public class InfoViewModel {
     
     public synchronized void beginLoadPhotos() {
         for (GeoCachePhotoViewModel photo : this.photosState.getPhotos()) {
-            AdvancedDownloadPhotoTask downloadPhotoTask = new AdvancedDownloadPhotoTask(this, photo.getRemoteUrl());
-            downloadPhotoTasks.put(photo.getRemoteUrl(), downloadPhotoTask); 
-            downloadPhotoTask.execute();
-            photo.setHasErrors(false);
-            photo.setIsDownloading(true);
+            photo.beginLoadPhoto();
         }
     }        
-    
-    public void geocachePhotoDownloadFailed(URL remoteURL) {
-        downloadPhotoTasks.remove(remoteURL);
-        GeoCachePhotoViewModel photo = photosState.getPhoto(remoteURL);
-        if (photo != null) {
-            photo.setHasErrors(true);
-            photo.setIsDownloading(false);
-        }        
-    }
-
-    public void geocachePhotoDownloaded(URL remoteURL) {
-        downloadPhotoTasks.remove(remoteURL);
-        GeoCachePhotoViewModel photo = photosState.getPhoto(remoteURL);
-        if (photo != null) {
-            photo.setIsDownloading(false);
-        }
-    }    
-    
+        
     public boolean isCacheStored()  {
         return dbManager.isCacheStored(geoCacheId);        
     }

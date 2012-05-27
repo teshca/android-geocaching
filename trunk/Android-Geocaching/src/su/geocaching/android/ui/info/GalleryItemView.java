@@ -16,7 +16,7 @@ import su.geocaching.android.ui.R;
 /**
  * @author Nickolay Artamonov
  */
-public class GalleryItemView extends FrameLayout implements PhotoDownloadingChangedEventListener {
+public class GalleryItemView extends FrameLayout implements GeoCachePhotoDownloadingChangedListener {
 
     private static final String TAG = GalleryItemView.class.getCanonicalName();
 
@@ -44,7 +44,7 @@ public class GalleryItemView extends FrameLayout implements PhotoDownloadingChan
         refreshButton.setOnClickListener(new OnClickListener() {
             @Override
             public void onClick(View v) {
-                GalleryItemView.this.cachePhoto.BeginLoadPhoto();
+                GalleryItemView.this.cachePhoto.beginLoadPhoto();
             }}
         );        
         

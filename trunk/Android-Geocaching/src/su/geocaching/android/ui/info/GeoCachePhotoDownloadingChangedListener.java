@@ -1,6 +1,6 @@
 package su.geocaching.android.ui.info;
 
-public interface PhotoDownloadingChangedEventListener {
+public interface GeoCachePhotoDownloadingChangedListener {
 
     void onPhotoDownloadingChanged();
 
