@@ -4,11 +4,9 @@ import javax.xml.parsers.ParserConfigurationException;
 import javax.xml.parsers.SAXParser;
 import javax.xml.parsers.SAXParserFactory;
 
-import java.io.BufferedInputStream;
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileOutputStream;
-import java.io.FilterInputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
@@ -334,7 +332,7 @@ public class GeocachingSuApiManager implements IApiManager {
                 InputStream inputStream = null;
                 try {
                     outputStream = new FileOutputStream(file);
-                    inputStream = new BufferedInputStream(new FlushedInputStream(entity.getContent()), 1024);
+                    inputStream = entity.getContent();
                     int size;
                     byte[] buffer = new byte[1024];
                     while ((size = inputStream.read(buffer)) != -1) {
@@ -349,6 +347,10 @@ public class GeocachingSuApiManager implements IApiManager {
                     }
                     entity.consumeContent();
                 }
+            } 
+            else {
+                LogManager.e(TAG, String.format("Error while retrieving bitmap from %s. Content is null", url));
+                return false;
             }
         } catch (Exception e) {
             // Could provide a more explicit error message for IOException or IllegalStateException
@@ -365,29 +367,5 @@ public class GeocachingSuApiManager implements IApiManager {
         }
 
         return true;
-    }
-    
-    private static class FlushedInputStream extends FilterInputStream {
-        public FlushedInputStream(InputStream inputStream) {
-            super(inputStream);
-        }
-
-        @Override
-        public long skip(long n) throws IOException {
-            long totalBytesSkipped = 0L;
-            while (totalBytesSkipped < n) {
-                long bytesSkipped = in.skip(n - totalBytesSkipped);
-                if (bytesSkipped == 0L) {
-                    int b = read();
-                    if (b < 0) {
-                        break;  // we reached EOF
-                    } else {
-                        bytesSkipped = 1; // we read one byte
-                    }
-                }
-                totalBytesSkipped += bytesSkipped;
-            }
-            return totalBytesSkipped;
-        }
     }
 }

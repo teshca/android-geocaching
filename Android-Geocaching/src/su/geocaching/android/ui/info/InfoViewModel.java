@@ -43,6 +43,8 @@ public class InfoViewModel {
         if (this.geoCacheId != geoCacheId) {
             this.geoCacheId = geoCacheId;
             
+            cancelDownloadTasks();
+            
             this.infoState = new WebViewTabState(INFO_TAB_INDEX);
             this.notebookState = new WebViewTabState(NOTEBOOK_TAB_INDEX);
             this.photosState = new PhotosTabState(PHOTOS_TAB_INDEX);
@@ -53,8 +55,6 @@ public class InfoViewModel {
                 //TODO
                 //this.photosState.setText("<center>ФОТОГРАФ�?Я</center>");
             }
-            
-            cancelDownloadTasks();            
             
             setSelectedTabIndex(INFO_TAB_INDEX);
         }
@@ -70,11 +70,13 @@ public class InfoViewModel {
         if (isTaskActive(downloadPhotoUrlsTask)) {
             downloadPhotoUrlsTask.cancel(true);
         }
-        Collection<GeoCachePhotoViewModel> photos = this.photosState.getPhotos();
-        if (photos != null) {
-            for (GeoCachePhotoViewModel photo : this.photosState.getPhotos()) {
-                photo.cancelLoadPhoto();
-            }            
+        if (this.photosState != null) {
+            Collection<GeoCachePhotoViewModel> photos = this.photosState.getPhotos();
+            if (photos != null) {
+                for (GeoCachePhotoViewModel photo : this.photosState.getPhotos()) {
+                    photo.cancelLoadPhoto();
+                }            
+            }
         }
     }
 
