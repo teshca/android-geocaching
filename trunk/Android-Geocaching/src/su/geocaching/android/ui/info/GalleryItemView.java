@@ -77,8 +77,36 @@ public class GalleryItemView extends FrameLayout implements GeoCachePhotoDownloa
         int scale = Math.max(justDecodeBoundsOptions.outHeight, justDecodeBoundsOptions.outWidth) / thumbnailsPhotoSize;
         BitmapFactory.Options scaleOptions = new BitmapFactory.Options();
         scaleOptions.inSampleSize = scale;
+        // TODO: Try BitmapFactory.decodeStream with FlushedInputStream
         return BitmapFactory.decodeFile(path, scaleOptions);
-    }   
+    }
+    
+    // http://code.google.com/p/android/issues/detail?id=6066
+    /*
+    private static class FlushedInputStream extends FilterInputStream {
+        public FlushedInputStream(InputStream inputStream) {
+            super(inputStream);
+        }
+
+        @Override
+        public long skip(long n) throws IOException {
+            long totalBytesSkipped = 0L;
+            while (totalBytesSkipped < n) {
+                long bytesSkipped = in.skip(n - totalBytesSkipped);
+                if (bytesSkipped == 0L) {
+                    int b = read();
+                    if (b < 0) {
+                        break;  // we reached EOF
+                    } else {
+                        bytesSkipped = 1; // we read one byte
+                    }
+                }
+                totalBytesSkipped += bytesSkipped;
+            }
+            return totalBytesSkipped;
+        }
+    }
+    */    
           
     private void updateView() {
         if (this.cachePhoto.IsDownloading()) {
@@ -89,7 +117,13 @@ public class GalleryItemView extends FrameLayout implements GeoCachePhotoDownloa
             if (this.cachePhoto.HasErrors()) {
                 errorMessage.setVisibility(VISIBLE); 
             } else {
-                image.setImageBitmap(scaleBitmap(cachePhoto));
+                Bitmap bitmap = scaleBitmap(cachePhoto);
+                if (bitmap != null) {
+                    image.setImageBitmap(bitmap);    
+                }
+                else {
+                    errorMessage.setVisibility(VISIBLE);
+                }
             }
         }        
     }
