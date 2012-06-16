@@ -11,7 +11,6 @@ import java.util.ArrayList;
 import com.google.android.maps.GeoPoint;
 
 import su.geocaching.android.controller.Controller;
-import su.geocaching.android.controller.apimanager.DownloadInfoTask.DownloadInfoState;
 import su.geocaching.android.controller.managers.NavigationManager;
 import su.geocaching.android.model.GeoCache;
 import su.geocaching.android.model.GeoCacheType;
@@ -46,6 +45,8 @@ public class AdvancedInfoActivity extends FragmentActivity {
         infoViewModel = Controller.getInstance().getInfoViewModel(); 
         GeoCache geoCache = getIntent().getParcelableExtra(GeoCache.class.getCanonicalName());
         infoViewModel.setGeoCache(geoCache);
+        
+        getSupportActionBar().setTitle(geoCache.getName());
 
         setContentView(su.geocaching.android.ui.R.layout.advanced_info_activity);
         getSupportActionBar().setNavigationMode(ActionBar.NAVIGATION_MODE_TABS);
@@ -120,6 +121,8 @@ public class AdvancedInfoActivity extends FragmentActivity {
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
+            case android.R.id.home:
+                onHome();
             case R.id.menu_info_save:
                 onSaveCache();
                 return true;               
@@ -140,6 +143,10 @@ public class AdvancedInfoActivity extends FragmentActivity {
         }
     }
     
+    private void onHome() {
+        NavigationManager.startDashboardActivity(this);        
+    }
+
     private void onRefresh() {
         // TODO Auto-generated method stub
         

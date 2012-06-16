@@ -21,7 +21,6 @@ import su.geocaching.android.ui.checkpoints.CreateCheckpointActivity;
 import su.geocaching.android.ui.compass.CompassActivity;
 import su.geocaching.android.ui.info.AdvancedInfoActivity;
 import su.geocaching.android.ui.info.CacheNotesActivity;
-import su.geocaching.android.ui.info.InfoActivity;
 import su.geocaching.android.ui.preferences.DashboardPreferenceActivity;
 import su.geocaching.android.ui.searchmap.SearchMapActivity;
 import su.geocaching.android.ui.selectmap.SelectMapActivity;
@@ -40,6 +39,7 @@ public class NavigationManager {
      */
     public static void startDashboardActivity(Context context) {
         Intent intent = new Intent(context, DashboardActivity.class);
+        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
         context.startActivity(intent);
     }
 
