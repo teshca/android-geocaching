@@ -29,7 +29,7 @@ public class RemoveFavoriteCacheDialog extends AlertDialog {
         // set icon
         //setIcon(R.drawable.ic_launcher);
         // set title
-        setTitle(R.string.ask_remove_cache_title);
+        setTitle(R.string.info_activity_confirm_delete_title);
         // set content
         LayoutInflater inflater = (LayoutInflater) getContext().getSystemService(Context.LAYOUT_INFLATER_SERVICE);
         View aboutContentView = inflater.inflate(R.layout.remove_favorite_cache_dialog, null);
@@ -37,8 +37,8 @@ public class RemoveFavoriteCacheDialog extends AlertDialog {
         // add yes button
         setButton(BUTTON_POSITIVE, getContext().getString(R.string.yes), new DialogInterface.OnClickListener() {
             public void onClick(DialogInterface dialog, int id) {
-                final CheckBox forceRemove = (CheckBox) findViewById(R.id.removeWithoutConfirm);
-                Controller.getInstance().getPreferencesManager().setRemoveFavoriteWithoutConfirm(forceRemove.isChecked());
+                //final CheckBox forceRemove = (CheckBox) findViewById(R.id.removeWithoutConfirm);
+                //Controller.getInstance().getPreferencesManager().setRemoveFavoriteWithoutConfirm(forceRemove.isChecked());
                 resultListener.onConfirm();
                 dialog.dismiss();
             }
