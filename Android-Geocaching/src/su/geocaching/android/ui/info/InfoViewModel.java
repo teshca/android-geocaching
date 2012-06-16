@@ -12,6 +12,7 @@ import su.geocaching.android.controller.apimanager.AdvancedDownloadNotebookTask;
 import su.geocaching.android.controller.apimanager.AdvancedDownloadPhotoUrlsTask;
 import su.geocaching.android.controller.managers.DbManager;
 import su.geocaching.android.controller.managers.LogManager;
+import su.geocaching.android.model.GeoCache;
 
 public class InfoViewModel {
     private static final String TAG = InfoViewModel.class.getCanonicalName();
@@ -21,6 +22,7 @@ public class InfoViewModel {
     private static int PHOTOS_TAB_INDEX = 2;
     
     private int geoCacheId;
+    private GeoCache geoCache;
     private DbManager dbManager;
     
     private AdvancedDownloadInfoTask downloadInfoTask = null;
@@ -39,9 +41,10 @@ public class InfoViewModel {
         dbManager = Controller.getInstance().getDbManager();
     }
     
-    public synchronized void SetGeoCache(int geoCacheId) {
-        if (this.geoCacheId != geoCacheId) {
-            this.geoCacheId = geoCacheId;
+    public synchronized void setGeoCache(GeoCache geoCache) {
+        if (this.geoCacheId != geoCache.getId()) {
+            this.geoCacheId = geoCache.getId();
+            this.geoCache = geoCache;
             
             cancelDownloadTasks();
             
@@ -58,6 +61,26 @@ public class InfoViewModel {
             
             setSelectedTabIndex(INFO_TAB_INDEX);
         }
+    }
+    
+    public GeoCache getGeoCachce() {
+        return this.geoCache;
+    }
+
+    public void saveCache() {
+        if (isCacheStored()) {
+            dbManager.updateInfoText(this.geoCacheId, this.infoState.getText());
+            dbManager.updateNotebookText(this.geoCacheId, this.notebookState.getText());
+        } else {
+            dbManager.addGeoCache(this.geoCache, this.infoState.getText(), this.notebookState.getText());
+        }        
+    }
+
+    public void deleteCache() {
+        // TODO:  Check if we need to clear CheckpointManager      
+        //controller.getCheckpointManager(geoCache.getId()).clear();
+        dbManager.deleteCacheById(this.geoCacheId);
+        
     }
     
     private void cancelDownloadTasks() {

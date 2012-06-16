@@ -11,11 +11,14 @@ import java.util.ArrayList;
 import com.google.android.maps.GeoPoint;
 
 import su.geocaching.android.controller.Controller;
+import su.geocaching.android.controller.apimanager.DownloadInfoTask.DownloadInfoState;
 import su.geocaching.android.controller.managers.NavigationManager;
 import su.geocaching.android.model.GeoCache;
 import su.geocaching.android.model.GeoCacheType;
 import su.geocaching.android.ui.R;
+import android.support.v4.view.MenuItem;
 
+import android.app.Dialog;
 import android.os.Bundle;
 import android.support.v4.app.ActionBar;
 import android.support.v4.app.Fragment;
@@ -23,7 +26,9 @@ import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v4.app.ActionBar.Tab;
+import android.support.v4.view.Menu;
 import android.support.v4.view.ViewPager;
+import android.view.MenuInflater;
 import android.widget.Toast;
 
 public class AdvancedInfoActivity extends FragmentActivity {
@@ -31,6 +36,8 @@ public class AdvancedInfoActivity extends FragmentActivity {
     TabsAdapter mTabsAdapter;
     
     private InfoViewModel infoViewModel;
+    
+    private static final int REMOVE_CACHE_ALERT_DIALOG_ID = 2;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -38,7 +45,7 @@ public class AdvancedInfoActivity extends FragmentActivity {
         
         infoViewModel = Controller.getInstance().getInfoViewModel(); 
         GeoCache geoCache = getIntent().getParcelableExtra(GeoCache.class.getCanonicalName());
-        infoViewModel.SetGeoCache(geoCache.getId());
+        infoViewModel.setGeoCache(geoCache);
 
         setContentView(su.geocaching.android.ui.R.layout.advanced_info_activity);
         getSupportActionBar().setNavigationMode(ActionBar.NAVIGATION_MODE_TABS);
@@ -65,8 +72,123 @@ public class AdvancedInfoActivity extends FragmentActivity {
 
     public void naviagteToPhotosTab() {
         getSupportActionBar().setSelectedNavigationItem(infoViewModel.getPhotosState().getIndex());        
-    }    
+    }
     
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        MenuInflater inflater = getMenuInflater();
+        inflater.inflate(R.menu.info_menu, menu);       
+        return true;
+    }
+    
+    @Override
+    protected Dialog onCreateDialog(int id) {
+        switch (id) {
+            /*
+            case DOWNLOAD_NOTEBOOK_ALERT_DIALOG_ID:
+                return new DownloadNotebookDialog(this, downloadNotebookListener);
+            case DOWNLOAD_PHOTOS_ALERT_DIALOG_ID:
+                return new DownloadPhotosDialog(this, downloadPhotoListener);
+            */
+            case REMOVE_CACHE_ALERT_DIALOG_ID:
+                return new RemoveFavoriteCacheDialog(this, removeCacheListener);
+            default:
+                return null;
+        }
+    }
+    
+    private ConfirmDialogResultListener removeCacheListener = new ConfirmDialogResultListener() {
+        public void onConfirm() {
+            performDeleteCache();
+        }
+    };    
+    
+    @Override
+    public boolean onPrepareOptionsMenu(Menu menu) {
+        
+        if (infoViewModel.isCacheStored()) {
+            menu.findItem(R.id.menu_info_save).setVisible(false);
+            menu.findItem(R.id.menu_info_delete).setVisible(true);
+        } else {
+            menu.findItem(R.id.menu_info_save).setVisible(true);
+            menu.findItem(R.id.menu_info_delete).setVisible(false);            
+        }
+
+        return super.onPrepareOptionsMenu(menu);
+    }
+    
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case R.id.menu_info_save:
+                onSaveCache();
+                return true;               
+            case R.id.menu_info_delete:
+                onDeleteCache();
+                return true;
+            case R.id.menu_info_search:
+                onSearchCache();
+                return true;                
+            case R.id.menu_info_notes:
+                onEditNotes();
+                return true;                
+            case R.id.menu_info_refresh:
+                onRefresh();
+                return true;                
+            default:
+                return super.onOptionsItemSelected(item);                
+        }
+    }
+    
+    private void onRefresh() {
+        // TODO Auto-generated method stub
+        
+    }
+
+    private void onEditNotes() {
+        NavigationManager.startNotesActivity(this, infoViewModel.getGeoCachceId());        
+    }
+
+    private void onSaveCache() {
+        infoViewModel.saveCache();
+        invalidateOptionsMenu();        
+    }
+
+    private void onDeleteCache() {
+        showDialog(REMOVE_CACHE_ALERT_DIALOG_ID);
+        /*
+        boolean forceDelete = Controller.getInstance().getPreferencesManager().getRemoveFavoriteWithoutConfirm();
+        if (forceDelete) {
+            performDeleteCache();
+        } else {
+            showDialog(REMOVE_CACHE_ALERT_DIALOG_ID);
+        }
+        */        
+    }
+    
+    private void performDeleteCache() {
+        infoViewModel.deleteCache();
+        invalidateOptionsMenu();        
+    }
+
+    private void onSearchCache() {
+        //TODO:
+        /*
+        if (!isCacheStored) {
+            cbFavoriteCache.setChecked(true);
+            if ((notebook == null) && (controller.getPreferencesManager().getDownloadNoteBookAlways() || controller.getConnectionManager().isWifiConnected())) {
+                controller.getApiManager().getInfo(DownloadInfoState.SAVE_CACHE_NOTEBOOK_AND_GO_TO_MAP, this, geoCache.getId());
+                return;
+            }
+        }
+        */
+        if (!infoViewModel.isCacheStored()) {
+            infoViewModel.saveCache();
+            invalidateOptionsMenu();            
+        }
+        NavigationManager.startSearchMapActivity(this, infoViewModel.getGeoCachce());
+    }
+
     public void openCheckpointDialog(GeoPoint geoPoint) {
         
         if (!infoViewModel.isCacheStored()) {
