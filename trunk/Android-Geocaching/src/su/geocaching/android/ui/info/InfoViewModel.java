@@ -55,8 +55,7 @@ public class InfoViewModel {
             if (isCacheStored()) {
                 this.infoState.setText(dbManager.getCacheInfoById(geoCacheId));
                 this.notebookState.setText(dbManager.getCacheNotebookTextById(geoCacheId));
-                //TODO
-                //this.photosState.setText("<center>ФОТОГРАФ�?Я</center>");
+                this.photosState.setPhotoUrls(dbManager.getCachePhotosById(geoCacheId), geoCacheId);
             }
             
             setSelectedTabIndex(INFO_TAB_INDEX);
@@ -71,8 +70,9 @@ public class InfoViewModel {
         if (isCacheStored()) {
             dbManager.updateInfoText(this.geoCacheId, this.infoState.getText());
             dbManager.updateNotebookText(this.geoCacheId, this.notebookState.getText());
+            dbManager.updatePhotos(this.geoCacheId, this.photosState.getPhotoUrls());
         } else {
-            dbManager.addGeoCache(this.geoCache, this.infoState.getText(), this.notebookState.getText());
+            dbManager.addGeoCache(this.geoCache, this.infoState.getText(), this.notebookState.getText(), this.photosState.getPhotoUrls());
         }        
     }
 
@@ -318,7 +318,7 @@ public class InfoViewModel {
             return this.photos.get(photoURL);
         }        
         
-        public void setPhotoUrls(List<URL> photosUrls, int geocacheId) {
+        public void setPhotoUrls(Collection<URL> photosUrls, int geocacheId) {
             if (photosUrls == null) {
                 this.photos = null;
                 return;
@@ -327,7 +327,11 @@ public class InfoViewModel {
             for (URL url : photosUrls) {
                 this.photos.put(url, new GeoCachePhotoViewModel(url, geocacheId));
             }
-        }        
+        }
+        
+        public Collection<URL> getPhotoUrls() {
+            return this.photos == null ? null : this.photos.keySet();
+        }
     }
     
     public static class InfoTabState {

@@ -469,7 +469,7 @@ public class InfoActivity extends Activity {
             controller.getDbManager().updateNotebookText(geoCache.getId(), notebook);
         } else {
             isCacheStored = true;
-            controller.getDbManager().addGeoCache(geoCache, info, notebook);
+            controller.getDbManager().addGeoCache(geoCache, info, notebook, null);
         }
     }
 
