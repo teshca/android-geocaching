@@ -106,15 +106,17 @@ public class AdvancedInfoActivity extends FragmentActivity {
     
     @Override
     public boolean onPrepareOptionsMenu(Menu menu) {
-        
-        if (infoViewModel.isCacheStored()) {
-            menu.findItem(R.id.menu_info_save).setVisible(false);
-            menu.findItem(R.id.menu_info_delete).setVisible(true);
-        } else {
-            menu.findItem(R.id.menu_info_save).setVisible(true);
-            menu.findItem(R.id.menu_info_delete).setVisible(false);            
+       
+        if (menu != null) {
+            if (infoViewModel.isCacheStored()) {
+                menu.findItem(R.id.menu_info_save).setVisible(false);
+                menu.findItem(R.id.menu_info_delete).setVisible(true);
+            } else {
+                menu.findItem(R.id.menu_info_save).setVisible(true);
+                menu.findItem(R.id.menu_info_delete).setVisible(false);            
+            }
         }
-
+        
         return super.onPrepareOptionsMenu(menu);
     }
     
@@ -123,6 +125,7 @@ public class AdvancedInfoActivity extends FragmentActivity {
         switch (item.getItemId()) {
             case android.R.id.home:
                 onHome();
+                return true;
             case R.id.menu_info_save:
                 onSaveCache();
                 return true;               

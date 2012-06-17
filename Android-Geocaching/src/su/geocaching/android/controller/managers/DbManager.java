@@ -1,12 +1,18 @@
 package su.geocaching.android.controller.managers;
 
+import java.net.MalformedURLException;
+import java.net.URL;
 import java.util.ArrayList;
+import java.util.Collection;
+
 import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
 import android.database.SQLException;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
+import android.text.TextUtils;
+
 import com.google.android.maps.GeoPoint;
 import su.geocaching.android.controller.Controller;
 import su.geocaching.android.model.GeoCache;
@@ -25,7 +31,7 @@ public class DbManager extends SQLiteOpenHelper {
     private static final String DATABASE_NAME_BASE = "CacheBase.db";
     private static final String DATABASE_NAME_TABLE = "cache";
     private static final String DATABASE_CHECKPOINT_NAME_TABLE = "chekpoints";
-    private static final int DATABASE_VERSION = 4;
+    private static final int DATABASE_VERSION = 5;
     // Name column database
     private static final String COLUMN_ID = "cid";
     private static final String COLUMN_TYPE = "type";
@@ -36,20 +42,21 @@ public class DbManager extends SQLiteOpenHelper {
     private static final String COLUMN_NAME = "name";
     private static final String COLUMN_STATUS = "status";
     private static final String COLUMN_USER_NOTES = "user_notes";
+    private static final String COLUMN_PHOTOS = "photos";
     private static final String CACHE_ID = "cache_id";
     private static final String CHECKPOINT_ID = "checkpoint_id";
+    
+    private static final String PHOTO_URL_DEVIDER = "; ";
 
     private SQLiteDatabase db;
 
-    private static final String SQL_CREATE_DATABASE_TABLE = String.format("CREATE TABLE %s (%s INTEGER, %s STRING, %s INTEGER, %s INTEGER, %s INTEGER, %s INTEGER, %s STRING, %s STRING, %s STRING);",
-            DATABASE_NAME_TABLE, COLUMN_ID, COLUMN_NAME, COLUMN_TYPE, COLUMN_STATUS, COLUMN_LAT, COLUMN_LON, COLUMN_WEB_TEXT, COLUMN_NOTEBOOK_TEXT, COLUMN_USER_NOTES);
+    private static final String SQL_CREATE_DATABASE_TABLE = String.format(
+            "CREATE TABLE %s (%s INTEGER, %s STRING, %s INTEGER, %s INTEGER, %s INTEGER, %s INTEGER, %s STRING, %s STRING, %s STRING, %s STRING);",
+            DATABASE_NAME_TABLE, COLUMN_ID, COLUMN_NAME, COLUMN_TYPE, COLUMN_STATUS, COLUMN_LAT, COLUMN_LON, COLUMN_WEB_TEXT, COLUMN_NOTEBOOK_TEXT, COLUMN_USER_NOTES, COLUMN_PHOTOS);
     private static final String SQL_CREATE_DATABASE_CHECKPOINT_TABLE = String.format(
-            "CREATE TABLE %s (%s INTEGER PRIMARY KEY AUTOINCREMENT, %s INTEGER, %s INTEGER, %s STRING, %s INTEGER, %s INTEGER, %s INTEGER);", DATABASE_CHECKPOINT_NAME_TABLE, COLUMN_ID, CACHE_ID,
-            CHECKPOINT_ID, COLUMN_NAME, COLUMN_LAT, COLUMN_LON, COLUMN_STATUS);
+            "CREATE TABLE %s (%s INTEGER PRIMARY KEY AUTOINCREMENT, %s INTEGER, %s INTEGER, %s STRING, %s INTEGER, %s INTEGER, %s INTEGER);", 
+            DATABASE_CHECKPOINT_NAME_TABLE, COLUMN_ID, CACHE_ID, CHECKPOINT_ID, COLUMN_NAME, COLUMN_LAT, COLUMN_LON, COLUMN_STATUS);
 
-    /**
-     * @param context this activivty
-     */
     public DbManager(Context context) {
         super(context, DATABASE_NAME_BASE, null, DATABASE_VERSION);
         db = getWritableDatabase();
@@ -75,7 +82,7 @@ public class DbManager extends SQLiteOpenHelper {
         if (oldVersion < 2) {
             db.beginTransaction();
             try {
-                db.execSQL(String.format("ALTER TABLE %s ADD %s string;", DATABASE_NAME_TABLE, COLUMN_NOTEBOOK_TEXT));
+                db.execSQL(String.format("ALTER TABLE %s ADD %s STRING;", DATABASE_NAME_TABLE, COLUMN_NOTEBOOK_TEXT));
                 db.setTransactionSuccessful();
             } catch (SQLException e) {
                 LogManager.e(TAG, e.toString(), e);
@@ -97,7 +104,7 @@ public class DbManager extends SQLiteOpenHelper {
         if (oldVersion < 4) {
             db.beginTransaction();
             try {
-                db.execSQL(String.format("ALTER TABLE %s ADD %s string;", DATABASE_NAME_TABLE, COLUMN_USER_NOTES));
+                db.execSQL(String.format("ALTER TABLE %s ADD %s STRING;", DATABASE_NAME_TABLE, COLUMN_USER_NOTES));
                 db.setTransactionSuccessful();
             } catch (SQLException e) {
                 LogManager.e(TAG, e.toString(), e);
@@ -105,6 +112,17 @@ public class DbManager extends SQLiteOpenHelper {
                 db.endTransaction();
             }
         }
+        if (oldVersion < 5) {
+            db.beginTransaction();
+            try {
+                db.execSQL(String.format("ALTER TABLE %s ADD %s STRING;", DATABASE_NAME_TABLE, COLUMN_PHOTOS));
+                db.setTransactionSuccessful();
+            } catch (SQLException e) {
+                LogManager.e(TAG, e.toString(), e);
+            } finally {
+                db.endTransaction();
+            }
+        }        
     }
 
     /**
@@ -112,7 +130,7 @@ public class DbManager extends SQLiteOpenHelper {
      * @param webText         html text for description GeoCache
      * @param webNotebookText text for web notebook
      */
-    public void addGeoCache(GeoCache geoCacheForAdd, String webText, String webNotebookText) {
+    public void addGeoCache(GeoCache geoCacheForAdd, String webText, String webNotebookText, Collection<URL> photos) {
         ContentValues values = new ContentValues();
         values.put(COLUMN_ID, geoCacheForAdd.getId());
         values.put(COLUMN_NAME, geoCacheForAdd.getName());
@@ -121,6 +139,9 @@ public class DbManager extends SQLiteOpenHelper {
         values.put(COLUMN_LAT, geoCacheForAdd.getLocationGeoPoint().getLatitudeE6());
         values.put(COLUMN_LON, geoCacheForAdd.getLocationGeoPoint().getLongitudeE6());
         values.put(COLUMN_WEB_TEXT, webText);
+        if (photos != null) {
+            values.put(COLUMN_PHOTOS, TextUtils.join(PHOTO_URL_DEVIDER, photos));
+        }
         if (webNotebookText != null) {
             values.put(COLUMN_NOTEBOOK_TEXT, webNotebookText);
         }
@@ -261,6 +282,30 @@ public class DbManager extends SQLiteOpenHelper {
         cursor.close();
         return exitString;
     }
+    
+    public Collection<URL> getCachePhotosById(int id) {
+        ArrayList<URL> photosUrl = null;
+
+        Cursor cursor = db.rawQuery(String.format("select %s from %s where %s=%d", COLUMN_PHOTOS, DATABASE_NAME_TABLE, COLUMN_ID, id), null);
+
+        if (cursor != null && cursor.getCount() != 0) {
+            cursor.moveToFirst();
+            String photos = cursor.getString(cursor.getColumnIndex(COLUMN_PHOTOS));
+            if (photos != null) {
+                photosUrl = new ArrayList<URL>();
+                for (String url : photos.split(PHOTO_URL_DEVIDER)) {
+                    try {
+                        photosUrl.add(new URL(url));
+                    } catch (MalformedURLException e) {
+                        LogManager.e(TAG, e);
+                    }
+                }
+            }
+        }
+        cursor.close();        
+
+        return photosUrl;
+    }
 
     /**
      * @param cacheId      id of Searching GeoCache
@@ -309,6 +354,12 @@ public class DbManager extends SQLiteOpenHelper {
     public void updateNotes(int cacheId, String note) {
         ContentValues values = new ContentValues();
         values.put(COLUMN_USER_NOTES, note);
+        db.update(DATABASE_NAME_TABLE, values, COLUMN_ID + "=" + cacheId, null);
+    }
+    
+    public void updatePhotos(int cacheId, Collection<URL> photos) {
+        ContentValues values = new ContentValues();
+        values.put(COLUMN_PHOTOS, TextUtils.join(PHOTO_URL_DEVIDER, photos));
         db.update(DATABASE_NAME_TABLE, values, COLUMN_ID + "=" + cacheId, null);
     }
 
