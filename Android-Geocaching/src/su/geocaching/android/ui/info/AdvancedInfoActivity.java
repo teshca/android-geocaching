@@ -18,6 +18,7 @@ import su.geocaching.android.ui.R;
 import android.support.v4.view.MenuItem;
 
 import android.app.Dialog;
+import android.graphics.Typeface;
 import android.os.Bundle;
 import android.support.v4.app.ActionBar;
 import android.support.v4.app.Fragment;
@@ -28,6 +29,7 @@ import android.support.v4.app.ActionBar.Tab;
 import android.support.v4.view.Menu;
 import android.support.v4.view.ViewPager;
 import android.view.MenuInflater;
+import android.widget.TextView;
 import android.widget.Toast;
 
 public class AdvancedInfoActivity extends FragmentActivity {
@@ -37,6 +39,11 @@ public class AdvancedInfoActivity extends FragmentActivity {
     private InfoViewModel infoViewModel;
     
     private static final int REMOVE_CACHE_ALERT_DIALOG_ID = 2;
+    
+    
+    private TextView infoTabTextView;
+    private TextView notebookTabTextView;
+    private TextView photoTabTextView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -48,12 +55,32 @@ public class AdvancedInfoActivity extends FragmentActivity {
         
         getSupportActionBar().setTitle(geoCache.getName());
 
-        setContentView(su.geocaching.android.ui.R.layout.advanced_info_activity);
+        setContentView(R.layout.advanced_info_activity);
         getSupportActionBar().setNavigationMode(ActionBar.NAVIGATION_MODE_TABS);
         
-        ActionBar.Tab infoTab = getSupportActionBar().newTab().setText(R.string.info_tab_name_info);
+        ActionBar.Tab infoTab = getSupportActionBar().newTab();
+        infoTab.setCustomView(R.layout.info_action_bar_tab);
+        infoTabTextView = (TextView)infoTab.getCustomView().findViewById(R.id.info_action_bar_tab_text);
+        infoTabTextView.setText(R.string.info_tab_name_info);
+        if (infoViewModel.getInfoState().getText() == null) {
+            updateTabTextView(infoTabTextView, false);
+        }
+        
         ActionBar.Tab notebookTab = getSupportActionBar().newTab().setText(R.string.info_tab_name_notebook);
-        ActionBar.Tab photoTab = getSupportActionBar().newTab().setText(R.string.info_tab_name_photo);
+        notebookTab.setCustomView(R.layout.info_action_bar_tab);
+        notebookTabTextView = (TextView)notebookTab.getCustomView().findViewById(R.id.info_action_bar_tab_text);
+        notebookTabTextView.setText(R.string.info_tab_name_notebook);
+        if (infoViewModel.getNotebookState().getText() == null) {
+            updateTabTextView(notebookTabTextView, false);
+        }
+        
+        ActionBar.Tab photoTab = getSupportActionBar().newTab();        
+        photoTab.setCustomView(R.layout.info_action_bar_tab);
+        photoTabTextView = (TextView)photoTab.getCustomView().findViewById(R.id.info_action_bar_tab_text);
+        photoTabTextView.setText(R.string.info_tab_name_photo);
+        if (infoViewModel.getPhotosState().getPhotos() == null) {
+            updateTabTextView(photoTabTextView, false);
+        }        
 
         mViewPager = (ViewPager)findViewById(R.id.pager);
         mViewPager.setOffscreenPageLimit(2); // always keep all 3 fragments available for performance reason
@@ -63,6 +90,16 @@ public class AdvancedInfoActivity extends FragmentActivity {
         mTabsAdapter.addTab(photoTab, PhotoFragment.class);
     }
     
+    private void updateTabTextView(TextView tabTextView, boolean isDownloaded) {
+        if (isDownloaded) {
+            //tabTextView.setTypeface(Typeface.DEFAULT, Typeface.NORMAL);
+            tabTextView.setTextColor(getResources().getColor(R.color.dashboard_text_color));
+        } else {
+            //tabTextView.setTypeface(Typeface.DEFAULT, Typeface.ITALIC);
+            tabTextView.setTextColor(getResources().getColor(R.color.disabled_text_color));                             
+        }
+    }
+
     public void navigateToInfoTab() {
         getSupportActionBar().setSelectedNavigationItem(infoViewModel.getInfoState().getIndex());       
     }
@@ -264,6 +301,7 @@ public class AdvancedInfoActivity extends FragmentActivity {
         if (webViewFragment != null) {
             webViewFragment.updateText();
         }
+        updateTabTextView(infoTabTextView, true);
     }    
 
     private AbstractWebViewFragment getNotebookFragment() {
@@ -303,6 +341,7 @@ public class AdvancedInfoActivity extends FragmentActivity {
         if (webViewFragment != null) {
             webViewFragment.updateText();
         }
+        updateTabTextView(notebookTabTextView, true);
     }
     
     private PhotoFragment getPhotoFragment() {
@@ -342,6 +381,7 @@ public class AdvancedInfoActivity extends FragmentActivity {
         if (photoFragment != null) {        
             photoFragment.updatePhotosList();
         }
+        updateTabTextView(photoTabTextView, true);
     }   
     
     /**

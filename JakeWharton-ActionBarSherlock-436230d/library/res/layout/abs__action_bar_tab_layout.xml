@@ -46,7 +46,6 @@
         android:id="@+id/abs__tab_custom"
         android:layout_width="wrap_content"
         android:layout_height="fill_parent"
-        android:padding="5dip"
         android:layout_weight="1"
         android:visibility="gone"
         />
