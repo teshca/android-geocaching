@@ -92,10 +92,10 @@ public class AdvancedInfoActivity extends FragmentActivity {
     
     private void updateTabTextView(TextView tabTextView, boolean isDownloaded) {
         if (isDownloaded) {
-            //tabTextView.setTypeface(Typeface.DEFAULT, Typeface.NORMAL);
+            tabTextView.setTypeface(Typeface.DEFAULT, Typeface.NORMAL);
             tabTextView.setTextColor(getResources().getColor(R.color.dashboard_text_color));
         } else {
-            //tabTextView.setTypeface(Typeface.DEFAULT, Typeface.ITALIC);
+            tabTextView.setTypeface(Typeface.DEFAULT, Typeface.ITALIC);
             tabTextView.setTextColor(getResources().getColor(R.color.disabled_text_color));                             
         }
     }
