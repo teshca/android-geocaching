@@ -79,6 +79,7 @@ public class InfoViewModel {
     public void deleteCache() {
         // TODO:  Check if we need to clear CheckpointManager      
         //controller.getCheckpointManager(geoCache.getId()).clear();
+        //Controller.getInstance().getExternalStorageManager().deletePhotos(id);
         dbManager.deleteCacheById(this.geoCacheId);
         
     }

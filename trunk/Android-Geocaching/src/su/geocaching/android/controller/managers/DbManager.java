@@ -324,7 +324,6 @@ public class DbManager extends SQLiteOpenHelper {
     public void deleteCacheById(int id) {
         db.execSQL(String.format("DELETE FROM %s WHERE %s=%d;", DATABASE_NAME_TABLE, COLUMN_ID, id));
         db.execSQL(String.format("DELETE FROM %s WHERE %s=%d;", DATABASE_CHECKPOINT_NAME_TABLE, CACHE_ID, id));
-        Controller.getInstance().getExternalStorageManager().deletePhotos(id);
     }
 
     /**
