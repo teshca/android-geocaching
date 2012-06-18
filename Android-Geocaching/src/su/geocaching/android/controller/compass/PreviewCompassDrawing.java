@@ -14,7 +14,6 @@ public class PreviewCompassDrawing extends AbstractCompassDrawing {
         //To change body of implemented methods use File | Settings | File Templates.
     }
 
-    private float direction;
     private Paint bitmapPaint = new Paint();
 
     private static Bitmap arrowBitmap;       //one bitmap used for all views     TODO recycle it
@@ -29,13 +28,6 @@ public class PreviewCompassDrawing extends AbstractCompassDrawing {
 
     @Override
     public void draw(Canvas canvas, float northDirection) {
-        canvas.drawColor(Color.TRANSPARENT);
-        canvas.save();
-        canvas.translate(centerX, centerY); // !!!
-        canvas.rotate(direction);
-        canvas.drawBitmap(arrowBitmap, -arrowBitmap.getWidth() / 2, -arrowBitmap.getHeight() / 2, bitmapPaint);
-        canvas.rotate(-direction);
-        canvas.restore();
     }
 
     @Override
@@ -46,7 +38,11 @@ public class PreviewCompassDrawing extends AbstractCompassDrawing {
 
     @Override
     public void drawCacheArrow(Canvas canvas, float direction) {
-        this.direction = direction;
+        canvas.save();
+        canvas.translate(centerX, centerY);
+        canvas.rotate(direction);
+        canvas.drawBitmap(arrowBitmap, -arrowBitmap.getWidth() / 2, -arrowBitmap.getHeight() / 2, bitmapPaint);
+        canvas.restore();
     }
 
     @Override
