@@ -143,6 +143,9 @@ public class InfoViewModel {
             activity.updateInfoText();
             activity.hideInfoProgressBar();
         }
+        if (isCacheStored()) {
+            dbManager.updateInfoText(this.geoCacheId, result);
+        }         
     }
     
     public synchronized void geocacheInfoDownloadFailed() {
@@ -157,7 +160,10 @@ public class InfoViewModel {
         if (activity != null) {
             activity.updateNotebookText();
             activity.hideNotebookProgressBar();
-        }        
+        }
+        if (isCacheStored()) {
+            dbManager.updateNotebookText(this.geoCacheId, result);
+        }
     }
 
     public void geocacheNotebookDownloadFailed() {
@@ -175,6 +181,9 @@ public class InfoViewModel {
         if (activity != null) {
             activity.updatePhotosList();
             activity.hidePhotoListProgressBar();
+        }        
+        if (isCacheStored()) {
+            dbManager.updatePhotos(this.geoCacheId, result);
         }
     }
     
