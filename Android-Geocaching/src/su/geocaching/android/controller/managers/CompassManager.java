@@ -126,8 +126,6 @@ public class CompassManager implements SensorEventListener, ILocationAware {
         SensorManager.getOrientation(afRotation, afOrientation);
         int lastBearingLocal = (int) (afOrientation[0] * RAD2DEG);
 
-        lastBearingLocal = lastBearingLocal + Controller.getInstance().getScreenRotation();
-
         if (lastBearingLocal != lastDirection) {
             lastDirection = lastBearingLocal;
             notifyObservers(lastDirection);
@@ -138,8 +136,9 @@ public class CompassManager implements SensorEventListener, ILocationAware {
      * @param lastDirection current direction known to this listener
      */
     private void notifyObservers(int lastDirection) {
+        int screenDirection = lastDirection + Controller.getInstance().getScreenRotation();
         for (IBearingAware observer : subscribers) {
-            observer.updateBearing(lastDirection, isUsingGps ? CompassSourceType.GPS : CompassSourceType.SENSOR);
+            observer.updateBearing(screenDirection, isUsingGps ? CompassSourceType.GPS : CompassSourceType.SENSOR);
         }
     }
 
