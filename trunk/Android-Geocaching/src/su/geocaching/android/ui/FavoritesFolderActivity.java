@@ -7,7 +7,6 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.res.Configuration;
 import android.os.Bundle;
-import android.os.Parcelable;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
@@ -33,7 +32,6 @@ public class FavoritesFolderActivity extends ListActivity {
 
     private static final String TAG = FavoritesFolderActivity.class.getCanonicalName();
     private static final String FAVORITES_FOLDER = "/FavoritesActivity";
-    private static final String LIST_STATE = "listState";
     private static final int SORT_TYPE_DIALOG_ID = 0;
     private static final int DELETE_CACHE_DIALOG_ID = 1;
 
@@ -42,7 +40,6 @@ public class FavoritesFolderActivity extends ListActivity {
     private TextView tvNoCache;
     private ImageView actionSearch;
     private ImageView actionSort;
-    private Parcelable listState = null;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -61,13 +58,6 @@ public class FavoritesFolderActivity extends ListActivity {
         getListView().setTextFilterEnabled(true);
         setListAdapter(favoriteGeoCachesAdapter);
 
-        Controller.getInstance().getGoogleAnalyticsManager().trackActivityLaunch(FAVORITES_FOLDER);
-    }
-
-    @Override
-    protected void onResume() {
-        super.onResume();
-
         List<GeoCache> favoritesList = dbManager.getFavoritesGeoCaches();
 
         favoriteGeoCachesAdapter.clear();
@@ -85,26 +75,8 @@ public class FavoritesFolderActivity extends ListActivity {
             actionSearch.setVisibility(View.VISIBLE);
             actionSort.setVisibility(View.VISIBLE);
         }
-    }
 
-    @Override
-    protected void onPause() {
-        super.onPause();
-        favoriteGeoCachesAdapter.clear();
-    }
-
-    @Override
-    protected void onRestoreInstanceState(Bundle savedInstanceState) {
-        super.onRestoreInstanceState(savedInstanceState);
-        listState = savedInstanceState.getParcelable(LIST_STATE);
-        getListView().onRestoreInstanceState(listState);
-    }
-
-    @Override
-    protected void onSaveInstanceState(Bundle savedInstanceState) {
-        super.onSaveInstanceState(savedInstanceState);
-        listState = getListView().onSaveInstanceState();
-        savedInstanceState.putParcelable(LIST_STATE, listState);
+        Controller.getInstance().getGoogleAnalyticsManager().trackActivityLaunch(FAVORITES_FOLDER);
     }
 
     @Override
