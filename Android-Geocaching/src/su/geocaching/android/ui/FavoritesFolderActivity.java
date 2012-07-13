@@ -7,6 +7,7 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.res.Configuration;
 import android.os.Bundle;
+import android.os.Parcelable;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
@@ -57,7 +58,11 @@ public class FavoritesFolderActivity extends ListActivity {
         favoriteGeoCachesAdapter.setSortType(FavoritesArrayAdapter.GeoCacheSortType.values()[Controller.getInstance().getPreferencesManager().getFavoritesSortType()]);
         getListView().setTextFilterEnabled(true);
         setListAdapter(favoriteGeoCachesAdapter);
-
+       
+        Controller.getInstance().getGoogleAnalyticsManager().trackActivityLaunch(FAVORITES_FOLDER);
+    }
+    
+    private void refreshListData() {
         List<GeoCache> favoritesList = dbManager.getFavoritesGeoCaches();
 
         favoriteGeoCachesAdapter.clear();
@@ -74,9 +79,19 @@ public class FavoritesFolderActivity extends ListActivity {
             tvNoCache.setVisibility(View.GONE);
             actionSearch.setVisibility(View.VISIBLE);
             actionSort.setVisibility(View.VISIBLE);
-        }
+        }        
+    }
 
-        Controller.getInstance().getGoogleAnalyticsManager().trackActivityLaunch(FAVORITES_FOLDER);
+    @Override
+    protected void onResume() {
+        super.onResume();
+        
+        // Save ListView state
+        Parcelable state = getListView().onSaveInstanceState();
+        // Refresh list data
+        refreshListData();
+        // Restore previous state (including selected item index and scroll position)
+        getListView().onRestoreInstanceState(state);            
     }
 
     @Override
