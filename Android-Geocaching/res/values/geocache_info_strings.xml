@@ -16,6 +16,10 @@
 	<string name="menu_download_cache_photos">Загрузить фотоальбом</string>
 	<string name="menu_refresh">Обновить</string>
 	
+	<string name="info_activity_download_photo_traffic_warning">Загрузка фотографий может потребовать большого количества мобильного тарфика.</string>
+	<string name="info_activity_download_photo_without_confirmation">Загружать фотографии без подтверджения</string>
+	<string name="info_activity_download_photo_button_caption">Загрузить</string>
+	
     <string name="info_activity_dialog_always_keep">Cохранять всегда</string>
     <string name="info_activity_dialog_dont_show_again">Больше не спрашивать</string>
 	<string name="info_activity_notes_hint">Заметки для тайника</string>

@@ -9,6 +9,8 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.View.OnClickListener;
+import android.widget.Button;
+import android.widget.CheckBox;
 import android.widget.ImageButton;
 import android.widget.ProgressBar;
 import android.widget.TextView;
@@ -23,6 +25,10 @@ public class PhotoFragment extends Fragment implements IInfoFragment {
     private View errorMessage;
     private ImageButton refreshButton;
     private TextView noPhotosTextView;
+    
+    private View trafficWarning;
+    private Button downloadButton;
+    private CheckBox downloadAlways;
     
     private PhotosTabState state;
    
@@ -40,6 +46,19 @@ public class PhotoFragment extends Fragment implements IInfoFragment {
                 infoViewModel.beginLoadPhotoUrls();
             }}
         );
+        
+        trafficWarning = (View) v.findViewById(R.id.info_traffic_warning_panel);
+        downloadAlways = (CheckBox) v.findViewById(R.id.downloadAlways);
+        downloadButton = (Button) v.findViewById(R.id.download_button);
+        downloadButton.setOnClickListener(new OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                infoViewModel.beginLoadPhotoUrls();
+
+                Controller.getInstance().getPreferencesManager().setDownloadPhotosAlways(downloadAlways.isChecked());                
+                trafficWarning.setVisibility(View.GONE);
+            }}
+        );        
         
         infoViewModel = Controller.getInstance().getInfoViewModel();
         state = infoViewModel.getPhotosState();
@@ -71,13 +90,14 @@ public class PhotoFragment extends Fragment implements IInfoFragment {
     
     @Override
     public void onNavigatedTo() {
+        trafficWarning.setVisibility(View.GONE);
+        
         if (state.getPhotos() == null) {            
             if (Controller.getInstance().getPreferencesManager().getDownloadPhotosAlways() || 
                     Controller.getInstance().getConnectionManager().isWifiConnected()) {
                 infoViewModel.beginLoadPhotoUrls();   
             } else {
-                //TODO: Use DialogFragment
-                getActivity().showDialog(AdvancedInfoActivity.DOWNLOAD_PHOTOS_ALERT_DIALOG_ID);
+                trafficWarning.setVisibility(View.VISIBLE);
             }
         }
     }
