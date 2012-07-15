@@ -18,7 +18,6 @@ import su.geocaching.android.ui.R;
 import su.geocaching.android.ui.compass.UiThreadCompassView;
 
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.Comparator;
 import java.util.List;
 

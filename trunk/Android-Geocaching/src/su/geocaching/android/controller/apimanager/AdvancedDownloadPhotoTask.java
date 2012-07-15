@@ -1,14 +1,10 @@
 package su.geocaching.android.controller.apimanager;
 
-
-import java.net.URL;
-
 import android.os.AsyncTask;
 import su.geocaching.android.controller.Controller;
 import su.geocaching.android.controller.managers.LogManager;
 import su.geocaching.android.controller.managers.UncaughtExceptionsHandler;
 import su.geocaching.android.ui.info.GeoCachePhotoViewModel;
-import su.geocaching.android.ui.info.InfoViewModel;
 
 /**
  * This AsyncTask for downloading notebook of geocache
