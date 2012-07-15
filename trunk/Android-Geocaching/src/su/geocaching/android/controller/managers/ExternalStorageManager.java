@@ -1,6 +1,5 @@
 package su.geocaching.android.controller.managers;
 
-import android.content.ContentValues;
 import android.content.Context;
 import android.net.Uri;
 import android.os.Environment;
@@ -18,9 +17,7 @@ import su.geocaching.android.controller.Controller;
 public class ExternalStorageManager {
 
     private static final String TAG = ExternalStorageManager.class.getCanonicalName();
-    private static final String APPLICATION_DIRECTORY = "/Android Geocaching.su";
-    private static final String PHOTOS_DIRECTORY = APPLICATION_DIRECTORY + "/photos";
-    private static final String CACHE_PHOTOS_DIRECTORY = PHOTOS_DIRECTORY + "/%d";
+    private static final String OLD_PHOTOS_DIRECTORY = "/Android Geocaching.su/photos";
     private Context context;
     
     private static final FilenameFilter imageFilter = new FilenameFilter() {
@@ -29,19 +26,44 @@ public class ExternalStorageManager {
             return (name.endsWith(".jpg") || name.endsWith(".png"));
         }
     };
+    
+    private File getBasePhotosDir() {
+        return new File(getExternalCacheDir(), "/photos");
+    }
+    
+    private File getExternalCacheDir() {      
+        if (android.os.Build.VERSION.SDK_INT >= 8) {
+            return context.getExternalCacheDir();
+        } else{
+            // e.g. "<sdcard>/Android/data/<package_name>/cache/"
+            final File extCacheDir = new File(Environment.getExternalStorageDirectory(),
+                "/Android/data/" + context.getApplicationInfo().packageName + "/cache/");
+            extCacheDir.mkdirs();
+            return extCacheDir;
+        }        
+    }      
 
     public ExternalStorageManager(Context context){
         this.context = context;
-        updatePhotoCache();
+        updatePhotoCacheDirectory();
+        prunePhotoCache();
     }
     
+    private void updatePhotoCacheDirectory() {
+        File oldPhotosDirectory = new File(Environment.getExternalStorageDirectory(), OLD_PHOTOS_DIRECTORY);
+        if (oldPhotosDirectory.exists()) {
+            oldPhotosDirectory.renameTo(getBasePhotosDir());
+            oldPhotosDirectory.getParentFile().delete();
+        }
+    }
+
     public void deletePhotos(int cacheId) {
         File photosDirectory = getPhotosDirectory(cacheId);
         deleteMediaDirectory(photosDirectory);
     }
 
     public void deleteAllPhotos() {
-        File photosDirectory = new File(Environment.getExternalStorageDirectory(), PHOTOS_DIRECTORY);
+        File photosDirectory = getBasePhotosDir();
         deleteMediaDirectory(photosDirectory);
     }
 
@@ -83,9 +105,8 @@ public class ExternalStorageManager {
         return photosUrls;
     }
     
-    private File getPhotosDirectory(int cacheId)
-    {
-        return new File(Environment.getExternalStorageDirectory(), String.format(CACHE_PHOTOS_DIRECTORY, cacheId));
+    private File getPhotosDirectory(int cacheId) {
+        return new File(getBasePhotosDir(), Integer.toString(cacheId));
     }
 
     public synchronized File getPhotoFile(String fileName, int cacheId) {
@@ -96,8 +117,8 @@ public class ExternalStorageManager {
         return new File(imagesDirectory, fileName);
     }
     
-    public void updatePhotoCache() {
-        File photosDirectory = new File(Environment.getExternalStorageDirectory(), PHOTOS_DIRECTORY);
+    public void prunePhotoCache() {
+        File photosDirectory = getBasePhotosDir();
         for (File file : photosDirectory.listFiles()) {
             try {
                 int cacheId = Integer.parseInt(file.getName());
@@ -112,6 +133,7 @@ public class ExternalStorageManager {
     }
     
     //TODO: Remove?
+    /*
     public Uri addFileToMediaFirectory(File file) {        
         ContentValues values = new ContentValues();
         values.put(MediaStore.MediaColumns.DATA, file.getAbsolutePath());
@@ -121,6 +143,7 @@ public class ExternalStorageManager {
         Uri photoUri = context.getContentResolver().insert(android.provider.MediaStore.Images.Media.EXTERNAL_CONTENT_URI, values);
         return photoUri;
     }
+    */
     
     public Uri getLocalPhotoUri(URL remoteUrl, int cacheId) {
         String fileName = remoteUrl.getPath().substring(remoteUrl.getPath().lastIndexOf("/"));
