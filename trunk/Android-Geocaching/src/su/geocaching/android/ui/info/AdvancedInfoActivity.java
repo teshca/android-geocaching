@@ -18,8 +18,6 @@ import su.geocaching.android.ui.R;
 import android.support.v4.view.MenuItem;
 
 import android.app.Dialog;
-import android.content.DialogInterface;
-import android.content.DialogInterface.OnCancelListener;
 import android.graphics.Typeface;
 import android.os.Bundle;
 import android.support.v4.app.ActionBar;
@@ -40,9 +38,7 @@ public class AdvancedInfoActivity extends FragmentActivity {
     
     private InfoViewModel infoViewModel;
     
-    public static final int DOWNLOAD_PHOTOS_ALERT_DIALOG_ID = 1;
-    private static final int REMOVE_CACHE_ALERT_DIALOG_ID = 2;
-    
+    private static final int REMOVE_CACHE_ALERT_DIALOG_ID = 2;  
     
     private TextView infoTabTextView;
     private TextView notebookTabTextView;
@@ -119,22 +115,6 @@ public class AdvancedInfoActivity extends FragmentActivity {
     @Override
     protected Dialog onCreateDialog(int id) {
         switch (id) {
-            /*
-            case DOWNLOAD_NOTEBOOK_ALERT_DIALOG_ID:
-                return new DownloadNotebookDialog(this, downloadNotebookListener);
-            */                
-            case DOWNLOAD_PHOTOS_ALERT_DIALOG_ID:
-                DownloadPhotosDialog downloadPhotosDialog = new DownloadPhotosDialog(this, downloadPhotoListener);
-                downloadPhotosDialog.setOnCancelListener(new OnCancelListener() {                   
-                    @Override
-                    public void onCancel(DialogInterface dialog) {
-                        PhotoFragment photoFragment = getPhotoFragment();
-                        if (photoFragment != null) {
-                            photoFragment.showErrorMessage();            
-                        }
-                    }
-                });
-                return downloadPhotosDialog;
             case REMOVE_CACHE_ALERT_DIALOG_ID:
                 return new RemoveFavoriteCacheDialog(this, removeCacheListener);
             default:
@@ -146,13 +126,7 @@ public class AdvancedInfoActivity extends FragmentActivity {
         public void onConfirm() {
             performDeleteCache();
         }
-    }; 
-    
-    private ConfirmDialogResultListener downloadPhotoListener = new ConfirmDialogResultListener() {
-        public void onConfirm() {
-            infoViewModel.beginLoadPhotoUrls();
-        }            
-    }; 
+    };
     
     @Override
     public boolean onPrepareOptionsMenu(Menu menu) {
