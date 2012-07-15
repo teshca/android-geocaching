@@ -38,6 +38,7 @@ public class AdvancedInfoActivity extends FragmentActivity {
     
     private InfoViewModel infoViewModel;
     
+    public static final int DOWNLOAD_PHOTOS_ALERT_DIALOG_ID = 1;
     private static final int REMOVE_CACHE_ALERT_DIALOG_ID = 2;
     
     
@@ -119,9 +120,9 @@ public class AdvancedInfoActivity extends FragmentActivity {
             /*
             case DOWNLOAD_NOTEBOOK_ALERT_DIALOG_ID:
                 return new DownloadNotebookDialog(this, downloadNotebookListener);
+            */                
             case DOWNLOAD_PHOTOS_ALERT_DIALOG_ID:
                 return new DownloadPhotosDialog(this, downloadPhotoListener);
-            */
             case REMOVE_CACHE_ALERT_DIALOG_ID:
                 return new RemoveFavoriteCacheDialog(this, removeCacheListener);
             default:
@@ -133,6 +134,23 @@ public class AdvancedInfoActivity extends FragmentActivity {
         public void onConfirm() {
             performDeleteCache();
         }
+        
+        public void onDismiss() {
+            // Do nothing
+        }
+    }; 
+    
+    private ConfirmDialogResultListener downloadPhotoListener = new ConfirmDialogResultListener() {
+        public void onConfirm() {
+            infoViewModel.beginLoadPhotoUrls();
+        }
+        
+        public void onDismiss() {
+            PhotoFragment photoFragment = getPhotoFragment();
+            if (photoFragment != null) {
+                photoFragment.showErrorMessage();            
+            }            
+        }        
     };    
     
     @Override

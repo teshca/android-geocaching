@@ -1,12 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
 <PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
     <PreferenceCategory android:title="@string/traffic_preference_category_title">
+    <!-- 
         <CheckBoxPreference
                 android:key="@string/save_notebook_always_key"
                 android:title="@string/save_notebook_always_title"
                 android:defaultValue="@bool/save_notebook_always_value"
                 android:summary="@string/save_notebook_always_summary"/>
-
+    -->
         <CheckBoxPreference
                 android:key="@string/download_photos_always_key"
                 android:title="@string/download_photos_always_title"
