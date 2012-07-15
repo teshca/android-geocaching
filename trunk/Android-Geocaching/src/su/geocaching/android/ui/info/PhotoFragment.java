@@ -93,9 +93,10 @@ public class PhotoFragment extends Fragment implements IInfoFragment {
     }
 
     public void updatePhotosList() {
-        if (state.getPhotos() == null) return;
-        
-        if (state.getPhotos().isEmpty()) {
+        if (state.getPhotos() == null) {
+            galleryView.setVisibility(View.GONE);
+            noPhotosTextView.setVisibility(View.GONE);
+        } else if (state.getPhotos().isEmpty()) {
             galleryView.setVisibility(View.GONE);
             noPhotosTextView.setVisibility(View.VISIBLE);
         } else {           
