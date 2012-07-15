@@ -62,25 +62,19 @@ public class AdvancedInfoActivity extends FragmentActivity {
         infoTab.setCustomView(R.layout.info_action_bar_tab);
         infoTabTextView = (TextView)infoTab.getCustomView().findViewById(R.id.info_action_bar_tab_text);
         infoTabTextView.setText(R.string.info_tab_name_info);
-        if (infoViewModel.getInfoState().getText() == null) {
-            updateTabTextView(infoTabTextView, false);
-        }
+        updateTabTextView(infoTabTextView, infoViewModel.getInfoState().getText() != null);
         
         ActionBar.Tab notebookTab = getSupportActionBar().newTab().setText(R.string.info_tab_name_notebook);
         notebookTab.setCustomView(R.layout.info_action_bar_tab);
         notebookTabTextView = (TextView)notebookTab.getCustomView().findViewById(R.id.info_action_bar_tab_text);
         notebookTabTextView.setText(R.string.info_tab_name_notebook);
-        if (infoViewModel.getNotebookState().getText() == null) {
-            updateTabTextView(notebookTabTextView, false);
-        }
+        updateTabTextView(notebookTabTextView, infoViewModel.getNotebookState().getText() != null);
         
         ActionBar.Tab photoTab = getSupportActionBar().newTab();        
         photoTab.setCustomView(R.layout.info_action_bar_tab);
         photoTabTextView = (TextView)photoTab.getCustomView().findViewById(R.id.info_action_bar_tab_text);
         photoTabTextView.setText(R.string.info_tab_name_photo);
-        if (infoViewModel.getPhotosState().getPhotos() == null) {
-            updateTabTextView(photoTabTextView, false);
-        }        
+        updateTabTextView(photoTabTextView, infoViewModel.getPhotosState().getPhotos() != null);
 
         mViewPager = (ViewPager)findViewById(R.id.pager);
         mViewPager.setOffscreenPageLimit(2); // always keep all 3 fragments available for performance reason
@@ -188,8 +182,7 @@ public class AdvancedInfoActivity extends FragmentActivity {
     }
 
     private void onRefresh() {
-        // TODO Auto-generated method stub
-        
+        infoViewModel.beginRefresh(getSupportActionBar().getSelectedNavigationIndex());       
     }
 
     private void onEditNotes() {
@@ -301,7 +294,7 @@ public class AdvancedInfoActivity extends FragmentActivity {
         if (webViewFragment != null) {
             webViewFragment.updateText();
         }
-        updateTabTextView(infoTabTextView, true);
+        updateTabTextView(infoTabTextView, infoViewModel.getInfoState().getText() != null);
     }    
 
     private AbstractWebViewFragment getNotebookFragment() {
@@ -341,7 +334,7 @@ public class AdvancedInfoActivity extends FragmentActivity {
         if (webViewFragment != null) {
             webViewFragment.updateText();
         }
-        updateTabTextView(notebookTabTextView, true);
+        updateTabTextView(notebookTabTextView, infoViewModel.getNotebookState().getText() != null);
     }
     
     private PhotoFragment getPhotoFragment() {
@@ -381,7 +374,7 @@ public class AdvancedInfoActivity extends FragmentActivity {
         if (photoFragment != null) {        
             photoFragment.updatePhotosList();
         }
-        updateTabTextView(photoTabTextView, true);
+        updateTabTextView(photoTabTextView, infoViewModel.getPhotosState().getPhotos() != null);        
     }   
     
     /**

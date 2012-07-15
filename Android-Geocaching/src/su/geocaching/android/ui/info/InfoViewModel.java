@@ -17,9 +17,9 @@ import su.geocaching.android.model.GeoCache;
 public class InfoViewModel {
     private static final String TAG = InfoViewModel.class.getCanonicalName();
         
-    private static int INFO_TAB_INDEX = 0;
-    private static int NOTEBOOK_TAB_INDEX = 1;
-    private static int PHOTOS_TAB_INDEX = 2;
+    private static final int INFO_TAB_INDEX = 0;
+    private static final int NOTEBOOK_TAB_INDEX = 1;
+    private static final int PHOTOS_TAB_INDEX = 2;
     
     private int geoCacheId;
     private GeoCache geoCache;
@@ -226,7 +226,33 @@ public class InfoViewModel {
 
     public void setSelectedTabIndex(int selectedTabIndex) {
         this.selectedTabIndex = selectedTabIndex;
-    }
+    }    
+
+    public void beginRefresh(int index) {
+        switch (index) {
+            case INFO_TAB_INDEX:
+                infoState.setText(null);
+                if (activity != null) {
+                    activity.updateInfoText();
+                }                
+                beginLoadInfo();
+                break;
+            case NOTEBOOK_TAB_INDEX:
+                notebookState.setText(null);
+                if (activity != null) {
+                    activity.updateNotebookText();
+                }                                
+                beginLoadNotebook();
+                break;
+            case PHOTOS_TAB_INDEX:
+                photosState.setPhotoUrls(null, this.geoCacheId);
+                if (activity != null) {
+                    activity.updatePhotosList();
+                }                                
+                beginLoadPhotoUrls();
+                break;
+        }
+    }    
     
     public synchronized void registerActivity(AdvancedInfoActivity activity) {
         if (this.activity != null) {

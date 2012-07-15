@@ -23,9 +23,9 @@ public class GalleryItemView extends FrameLayout implements GeoCachePhotoDownloa
     private GeoCachePhotoViewModel cachePhoto;
     private final int thumbnailsPhotoSize;
     
-    ProgressBar progressBar;
-    ImageView image;
-    View errorMessage;
+    private ProgressBar progressBar;
+    private ImageView image;
+    private View errorMessage;
     
     public GalleryItemView(final Context context, GeoCachePhotoViewModel cachePhoto) {
         super(context);
@@ -110,8 +110,9 @@ public class GalleryItemView extends FrameLayout implements GeoCachePhotoDownloa
           
     private void updateView() {
         if (this.cachePhoto.IsDownloading()) {
-            errorMessage.setVisibility(GONE);            
-            progressBar.setVisibility(View.VISIBLE);            
+            errorMessage.setVisibility(GONE);  
+            image.setVisibility(GONE);            
+            progressBar.setVisibility(VISIBLE);
         } else {
             progressBar.setVisibility(View.GONE);
             if (this.cachePhoto.HasErrors()) {
@@ -119,9 +120,9 @@ public class GalleryItemView extends FrameLayout implements GeoCachePhotoDownloa
             } else {
                 Bitmap bitmap = scaleBitmap(cachePhoto);
                 if (bitmap != null) {
+                    image.setVisibility(VISIBLE);
                     image.setImageBitmap(bitmap);    
-                }
-                else {
+                } else {
                     errorMessage.setVisibility(VISIBLE);
                 }
             }
