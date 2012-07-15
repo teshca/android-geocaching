@@ -49,7 +49,15 @@ public class PhotoFragment extends Fragment implements IInfoFragment {
         galleryView.setAdapter(galleryAdapter);
         updatePhotosList();
         return v;
-    } 
+    }
+    
+    @Override 
+    public void onActivityCreated(Bundle savedInstanceState) {
+        super.onActivityCreated(savedInstanceState);
+        if (infoViewModel.getSelectedTabIndex() == state.getIndex()) {
+            onNavigatedTo();
+        }
+    }    
 
     @Override
     public void onResume() {
@@ -68,6 +76,7 @@ public class PhotoFragment extends Fragment implements IInfoFragment {
                     Controller.getInstance().getConnectionManager().isWifiConnected()) {
                 infoViewModel.beginLoadPhotoUrls();   
             } else {
+                //TODO: Use DialogFragment
                 getActivity().showDialog(AdvancedInfoActivity.DOWNLOAD_PHOTOS_ALERT_DIALOG_ID);
             }
         }
