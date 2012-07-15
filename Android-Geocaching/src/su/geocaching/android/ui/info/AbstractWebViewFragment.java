@@ -126,19 +126,12 @@ public abstract class AbstractWebViewFragment extends Fragment implements IInfoF
         return v;
     }
     
-    @Override 
-    public void onActivityCreated(Bundle savedInstanceState) {
-        super.onActivityCreated(savedInstanceState);
-        updateText();
-        if (infoViewModel.getSelectedTabIndex() == state.getIndex()) {
-            onNavigatedTo();
-        }
-    } 
-    
     public void onNavigatedTo() {
         if (state.getText() == null) {
             BeginLoadData();
-        }      
+        } else {
+           updateText();
+        }     
     }
     
     protected abstract void BeginLoadData();
