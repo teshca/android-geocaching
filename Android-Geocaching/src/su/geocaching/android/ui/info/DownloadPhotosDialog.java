@@ -47,6 +47,7 @@ public class DownloadPhotosDialog extends AlertDialog{
         // add no button
         setButton(BUTTON_NEGATIVE, getContext().getString(R.string.no), new DialogInterface.OnClickListener() {
             public void onClick(DialogInterface dialog, int id) {
+                resultListener.onDismiss();
                 dialog.dismiss();
             }
         });

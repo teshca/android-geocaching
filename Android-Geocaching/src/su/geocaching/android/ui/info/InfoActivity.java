@@ -194,7 +194,7 @@ public class InfoActivity extends Activity {
                         errorMessage));
         super.onPause();
     }
-
+/*
     @Override
     protected Dialog onCreateDialog(int id) {
         switch (id) {
@@ -227,7 +227,7 @@ public class InfoActivity extends Activity {
             deleteCache();
         }
     };
-
+*/
     @Override
     protected void onSaveInstanceState(Bundle outState) {
         outState.putInt(PAGE_TYPE, pageState.ordinal());

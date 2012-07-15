@@ -67,12 +67,17 @@ public class PhotoFragment extends Fragment implements IInfoFragment {
     @Override
     public void onPause() {
         super.onPause();
-    }    
+    }
     
     @Override
     public void onNavigatedTo() {
-        if (state.getPhotos() == null) {
-            infoViewModel.beginLoadPhotoUrls();
+        if (state.getPhotos() == null) {            
+            if (Controller.getInstance().getPreferencesManager().getDownloadPhotosAlways() || 
+                    Controller.getInstance().getConnectionManager().isWifiConnected()) {
+                infoViewModel.beginLoadPhotoUrls();   
+            } else {
+                getActivity().showDialog(AdvancedInfoActivity.DOWNLOAD_PHOTOS_ALERT_DIALOG_ID);
+            }
         }
     }
 
@@ -85,7 +90,7 @@ public class PhotoFragment extends Fragment implements IInfoFragment {
     }
     
     public void showErrorMessage() {
-       errorMessage.setVisibility(View.VISIBLE);      
+        errorMessage.setVisibility(View.VISIBLE);      
     }
 
     public void hideErrorMessage() {
