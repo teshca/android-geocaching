@@ -6,38 +6,16 @@
 	<string name="info_activity_menu_cache_notes">Заметки</string>
 	<string name="info_activity_menu_refresh">Обновить</string>
     
-	<string name="menu_show_web_notebook_cache">Интернет блокнот</string>
-	<string name="menu_show_web_add_cache">Сохранить </string>
-	<string name="menu_show_web_delete_cache">Удалить</string>
-	<string name="menu_show_web_search_cache">Искать</string>
-	<string name="menu_show_info_cache">Информация</string>
-	<string name="menu_geocache_notes">Заметки</string>
-	<string name="menu_show_cache_photos">Фотографии</string>
-	<string name="menu_download_cache_photos">Загрузить фотоальбом</string>
-	<string name="menu_refresh">Обновить</string>
-	
 	<string name="info_activity_download_photo_traffic_warning">Загрузка фотографий может потребовать большого количества мобильного тарфика.</string>
 	<string name="info_activity_download_photo_without_confirmation">Загружать фотографии без подтверджения</string>
 	<string name="info_activity_download_photo_button_caption">Загрузить</string>
 	
-    <string name="info_activity_dialog_always_keep">Cохранять всегда</string>
-    <string name="info_activity_dialog_dont_show_again">Больше не спрашивать</string>
+    <!-- <string name="info_activity_dialog_dont_show_again">Больше не спрашивать</string>-->
 	<string name="info_activity_notes_hint">Заметки для тайника</string>
 	<string name="info_activity_confirm_delete_message">Вы действительно хотите удалить всю информацию о тайнике?</string>
 	<string name="info_activity_confirm_delete_title">Удалить тайник?</string>
     <string name="ask_add_cache_in_db">Добавьте тайник в избранное, чтобы иметь возможность добавлять контрольные точки</string>
-	<string name="ask_download_photos">Осторожно трафик. Продолжить?</string>
 
-    <string name="download_info">Загрузка информации</string>
-	<string name="download_notebook">Загрузка блокнота тайника</string>
-	<string name="ask_download_notebook_title">Сохранить вместе с блокнотом?</string>
-	<string name="no_free_space">Недостаточно места на SD карте</string>
-	<string name="impossible_to_save_img">Невозможно сохранить фотографии</string>
-	<string name="insert_sd_card">Вставте SD карту</string>
-	<string name="no_internet">Отсутствует соединение с интернетом. Попробуйте позже</string>
-	<string name="no_photo_from_server">Не удалось получить фотографии с сервера. Попробуйте позже</string>
-	<string name="no_photo">Фотографий этого тайника нет</string>
-	
 	<string name="info_tab_name_info">Информация</string>
 	<string name="info_tab_name_notebook">Блокнот</string>
 	<string name="info_tab_name_photo">Фотографии</string>
