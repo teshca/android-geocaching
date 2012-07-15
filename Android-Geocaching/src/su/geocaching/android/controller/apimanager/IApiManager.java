@@ -3,9 +3,7 @@ package su.geocaching.android.controller.apimanager;
 import java.net.URL;
 import java.util.List;
 
-import su.geocaching.android.controller.apimanager.DownloadInfoTask.DownloadInfoState;
 import su.geocaching.android.model.GeoCache;
-import su.geocaching.android.ui.info.InfoActivity;
 
 /**
  * @author Nikita Bumakov
@@ -38,15 +36,5 @@ public interface IApiManager {
     /**
      * Download photo image from the given URL and save it to external storage.
      */
-    public Boolean downloadPhoto(int cacheId, URL photoUrl);       
-    
-    /**
-     * Get info/notebook about geocache. This method asynchronous.
-     */
-    public void getInfo(DownloadInfoState state, InfoActivity infoActivity, int cacheId);
-
-    /**
-     * Get photo about geocache. This method asynchronous.
-     */
-    public void getPhotos(InfoActivity infoActivity, int cacheId);
+    public Boolean downloadPhoto(int cacheId, URL photoUrl);
 }

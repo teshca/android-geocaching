@@ -8,7 +8,7 @@ import java.io.Serializable;
  * @author Grigory Kalabin. grigory.kalabin@gmail.com
  * @since March 2011
  */
-public class MapInfo implements Serializable{
+public class MapInfo implements Serializable {
     public static final int DEFAULT_CENTER_LONGITUDE = 29828674;
     public static final int DEFAULT_CENTER_LATITUDE = 59879904;
     public static final int DEFAULT_ZOOM = 13;

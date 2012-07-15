@@ -15,13 +15,10 @@ import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.*;
-import java.util.concurrent.ExecutionException;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 import android.net.http.AndroidHttpClient;
-import android.os.AsyncTask;
-import android.widget.Toast;
 
 import org.apache.http.HttpEntity;
 import org.apache.http.HttpResponse;
@@ -30,11 +27,8 @@ import org.apache.http.client.methods.HttpGet;
 import org.xml.sax.InputSource;
 import org.xml.sax.SAXException;
 import su.geocaching.android.controller.Controller;
-import su.geocaching.android.controller.apimanager.DownloadInfoTask.DownloadInfoState;
 import su.geocaching.android.controller.managers.LogManager;
 import su.geocaching.android.model.GeoCache;
-import su.geocaching.android.ui.R;
-import su.geocaching.android.ui.info.InfoActivity;
 
 /**
  * Class for getting data from geocaching.su. This class implements IApiManager
@@ -54,7 +48,6 @@ public class GeocachingSuApiManager implements IApiManager {
 
     private int id;
     private GeoCacheMemoryStorage memoryStorage;
-    private AsyncTask<Void, Void, String> downloadInfoTask;
 
     public GeocachingSuApiManager() {
         id = (int) (Math.random() * 1E7);
@@ -114,75 +107,6 @@ public class GeocachingSuApiManager implements IApiManager {
         String request = String.format(Locale.ENGLISH, LINK_GEOCACHE_LIST, maxLongitude, minLongitude, maxLatitude, minLatitude, id);
         LogManager.d(TAG, "generated Url: " + request);
         return new URL(request);
-    }
-
-    /**
-     * This method starts DownloadInfoTask
-     *
-     * @param state        of downloading process
-     * @param infoActivity infoActivity need for callback
-     * @param cacheId      cacheId id of geocache
-     */
-    @Override
-    public void getInfo(DownloadInfoState state, InfoActivity infoActivity, int cacheId) {
-        if (downloadInfoTask != null) {
-            downloadInfoTask.cancel(false); // TODO check it
-        }
-        downloadInfoTask = new DownloadInfoTask(cacheId, infoActivity, state);
-        downloadInfoTask.execute();
-    }
-
-    /**
-     * This method download html page with photo links from geocaching.su, extract links and start DownloadPhotoTask for this urls
-     *
-     * @param infoActivity need for callback
-     * @param cacheId      id of geocache
-     */
-    @Override
-    public void getPhotos(InfoActivity infoActivity, int cacheId) {
-
-        if (!Controller.getInstance().getConnectionManager().isActiveNetworkConnected()) {
-            infoActivity.showErrorMessage(R.string.no_internet);
-            return;
-        }
-
-        String htmlWithPhotoLinks = null;
-        try {
-            htmlWithPhotoLinks = new DownloadInfoTask(cacheId, infoActivity, DownloadInfoState.DOWNLOAD_PHOTO_PAGE).execute().get();
-        } catch (InterruptedException e) {
-            LogManager.e(TAG, e.getMessage(), e);
-        } catch (ExecutionException e) {
-            LogManager.e(TAG, e.getMessage(), e);
-        }
-
-        if (htmlWithPhotoLinks == null) {
-            Toast.makeText(infoActivity, infoActivity.getString(R.string.no_photo_from_server), Toast.LENGTH_LONG).show();
-            return;
-        }
-        Pattern linkPattern = Pattern.compile("\\s*(?i)href\\s*=\\s*(\"([^\"]*\")|'[^']*'|([^'\">\\s]+))");
-        Matcher pageMatcher = linkPattern.matcher(htmlWithPhotoLinks);
-        ArrayList<String> links = new ArrayList<String>();
-        while (pageMatcher.find()) {
-            links.add(pageMatcher.group());
-        }
-
-        List<URL> photoUrls = new ArrayList<URL>();
-        for (String url : links) {
-            try {
-                String photoLink = url.substring(7, url.length() - 1);
-                if (photoLink.endsWith(".jpg")) {
-                    photoUrls.add(new URL(photoLink));
-                }
-            } catch (MalformedURLException e) {
-                LogManager.e(TAG, e.getMessage(), e);
-            }
-        }
-
-        if (photoUrls.size() == 0) {
-            infoActivity.showErrorMessage(R.string.no_photo);
-        } else {
-            new DownloadPhotoTask(infoActivity, cacheId).execute(photoUrls.toArray(new URL[photoUrls.size()]));
-        }
     }
 
     @Override

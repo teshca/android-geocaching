@@ -1,7 +1,6 @@
 package su.geocaching.android.ui.searchmap;
 
 import java.util.List;
-import java.util.Locale;
 
 import android.app.Dialog;
 import android.content.Intent;
@@ -10,7 +9,6 @@ import android.graphics.Rect;
 import android.graphics.drawable.Drawable;
 import android.location.Location;
 import android.location.LocationManager;
-import android.net.Uri;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
