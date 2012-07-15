@@ -18,6 +18,8 @@ import su.geocaching.android.ui.R;
 import android.support.v4.view.MenuItem;
 
 import android.app.Dialog;
+import android.content.DialogInterface;
+import android.content.DialogInterface.OnCancelListener;
 import android.graphics.Typeface;
 import android.os.Bundle;
 import android.support.v4.app.ActionBar;
@@ -122,7 +124,17 @@ public class AdvancedInfoActivity extends FragmentActivity {
                 return new DownloadNotebookDialog(this, downloadNotebookListener);
             */                
             case DOWNLOAD_PHOTOS_ALERT_DIALOG_ID:
-                return new DownloadPhotosDialog(this, downloadPhotoListener);
+                DownloadPhotosDialog downloadPhotosDialog = new DownloadPhotosDialog(this, downloadPhotoListener);
+                downloadPhotosDialog.setOnCancelListener(new OnCancelListener() {                   
+                    @Override
+                    public void onCancel(DialogInterface dialog) {
+                        PhotoFragment photoFragment = getPhotoFragment();
+                        if (photoFragment != null) {
+                            photoFragment.showErrorMessage();            
+                        }
+                    }
+                });
+                return downloadPhotosDialog;
             case REMOVE_CACHE_ALERT_DIALOG_ID:
                 return new RemoveFavoriteCacheDialog(this, removeCacheListener);
             default:
@@ -134,24 +146,13 @@ public class AdvancedInfoActivity extends FragmentActivity {
         public void onConfirm() {
             performDeleteCache();
         }
-        
-        public void onDismiss() {
-            // Do nothing
-        }
     }; 
     
     private ConfirmDialogResultListener downloadPhotoListener = new ConfirmDialogResultListener() {
         public void onConfirm() {
             infoViewModel.beginLoadPhotoUrls();
-        }
-        
-        public void onDismiss() {
-            PhotoFragment photoFragment = getPhotoFragment();
-            if (photoFragment != null) {
-                photoFragment.showErrorMessage();            
-            }            
-        }        
-    };    
+        }            
+    }; 
     
     @Override
     public boolean onPrepareOptionsMenu(Menu menu) {
