@@ -170,6 +170,7 @@ public class PreferencesManager {
         return preferences.getBoolean(context.getString(R.string.download_photos_always_key), false);
     }
 
+    /*
     public void setDownloadNoteBookAlways(boolean downloadNotebookAlways) {
         SharedPreferences.Editor editor = preferences.edit();
         editor.putBoolean(context.getString(R.string.save_notebook_always_key), downloadNotebookAlways);
@@ -179,6 +180,7 @@ public class PreferencesManager {
     public boolean getDownloadNoteBookAlways() {
         return preferences.getBoolean(context.getString(R.string.save_notebook_always_key), false);
     }
+    */
 
     public boolean getKeepScreenOnPreference() {
         // keys located in resources, because settings logic described in xml and write it automatically to SharedPreferences
