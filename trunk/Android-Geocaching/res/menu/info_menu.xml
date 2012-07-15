@@ -18,12 +18,12 @@
 	
 	<item
 		android:id="@+id/menu_info_notes"
-		android:title="@string/menu_geocache_notes"
+		android:title="@string/info_activity_menu_cache_notes"
 		android:icon="@drawable/ic_menu_compose"
 		android:showAsAction="never" />	
 	<item
 		android:id="@+id/menu_info_refresh"
-		android:title="@string/menu_refresh"
+		android:title="@string/info_activity_menu_refresh"
 		android:icon="@drawable/ic_menu_refresh"
 		android:showAsAction="never" />				
 </menu>

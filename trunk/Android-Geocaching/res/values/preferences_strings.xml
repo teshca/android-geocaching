@@ -1,6 +1,5 @@
 <resources>
     <!-- Dashboard -->
-    <string name="dashboard_preference_category_title">Настройки</string>
     <string name="map_preference_title">Настройки карты</string>
     <string name="compass_preference_title">Настройки компаса</string>
     <string name="energy_saving_preference_title">Энергосбережение</string>
@@ -172,11 +171,13 @@
     <string name="download_photos_always_key">downloadPhotosAlwaysKey</string>
     <string name="download_photos_always_summary">Всегда сохранять фотографии тайника</string>
     <bool name="download_photos_always_value">false</bool>
-
+	
+    <!--
     <string name="save_notebook_always_title">Сохранять блокнот</string>
     <string name="save_notebook_always_key">downloadNoteBookAlways</string>
     <string name="save_notebook_always_summary">Всегда сохранять блокнот тайника</string>
     <bool name="save_notebook_always_value">false</bool>
+     -->
 
     <!-- Other -->
     <string name="prefs_favorites_sort_key">favorites_sort</string>
