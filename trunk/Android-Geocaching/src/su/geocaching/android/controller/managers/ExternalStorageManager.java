@@ -8,6 +8,7 @@ import android.util.Log;
 
 import java.io.File;
 import java.io.FilenameFilter;
+import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.Collection;
 import java.util.LinkedList;
@@ -27,22 +28,22 @@ public class ExternalStorageManager {
         }
     };
     
-    private File getBasePhotosDir() {
-        return new File(getExternalCacheDir(), "/photos");
-    }
-    
-    private File getExternalCacheDir() {      
+    private File getExternalFilesDir() {      
         if (android.os.Build.VERSION.SDK_INT >= 8) {
-            return context.getExternalCacheDir();
+            return context.getExternalFilesDir(null);
         } else{
-            // e.g. "<sdcard>/Android/data/<package_name>/cache/"
+            // e.g. "<sdcard>/Android/data/<package_name>/files/"
             final File extCacheDir = new File(Environment.getExternalStorageDirectory(),
-                "/Android/data/" + context.getApplicationInfo().packageName + "/cache/");
+                "/Android/data/" + context.getApplicationInfo().packageName + "/files/");
             extCacheDir.mkdirs();
             return extCacheDir;
         }        
-    }      
-
+    } 
+    
+    private File getBasePhotosDir() {
+        return new File(getExternalFilesDir(), "/photos");
+    }
+    
     public ExternalStorageManager(Context context){
         this.context = context;
         updatePhotoCacheDirectory();
@@ -51,9 +52,40 @@ public class ExternalStorageManager {
     
     private void updatePhotoCacheDirectory() {
         File oldPhotosDirectory = new File(Environment.getExternalStorageDirectory(), OLD_PHOTOS_DIRECTORY);
+        // this only executes once after update
         if (oldPhotosDirectory.exists()) {
             oldPhotosDirectory.renameTo(getBasePhotosDir());
             oldPhotosDirectory.getParentFile().delete();
+            // now we need to update database. add information about photos that already downloaded
+            File photosDirectory = getBasePhotosDir();
+            File[] cacheDirs = photosDirectory.listFiles();
+            if (cacheDirs != null) {
+                for (File cacheDir : cacheDirs) {
+                    try {
+                        int cacheId = Integer.parseInt(cacheDir.getName());
+                        if (Controller.getInstance().getDbManager().isCacheStored(cacheId)) {
+                            Collection<URL> photoUrls = new LinkedList<URL>();
+                            File[] photoFiles = cacheDir.listFiles();
+                            if (photoFiles != null) {
+                                for (File photoFile : photoFiles) {
+                                    String fileName = photoFile.getName();
+                                    String subfolder = fileName.startsWith(Integer.toString(cacheId)) ? "caches/" : "areas/";
+                                    try {
+                                        photoUrls.add(new URL("http://www.geocaching.su/photos/" + subfolder + photoFile.getName()));
+                                    } catch (MalformedURLException e) {
+                                        LogManager.e(TAG, e);
+                                    }
+                                }
+                            }
+                            Controller.getInstance().getDbManager().updatePhotos(cacheId, photoUrls);
+                        } else {
+                            deletePhotos(cacheId);
+                        }
+                    } catch(NumberFormatException e) {
+                        LogManager.e(TAG, e);
+                    }
+                }
+            }
         }
     }
 
@@ -81,27 +113,26 @@ public class ExternalStorageManager {
     }
 
     private void deleteRecursive(File fileOrDirectory) {
-        if (fileOrDirectory.isDirectory())
-            for (File child : fileOrDirectory.listFiles())
-                deleteRecursive(child);
+        if (fileOrDirectory.isDirectory()) {
+            File[] children = fileOrDirectory.listFiles();
+            if (children != null) {
+                for (File child : children)
+                    deleteRecursive(child);
+            }
+        }
 
         fileOrDirectory.delete();
-    }
-
-    public boolean hasPhotos(int cacheId) {
-        Collection<Uri> photos = getPhotos(cacheId);
-        return !photos.isEmpty();
     }
 
     public Collection<Uri> getPhotos(int cacheId) {
         final File imagesDirectory = getPhotosDirectory(cacheId);
         final File[] photoFiles = imagesDirectory.listFiles(imageFilter); 
         final LinkedList<Uri> photosUrls = new LinkedList<Uri>();
-        if (photoFiles == null) return photosUrls;
-        
-        for (File f : imagesDirectory.listFiles(imageFilter)) {
-            photosUrls.add(Uri.fromFile(f));
-        }
+        if (photoFiles != null) {
+            for (File f : photoFiles) {
+                photosUrls.add(Uri.fromFile(f));
+            }            
+        }        
         return photosUrls;
     }
     
@@ -119,17 +150,20 @@ public class ExternalStorageManager {
     
     public void prunePhotoCache() {
         File photosDirectory = getBasePhotosDir();
-        for (File file : photosDirectory.listFiles()) {
-            try {
-                int cacheId = Integer.parseInt(file.getName());
-                if (Controller.getInstance().getDbManager().isCacheStored(cacheId)) {
-                    continue;
-                }
-                deletePhotos(cacheId);
-            } catch(NumberFormatException e) {
-                LogManager.w(TAG, e.getMessage());
-            }            
-        }        
+        File[] photoFiles = photosDirectory.listFiles();
+        if (photoFiles != null) {
+            for (File file : photoFiles) {
+                try {
+                    int cacheId = Integer.parseInt(file.getName());
+                    if (Controller.getInstance().getDbManager().isCacheStored(cacheId)) {
+                        continue;
+                    }
+                    deletePhotos(cacheId);
+                } catch(NumberFormatException e) {
+                    LogManager.w(TAG, e.getMessage());
+                }            
+            }
+        }
     }
     
     //TODO: Remove?
