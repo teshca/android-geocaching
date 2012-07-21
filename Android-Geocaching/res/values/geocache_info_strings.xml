@@ -16,9 +16,9 @@
 	<string name="info_activity_confirm_delete_title">Удалить тайник?</string>
     <string name="ask_add_cache_in_db">Добавьте тайник в избранное, чтобы иметь возможность добавлять контрольные точки</string>
 
-	<string name="info_tab_name_info">Информация</string>
-	<string name="info_tab_name_notebook">Блокнот</string>
-	<string name="info_tab_name_photo">Фотографии</string>
+	<string name="info_tab_name_info">ИНФОРМАЦИЯOOOOOOOOOOOOOO</string>
+	<string name="info_tab_name_notebook">БЛОКНОТOOOOOOOOOOO</string>
+	<string name="info_tab_name_photo">ФОТОГРАФИИOOOOOOOOOOOO</string>
 	
 	<string name="info_download_error_message">Ошибка загрузки данных</string>
 	<string name="info_no_photo_message">Фотографий этого тайника нет</string>
