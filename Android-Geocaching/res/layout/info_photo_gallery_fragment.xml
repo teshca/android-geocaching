@@ -4,7 +4,7 @@
     android:layout_width="fill_parent"
     android:layout_height="fill_parent"    
 	android:background="@android:drawable/gallery_thumb"
-	android:padding="0dip">
+	android:padding="4dip">
     <su.geocaching.android.ui.info.GalleryView
         android:id="@+id/galleryView"
         android:layout_width="fill_parent"
@@ -13,6 +13,7 @@
         android:verticalSpacing="4dip"
         android:horizontalSpacing="4dip"
         android:stretchMode="columnWidth"
+        android:listSelector="@android:color/transparent"
         android:columnWidth="@dimen/adapter_photo_size"        
         android:gravity="center"/>
     <TextView
