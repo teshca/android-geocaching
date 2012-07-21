@@ -92,7 +92,7 @@ public class PhotoFragment extends Fragment implements IInfoFragment {
     public void onNavigatedTo() {
         trafficWarning.setVisibility(View.GONE);
         
-        if (state.getPhotos() == null) {            
+        if (state.getPhotos() == null && progressBar.getVisibility() == View.GONE) {            
             if (Controller.getInstance().getPreferencesManager().getDownloadPhotosAlways() || 
                     Controller.getInstance().getConnectionManager().isWifiConnected()) {
                 infoViewModel.beginLoadPhotoUrls();   
