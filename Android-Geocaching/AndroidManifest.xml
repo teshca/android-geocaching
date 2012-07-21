@@ -48,13 +48,7 @@
                 android:name="su.geocaching.android.ui.selectmap.SelectMapActivity"
                 android:theme="@android:style/Theme.Light.NoTitleBar">
         </activity>
-
-        <activity
-                android:name="su.geocaching.android.ui.info.InfoActivity"
-                android:theme="@android:style/Theme.Light.NoTitleBar"
-                android:configChanges="orientation|keyboardHidden">
-        </activity>
-        
+      
         <activity
                 android:name="su.geocaching.android.ui.info.AdvancedInfoActivity"
                 android:theme="@style/Theme.Geocaching">
