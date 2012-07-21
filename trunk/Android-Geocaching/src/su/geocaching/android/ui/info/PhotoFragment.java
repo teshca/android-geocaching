@@ -98,6 +98,7 @@ public class PhotoFragment extends Fragment implements IInfoFragment {
                 infoViewModel.beginLoadPhotoUrls();   
             } else {
                 trafficWarning.setVisibility(View.VISIBLE);
+                errorMessage.setVisibility(View.GONE);
             }
         }
     }
