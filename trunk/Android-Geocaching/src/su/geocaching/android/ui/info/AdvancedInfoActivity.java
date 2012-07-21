@@ -28,7 +28,10 @@ import android.support.v4.app.FragmentTransaction;
 import android.support.v4.app.ActionBar.Tab;
 import android.support.v4.view.Menu;
 import android.support.v4.view.ViewPager;
+import android.text.TextUtils.TruncateAt;
+import android.view.Gravity;
 import android.view.MenuInflater;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -43,6 +46,14 @@ public class AdvancedInfoActivity extends FragmentActivity {
     private TextView infoTabTextView;
     private TextView notebookTabTextView;
     private TextView photoTabTextView;
+    
+    private TextView getTabTextView() {
+        TextView textView = new TextView(this, null, R.style.GeocachingActionBarTabTextStyle);
+        LinearLayout.LayoutParams lp = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.WRAP_CONTENT, LinearLayout.LayoutParams.WRAP_CONTENT);
+        lp.gravity = Gravity.CENTER_VERTICAL;
+        textView.setLayoutParams(lp);
+        return textView;
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -53,26 +64,25 @@ public class AdvancedInfoActivity extends FragmentActivity {
         infoViewModel.setGeoCache(geoCache);
         
         getSupportActionBar().setTitle(geoCache.getName());
-
         setContentView(R.layout.advanced_info_activity);
         getSupportActionBar().setNavigationMode(ActionBar.NAVIGATION_MODE_TABS);
-        
+                   
         ActionBar.Tab infoTab = getSupportActionBar().newTab();
-        infoTab.setCustomView(R.layout.info_action_bar_tab);
-        infoTabTextView = (TextView)infoTab.getCustomView().findViewById(R.id.info_action_bar_tab_text);
+        infoTabTextView = getTabTextView();
         infoTabTextView.setText(R.string.info_tab_name_info);
+        infoTab.setCustomView(infoTabTextView);
         updateTabTextView(infoTabTextView, infoViewModel.getInfoState().getText() != null);
         
-        ActionBar.Tab notebookTab = getSupportActionBar().newTab().setText(R.string.info_tab_name_notebook);
-        notebookTab.setCustomView(R.layout.info_action_bar_tab);
-        notebookTabTextView = (TextView)notebookTab.getCustomView().findViewById(R.id.info_action_bar_tab_text);
+        ActionBar.Tab notebookTab = getSupportActionBar().newTab();      
+        notebookTabTextView = getTabTextView();
         notebookTabTextView.setText(R.string.info_tab_name_notebook);
+        notebookTab.setCustomView(notebookTabTextView);
         updateTabTextView(notebookTabTextView, infoViewModel.getNotebookState().getText() != null);
         
-        ActionBar.Tab photoTab = getSupportActionBar().newTab();        
-        photoTab.setCustomView(R.layout.info_action_bar_tab);
-        photoTabTextView = (TextView)photoTab.getCustomView().findViewById(R.id.info_action_bar_tab_text);
+        ActionBar.Tab photoTab = getSupportActionBar().newTab();
+        photoTabTextView = getTabTextView();
         photoTabTextView.setText(R.string.info_tab_name_photo);
+        photoTab.setCustomView(photoTabTextView);
         updateTabTextView(photoTabTextView, infoViewModel.getPhotosState().getPhotos() != null);
 
         mViewPager = (ViewPager)findViewById(R.id.pager);
