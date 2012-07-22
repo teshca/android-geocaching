@@ -66,11 +66,21 @@
         </activity>
 
         <!-- preferences -->
-        <activity android:name=".preferences.DashboardPreferenceActivity"/>
-        <activity android:name=".preferences.MapPreferenceActivity"/>
-        <activity android:name=".preferences.CompassPreferenceActivity"/>
-        <activity android:name=".preferences.EnergySavingPreferenceActivity"/>
-        <activity android:name=".preferences.TrafficPreferenceActivity"/>
+        <activity 
+            android:name=".preferences.DashboardPreferenceActivity"
+            android:theme="@style/Theme.Geocaching"/>
+        <activity 
+            android:name=".preferences.MapPreferenceActivity"
+            android:theme="@style/Theme.Geocaching"/>
+        <activity 
+            android:name=".preferences.CompassPreferenceActivity"
+            android:theme="@style/Theme.Geocaching"/>
+        <activity 
+            android:name=".preferences.EnergySavingPreferenceActivity"
+            android:theme="@style/Theme.Geocaching"/>
+        <activity 
+            android:name=".preferences.TrafficPreferenceActivity"
+            android:theme="@style/Theme.Geocaching"/>
 
         <!-- checkpoints -->
         <activity
