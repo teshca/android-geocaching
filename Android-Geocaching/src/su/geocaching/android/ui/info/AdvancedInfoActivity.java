@@ -49,7 +49,12 @@ public class AdvancedInfoActivity extends FragmentActivity {
     
     private TextView getTabTextView() {
         TextView textView = new TextView(this, null, R.style.GeocachingActionBarTabTextStyle);
-        LinearLayout.LayoutParams lp = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.WRAP_CONTENT, LinearLayout.LayoutParams.WRAP_CONTENT);
+        textView.setTextSize(16);
+        textView.setLines(1);
+        textView.setEllipsize(TruncateAt.MARQUEE);
+        textView.setMarqueeRepeatLimit(0);
+        LinearLayout.LayoutParams lp = new LinearLayout.LayoutParams(
+                LinearLayout.LayoutParams.WRAP_CONTENT, LinearLayout.LayoutParams.WRAP_CONTENT);
         lp.gravity = Gravity.CENTER_VERTICAL;
         textView.setLayoutParams(lp);
         return textView;
@@ -70,18 +75,21 @@ public class AdvancedInfoActivity extends FragmentActivity {
         ActionBar.Tab infoTab = getSupportActionBar().newTab();
         infoTabTextView = getTabTextView();
         infoTabTextView.setText(R.string.info_tab_name_info);
+        //infoTab.setText(R.string.info_tab_name_info);
         infoTab.setCustomView(infoTabTextView);
         updateTabTextView(infoTabTextView, infoViewModel.getInfoState().getText() != null);
         
         ActionBar.Tab notebookTab = getSupportActionBar().newTab();      
         notebookTabTextView = getTabTextView();
         notebookTabTextView.setText(R.string.info_tab_name_notebook);
+        //notebookTab.setText(R.string.info_tab_name_notebook);
         notebookTab.setCustomView(notebookTabTextView);
         updateTabTextView(notebookTabTextView, infoViewModel.getNotebookState().getText() != null);
         
         ActionBar.Tab photoTab = getSupportActionBar().newTab();
         photoTabTextView = getTabTextView();
         photoTabTextView.setText(R.string.info_tab_name_photo);
+        //photoTab.setText(R.string.info_tab_name_photo);
         photoTab.setCustomView(photoTabTextView);
         updateTabTextView(photoTabTextView, infoViewModel.getPhotosState().getPhotos() != null);
 
