@@ -55,8 +55,6 @@ public class Controller {
 
     private Controller() {
         apiManager = new GeocachingSuApiManager();
-        //TODO: remove after most of the people updated form version 1.3
-        getExternalStorageManager(); // initialize and update photo cache
     }
 
     public static Controller getInstance() {
@@ -277,7 +275,9 @@ public class Controller {
         if (SHOW_MEMORY_TOAST) {
             MemoryManager memoryManager = new MemoryManager(applicationContext);
             memoryManager.showMemoryToast();
-        }            
+        }
+        //TODO: remove after most of the people updated form version 1.3
+        getExternalStorageManager(); // initialize and update photo cache        
     }
 
     public String getApplicationVersionName() {
