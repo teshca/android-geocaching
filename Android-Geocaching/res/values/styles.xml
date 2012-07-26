@@ -82,6 +82,7 @@
     </style>
     
     <style name="GeocachingActionBarTabTextStyle" parent="@style/Widget.Sherlock.ActionBar.TabText">
+        <item name="android:textSize">15sp</item>
     </style>
     
 </resources>

@@ -28,8 +28,8 @@ import android.support.v4.app.FragmentTransaction;
 import android.support.v4.app.ActionBar.Tab;
 import android.support.v4.view.Menu;
 import android.support.v4.view.ViewPager;
-import android.text.TextUtils.TruncateAt;
 import android.view.Gravity;
+import android.view.LayoutInflater;
 import android.view.MenuInflater;
 import android.widget.LinearLayout;
 import android.widget.TextView;
@@ -47,16 +47,15 @@ public class AdvancedInfoActivity extends FragmentActivity {
     private TextView notebookTabTextView;
     private TextView photoTabTextView;
     
-    private TextView getTabTextView() {
-        TextView textView = new TextView(this, null, R.style.GeocachingActionBarTabTextStyle);
-        textView.setTextSize(16);
-        textView.setLines(1);
-        textView.setEllipsize(TruncateAt.MARQUEE);
-        textView.setMarqueeRepeatLimit(0);
+    private TextView getTabTextView() {        
+        final LayoutInflater inflater = LayoutInflater.from(this);       
+        TextView textView = (TextView) inflater.inflate(R.layout.info_action_bar_tab, null);
+
         LinearLayout.LayoutParams lp = new LinearLayout.LayoutParams(
                 LinearLayout.LayoutParams.WRAP_CONTENT, LinearLayout.LayoutParams.WRAP_CONTENT);
         lp.gravity = Gravity.CENTER_VERTICAL;
         textView.setLayoutParams(lp);
+
         return textView;
     }
 
