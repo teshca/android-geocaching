@@ -1,13 +1,13 @@
 package su.geocaching.android.ui.preferences;
 
 import android.os.Bundle;
-import android.preference.PreferenceActivity;
-import android.view.MenuItem;
+import android.support.v4.app.SherlockPreferenceActivity;
+import android.support.v4.view.MenuItem;
 import su.geocaching.android.controller.Controller;
 import su.geocaching.android.controller.managers.NavigationManager;
 import su.geocaching.android.ui.R;
 
-public class CompassPreferenceActivity extends PreferenceActivity {
+public class CompassPreferenceActivity extends SherlockPreferenceActivity {
     private static final String COMPASS_PREFERENCE_ACTIVITY_NAME = "/preferences/Compass";
 
     @Override

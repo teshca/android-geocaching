@@ -22,7 +22,7 @@ public class AboutDialog extends AlertDialog {
         String versionName = Controller.getInstance().getApplicationVersionName();
         setTitle(getContext().getString(R.string.about_application_version, versionName));
         // set content
-        LayoutInflater inflater = (LayoutInflater)getContext().getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+        LayoutInflater inflater = LayoutInflater.from(getContext());
         View aboutContentView = inflater.inflate(R.layout.about_dialog, null);
         setView(aboutContentView);
         // add exit button
