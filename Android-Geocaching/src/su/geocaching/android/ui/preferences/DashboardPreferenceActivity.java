@@ -4,13 +4,13 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.preference.Preference;
 import android.preference.Preference.OnPreferenceClickListener;
-import android.preference.PreferenceActivity;
-import android.view.MenuItem;
+import android.support.v4.app.SherlockPreferenceActivity;
+import android.support.v4.view.MenuItem;
 import su.geocaching.android.controller.Controller;
 import su.geocaching.android.controller.managers.NavigationManager;
 import su.geocaching.android.ui.R;
 
-public class DashboardPreferenceActivity extends PreferenceActivity {
+public class DashboardPreferenceActivity extends SherlockPreferenceActivity {
     private static final String DASHBOARD_PREFERENCE_ACTIVITY_NAME = "/preferences/Dashboard";
 
     @Override

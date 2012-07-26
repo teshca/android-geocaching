@@ -2,14 +2,14 @@ package su.geocaching.android.ui.preferences;
 
 import android.os.Bundle;
 import android.preference.Preference;
-import android.preference.PreferenceActivity;
-import android.view.MenuItem;
+import android.support.v4.app.SherlockPreferenceActivity;
+import android.support.v4.view.MenuItem;
 import su.geocaching.android.controller.Controller;
 import su.geocaching.android.controller.GpsUpdateFrequency;
 import su.geocaching.android.controller.managers.NavigationManager;
 import su.geocaching.android.ui.R;
 
-public class EnergySavingPreferenceActivity extends PreferenceActivity implements Preference.OnPreferenceChangeListener {
+public class EnergySavingPreferenceActivity extends SherlockPreferenceActivity implements Preference.OnPreferenceChangeListener {
     private static final String ENERGY_SAVING_ACTIVITY_NAME = "/preferences/EnergySaving";
 
     /*
