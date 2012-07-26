@@ -51,10 +51,12 @@ public class AdvancedInfoActivity extends FragmentActivity {
         final LayoutInflater inflater = LayoutInflater.from(this);       
         TextView textView = (TextView) inflater.inflate(R.layout.info_action_bar_tab, null);
 
-        LinearLayout.LayoutParams lp = new LinearLayout.LayoutParams(
-                LinearLayout.LayoutParams.WRAP_CONTENT, LinearLayout.LayoutParams.WRAP_CONTENT);
-        lp.gravity = Gravity.CENTER_VERTICAL;
-        textView.setLayoutParams(lp);
+        if (android.os.Build.VERSION.SDK_INT >= 11) {
+            LinearLayout.LayoutParams lp = new LinearLayout.LayoutParams(
+                    LinearLayout.LayoutParams.WRAP_CONTENT, LinearLayout.LayoutParams.WRAP_CONTENT);
+            lp.gravity = Gravity.CENTER_VERTICAL;
+            textView.setLayoutParams(lp);            
+        }        
 
         return textView;
     }
