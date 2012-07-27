@@ -3,8 +3,8 @@
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:id="@+id/info_action_bar_tab_text"
     style="@style/GeocachingActionBarTabTextStyle"
-    android:lines="1"
     android:gravity="center_vertical"    
     android:ellipsize="marquee"
-    android:marqueeRepeatLimit="0"    
+    android:marqueeRepeatLimit="0" 
+    android:singleLine="true"
     />
