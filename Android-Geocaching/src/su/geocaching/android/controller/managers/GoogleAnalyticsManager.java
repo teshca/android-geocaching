@@ -38,6 +38,9 @@ public class GoogleAnalyticsManager {
 
     public void trackUncaughtException(String tag, Throwable ex) {
         trackException("Uncaught exception", tag, ex);
+        if (ex.getCause() != null) { 
+            trackUncaughtException(tag + "-inner-" + ex.getMessage(), ex.getCause());
+        }        
     }
 
     public void trackError(String tag, String message) {
