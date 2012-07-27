@@ -109,12 +109,13 @@ public class GalleryItemView extends FrameLayout implements GeoCachePhotoDownloa
     */    
           
     private void updateView() {
-        if (this.cachePhoto.IsDownloading()) {
-            errorMessage.setVisibility(GONE);  
-            image.setVisibility(GONE);            
+        errorMessage.setVisibility(GONE);  
+        progressBar.setVisibility(GONE);
+        image.setVisibility(GONE);
+        
+        if (this.cachePhoto.IsDownloading()) {    
             progressBar.setVisibility(VISIBLE);
         } else {
-            progressBar.setVisibility(View.GONE);
             if (this.cachePhoto.HasErrors()) {
                 errorMessage.setVisibility(VISIBLE); 
             } else {
@@ -126,7 +127,7 @@ public class GalleryItemView extends FrameLayout implements GeoCachePhotoDownloa
                     errorMessage.setVisibility(VISIBLE);
                 }
             }
-        }        
+        }
     }
     
     @Override
