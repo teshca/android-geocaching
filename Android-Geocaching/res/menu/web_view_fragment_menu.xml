@@ -4,5 +4,5 @@
 		android:id="@+id/menu_web_view_search"
 		android:title="@string/info_activity_menu_web_view_search"
 		android:icon="@android:drawable/ic_menu_search"
-		android:showAsAction="ifRoom" />			
+		android:showAsAction="never" />			
 </menu>
