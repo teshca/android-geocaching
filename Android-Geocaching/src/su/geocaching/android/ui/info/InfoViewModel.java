@@ -73,7 +73,17 @@ public class InfoViewModel {
             dbManager.updatePhotos(this.geoCacheId, this.photosState.getPhotoUrls());
         } else {
             dbManager.addGeoCache(this.geoCache, this.infoState.getText(), this.notebookState.getText(), this.photosState.getPhotoUrls());
-        }        
+            
+            //if notebook or photos is not loaded yet, try to do it now
+            if (this.notebookState.getText() == null) {
+                beginLoadNotebook();
+            }
+            if (this.photosState.getPhotos() == null) {
+                if (Controller.getInstance().getPreferencesManager().getDownloadPhotosAlways() || Controller.getInstance().getConnectionManager().isWifiConnected()) {
+                    beginLoadPhotoUrls();
+                }
+            }
+        }
     }
 
     public void deleteCache() {
