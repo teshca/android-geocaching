@@ -50,17 +50,6 @@ public class GeoRect {
         return true;
     }
 
-    public boolean TryMergeWith(GeoRect rect)
-    {
-        // if lat is not the same we can't make merge
-        if ((tl.getLatitudeE6() != rect.tl.getLatitudeE6())
-                || (br.getLatitudeE6() != rect.tl.getLatitudeE6()))
-            return false;
-
-        //TODO: implement
-        return true;
-    }
-
     @Override
     public String toString()
     {
