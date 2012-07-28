@@ -224,16 +224,6 @@ public class AdvancedInfoActivity extends FragmentActivity {
     }
 
     private void onSearchCache() {
-        //TODO:
-        /*
-        if (!isCacheStored) {
-            cbFavoriteCache.setChecked(true);
-            if ((notebook == null) && (controller.getPreferencesManager().getDownloadNoteBookAlways() || controller.getConnectionManager().isWifiConnected())) {
-                controller.getApiManager().getInfo(DownloadInfoState.SAVE_CACHE_NOTEBOOK_AND_GO_TO_MAP, this, geoCache.getId());
-                return;
-            }
-        }
-        */
         if (!infoViewModel.isCacheStored()) {
             infoViewModel.saveCache();
             invalidateOptionsMenu();            
