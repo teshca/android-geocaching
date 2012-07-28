@@ -36,13 +36,23 @@ public class CompassManager implements SensorEventListener, ILocationAware {
     private final List<IBearingAware> subscribers;
     private boolean isUsingGps;
 
+    private Sensor gravitySensor;
+    private Sensor magnitudeSensor;
+
     /**
      * @param sensorManager manager which can add or remove updates of sensors
      */
     public CompassManager(SensorManager sensorManager, AccurateUserLocationManager userLocationManager) {
         this.sensorManager = sensorManager;
         this.locationManager = userLocationManager;
-        isCompassAvailable = sensorManager != null;
+       
+        if (sensorManager != null) {
+            gravitySensor = sensorManager.getDefaultSensor(Sensor.TYPE_ACCELEROMETER);
+            magnitudeSensor = sensorManager.getDefaultSensor(Sensor.TYPE_MAGNETIC_FIELD);
+        }
+
+        isCompassAvailable = gravitySensor != null && magnitudeSensor != null;
+        
         subscribers = new ArrayList<IBearingAware>();
         LogManager.d(TAG, "new CompassManager created");
     }
@@ -148,12 +158,6 @@ public class CompassManager implements SensorEventListener, ILocationAware {
     private synchronized void addSensorUpdates() {
         LogManager.d(TAG, "addSensorUpdates");
         if (!isCompassAvailable) {
-            return;
-        }
-        Sensor gravitySensor = sensorManager.getDefaultSensor(Sensor.TYPE_ACCELEROMETER);
-        Sensor magnitudeSensor = sensorManager.getDefaultSensor(Sensor.TYPE_MAGNETIC_FIELD);
-        if (gravitySensor == null || magnitudeSensor == null) {
-            isCompassAvailable = false;
             return;
         }
         sensorManager.registerListener(this, gravitySensor, SensorManager.SENSOR_DELAY_NORMAL);

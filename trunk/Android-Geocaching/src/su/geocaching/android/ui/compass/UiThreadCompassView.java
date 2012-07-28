@@ -2,6 +2,7 @@ package su.geocaching.android.ui.compass;
 
 import android.content.Context;
 import android.graphics.Canvas;
+import android.opengl.Visibility;
 import android.util.AttributeSet;
 import android.view.View;
 import su.geocaching.android.controller.Controller;
@@ -78,7 +79,9 @@ public class UiThreadCompassView extends View implements IBearingAware {
     @Override
     protected void onAttachedToWindow() {
         LogManager.d(TAG, "onAttachedToWindow");
-        Controller.getInstance().getCompassManager().addSubscriber(this);
+        if (getVisibility() == VISIBLE) {
+            Controller.getInstance().getCompassManager().addSubscriber(this);    
+        }
         super.onAttachedToWindow();
     }
 
