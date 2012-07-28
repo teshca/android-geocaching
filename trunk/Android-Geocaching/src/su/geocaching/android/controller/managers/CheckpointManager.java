@@ -9,7 +9,6 @@ import su.geocaching.android.model.GeoCacheType;
 import su.geocaching.android.ui.R;
 import su.geocaching.android.ui.geocachemap.GeoCacheOverlayItem;
 
-import java.util.LinkedList;
 import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -23,14 +22,10 @@ public class CheckpointManager {
     private DbManager dbm;
     private Controller controller;
 
-    private CheckpointManager() {
+    public CheckpointManager(int id) {
         controller = Controller.getInstance();
         dbm = controller.getDbManager();
-        checkpoints = new LinkedList<GeoCache>();
-    }
-
-    public CheckpointManager(int id) {
-        this();
+        
         cacheId = id;
         checkpoints = dbm.getCheckpointsArrayById(id);
         for (GeoCache checkpoint : checkpoints) {
@@ -56,7 +51,6 @@ public class CheckpointManager {
         } else {
             gc.setName(name.trim());
         }
-        deactivateCheckpoints();
         
         gc.setLocationGeoPoint(new GeoPoint(latitudeE6, longitudeE6));
         gc.setType(GeoCacheType.CHECKPOINT);
@@ -78,53 +72,35 @@ public class CheckpointManager {
         }
     }
 
-    private void removeCheckpointByIndex(int index) {
-        GeoCache gc = checkpoints.get(index);
-        if (gc.getStatus() == GeoCacheStatus.ACTIVE_CHECKPOINT) {
-            controller.setSearchingGeoCache(controller.getDbManager().getCacheByID(cacheId));
-        }
-        dbm.deleteCheckpointCache(cacheId, gc.getId());
-        checkpoints.remove(index);
-    }
-
     public int removeCheckpoint(int id) {
-        int index = findItemById(id);
-        if (id != -1) {
-            removeCheckpointByIndex(index);
+        int index = findIndexById(id);
+        if (index != -1) {
+            GeoCache checkPoint = checkpoints.get(index);
+            if (checkPoint.getStatus() == GeoCacheStatus.ACTIVE_CHECKPOINT) {
+                controller.setSearchingGeoCache(controller.getDbManager().getCacheByID(cacheId));
+            }
+            dbm.deleteCheckpointCache(cacheId, checkPoint.getId());
+            checkpoints.remove(index);
         }
         return index;
     }
 
     public GeoCache getGeoCache(int id) {
-        return checkpoints.get(findItemById(id));
-    }
-
-    /**
-     * @return the activeItem
-     */
-    public int getActiveItem() {
-        int i = 0;
-        for (GeoCache checkpoint : checkpoints) {
-            if (checkpoint.getStatus() == GeoCacheStatus.ACTIVE_CHECKPOINT) {
-                break;
-            }
-            i++;
-        }
-        return i >= checkpoints.size() ? -1 : i;
+        return checkpoints.get(findIndexById(id));
     }
 
     /**
      * @param id the Id of active item
      */
     public void setActiveItem(int id) {
-        int activeItem = findItemById(id);
+        int activeItem = findIndexById(id);
         deactivateCheckpoints();
         checkpoints.get(activeItem).setStatus(GeoCacheStatus.ACTIVE_CHECKPOINT);
         controller.setSearchingGeoCache(checkpoints.get(activeItem));
         dbm.updateCheckpointCacheStatus(cacheId, checkpoints.get(activeItem).getId(), GeoCacheStatus.ACTIVE_CHECKPOINT);
     }
 
-    private int findItemById(int id) {
+    private int findIndexById(int id) {
         for (GeoCache item : checkpoints) {
             if (item.getId() == id) {
                 return checkpoints.indexOf(item);
