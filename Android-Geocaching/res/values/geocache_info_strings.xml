@@ -11,6 +11,8 @@
 	<string name="info_activity_download_photo_without_confirmation">Загружать фотографии без подтверджения</string>
 	<string name="info_activity_download_photo_button_caption">Загрузить</string>
 	
+	<string name="info_activity_sd_card_error">SD карта не найдена.\nУбедитесь, что телефон не подключен к комньютеру как внешний диск.</string>
+	
     <!-- <string name="info_activity_dialog_dont_show_again">Больше не спрашивать</string>-->
 	<string name="info_activity_notes_hint">Заметки для тайника</string>
 	<string name="info_activity_confirm_delete_message">Вы действительно хотите удалить всю информацию о тайнике?</string>

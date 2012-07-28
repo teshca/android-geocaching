@@ -28,6 +28,10 @@ public class ExternalStorageManager {
         }
     };
     
+    public boolean isExternalStorageAvailable() {
+        return Environment.getExternalStorageDirectory() == null;
+    }    
+    
     private File getExternalFilesDir() {      
         if (android.os.Build.VERSION.SDK_INT >= 8) {
             return context.getExternalFilesDir(null);
