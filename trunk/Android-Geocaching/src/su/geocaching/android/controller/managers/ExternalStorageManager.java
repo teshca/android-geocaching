@@ -28,8 +28,9 @@ public class ExternalStorageManager {
         }
     };
     
-    public boolean isExternalStorageAvailable() {
-        return Environment.getExternalStorageDirectory() == null;
+    public boolean isExternalStorageAvailable() {        
+        String state = Environment.getExternalStorageState();
+        return Environment.MEDIA_MOUNTED.equals(state);
     }    
     
     private File getExternalFilesDir() {      
