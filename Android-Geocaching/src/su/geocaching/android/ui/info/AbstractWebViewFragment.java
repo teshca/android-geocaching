@@ -8,7 +8,10 @@ import su.geocaching.android.controller.apimanager.GeocachingSuApiManager;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.support.v4.view.Menu;
+import android.support.v4.view.MenuItem;
 import android.view.LayoutInflater;
+import android.view.MenuInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup;
@@ -37,6 +40,7 @@ public abstract class AbstractWebViewFragment extends Fragment implements IInfoF
         super.onCreate(savedInstanceState);
         infoViewModel = Controller.getInstance().getInfoViewModel();
         state = getFragmentState();
+        setHasOptionsMenu(android.os.Build.VERSION.SDK_INT >= 11);
     }
     
     
@@ -141,6 +145,23 @@ public abstract class AbstractWebViewFragment extends Fragment implements IInfoF
             BeginLoadData();
         }      
     }
+    
+    @Override
+    public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
+        inflater.inflate(R.menu.web_view_fragment_menu, menu);
+        super.onCreateOptionsMenu(menu, inflater);
+    }
+    
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case R.id.menu_web_view_search:
+                webView.showFindDialog(null, true);
+                return true;                            
+            default:
+                return super.onOptionsItemSelected(item);                
+        }
+    }   
     
     protected abstract void BeginLoadData();
       
