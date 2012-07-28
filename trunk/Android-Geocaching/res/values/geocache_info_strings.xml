@@ -5,6 +5,7 @@
 	<string name="info_activity_menu_search_cache">Искать</string>
 	<string name="info_activity_menu_cache_notes">Заметки</string>
 	<string name="info_activity_menu_refresh">Обновить</string>
+	<string name="info_activity_menu_web_view_search">Поиск на странице</string>
     
 	<string name="info_activity_download_photo_traffic_warning">Загрузка фотографий может потребовать большого количества мобильного тарфика.</string>
 	<string name="info_activity_download_photo_without_confirmation">Загружать фотографии без подтверджения</string>
@@ -14,7 +15,7 @@
 	<string name="info_activity_notes_hint">Заметки для тайника</string>
 	<string name="info_activity_confirm_delete_message">Вы действительно хотите удалить всю информацию о тайнике?</string>
 	<string name="info_activity_confirm_delete_title">Удалить тайник?</string>
-    <string name="ask_add_cache_in_db">Добавьте тайник в избранное, чтобы иметь возможность добавлять контрольные точки</string>
+    <string name="ask_add_cache_in_db">Сохраните тайник, чтобы иметь возможность добавлять контрольные точки</string>
 
 	<string name="info_tab_name_info">ИНФОРМАЦИЯ</string>
 	<string name="info_tab_name_notebook">БЛОКНОТ</string>
