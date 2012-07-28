@@ -38,8 +38,7 @@ import su.geocaching.android.model.GeoCache;
 public class GeocachingSuApiManager implements IApiManager {
 
     private static final String TAG = GeocachingSuApiManager.class.getCanonicalName();
-
-    //TODO: Make all constants private    
+   
     public static final String LINK_INFO_TEXT = "http://pda.geocaching.su/cache.php?cid=%d&mode=0";
     public static final String LINK_NOTEBOOK_TEXT = "http://pda.geocaching.su/note.php?cid=%d&mode=0";
     public static final String LINK_PHOTO_PAGE = "http://pda.geocaching.su/pict.php?cid=%d&mode=0";
