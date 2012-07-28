@@ -80,4 +80,20 @@
 		    android:layout_gravity="center"	    
 	        android:text="@string/info_activity_download_photo_button_caption" />
 	</LinearLayout>	
+	<LinearLayout
+	    android:id="@+id/info_sd_card_error_panel"
+	    android:visibility="gone"
+	    android:orientation="vertical"
+	    android:layout_width="wrap_content"
+	    android:layout_height="wrap_content"
+	    android:layout_gravity="center">	    
+	    <TextView
+		    android:layout_width="wrap_content"
+		    android:layout_height="wrap_content"
+		    android:textSize="20dip"
+		    android:layout_margin="6dip"
+		    android:layout_gravity="center"         
+	        android:text="@string/info_activity_sd_card_error" />
+	</LinearLayout>		
+	
 </FrameLayout>

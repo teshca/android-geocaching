@@ -25,6 +25,7 @@ public class PhotoFragment extends Fragment implements IInfoFragment {
     private View errorMessage;
     private ImageButton refreshButton;
     private TextView noPhotosTextView;
+    private View sdCardErrorMessage;
     
     private View trafficWarning;
     private Button downloadButton;
@@ -58,7 +59,9 @@ public class PhotoFragment extends Fragment implements IInfoFragment {
                 Controller.getInstance().getPreferencesManager().setDownloadPhotosAlways(downloadAlways.isChecked());                
                 trafficWarning.setVisibility(View.GONE);
             }}
-        );        
+        );
+        
+        sdCardErrorMessage = (View)v.findViewById(R.id.info_sd_card_error_panel);
         
         infoViewModel = Controller.getInstance().getInfoViewModel();
         state = infoViewModel.getPhotosState();
@@ -91,16 +94,23 @@ public class PhotoFragment extends Fragment implements IInfoFragment {
     @Override
     public void onNavigatedTo() {
         trafficWarning.setVisibility(View.GONE);
-        
-        if (state.getPhotos() == null && progressBar.getVisibility() == View.GONE) {            
-            if (Controller.getInstance().getPreferencesManager().getDownloadPhotosAlways() || 
-                    Controller.getInstance().getConnectionManager().isWifiConnected()) {
-                infoViewModel.beginLoadPhotoUrls();   
-            } else {
-                trafficWarning.setVisibility(View.VISIBLE);
-                errorMessage.setVisibility(View.GONE);
-            }
-        }
+        sdCardErrorMessage.setVisibility(View.GONE);
+
+        if (Controller.getInstance().getExternalStorageManager().isExternalStorageAvailable()) {
+            if (state.getPhotos() == null && !infoViewModel.isPhotoUrlsLoading()) {            
+                if (Controller.getInstance().getPreferencesManager().getDownloadPhotosAlways() || 
+                        Controller.getInstance().getConnectionManager().isWifiConnected()) {
+                    infoViewModel.beginLoadPhotoUrls();   
+                } else {
+                    trafficWarning.setVisibility(View.VISIBLE);
+                    errorMessage.setVisibility(View.GONE);
+                }
+            }            
+        } else {
+            sdCardErrorMessage.setVisibility(View.VISIBLE);
+            galleryView.setVisibility(View.GONE);
+            noPhotosTextView.setVisibility(View.GONE);            
+        }        
     }
 
     public void showProgressBar() {

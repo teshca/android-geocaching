@@ -133,8 +133,12 @@ public class InfoViewModel {
         }
     }
     
+    public synchronized boolean isPhotoUrlsLoading() {
+        return isTaskActive(downloadPhotoUrlsTask);
+    }
+    
     public synchronized void beginLoadPhotoUrls() {
-        if (isTaskActive(downloadPhotoUrlsTask)) return;
+        if (isPhotoUrlsLoading()) return;
         
         downloadPhotoUrlsTask = new AdvancedDownloadPhotoUrlsTask(this);
         downloadPhotoUrlsTask.execute();
@@ -142,7 +146,7 @@ public class InfoViewModel {
             activity.showPhotoListProgressBar();
             activity.hidePhotoListErrorMessage();
         }       
-    }    
+    }
     
     public synchronized void geocacheInfoDownloaded(String result) {
         this.infoState.setText(result);
