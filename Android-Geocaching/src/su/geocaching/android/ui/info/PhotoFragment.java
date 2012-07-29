@@ -69,7 +69,6 @@ public class PhotoFragment extends Fragment implements IInfoFragment {
         galleryView = (GalleryView)v.findViewById(R.id.galleryView);
         galleryAdapter = new AdvancedGalleryImageAdapter(this.getActivity(), Controller.getInstance().getInfoViewModel());
         galleryView.setAdapter(galleryAdapter);
-        updatePhotosList();
         return v;
     }
     
@@ -92,9 +91,17 @@ public class PhotoFragment extends Fragment implements IInfoFragment {
     }
     
     @Override
-    public void onNavigatedTo() {
+    public void onNavigatedTo() {        
+        if (galleryView.getVisibility() == View.VISIBLE || 
+                noPhotosTextView.getVisibility() == View.VISIBLE) {
+            return;   
+        }
+        
         trafficWarning.setVisibility(View.GONE);
         sdCardErrorMessage.setVisibility(View.GONE);
+        galleryView.setVisibility(View.GONE);
+        noPhotosTextView.setVisibility(View.GONE);             
+        errorMessage.setVisibility(View.GONE);
 
         if (Controller.getInstance().getExternalStorageManager().isExternalStorageAvailable()) {
             if (state.getPhotos() == null && !infoViewModel.isPhotoUrlsLoading()) {            
@@ -103,14 +110,27 @@ public class PhotoFragment extends Fragment implements IInfoFragment {
                     infoViewModel.beginLoadPhotoUrls();   
                 } else {
                     trafficWarning.setVisibility(View.VISIBLE);
-                    errorMessage.setVisibility(View.GONE);
                 }
-            }            
+            } else {
+                updatePhotosList();
+            }      
         } else {
-            sdCardErrorMessage.setVisibility(View.VISIBLE);
+            sdCardErrorMessage.setVisibility(View.VISIBLE);       
+        }
+    }
+    
+    public void updatePhotosList() {
+        if (state.getPhotos() == null) {
             galleryView.setVisibility(View.GONE);
-            noPhotosTextView.setVisibility(View.GONE);            
-        }        
+            noPhotosTextView.setVisibility(View.GONE);
+        } else if (state.getPhotos().isEmpty()) {
+            galleryView.setVisibility(View.GONE);
+            noPhotosTextView.setVisibility(View.VISIBLE);
+        } else {           
+            galleryView.setVisibility(View.VISIBLE);
+            noPhotosTextView.setVisibility(View.GONE);
+            galleryAdapter.updateImageList();         
+        }
     }
 
     public void showProgressBar() {
@@ -127,19 +147,5 @@ public class PhotoFragment extends Fragment implements IInfoFragment {
 
     public void hideErrorMessage() {
         errorMessage.setVisibility(View.GONE);        
-    }
-
-    public void updatePhotosList() {
-        if (state.getPhotos() == null) {
-            galleryView.setVisibility(View.GONE);
-            noPhotosTextView.setVisibility(View.GONE);
-        } else if (state.getPhotos().isEmpty()) {
-            galleryView.setVisibility(View.GONE);
-            noPhotosTextView.setVisibility(View.VISIBLE);
-        } else {           
-            galleryView.setVisibility(View.VISIBLE);
-            noPhotosTextView.setVisibility(View.GONE);
-            galleryAdapter.updateImageList();         
-        }        
     }
 }
