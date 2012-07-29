@@ -7,6 +7,7 @@
 	android:padding="5dip">
     <su.geocaching.android.ui.info.GalleryView
         android:id="@+id/galleryView"
+        android:visibility="gone"
         android:layout_width="fill_parent"
         android:layout_height="fill_parent"
         android:numColumns="auto_fit"
