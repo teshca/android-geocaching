@@ -16,7 +16,6 @@ public class GeoCachePhotoViewModel {
     public GeoCachePhotoViewModel(URL remoteURL, int geoCacheId) {
         this.remoteUrl = remoteURL;
         this.geoCacheId = geoCacheId;
-        this.localUri = Controller.getInstance().getExternalStorageManager().getLocalPhotoUri(remoteURL, geoCacheId);         
     }
     
     private List<GeoCachePhotoDownloadingChangedListener> _listeners = new ArrayList<GeoCachePhotoDownloadingChangedListener>();
@@ -43,9 +42,8 @@ public class GeoCachePhotoViewModel {
         return geoCacheId;
     }    
     
-    private Uri localUri;
     public Uri getLocalUri() {
-        return localUri;
+        return  Controller.getInstance().getExternalStorageManager().getLocalPhotoUri(remoteUrl, geoCacheId);
     }
     
     private boolean hasErrors;
