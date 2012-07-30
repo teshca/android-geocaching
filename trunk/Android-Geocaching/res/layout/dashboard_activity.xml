@@ -1,48 +1,97 @@
 <LinearLayout
         xmlns:android="http://schemas.android.com/apk/res/android"
         android:layout_width="fill_parent"
-		android:layout_height="fill_parent"
-		android:orientation="vertical"
-		android:background="@color/dashboard_background">
-	<include layout="@layout/default_title_bar"/>
-	<LinearLayout
-	    	android:layout_height="0dip"
-	    	android:baselineAligned="false"     
-			android:layout_width="fill_parent"
-			android:layout_weight="1"
-			android:orientation="vertical"
-			android:padding="10dip">
-		<LinearLayout
-                android:layout_height="0dip"
+        android:layout_height="fill_parent"
+        android:orientation="vertical"
+        android:background="@color/dashboard_background">
+
+    <include layout="@layout/default_title_bar"/>
+
+    <TableLayout
+            android:layout_height="fill_parent"
+            android:layout_width="fill_parent">
+        <TableRow
+                android:layout_height="wrap_content"
                 android:layout_width="fill_parent"
-			    android:layout_weight="1"
-				android:orientation="horizontal">
-			<Button
-                    style="@style/DashboardButton"
-					android:onClick="onSelectClick"
-					android:drawableTop="@drawable/dashboard_select"
-					android:text="@string/select_geocache"/>
-			<Button
-                    style="@style/DashboardButton"
-					android:onClick="onSearchClick"
-					android:drawableTop="@drawable/dashboard_search"
-					android:text="@string/search_geocache"/>
-		</LinearLayout>
-		<LinearLayout
-                android:layout_height="0dip"
+                android:layout_weight="1"
+                android:orientation="horizontal">
+            <LinearLayout
+                    android:layout_height="fill_parent"
+                    android:layout_width="wrap_content"
+                    android:orientation="vertical"
+                    android:layout_weight="1"
+                    android:gravity="center">
+                <ImageButton
+                        style="@style/DashboardButton"
+                        android:onClick="onSelectClick"
+                        android:src="@drawable/dashboard_select"
+                        android:background="@drawable/dashboard_button_bg"/>
+                <TextView
+                        android:layout_height="wrap_content"
+                        android:layout_width="wrap_content"
+                        android:text="@string/select_geocache"
+                        android:textAppearance="@style/DashboardButtonText"/>
+            </LinearLayout>
+
+            <LinearLayout
+                    android:layout_height="fill_parent"
+                    android:layout_width="wrap_content"
+                    android:orientation="vertical"
+                    android:layout_weight="1"
+                    android:gravity="center">
+                <ImageButton
+                        style="@style/DashboardButton"
+                        android:onClick="onSearchClick"
+                        android:src="@drawable/dashboard_search"
+                        android:background="@drawable/dashboard_button_bg"/>
+                <TextView
+                        android:layout_height="wrap_content"
+                        android:layout_width="wrap_content"
+                        android:text="@string/search_geocache"
+                        android:textAppearance="@style/DashboardButtonText"/>
+            </LinearLayout>
+        </TableRow>
+
+        <TableRow
+                android:layout_height="wrap_content"
                 android:layout_width="fill_parent"
-				android:layout_weight="1"
-				android:orientation="horizontal">
-			<Button
-                    style="@style/DashboardButton"
-                    android:drawableTop="@drawable/dashboard_favorites"
-					android:text="@string/favorites"
-					android:onClick="onFavoritesClick"/>
-			<Button
-                    style="@style/DashboardButton"
-                    android:drawableTop="@drawable/dashboard_settings"
-					android:text="@string/settings"
-					android:onClick="onSettingsClick"/>
-		</LinearLayout>
-	</LinearLayout>
+                android:layout_weight="1"
+                android:orientation="horizontal">
+            <LinearLayout
+                    android:layout_height="fill_parent"
+                    android:layout_width="wrap_content"
+                    android:orientation="vertical"
+                    android:layout_weight="1"
+                    android:gravity="center">
+                <ImageButton
+                        style="@style/DashboardButton"
+                        android:onClick="onFavoritesClick"
+                        android:src="@drawable/dashboard_favorites"
+                        android:background="@drawable/dashboard_button_bg"/>
+                <TextView
+                        android:layout_height="wrap_content"
+                        android:layout_width="wrap_content"
+                        android:text="@string/favorites"
+                        android:textAppearance="@style/DashboardButtonText"/>
+            </LinearLayout>
+
+            <LinearLayout
+                    android:layout_height="fill_parent"
+                    android:layout_width="wrap_content"
+                    android:orientation="vertical"
+                    android:layout_weight="1"
+                    android:gravity="center">
+                <ImageButton
+                        style="@style/DashboardButton"
+                        android:onClick="onSettingsClick"
+                        android:src="@drawable/dashboard_settings"
+                        android:background="@drawable/dashboard_button_bg"/>
+                <TextView
+                        android:layout_height="wrap_content"
+                        android:layout_width="wrap_content"
+                        android:text="@string/settings"
+                        android:textAppearance="@style/DashboardButtonText"/>
+            </LinearLayout>
+        </TableRow>
+    </TableLayout>
 </LinearLayout>
