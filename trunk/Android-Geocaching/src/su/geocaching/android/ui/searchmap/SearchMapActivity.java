@@ -4,6 +4,7 @@ import java.util.List;
 
 import android.app.Dialog;
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.graphics.Point;
 import android.graphics.Rect;
 import android.graphics.drawable.Drawable;
@@ -101,7 +102,8 @@ public class SearchMapActivity extends MapActivity implements IConnectionAware, 
         mapOverlays = map.getOverlays();
         mapController = map.getController();
         userOverlay = new DynamicUserLocationOverlay(this, map);
-        map.setBuiltInZoomControls(true);
+        boolean isMultiTouchAvailable = getPackageManager().hasSystemFeature(PackageManager.FEATURE_TOUCHSCREEN_MULTITOUCH);
+        map.setBuiltInZoomControls(!isMultiTouchAvailable);
         GeoCache geoCache = getCurrentGeoCache();
 
         Controller.getInstance().setSearchingGeoCache(geoCache);
