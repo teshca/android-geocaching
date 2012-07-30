@@ -173,12 +173,16 @@ public class ExternalStorageManager {
     
     //TODO: Remove?
     /*
-    public Uri addFileToMediaFirectory(File file) {        
+    public Uri addFileToMediaFirectory(File file) {
         ContentValues values = new ContentValues();
         values.put(MediaStore.MediaColumns.DATA, file.getAbsolutePath());
         values.put(MediaStore.MediaColumns.TITLE, file.getName());
         values.put(MediaStore.MediaColumns.DATE_ADDED, System.currentTimeMillis());
         values.put(MediaStore.MediaColumns.MIME_TYPE, "image/jpg");
+        
+        values.put(Images.ImageColumns.BUCKET_ID, file.getParent().hashCode());
+        values.put(Images.ImageColumns.BUCKET_DISPLAY_NAME, file.getParent().getName());
+        
         Uri photoUri = context.getContentResolver().insert(android.provider.MediaStore.Images.Media.EXTERNAL_CONTENT_URI, values);
         return photoUri;
     }

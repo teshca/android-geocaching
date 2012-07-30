@@ -2,6 +2,7 @@ package su.geocaching.android.ui.selectmap;
 
 import android.app.Dialog;
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.location.Location;
 import android.os.Bundle;
 import android.view.Menu;
@@ -75,7 +76,8 @@ public class SelectMapActivity extends MapActivity implements IConnectionAware, 
         locationManager = Controller.getInstance().getLowPowerLocationManager();
         connectionManager = Controller.getInstance().getConnectionManager();
 
-        mapView.setBuiltInZoomControls(true);
+        boolean isMultiTouchAvailable = getPackageManager().hasSystemFeature(PackageManager.FEATURE_TOUCHSCREEN_MULTITOUCH);
+        mapView.setBuiltInZoomControls(!isMultiTouchAvailable);
         mapView.invalidate();
 
         selectMapViewModel = Controller.getInstance().getSelectMapViewModel();
