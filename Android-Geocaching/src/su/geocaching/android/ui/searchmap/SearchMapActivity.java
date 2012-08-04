@@ -402,8 +402,9 @@ public class SearchMapActivity extends MapActivity implements IConnectionAware, 
     }
 
     private void showExternalMap() {
-        final double latitude = map.getMapCenter().getLatitudeE6() / 1E6;
-        final double longitude = map.getMapCenter().getLongitudeE6() / 1E6;
+        final GeoPoint destination = Controller.getInstance().getSearchingGeoCache().getLocationGeoPoint();
+        final double latitude = destination.getLatitudeE6() / 1E6;
+        final double longitude = destination.getLongitudeE6() / 1E6;
         NavigationManager.startExternalMap(this, latitude, longitude, map.getZoomLevel());
     }
 
