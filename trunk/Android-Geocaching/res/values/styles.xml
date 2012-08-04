@@ -82,7 +82,7 @@
     </style>    
         
     <style name="GeocachingActionBarTabStyle" parent="Widget.Sherlock.Light.ActionBar.TabView">
-        <item name="android:padding">8dip</item>
+        <item name="android:padding">4dip</item>
     </style>
     
     <style name="GeocachingActionBarTabTextStyle" parent="@style/Widget.Sherlock.ActionBar.TabText">
