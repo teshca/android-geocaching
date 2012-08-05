@@ -109,6 +109,11 @@ public class CompassView extends SurfaceView implements SurfaceHolder.Callback, 
     public void setDistance(float distance) {
         compassDrawing.setDistance(distance);
     }
+    
+    @Override
+    public void setDeclination(float declination) {
+        compassDrawing.setDeclination(declination);        
+    }    
 
     /**
      * @param helperType //TODO describe it

@@ -1,6 +1,7 @@
 package su.geocaching.android.controller.compass;
 
 import android.graphics.*;
+import android.graphics.Paint.Align;
 import android.graphics.Paint.Style;
 import su.geocaching.android.controller.Controller;
 import su.geocaching.android.controller.utils.CoordinateHelper;
@@ -14,7 +15,9 @@ import su.geocaching.android.ui.R;
 public class DefaultCompassDrawing extends AbstractCompassDrawing {
 
     protected Paint bitmapPaint = new Paint();
-    protected Paint textPaint = new Paint();
+    protected Paint distanceTextPaint = new Paint();
+    protected Paint azimuthTextPaint = new Paint();
+    protected Paint declinationTextPaint = new Paint();
     protected Bitmap roseBitmap, needleBitmap, arrowBitmap, gpsSourceBitmap;
 
     public DefaultCompassDrawing() {
@@ -23,10 +26,25 @@ public class DefaultCompassDrawing extends AbstractCompassDrawing {
         roseBitmap = BitmapFactory.decodeResource(Controller.getInstance().getResourceManager().getResources(), R.drawable.compass_rose_yellow);
         gpsSourceBitmap = BitmapFactory.decodeResource(Controller.getInstance().getResourceManager().getResources(), R.drawable.ic_satellite_dish);
 
-        textPaint.setColor(Color.parseColor(Controller.getInstance().getResourceManager().getString(R.color.dashboard_text_color)));
-        textPaint.setAntiAlias(true);
-        textPaint.setStyle(Style.STROKE);
-        textPaint.setStrokeWidth(0.8f);
+        int dashboardColor = Color.parseColor(Controller.getInstance().getResourceManager().getString(R.color.dashboard_text_color)); 
+        
+        distanceTextPaint.setColor(dashboardColor);
+        distanceTextPaint.setAntiAlias(true);
+        distanceTextPaint.setTextAlign(Align.LEFT);
+        distanceTextPaint.setStyle(Style.STROKE);
+        distanceTextPaint.setStrokeWidth(0.8f);
+        
+        azimuthTextPaint.setColor(dashboardColor);
+        azimuthTextPaint.setAntiAlias(true);
+        azimuthTextPaint.setTextAlign(Align.RIGHT);
+        azimuthTextPaint.setStyle(Style.STROKE);
+        azimuthTextPaint.setStrokeWidth(0.8f);        
+        
+        declinationTextPaint.setColor(dashboardColor);
+        declinationTextPaint.setAntiAlias(true);
+        declinationTextPaint.setTextAlign(Align.RIGHT);
+        declinationTextPaint.setStyle(Style.STROKE);
+        declinationTextPaint.setStrokeWidth(0.8f);
 
         bitmapPaint.setFilterBitmap(true);
     }
@@ -39,13 +57,18 @@ public class DefaultCompassDrawing extends AbstractCompassDrawing {
         centerX = w / 2;
         centerY = h / 2;
         needleWidth = size / 30;
-        textPaint.setStrokeWidth((float) size / 300);
         roseBitmap = Bitmap.createScaledBitmap(roseBitmap, size, size, true);
         bitmapX = -roseBitmap.getWidth() / 2;
         bitmapY = -roseBitmap.getHeight() / 2;
         needleBitmap = createNeedle();
         arrowBitmap = createCacheArrow();
-        textPaint.setTextSize(size * 0.1f);
+        
+        distanceTextPaint.setTextSize(size * 0.1f);
+        distanceTextPaint.setStrokeWidth((float) size / 300);
+        azimuthTextPaint.setTextSize(size * 0.1f);
+        azimuthTextPaint.setStrokeWidth((float) size / 300);
+        declinationTextPaint.setTextSize(size * 0.06f);
+        declinationTextPaint.setStrokeWidth((float) size / 600);
     }
 
     @Override
@@ -57,6 +80,7 @@ public class DefaultCompassDrawing extends AbstractCompassDrawing {
         drawNeedle(canvas, northDirection);
         drawAzimuthLabel(canvas, northDirection);
         drawDistanceLabel(canvas);
+        drawDeclinationLabel(canvas);
     }
 
     private void drawNeedle(Canvas canvas, float direction) {
@@ -75,12 +99,16 @@ public class DefaultCompassDrawing extends AbstractCompassDrawing {
     }
 
     private void drawAzimuthLabel(Canvas canvas, float direction) {
-        canvas.drawText(CompassHelper.degreesToString(direction, AZIMUTH_FORMAT), centerX * 0.4f, -centerY * 0.8f, textPaint);
+        canvas.drawText(CompassHelper.degreesToString(direction, AZIMUTH_FORMAT), centerX * 0.95f, -centerY * 0.8f, azimuthTextPaint);
     }
 
+    private void drawDeclinationLabel(Canvas canvas) {
+        canvas.drawText(String.format(AZIMUTH_FORMAT, declination), centerX * 0.95f, -centerY * 0.68f, declinationTextPaint);
+    }   
+    
     private void drawDistanceLabel(Canvas canvas) {
         boolean hasPreciseLocation = Controller.getInstance().getLocationManager().hasPreciseLocation();
-        canvas.drawText(CoordinateHelper.distanceToString(distance, hasPreciseLocation), -centerX * 0.95f, -centerY * 0.8f, textPaint);
+        canvas.drawText(CoordinateHelper.distanceToString(distance, hasPreciseLocation), -centerX * 0.95f, -centerY * 0.8f, distanceTextPaint);
     }
 
     @Override
@@ -106,11 +134,11 @@ public class DefaultCompassDrawing extends AbstractCompassDrawing {
         needlePath.lineTo(needleWidth, 0);
         needlePath.close();
 
-        paint.setARGB(200, 0, 0, 255);
+        paint.setARGB(200, 255, 0, 0);
         canvas.drawPath(needlePath, paint);
 
         canvas.rotate(180);
-        paint.setARGB(200, 255, 0, 0);
+        paint.setARGB(200, 0, 0, 255);
         canvas.drawPath(needlePath, paint);
 
         paint.setColor(Color.argb(255, 255, 230, 110));

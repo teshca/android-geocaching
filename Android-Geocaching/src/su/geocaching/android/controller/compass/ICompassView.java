@@ -15,4 +15,5 @@ public interface ICompassView {
      */
     public boolean setDirection(float direction);
     public void setSourceType(CompassSourceType sourceType);
+    public void setDeclination(float declination);
 }

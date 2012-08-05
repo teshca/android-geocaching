@@ -22,6 +22,7 @@ public abstract class AbstractCompassDrawing {
     protected int bgColor; // background color, taken from the xml
     protected int needleWidth = 8;
     protected float distance;
+    protected float declination;
 
     /**
      * @param distance
@@ -29,6 +30,11 @@ public abstract class AbstractCompassDrawing {
      */
     public void setDistance(float distance) {
         this.distance = distance;
+    }
+    
+
+    public void setDeclination(float declination) {
+        this.declination = declination;        
     }
 
     public AbstractCompassDrawing() {

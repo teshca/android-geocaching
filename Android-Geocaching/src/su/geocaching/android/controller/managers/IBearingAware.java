@@ -12,5 +12,5 @@ public interface IBearingAware {
     /**
      * @param bearing - new bearing in degrees
      */
-    public void updateBearing(float bearing, CompassSourceType sourceType);
+    public void updateBearing(float bearing, float declination, CompassSourceType sourceType);
 }
