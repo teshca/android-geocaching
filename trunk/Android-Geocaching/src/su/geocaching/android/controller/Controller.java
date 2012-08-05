@@ -277,7 +277,9 @@ public class Controller {
             memoryManager.showMemoryToast();
         }
         //TODO: remove after most of the people updated form version 1.3
-        getExternalStorageManager(); // initialize and update photo cache        
+        getExternalStorageManager(); // initialize and update photo cache
+        // increase number of application runs
+        getPreferencesManager().setNumberOfRuns(getPreferencesManager().getNumberOfRuns() + 1);
     }
 
     public String getApplicationVersionName() {
