@@ -96,7 +96,7 @@ public class UiThreadCompassView extends View implements IBearingAware {
 
     @Override
     //TODO: check this method
-    public void updateBearing(float bearing, CompassSourceType sourceType) {
+    public void updateBearing(float bearing, float declination, CompassSourceType sourceType) {
         this.sourceType = sourceType;
         long newTime = System.currentTimeMillis();
         if (newTime - time > MIN_INVALIDATE_TIME) {

@@ -116,8 +116,11 @@ public class DynamicUserLocationOverlay extends UserLocationOverlayBase implemen
 
     @Override
     public void setSourceType(CompassSourceType sourceType) {
-        //To change body of implemented methods use File | Settings | File Templates.
     }
+    
+    @Override
+    public void setDeclination(float declination) {        
+    }    
 
     private void postInvalidate() {
         if (!locationAvailable || System.currentTimeMillis() - lastTimeInvalidate < MAP_INVALIDATE_INTERVAL) {

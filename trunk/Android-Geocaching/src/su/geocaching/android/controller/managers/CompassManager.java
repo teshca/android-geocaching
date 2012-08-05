@@ -1,5 +1,6 @@
 package su.geocaching.android.controller.managers;
 
+import android.hardware.GeomagneticField;
 import android.hardware.Sensor;
 import android.hardware.SensorEvent;
 import android.hardware.SensorEventListener;
@@ -31,7 +32,7 @@ public class CompassManager implements SensorEventListener, ILocationAware {
 
     private SensorManager sensorManager;
     private AccurateUserLocationManager locationManager;
-    private int lastDirection;
+    private float lastDirection;
     private boolean isCompassAvailable;
     private final List<IBearingAware> subscribers;
     private boolean isUsingGps;
@@ -134,7 +135,7 @@ public class CompassManager implements SensorEventListener, ILocationAware {
 
         SensorManager.getRotationMatrix(afRotation, afInclination, afGravity, afGeomagnetic);
         SensorManager.getOrientation(afRotation, afOrientation);
-        int lastBearingLocal = (int) (afOrientation[0] * RAD2DEG);
+        float lastBearingLocal = (float) (afOrientation[0] * RAD2DEG);
 
         if (lastBearingLocal != lastDirection) {
             lastDirection = lastBearingLocal;
@@ -145,12 +146,27 @@ public class CompassManager implements SensorEventListener, ILocationAware {
     /**
      * @param lastDirection current direction known to this listener
      */
-    private void notifyObservers(int lastDirection) {
-        int screenDirection = lastDirection + Controller.getInstance().getScreenRotation();
+    private void notifyObservers(float lastDirection) {
+        float screenDirection = lastDirection + Controller.getInstance().getScreenRotation();
+        float declination = getDeclination();
+        float realDirrection = screenDirection + declination;
         for (IBearingAware observer : subscribers) {
-            observer.updateBearing(screenDirection, isUsingGps ? CompassSourceType.GPS : CompassSourceType.SENSOR);
+            observer.updateBearing(realDirrection, declination, isUsingGps ? CompassSourceType.GPS : CompassSourceType.SENSOR);
         }
     }
+    
+    private float getDeclination() {
+        final Location location = this.locationManager.getLastKnownLocation();
+        if (location == null) return 0;
+        
+        GeomagneticField geometricField = new GeomagneticField(
+                (float)location.getLatitude(), 
+                (float)location.getLongitude(), 
+                (float)location.getAltitude(), 
+                location.getTime());
+        
+        return geometricField.getDeclination();
+    } 
 
     /**
      * Add updates of sensors

@@ -114,12 +114,13 @@ public class SmoothCompassThread extends Thread implements IBearingAware {
     private float averageDirection = 0;
 
     @Override
-    public void updateBearing(float bearing, CompassSourceType sourceType) {
+    public void updateBearing(float bearing, float declination, CompassSourceType sourceType) {
         // update source type
         synchronized (compassView) {
             if (compassView != null)
                 for (ICompassView compass : compassView) {
                     compass.setSourceType(sourceType);
+                    compass.setDeclination(declination);
                 }
         }
         // update bearing
