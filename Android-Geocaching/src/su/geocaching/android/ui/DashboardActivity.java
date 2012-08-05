@@ -22,12 +22,26 @@ public class DashboardActivity extends Activity {
 
     private static final String DASHBOARD_ACTIVITY_NAME = "/DashboardActivity";
     private static final int ABOUT_DIALOG_ID = 0;
+    private static final int ASK_FOR_RATING_DIALOG_ID = 1;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.dashboard_activity);
-        Controller.getInstance().getGoogleAnalyticsManager().trackActivityLaunch(DASHBOARD_ACTIVITY_NAME);
+        Controller.getInstance().getGoogleAnalyticsManager().trackActivityLaunch(DASHBOARD_ACTIVITY_NAME);        
+    }
+    
+    
+    @Override
+    public void onResume() {
+        super.onResume();
+        //  check if we want to display dialog asking for rating and feedback
+        if (!Controller.getInstance().getPreferencesManager().isAskForRatingShown()
+            && Controller.getInstance().getPreferencesManager().getNumberOfRuns() > 8
+            && Controller.getInstance().getConnectionManager().isWifiConnected()) {
+            this.showDialog(ASK_FOR_RATING_DIALOG_ID);
+            Controller.getInstance().getPreferencesManager().setAskForRatingShown();
+        }
     }
 
     @Override
@@ -57,7 +71,13 @@ public class DashboardActivity extends Activity {
     }
 
     protected Dialog onCreateDialog(int id) {
-        return (id == ABOUT_DIALOG_ID) ? new AboutDialog(this) : null;
+        switch (id) {
+            case ABOUT_DIALOG_ID: 
+                return new AboutDialog(this);
+            case ASK_FOR_RATING_DIALOG_ID:
+                return new AskForRatingDialog(this);
+        }
+        return null;
     }
 
     /**

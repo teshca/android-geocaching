@@ -22,6 +22,9 @@ import java.util.EnumSet;
  */
 public class PreferencesManager {
     private static final String TAG = PreferencesManager.class.getCanonicalName();
+    
+    private static final String NUMBER_OF_RUNS_PREFERENCE_KEY = "number_of_runs_preffference_key";
+    private static final String ASK_FOR_RATING_SHOWN_PREFERENCE_KEY = "ask_for_rating_preffference_key";
 
     private final Context context;
     private final SharedPreferences preferences;
@@ -124,32 +127,6 @@ public class PreferencesManager {
         return new SearchMapInfo(center_x, center_y, zoom, cacheId);
     }
 
-    /**
-     * @param infoState with data to save
-     */
-    public synchronized void setLastInfoState(InfoState infoState) {
-        if (infoState != null) {
-            SharedPreferences.Editor editor = preferences.edit();
-            editor.putInt("info_cacheId", infoState.getCacheId());
-            editor.putInt("info_pagestate", infoState.getPageState());
-            editor.putInt("info_scroll", infoState.getScroll());
-            editor.putInt("info_width", infoState.getWidth());
-            editor.putFloat("info_scale", infoState.getScale());
-            editor.putString("info_error_message", infoState.getErrorMessage());
-            editor.commit();
-        }
-    }
-
-    public synchronized InfoState getLastInfoState() {
-        int cacheId = preferences.getInt("info_cacheId", -1);
-        int state = preferences.getInt("info_pagestate", 0);
-        int scroll = preferences.getInt("info_scroll", 0);
-        int width = preferences.getInt("info_width", 0);
-        float scale = preferences.getFloat("info_scale", 0);
-        String errorMessage = preferences.getString("info_error_message", "");
-        return new InfoState(cacheId, scroll, state, width, scale, errorMessage);
-    }
-
     public void setRemoveFavoriteWithoutConfirm(boolean forceRemove) {
         SharedPreferences.Editor editor = preferences.edit();
         editor.putBoolean(context.getString(R.string.remove_cache_without_confirm_key), forceRemove);
@@ -164,11 +141,31 @@ public class PreferencesManager {
         SharedPreferences.Editor editor = preferences.edit();
         editor.putBoolean(context.getString(R.string.download_photos_always_key), downloadPhotosAlways);
         editor.commit();
-    }
+     }
 
      public boolean getDownloadPhotosAlways() {
-        return preferences.getBoolean(context.getString(R.string.download_photos_always_key), false);
-    }
+         return preferences.getBoolean(context.getString(R.string.download_photos_always_key), false);
+     }
+     
+     public void setNumberOfRuns(int numberOfRuns) {
+         SharedPreferences.Editor editor = preferences.edit();
+         editor.putInt(NUMBER_OF_RUNS_PREFERENCE_KEY, numberOfRuns);
+         editor.commit();
+     }
+
+     public int getNumberOfRuns() {
+         return preferences.getInt(NUMBER_OF_RUNS_PREFERENCE_KEY, 0);
+     }
+      
+     public boolean isAskForRatingShown() {
+         return preferences.getBoolean(ASK_FOR_RATING_SHOWN_PREFERENCE_KEY, false);
+     }
+      
+     public void setAskForRatingShown() {
+         SharedPreferences.Editor editor = preferences.edit();
+         editor.putBoolean(ASK_FOR_RATING_SHOWN_PREFERENCE_KEY, true);
+         editor.commit();
+     }
 
     /*
     public void setDownloadNoteBookAlways(boolean downloadNotebookAlways) {
