@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string name="ask_for_rating_title_text">Здравствуйте!</string>
-	<string name="ask_for_rating_message_text">Мы заметили, что вы активно используете приложение. Мы будем рады если вы сможете оставить свой отзыв и оценку.
-	    Ваш отзыв поможет нам нам сделать приложение ещё лучше и удобнее.</string>
+	<string name="ask_for_rating_message_text">Мы заметили, что вы активно используете приложение. Будем рады, если вы сможете оставить свой отзыв и оценку.
+	    Ваш отзыв поможет нам сделать приложение ещё лучше и удобнее.</string>
 	<string name="ask_for_rating_yes_button_text">Оценить</string>
 	<string name="ask_for_rating_no_button_text">Отмена</string>
 </resources>
