@@ -4,6 +4,7 @@ import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.net.Uri;
+import android.os.Handler;
 import android.view.View;
 import android.widget.FrameLayout;
 import android.widget.GridView;
@@ -119,13 +120,23 @@ public class GalleryItemView extends FrameLayout implements GeoCachePhotoDownloa
             if (this.cachePhoto.HasErrors()) {
                 errorMessage.setVisibility(VISIBLE); 
             } else {
-                Bitmap bitmap = scaleBitmap(cachePhoto);
-                if (bitmap != null) {
-                    image.setVisibility(VISIBLE);
-                    image.setImageBitmap(bitmap);    
-                } else {
-                    errorMessage.setVisibility(VISIBLE);
-                }
+                progressBar.setVisibility(VISIBLE);
+                Handler handler = new Handler();
+                Runnable r = new Runnable()
+                {
+                    public void run() 
+                    {
+                        Bitmap bitmap = scaleBitmap(cachePhoto);
+                        if (bitmap != null) {
+                            image.setVisibility(VISIBLE);
+                            image.setImageBitmap(bitmap);    
+                        } else {
+                            errorMessage.setVisibility(VISIBLE);
+                        }
+                        progressBar.setVisibility(GONE);
+                    }
+                };
+                handler.post(r);           
             }
         }
     }
