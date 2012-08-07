@@ -63,11 +63,13 @@ public class AdvancedInfoActivity extends FragmentActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
         
+        // assign geoCache to infoViewModel before call super.onCreate
         infoViewModel = Controller.getInstance().getInfoViewModel(); 
         GeoCache geoCache = getIntent().getParcelableExtra(GeoCache.class.getCanonicalName());
         infoViewModel.setGeoCache(geoCache);
+        
+        super.onCreate(savedInstanceState);       
         
         getSupportActionBar().setTitle(geoCache.getName());
         setContentView(R.layout.advanced_info_activity);
