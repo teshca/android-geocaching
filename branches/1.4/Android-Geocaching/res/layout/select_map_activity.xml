@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+    android:id="@+id/MainLayout"
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_height="fill_parent"
+    android:layout_width="fill_parent">
+
+    <LinearLayout
+        android:id="@+id/titleBar"
+        style="@style/TitleBar">
+
+        <ImageView
+                android:src="@drawable/geologo"
+                style="@style/TitleBarLogo"
+                android:id="@+id/title_logo"
+                android:onClick="onHomeClick"/>
+
+        <!-- It view need for right align -->
+        <View style="@style/TitleBarSpring"/>
+
+        <su.geocaching.android.ui.ProgressBarView
+                style="@style/ProgressBarView"
+                android:id="@+id/progressCircle"
+                android:layout_marginRight="5dip"/>
+
+        <View style="@style/TitleBarSeparator"/>
+
+		<ImageButton
+			style="@style/MyLocationButton"
+			android:onClick="onMyLocationClick"/>
+    </LinearLayout>
+
+    <com.google.android.maps.MapView
+            android:id="@+id/selectGeocacheMap"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/titleBar"
+            android:clickable="true"
+            android:apiKey="@string/google_map_api_key"/>
+
+    <!-- semitransparent info layer -->
+	<LinearLayout
+            style="@style/MapInfoLayer"
+            android:layout_below="@id/titleBar">
+		<TextView
+                android:id="@+id/connectionInfoTextView"
+                android:text="@string/map_internet_lost"
+                style="@style/MapInfoItem"/>
+        <View
+                style="@style/MapInfoSpring"/>
+		<TextView
+                android:id="@+id/groupingInfoTextView"
+                android:text="@string/grouping_status_message"
+                android:visibility="invisible"
+                style="@style/MapInfoItem"
+                android:layout_marginRight="6dip"/>
+		<TextView
+                android:id="@+id/downloadingInfoTextView"
+                android:text="@string/downloading_status_message"
+                android:visibility="gone"
+                style="@style/MapInfoItem"/>
+	</LinearLayout>
+
+</RelativeLayout>

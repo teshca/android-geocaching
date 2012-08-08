@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <style name="GeocachingActionBarTabStyle" parent="Widget.Sherlock.Light.ActionBar.TabView">
+        <item name="android:padding">4dip</item>
+    </style>
+</resources>

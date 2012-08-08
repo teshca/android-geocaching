@@ -1,0 +1,8 @@
+<resources>
+	<string name="search_geocache">Искать</string>
+	<string name="select_geocache">Выбрать</string>
+	<string name="favorites">Избранное</string>
+	<string name="preference">Настройки</string>
+    <string name="menu_about">О программе</string>
+    <string name="menu_give_feedback">Оцени приложение!</string>
+</resources>

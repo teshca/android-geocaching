@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="favorite_list_In_DB_not_cache">В базе нет ни одного тайника</string>
+    <string name="ask_delete_all_cache_in_database">Вы точно хотите удалить все тайники (%d шт.)?</string>
+    <string name="menu_delete_all_cache_in_database">Удалить все тайники</string>
+    <string name="sort_by">Сортировать по:</string>
+    <string name="by_distance">Расстоянию</string>
+    <string name="by_name">Названию</string>
+    <!--
+    <string name="sort_by">Дате добавления</string>
+    -->
+    <string name="favorites_hardware_keyboard_alert">Начните ввод текста</string>
+</resources>
