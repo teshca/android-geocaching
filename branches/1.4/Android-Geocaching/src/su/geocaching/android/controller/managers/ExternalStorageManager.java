@@ -61,6 +61,8 @@ public class ExternalStorageManager {
         if (oldPhotosDirectory.exists()) {
             oldPhotosDirectory.renameTo(getBasePhotosDir());
             oldPhotosDirectory.getParentFile().delete();
+            // remove albums from gallery
+            deleteMediaDirectory(oldPhotosDirectory);
             // now we need to update database. add information about photos that already downloaded
             File photosDirectory = getBasePhotosDir();
             File[] cacheDirs = photosDirectory.listFiles();
