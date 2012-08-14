@@ -114,7 +114,6 @@ public class CompassActivity extends Activity {
         }
 
         locationManager.addSubscriber(locationListener);
-        locationManager.enableBestProviderUpdates(true);
         startAnimation();
     }
 

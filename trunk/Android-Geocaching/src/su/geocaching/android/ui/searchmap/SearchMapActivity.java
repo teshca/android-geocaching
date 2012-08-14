@@ -194,9 +194,6 @@ public class SearchMapActivity extends MapActivity implements IConnectionAware, 
             showDialog(DIALOG_ID_TURN_ON_GPS);
             progressBarView.hide();
             UiHelper.setGone(gpsStatusTextView);
-            LogManager.d(TAG, "resume: best provider %s disabled. Current provider is %s",
-                    Controller.getInstance().getLocationManager().getBestProvider(false),
-                    Controller.getInstance().getLocationManager().getCurrentProvider());
         } else {
             if (Controller.getInstance().getLocationManager().hasPreciseLocation()) {
                 progressBarView.hide();
@@ -207,7 +204,6 @@ public class SearchMapActivity extends MapActivity implements IConnectionAware, 
         }
 
         Controller.getInstance().getLocationManager().addSubscriber(this);
-        Controller.getInstance().getLocationManager().enableBestProviderUpdates(false);
         Controller.getInstance().getConnectionManager().addSubscriber(this);
         Controller.getInstance().getCallbackManager().addSubscriber(handler);
         map.invalidate();
