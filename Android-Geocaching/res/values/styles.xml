@@ -69,23 +69,30 @@
     </style>
     
     <style name="Theme.Geocaching" parent="@style/Theme.Sherlock.Light">
-    	<item name="abBackground">@color/dashboard_background</item>
-    	<item name="abTitleTextStyle">@style/GeocachingActionBarTitleStyle</item>
-    	<!--  <item name="abIcon">@drawable/geologo</item> -->    	
-    	<item name="actionBarTabStyle">@style/GeocachingActionBarTabStyle</item>
-  		<item name="actionBarTabTextStyle">@style/GeocachingActionBarTabTextStyle</item>    	 		    	 
+        <item name="android:actionBarStyle">@style/Geocaching.ActionBarStyle</item>
+        <item name="actionBarStyle">@style/Geocaching.ActionBarStyle</item>
+
+        <item name="android:actionBarTabStyle">@style/Geocaching.ActionBar.TabStyle</item>
+    	<item name="actionBarTabStyle">@style/Geocaching.ActionBar.TabStyle</item>
+
+        <item name="absForceOverflow">true</item>
+    </style>
+
+    <style name="Geocaching.ActionBarStyle" parent="@style/Widget.Sherlock.Light.ActionBar">
+        <item name="android:titleTextStyle">@style/Geocaching.ActionBar.TitleTextStyle</item>
+        <item name="titleTextStyle">@style/Geocaching.ActionBar.TitleTextStyle</item>
     </style>
     
-    <style name="GeocachingActionBarTitleStyle" parent="TextAppearance.Widget.Title">
+    <style name="Geocaching.ActionBar.TitleTextStyle" parent="@style/TextAppearance.Sherlock.Widget.ActionBar.Title">
         <item name="android:textColor">@color/dashboard_text_color</item>
         <item name="android:textStyle">bold</item>
     </style>    
         
-    <style name="GeocachingActionBarTabStyle" parent="Widget.Sherlock.Light.ActionBar.TabView">
-        <item name="android:padding">4dip</item>
+    <style name="Geocaching.ActionBar.TabStyle" parent="@style/Widget.Sherlock.Light.ActionBar.TabView">
+        <!-- <item name="android:padding">4dip</item> -->
     </style>
     
-    <style name="GeocachingActionBarTabTextStyle" parent="@style/Widget.Sherlock.ActionBar.TabText">
+    <style name="Geocaching.ActionBar.TabTextStyle" parent="@style/Widget.Sherlock.ActionBar.TabText">
         <item name="android:textSize">15sp</item>
     </style>
 

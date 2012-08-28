@@ -1,10 +1,10 @@
 package su.geocaching.android.ui.info;
 
+import com.actionbarsherlock.app.SherlockFragment;
 import su.geocaching.android.controller.Controller;
 import su.geocaching.android.ui.R;
 import su.geocaching.android.ui.info.InfoViewModel.PhotosTabState;
 import android.os.Bundle;
-import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -15,7 +15,7 @@ import android.widget.ImageButton;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 
-public class PhotoFragment extends Fragment implements IInfoFragment {
+public class PhotoFragment extends SherlockFragment implements IInfoFragment {
     
     private InfoViewModel infoViewModel;
     private GalleryView galleryView;
@@ -38,7 +38,7 @@ public class PhotoFragment extends Fragment implements IInfoFragment {
         View v = inflater.inflate(R.layout.info_photo_gallery_fragment, container, false);
         
         progressBar = (ProgressBar) v.findViewById(R.id.info_progress_bar);
-        errorMessage = (View) v.findViewById(R.id.info_error_panel);
+        errorMessage = v.findViewById(R.id.info_error_panel);
         noPhotosTextView = (TextView) v.findViewById(R.id.info_no_photos_text);
         refreshButton = (ImageButton) v.findViewById(R.id.refresh_button);
         refreshButton.setOnClickListener(new OnClickListener() {
@@ -48,7 +48,7 @@ public class PhotoFragment extends Fragment implements IInfoFragment {
             }}
         );
         
-        trafficWarning = (View) v.findViewById(R.id.info_traffic_warning_panel);
+        trafficWarning = v.findViewById(R.id.info_traffic_warning_panel);
         downloadAlways = (CheckBox) v.findViewById(R.id.downloadAlways);
         downloadButton = (Button) v.findViewById(R.id.download_button);
         downloadButton.setOnClickListener(new OnClickListener() {
@@ -61,7 +61,7 @@ public class PhotoFragment extends Fragment implements IInfoFragment {
             }}
         );
         
-        sdCardErrorMessage = (View)v.findViewById(R.id.info_sd_card_error_panel);
+        sdCardErrorMessage = v.findViewById(R.id.info_sd_card_error_panel);
         
         infoViewModel = Controller.getInstance().getInfoViewModel();
         state = infoViewModel.getPhotosState();

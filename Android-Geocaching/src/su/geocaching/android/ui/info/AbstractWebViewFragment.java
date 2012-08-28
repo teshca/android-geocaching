@@ -1,5 +1,10 @@
 package su.geocaching.android.ui.info;
 
+import com.actionbarsherlock.app.SherlockFragment;
+import com.actionbarsherlock.view.Menu;
+import com.actionbarsherlock.view.MenuInflater;
+import com.actionbarsherlock.view.MenuItem;
+
 import com.google.android.maps.GeoPoint;
 
 import su.geocaching.android.controller.Controller;
@@ -7,11 +12,7 @@ import su.geocaching.android.ui.R;
 import su.geocaching.android.controller.apimanager.GeocachingSuApiManager;
 import android.os.Build;
 import android.os.Bundle;
-import android.support.v4.app.Fragment;
-import android.support.v4.view.Menu;
-import android.support.v4.view.MenuItem;
 import android.view.LayoutInflater;
-import android.view.MenuInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup;
@@ -22,7 +23,7 @@ import android.webkit.WebView.PictureListener;
 import android.widget.ImageButton;
 import android.widget.ProgressBar;
 
-public abstract class AbstractWebViewFragment extends Fragment implements IInfoFragment {
+public abstract class AbstractWebViewFragment extends SherlockFragment implements IInfoFragment {
     
     private WebView webView;
     private ProgressBar progressBar;

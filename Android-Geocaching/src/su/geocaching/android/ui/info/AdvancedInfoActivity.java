@@ -8,6 +8,11 @@ package su.geocaching.android.ui.info;
 
 import java.util.ArrayList;
 
+import com.actionbarsherlock.app.ActionBar;
+import com.actionbarsherlock.app.SherlockFragmentActivity;
+import com.actionbarsherlock.view.MenuInflater;
+import com.actionbarsherlock.view.MenuItem;
+import com.actionbarsherlock.view.Menu;
 import com.google.android.maps.GeoPoint;
 
 import su.geocaching.android.controller.Controller;
@@ -15,27 +20,21 @@ import su.geocaching.android.controller.managers.NavigationManager;
 import su.geocaching.android.model.GeoCache;
 import su.geocaching.android.model.GeoCacheType;
 import su.geocaching.android.ui.R;
-import android.support.v4.view.MenuItem;
 
 import android.app.Dialog;
 import android.graphics.Typeface;
 import android.os.Bundle;
-import android.support.v4.app.ActionBar;
 import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.app.FragmentTransaction;
-import android.support.v4.app.ActionBar.Tab;
-import android.support.v4.view.Menu;
 import android.support.v4.view.ViewPager;
 import android.view.Gravity;
 import android.view.LayoutInflater;
-import android.view.MenuInflater;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
-public class AdvancedInfoActivity extends FragmentActivity {
+public class AdvancedInfoActivity extends SherlockFragmentActivity {
     ViewPager  mViewPager;
     TabsAdapter mTabsAdapter;
     
@@ -51,12 +50,10 @@ public class AdvancedInfoActivity extends FragmentActivity {
         final LayoutInflater inflater = LayoutInflater.from(this);       
         TextView textView = (TextView) inflater.inflate(R.layout.info_action_bar_tab, null);
 
-        if (android.os.Build.VERSION.SDK_INT >= 11) {
-            LinearLayout.LayoutParams lp = new LinearLayout.LayoutParams(
-                    LinearLayout.LayoutParams.WRAP_CONTENT, LinearLayout.LayoutParams.WRAP_CONTENT);
-            lp.gravity = Gravity.CENTER_VERTICAL;
-            textView.setLayoutParams(lp);            
-        }        
+        LinearLayout.LayoutParams lp = new LinearLayout.LayoutParams(
+                LinearLayout.LayoutParams.WRAP_CONTENT, LinearLayout.LayoutParams.WRAP_CONTENT);
+        lp.gravity = Gravity.CENTER_VERTICAL;
+        textView.setLayoutParams(lp);
 
         return textView;
     }
@@ -72,8 +69,10 @@ public class AdvancedInfoActivity extends FragmentActivity {
         super.onCreate(savedInstanceState);       
         
         getSupportActionBar().setTitle(geoCache.getName());
-        setContentView(R.layout.advanced_info_activity);
         getSupportActionBar().setNavigationMode(ActionBar.NAVIGATION_MODE_TABS);
+        getSupportActionBar().setHomeButtonEnabled(true);
+
+        setContentView(R.layout.advanced_info_activity);
                    
         ActionBar.Tab infoTab = getSupportActionBar().newTab();
         infoTabTextView = getTabTextView();
@@ -128,8 +127,8 @@ public class AdvancedInfoActivity extends FragmentActivity {
     
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-        MenuInflater inflater = getMenuInflater();
-        inflater.inflate(R.menu.info_menu, menu);       
+        MenuInflater inflater = getSupportMenuInflater();
+        inflater.inflate(R.menu.info_menu, menu);
         return true;
     }
     
@@ -393,12 +392,12 @@ public class AdvancedInfoActivity extends FragmentActivity {
      * tab changes.
      */
     public static class TabsAdapter extends FragmentPagerAdapter implements ViewPager.OnPageChangeListener, ActionBar.TabListener {
-        private final FragmentActivity mActivity;
+        private final SherlockFragmentActivity mActivity;
         private final ActionBar mActionBar;
         private final ViewPager mViewPager;
         private final ArrayList<String> mTabs = new ArrayList<String>();
 
-        public TabsAdapter(FragmentActivity activity, ActionBar actionBar, ViewPager pager) {
+        public TabsAdapter(SherlockFragmentActivity activity, ActionBar actionBar, ViewPager pager) {
             super(activity.getSupportFragmentManager());
             mActivity = activity;
             mActionBar = actionBar;
@@ -412,13 +411,17 @@ public class AdvancedInfoActivity extends FragmentActivity {
             mActionBar.addTab(tab.setTabListener(this));
             notifyDataSetChanged();
         }
-        
+
         private String getFragmentName(int position) {
             return makeFragmentName(mViewPager.getId(), position);
         }
+
+        private static String makeFragmentName(int viewId, int index) {
+            return "android:switcher:" + viewId + ":" + index;
+        }
         
         public Fragment getFragment(int position) {
-            return mActivity.getSupportFragmentManager().findFragmentByTag(getFragmentName(position));    
+            return mActivity.getSupportFragmentManager().findFragmentByTag(getFragmentName(position));
         }
 
         @Override
@@ -449,16 +452,16 @@ public class AdvancedInfoActivity extends FragmentActivity {
         }
 
         @Override
-        public void onTabSelected(Tab tab, FragmentTransaction ft) {
+        public void onTabSelected(ActionBar.Tab tab, FragmentTransaction ft) {
             mViewPager.setCurrentItem(tab.getPosition());           
         }
 
         @Override
-        public void onTabReselected(Tab tab, FragmentTransaction ft) {
+        public void onTabReselected(ActionBar.Tab tab, FragmentTransaction ft) {
         }
 
         @Override
-        public void onTabUnselected(Tab tab, FragmentTransaction ft) {
+        public void onTabUnselected(ActionBar.Tab tab, FragmentTransaction ft) {
         }    
     }
 }

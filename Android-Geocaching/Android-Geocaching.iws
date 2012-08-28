@@ -1,0 +1,1580 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="AndroidLayoutPreviewToolWindow">
+    <option name="state">
+      <GlobalState>
+        <option name="device" value="2.7in QVGA" />
+        <option name="dockMode" value="" />
+        <option name="nightMode" value="notnight" />
+        <option name="targetHashString" value="android-15" />
+        <option name="theme" value="Theme.Geocaching" />
+      </GlobalState>
+    </option>
+  </component>
+  <component name="ChangeListManager">
+    <list default="true" readonly="true" id="9dfe056f-2d77-44b2-a1e9-8cd41c586ab0" name="Default" comment="">
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/../JakeWharton-ActionBarSherlock-88fc341/library/README.md" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/../JakeWharton-ActionBarSherlock-88fc341/library/gen/com/actionbarsherlock" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/../JakeWharton-ActionBarSherlock-88fc341/library/gen/com" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/../JakeWharton-ActionBarSherlock-88fc341/library/gen" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/../JakeWharton-ActionBarSherlock-88fc341/library/libs/android-support-v4.jar" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/../JakeWharton-ActionBarSherlock-88fc341/library/libs" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/../JakeWharton-ActionBarSherlock-88fc341/library/res/color" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/../JakeWharton-ActionBarSherlock-88fc341/library/res/drawable-hdpi/abs__ab_bottom_solid_dark_holo.9.png" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/../JakeWharton-ActionBarSherlock-88fc341/library/res/drawable-hdpi/abs__ab_bottom_solid_inverse_holo.9.png" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/../JakeWharton-ActionBarSherlock-88fc341/library/res/drawable-hdpi/abs__ab_bottom_solid_light_holo.9.png" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/../JakeWharton-ActionBarSherlock-88fc341/library/res/drawable-hdpi/abs__ab_bottom_transparent_dark_holo.9.png" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/../JakeWharton-ActionBarSherlock-88fc341/library/res/drawable-hdpi/abs__ab_bottom_transparent_light_holo.9.png" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/../JakeWharton-ActionBarSherlock-88fc341/library/res/drawable-hdpi/abs__ab_share_pack_holo_dark.9.png" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/../JakeWharton-ActionBarSherlock-88fc341/library/res/drawable-hdpi/abs__ab_share_pack_holo_light.9.png" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/../JakeWharton-ActionBarSherlock-88fc341/library/res/drawable-hdpi/abs__ab_solid_dark_holo.9.png" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/../JakeWharton-ActionBarSherlock-88fc341/library/res/drawable-hdpi/abs__ab_solid_light_holo.9.png" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/../JakeWharton-ActionBarSherlock-88fc341/library/res/drawable-hdpi/abs__ab_solid_shadow_holo.9.png" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/../JakeWharton-ActionBarSherlock-88fc341/library/res/drawable-hdpi/abs__ab_stacked_solid_dark_holo.9.png" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/../JakeWharton-ActionBarSherlock-88fc341/library/res/drawable-hdpi/abs__ab_stacked_solid_light_holo.9.png" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/../JakeWharton-ActionBarSherlock-88fc341/library/res/drawable-hdpi/abs__ab_stacked_transparent_dark_holo.9.png" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/../JakeWharton-ActionBarSherlock-88fc341/library/res/drawable-hdpi/abs__ab_stacked_transparent_light_holo.9.png" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/../JakeWharton-ActionBarSherlock-88fc341/library/res/drawable-hdpi/abs__ab_transparent_dark_holo.9.png" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/../JakeWharton-ActionBarSherlock-88fc341/library/res/drawable-hdpi/abs__ab_transparent_light_holo.9.png" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/../JakeWharton-ActionBarSherlock-88fc341/library/res/drawable-hdpi/abs__btn_cab_done_default_holo_dark.9.png" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/../JakeWharton-ActionBarSherlock-88fc341/library/res/drawable-hdpi/abs__btn_cab_done_default_holo_light.9.png" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/../JakeWharton-ActionBarSherlock-88fc341/library/res/drawable-hdpi/abs__btn_cab_done_focused_holo_dark.9.png" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/../JakeWharton-ActionBarSherlock-88fc341/library/res/drawable-hdpi/abs__btn_cab_done_focused_holo_light.9.png" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/../JakeWharton-ActionBarSherlock-88fc341/library/res/drawable-hdpi/abs__btn_cab_done_pressed_holo_dark.9.png" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/../JakeWharton-ActionBarSherlock-88fc341/library/res/drawable-hdpi/abs__btn_cab_done_pressed_holo_light.9.png" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/../JakeWharton-ActionBarSherlock-88fc341/library/res/drawable-hdpi/abs__cab_background_bottom_holo_dark.9.png" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/../JakeWharton-ActionBarSherlock-88fc341/library/res/drawable-hdpi/abs__cab_background_bottom_holo_light.9.png" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/../JakeWharton-ActionBarSherlock-88fc341/library/res/drawable-hdpi/abs__cab_background_top_holo_dark.9.png" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/../JakeWharton-ActionBarSherlock-88fc341/library/res/drawable-hdpi/abs__cab_background_top_holo_light.9.png" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/../JakeWharton-ActionBarSherlock-88fc341/library/res/drawable-hdpi/abs__dialog_full_holo_dark.9.png" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/../JakeWharton-ActionBarSherlock-88fc341/library/res/drawable-hdpi/abs__dialog_full_holo_light.9.png" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/../JakeWharton-ActionBarSherlock-88fc341/library/res/drawable-hdpi/abs__ic_ab_back_holo_dark.png" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/../JakeWharton-ActionBarSherlock-88fc341/library/res/drawable-hdpi/abs__ic_ab_back_holo_light.png" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/../JakeWharton-ActionBarSherlock-88fc341/library/res/drawable-hdpi/abs__ic_cab_done_holo_dark.png" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/../JakeWharton-ActionBarSherlock-88fc341/library/res/drawable-hdpi/abs__ic_cab_done_holo_light.png" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/../JakeWharton-ActionBarSherlock-88fc341/library/res/drawable-hdpi/abs__ic_menu_moreoverflow_normal_holo_dark.png" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/../JakeWharton-ActionBarSherlock-88fc341/library/res/drawable-hdpi/abs__ic_menu_moreoverflow_normal_holo_light.png" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/../JakeWharton-ActionBarSherlock-88fc341/library/res/drawable-hdpi/abs__ic_menu_share_holo_dark.png" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/../JakeWharton-ActionBarSherlock-88fc341/library/res/drawable-hdpi/abs__ic_menu_share_holo_light.png" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/../JakeWharton-ActionBarSherlock-88fc341/library/res/drawable-hdpi/abs__list_activated_holo.9.png" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/../JakeWharton-ActionBarSherlock-88fc341/library/res/drawable-hdpi/abs__list_divider_holo_dark.9.png" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/../JakeWharton-ActionBarSherlock-88fc341/library/res/drawable-hdpi/abs__list_divider_holo_light.9.png" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/../JakeWharton-ActionBarSherlock-88fc341/library/res/drawable-hdpi/abs__list_focused_holo.9.png" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/../JakeWharton-ActionBarSherlock-88fc341/library/res/drawable-hdpi/abs__list_longpressed_holo.9.png" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/../JakeWharton-ActionBarSherlock-88fc341/library/res/drawable-hdpi/abs__list_pressed_holo_dark.9.png" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/../JakeWharton-ActionBarSherlock-88fc341/library/res/drawable-hdpi/abs__list_pressed_holo_light.9.png" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/../JakeWharton-ActionBarSherlock-88fc341/library/res/drawable-hdpi/abs__list_selector_disabled_holo_dark.9.png" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/../JakeWharton-ActionBarSherlock-88fc341/library/res/drawable-hdpi/abs__list_selector_disabled_holo_light.9.png" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/../JakeWharton-ActionBarSherlock-88fc341/library/res/drawable-hdpi/abs__menu_dropdown_panel_holo_dark.9.png" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/../JakeWharton-ActionBarSherlock-88fc341/library/res/drawable-hdpi/abs__menu_dropdown_panel_holo_light.9.png" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/../JakeWharton-ActionBarSherlock-88fc341/library/res/drawable-hdpi/abs__progress_bg_holo_dark.9.png" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/../JakeWharton-ActionBarSherlock-88fc341/library/res/drawable-hdpi/abs__progress_bg_holo_light.9.png" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/../JakeWharton-ActionBarSherlock-88fc341/library/res/drawable-hdpi/abs__progress_primary_holo_dark.9.png" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/../JakeWharton-ActionBarSherlock-88fc341/library/res/drawable-hdpi/abs__progress_primary_holo_light.9.png" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/../JakeWharton-ActionBarSherlock-88fc341/library/res/drawable-hdpi/abs__progress_secondary_holo_dark.9.png" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/../JakeWharton-ActionBarSherlock-88fc341/library/res/drawable-hdpi/abs__progress_secondary_holo_light.9.png" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/../JakeWharton-ActionBarSherlock-88fc341/library/res/drawable-hdpi/abs__spinner_48_inner_holo.png" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/../JakeWharton-ActionBarSherlock-88fc341/library/res/drawable-hdpi/abs__spinner_48_outer_holo.png" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/../JakeWharton-ActionBarSherlock-88fc341/library/res/drawable-hdpi/abs__spinner_ab_default_holo_dark.9.png" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/../JakeWharton-ActionBarSherlock-88fc341/library/res/drawable-hdpi/abs__spinner_ab_default_holo_light.9.png" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/../JakeWharton-ActionBarSherlock-88fc341/library/res/drawable-hdpi/abs__spinner_ab_disabled_holo_dark.9.png" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/../JakeWharton-ActionBarSherlock-88fc341/library/res/drawable-hdpi/abs__spinner_ab_disabled_holo_light.9.png" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/../JakeWharton-ActionBarSherlock-88fc341/library/res/drawable-hdpi/abs__spinner_ab_focused_holo_dark.9.png" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/../JakeWharton-ActionBarSherlock-88fc341/library/res/drawable-hdpi/abs__spinner_ab_focused_holo_light.9.png" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/../JakeWharton-ActionBarSherlock-88fc341/library/res/drawable-hdpi/abs__spinner_ab_pressed_holo_dark.9.png" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/../JakeWharton-ActionBarSherlock-88fc341/library/res/drawable-hdpi/abs__spinner_ab_pressed_holo_light.9.png" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/../JakeWharton-ActionBarSherlock-88fc341/library/res/drawable-hdpi/abs__tab_selected_focused_holo.9.png" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/../JakeWharton-ActionBarSherlock-88fc341/library/res/drawable-hdpi/abs__tab_selected_holo.9.png" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/../JakeWharton-ActionBarSherlock-88fc341/library/res/drawable-hdpi/abs__tab_selected_pressed_holo.9.png" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/../JakeWharton-ActionBarSherlock-88fc341/library/res/drawable-hdpi/abs__tab_unselected_pressed_holo.9.png" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/../JakeWharton-ActionBarSherlock-88fc341/library/res/drawable-hdpi" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/../JakeWharton-ActionBarSherlock-88fc341/library/res/drawable-mdpi/abs__ab_bottom_solid_dark_holo.9.png" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/../JakeWharton-ActionBarSherlock-88fc341/library/res/drawable-mdpi/abs__ab_bottom_solid_inverse_holo.9.png" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/../JakeWharton-ActionBarSherlock-88fc341/library/res/drawable-mdpi/abs__ab_bottom_solid_light_holo.9.png" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/../JakeWharton-ActionBarSherlock-88fc341/library/res/drawable-mdpi/abs__ab_bottom_transparent_dark_holo.9.png" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/../JakeWharton-ActionBarSherlock-88fc341/library/res/drawable-mdpi/abs__ab_bottom_transparent_light_holo.9.png" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/../JakeWharton-ActionBarSherlock-88fc341/library/res/drawable-mdpi/abs__ab_share_pack_holo_dark.9.png" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/../JakeWharton-ActionBarSherlock-88fc341/library/res/drawable-mdpi/abs__ab_share_pack_holo_light.9.png" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/../JakeWharton-ActionBarSherlock-88fc341/library/res/drawable-mdpi/abs__ab_solid_dark_holo.9.png" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/../JakeWharton-ActionBarSherlock-88fc341/library/res/drawable-mdpi/abs__ab_solid_light_holo.9.png" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/../JakeWharton-ActionBarSherlock-88fc341/library/res/drawable-mdpi/abs__ab_solid_shadow_holo.9.png" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/../JakeWharton-ActionBarSherlock-88fc341/library/res/drawable-mdpi/abs__ab_stacked_solid_dark_holo.9.png" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/../JakeWharton-ActionBarSherlock-88fc341/library/res/drawable-mdpi/abs__ab_stacked_solid_light_holo.9.png" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/../JakeWharton-ActionBarSherlock-88fc341/library/res/drawable-mdpi/abs__ab_stacked_transparent_dark_holo.9.png" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/../JakeWharton-ActionBarSherlock-88fc341/library/res/drawable-mdpi/abs__ab_stacked_transparent_light_holo.9.png" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/../JakeWharton-ActionBarSherlock-88fc341/library/res/drawable-mdpi/abs__ab_transparent_dark_holo.9.png" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/../JakeWharton-ActionBarSherlock-88fc341/library/res/drawable-mdpi/abs__ab_transparent_light_holo.9.png" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/../JakeWharton-ActionBarSherlock-88fc341/library/res/drawable-mdpi/abs__btn_cab_done_default_holo_dark.9.png" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/../JakeWharton-ActionBarSherlock-88fc341/library/res/drawable-mdpi/abs__btn_cab_done_default_holo_light.9.png" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/../JakeWharton-ActionBarSherlock-88fc341/library/res/drawable-mdpi/abs__btn_cab_done_focused_holo_dark.9.png" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/../JakeWharton-ActionBarSherlock-88fc341/library/res/drawable-mdpi/abs__btn_cab_done_focused_holo_light.9.png" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/../JakeWharton-ActionBarSherlock-88fc341/library/res/drawable-mdpi/abs__btn_cab_done_pressed_holo_dark.9.png" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/../JakeWharton-ActionBarSherlock-88fc341/library/res/drawable-mdpi/abs__btn_cab_done_pressed_holo_light.9.png" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/../JakeWharton-ActionBarSherlock-88fc341/library/res/drawable-mdpi/abs__cab_background_bottom_holo_dark.9.png" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/../JakeWharton-ActionBarSherlock-88fc341/library/res/drawable-mdpi/abs__cab_background_bottom_holo_light.9.png" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/../JakeWharton-ActionBarSherlock-88fc341/library/res/drawable-mdpi/abs__cab_background_top_holo_dark.9.png" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/../JakeWharton-ActionBarSherlock-88fc341/library/res/drawable-mdpi/abs__cab_background_top_holo_light.9.png" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/../JakeWharton-ActionBarSherlock-88fc341/library/res/drawable-mdpi/abs__dialog_full_holo_dark.9.png" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/../JakeWharton-ActionBarSherlock-88fc341/library/res/drawable-mdpi/abs__dialog_full_holo_light.9.png" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/../JakeWharton-ActionBarSherlock-88fc341/library/res/drawable-mdpi/abs__ic_ab_back_holo_dark.png" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/../JakeWharton-ActionBarSherlock-88fc341/library/res/drawable-mdpi/abs__ic_ab_back_holo_light.png" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/../JakeWharton-ActionBarSherlock-88fc341/library/res/drawable-mdpi/abs__ic_cab_done_holo_dark.png" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/../JakeWharton-ActionBarSherlock-88fc341/library/res/drawable-mdpi/abs__ic_cab_done_holo_light.png" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/../JakeWharton-ActionBarSherlock-88fc341/library/res/drawable-mdpi/abs__ic_menu_moreoverflow_normal_holo_dark.png" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/../JakeWharton-ActionBarSherlock-88fc341/library/res/drawable-mdpi/abs__ic_menu_moreoverflow_normal_holo_light.png" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/../JakeWharton-ActionBarSherlock-88fc341/library/res/drawable-mdpi/abs__ic_menu_share_holo_dark.png" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/../JakeWharton-ActionBarSherlock-88fc341/library/res/drawable-mdpi/abs__ic_menu_share_holo_light.png" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/../JakeWharton-ActionBarSherlock-88fc341/library/res/drawable-mdpi/abs__list_activated_holo.9.png" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/../JakeWharton-ActionBarSherlock-88fc341/library/res/drawable-mdpi/abs__list_divider_holo_dark.9.png" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/../JakeWharton-ActionBarSherlock-88fc341/library/res/drawable-mdpi/abs__list_divider_holo_light.9.png" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/../JakeWharton-ActionBarSherlock-88fc341/library/res/drawable-mdpi/abs__list_focused_holo.9.png" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/../JakeWharton-ActionBarSherlock-88fc341/library/res/drawable-mdpi/abs__list_longpressed_holo.9.png" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/../JakeWharton-ActionBarSherlock-88fc341/library/res/drawable-mdpi/abs__list_pressed_holo_dark.9.png" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/../JakeWharton-ActionBarSherlock-88fc341/library/res/drawable-mdpi/abs__list_pressed_holo_light.9.png" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/../JakeWharton-ActionBarSherlock-88fc341/library/res/drawable-mdpi/abs__list_selector_disabled_holo_dark.9.png" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/../JakeWharton-ActionBarSherlock-88fc341/library/res/drawable-mdpi/abs__list_selector_disabled_holo_light.9.png" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/../JakeWharton-ActionBarSherlock-88fc341/library/res/drawable-mdpi/abs__menu_dropdown_panel_holo_dark.9.png" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/../JakeWharton-ActionBarSherlock-88fc341/library/res/drawable-mdpi/abs__menu_dropdown_panel_holo_light.9.png" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/../JakeWharton-ActionBarSherlock-88fc341/library/res/drawable-mdpi/abs__progress_bg_holo_dark.9.png" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/../JakeWharton-ActionBarSherlock-88fc341/library/res/drawable-mdpi/abs__progress_bg_holo_light.9.png" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/../JakeWharton-ActionBarSherlock-88fc341/library/res/drawable-mdpi/abs__progress_primary_holo_dark.9.png" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/../JakeWharton-ActionBarSherlock-88fc341/library/res/drawable-mdpi/abs__progress_primary_holo_light.9.png" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/../JakeWharton-ActionBarSherlock-88fc341/library/res/drawable-mdpi/abs__progress_secondary_holo_dark.9.png" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/../JakeWharton-ActionBarSherlock-88fc341/library/res/drawable-mdpi/abs__progress_secondary_holo_light.9.png" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/../JakeWharton-ActionBarSherlock-88fc341/library/res/drawable-mdpi/abs__spinner_48_inner_holo.png" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/../JakeWharton-ActionBarSherlock-88fc341/library/res/drawable-mdpi/abs__spinner_48_outer_holo.png" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/../JakeWharton-ActionBarSherlock-88fc341/library/res/drawable-mdpi/abs__spinner_ab_default_holo_dark.9.png" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/../JakeWharton-ActionBarSherlock-88fc341/library/res/drawable-mdpi/abs__spinner_ab_default_holo_light.9.png" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/../JakeWharton-ActionBarSherlock-88fc341/library/res/drawable-mdpi/abs__spinner_ab_disabled_holo_dark.9.png" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/../JakeWharton-ActionBarSherlock-88fc341/library/res/drawable-mdpi/abs__spinner_ab_disabled_holo_light.9.png" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/../JakeWharton-ActionBarSherlock-88fc341/library/res/drawable-mdpi/abs__spinner_ab_focused_holo_dark.9.png" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/../JakeWharton-ActionBarSherlock-88fc341/library/res/drawable-mdpi/abs__spinner_ab_focused_holo_light.9.png" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/../JakeWharton-ActionBarSherlock-88fc341/library/res/drawable-mdpi/abs__spinner_ab_pressed_holo_dark.9.png" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/../JakeWharton-ActionBarSherlock-88fc341/library/res/drawable-mdpi/abs__spinner_ab_pressed_holo_light.9.png" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/../JakeWharton-ActionBarSherlock-88fc341/library/res/drawable-mdpi/abs__tab_selected_focused_holo.9.png" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/../JakeWharton-ActionBarSherlock-88fc341/library/res/drawable-mdpi/abs__tab_selected_holo.9.png" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/../JakeWharton-ActionBarSherlock-88fc341/library/res/drawable-mdpi/abs__tab_selected_pressed_holo.9.png" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/../JakeWharton-ActionBarSherlock-88fc341/library/res/drawable-mdpi/abs__tab_unselected_pressed_holo.9.png" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/../JakeWharton-ActionBarSherlock-88fc341/library/res/drawable-mdpi" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/../JakeWharton-ActionBarSherlock-88fc341/library/res/drawable-v11" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/../JakeWharton-ActionBarSherlock-88fc341/library/res/drawable-xhdpi/abs__ab_bottom_solid_dark_holo.9.png" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/../JakeWharton-ActionBarSherlock-88fc341/library/res/drawable-xhdpi/abs__ab_bottom_solid_inverse_holo.9.png" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/../JakeWharton-ActionBarSherlock-88fc341/library/res/drawable-xhdpi/abs__ab_bottom_solid_light_holo.9.png" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/../JakeWharton-ActionBarSherlock-88fc341/library/res/drawable-xhdpi/abs__ab_bottom_transparent_dark_holo.9.png" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/../JakeWharton-ActionBarSherlock-88fc341/library/res/drawable-xhdpi/abs__ab_bottom_transparent_light_holo.9.png" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/../JakeWharton-ActionBarSherlock-88fc341/library/res/drawable-xhdpi/abs__ab_share_pack_holo_dark.9.png" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/../JakeWharton-ActionBarSherlock-88fc341/library/res/drawable-xhdpi/abs__ab_share_pack_holo_light.9.png" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/../JakeWharton-ActionBarSherlock-88fc341/library/res/drawable-xhdpi/abs__ab_solid_dark_holo.9.png" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/../JakeWharton-ActionBarSherlock-88fc341/library/res/drawable-xhdpi/abs__ab_solid_light_holo.9.png" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/../JakeWharton-ActionBarSherlock-88fc341/library/res/drawable-xhdpi/abs__ab_solid_shadow_holo.9.png" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/../JakeWharton-ActionBarSherlock-88fc341/library/res/drawable-xhdpi/abs__ab_stacked_solid_dark_holo.9.png" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/../JakeWharton-ActionBarSherlock-88fc341/library/res/drawable-xhdpi/abs__ab_stacked_solid_light_holo.9.png" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/../JakeWharton-ActionBarSherlock-88fc341/library/res/drawable-xhdpi/abs__ab_stacked_transparent_dark_holo.9.png" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/../JakeWharton-ActionBarSherlock-88fc341/library/res/drawable-xhdpi/abs__ab_stacked_transparent_light_holo.9.png" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/../JakeWharton-ActionBarSherlock-88fc341/library/res/drawable-xhdpi/abs__ab_transparent_dark_holo.9.png" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/../JakeWharton-ActionBarSherlock-88fc341/library/res/drawable-xhdpi/abs__ab_transparent_light_holo.9.png" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/../JakeWharton-ActionBarSherlock-88fc341/library/res/drawable-xhdpi/abs__btn_cab_done_default_holo_dark.9.png" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/../JakeWharton-ActionBarSherlock-88fc341/library/res/drawable-xhdpi/abs__btn_cab_done_default_holo_light.9.png" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/../JakeWharton-ActionBarSherlock-88fc341/library/res/drawable-xhdpi/abs__btn_cab_done_focused_holo_dark.9.png" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/../JakeWharton-ActionBarSherlock-88fc341/library/res/drawable-xhdpi/abs__btn_cab_done_focused_holo_light.9.png" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/../JakeWharton-ActionBarSherlock-88fc341/library/res/drawable-xhdpi/abs__btn_cab_done_pressed_holo_dark.9.png" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/../JakeWharton-ActionBarSherlock-88fc341/library/res/drawable-xhdpi/abs__btn_cab_done_pressed_holo_light.9.png" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/../JakeWharton-ActionBarSherlock-88fc341/library/res/drawable-xhdpi/abs__cab_background_bottom_holo_dark.9.png" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/../JakeWharton-ActionBarSherlock-88fc341/library/res/drawable-xhdpi/abs__cab_background_bottom_holo_light.9.png" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/../JakeWharton-ActionBarSherlock-88fc341/library/res/drawable-xhdpi/abs__cab_background_top_holo_dark.9.png" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/../JakeWharton-ActionBarSherlock-88fc341/library/res/drawable-xhdpi/abs__cab_background_top_holo_light.9.png" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/../JakeWharton-ActionBarSherlock-88fc341/library/res/drawable-xhdpi/abs__dialog_full_holo_dark.9.png" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/../JakeWharton-ActionBarSherlock-88fc341/library/res/drawable-xhdpi/abs__dialog_full_holo_light.9.png" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/../JakeWharton-ActionBarSherlock-88fc341/library/res/drawable-xhdpi/abs__ic_ab_back_holo_dark.png" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/../JakeWharton-ActionBarSherlock-88fc341/library/res/drawable-xhdpi/abs__ic_ab_back_holo_light.png" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/../JakeWharton-ActionBarSherlock-88fc341/library/res/drawable-xhdpi/abs__ic_cab_done_holo_dark.png" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/../JakeWharton-ActionBarSherlock-88fc341/library/res/drawable-xhdpi/abs__ic_cab_done_holo_light.png" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/../JakeWharton-ActionBarSherlock-88fc341/library/res/drawable-xhdpi/abs__ic_menu_moreoverflow_normal_holo_dark.png" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/../JakeWharton-ActionBarSherlock-88fc341/library/res/drawable-xhdpi/abs__ic_menu_moreoverflow_normal_holo_light.png" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/../JakeWharton-ActionBarSherlock-88fc341/library/res/drawable-xhdpi/abs__ic_menu_share_holo_dark.png" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/../JakeWharton-ActionBarSherlock-88fc341/library/res/drawable-xhdpi/abs__ic_menu_share_holo_light.png" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/../JakeWharton-ActionBarSherlock-88fc341/library/res/drawable-xhdpi/abs__list_activated_holo.9.png" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/../JakeWharton-ActionBarSherlock-88fc341/library/res/drawable-xhdpi/abs__list_divider_holo_dark.9.png" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/../JakeWharton-ActionBarSherlock-88fc341/library/res/drawable-xhdpi/abs__list_divider_holo_light.9.png" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/../JakeWharton-ActionBarSherlock-88fc341/library/res/drawable-xhdpi/abs__list_focused_holo.9.png" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/../JakeWharton-ActionBarSherlock-88fc341/library/res/drawable-xhdpi/abs__list_longpressed_holo.9.png" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/../JakeWharton-ActionBarSherlock-88fc341/library/res/drawable-xhdpi/abs__list_pressed_holo_dark.9.png" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/../JakeWharton-ActionBarSherlock-88fc341/library/res/drawable-xhdpi/abs__list_pressed_holo_light.9.png" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/../JakeWharton-ActionBarSherlock-88fc341/library/res/drawable-xhdpi/abs__list_selector_disabled_holo_dark.9.png" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/../JakeWharton-ActionBarSherlock-88fc341/library/res/drawable-xhdpi/abs__list_selector_disabled_holo_light.9.png" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/../JakeWharton-ActionBarSherlock-88fc341/library/res/drawable-xhdpi/abs__menu_dropdown_panel_holo_dark.9.png" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/../JakeWharton-ActionBarSherlock-88fc341/library/res/drawable-xhdpi/abs__menu_dropdown_panel_holo_light.9.png" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/../JakeWharton-ActionBarSherlock-88fc341/library/res/drawable-xhdpi/abs__progress_bg_holo_dark.9.png" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/../JakeWharton-ActionBarSherlock-88fc341/library/res/drawable-xhdpi/abs__progress_bg_holo_light.9.png" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/../JakeWharton-ActionBarSherlock-88fc341/library/res/drawable-xhdpi/abs__progress_primary_holo_dark.9.png" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/../JakeWharton-ActionBarSherlock-88fc341/library/res/drawable-xhdpi/abs__progress_primary_holo_light.9.png" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/../JakeWharton-ActionBarSherlock-88fc341/library/res/drawable-xhdpi/abs__progress_secondary_holo_dark.9.png" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/../JakeWharton-ActionBarSherlock-88fc341/library/res/drawable-xhdpi/abs__progress_secondary_holo_light.9.png" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/../JakeWharton-ActionBarSherlock-88fc341/library/res/drawable-xhdpi/abs__spinner_48_inner_holo.png" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/../JakeWharton-ActionBarSherlock-88fc341/library/res/drawable-xhdpi/abs__spinner_48_outer_holo.png" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/../JakeWharton-ActionBarSherlock-88fc341/library/res/drawable-xhdpi/abs__spinner_ab_default_holo_dark.9.png" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/../JakeWharton-ActionBarSherlock-88fc341/library/res/drawable-xhdpi/abs__spinner_ab_default_holo_light.9.png" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/../JakeWharton-ActionBarSherlock-88fc341/library/res/drawable-xhdpi/abs__spinner_ab_disabled_holo_dark.9.png" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/../JakeWharton-ActionBarSherlock-88fc341/library/res/drawable-xhdpi/abs__spinner_ab_disabled_holo_light.9.png" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/../JakeWharton-ActionBarSherlock-88fc341/library/res/drawable-xhdpi/abs__spinner_ab_focused_holo_dark.9.png" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/../JakeWharton-ActionBarSherlock-88fc341/library/res/drawable-xhdpi/abs__spinner_ab_focused_holo_light.9.png" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/../JakeWharton-ActionBarSherlock-88fc341/library/res/drawable-xhdpi/abs__spinner_ab_pressed_holo_dark.9.png" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/../JakeWharton-ActionBarSherlock-88fc341/library/res/drawable-xhdpi/abs__spinner_ab_pressed_holo_light.9.png" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/../JakeWharton-ActionBarSherlock-88fc341/library/res/drawable-xhdpi/abs__tab_selected_focused_holo.9.png" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/../JakeWharton-ActionBarSherlock-88fc341/library/res/drawable-xhdpi/abs__tab_selected_holo.9.png" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/../JakeWharton-ActionBarSherlock-88fc341/library/res/drawable-xhdpi/abs__tab_selected_pressed_holo.9.png" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/../JakeWharton-ActionBarSherlock-88fc341/library/res/drawable-xhdpi/abs__tab_unselected_pressed_holo.9.png" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/../JakeWharton-ActionBarSherlock-88fc341/library/res/drawable-xhdpi" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/../JakeWharton-ActionBarSherlock-88fc341/library/res/drawable" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/../JakeWharton-ActionBarSherlock-88fc341/library/res/layout-large" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/../JakeWharton-ActionBarSherlock-88fc341/library/res/layout-v14" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/../JakeWharton-ActionBarSherlock-88fc341/library/res/layout-xlarge" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/../JakeWharton-ActionBarSherlock-88fc341/library/res/layout" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/../JakeWharton-ActionBarSherlock-88fc341/library/res/values-land" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/../JakeWharton-ActionBarSherlock-88fc341/library/res/values-large-hdpi-1024x600" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/../JakeWharton-ActionBarSherlock-88fc341/library/res/values-large-land-hdpi-1024x600" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/../JakeWharton-ActionBarSherlock-88fc341/library/res/values-large-land-mdpi-1024x600" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/../JakeWharton-ActionBarSherlock-88fc341/library/res/values-large-mdpi-1024x600" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/../JakeWharton-ActionBarSherlock-88fc341/library/res/values-large" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/../JakeWharton-ActionBarSherlock-88fc341/library/res/values-sw600dp" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/../JakeWharton-ActionBarSherlock-88fc341/library/res/values-v11" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/../JakeWharton-ActionBarSherlock-88fc341/library/res/values-v14" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/../JakeWharton-ActionBarSherlock-88fc341/library/res/values-w360dp" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/../JakeWharton-ActionBarSherlock-88fc341/library/res/values-w480dp" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/../JakeWharton-ActionBarSherlock-88fc341/library/res/values-w500dp" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/../JakeWharton-ActionBarSherlock-88fc341/library/res/values-w600dp" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/../JakeWharton-ActionBarSherlock-88fc341/library/res/values-xlarge" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/../JakeWharton-ActionBarSherlock-88fc341/library/res/values" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/../JakeWharton-ActionBarSherlock-88fc341/library/res" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/../JakeWharton-ActionBarSherlock-88fc341/library/src/android/support/v4/app" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/../JakeWharton-ActionBarSherlock-88fc341/library/src/android/support/v4" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/../JakeWharton-ActionBarSherlock-88fc341/library/src/android/support" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/../JakeWharton-ActionBarSherlock-88fc341/library/src/android" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/../JakeWharton-ActionBarSherlock-88fc341/library/src/com/actionbarsherlock/app" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/../JakeWharton-ActionBarSherlock-88fc341/library/src/com/actionbarsherlock/internal/app" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/../JakeWharton-ActionBarSherlock-88fc341/library/src/com/actionbarsherlock/internal/nineoldandroids/animation" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/../JakeWharton-ActionBarSherlock-88fc341/library/src/com/actionbarsherlock/internal/nineoldandroids/view/animation" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/../JakeWharton-ActionBarSherlock-88fc341/library/src/com/actionbarsherlock/internal/nineoldandroids/view" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/../JakeWharton-ActionBarSherlock-88fc341/library/src/com/actionbarsherlock/internal/nineoldandroids/widget" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/../JakeWharton-ActionBarSherlock-88fc341/library/src/com/actionbarsherlock/internal/nineoldandroids" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/../JakeWharton-ActionBarSherlock-88fc341/library/src/com/actionbarsherlock/internal/view/menu" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/../JakeWharton-ActionBarSherlock-88fc341/library/src/com/actionbarsherlock/internal/view" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/../JakeWharton-ActionBarSherlock-88fc341/library/src/com/actionbarsherlock/internal/widget" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/../JakeWharton-ActionBarSherlock-88fc341/library/src/com/actionbarsherlock/internal" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/../JakeWharton-ActionBarSherlock-88fc341/library/src/com/actionbarsherlock/view" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/../JakeWharton-ActionBarSherlock-88fc341/library/src/com/actionbarsherlock/widget" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/../JakeWharton-ActionBarSherlock-88fc341/library/src/com/actionbarsherlock" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/../JakeWharton-ActionBarSherlock-88fc341/library/src/com" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/../JakeWharton-ActionBarSherlock-88fc341/library/src" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/../JakeWharton-ActionBarSherlock-88fc341/library/test/com/actionbarsherlock/internal" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/../JakeWharton-ActionBarSherlock-88fc341/library/test/com/actionbarsherlock" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/../JakeWharton-ActionBarSherlock-88fc341/library/test/com" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/../JakeWharton-ActionBarSherlock-88fc341/library/test" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/../JakeWharton-ActionBarSherlock-88fc341/library" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/../JakeWharton-ActionBarSherlock-88fc341/samples/demos/README.md" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/../JakeWharton-ActionBarSherlock-88fc341/samples/demos/gen" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/../JakeWharton-ActionBarSherlock-88fc341/samples/demos/libs/android-support-v4.jar" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/../JakeWharton-ActionBarSherlock-88fc341/samples/demos/libs" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/../JakeWharton-ActionBarSherlock-88fc341/samples/demos/res/drawable-hdpi/bg_striped_img.png" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/../JakeWharton-ActionBarSherlock-88fc341/samples/demos/res/drawable-hdpi/bg_striped_split_img.png" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/../JakeWharton-ActionBarSherlock-88fc341/samples/demos/res/drawable-hdpi/ic_compose.png" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/../JakeWharton-ActionBarSherlock-88fc341/samples/demos/res/drawable-hdpi/ic_compose_inverse.png" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/../JakeWharton-ActionBarSherlock-88fc341/samples/demos/res/drawable-hdpi/ic_launcher_settings.png" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/../JakeWharton-ActionBarSherlock-88fc341/samples/demos/res/drawable-hdpi/ic_magnifying_glass.png" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/../JakeWharton-ActionBarSherlock-88fc341/samples/demos/res/drawable-hdpi/ic_refresh.png" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/../JakeWharton-ActionBarSherlock-88fc341/samples/demos/res/drawable-hdpi/ic_refresh_inverse.png" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/../JakeWharton-ActionBarSherlock-88fc341/samples/demos/res/drawable-hdpi/ic_search.png" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/../JakeWharton-ActionBarSherlock-88fc341/samples/demos/res/drawable-hdpi/ic_search_inverse.png" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/../JakeWharton-ActionBarSherlock-88fc341/samples/demos/res/drawable-hdpi/ic_title_share_default.png" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/../JakeWharton-ActionBarSherlock-88fc341/samples/demos/res/drawable-hdpi/icon.png" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/../JakeWharton-ActionBarSherlock-88fc341/samples/demos/res/drawable-hdpi" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/../JakeWharton-ActionBarSherlock-88fc341/samples/demos/res/drawable-ldpi/icon.png" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/../JakeWharton-ActionBarSherlock-88fc341/samples/demos/res/drawable-ldpi" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/../JakeWharton-ActionBarSherlock-88fc341/samples/demos/res/drawable-mdpi/bg_striped_img.png" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/../JakeWharton-ActionBarSherlock-88fc341/samples/demos/res/drawable-mdpi/bg_striped_split_img.png" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/../JakeWharton-ActionBarSherlock-88fc341/samples/demos/res/drawable-mdpi/ic_compose.png" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/../JakeWharton-ActionBarSherlock-88fc341/samples/demos/res/drawable-mdpi/ic_compose_inverse.png" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/../JakeWharton-ActionBarSherlock-88fc341/samples/demos/res/drawable-mdpi/ic_launcher_settings.png" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/../JakeWharton-ActionBarSherlock-88fc341/samples/demos/res/drawable-mdpi/ic_magnifying_glass.png" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/../JakeWharton-ActionBarSherlock-88fc341/samples/demos/res/drawable-mdpi/ic_refresh.png" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/../JakeWharton-ActionBarSherlock-88fc341/samples/demos/res/drawable-mdpi/ic_refresh_inverse.png" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/../JakeWharton-ActionBarSherlock-88fc341/samples/demos/res/drawable-mdpi/ic_search.png" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/../JakeWharton-ActionBarSherlock-88fc341/samples/demos/res/drawable-mdpi/ic_search_inverse.png" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/../JakeWharton-ActionBarSherlock-88fc341/samples/demos/res/drawable-mdpi/icon.png" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/../JakeWharton-ActionBarSherlock-88fc341/samples/demos/res/drawable-mdpi" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/../JakeWharton-ActionBarSherlock-88fc341/samples/demos/res/drawable-xhdpi/bg_striped_img.png" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/../JakeWharton-ActionBarSherlock-88fc341/samples/demos/res/drawable-xhdpi/bg_striped_split_img.png" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/../JakeWharton-ActionBarSherlock-88fc341/samples/demos/res/drawable-xhdpi/ic_launcher_settings.png" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/../JakeWharton-ActionBarSherlock-88fc341/samples/demos/res/drawable-xhdpi/icon.png" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/../JakeWharton-ActionBarSherlock-88fc341/samples/demos/res/drawable-xhdpi" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/../JakeWharton-ActionBarSherlock-88fc341/samples/demos/res/drawable" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/../JakeWharton-ActionBarSherlock-88fc341/samples/demos/res/layout-large-land" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/../JakeWharton-ActionBarSherlock-88fc341/samples/demos/res/layout" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/../JakeWharton-ActionBarSherlock-88fc341/samples/demos/res/menu" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/../JakeWharton-ActionBarSherlock-88fc341/samples/demos/res/raw/robot.png" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/../JakeWharton-ActionBarSherlock-88fc341/samples/demos/res/raw" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/../JakeWharton-ActionBarSherlock-88fc341/samples/demos/res/values" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/../JakeWharton-ActionBarSherlock-88fc341/samples/demos/res/xml" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/../JakeWharton-ActionBarSherlock-88fc341/samples/demos/res" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/../JakeWharton-ActionBarSherlock-88fc341/samples/demos/src/com/actionbarsherlock/sample/demos" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/../JakeWharton-ActionBarSherlock-88fc341/samples/demos/src/com/actionbarsherlock/sample" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/../JakeWharton-ActionBarSherlock-88fc341/samples/demos/src/com/actionbarsherlock" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/../JakeWharton-ActionBarSherlock-88fc341/samples/demos/src/com" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/../JakeWharton-ActionBarSherlock-88fc341/samples/demos/src" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/../JakeWharton-ActionBarSherlock-88fc341/samples/demos" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/../JakeWharton-ActionBarSherlock-88fc341/samples/fragments/README.md" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/../JakeWharton-ActionBarSherlock-88fc341/samples/fragments/gen" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/../JakeWharton-ActionBarSherlock-88fc341/samples/fragments/libs/android-support-v4.jar" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/../JakeWharton-ActionBarSherlock-88fc341/samples/fragments/libs" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/../JakeWharton-ActionBarSherlock-88fc341/samples/fragments/res/anim" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/../JakeWharton-ActionBarSherlock-88fc341/samples/fragments/res/drawable-hdpi/alert_dialog_icon.png" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/../JakeWharton-ActionBarSherlock-88fc341/samples/fragments/res/drawable-hdpi/ic_compose.png" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/../JakeWharton-ActionBarSherlock-88fc341/samples/fragments/res/drawable-hdpi/ic_compose_inverse.png" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/../JakeWharton-ActionBarSherlock-88fc341/samples/fragments/res/drawable-hdpi/ic_refresh.png" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/../JakeWharton-ActionBarSherlock-88fc341/samples/fragments/res/drawable-hdpi/ic_refresh_inverse.png" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/../JakeWharton-ActionBarSherlock-88fc341/samples/fragments/res/drawable-hdpi/ic_search.png" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/../JakeWharton-ActionBarSherlock-88fc341/samples/fragments/res/drawable-hdpi/ic_search_inverse.png" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/../JakeWharton-ActionBarSherlock-88fc341/samples/fragments/res/drawable-hdpi/icon.png" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/../JakeWharton-ActionBarSherlock-88fc341/samples/fragments/res/drawable-hdpi" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/../JakeWharton-ActionBarSherlock-88fc341/samples/fragments/res/drawable-ldpi/icon.png" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/../JakeWharton-ActionBarSherlock-88fc341/samples/fragments/res/drawable-ldpi" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/../JakeWharton-ActionBarSherlock-88fc341/samples/fragments/res/drawable-mdpi/alert_dialog_icon.png" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/../JakeWharton-ActionBarSherlock-88fc341/samples/fragments/res/drawable-mdpi/ic_compose.png" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/../JakeWharton-ActionBarSherlock-88fc341/samples/fragments/res/drawable-mdpi/ic_compose_inverse.png" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/../JakeWharton-ActionBarSherlock-88fc341/samples/fragments/res/drawable-mdpi/ic_refresh.png" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/../JakeWharton-ActionBarSherlock-88fc341/samples/fragments/res/drawable-mdpi/ic_refresh_inverse.png" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/../JakeWharton-ActionBarSherlock-88fc341/samples/fragments/res/drawable-mdpi/ic_search.png" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/../JakeWharton-ActionBarSherlock-88fc341/samples/fragments/res/drawable-mdpi/ic_search_inverse.png" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/../JakeWharton-ActionBarSherlock-88fc341/samples/fragments/res/drawable-mdpi/icon.png" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/../JakeWharton-ActionBarSherlock-88fc341/samples/fragments/res/drawable-mdpi" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/../JakeWharton-ActionBarSherlock-88fc341/samples/fragments/res/drawable-xhdpi/icon.png" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/../JakeWharton-ActionBarSherlock-88fc341/samples/fragments/res/drawable-xhdpi" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/../JakeWharton-ActionBarSherlock-88fc341/samples/fragments/res/layout-land" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/../JakeWharton-ActionBarSherlock-88fc341/samples/fragments/res/layout" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/../JakeWharton-ActionBarSherlock-88fc341/samples/fragments/res/menu" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/../JakeWharton-ActionBarSherlock-88fc341/samples/fragments/res/values" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/../JakeWharton-ActionBarSherlock-88fc341/samples/fragments/res" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/../JakeWharton-ActionBarSherlock-88fc341/samples/fragments/src/com/actionbarsherlock/sample/fragments" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/../JakeWharton-ActionBarSherlock-88fc341/samples/fragments/src/com/actionbarsherlock/sample" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/../JakeWharton-ActionBarSherlock-88fc341/samples/fragments/src/com/actionbarsherlock" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/../JakeWharton-ActionBarSherlock-88fc341/samples/fragments/src/com" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/../JakeWharton-ActionBarSherlock-88fc341/samples/fragments/src" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/../JakeWharton-ActionBarSherlock-88fc341/samples/fragments" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/../JakeWharton-ActionBarSherlock-88fc341/samples/known-bugs/README.md" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/../JakeWharton-ActionBarSherlock-88fc341/samples/known-bugs/gen" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/../JakeWharton-ActionBarSherlock-88fc341/samples/known-bugs/libs/android-support-v4.jar" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/../JakeWharton-ActionBarSherlock-88fc341/samples/known-bugs/libs" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/../JakeWharton-ActionBarSherlock-88fc341/samples/known-bugs/res/anim" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/../JakeWharton-ActionBarSherlock-88fc341/samples/known-bugs/res/drawable-hdpi/ic_refresh.png" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/../JakeWharton-ActionBarSherlock-88fc341/samples/known-bugs/res/drawable-hdpi/icon.png" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/../JakeWharton-ActionBarSherlock-88fc341/samples/known-bugs/res/drawable-hdpi" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/../JakeWharton-ActionBarSherlock-88fc341/samples/known-bugs/res/drawable-ldpi/icon.png" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/../JakeWharton-ActionBarSherlock-88fc341/samples/known-bugs/res/drawable-ldpi" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/../JakeWharton-ActionBarSherlock-88fc341/samples/known-bugs/res/drawable-mdpi/ic_refresh.png" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/../JakeWharton-ActionBarSherlock-88fc341/samples/known-bugs/res/drawable-mdpi/icon.png" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/../JakeWharton-ActionBarSherlock-88fc341/samples/known-bugs/res/drawable-mdpi" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/../JakeWharton-ActionBarSherlock-88fc341/samples/known-bugs/res/drawable-xhdpi/icon.png" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/../JakeWharton-ActionBarSherlock-88fc341/samples/known-bugs/res/drawable-xhdpi" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/../JakeWharton-ActionBarSherlock-88fc341/samples/known-bugs/res/layout" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/../JakeWharton-ActionBarSherlock-88fc341/samples/known-bugs/res/values" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/../JakeWharton-ActionBarSherlock-88fc341/samples/known-bugs/res" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/../JakeWharton-ActionBarSherlock-88fc341/samples/known-bugs/src/com/actionbarsherlock/sample/knownbugs" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/../JakeWharton-ActionBarSherlock-88fc341/samples/known-bugs/src/com/actionbarsherlock/sample" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/../JakeWharton-ActionBarSherlock-88fc341/samples/known-bugs/src/com/actionbarsherlock" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/../JakeWharton-ActionBarSherlock-88fc341/samples/known-bugs/src/com" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/../JakeWharton-ActionBarSherlock-88fc341/samples/known-bugs/src" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/../JakeWharton-ActionBarSherlock-88fc341/samples/known-bugs" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/../JakeWharton-ActionBarSherlock-88fc341/samples/roboguice/README.md" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/../JakeWharton-ActionBarSherlock-88fc341/samples/roboguice/gen" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/../JakeWharton-ActionBarSherlock-88fc341/samples/roboguice/libs/android-support-v4.jar" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/../JakeWharton-ActionBarSherlock-88fc341/samples/roboguice/libs/guice-3.0-no_aop.jar" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/../JakeWharton-ActionBarSherlock-88fc341/samples/roboguice/libs/javax.inject-1.jar" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/../JakeWharton-ActionBarSherlock-88fc341/samples/roboguice/libs/roboguice-2.0b4.jar" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/../JakeWharton-ActionBarSherlock-88fc341/samples/roboguice/libs/roboguice-sherlock-1.0.jar" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/../JakeWharton-ActionBarSherlock-88fc341/samples/roboguice/libs" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/../JakeWharton-ActionBarSherlock-88fc341/samples/roboguice/res/anim" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/../JakeWharton-ActionBarSherlock-88fc341/samples/roboguice/res/drawable-hdpi/icon.png" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/../JakeWharton-ActionBarSherlock-88fc341/samples/roboguice/res/drawable-hdpi" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/../JakeWharton-ActionBarSherlock-88fc341/samples/roboguice/res/drawable-ldpi/icon.png" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/../JakeWharton-ActionBarSherlock-88fc341/samples/roboguice/res/drawable-ldpi" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/../JakeWharton-ActionBarSherlock-88fc341/samples/roboguice/res/drawable-mdpi/icon.png" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/../JakeWharton-ActionBarSherlock-88fc341/samples/roboguice/res/drawable-mdpi" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/../JakeWharton-ActionBarSherlock-88fc341/samples/roboguice/res/drawable-xhdpi/icon.png" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/../JakeWharton-ActionBarSherlock-88fc341/samples/roboguice/res/drawable-xhdpi" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/../JakeWharton-ActionBarSherlock-88fc341/samples/roboguice/res/layout" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/../JakeWharton-ActionBarSherlock-88fc341/samples/roboguice/res/values" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/../JakeWharton-ActionBarSherlock-88fc341/samples/roboguice/res" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/../JakeWharton-ActionBarSherlock-88fc341/samples/roboguice/src/com/actionbarsherlock/sample/roboguice/activity" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/../JakeWharton-ActionBarSherlock-88fc341/samples/roboguice/src/com/actionbarsherlock/sample/roboguice/controller" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/../JakeWharton-ActionBarSherlock-88fc341/samples/roboguice/src/com/actionbarsherlock/sample/roboguice" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/../JakeWharton-ActionBarSherlock-88fc341/samples/roboguice/src/com/actionbarsherlock/sample" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/../JakeWharton-ActionBarSherlock-88fc341/samples/roboguice/src/com/actionbarsherlock" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/../JakeWharton-ActionBarSherlock-88fc341/samples/roboguice/src/com" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/../JakeWharton-ActionBarSherlock-88fc341/samples/roboguice/src" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/../JakeWharton-ActionBarSherlock-88fc341/samples/roboguice" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/../JakeWharton-ActionBarSherlock-88fc341/samples/styled/gen" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/../JakeWharton-ActionBarSherlock-88fc341/samples/styled/libs/android-support-v4.jar" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/../JakeWharton-ActionBarSherlock-88fc341/samples/styled/libs/nineoldandroids-2.2.0.jar" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/../JakeWharton-ActionBarSherlock-88fc341/samples/styled/libs" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/../JakeWharton-ActionBarSherlock-88fc341/samples/styled/res/drawable-hdpi/ic_stat_android.png" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/../JakeWharton-ActionBarSherlock-88fc341/samples/styled/res/drawable-hdpi/icon.png" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/../JakeWharton-ActionBarSherlock-88fc341/samples/styled/res/drawable-hdpi" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/../JakeWharton-ActionBarSherlock-88fc341/samples/styled/res/drawable-ldpi/ic_stat_android.png" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/../JakeWharton-ActionBarSherlock-88fc341/samples/styled/res/drawable-ldpi/icon.png" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/../JakeWharton-ActionBarSherlock-88fc341/samples/styled/res/drawable-ldpi" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/../JakeWharton-ActionBarSherlock-88fc341/samples/styled/res/drawable-mdpi/ad_btn_check_off_pressed_holo_light.png" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/../JakeWharton-ActionBarSherlock-88fc341/samples/styled/res/drawable-mdpi/ad_btn_check_on_pressed_holo_light.png" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/../JakeWharton-ActionBarSherlock-88fc341/samples/styled/res/drawable-mdpi/ad_btn_radio_off_pressed_holo_light.png" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/../JakeWharton-ActionBarSherlock-88fc341/samples/styled/res/drawable-mdpi/ad_btn_radio_on_pressed_holo_light.png" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/../JakeWharton-ActionBarSherlock-88fc341/samples/styled/res/drawable-mdpi/ad_logo.png" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/../JakeWharton-ActionBarSherlock-88fc341/samples/styled/res/drawable-mdpi/ad_menu_dropdown_panel_holo_light.9.png" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/../JakeWharton-ActionBarSherlock-88fc341/samples/styled/res/drawable-mdpi/ad_spinner_focused_holo_light.9.png" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/../JakeWharton-ActionBarSherlock-88fc341/samples/styled/res/drawable-mdpi/ad_spinner_pressed_holo_light.9.png" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/../JakeWharton-ActionBarSherlock-88fc341/samples/styled/res/drawable-mdpi/ad_tab_selected_holo.9.png" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/../JakeWharton-ActionBarSherlock-88fc341/samples/styled/res/drawable-mdpi/ad_tab_selected_pressed_holo.9.png" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/../JakeWharton-ActionBarSherlock-88fc341/samples/styled/res/drawable-mdpi/ad_tab_unselected_holo.9.png" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/../JakeWharton-ActionBarSherlock-88fc341/samples/styled/res/drawable-mdpi/btn_check_off_holo_light.png" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/../JakeWharton-ActionBarSherlock-88fc341/samples/styled/res/drawable-mdpi/btn_check_on_holo_light.png" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/../JakeWharton-ActionBarSherlock-88fc341/samples/styled/res/drawable-mdpi/btn_radio_off_holo_light.png" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/../JakeWharton-ActionBarSherlock-88fc341/samples/styled/res/drawable-mdpi/btn_radio_on_holo_light.png" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/../JakeWharton-ActionBarSherlock-88fc341/samples/styled/res/drawable-mdpi/ic_menu_refresh_holo_light.png" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/../JakeWharton-ActionBarSherlock-88fc341/samples/styled/res/drawable-mdpi/ic_menu_star_holo_light.png" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/../JakeWharton-ActionBarSherlock-88fc341/samples/styled/res/drawable-mdpi/ic_stat_android.png" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/../JakeWharton-ActionBarSherlock-88fc341/samples/styled/res/drawable-mdpi/icon.png" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/../JakeWharton-ActionBarSherlock-88fc341/samples/styled/res/drawable-mdpi/spinner_default_holo_light.9.png" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/../JakeWharton-ActionBarSherlock-88fc341/samples/styled/res/drawable-mdpi/spinner_disabled_holo_light.9.png" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/../JakeWharton-ActionBarSherlock-88fc341/samples/styled/res/drawable-mdpi" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/../JakeWharton-ActionBarSherlock-88fc341/samples/styled/res/drawable-xhdpi/icon.png" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/../JakeWharton-ActionBarSherlock-88fc341/samples/styled/res/drawable-xhdpi" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/../JakeWharton-ActionBarSherlock-88fc341/samples/styled/res/drawable" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/../JakeWharton-ActionBarSherlock-88fc341/samples/styled/res/layout" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/../JakeWharton-ActionBarSherlock-88fc341/samples/styled/res/menu" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/../JakeWharton-ActionBarSherlock-88fc341/samples/styled/res/values" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/../JakeWharton-ActionBarSherlock-88fc341/samples/styled/res" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/../JakeWharton-ActionBarSherlock-88fc341/samples/styled/src/com/actionbarsherlock/sample/styled" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/../JakeWharton-ActionBarSherlock-88fc341/samples/styled/src/com/actionbarsherlock/sample" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/../JakeWharton-ActionBarSherlock-88fc341/samples/styled/src/com/actionbarsherlock" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/../JakeWharton-ActionBarSherlock-88fc341/samples/styled/src/com" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/../JakeWharton-ActionBarSherlock-88fc341/samples/styled/src" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/../JakeWharton-ActionBarSherlock-88fc341/samples/styled" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/Android-Geocaching.ipr" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/Android-Geocaching.iws" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/../JakeWharton-ActionBarSherlock-88fc341/library/ActionBarSherlock.iml" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/../JakeWharton-ActionBarSherlock-88fc341/library/AndroidManifest.xml" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/../JakeWharton-ActionBarSherlock-88fc341/library/gen/com/actionbarsherlock/R.java" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/../JakeWharton-ActionBarSherlock-88fc341/library/pom.xml" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/../JakeWharton-ActionBarSherlock-88fc341/library/project.properties" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/../JakeWharton-ActionBarSherlock-88fc341/library/res/color/abs__primary_text_disable_only_holo_dark.xml" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/../JakeWharton-ActionBarSherlock-88fc341/library/res/color/abs__primary_text_disable_only_holo_light.xml" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/../JakeWharton-ActionBarSherlock-88fc341/library/res/color/abs__primary_text_holo_dark.xml" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/../JakeWharton-ActionBarSherlock-88fc341/library/res/color/abs__primary_text_holo_light.xml" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/../JakeWharton-ActionBarSherlock-88fc341/library/res/drawable-v11/abs__progress_medium_holo.xml" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/../JakeWharton-ActionBarSherlock-88fc341/library/res/drawable/abs__activated_background_holo_dark.xml" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/../JakeWharton-ActionBarSherlock-88fc341/library/res/drawable/abs__activated_background_holo_light.xml" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/../JakeWharton-ActionBarSherlock-88fc341/library/res/drawable/abs__btn_cab_done_holo_dark.xml" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/../JakeWharton-ActionBarSherlock-88fc341/library/res/drawable/abs__btn_cab_done_holo_light.xml" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/../JakeWharton-ActionBarSherlock-88fc341/library/res/drawable/abs__ic_menu_moreoverflow_holo_dark.xml" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/../JakeWharton-ActionBarSherlock-88fc341/library/res/drawable/abs__ic_menu_moreoverflow_holo_light.xml" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/../JakeWharton-ActionBarSherlock-88fc341/library/res/drawable/abs__item_background_holo_dark.xml" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/../JakeWharton-ActionBarSherlock-88fc341/library/res/drawable/abs__item_background_holo_light.xml" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/../JakeWharton-ActionBarSherlock-88fc341/library/res/drawable/abs__list_selector_background_transition_holo_dark.xml" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/../JakeWharton-ActionBarSherlock-88fc341/library/res/drawable/abs__list_selector_background_transition_holo_light.xml" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/../JakeWharton-ActionBarSherlock-88fc341/library/res/drawable/abs__list_selector_holo_dark.xml" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/../JakeWharton-ActionBarSherlock-88fc341/library/res/drawable/abs__list_selector_holo_light.xml" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/../JakeWharton-ActionBarSherlock-88fc341/library/res/drawable/abs__progress_horizontal_holo_dark.xml" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/../JakeWharton-ActionBarSherlock-88fc341/library/res/drawable/abs__progress_horizontal_holo_light.xml" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/../JakeWharton-ActionBarSherlock-88fc341/library/res/drawable/abs__progress_medium_holo.xml" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/../JakeWharton-ActionBarSherlock-88fc341/library/res/drawable/abs__spinner_ab_holo_dark.xml" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/../JakeWharton-ActionBarSherlock-88fc341/library/res/drawable/abs__spinner_ab_holo_light.xml" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/../JakeWharton-ActionBarSherlock-88fc341/library/res/drawable/abs__tab_indicator_ab_holo.xml" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/../JakeWharton-ActionBarSherlock-88fc341/library/res/layout-large/abs__action_mode_close_item.xml" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/../JakeWharton-ActionBarSherlock-88fc341/library/res/layout-v14/sherlock_spinner_dropdown_item.xml" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/../JakeWharton-ActionBarSherlock-88fc341/library/res/layout-v14/sherlock_spinner_item.xml" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/../JakeWharton-ActionBarSherlock-88fc341/library/res/layout-xlarge/abs__screen_action_bar.xml" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/../JakeWharton-ActionBarSherlock-88fc341/library/res/layout-xlarge/abs__screen_action_bar_overlay.xml" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/../JakeWharton-ActionBarSherlock-88fc341/library/res/layout/abs__action_bar_home.xml" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/../JakeWharton-ActionBarSherlock-88fc341/library/res/layout/abs__action_bar_tab.xml" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/../JakeWharton-ActionBarSherlock-88fc341/library/res/layout/abs__action_bar_tab_bar_view.xml" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/../JakeWharton-ActionBarSherlock-88fc341/library/res/layout/abs__action_bar_title_item.xml" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/../JakeWharton-ActionBarSherlock-88fc341/library/res/layout/abs__action_menu_item_layout.xml" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/../JakeWharton-ActionBarSherlock-88fc341/library/res/layout/abs__action_menu_layout.xml" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/../JakeWharton-ActionBarSherlock-88fc341/library/res/layout/abs__action_mode_bar.xml" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/../JakeWharton-ActionBarSherlock-88fc341/library/res/layout/abs__action_mode_close_item.xml" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/../JakeWharton-ActionBarSherlock-88fc341/library/res/layout/abs__activity_chooser_view.xml" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/../JakeWharton-ActionBarSherlock-88fc341/library/res/layout/abs__activity_chooser_view_list_item.xml" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/../JakeWharton-ActionBarSherlock-88fc341/library/res/layout/abs__dialog_title_holo.xml" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/../JakeWharton-ActionBarSherlock-88fc341/library/res/layout/abs__list_menu_item_checkbox.xml" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/../JakeWharton-ActionBarSherlock-88fc341/library/res/layout/abs__list_menu_item_icon.xml" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/../JakeWharton-ActionBarSherlock-88fc341/library/res/layout/abs__list_menu_item_layout.xml" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/../JakeWharton-ActionBarSherlock-88fc341/library/res/layout/abs__list_menu_item_radio.xml" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/../JakeWharton-ActionBarSherlock-88fc341/library/res/layout/abs__popup_menu_item_layout.xml" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/../JakeWharton-ActionBarSherlock-88fc341/library/res/layout/abs__screen_action_bar.xml" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/../JakeWharton-ActionBarSherlock-88fc341/library/res/layout/abs__screen_action_bar_overlay.xml" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/../JakeWharton-ActionBarSherlock-88fc341/library/res/layout/abs__screen_simple.xml" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/../JakeWharton-ActionBarSherlock-88fc341/library/res/layout/abs__screen_simple_overlay_action_mode.xml" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/../JakeWharton-ActionBarSherlock-88fc341/library/res/layout/sherlock_spinner_dropdown_item.xml" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/../JakeWharton-ActionBarSherlock-88fc341/library/res/layout/sherlock_spinner_item.xml" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/../JakeWharton-ActionBarSherlock-88fc341/library/res/values-land/abs__dimens.xml" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/../JakeWharton-ActionBarSherlock-88fc341/library/res/values-large-hdpi-1024x600/abs__dimens.xml" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/../JakeWharton-ActionBarSherlock-88fc341/library/res/values-large-land-hdpi-1024x600/abs__dimens.xml" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/../JakeWharton-ActionBarSherlock-88fc341/library/res/values-large-land-mdpi-1024x600/abs__dimens.xml" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/../JakeWharton-ActionBarSherlock-88fc341/library/res/values-large-mdpi-1024x600/abs__dimens.xml" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/../JakeWharton-ActionBarSherlock-88fc341/library/res/values-large/abs__dimens.xml" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/../JakeWharton-ActionBarSherlock-88fc341/library/res/values-sw600dp/abs__bools.xml" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/../JakeWharton-ActionBarSherlock-88fc341/library/res/values-sw600dp/abs__dimens.xml" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/../JakeWharton-ActionBarSherlock-88fc341/library/res/values-v11/abs__themes.xml" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/../JakeWharton-ActionBarSherlock-88fc341/library/res/values-v14/abs__styles.xml" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/../JakeWharton-ActionBarSherlock-88fc341/library/res/values-v14/abs__themes.xml" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/../JakeWharton-ActionBarSherlock-88fc341/library/res/values-w360dp/abs__dimens.xml" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/../JakeWharton-ActionBarSherlock-88fc341/library/res/values-w480dp/abs__bools.xml" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/../JakeWharton-ActionBarSherlock-88fc341/library/res/values-w480dp/abs__config.xml" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/../JakeWharton-ActionBarSherlock-88fc341/library/res/values-w500dp/abs__dimens.xml" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/../JakeWharton-ActionBarSherlock-88fc341/library/res/values-w600dp/abs__dimens.xml" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/../JakeWharton-ActionBarSherlock-88fc341/library/res/values-xlarge/abs__dimens.xml" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/../JakeWharton-ActionBarSherlock-88fc341/library/res/values/abs__attrs.xml" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/../JakeWharton-ActionBarSherlock-88fc341/library/res/values/abs__bools.xml" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/../JakeWharton-ActionBarSherlock-88fc341/library/res/values/abs__colors.xml" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/../JakeWharton-ActionBarSherlock-88fc341/library/res/values/abs__config.xml" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/../JakeWharton-ActionBarSherlock-88fc341/library/res/values/abs__dimens.xml" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/../JakeWharton-ActionBarSherlock-88fc341/library/res/values/abs__ids.xml" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/../JakeWharton-ActionBarSherlock-88fc341/library/res/values/abs__strings.xml" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/../JakeWharton-ActionBarSherlock-88fc341/library/res/values/abs__styles.xml" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/../JakeWharton-ActionBarSherlock-88fc341/library/res/values/abs__themes.xml" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/../JakeWharton-ActionBarSherlock-88fc341/library/src/android/support/v4/app/_ActionBarSherlockTrojanHorse.java" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/../JakeWharton-ActionBarSherlock-88fc341/library/src/com/actionbarsherlock/ActionBarSherlock.java" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/../JakeWharton-ActionBarSherlock-88fc341/library/src/com/actionbarsherlock/app/ActionBar.java" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/../JakeWharton-ActionBarSherlock-88fc341/library/src/com/actionbarsherlock/app/SherlockActivity.java" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/../JakeWharton-ActionBarSherlock-88fc341/library/src/com/actionbarsherlock/app/SherlockDialogFragment.java" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/../JakeWharton-ActionBarSherlock-88fc341/library/src/com/actionbarsherlock/app/SherlockExpandableListActivity.java" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/../JakeWharton-ActionBarSherlock-88fc341/library/src/com/actionbarsherlock/app/SherlockFragment.java" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/../JakeWharton-ActionBarSherlock-88fc341/library/src/com/actionbarsherlock/app/SherlockFragmentActivity.java" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/../JakeWharton-ActionBarSherlock-88fc341/library/src/com/actionbarsherlock/app/SherlockListActivity.java" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/../JakeWharton-ActionBarSherlock-88fc341/library/src/com/actionbarsherlock/app/SherlockListFragment.java" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/../JakeWharton-ActionBarSherlock-88fc341/library/src/com/actionbarsherlock/app/SherlockPreferenceActivity.java" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/../JakeWharton-ActionBarSherlock-88fc341/library/src/com/actionbarsherlock/internal/ActionBarSherlockCompat.java" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/../JakeWharton-ActionBarSherlock-88fc341/library/src/com/actionbarsherlock/internal/ActionBarSherlockNative.java" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/../JakeWharton-ActionBarSherlock-88fc341/library/src/com/actionbarsherlock/internal/ResourcesCompat.java" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/../JakeWharton-ActionBarSherlock-88fc341/library/src/com/actionbarsherlock/internal/app/ActionBarImpl.java" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/../JakeWharton-ActionBarSherlock-88fc341/library/src/com/actionbarsherlock/internal/app/ActionBarWrapper.java" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/../JakeWharton-ActionBarSherlock-88fc341/library/src/com/actionbarsherlock/internal/nineoldandroids/animation/Animator.java" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/../JakeWharton-ActionBarSherlock-88fc341/library/src/com/actionbarsherlock/internal/nineoldandroids/animation/AnimatorListenerAdapter.java" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/../JakeWharton-ActionBarSherlock-88fc341/library/src/com/actionbarsherlock/internal/nineoldandroids/animation/AnimatorSet.java" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/../JakeWharton-ActionBarSherlock-88fc341/library/src/com/actionbarsherlock/internal/nineoldandroids/animation/FloatEvaluator.java" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/../JakeWharton-ActionBarSherlock-88fc341/library/src/com/actionbarsherlock/internal/nineoldandroids/animation/FloatKeyframeSet.java" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/../JakeWharton-ActionBarSherlock-88fc341/library/src/com/actionbarsherlock/internal/nineoldandroids/animation/IntEvaluator.java" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/../JakeWharton-ActionBarSherlock-88fc341/library/src/com/actionbarsherlock/internal/nineoldandroids/animation/IntKeyframeSet.java" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/../JakeWharton-ActionBarSherlock-88fc341/library/src/com/actionbarsherlock/internal/nineoldandroids/animation/Keyframe.java" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/../JakeWharton-ActionBarSherlock-88fc341/library/src/com/actionbarsherlock/internal/nineoldandroids/animation/KeyframeSet.java" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/../JakeWharton-ActionBarSherlock-88fc341/library/src/com/actionbarsherlock/internal/nineoldandroids/animation/ObjectAnimator.java" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/../JakeWharton-ActionBarSherlock-88fc341/library/src/com/actionbarsherlock/internal/nineoldandroids/animation/PropertyValuesHolder.java" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/../JakeWharton-ActionBarSherlock-88fc341/library/src/com/actionbarsherlock/internal/nineoldandroids/animation/TypeEvaluator.java" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/../JakeWharton-ActionBarSherlock-88fc341/library/src/com/actionbarsherlock/internal/nineoldandroids/animation/ValueAnimator.java" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/../JakeWharton-ActionBarSherlock-88fc341/library/src/com/actionbarsherlock/internal/nineoldandroids/view/NineViewGroup.java" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/../JakeWharton-ActionBarSherlock-88fc341/library/src/com/actionbarsherlock/internal/nineoldandroids/view/animation/AnimatorProxy.java" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/../JakeWharton-ActionBarSherlock-88fc341/library/src/com/actionbarsherlock/internal/nineoldandroids/widget/NineFrameLayout.java" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/../JakeWharton-ActionBarSherlock-88fc341/library/src/com/actionbarsherlock/internal/nineoldandroids/widget/NineHorizontalScrollView.java" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/../JakeWharton-ActionBarSherlock-88fc341/library/src/com/actionbarsherlock/internal/nineoldandroids/widget/NineLinearLayout.java" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/../JakeWharton-ActionBarSherlock-88fc341/library/src/com/actionbarsherlock/internal/view/ActionProviderWrapper.java" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/../JakeWharton-ActionBarSherlock-88fc341/library/src/com/actionbarsherlock/internal/view/StandaloneActionMode.java" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/../JakeWharton-ActionBarSherlock-88fc341/library/src/com/actionbarsherlock/internal/view/View_HasStateListenerSupport.java" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/../JakeWharton-ActionBarSherlock-88fc341/library/src/com/actionbarsherlock/internal/view/View_OnAttachStateChangeListener.java" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/../JakeWharton-ActionBarSherlock-88fc341/library/src/com/actionbarsherlock/internal/view/menu/ActionMenu.java" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/../JakeWharton-ActionBarSherlock-88fc341/library/src/com/actionbarsherlock/internal/view/menu/ActionMenuItem.java" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/../JakeWharton-ActionBarSherlock-88fc341/library/src/com/actionbarsherlock/internal/view/menu/ActionMenuItemView.java" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/../JakeWharton-ActionBarSherlock-88fc341/library/src/com/actionbarsherlock/internal/view/menu/ActionMenuPresenter.java" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/../JakeWharton-ActionBarSherlock-88fc341/library/src/com/actionbarsherlock/internal/view/menu/ActionMenuView.java" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/../JakeWharton-ActionBarSherlock-88fc341/library/src/com/actionbarsherlock/internal/view/menu/BaseMenuPresenter.java" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/../JakeWharton-ActionBarSherlock-88fc341/library/src/com/actionbarsherlock/internal/view/menu/ListMenuItemView.java" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/../JakeWharton-ActionBarSherlock-88fc341/library/src/com/actionbarsherlock/internal/view/menu/MenuBuilder.java" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/../JakeWharton-ActionBarSherlock-88fc341/library/src/com/actionbarsherlock/internal/view/menu/MenuItemImpl.java" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/../JakeWharton-ActionBarSherlock-88fc341/library/src/com/actionbarsherlock/internal/view/menu/MenuItemWrapper.java" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/../JakeWharton-ActionBarSherlock-88fc341/library/src/com/actionbarsherlock/internal/view/menu/MenuPopupHelper.java" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/../JakeWharton-ActionBarSherlock-88fc341/library/src/com/actionbarsherlock/internal/view/menu/MenuPresenter.java" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/../JakeWharton-ActionBarSherlock-88fc341/library/src/com/actionbarsherlock/internal/view/menu/MenuView.java" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/../JakeWharton-ActionBarSherlock-88fc341/library/src/com/actionbarsherlock/internal/view/menu/MenuWrapper.java" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/../JakeWharton-ActionBarSherlock-88fc341/library/src/com/actionbarsherlock/internal/view/menu/SubMenuBuilder.java" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/../JakeWharton-ActionBarSherlock-88fc341/library/src/com/actionbarsherlock/internal/view/menu/SubMenuWrapper.java" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/../JakeWharton-ActionBarSherlock-88fc341/library/src/com/actionbarsherlock/internal/widget/AbsActionBarView.java" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/../JakeWharton-ActionBarSherlock-88fc341/library/src/com/actionbarsherlock/internal/widget/ActionBarContainer.java" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/../JakeWharton-ActionBarSherlock-88fc341/library/src/com/actionbarsherlock/internal/widget/ActionBarContextView.java" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/../JakeWharton-ActionBarSherlock-88fc341/library/src/com/actionbarsherlock/internal/widget/ActionBarView.java" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/../JakeWharton-ActionBarSherlock-88fc341/library/src/com/actionbarsherlock/internal/widget/CapitalizingButton.java" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/../JakeWharton-ActionBarSherlock-88fc341/library/src/com/actionbarsherlock/internal/widget/CapitalizingTextView.java" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/../JakeWharton-ActionBarSherlock-88fc341/library/src/com/actionbarsherlock/internal/widget/FakeDialogPhoneWindow.java" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/../JakeWharton-ActionBarSherlock-88fc341/library/src/com/actionbarsherlock/internal/widget/IcsAbsSpinner.java" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/../JakeWharton-ActionBarSherlock-88fc341/library/src/com/actionbarsherlock/internal/widget/IcsAdapterView.java" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/../JakeWharton-ActionBarSherlock-88fc341/library/src/com/actionbarsherlock/internal/widget/IcsLinearLayout.java" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/../JakeWharton-ActionBarSherlock-88fc341/library/src/com/actionbarsherlock/internal/widget/IcsListPopupWindow.java" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/../JakeWharton-ActionBarSherlock-88fc341/library/src/com/actionbarsherlock/internal/widget/IcsProgressBar.java" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/../JakeWharton-ActionBarSherlock-88fc341/library/src/com/actionbarsherlock/internal/widget/IcsSpinner.java" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/../JakeWharton-ActionBarSherlock-88fc341/library/src/com/actionbarsherlock/internal/widget/IcsView.java" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/../JakeWharton-ActionBarSherlock-88fc341/library/src/com/actionbarsherlock/internal/widget/ScrollingTabContainerView.java" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/../JakeWharton-ActionBarSherlock-88fc341/library/src/com/actionbarsherlock/view/ActionMode.java" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/../JakeWharton-ActionBarSherlock-88fc341/library/src/com/actionbarsherlock/view/ActionProvider.java" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/../JakeWharton-ActionBarSherlock-88fc341/library/src/com/actionbarsherlock/view/CollapsibleActionView.java" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/../JakeWharton-ActionBarSherlock-88fc341/library/src/com/actionbarsherlock/view/Menu.java" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/../JakeWharton-ActionBarSherlock-88fc341/library/src/com/actionbarsherlock/view/MenuInflater.java" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/../JakeWharton-ActionBarSherlock-88fc341/library/src/com/actionbarsherlock/view/MenuItem.java" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/../JakeWharton-ActionBarSherlock-88fc341/library/src/com/actionbarsherlock/view/SubMenu.java" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/../JakeWharton-ActionBarSherlock-88fc341/library/src/com/actionbarsherlock/view/Window.java" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/../JakeWharton-ActionBarSherlock-88fc341/library/src/com/actionbarsherlock/widget/ActivityChooserModel.java" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/../JakeWharton-ActionBarSherlock-88fc341/library/src/com/actionbarsherlock/widget/ActivityChooserView.java" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/../JakeWharton-ActionBarSherlock-88fc341/library/src/com/actionbarsherlock/widget/ShareActionProvider.java" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/../JakeWharton-ActionBarSherlock-88fc341/library/test/com/actionbarsherlock/internal/ManifestParsingTest.java" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/../JakeWharton-ActionBarSherlock-88fc341/samples/demos/AndroidManifest.xml" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/../JakeWharton-ActionBarSherlock-88fc341/samples/demos/Demos.iml" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/../JakeWharton-ActionBarSherlock-88fc341/samples/demos/pom.xml" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/../JakeWharton-ActionBarSherlock-88fc341/samples/demos/project.properties" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/../JakeWharton-ActionBarSherlock-88fc341/samples/demos/res/drawable/bg_striped.xml" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/../JakeWharton-ActionBarSherlock-88fc341/samples/demos/res/drawable/bg_striped_split.xml" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/../JakeWharton-ActionBarSherlock-88fc341/samples/demos/res/layout-large-land/feature_toggles.xml" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/../JakeWharton-ActionBarSherlock-88fc341/samples/demos/res/layout/action_modes.xml" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/../JakeWharton-ActionBarSherlock-88fc341/samples/demos/res/layout/collapsible_edittext.xml" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/../JakeWharton-ActionBarSherlock-88fc341/samples/demos/res/layout/context_menus.xml" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/../JakeWharton-ActionBarSherlock-88fc341/samples/demos/res/layout/custom_view.xml" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/../JakeWharton-ActionBarSherlock-88fc341/samples/demos/res/layout/feature_toggles.xml" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/../JakeWharton-ActionBarSherlock-88fc341/samples/demos/res/layout/iprogress.xml" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/../JakeWharton-ActionBarSherlock-88fc341/samples/demos/res/layout/list_navigation.xml" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/../JakeWharton-ActionBarSherlock-88fc341/samples/demos/res/layout/overlay.xml" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/../JakeWharton-ActionBarSherlock-88fc341/samples/demos/res/layout/preferences.xml" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/../JakeWharton-ActionBarSherlock-88fc341/samples/demos/res/layout/progress.xml" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/../JakeWharton-ActionBarSherlock-88fc341/samples/demos/res/layout/settings_action_provider.xml" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/../JakeWharton-ActionBarSherlock-88fc341/samples/demos/res/layout/tab_custom_view.xml" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/../JakeWharton-ActionBarSherlock-88fc341/samples/demos/res/layout/tab_navigation.xml" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/../JakeWharton-ActionBarSherlock-88fc341/samples/demos/res/layout/text.xml" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/../JakeWharton-ActionBarSherlock-88fc341/samples/demos/res/menu/settings_action_provider.xml" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/../JakeWharton-ActionBarSherlock-88fc341/samples/demos/res/menu/share_action_provider.xml" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/../JakeWharton-ActionBarSherlock-88fc341/samples/demos/res/values/arrays.xml" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/../JakeWharton-ActionBarSherlock-88fc341/samples/demos/res/values/colors.xml" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/../JakeWharton-ActionBarSherlock-88fc341/samples/demos/res/values/strings.xml" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/../JakeWharton-ActionBarSherlock-88fc341/samples/demos/res/values/themes.xml" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/../JakeWharton-ActionBarSherlock-88fc341/samples/demos/res/xml/preferences.xml" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/../JakeWharton-ActionBarSherlock-88fc341/samples/demos/src/com/actionbarsherlock/sample/demos/ActionItems.java" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/../JakeWharton-ActionBarSherlock-88fc341/samples/demos/src/com/actionbarsherlock/sample/demos/ActionModes.java" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/../JakeWharton-ActionBarSherlock-88fc341/samples/demos/src/com/actionbarsherlock/sample/demos/ActionModesNoActionBar.java" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/../JakeWharton-ActionBarSherlock-88fc341/samples/demos/src/com/actionbarsherlock/sample/demos/ActionProviders.java" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/../JakeWharton-ActionBarSherlock-88fc341/samples/demos/src/com/actionbarsherlock/sample/demos/CollapsibleActionItem.java" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/../JakeWharton-ActionBarSherlock-88fc341/samples/demos/src/com/actionbarsherlock/sample/demos/ContextMenus.java" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/../JakeWharton-ActionBarSherlock-88fc341/samples/demos/src/com/actionbarsherlock/sample/demos/CustomNavigation.java" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/../JakeWharton-ActionBarSherlock-88fc341/samples/demos/src/com/actionbarsherlock/sample/demos/Dialog.java" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/../JakeWharton-ActionBarSherlock-88fc341/samples/demos/src/com/actionbarsherlock/sample/demos/FeatureToggles.java" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/../JakeWharton-ActionBarSherlock-88fc341/samples/demos/src/com/actionbarsherlock/sample/demos/ForcedOverflowItem.java" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/../JakeWharton-ActionBarSherlock-88fc341/samples/demos/src/com/actionbarsherlock/sample/demos/IndeterminateProgress.java" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/../JakeWharton-ActionBarSherlock-88fc341/samples/demos/src/com/actionbarsherlock/sample/demos/ListNavigation.java" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/../JakeWharton-ActionBarSherlock-88fc341/samples/demos/src/com/actionbarsherlock/sample/demos/Overlay.java" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/../JakeWharton-ActionBarSherlock-88fc341/samples/demos/src/com/actionbarsherlock/sample/demos/Preference.java" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/../JakeWharton-ActionBarSherlock-88fc341/samples/demos/src/com/actionbarsherlock/sample/demos/Progress.java" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/../JakeWharton-ActionBarSherlock-88fc341/samples/demos/src/com/actionbarsherlock/sample/demos/SampleList.java" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/../JakeWharton-ActionBarSherlock-88fc341/samples/demos/src/com/actionbarsherlock/sample/demos/ShareActionProviders.java" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/../JakeWharton-ActionBarSherlock-88fc341/samples/demos/src/com/actionbarsherlock/sample/demos/Simple.java" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/../JakeWharton-ActionBarSherlock-88fc341/samples/demos/src/com/actionbarsherlock/sample/demos/SplitActionItems.java" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/../JakeWharton-ActionBarSherlock-88fc341/samples/demos/src/com/actionbarsherlock/sample/demos/SplitActionModes.java" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/../JakeWharton-ActionBarSherlock-88fc341/samples/demos/src/com/actionbarsherlock/sample/demos/StaticAttachment.java" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/../JakeWharton-ActionBarSherlock-88fc341/samples/demos/src/com/actionbarsherlock/sample/demos/Styled.java" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/../JakeWharton-ActionBarSherlock-88fc341/samples/demos/src/com/actionbarsherlock/sample/demos/SubMenus.java" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/../JakeWharton-ActionBarSherlock-88fc341/samples/demos/src/com/actionbarsherlock/sample/demos/TabNavigation.java" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/../JakeWharton-ActionBarSherlock-88fc341/samples/demos/src/com/actionbarsherlock/sample/demos/TabNavigationCollapsed.java" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/../JakeWharton-ActionBarSherlock-88fc341/samples/fragments/AndroidManifest.xml" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/../JakeWharton-ActionBarSherlock-88fc341/samples/fragments/Fragments.iml" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/../JakeWharton-ActionBarSherlock-88fc341/samples/fragments/pom.xml" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/../JakeWharton-ActionBarSherlock-88fc341/samples/fragments/project.properties" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/../JakeWharton-ActionBarSherlock-88fc341/samples/fragments/res/anim/decelerate_quint.xml" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/../JakeWharton-ActionBarSherlock-88fc341/samples/fragments/res/anim/fragment_slide_left_enter.xml" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/../JakeWharton-ActionBarSherlock-88fc341/samples/fragments/res/anim/fragment_slide_left_exit.xml" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/../JakeWharton-ActionBarSherlock-88fc341/samples/fragments/res/anim/fragment_slide_right_enter.xml" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/../JakeWharton-ActionBarSherlock-88fc341/samples/fragments/res/anim/fragment_slide_right_exit.xml" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/../JakeWharton-ActionBarSherlock-88fc341/samples/fragments/res/layout-land/fragment_arguments_support.xml" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/../JakeWharton-ActionBarSherlock-88fc341/samples/fragments/res/layout-land/fragment_layout_support.xml" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/../JakeWharton-ActionBarSherlock-88fc341/samples/fragments/res/layout/fragment_arguments_support.xml" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/../JakeWharton-ActionBarSherlock-88fc341/samples/fragments/res/layout/fragment_context_menu.xml" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/../JakeWharton-ActionBarSherlock-88fc341/samples/fragments/res/layout/fragment_dialog.xml" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/../JakeWharton-ActionBarSherlock-88fc341/samples/fragments/res/layout/fragment_dialog_or_activity.xml" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/../JakeWharton-ActionBarSherlock-88fc341/samples/fragments/res/layout/fragment_hide_show_support.xml" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/../JakeWharton-ActionBarSherlock-88fc341/samples/fragments/res/layout/fragment_layout_support.xml" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/../JakeWharton-ActionBarSherlock-88fc341/samples/fragments/res/layout/fragment_menu.xml" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/../JakeWharton-ActionBarSherlock-88fc341/samples/fragments/res/layout/fragment_pager.xml" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/../JakeWharton-ActionBarSherlock-88fc341/samples/fragments/res/layout/fragment_pager_list.xml" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/../JakeWharton-ActionBarSherlock-88fc341/samples/fragments/res/layout/fragment_retain_instance.xml" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/../JakeWharton-ActionBarSherlock-88fc341/samples/fragments/res/layout/fragment_stack.xml" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/../JakeWharton-ActionBarSherlock-88fc341/samples/fragments/res/layout/fragment_tabs.xml" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/../JakeWharton-ActionBarSherlock-88fc341/samples/fragments/res/layout/fragment_tabs_pager.xml" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/../JakeWharton-ActionBarSherlock-88fc341/samples/fragments/res/layout/hello_world.xml" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/../JakeWharton-ActionBarSherlock-88fc341/samples/fragments/res/layout/labeled_text_edit.xml" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/../JakeWharton-ActionBarSherlock-88fc341/samples/fragments/res/layout/list_item_icon_text.xml" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/../JakeWharton-ActionBarSherlock-88fc341/samples/fragments/res/layout/receive_result.xml" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/../JakeWharton-ActionBarSherlock-88fc341/samples/fragments/res/layout/send_result.xml" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/../JakeWharton-ActionBarSherlock-88fc341/samples/fragments/res/layout/simple_list_item_checkable_1.xml" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/../JakeWharton-ActionBarSherlock-88fc341/samples/fragments/res/menu/shortcuts.xml" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/../JakeWharton-ActionBarSherlock-88fc341/samples/fragments/res/values/attrs.xml" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/../JakeWharton-ActionBarSherlock-88fc341/samples/fragments/res/values/colors.xml" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/../JakeWharton-ActionBarSherlock-88fc341/samples/fragments/res/values/strings.xml" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/../JakeWharton-ActionBarSherlock-88fc341/samples/fragments/src/com/actionbarsherlock/sample/fragments/CheckableFrameLayout.java" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/../JakeWharton-ActionBarSherlock-88fc341/samples/fragments/src/com/actionbarsherlock/sample/fragments/Cheeses.java" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/../JakeWharton-ActionBarSherlock-88fc341/samples/fragments/src/com/actionbarsherlock/sample/fragments/FragmentAlertDialogSupport.java" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/../JakeWharton-ActionBarSherlock-88fc341/samples/fragments/src/com/actionbarsherlock/sample/fragments/FragmentArgumentsSupport.java" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/../JakeWharton-ActionBarSherlock-88fc341/samples/fragments/src/com/actionbarsherlock/sample/fragments/FragmentContextMenuSupport.java" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/../JakeWharton-ActionBarSherlock-88fc341/samples/fragments/src/com/actionbarsherlock/sample/fragments/FragmentCustomAnimationSupport.java" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/../JakeWharton-ActionBarSherlock-88fc341/samples/fragments/src/com/actionbarsherlock/sample/fragments/FragmentDialogOrActivitySupport.java" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/../JakeWharton-ActionBarSherlock-88fc341/samples/fragments/src/com/actionbarsherlock/sample/fragments/FragmentDialogSupport.java" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/../JakeWharton-ActionBarSherlock-88fc341/samples/fragments/src/com/actionbarsherlock/sample/fragments/FragmentHideShowSupport.java" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/../JakeWharton-ActionBarSherlock-88fc341/samples/fragments/src/com/actionbarsherlock/sample/fragments/FragmentLayoutSupport.java" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/../JakeWharton-ActionBarSherlock-88fc341/samples/fragments/src/com/actionbarsherlock/sample/fragments/FragmentListArraySupport.java" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/../JakeWharton-ActionBarSherlock-88fc341/samples/fragments/src/com/actionbarsherlock/sample/fragments/FragmentMenuSupport.java" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/../JakeWharton-ActionBarSherlock-88fc341/samples/fragments/src/com/actionbarsherlock/sample/fragments/FragmentPagerSupport.java" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/../JakeWharton-ActionBarSherlock-88fc341/samples/fragments/src/com/actionbarsherlock/sample/fragments/FragmentReceiveResultSupport.java" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/../JakeWharton-ActionBarSherlock-88fc341/samples/fragments/src/com/actionbarsherlock/sample/fragments/FragmentRetainInstanceSupport.java" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/../JakeWharton-ActionBarSherlock-88fc341/samples/fragments/src/com/actionbarsherlock/sample/fragments/FragmentStackSupport.java" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/../JakeWharton-ActionBarSherlock-88fc341/samples/fragments/src/com/actionbarsherlock/sample/fragments/FragmentStatePagerSupport.java" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/../JakeWharton-ActionBarSherlock-88fc341/samples/fragments/src/com/actionbarsherlock/sample/fragments/FragmentTabs.java" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/../JakeWharton-ActionBarSherlock-88fc341/samples/fragments/src/com/actionbarsherlock/sample/fragments/FragmentTabsPager.java" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/../JakeWharton-ActionBarSherlock-88fc341/samples/fragments/src/com/actionbarsherlock/sample/fragments/LoaderCursorSupport.java" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/../JakeWharton-ActionBarSherlock-88fc341/samples/fragments/src/com/actionbarsherlock/sample/fragments/LoaderCustomSupport.java" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/../JakeWharton-ActionBarSherlock-88fc341/samples/fragments/src/com/actionbarsherlock/sample/fragments/LoaderThrottleSupport.java" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/../JakeWharton-ActionBarSherlock-88fc341/samples/fragments/src/com/actionbarsherlock/sample/fragments/SampleList.java" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/../JakeWharton-ActionBarSherlock-88fc341/samples/fragments/src/com/actionbarsherlock/sample/fragments/SendResult.java" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/../JakeWharton-ActionBarSherlock-88fc341/samples/fragments/src/com/actionbarsherlock/sample/fragments/Shakespeare.java" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/../JakeWharton-ActionBarSherlock-88fc341/samples/known-bugs/AndroidManifest.xml" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/../JakeWharton-ActionBarSherlock-88fc341/samples/known-bugs/Known-bugs.iml" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/../JakeWharton-ActionBarSherlock-88fc341/samples/known-bugs/pom.xml" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/../JakeWharton-ActionBarSherlock-88fc341/samples/known-bugs/project.properties" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/../JakeWharton-ActionBarSherlock-88fc341/samples/known-bugs/res/anim/issue331_refresh.xml" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/../JakeWharton-ActionBarSherlock-88fc341/samples/known-bugs/res/layout/issue331_action_view.xml" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/../JakeWharton-ActionBarSherlock-88fc341/samples/known-bugs/res/values/strings.xml" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/../JakeWharton-ActionBarSherlock-88fc341/samples/known-bugs/src/com/actionbarsherlock/sample/knownbugs/Issue331.java" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/../JakeWharton-ActionBarSherlock-88fc341/samples/known-bugs/src/com/actionbarsherlock/sample/knownbugs/Issue435.java" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/../JakeWharton-ActionBarSherlock-88fc341/samples/known-bugs/src/com/actionbarsherlock/sample/knownbugs/SampleList.java" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/../JakeWharton-ActionBarSherlock-88fc341/samples/roboguice/AndroidManifest.xml" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/../JakeWharton-ActionBarSherlock-88fc341/samples/roboguice/Roboguice.iml" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/../JakeWharton-ActionBarSherlock-88fc341/samples/roboguice/pom.xml" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/../JakeWharton-ActionBarSherlock-88fc341/samples/roboguice/project.properties" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/../JakeWharton-ActionBarSherlock-88fc341/samples/roboguice/res/anim/expletive_animation.xml" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/../JakeWharton-ActionBarSherlock-88fc341/samples/roboguice/res/layout/fight_evil.xml" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/../JakeWharton-ActionBarSherlock-88fc341/samples/roboguice/res/layout/main.xml" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/../JakeWharton-ActionBarSherlock-88fc341/samples/roboguice/res/values/strings.xml" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/../JakeWharton-ActionBarSherlock-88fc341/samples/roboguice/src/com/actionbarsherlock/sample/roboguice/activity/AstroboyMasterConsole.java" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/../JakeWharton-ActionBarSherlock-88fc341/samples/roboguice/src/com/actionbarsherlock/sample/roboguice/activity/FightForcesOfEvilActivity.java" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/../JakeWharton-ActionBarSherlock-88fc341/samples/roboguice/src/com/actionbarsherlock/sample/roboguice/controller/Astroboy.java" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/../JakeWharton-ActionBarSherlock-88fc341/samples/roboguice/src/com/actionbarsherlock/sample/roboguice/controller/AstroboyRemoteControl.java" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/../JakeWharton-ActionBarSherlock-88fc341/samples/styled/AndroidManifest.xml" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/../JakeWharton-ActionBarSherlock-88fc341/samples/styled/README.md" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/../JakeWharton-ActionBarSherlock-88fc341/samples/styled/Styled.iml" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/../JakeWharton-ActionBarSherlock-88fc341/samples/styled/pom.xml" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/../JakeWharton-ActionBarSherlock-88fc341/samples/styled/project.properties" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/../JakeWharton-ActionBarSherlock-88fc341/samples/styled/res/drawable/actionbar_tab_bg.xml" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/../JakeWharton-ActionBarSherlock-88fc341/samples/styled/res/drawable/ad_action_bar_gradient_bak.xml" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/../JakeWharton-ActionBarSherlock-88fc341/samples/styled/res/drawable/ad_btn_check_holo_light.xml" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/../JakeWharton-ActionBarSherlock-88fc341/samples/styled/res/drawable/ad_btn_radio_holo_light.xml" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/../JakeWharton-ActionBarSherlock-88fc341/samples/styled/res/drawable/ad_selectable_background.xml" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/../JakeWharton-ActionBarSherlock-88fc341/samples/styled/res/drawable/ad_spinner_background_holo_light.xml" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/../JakeWharton-ActionBarSherlock-88fc341/samples/styled/res/drawable/rounded_rect.xml" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/../JakeWharton-ActionBarSherlock-88fc341/samples/styled/res/drawable/selected_background.xml" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/../JakeWharton-ActionBarSherlock-88fc341/samples/styled/res/layout/indeterminate_progress_action.xml" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/../JakeWharton-ActionBarSherlock-88fc341/samples/styled/res/layout/main.xml" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/../JakeWharton-ActionBarSherlock-88fc341/samples/styled/res/menu/main_menu.xml" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/../JakeWharton-ActionBarSherlock-88fc341/samples/styled/res/values/arrays.xml" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/../JakeWharton-ActionBarSherlock-88fc341/samples/styled/res/values/colors.xml" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/../JakeWharton-ActionBarSherlock-88fc341/samples/styled/res/values/dimens.xml" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/../JakeWharton-ActionBarSherlock-88fc341/samples/styled/res/values/strings.xml" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/../JakeWharton-ActionBarSherlock-88fc341/samples/styled/res/values/styles.xml" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/../JakeWharton-ActionBarSherlock-88fc341/samples/styled/src/com/actionbarsherlock/sample/styled/MainActivity.java" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/../JakeWharton-ActionBarSherlock-88fc341/samples/styled/src/com/actionbarsherlock/sample/styled/RoundedColourFragment.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/AndroidManifest.xml" afterPath="$PROJECT_DIR$/AndroidManifest.xml" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/project.properties" afterPath="$PROJECT_DIR$/project.properties" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/res/layout/info_action_bar_tab.xml" afterPath="$PROJECT_DIR$/res/layout/info_action_bar_tab.xml" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/res/menu/info_menu.xml" afterPath="$PROJECT_DIR$/res/menu/info_menu.xml" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/res/values-land/styles.xml" afterPath="$PROJECT_DIR$/res/values-land/styles.xml" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/res/values/styles.xml" afterPath="$PROJECT_DIR$/res/values/styles.xml" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/su/geocaching/android/ui/info/AbstractWebViewFragment.java" afterPath="$PROJECT_DIR$/src/su/geocaching/android/ui/info/AbstractWebViewFragment.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/su/geocaching/android/ui/info/AdvancedInfoActivity.java" afterPath="$PROJECT_DIR$/src/su/geocaching/android/ui/info/AdvancedInfoActivity.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/su/geocaching/android/ui/info/PhotoFragment.java" afterPath="$PROJECT_DIR$/src/su/geocaching/android/ui/info/PhotoFragment.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/su/geocaching/android/ui/preferences/CompassPreferenceActivity.java" afterPath="$PROJECT_DIR$/src/su/geocaching/android/ui/preferences/CompassPreferenceActivity.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/su/geocaching/android/ui/preferences/DashboardPreferenceActivity.java" afterPath="$PROJECT_DIR$/src/su/geocaching/android/ui/preferences/DashboardPreferenceActivity.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/su/geocaching/android/ui/preferences/EnergySavingPreferenceActivity.java" afterPath="$PROJECT_DIR$/src/su/geocaching/android/ui/preferences/EnergySavingPreferenceActivity.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/su/geocaching/android/ui/preferences/MapPreferenceActivity.java" afterPath="$PROJECT_DIR$/src/su/geocaching/android/ui/preferences/MapPreferenceActivity.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/su/geocaching/android/ui/preferences/TrafficPreferenceActivity.java" afterPath="$PROJECT_DIR$/src/su/geocaching/android/ui/preferences/TrafficPreferenceActivity.java" />
+    </list>
+    <ignored path="Android-Geocaching.iws" />
+    <ignored path=".idea/workspace.xml" />
+    <option name="TRACKING_ENABLED" value="true" />
+    <option name="SHOW_DIALOG" value="false" />
+    <option name="HIGHLIGHT_CONFLICTS" value="true" />
+    <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
+    <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="ChangesViewManager" flattened_view="true" show_ignored="false" />
+  <component name="CreatePatchCommitExecutor">
+    <option name="PATCH_PATH" value="" />
+  </component>
+  <component name="DaemonCodeAnalyzer">
+    <disable_hints />
+  </component>
+  <component name="DebuggerManager">
+    <breakpoint_any>
+      <breakpoint>
+        <option name="NOTIFY_CAUGHT" value="true" />
+        <option name="NOTIFY_UNCAUGHT" value="true" />
+        <option name="ENABLED" value="false" />
+        <option name="LOG_ENABLED" value="false" />
+        <option name="LOG_EXPRESSION_ENABLED" value="false" />
+        <option name="SUSPEND_POLICY" value="SuspendAll" />
+        <option name="COUNT_FILTER_ENABLED" value="false" />
+        <option name="COUNT_FILTER" value="0" />
+        <option name="CONDITION_ENABLED" value="false" />
+        <option name="CLASS_FILTERS_ENABLED" value="false" />
+        <option name="INSTANCE_FILTERS_ENABLED" value="false" />
+        <option name="CONDITION" value="" />
+        <option name="LOG_MESSAGE" value="" />
+      </breakpoint>
+      <breakpoint>
+        <option name="NOTIFY_CAUGHT" value="true" />
+        <option name="NOTIFY_UNCAUGHT" value="true" />
+        <option name="ENABLED" value="false" />
+        <option name="LOG_ENABLED" value="false" />
+        <option name="LOG_EXPRESSION_ENABLED" value="false" />
+        <option name="SUSPEND_POLICY" value="SuspendAll" />
+        <option name="COUNT_FILTER_ENABLED" value="false" />
+        <option name="COUNT_FILTER" value="0" />
+        <option name="CONDITION_ENABLED" value="false" />
+        <option name="CLASS_FILTERS_ENABLED" value="false" />
+        <option name="INSTANCE_FILTERS_ENABLED" value="false" />
+        <option name="CONDITION" value="" />
+        <option name="LOG_MESSAGE" value="" />
+      </breakpoint>
+    </breakpoint_any>
+    <breakpoint_rules />
+    <ui_properties />
+  </component>
+  <component name="FavoritesManager">
+    <favorites_list name="Android-Geocaching" />
+  </component>
+  <component name="FileEditorManager">
+    <leaf>
+      <file leaf-file-name="styles.xml" pinned="false" current="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/res/values/styles.xml">
+          <provider selected="true" editor-type-id="text-editor">
+            <state line="93" column="30" selection-start="4129" selection-end="4129" vertical-scroll-proportion="-18.461538">
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="AndroidManifest.xml" pinned="false" current="true" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/AndroidManifest.xml">
+          <provider selected="true" editor-type-id="text-editor">
+            <state line="22" column="12" selection-start="1033" selection-end="1033" vertical-scroll-proportion="-1.0603448">
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="AdvancedInfoActivity.java" pinned="false" current="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/su/geocaching/android/ui/info/AdvancedInfoActivity.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state line="56" column="11" selection-start="1975" selection-end="1975" vertical-scroll-proportion="0.0">
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="styles.xml" pinned="false" current="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/res/values-land/styles.xml">
+          <provider selected="true" editor-type-id="text-editor">
+            <state line="4" column="12" selection-start="217" selection-end="217" vertical-scroll-proportion="0.0">
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="info_action_bar_tab.xml" pinned="false" current="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/res/layout/info_action_bar_tab.xml">
+          <provider selected="true" editor-type-id="text-editor">
+            <state line="6" column="0" selection-start="254" selection-end="320" vertical-scroll-proportion="0.0">
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+    </leaf>
+  </component>
+  <component name="FindManager">
+    <FindUsagesManager>
+      <setting name="OPEN_NEW_TAB" value="false" />
+    </FindUsagesManager>
+  </component>
+  <component name="IdeDocumentHistory">
+    <option name="changedFiles">
+      <list>
+        <option value="C:/Android/android-sdk/platforms/android-15/data/res/values/styles.xml" />
+        <option value="$PROJECT_DIR$/src/su/geocaching/android/ui/info/PhotoFragment.java" />
+        <option value="$PROJECT_DIR$/src/su/geocaching/android/ui/info/AbstractWebViewFragment.java" />
+        <option value="$PROJECT_DIR$/src/su/geocaching/android/ui/preferences/CompassPreferenceActivity.java" />
+        <option value="$PROJECT_DIR$/src/su/geocaching/android/ui/preferences/DashboardPreferenceActivity.java" />
+        <option value="$PROJECT_DIR$/src/su/geocaching/android/ui/preferences/EnergySavingPreferenceActivity.java" />
+        <option value="$PROJECT_DIR$/src/su/geocaching/android/ui/preferences/MapPreferenceActivity.java" />
+        <option value="$PROJECT_DIR$/src/su/geocaching/android/ui/preferences/TrafficPreferenceActivity.java" />
+        <option value="$PROJECT_DIR$/res/layout/info_action_bar_tab.xml" />
+        <option value="$PROJECT_DIR$/res/values-land/styles.xml" />
+        <option value="$PROJECT_DIR$/AndroidManifest.xml" />
+        <option value="$PROJECT_DIR$/res/menu/info_menu.xml" />
+        <option value="$PROJECT_DIR$/src/su/geocaching/android/ui/info/AdvancedInfoActivity.java" />
+        <option value="$PROJECT_DIR$/res/values/styles.xml" />
+      </list>
+    </option>
+  </component>
+  <component name="MavenRunner">
+    <option name="jreName" value="#JAVA_INTERNAL" />
+  </component>
+  <component name="ProjectFrameBounds">
+    <option name="x" value="-8" />
+    <option name="y" value="-8" />
+    <option name="width" value="1382" />
+    <option name="height" value="744" />
+  </component>
+  <component name="ProjectLevelVcsManager" settingsEditedManually="false">
+    <OptionsSetting value="true" id="Add" />
+    <OptionsSetting value="true" id="Remove" />
+    <OptionsSetting value="true" id="Checkout" />
+    <OptionsSetting value="true" id="Update" />
+    <OptionsSetting value="true" id="Status" />
+    <OptionsSetting value="true" id="Edit" />
+    <ConfirmationsSetting value="0" id="Add" />
+    <ConfirmationsSetting value="0" id="Remove" />
+  </component>
+  <component name="ProjectReloadState">
+    <option name="STATE" value="0" />
+  </component>
+  <component name="ProjectView">
+    <navigator currentView="ProjectPane" proportions="" version="1" splitterProportion="0.5">
+      <flattenPackages />
+      <showMembers />
+      <showModules />
+      <showLibraryContents />
+      <hideEmptyPackages />
+      <abbreviatePackageNames />
+      <autoscrollToSource />
+      <autoscrollFromSource />
+      <sortByType />
+    </navigator>
+    <panes>
+      <pane id="PackagesPane">
+        <subPane>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="Android-Geocaching" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PackageViewProjectNode" />
+            </PATH_ELEMENT>
+          </PATH>
+        </subPane>
+      </pane>
+      <pane id="Scope">
+        <subPane subId="Project Files">
+          <PATH>
+            <PATH_ELEMENT USER_OBJECT="Root">
+              <option name="myItemId" value="" />
+              <option name="myItemType" value="" />
+            </PATH_ELEMENT>
+          </PATH>
+        </subPane>
+      </pane>
+      <pane id="ProjectPane">
+        <subPane>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="Android-Geocaching" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="External Libraries" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ExternalLibrariesNode" />
+            </PATH_ELEMENT>
+          </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="Android-Geocaching" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
+            </PATH_ELEMENT>
+          </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="Android-Geocaching" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="Android-Geocaching" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+          </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="Android-Geocaching" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="Android-Geocaching" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="res" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+          </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="Android-Geocaching" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="Android-Geocaching" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="res" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="values-land" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+          </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="Android-Geocaching" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="Android-Geocaching" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="res" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="values" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+          </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="Android-Geocaching" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="Android-Geocaching" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="res" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="menu" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+          </PATH>
+        </subPane>
+      </pane>
+    </panes>
+  </component>
+  <component name="PropertiesComponent">
+    <property name="project.structure.last.edited" value="Modules" />
+    <property name="GoToFile.includeJavaFiles" value="false" />
+    <property name="project.structure.proportion" value="0.15" />
+    <property name="GoToClass.toSaveIncludeLibraries" value="false" />
+    <property name="recentsLimit" value="5" />
+    <property name="MemberChooser.sorted" value="false" />
+    <property name="MemberChooser.showClasses" value="true" />
+    <property name="project.structure.side.proportion" value="0.2" />
+    <property name="GoToClass.includeLibraries" value="false" />
+    <property name="MemberChooser.copyJavadoc" value="false" />
+  </component>
+  <component name="RunManager" selected="Android Application.Android-Geocaching">
+    <configuration default="true" type="Remote" factoryName="Remote">
+      <option name="USE_SOCKET_TRANSPORT" value="true" />
+      <option name="SERVER_MODE" value="false" />
+      <option name="SHMEM_ADDRESS" value="javadebug" />
+      <option name="HOST" value="localhost" />
+      <option name="PORT" value="5005" />
+      <method>
+        <option name="AntTarget" enabled="false" />
+        <option name="BuildArtifacts" enabled="false" />
+        <option name="Maven.BeforeRunTask" enabled="false" />
+      </method>
+    </configuration>
+    <configuration default="true" type="Applet" factoryName="Applet">
+      <module name="" />
+      <option name="MAIN_CLASS_NAME" />
+      <option name="HTML_FILE_NAME" />
+      <option name="HTML_USED" value="false" />
+      <option name="WIDTH" value="400" />
+      <option name="HEIGHT" value="300" />
+      <option name="POLICY_FILE" value="$APPLICATION_HOME_DIR$/bin/appletviewer.policy" />
+      <option name="VM_PARAMETERS" />
+      <option name="ALTERNATIVE_JRE_PATH_ENABLED" value="false" />
+      <option name="ALTERNATIVE_JRE_PATH" />
+      <method>
+        <option name="AntTarget" enabled="false" />
+        <option name="BuildArtifacts" enabled="false" />
+        <option name="Make" enabled="true" />
+        <option name="Maven.BeforeRunTask" enabled="false" />
+      </method>
+    </configuration>
+    <configuration default="true" type="Application" factoryName="Application">
+      <option name="MAIN_CLASS_NAME" />
+      <option name="VM_PARAMETERS" />
+      <option name="PROGRAM_PARAMETERS" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$" />
+      <option name="ALTERNATIVE_JRE_PATH_ENABLED" value="false" />
+      <option name="ALTERNATIVE_JRE_PATH" />
+      <option name="ENABLE_SWING_INSPECTOR" value="false" />
+      <option name="ENV_VARIABLES" />
+      <option name="PASS_PARENT_ENVS" value="true" />
+      <module name="" />
+      <envs />
+      <method>
+        <option name="AntTarget" enabled="false" />
+        <option name="BuildArtifacts" enabled="false" />
+        <option name="Make" enabled="true" />
+        <option name="Maven.BeforeRunTask" enabled="false" />
+      </method>
+    </configuration>
+    <configuration default="true" type="JUnit" factoryName="JUnit">
+      <module name="" />
+      <option name="ALTERNATIVE_JRE_PATH_ENABLED" value="false" />
+      <option name="ALTERNATIVE_JRE_PATH" />
+      <option name="PACKAGE_NAME" />
+      <option name="MAIN_CLASS_NAME" />
+      <option name="METHOD_NAME" />
+      <option name="TEST_OBJECT" value="class" />
+      <option name="VM_PARAMETERS" />
+      <option name="PARAMETERS" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$" />
+      <option name="ENV_VARIABLES" />
+      <option name="PASS_PARENT_ENVS" value="true" />
+      <option name="TEST_SEARCH_SCOPE">
+        <value defaultName="moduleWithDependencies" />
+      </option>
+      <envs />
+      <patterns />
+      <method>
+        <option name="AntTarget" enabled="false" />
+        <option name="BuildArtifacts" enabled="false" />
+        <option name="Make" enabled="true" />
+        <option name="Maven.BeforeRunTask" enabled="false" />
+      </method>
+    </configuration>
+    <configuration default="true" type="AndroidRunConfigurationType" factoryName="Android Application">
+      <module name="" />
+      <option name="ACTIVITY_CLASS" value="" />
+      <option name="MODE" value="default_activity" />
+      <option name="DEPLOY" value="true" />
+      <option name="TARGET_SELECTION_MODE" value="EMULATOR" />
+      <option name="PREFERRED_AVD" value="" />
+      <option name="COMMAND_LINE" value="" />
+      <option name="WIPE_USER_DATA" value="false" />
+      <option name="DISABLE_BOOT_ANIMATION" value="false" />
+      <option name="NETWORK_SPEED" value="full" />
+      <option name="NETWORK_LATENCY" value="none" />
+      <option name="CLEAR_LOGCAT" value="false" />
+      <method>
+        <option name="AntTarget" enabled="false" />
+        <option name="BuildArtifacts" enabled="false" />
+        <option name="Make" enabled="true" />
+        <option name="Maven.BeforeRunTask" enabled="false" />
+      </method>
+    </configuration>
+    <configuration default="false" name="Android-Geocaching" type="AndroidRunConfigurationType" factoryName="Android Application">
+      <module name="Android-Geocaching" />
+      <option name="ACTIVITY_CLASS" value="" />
+      <option name="MODE" value="default_activity" />
+      <option name="DEPLOY" value="true" />
+      <option name="TARGET_SELECTION_MODE" value="USB_DEVICE" />
+      <option name="PREFERRED_AVD" value="" />
+      <option name="COMMAND_LINE" value="" />
+      <option name="WIPE_USER_DATA" value="false" />
+      <option name="DISABLE_BOOT_ANIMATION" value="false" />
+      <option name="NETWORK_SPEED" value="full" />
+      <option name="NETWORK_LATENCY" value="none" />
+      <option name="CLEAR_LOGCAT" value="false" />
+      <RunnerSettings RunnerId="AndroidDebugRunner" />
+      <RunnerSettings RunnerId="Run" />
+      <ConfigurationWrapper RunnerId="AndroidDebugRunner" />
+      <ConfigurationWrapper RunnerId="Run" />
+      <method />
+    </configuration>
+    <list size="1">
+      <item index="0" class="java.lang.String" itemvalue="Android Application.Android-Geocaching" />
+    </list>
+    <configuration name="&lt;template&gt;" type="WebApp" default="true" selected="false">
+      <Host>localhost</Host>
+      <Port>5050</Port>
+    </configuration>
+  </component>
+  <component name="ShelveChangesManager" show_recycled="false" />
+  <component name="SvnConfiguration" maxAnnotateRevisions="500" myUseAcceleration="nothing" myAutoUpdateAfterCommit="false" cleanupOnStartRun="true">
+    <option name="USER" value="" />
+    <option name="PASSWORD" value="" />
+    <option name="mySSHConnectionTimeout" value="30000" />
+    <option name="mySSHReadTimeout" value="30000" />
+    <option name="LAST_MERGED_REVISION" />
+    <option name="MERGE_DRY_RUN" value="false" />
+    <option name="MERGE_DIFF_USE_ANCESTRY" value="true" />
+    <option name="UPDATE_LOCK_ON_DEMAND" value="false" />
+    <option name="IGNORE_SPACES_IN_MERGE" value="false" />
+    <option name="DETECT_NESTED_COPIES" value="true" />
+    <option name="CHECK_NESTED_FOR_QUICK_MERGE" value="false" />
+    <option name="IGNORE_SPACES_IN_ANNOTATE" value="true" />
+    <option name="SHOW_MERGE_SOURCES_IN_ANNOTATE" value="true" />
+    <option name="FORCE_UPDATE" value="false" />
+    <configuration useDefault="true">C:\Users\nartamonov\AppData\Roaming\Subversion</configuration>
+    <myIsUseDefaultProxy>false</myIsUseDefaultProxy>
+    <supportedVersion>125</supportedVersion>
+  </component>
+  <component name="SvnFileUrlMappingImpl">
+    <option name="myMappingRoots">
+      <list>
+        <SvnCopyRootSimple>
+          <option name="myVcsRoot" value="E:\Projects\android-geocaching\trunk\Android-Geocaching" />
+          <option name="myCopyRoot" value="E:\Projects\android-geocaching\trunk\Android-Geocaching" />
+        </SvnCopyRootSimple>
+        <SvnCopyRootSimple>
+          <option name="myVcsRoot" value="E:\Projects\android-geocaching\trunk\JakeWharton-ActionBarSherlock-88fc341\library" />
+          <option name="myCopyRoot" value="E:\Projects\android-geocaching\trunk\JakeWharton-ActionBarSherlock-88fc341\library" />
+        </SvnCopyRootSimple>
+        <SvnCopyRootSimple>
+          <option name="myVcsRoot" value="E:\Projects\android-geocaching\trunk\JakeWharton-ActionBarSherlock-88fc341\samples\demos" />
+          <option name="myCopyRoot" value="E:\Projects\android-geocaching\trunk\JakeWharton-ActionBarSherlock-88fc341\samples\demos" />
+        </SvnCopyRootSimple>
+        <SvnCopyRootSimple>
+          <option name="myVcsRoot" value="E:\Projects\android-geocaching\trunk\JakeWharton-ActionBarSherlock-88fc341\samples\fragments" />
+          <option name="myCopyRoot" value="E:\Projects\android-geocaching\trunk\JakeWharton-ActionBarSherlock-88fc341\samples\fragments" />
+        </SvnCopyRootSimple>
+        <SvnCopyRootSimple>
+          <option name="myVcsRoot" value="E:\Projects\android-geocaching\trunk\JakeWharton-ActionBarSherlock-88fc341\samples\known-bugs" />
+          <option name="myCopyRoot" value="E:\Projects\android-geocaching\trunk\JakeWharton-ActionBarSherlock-88fc341\samples\known-bugs" />
+        </SvnCopyRootSimple>
+        <SvnCopyRootSimple>
+          <option name="myVcsRoot" value="E:\Projects\android-geocaching\trunk\JakeWharton-ActionBarSherlock-88fc341\samples\roboguice" />
+          <option name="myCopyRoot" value="E:\Projects\android-geocaching\trunk\JakeWharton-ActionBarSherlock-88fc341\samples\roboguice" />
+        </SvnCopyRootSimple>
+        <SvnCopyRootSimple>
+          <option name="myVcsRoot" value="E:\Projects\android-geocaching\trunk\JakeWharton-ActionBarSherlock-88fc341\samples\styled" />
+          <option name="myCopyRoot" value="E:\Projects\android-geocaching\trunk\JakeWharton-ActionBarSherlock-88fc341\samples\styled" />
+        </SvnCopyRootSimple>
+      </list>
+    </option>
+    <option name="myMoreRealMappingRoots">
+      <list>
+        <SvnCopyRootSimple>
+          <option name="myVcsRoot" value="E:\Projects\android-geocaching\trunk\Android-Geocaching" />
+          <option name="myCopyRoot" value="E:\Projects\android-geocaching\trunk\Android-Geocaching" />
+        </SvnCopyRootSimple>
+        <SvnCopyRootSimple>
+          <option name="myVcsRoot" value="E:\Projects\android-geocaching\trunk\JakeWharton-ActionBarSherlock-88fc341\library" />
+          <option name="myCopyRoot" value="E:\Projects\android-geocaching\trunk\JakeWharton-ActionBarSherlock-88fc341\library" />
+        </SvnCopyRootSimple>
+        <SvnCopyRootSimple>
+          <option name="myVcsRoot" value="E:\Projects\android-geocaching\trunk\JakeWharton-ActionBarSherlock-88fc341\samples\demos" />
+          <option name="myCopyRoot" value="E:\Projects\android-geocaching\trunk\JakeWharton-ActionBarSherlock-88fc341\samples\demos" />
+        </SvnCopyRootSimple>
+        <SvnCopyRootSimple>
+          <option name="myVcsRoot" value="E:\Projects\android-geocaching\trunk\JakeWharton-ActionBarSherlock-88fc341\samples\fragments" />
+          <option name="myCopyRoot" value="E:\Projects\android-geocaching\trunk\JakeWharton-ActionBarSherlock-88fc341\samples\fragments" />
+        </SvnCopyRootSimple>
+        <SvnCopyRootSimple>
+          <option name="myVcsRoot" value="E:\Projects\android-geocaching\trunk\JakeWharton-ActionBarSherlock-88fc341\samples\known-bugs" />
+          <option name="myCopyRoot" value="E:\Projects\android-geocaching\trunk\JakeWharton-ActionBarSherlock-88fc341\samples\known-bugs" />
+        </SvnCopyRootSimple>
+        <SvnCopyRootSimple>
+          <option name="myVcsRoot" value="E:\Projects\android-geocaching\trunk\JakeWharton-ActionBarSherlock-88fc341\samples\roboguice" />
+          <option name="myCopyRoot" value="E:\Projects\android-geocaching\trunk\JakeWharton-ActionBarSherlock-88fc341\samples\roboguice" />
+        </SvnCopyRootSimple>
+        <SvnCopyRootSimple>
+          <option name="myVcsRoot" value="E:\Projects\android-geocaching\trunk\JakeWharton-ActionBarSherlock-88fc341\samples\styled" />
+          <option name="myCopyRoot" value="E:\Projects\android-geocaching\trunk\JakeWharton-ActionBarSherlock-88fc341\samples\styled" />
+        </SvnCopyRootSimple>
+      </list>
+    </option>
+  </component>
+  <component name="TaskManager">
+    <task active="true" id="Default" summary="Default task">
+      <changelist id="9dfe056f-2d77-44b2-a1e9-8cd41c586ab0" name="Default" comment="" />
+      <created>1345833862897</created>
+      <updated>1345833862897</updated>
+    </task>
+    <servers />
+  </component>
+  <component name="ToolWindowManager">
+    <frame x="-8" y="-8" width="1382" height="744" extended-state="7" />
+    <editor active="true" />
+    <layout>
+      <window_info id="Changes" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
+      <window_info id="JetGradle" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
+      <window_info id="Preview" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32953683" sideWeight="0.42668864" order="0" side_tool="false" content_ui="tabs" />
+      <window_info id="Palette" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
+      <window_info id="Ant Build" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
+      <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.5733114" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
+      <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="7" side_tool="true" content_ui="tabs" />
+      <window_info id="Favorites" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="2" side_tool="true" content_ui="tabs" />
+      <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
+      <window_info id="Messages" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.41118422" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
+      <window_info id="Android" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.5436573" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
+      <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
+      <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="1" side_tool="true" content_ui="tabs" />
+      <window_info id="Maven Projects" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="5" side_tool="false" content_ui="tabs" />
+      <window_info id="Commander" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.4" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
+      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.24069856" sideWeight="0.42668864" order="0" side_tool="false" content_ui="combo" />
+      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32894737" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
+      <window_info id="Cvs" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
+      <window_info id="Message" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
+      <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.6365132" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
+      <window_info id="Hierarchy" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="3" side_tool="false" content_ui="combo" />
+      <window_info id="Inspection" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.4" sideWeight="0.5" order="5" side_tool="false" content_ui="tabs" />
+    </layout>
+  </component>
+  <component name="VcsContentAnnotationSettings">
+    <option name="myLimit" value="2678400000" />
+  </component>
+  <component name="VcsManagerConfiguration">
+    <option name="OFFER_MOVE_TO_ANOTHER_CHANGELIST_ON_PARTIAL_COMMIT" value="true" />
+    <option name="CHECK_CODE_SMELLS_BEFORE_PROJECT_COMMIT" value="true" />
+    <option name="CHECK_NEW_TODO" value="true" />
+    <option name="myTodoPanelSettings">
+      <value>
+        <are-packages-shown value="false" />
+        <are-modules-shown value="false" />
+        <flatten-packages value="false" />
+        <is-autoscroll-to-source value="false" />
+      </value>
+    </option>
+    <option name="PERFORM_UPDATE_IN_BACKGROUND" value="true" />
+    <option name="PERFORM_COMMIT_IN_BACKGROUND" value="true" />
+    <option name="PERFORM_EDIT_IN_BACKGROUND" value="true" />
+    <option name="PERFORM_CHECKOUT_IN_BACKGROUND" value="true" />
+    <option name="PERFORM_ADD_REMOVE_IN_BACKGROUND" value="true" />
+    <option name="PERFORM_ROLLBACK_IN_BACKGROUND" value="false" />
+    <option name="CHECK_LOCALLY_CHANGED_CONFLICTS_IN_BACKGROUND" value="false" />
+    <option name="ENABLE_BACKGROUND_PROCESSES" value="false" />
+    <option name="CHANGED_ON_SERVER_INTERVAL" value="60" />
+    <option name="SHOW_ONLY_CHANGED_IN_SELECTION_DIFF" value="true" />
+    <option name="CHECK_COMMIT_MESSAGE_SPELLING" value="true" />
+    <option name="DEFAULT_PATCH_EXTENSION" value="patch" />
+    <option name="SHORT_DIFF_HORISONTALLY" value="true" />
+    <option name="SHORT_DIFF_EXTRA_LINES" value="2" />
+    <option name="SOFT_WRAPS_IN_SHORT_DIFF" value="true" />
+    <option name="INCLUDE_TEXT_INTO_PATCH" value="false" />
+    <option name="INCLUDE_TEXT_INTO_SHELF" value="false" />
+    <option name="CREATE_PATCH_EXPAND_DETAILS_DEFAULT" value="true" />
+    <option name="SHOW_FILE_HISTORY_DETAILS" value="true" />
+    <option name="SHOW_VCS_ERROR_NOTIFICATIONS" value="true" />
+    <option name="FORCE_NON_EMPTY_COMMENT" value="false" />
+    <option name="CLEAR_INITIAL_COMMIT_MESSAGE" value="false" />
+    <option name="LAST_COMMIT_MESSAGE" />
+    <option name="MAKE_NEW_CHANGELIST_ACTIVE" value="true" />
+    <option name="OPTIMIZE_IMPORTS_BEFORE_PROJECT_COMMIT" value="false" />
+    <option name="CHECK_FILES_UP_TO_DATE_BEFORE_COMMIT" value="false" />
+    <option name="REFORMAT_BEFORE_PROJECT_COMMIT" value="false" />
+    <option name="REFORMAT_BEFORE_FILE_COMMIT" value="false" />
+    <option name="FILE_HISTORY_DIALOG_COMMENTS_SPLITTER_PROPORTION" value="0.8" />
+    <option name="FILE_HISTORY_DIALOG_SPLITTER_PROPORTION" value="0.5" />
+    <option name="ACTIVE_VCS_NAME" />
+    <option name="UPDATE_GROUP_BY_PACKAGES" value="false" />
+    <option name="UPDATE_GROUP_BY_CHANGELIST" value="false" />
+    <option name="SHOW_FILE_HISTORY_AS_TREE" value="false" />
+    <option name="FILE_HISTORY_SPLITTER_PROPORTION" value="0.6" />
+  </component>
+  <component name="XDebuggerManager">
+    <breakpoint-manager />
+  </component>
+  <component name="antWorkspaceConfiguration">
+    <option name="IS_AUTOSCROLL_TO_SOURCE" value="false" />
+    <option name="FILTER_TARGETS" value="false" />
+  </component>
+  <component name="editorHistoryManager">
+    <entry file="file://$PROJECT_DIR$/src/su/geocaching/android/ui/preferences/TrafficPreferenceActivity.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="4" column="43" selection-start="177" selection-end="177" vertical-scroll-proportion="0.20543806" />
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/su/geocaching/android/ui/info/AbstractWebViewFragment.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="150" column="68" selection-start="5680" selection-end="5701" vertical-scroll-proportion="0.6257862" />
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/su/geocaching/android/ui/info/IInfoFragment.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="2" column="17" selection-start="57" selection-end="57" vertical-scroll-proportion="0.10271903" />
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/su/geocaching/android/ui/info/InfoFragment.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="2" column="13" selection-start="53" selection-end="53" vertical-scroll-proportion="0.10271903" />
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/su/geocaching/android/ui/info/PhotoFragment.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="25" column="37" selection-start="889" selection-end="902" vertical-scroll-proportion="1.336478" />
+      </provider>
+    </entry>
+    <entry file="jar://$PROJECT_DIR$/../JakeWharton-ActionBarSherlock-88fc341/library/libs/android-support-v4.jar!/android/support/v4/app/FragmentPagerAdapter.class">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="32" column="48" selection-start="1667" selection-end="1667" vertical-scroll-proportion="0.7859712" />
+      </provider>
+    </entry>
+    <entry file="jar://$PROJECT_DIR$/../JakeWharton-ActionBarSherlock-88fc341/library/libs/android-support-v4.jar!/android/support/v4/app/Fragment.class">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="55" column="117" selection-start="1932" selection-end="1937" vertical-scroll-proportion="0.2854512" />
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/../JakeWharton-ActionBarSherlock-88fc341/samples/styled/res/values/styles.xml">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="22" column="116" selection-start="1096" selection-end="1096" vertical-scroll-proportion="0.8136483" />
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/res/menu/info_menu.xml">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="9" column="75" selection-start="387" selection-end="387" vertical-scroll-proportion="0.2637931">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="jar://C:/Android/android-sdk/platforms/android-15/android.jar!/android/widget/TextView.class">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="196" column="22" selection-start="8466" selection-end="8466" vertical-scroll-proportion="0.33333334">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/su/geocaching/android/ui/info/AdvancedInfoActivity.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="56" column="11" selection-start="1975" selection-end="1975" vertical-scroll-proportion="0.0">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/res/values-land/styles.xml">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="4" column="12" selection-start="217" selection-end="217" vertical-scroll-proportion="0.0">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/res/layout/info_action_bar_tab.xml">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="6" column="0" selection-start="254" selection-end="320" vertical-scroll-proportion="0.0">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/../JakeWharton-ActionBarSherlock-88fc341/library/res/values/abs__styles.xml">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="304" column="69" selection-start="17205" selection-end="17205" vertical-scroll-proportion="0.5862069">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/res/values/styles.xml">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="93" column="30" selection-start="4129" selection-end="4129" vertical-scroll-proportion="-18.461538">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/AndroidManifest.xml">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="22" column="12" selection-start="1033" selection-end="1033" vertical-scroll-proportion="-1.0603448">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+  </component>
+  <component name="masterDetails">
+    <states>
+      <state key="ArtifactsStructureConfigurable.UI">
+        <settings>
+          <artifact-editor />
+          <splitter-proportions>
+            <option name="proportions">
+              <list>
+                <option value="0.2" />
+              </list>
+            </option>
+          </splitter-proportions>
+        </settings>
+      </state>
+      <state key="FacetStructureConfigurable.UI">
+        <settings>
+          <last-edited>Android</last-edited>
+          <splitter-proportions>
+            <option name="proportions">
+              <list>
+                <option value="0.2" />
+              </list>
+            </option>
+          </splitter-proportions>
+        </settings>
+      </state>
+      <state key="GlobalLibrariesConfigurable.UI">
+        <settings>
+          <splitter-proportions>
+            <option name="proportions">
+              <list>
+                <option value="0.2" />
+              </list>
+            </option>
+          </splitter-proportions>
+        </settings>
+      </state>
+      <state key="JdkListConfigurable.UI">
+        <settings>
+          <last-edited>1.6</last-edited>
+          <splitter-proportions>
+            <option name="proportions">
+              <list>
+                <option value="0.2" />
+              </list>
+            </option>
+          </splitter-proportions>
+        </settings>
+      </state>
+      <state key="ModuleStructureConfigurable.UI">
+        <settings>
+          <last-edited>Demos</last-edited>
+          <splitter-proportions>
+            <option name="proportions">
+              <list>
+                <option value="0.2" />
+                <option value="0.5" />
+              </list>
+            </option>
+          </splitter-proportions>
+        </settings>
+      </state>
+      <state key="ProjectJDKs.UI">
+        <settings>
+          <last-edited>1.6</last-edited>
+          <splitter-proportions>
+            <option name="proportions">
+              <list>
+                <option value="0.2" />
+              </list>
+            </option>
+          </splitter-proportions>
+        </settings>
+      </state>
+      <state key="ProjectLibrariesConfigurable.UI">
+        <settings>
+          <last-edited>libs</last-edited>
+          <splitter-proportions>
+            <option name="proportions">
+              <list>
+                <option value="0.2" />
+              </list>
+            </option>
+          </splitter-proportions>
+        </settings>
+      </state>
+    </states>
+  </component>
+</project>
+
