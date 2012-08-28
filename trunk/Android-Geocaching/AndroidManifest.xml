@@ -14,7 +14,7 @@
 
 	<uses-feature android:name="android.hardware.location.gps" android:required="true"/>
 
-    <uses-sdk android:minSdkVersion="7" android:targetSdkVersion="13"/>
+    <uses-sdk android:minSdkVersion="7" android:targetSdkVersion="15"/>
 
     <application
             android:icon="@drawable/ic_launcher"
@@ -50,6 +50,7 @@
         </activity>
       
         <activity
+                android:uiOptions="splitActionBarWhenNarrow"
                 android:name="su.geocaching.android.ui.info.AdvancedInfoActivity"
                 android:theme="@style/Theme.Geocaching">
         </activity>        

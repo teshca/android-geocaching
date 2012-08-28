@@ -2,7 +2,7 @@
 <TextView
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:id="@+id/info_action_bar_tab_text"
-    style="@style/GeocachingActionBarTabTextStyle"
+    style="@style/Geocaching.ActionBar.TabTextStyle"
     android:gravity="center_vertical"    
     android:ellipsize="marquee"
     android:marqueeRepeatLimit="0" 
