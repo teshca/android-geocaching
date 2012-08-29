@@ -14,7 +14,7 @@ public class CompassPreferenceActivity extends SherlockPreferenceActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         Controller.getInstance().getGoogleAnalyticsManager().trackActivityLaunch(COMPASS_PREFERENCE_ACTIVITY_NAME);
-
+        getSupportActionBar().setHomeButtonEnabled(true);
         addPreferencesFromResource(R.xml.compass_preference);
     }
     

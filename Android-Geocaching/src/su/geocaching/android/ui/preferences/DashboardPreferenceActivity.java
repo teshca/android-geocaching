@@ -17,7 +17,7 @@ public class DashboardPreferenceActivity extends SherlockPreferenceActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         Controller.getInstance().getGoogleAnalyticsManager().trackActivityLaunch(DASHBOARD_PREFERENCE_ACTIVITY_NAME);
-
+        getSupportActionBar().setHomeButtonEnabled(true);
         addPreferencesFromResource(R.xml.dashboard_preference);
 
         Preference mapPreference = findPreference("mapPreference");

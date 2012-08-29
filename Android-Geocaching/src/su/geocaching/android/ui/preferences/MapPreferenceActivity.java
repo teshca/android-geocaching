@@ -19,6 +19,7 @@ public class MapPreferenceActivity extends SherlockPreferenceActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         Controller.getInstance().getGoogleAnalyticsManager().trackActivityLaunch(MAP_PREFERENCE_ACTIVITY_NAME);
+        getSupportActionBar().setHomeButtonEnabled(true);
         addPreferencesFromResource(R.xml.map_preference);
     }
     
