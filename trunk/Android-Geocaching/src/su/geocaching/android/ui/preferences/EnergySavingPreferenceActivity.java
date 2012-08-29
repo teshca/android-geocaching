@@ -21,7 +21,7 @@ public class EnergySavingPreferenceActivity extends SherlockPreferenceActivity i
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         Controller.getInstance().getGoogleAnalyticsManager().trackActivityLaunch(ENERGY_SAVING_ACTIVITY_NAME);
-
+        getSupportActionBar().setHomeButtonEnabled(true);
         addPreferencesFromResource(R.xml.energy_saving_preference);
 
         Preference preference = findPreference(getString(R.string.gps_update_frequency_key));

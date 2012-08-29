@@ -19,7 +19,7 @@ public class TrafficPreferenceActivity extends SherlockPreferenceActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         Controller.getInstance().getGoogleAnalyticsManager().trackActivityLaunch(MOBILE_TRAFFIC_ACTIVITY_NAME);
-
+        getSupportActionBar().setHomeButtonEnabled(true);
         addPreferencesFromResource(R.xml.traffic_preference);
     }
     
