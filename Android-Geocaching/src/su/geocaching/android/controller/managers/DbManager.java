@@ -293,11 +293,13 @@ public class DbManager extends SQLiteOpenHelper {
             String photos = cursor.getString(cursor.getColumnIndex(COLUMN_PHOTOS));
             if (photos != null) {
                 photosUrl = new ArrayList<URL>();
-                for (String url : photos.split(PHOTO_URL_DEVIDER)) {
-                    try {
-                        photosUrl.add(new URL(url));
-                    } catch (MalformedURLException e) {
-                        LogManager.e(TAG, e);
+                if (!photos.equals("")) {
+                    for (String url : photos.split(PHOTO_URL_DEVIDER)) {
+                        try {
+                            photosUrl.add(new URL(url));
+                        } catch (MalformedURLException e) {
+                            LogManager.e(TAG, e);
+                        }
                     }
                 }
             }
