@@ -96,4 +96,9 @@
         <item name="android:textSize">15sp</item>
     </style>
 
+    <style name="Geocaching.TextMessage" parent="Widget">
+        <item name="android:textSize">20sp</item>
+        <item name="android:textColor">@color/dashboard_text_color</item>
+    </style>
+
 </resources>
