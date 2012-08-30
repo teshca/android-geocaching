@@ -8,6 +8,7 @@ package su.geocaching.android.ui.info;
 
 import java.util.ArrayList;
 
+import android.util.TypedValue;
 import com.actionbarsherlock.app.ActionBar;
 import com.actionbarsherlock.app.SherlockFragmentActivity;
 import com.actionbarsherlock.view.MenuInflater;
@@ -33,6 +34,9 @@ import android.view.LayoutInflater;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
+import su.geocaching.android.ui.info.controls.TextSizeAdjustableTextView;
+import su.geocaching.android.ui.info.controls.TextSizeAdjustedEvent;
+import su.geocaching.android.ui.info.controls.TextSizeAdjustedListener;
 
 public class AdvancedInfoActivity extends SherlockFragmentActivity {
     ViewPager  mViewPager;
@@ -42,13 +46,14 @@ public class AdvancedInfoActivity extends SherlockFragmentActivity {
     
     private static final int REMOVE_CACHE_ALERT_DIALOG_ID = 2;  
     
-    private TextView infoTabTextView;
-    private TextView notebookTabTextView;
-    private TextView photoTabTextView;
-    
-    private TextView getTabTextView() {        
-        final LayoutInflater inflater = LayoutInflater.from(this);       
-        TextView textView = (TextView) inflater.inflate(R.layout.info_action_bar_tab, null);
+    private TextSizeAdjustableTextView infoTabTextView;
+    private TextSizeAdjustableTextView notebookTabTextView;
+    private TextSizeAdjustableTextView photoTabTextView;
+
+    private TextSizeAdjustableTextView getTabTextView() {
+        final LayoutInflater inflater = LayoutInflater.from(this);
+        TextSizeAdjustableTextView textView = (TextSizeAdjustableTextView) inflater.inflate(R.layout.info_action_bar_tab, null);
+        textView.addTextSizeAdjustedListener(textSizeAdjustedListener);
 
         LinearLayout.LayoutParams lp = new LinearLayout.LayoutParams(
                 LinearLayout.LayoutParams.WRAP_CONTENT, LinearLayout.LayoutParams.WRAP_CONTENT);
@@ -112,6 +117,19 @@ public class AdvancedInfoActivity extends SherlockFragmentActivity {
             tabTextView.setTextColor(getResources().getColor(R.color.disabled_text_color));                             
         }
     }
+
+    private float minTextSize = Float.MAX_VALUE;
+    private TextSizeAdjustedListener textSizeAdjustedListener = new TextSizeAdjustedListener() {
+        @Override
+        public void textSizeAdjusted(TextSizeAdjustedEvent event) {
+            if (event.getTextSize() < minTextSize) {
+                minTextSize = event.getTextSize();
+                infoTabTextView.setTextSize(TypedValue.COMPLEX_UNIT_PX, minTextSize);
+                notebookTabTextView.setTextSize(TypedValue.COMPLEX_UNIT_PX, minTextSize);
+                photoTabTextView.setTextSize(TypedValue.COMPLEX_UNIT_PX, minTextSize);
+            }
+        }
+    };
 
     public void navigateToInfoTab() {
         getSupportActionBar().setSelectedNavigationItem(infoViewModel.getInfoState().getIndex());       
