@@ -14,12 +14,14 @@
         android:verticalSpacing="4dip"
         android:horizontalSpacing="4dip"
         android:stretchMode="columnWidth"
-        android:listSelector="@android:color/transparent"
+        android:listSelector="@drawable/abs__list_selector_holo_light"
+        android:drawSelectorOnTop="true"
         android:columnWidth="@dimen/adapter_photo_size"        
         android:gravity="center"/>
     <TextView
         android:id="@+id/info_no_photos_text"	    
         android:visibility="gone"
+        style="@style/Geocaching.TextMessage"
 		android:text="@string/info_no_photo_message"
 	    android:layout_width="wrap_content"
 	    android:layout_height="wrap_content"
@@ -40,7 +42,8 @@
 	    <TextView
 		    android:layout_width="wrap_content"
 		    android:layout_height="wrap_content"
-		    android:padding="12dip"	         
+		    android:padding="12dip"
+            style="@style/Geocaching.TextMessage"
 	        android:text="@string/info_download_error_message" />
 	    <ImageButton
 	        android:id="@+id/refresh_button"
@@ -61,13 +64,13 @@
 	    <TextView
 		    android:layout_width="wrap_content"
 		    android:layout_height="wrap_content"
-		    android:textSize="20dip"
+            android:textSize="20sp"
 		    android:layout_margin="6dip"
 		    android:layout_gravity="center"         
 	        android:text="@string/info_activity_download_photo_traffic_warning" />
 		<CheckBox
 	        android:id="@+id/downloadAlways"
-	        android:text="@string/info_activity_download_photo_without_confirmation"      
+	        android:text="@string/info_activity_download_photo_without_confirmation"
 			android:layout_height="wrap_content"
 	        android:layout_width="fill_parent"
 	        android:layout_gravity="center"
@@ -78,7 +81,8 @@
 	        android:layout_margin="6dip"
 		    android:layout_width="wrap_content"
 		    android:layout_height="wrap_content"
-		    android:layout_gravity="center"	    
+		    android:layout_gravity="center"
+            android:textSize="20sp"
 	        android:text="@string/info_activity_download_photo_button_caption" />
 	</LinearLayout>	
 	<LinearLayout
@@ -91,7 +95,7 @@
 	    <TextView
 		    android:layout_width="wrap_content"
 		    android:layout_height="wrap_content"
-		    android:textSize="20dip"
+            style="@style/Geocaching.TextMessage"
 		    android:layout_margin="6dip"
 		    android:layout_gravity="center"         
 	        android:text="@string/info_activity_sd_card_error" />
