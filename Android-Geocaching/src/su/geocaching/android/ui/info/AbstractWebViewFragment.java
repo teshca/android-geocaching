@@ -198,7 +198,9 @@ public abstract class AbstractWebViewFragment extends SherlockFragment implement
     
     private void setWebViewData(String data) {
         // TODO: Try to contact server side developers in order to add this style on server
-        data = data.replace("<body>", "<body style='word-wrap: break-word'>");
+        if (data != null) {
+            data = data.replace("<body>", "<body style='word-wrap: break-word'>");
+        }
         webView.loadDataWithBaseURL(GeocachingSuApiManager.HTTP_PDA_GEOCACHING_SU, data, "text/html", GeocachingSuApiManager.UTF8_ENCODING, null);
     }
 }
