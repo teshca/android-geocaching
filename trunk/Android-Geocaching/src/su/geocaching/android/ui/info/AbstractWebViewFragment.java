@@ -119,8 +119,8 @@ public abstract class AbstractWebViewFragment extends SherlockFragment implement
                     return true;
                 }
                 
-                if (url.contains("geo:")) {
-                    String[] coordinates = url.split("[^0-9]++");
+                if (url.startsWith("geo:")) {
+                    String[] coordinates = url.split("[^0-9]+");
                     int lat = Integer.parseInt(coordinates[1]);
                     int lng = Integer.parseInt(coordinates[2]);
                     ((AdvancedInfoActivity)getActivity()).openCheckpointDialog(new GeoPoint(lat, lng));
@@ -136,7 +136,7 @@ public abstract class AbstractWebViewFragment extends SherlockFragment implement
             }
         };
 
-        webView.setWebViewClient(webViewClient);        
+        webView.setWebViewClient(webViewClient);
         
         return v;
     }
@@ -197,6 +197,8 @@ public abstract class AbstractWebViewFragment extends SherlockFragment implement
     }
     
     private void setWebViewData(String data) {
+        // TODO: Try to contact server side developers in order to add this style on server
+        data = data.replace("<body>", "<body style='word-wrap: break-word'>");
         webView.loadDataWithBaseURL(GeocachingSuApiManager.HTTP_PDA_GEOCACHING_SU, data, "text/html", GeocachingSuApiManager.UTF8_ENCODING, null);
     }
 }

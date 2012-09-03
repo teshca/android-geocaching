@@ -149,7 +149,7 @@ public class CheckpointManager {
                 continue;
             }
 
-            pageMatcher.appendReplacement(sb, String.format("<a href=\"geo:%d,%d?q=\"><b>%s</b></a>", latitude, longitude, pageMatcher.group(0)));
+            pageMatcher.appendReplacement(sb, String.format("<a href=\"geo:%d,%d\"><b>%s</b></a>", latitude, longitude, pageMatcher.group(0)));
         }
 
         pageMatcher.appendTail(sb);
