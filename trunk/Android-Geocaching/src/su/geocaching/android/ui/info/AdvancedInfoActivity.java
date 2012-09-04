@@ -269,6 +269,7 @@ public class AdvancedInfoActivity extends SherlockFragmentActivity {
         super.onResume();
         infoViewModel.registerActivity(this);
         getSupportActionBar().setSelectedNavigationItem(infoViewModel.getSelectedTabIndex());
+        invalidateOptionsMenu();
     }
     
     @Override
