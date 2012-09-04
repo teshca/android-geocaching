@@ -104,20 +104,11 @@ public class SearchMapActivity extends MapActivity implements IConnectionAware, 
         userOverlay = new DynamicUserLocationOverlay(this, map);
         boolean isMultiTouchAvailable = getPackageManager().hasSystemFeature(PackageManager.FEATURE_TOUCHSCREEN_MULTITOUCH);
         map.setBuiltInZoomControls(!isMultiTouchAvailable);
-        GeoCache geoCache = getCurrentGeoCache();
 
-        Controller.getInstance().setSearchingGeoCache(geoCache);
-        Controller.getInstance().getPreferencesManager().setLastSearchedGeoCache(geoCache);
+        Controller.getInstance().getPreferencesManager().setLastSearchedGeoCache(getCurrentGeoCache());
         Controller.getInstance().getGoogleAnalyticsManager().trackActivityLaunch(SEARCH_MAP_ACTIVITY_FOLDER);
 
-        checkpointManager = Controller.getInstance().getCheckpointManager(geoCache.getId());
         checkpointOverlay = new CheckpointOverlay(Controller.getInstance().getResourceManager().getCacheMarker(GeoCacheType.CHECKPOINT, GeoCacheStatus.NOT_ACTIVE_CHECKPOINT), this, map);
-        for (GeoCache checkpoint : checkpointManager.getCheckpoints()) {
-            checkpointOverlay.addOverlayItem(new GeoCacheOverlayItem(checkpoint, "", ""));
-            if (checkpoint.getStatus() == GeoCacheStatus.ACTIVE_CHECKPOINT) {
-                Controller.getInstance().setSearchingGeoCache(checkpoint);
-            }
-        }
         mapOverlays.add(checkpointOverlay);
 
         searchGeoCacheOverlay = new SearchGeoCacheOverlay(null, this, map);
@@ -169,10 +160,14 @@ public class SearchMapActivity extends MapActivity implements IConnectionAware, 
             return;
         }
 
-        checkpointManager = Controller.getInstance().getCheckpointManager(Controller.getInstance().getPreferencesManager().getLastSearchedGeoCache().getId());
+        checkpointManager = Controller.getInstance().getCheckpointManager(geoCache.getId());
         checkpointOverlay.clear();
+        Controller.getInstance().setCurrentSearchPoint(geoCache);
         for (GeoCache checkpoint : checkpointManager.getCheckpoints()) {
             checkpointOverlay.addOverlayItem(new GeoCacheOverlayItem(checkpoint, "", ""));
+            if (checkpoint.getStatus() == GeoCacheStatus.ACTIVE_CHECKPOINT) {
+                Controller.getInstance().setCurrentSearchPoint(checkpoint);
+            }
         }
 
         map.setKeepScreenOn(Controller.getInstance().getPreferencesManager().getKeepScreenOnPreference());
@@ -230,7 +225,7 @@ public class SearchMapActivity extends MapActivity implements IConnectionAware, 
         userOverlay.updateLocation(location);
         LogManager.d(TAG, "update location");
         progressBarView.hide();
-        if (CoordinateHelper.getDistanceBetween(location, Controller.getInstance().getSearchingGeoCache().getLocationGeoPoint()) < CLOSE_DISTANCE_TO_GC_VALUE) {
+        if (CoordinateHelper.getDistanceBetween(location, Controller.getInstance().getCurrentSearchPoint().getLocationGeoPoint()) < CLOSE_DISTANCE_TO_GC_VALUE) {
             Controller.getInstance().getLocationManager().updateFrequency(GpsUpdateFrequency.MAXIMAL);
         } else {
             Controller.getInstance().getLocationManager().updateFrequencyFromPreferences();
@@ -238,7 +233,7 @@ public class SearchMapActivity extends MapActivity implements IConnectionAware, 
         boolean isPrecise = Controller.getInstance().getLocationManager().hasPreciseLocation();
         distanceStatusTextView.setText(
                 CoordinateHelper.distanceToString(
-                        CoordinateHelper.getDistanceBetween(Controller.getInstance().getSearchingGeoCache().getLocationGeoPoint(), location),
+                        CoordinateHelper.getDistanceBetween(Controller.getInstance().getCurrentSearchPoint().getLocationGeoPoint(), location),
                         isPrecise));
         userOverlay.setLocationPrecise(isPrecise);
         if (distanceOverlay == null) {
@@ -364,7 +359,7 @@ public class SearchMapActivity extends MapActivity implements IConnectionAware, 
                 NavigationManager.startCompassActivity(this);
                 return true;
             case R.id.menuGeoCacheInfo:
-                NavigationManager.startInfoActivity(this, Controller.getInstance().getPreferencesManager().getLastSearchedGeoCache());
+                NavigationManager.startInfoActivity(this, getCurrentGeoCache());
                 return true;
             case R.id.driving_directions:
                 onDrivingDirectionsSelected();
@@ -373,7 +368,7 @@ public class SearchMapActivity extends MapActivity implements IConnectionAware, 
                 showExternalMap();
                 return true;
             case R.id.stepByStep:
-                NavigationManager.startCheckpointsFolder(this, Controller.getInstance().getPreferencesManager().getLastSearchedGeoCache().getId());
+                NavigationManager.startCheckpointsFolder(this, getCurrentGeoCache().getId());
                 return true;
             case R.id.searchMapSettings:
                 startActivity(new Intent(this, DashboardPreferenceActivity.class));
@@ -386,7 +381,7 @@ public class SearchMapActivity extends MapActivity implements IConnectionAware, 
     private void onDrivingDirectionsSelected() {
         final Location location = Controller.getInstance().getLocationManager().getLastKnownLocation();
         if (location != null) {
-            final GeoPoint destination = Controller.getInstance().getSearchingGeoCache().getLocationGeoPoint();
+            final GeoPoint destination = Controller.getInstance().getCurrentSearchPoint().getLocationGeoPoint();
             final double sourceLat = location.getLatitude();
             final double sourceLng = location.getLongitude();
             final double destinationLat = destination.getLatitudeE6() / 1E6;
@@ -398,7 +393,7 @@ public class SearchMapActivity extends MapActivity implements IConnectionAware, 
     }
 
     private void showExternalMap() {
-        final GeoPoint destination = Controller.getInstance().getSearchingGeoCache().getLocationGeoPoint();
+        final GeoPoint destination = Controller.getInstance().getCurrentSearchPoint().getLocationGeoPoint();
         final double latitude = destination.getLatitudeE6() / 1E6;
         final double longitude = destination.getLongitudeE6() / 1E6;
         NavigationManager.startExternalMap(this, latitude, longitude, map.getZoomLevel());
@@ -581,7 +576,7 @@ public class SearchMapActivity extends MapActivity implements IConnectionAware, 
             distanceStatusTextView.setText(
                     CoordinateHelper.distanceToString(
                             CoordinateHelper.getDistanceBetween(
-                                    Controller.getInstance().getSearchingGeoCache().getLocationGeoPoint(),
+                                    Controller.getInstance().getCurrentSearchPoint().getLocationGeoPoint(),
                                     Controller.getInstance().getLocationManager().getLastKnownLocation()),
                             Controller.getInstance().getLocationManager().hasPreciseLocation()));
         }
@@ -630,7 +625,7 @@ public class SearchMapActivity extends MapActivity implements IConnectionAware, 
         else
         {
             Controller.getInstance().getCheckpointManager(getCurrentGeoCache().getId()).deactivateCheckpoints();
-            Controller.getInstance().setSearchingGeoCache(geoCache);
+            Controller.getInstance().setCurrentSearchPoint(geoCache);
         }
         updateDistanceTextView();
         map.invalidate();

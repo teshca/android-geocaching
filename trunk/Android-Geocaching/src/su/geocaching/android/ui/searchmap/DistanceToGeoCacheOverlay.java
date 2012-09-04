@@ -46,7 +46,7 @@ public class DistanceToGeoCacheOverlay extends com.google.android.maps.Overlay {
 
         Projection proj = mapView.getProjection();
         proj.toPixels(userPoint, from);
-        proj.toPixels(Controller.getInstance().getSearchingGeoCache().getLocationGeoPoint(), to);
+        proj.toPixels(Controller.getInstance().getCurrentSearchPoint().getLocationGeoPoint(), to);
         canvas.drawLine(from.x, from.y, to.x, to.y, paintLine);
     }
 

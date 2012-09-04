@@ -59,7 +59,7 @@ public class CheckpointManager {
         checkpoints.add(gc);
 
         dbm.addCheckpointGeoCache(gc, cacheId);
-        controller.setSearchingGeoCache(gc);
+        controller.setCurrentSearchPoint(gc);
         return new GeoCacheOverlayItem(gc, "", "");
     }
 
@@ -77,7 +77,7 @@ public class CheckpointManager {
         if (index != -1) {
             GeoCache checkPoint = checkpoints.get(index);
             if (checkPoint.getStatus() == GeoCacheStatus.ACTIVE_CHECKPOINT) {
-                controller.setSearchingGeoCache(controller.getDbManager().getCacheByID(cacheId));
+                controller.setCurrentSearchPoint(controller.getDbManager().getCacheByID(cacheId));
             }
             dbm.deleteCheckpointCache(cacheId, checkPoint.getId());
             checkpoints.remove(index);
@@ -93,11 +93,12 @@ public class CheckpointManager {
      * @param id the Id of active item
      */
     public void setActiveItem(int id) {
-        int activeItem = findIndexById(id);
+        int activeItemIndex = findIndexById(id);
         deactivateCheckpoints();
-        checkpoints.get(activeItem).setStatus(GeoCacheStatus.ACTIVE_CHECKPOINT);
-        controller.setSearchingGeoCache(checkpoints.get(activeItem));
-        dbm.updateCheckpointCacheStatus(cacheId, checkpoints.get(activeItem).getId(), GeoCacheStatus.ACTIVE_CHECKPOINT);
+        GeoCache activeItem = checkpoints.get(activeItemIndex);
+        activeItem.setStatus(GeoCacheStatus.ACTIVE_CHECKPOINT);
+        controller.setCurrentSearchPoint(activeItem);
+        dbm.updateCheckpointCacheStatus(cacheId, activeItem.getId(), GeoCacheStatus.ACTIVE_CHECKPOINT);
     }
 
     private int findIndexById(int id) {
@@ -117,7 +118,7 @@ public class CheckpointManager {
     }
 
     public void clear() {
-        controller.setSearchingGeoCache(controller.getDbManager().getCacheByID(cacheId));
+        controller.setCurrentSearchPoint(controller.getDbManager().getCacheByID(cacheId));
         dbm.deleteCheckpointCache(cacheId);
         checkpoints.clear();
     }
