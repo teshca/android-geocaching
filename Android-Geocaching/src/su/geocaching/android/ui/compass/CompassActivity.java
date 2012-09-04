@@ -317,8 +317,12 @@ public class CompassActivity extends Activity {
                     break;
                 case AccurateUserLocationManager.EVENT_PROVIDER_ENABLED:
                     if (LocationManager.GPS_PROVIDER.equals(provider)) {
-                        // gps has been turned on
-                        dismissDialog(DIALOG_ID_TURN_ON_GPS);
+                        try {
+                            // gps has been turned on
+                            dismissDialog(DIALOG_ID_TURN_ON_GPS);
+                        } catch (Exception e) {
+                            LogManager.w(TAG, "Can't dismiss dialog, probably it hasn't ever been shown", e);
+                        }
                         UiHelper.setVisible(progressBarView);
                         UiHelper.setVisible(statusText);
                     }
