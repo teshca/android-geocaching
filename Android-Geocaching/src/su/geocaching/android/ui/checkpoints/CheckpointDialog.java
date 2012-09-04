@@ -53,7 +53,7 @@ public class CheckpointDialog extends Activity {
     public void onActiveClick(View v) {
         if (cacheId == checkpointId) {
             checkpointManager.deactivateCheckpoints();
-            Controller.getInstance().setSearchingGeoCache(Controller.getInstance().getDbManager().getCacheByID(cacheId));
+            Controller.getInstance().setCurrentSearchPoint(Controller.getInstance().getDbManager().getCacheByID(cacheId));
         } else {
             checkpointManager.setActiveItem(checkpointId);
         }

@@ -51,7 +51,7 @@ public class Controller {
     private SelectMapViewModel selectMapViewModel;
     private InfoViewModel infoViewModel;
 
-    private GeoCache searchingGeoCache;
+    private GeoCache currentSearchPoint;
 
     private Controller() {
         apiManager = new GeocachingSuApiManager();
@@ -257,12 +257,12 @@ public class Controller {
         return checkpointManager;
     }
 
-    public GeoCache getSearchingGeoCache() {
-        return searchingGeoCache;
+    public GeoCache getCurrentSearchPoint() {
+        return currentSearchPoint;
     }
 
-    public void setSearchingGeoCache(GeoCache searchedGeoCache) {
-        this.searchingGeoCache = searchedGeoCache;
+    public void setCurrentSearchPoint(GeoCache currentSearchPoint) {
+        this.currentSearchPoint = currentSearchPoint;
     }
 
     /**
@@ -328,7 +328,7 @@ public class Controller {
         return selectMapViewModel;
     }
 
-    public InfoViewModel getInfoViewModel() {
+    public synchronized InfoViewModel getInfoViewModel() {
         if (infoViewModel == null) {
             infoViewModel = new InfoViewModel();
         }

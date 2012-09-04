@@ -86,7 +86,7 @@ public class CompassActivity extends Activity {
     protected void onResume() {
         super.onResume();
         LogManager.d(TAG, "onResume");
-        if (controller.getSearchingGeoCache() == null) {
+        if (controller.getCurrentSearchPoint() == null) {
             LogManager.e(TAG, "Geocache is null. Finishing.");
             Toast.makeText(this, this.getString(R.string.search_geocache_error_no_geocache), Toast.LENGTH_LONG).show();
             finish();
@@ -96,7 +96,7 @@ public class CompassActivity extends Activity {
         compassView.setHelper(preferenceManager.getCompassAppearance());
         compassView.setKeepScreenOn(preferenceManager.getKeepScreenOnPreference());
 
-        GeoCache gc = controller.getSearchingGeoCache();
+        GeoCache gc = controller.getCurrentSearchPoint();
         cacheCoordinates.setText(CoordinateHelper.coordinateToString(gc.getLocationGeoPoint()));
         ((ImageView) findViewById(R.id.ivCacheCoordinate)).setImageResource(controller.getResourceManager().getMarkerResId(gc.getType(), gc.getStatus()));
         updateOdometer();
@@ -279,13 +279,13 @@ public class CompassActivity extends Activity {
                 tvOdometer.setText(CoordinateHelper.distanceToString(AccurateUserLocationManager.Odometer.getDistance()));
             }
             UiHelper.setGone(progressBarView);
-            float distance = CoordinateHelper.getDistanceBetween(controller.getSearchingGeoCache().getLocationGeoPoint(), location);
+            float distance = CoordinateHelper.getDistanceBetween(controller.getCurrentSearchPoint().getLocationGeoPoint(), location);
             if (distance < CLOSE_DISTANCE_TO_GC_VALUE || AccurateUserLocationManager.Odometer.isEnabled()) {
                 controller.getLocationManager().updateFrequency(GpsUpdateFrequency.MAXIMAL);
             } else {
                 controller.getLocationManager().updateFrequencyFromPreferences();
             }
-            compassView.setCacheDirection(CoordinateHelper.getBearingBetween(location, controller.getSearchingGeoCache().getLocationGeoPoint()));
+            compassView.setCacheDirection(CoordinateHelper.getBearingBetween(location, controller.getCurrentSearchPoint().getLocationGeoPoint()));
             userCoordinates.setText(CoordinateHelper.coordinateToString(CoordinateHelper.locationToGeoPoint(location)));
             compassView.setDistance(distance);
         }
