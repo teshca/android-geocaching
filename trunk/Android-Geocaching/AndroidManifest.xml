@@ -63,7 +63,7 @@
 
         <activity
                 android:name="su.geocaching.android.ui.FavoritesFolderActivity"
-                android:theme="@android:style/Theme.Light.NoTitleBar">
+                android:theme="@style/Theme.Geocaching">
         </activity>
 
         <!-- preferences -->

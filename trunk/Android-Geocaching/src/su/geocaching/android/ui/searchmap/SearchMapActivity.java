@@ -156,7 +156,7 @@ public class SearchMapActivity extends MapActivity implements IConnectionAware, 
             LogManager.e(TAG, "Geocache is not in found in database. Finishing.");
             Toast.makeText(this, getString(R.string.search_geocache_error_geocache_not_in_db), Toast.LENGTH_LONG).show();
             this.finish();
-            startActivity(new Intent(this, FavoritesFolderActivity.class));
+            NavigationManager.startFavoritesActivity(this);
             return;
         }
 
