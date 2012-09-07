@@ -81,6 +81,8 @@
     <style name="Geocaching.ActionBarStyle" parent="@style/Widget.Sherlock.Light.ActionBar">
         <item name="android:titleTextStyle">@style/Geocaching.ActionBar.TitleTextStyle</item>
         <item name="titleTextStyle">@style/Geocaching.ActionBar.TitleTextStyle</item>
+        <item name="android:displayOptions">showHome|showTitle</item>
+        <item name="displayOptions">showHome|showTitle</item>
     </style>
     
     <style name="Geocaching.ActionBar.TitleTextStyle" parent="@style/TextAppearance.Sherlock.Widget.ActionBar.Title">

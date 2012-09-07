@@ -93,6 +93,7 @@ public class FavoritesFolderActivity extends SherlockListActivity {
         boolean listIsNotEmpty = favoriteGeoCachesAdapter.getAllItemsCount() > 0;
         boolean listIsNotFiltered = favoriteGeoCachesAdapter.getAllItemsCount() == favoriteGeoCachesAdapter.getCount();
         menu.findItem(R.id.menu_delete_all_caches).setVisible(listIsNotEmpty);
+        menu.findItem(R.id.menu_delete_all_caches).setEnabled(listIsNotFiltered);
         menu.findItem(R.id.menu_search).setVisible(listIsNotEmpty);
         menu.findItem(R.id.menu_sort).setVisible(listIsNotEmpty);
         return super.onPrepareOptionsMenu(menu);
