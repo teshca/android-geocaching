@@ -2,14 +2,14 @@ package su.geocaching.android.ui;
 
 import android.app.Dialog;
 import android.widget.Toast;
+import android.os.Bundle;
+import android.view.View;
+import com.actionbarsherlock.app.SherlockActivity;
+import com.actionbarsherlock.view.Menu;
+import com.actionbarsherlock.view.MenuItem;
+import com.actionbarsherlock.view.MenuInflater;
 import su.geocaching.android.controller.Controller;
 import su.geocaching.android.controller.managers.NavigationManager;
-import android.app.Activity;
-import android.os.Bundle;
-import android.view.Menu;
-import android.view.MenuInflater;
-import android.view.MenuItem;
-import android.view.View;
 import su.geocaching.android.model.GeoCache;
 
 /**
@@ -18,7 +18,7 @@ import su.geocaching.android.model.GeoCache;
  * @author Android-Geocaching.su student project team
  * @since October 2010
  */
-public class DashboardActivity extends Activity {
+public class DashboardActivity extends SherlockActivity {
 
     private static final String DASHBOARD_ACTIVITY_NAME = "/DashboardActivity";
     private static final int ABOUT_DIALOG_ID = 0;
@@ -28,9 +28,12 @@ public class DashboardActivity extends Activity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.dashboard_activity);
+        getSupportActionBar().setDisplayUseLogoEnabled(true);
+        getSupportActionBar().setDisplayShowTitleEnabled(false);
+        getSupportActionBar().setHomeButtonEnabled(true);
+        getSupportActionBar().setBackgroundDrawable(getResources().getDrawable(R.drawable.geologo_background1));
         Controller.getInstance().getGoogleAnalyticsManager().trackActivityLaunch(DASHBOARD_ACTIVITY_NAME);        
     }
-    
     
     @Override
     public void onResume() {
@@ -46,7 +49,7 @@ public class DashboardActivity extends Activity {
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-        MenuInflater inflater = getMenuInflater();
+        MenuInflater inflater = getSupportMenuInflater();
         inflater.inflate(R.menu.dashboard_option_menu, menu);
         return true;
     }
@@ -60,6 +63,9 @@ public class DashboardActivity extends Activity {
     public boolean onOptionsItemSelected(MenuItem item) {
         // Handle item selection
         switch (item.getItemId()) {
+            case android.R.id.home:
+                //this.openOptionsMenu();
+                //return true;
             case R.id.about:
                 this.showDialog(ABOUT_DIALOG_ID);
                 return true;
@@ -111,12 +117,5 @@ public class DashboardActivity extends Activity {
      */
     public void onFavoritesClick(View v) {
         NavigationManager.startFavoritesActivity(this);
-    }
-
-    /**
-     * User clicked on Geocaching.su logo
-     */
-    public void onHomeClick(View v) {
-        this.showDialog(ABOUT_DIALOG_ID);
     }
 }
