@@ -25,4 +25,6 @@
 	
 	<string name="info_download_error_message">Ошибка загрузки данных</string>
 	<string name="info_no_photo_message">Фотографий этого тайника нет</string>
+
+    <string name="cache_notes_activity_menu_save">Сохранить</string>
 </resources>
