@@ -68,7 +68,7 @@ public class AdvancedInfoActivity extends SherlockFragmentActivity {
         
         // assign geoCache to infoViewModel before call super.onCreate
         infoViewModel = Controller.getInstance().getInfoViewModel(); 
-        GeoCache geoCache = getIntent().getParcelableExtra(GeoCache.class.getCanonicalName());
+        final GeoCache geoCache = getIntent().getParcelableExtra(GeoCache.class.getCanonicalName());
         infoViewModel.setGeoCache(geoCache);
         
         super.onCreate(savedInstanceState);       
@@ -217,7 +217,7 @@ public class AdvancedInfoActivity extends SherlockFragmentActivity {
     }
 
     private void onEditNotes() {
-        NavigationManager.startNotesActivity(this, infoViewModel.getGeoCachceId());        
+        NavigationManager.startNotesActivity(this, infoViewModel.getGeoCachce());
     }
 
     private void onSaveCache() {
