@@ -109,9 +109,9 @@ public class NavigationManager {
     /**
      * Open CacheNotesActivity activity
      */
-    public static void startNotesActivity(Context context, int cacheId) {
+    public static void startNotesActivity(Context context, GeoCache geoCache) {
         Intent intent = new Intent(context, CacheNotesActivity.class);
-        intent.putExtra(CACHE_ID, cacheId);
+        intent.putExtra(GeoCache.class.getCanonicalName(), geoCache);
         context.startActivity(intent);
     }
 
