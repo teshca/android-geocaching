@@ -5,6 +5,7 @@ import android.content.Context;
 import android.content.pm.PackageManager;
 import android.hardware.SensorManager;
 import android.location.LocationManager;
+import android.os.Vibrator;
 import android.view.Display;
 import android.view.Surface;
 import android.view.WindowManager;
@@ -333,5 +334,14 @@ public class Controller {
             infoViewModel = new InfoViewModel();
         }
         return infoViewModel;
+    }
+
+    public void Vibrate() {
+        // Get instance of Vibrator from current Context
+        Vibrator vibrator = (Vibrator) applicationContext.getSystemService(Context.VIBRATOR_SERVICE);
+        if (vibrator != null) {
+            // Vibrate for 25f milliseconds
+            vibrator.vibrate(25);
+        }
     }
 }
