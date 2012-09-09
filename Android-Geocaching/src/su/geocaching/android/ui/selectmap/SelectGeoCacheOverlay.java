@@ -12,6 +12,7 @@ import android.view.MotionEvent;
 import com.google.android.maps.ItemizedOverlay;
 import com.google.android.maps.MapView;
 import com.google.android.maps.OverlayItem;
+import su.geocaching.android.controller.Controller;
 import su.geocaching.android.controller.managers.NavigationManager;
 import su.geocaching.android.ui.OverlayUtils;
 import su.geocaching.android.ui.geocachemap.GeoCacheOverlayItem;
@@ -43,6 +44,8 @@ class SelectGeoCacheOverlay extends ItemizedOverlay<GeoCacheOverlayItem> {
                 for (GeoCacheOverlayItem gcItem : items) {
                     if (hitTest(e, gcItem))
                     {
+                        Controller.getInstance().Vibrate();
+
                         if (!gcItem.getTitle().equals("Group")) {
                             NavigationManager.startInfoActivity(context, gcItem.getGeoCache());
                         } else {

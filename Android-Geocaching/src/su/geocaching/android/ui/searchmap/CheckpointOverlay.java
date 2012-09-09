@@ -60,6 +60,7 @@ public class CheckpointOverlay extends ItemizedOverlay<GeoCacheOverlayItem> {
                 for (GeoCacheOverlayItem item : items) {
                     if (hitTest(e, item))
                     {
+                        Controller.getInstance().Vibrate();
                         NavigationManager.startCheckpointDialog(searchMapActivity, item.getGeoCache().getId());
                         return true;
                     }

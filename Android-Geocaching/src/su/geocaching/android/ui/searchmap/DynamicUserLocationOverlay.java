@@ -7,6 +7,7 @@ import android.view.GestureDetector;
 import android.view.MotionEvent;
 import com.google.android.maps.MapView;
 
+import su.geocaching.android.controller.Controller;
 import su.geocaching.android.controller.compass.CompassSourceType;
 import su.geocaching.android.controller.compass.ICompassView;
 import su.geocaching.android.controller.managers.NavigationManager;
@@ -73,6 +74,7 @@ public class DynamicUserLocationOverlay extends UserLocationOverlayBase implemen
             }
             public boolean onSingleTapConfirmed(MotionEvent e) {
                 if (hitTest(e)) {
+                    Controller.getInstance().Vibrate();
                     NavigationManager.startCompassActivity(context);
                     return true;
                 }

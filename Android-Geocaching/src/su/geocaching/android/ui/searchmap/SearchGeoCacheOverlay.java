@@ -1,6 +1,7 @@
 package su.geocaching.android.ui.searchmap;
 
 import android.graphics.Point;
+import su.geocaching.android.controller.Controller;
 import su.geocaching.android.controller.managers.NavigationManager;
 import su.geocaching.android.ui.OverlayUtils;
 import su.geocaching.android.ui.geocachemap.GeoCacheOverlayItem;
@@ -35,6 +36,7 @@ class SearchGeoCacheOverlay extends ItemizedOverlay<GeoCacheOverlayItem> {
 
             public boolean onSingleTapConfirmed(MotionEvent e) {
                 if (hitTest(e, mapView)) {
+                    Controller.getInstance().Vibrate();
                     NavigationManager.startInfoActivity(searchMapActivity, item.getGeoCache());
                     return true;
                 }
@@ -43,6 +45,7 @@ class SearchGeoCacheOverlay extends ItemizedOverlay<GeoCacheOverlayItem> {
 
             public void onLongPress(MotionEvent e) {
                 if (hitTest(e, mapView)) {
+                    Controller.getInstance().Vibrate();
                     searchMapActivity.setActiveItem(item.getGeoCache());
                 }
             }
