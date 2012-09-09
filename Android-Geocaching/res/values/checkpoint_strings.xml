@@ -22,8 +22,8 @@
     <string name="sexagestimal_seconds__template">гг°,мм\'сс.ссс\"</string>
     <string name="decimal_template">гг,ггггг°</string>
     <string name="azimuth_template">По азимуту</string>
-    <string name="are_you_sure">Удалить все контрольные точки.\nВы уверены?
-    </string>
+    <string name="checkpoints_folder_confirm_delete_message">Удалить все контрольные точки?</string>
+    <string name="checkpoints_folder_confirm_delete_title">Вы уверены?</string>
     <string name="checkpoint_name">Название точки</string>
     <string name="no_related_checkpoints">Нет котрольных точек связанных с тайником</string>
 </resources>

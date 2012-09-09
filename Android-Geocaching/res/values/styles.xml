@@ -101,6 +101,7 @@
     <style name="Geocaching.TextMessage" parent="Widget">
         <item name="android:textSize">20sp</item>
         <item name="android:textColor">@color/dashboard_text_color</item>
+        <item name="android:padding">10dip</item>
     </style>
 
 </resources>
