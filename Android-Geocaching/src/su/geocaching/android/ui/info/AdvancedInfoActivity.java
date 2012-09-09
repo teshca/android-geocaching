@@ -44,8 +44,9 @@ public class AdvancedInfoActivity extends SherlockFragmentActivity {
     
     private InfoViewModel infoViewModel;
     
-    private static final int REMOVE_CACHE_ALERT_DIALOG_ID = 2;  
-    
+    private static final int REMOVE_CACHE_ALERT_DIALOG_ID = 2;
+    private static final String INFO_ACTIVITY_NAME = "/GeoCacheInfoActivity";
+
     private TextSizeAdjustableTextView infoTabTextView;
     private TextSizeAdjustableTextView notebookTabTextView;
     private TextSizeAdjustableTextView photoTabTextView;
@@ -106,6 +107,8 @@ public class AdvancedInfoActivity extends SherlockFragmentActivity {
         mTabsAdapter.addTab(infoTab, InfoFragment.class);
         mTabsAdapter.addTab(notebookTab, NotebookFragment.class);
         mTabsAdapter.addTab(photoTab, PhotoFragment.class);
+
+        Controller.getInstance().getGoogleAnalyticsManager().trackActivityLaunch(INFO_ACTIVITY_NAME);
     }
     
     private void updateTabTextView(TextView tabTextView, boolean isDownloaded) {

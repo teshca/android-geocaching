@@ -20,6 +20,7 @@ import su.geocaching.android.ui.R;
 public class CacheNotesActivity extends SherlockActivity {
 
     private static String TAG = CacheNotesActivity.class.getCanonicalName();
+    private static final String CACHE_NOTES_ACTIVITY_NAME = "/CacheNotesActivity";
     private EditText cacheNotesText;
     private GeoCache geoCache;
 
@@ -37,6 +38,8 @@ public class CacheNotesActivity extends SherlockActivity {
         getSupportActionBar().setHomeButtonEnabled(true);
 
         LogManager.d(TAG, "CacheNotesActivity created");
+
+        Controller.getInstance().getGoogleAnalyticsManager().trackActivityLaunch(CACHE_NOTES_ACTIVITY_NAME);
     }
 
     @Override
