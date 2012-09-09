@@ -31,7 +31,7 @@ import java.util.List;
 public class FavoritesFolderActivity extends SherlockListActivity {
 
     private static final String TAG = FavoritesFolderActivity.class.getCanonicalName();
-    private static final String FAVORITES_FOLDER = "/FavoritesActivity";
+    private static final String FAVORITES_FOLDER_ACTIVITY_NAME = "/FavoritesActivity";
     private static final int SORT_TYPE_DIALOG_ID = 0;
     private static final int DELETE_CACHE_DIALOG_ID = 1;
 
@@ -55,7 +55,7 @@ public class FavoritesFolderActivity extends SherlockListActivity {
         getListView().setTextFilterEnabled(true);
         setListAdapter(favoriteGeoCachesAdapter);
 
-        Controller.getInstance().getGoogleAnalyticsManager().trackActivityLaunch(FAVORITES_FOLDER);
+        Controller.getInstance().getGoogleAnalyticsManager().trackActivityLaunch(FAVORITES_FOLDER_ACTIVITY_NAME);
     }
     
     private void refreshListData() {

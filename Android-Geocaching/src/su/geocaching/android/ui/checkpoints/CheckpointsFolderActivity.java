@@ -31,7 +31,7 @@ import java.util.List;
 public class CheckpointsFolderActivity extends SherlockListActivity {
 
     private static final String TAG = FavoritesFolderActivity.class.getCanonicalName();
-    private static final String CHECKPOINT_FOLDER = "/CheckpointFolderActivity";
+    private static final String CHECKPOINT_FOLDER_ACTIVITY_NAME = "/CheckpointFolderActivity";
     private static final int DELETE_CHECKPOINTS_DIALOG_ID = 1;
 
     private CheckpointManager checkpointManager;
@@ -55,7 +55,7 @@ public class CheckpointsFolderActivity extends SherlockListActivity {
 
         setListAdapter(checkpointsAdapter);
 
-        Controller.getInstance().getGoogleAnalyticsManager().trackActivityLaunch(CHECKPOINT_FOLDER);
+        Controller.getInstance().getGoogleAnalyticsManager().trackActivityLaunch(CHECKPOINT_FOLDER_ACTIVITY_NAME);
     }
 
     @Override
