@@ -89,13 +89,13 @@
         <!-- checkpoints -->
         <activity
             android:name="su.geocaching.android.ui.checkpoints.CreateCheckpointActivity"
-            android:theme="@android:style/Theme.Light.NoTitleBar"
+            android:theme="@style/Theme.Geocaching"
             android:windowSoftInputMode="adjustPan">
         </activity>
 
         <activity
             android:name="su.geocaching.android.ui.checkpoints.CheckpointsFolderActivity"
-            android:theme="@android:style/Theme.Light.NoTitleBar">
+            android:theme="@style/Theme.Geocaching">
         </activity>
 
         <activity

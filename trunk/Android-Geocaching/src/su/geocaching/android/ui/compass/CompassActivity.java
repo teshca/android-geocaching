@@ -177,7 +177,7 @@ public class CompassActivity extends Activity {
                 NavigationManager.startInfoActivity(this, searchingGC);
                 return true;
             case R.id.stepByStep:
-                NavigationManager.startCheckpointsFolder(this, searchingGC.getId());
+                NavigationManager.startCheckpointsFolder(this, searchingGC);
                 return true;
             case R.id.compassSettings:
                 showCompassPreferences();

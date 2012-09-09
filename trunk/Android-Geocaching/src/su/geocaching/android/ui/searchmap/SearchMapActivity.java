@@ -368,7 +368,7 @@ public class SearchMapActivity extends MapActivity implements IConnectionAware, 
                 showExternalMap();
                 return true;
             case R.id.stepByStep:
-                NavigationManager.startCheckpointsFolder(this, getCurrentGeoCache().getId());
+                NavigationManager.startCheckpointsFolder(this, getCurrentGeoCache());
                 return true;
             case R.id.searchMapSettings:
                 startActivity(new Intent(this, DashboardPreferenceActivity.class));

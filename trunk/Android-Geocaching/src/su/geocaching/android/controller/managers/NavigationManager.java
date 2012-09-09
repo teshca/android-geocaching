@@ -87,9 +87,9 @@ public class NavigationManager {
         context.startActivity(intent);
     }
 
-    public static void startCheckpointsFolder(Context context, int cacheId) {
+    public static void startCheckpointsFolder(Context context, GeoCache geoCache) {
         Intent intent = new Intent(context, CheckpointsFolderActivity.class);
-        intent.putExtra(CACHE_ID, cacheId);
+        intent.putExtra(GeoCache.class.getCanonicalName(), geoCache);
         context.startActivity(intent);
     }
 

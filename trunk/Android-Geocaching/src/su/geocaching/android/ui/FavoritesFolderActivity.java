@@ -54,7 +54,7 @@ public class FavoritesFolderActivity extends SherlockListActivity {
         favoriteGeoCachesAdapter.setSortType(FavoritesArrayAdapter.GeoCacheSortType.values()[Controller.getInstance().getPreferencesManager().getFavoritesSortType()]);
         getListView().setTextFilterEnabled(true);
         setListAdapter(favoriteGeoCachesAdapter);
-        getListView().getOverScrollMode();
+
         Controller.getInstance().getGoogleAnalyticsManager().trackActivityLaunch(FAVORITES_FOLDER);
     }
     
