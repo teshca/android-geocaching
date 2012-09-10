@@ -5,14 +5,16 @@ import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.location.Location;
 import android.os.Bundle;
-import android.view.Menu;
-import android.view.MenuInflater;
-import android.view.MenuItem;
 import android.view.View;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
+import com.actionbarsherlock.app.SherlockMapActivity;
+import com.actionbarsherlock.view.Menu;
+import com.actionbarsherlock.view.MenuInflater;
+import com.actionbarsherlock.view.MenuItem;
+import com.actionbarsherlock.view.Window;
 import com.google.android.maps.GeoPoint;
-import com.google.android.maps.MapActivity;
 import com.google.android.maps.MapView;
 import su.geocaching.android.controller.Controller;
 import su.geocaching.android.controller.apimanager.GeoRect;
@@ -22,7 +24,6 @@ import su.geocaching.android.controller.utils.CoordinateHelper;
 import su.geocaching.android.model.GeoCacheStatus;
 import su.geocaching.android.model.GeoCacheType;
 import su.geocaching.android.model.MapInfo;
-import su.geocaching.android.ui.ProgressBarView;
 import su.geocaching.android.ui.R;
 import su.geocaching.android.ui.geocachemap.GeoCacheOverlayItem;
 import su.geocaching.android.ui.preferences.MapPreferenceActivity;
@@ -33,7 +34,7 @@ import java.util.List;
  * @author Yuri Denison
  * @since 04.11.2010
  */
-public class SelectMapActivity extends MapActivity implements IConnectionAware, ILocationAware {
+public class SelectMapActivity extends SherlockMapActivity implements IConnectionAware, ILocationAware {
     private static final String TAG = SelectMapActivity.class.getCanonicalName();
     private static final String SELECT_ACTIVITY_FOLDER = "/SelectActivity";
     private static final int ENABLE_CONNECTION_DIALOG_ID = 0;
@@ -42,7 +43,7 @@ public class SelectMapActivity extends MapActivity implements IConnectionAware, 
     private StaticUserLocationOverlay locationOverlay;
     private LowPowerUserLocationManager locationManager;
     private ConnectionManager connectionManager;
-    private ProgressBarView progressBarView;
+    private ProgressBar progressCircle;
     private MapUpdateTimer mapTimer;
     private TextView connectionInfoTextView;
     private TextView downloadingInfoTextView;
@@ -57,12 +58,15 @@ public class SelectMapActivity extends MapActivity implements IConnectionAware, 
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         LogManager.d(TAG, "onCreate");
+
+        //requestWindowFeature(Window.FEATURE_INDETERMINATE_PROGRESS);
+
         setContentView(R.layout.select_map_activity);
+        getSupportActionBar().setHomeButtonEnabled(true);
 
         mapView = (MapView) findViewById(R.id.selectGeocacheMap);
 
-        progressBarView = (ProgressBarView) findViewById(R.id.progressCircle);
-        progressBarView.setVisibility(View.GONE);
+        progressCircle = (ProgressBar) findViewById(R.id.progressCircle);
 
         connectionInfoTextView = (TextView) findViewById(R.id.connectionInfoTextView);
         groupingInfoTextView = (TextView) findViewById(R.id.groupingInfoTextView);
@@ -144,7 +148,7 @@ public class SelectMapActivity extends MapActivity implements IConnectionAware, 
      */
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-        final MenuInflater inflater = getMenuInflater();
+        final MenuInflater inflater = getSupportMenuInflater();
         inflater.inflate(R.menu.select_map_menu, menu);
         return true;
     }
@@ -155,7 +159,13 @@ public class SelectMapActivity extends MapActivity implements IConnectionAware, 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
-            case R.id.mapSettings:
+            case android.R.id.home:
+                NavigationManager.startDashboardActivity(this);
+                return true;
+            case R.id.menu_mylocation:
+                onMyLocationClick();
+                return true;
+            case R.id.menu_settings:
                 startActivity(new Intent(this, MapPreferenceActivity.class));
                 return true;
             default:
@@ -226,29 +236,31 @@ public class SelectMapActivity extends MapActivity implements IConnectionAware, 
 
     public void hideGroupingInfo() {
         groupingInfoTextView.setVisibility(View.INVISIBLE);
-        updateAnimation();
+        updateProgressCircleVisibility();
     }
 
     public void showGroupingInfo() {
         groupingInfoTextView.setVisibility(View.VISIBLE);
-        updateAnimation();
+        updateProgressCircleVisibility();
     }
 
     public void hideDownloadingInfo() {
         downloadingInfoTextView.setVisibility(View.GONE);
-        updateAnimation();
+        updateProgressCircleVisibility();
     }
 
     public void showDownloadingInfo() {
         downloadingInfoTextView.setVisibility(View.VISIBLE);
-        updateAnimation();
+        updateProgressCircleVisibility();
     }
 
-    private void updateAnimation() {
+    private void updateProgressCircleVisibility() {
         if (downloadingInfoTextView.getVisibility() == View.VISIBLE || groupingInfoTextView.getVisibility() == View.VISIBLE) {
-            progressBarView.show();
+            //setSupportProgressBarIndeterminateVisibility(true);
+            progressCircle.setVisibility(View.VISIBLE);
         } else {
-            progressBarView.hide();
+            //setSupportProgressBarIndeterminateVisibility(false);
+            progressCircle.setVisibility(View.GONE);
         }
     }
 
@@ -267,11 +279,7 @@ public class SelectMapActivity extends MapActivity implements IConnectionAware, 
         return (id == ENABLE_CONNECTION_DIALOG_ID) ? new EnableConnectionDialog(this) : null;
     }
 
-    public void onHomeClick(View v) {
-        NavigationManager.startDashboardActivity(this);
-    }
-
-    public void onMyLocationClick(View v) {
+    private void onMyLocationClick() {
         final Location lastLocation = locationManager.getLastKnownLocation();
         if (lastLocation != null) {
             GeoPoint center = CoordinateHelper.locationToGeoPoint(lastLocation);
