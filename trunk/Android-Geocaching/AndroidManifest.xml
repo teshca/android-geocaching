@@ -49,7 +49,7 @@
 
         <activity
             android:name="su.geocaching.android.ui.selectmap.SelectMapActivity"
-            android:theme="@android:style/Theme.Light.NoTitleBar">
+            android:theme="@style/Theme.Geocaching">
         </activity>
       
         <activity
