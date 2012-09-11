@@ -38,13 +38,14 @@
 
         <activity
             android:name="su.geocaching.android.ui.compass.CompassActivity"
-            android:theme="@android:style/Theme.Light.NoTitleBar"
+            android:theme="@style/Theme.Geocaching"
             android:screenOrientation="portrait">
         </activity>
 
         <activity
             android:name="su.geocaching.android.ui.searchmap.SearchMapActivity"
-            android:theme="@android:style/Theme.Light.NoTitleBar">
+            android:uiOptions="splitActionBarWhenNarrow"
+            android:theme="@style/Theme.Geocaching">
         </activity>
 
         <activity

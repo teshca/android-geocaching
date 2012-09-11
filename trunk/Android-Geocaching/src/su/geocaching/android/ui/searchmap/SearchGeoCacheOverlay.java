@@ -45,7 +45,6 @@ class SearchGeoCacheOverlay extends ItemizedOverlay<GeoCacheOverlayItem> {
 
             public void onLongPress(MotionEvent e) {
                 if (hitTest(e, mapView)) {
-                    Controller.getInstance().Vibrate();
                     searchMapActivity.setActiveItem(item.getGeoCache());
                 }
             }

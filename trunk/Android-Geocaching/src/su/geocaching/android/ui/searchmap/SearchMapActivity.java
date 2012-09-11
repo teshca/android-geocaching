@@ -13,16 +13,16 @@ import android.location.LocationManager;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
-import android.view.Menu;
-import android.view.MenuInflater;
-import android.view.MenuItem;
 import android.view.View;
-import android.view.View.OnClickListener;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
+import com.actionbarsherlock.app.SherlockMapActivity;
+import com.actionbarsherlock.view.Menu;
+import com.actionbarsherlock.view.MenuInflater;
+import com.actionbarsherlock.view.MenuItem;
+import com.actionbarsherlock.view.Window;
 import com.google.android.maps.GeoPoint;
-import com.google.android.maps.MapActivity;
-import com.google.android.maps.MapController;
 import com.google.android.maps.MapView;
 import com.google.android.maps.Overlay;
 import su.geocaching.android.controller.Controller;
@@ -35,8 +35,6 @@ import su.geocaching.android.model.GeoCache;
 import su.geocaching.android.model.GeoCacheStatus;
 import su.geocaching.android.model.GeoCacheType;
 import su.geocaching.android.model.SearchMapInfo;
-import su.geocaching.android.ui.FavoritesFolderActivity;
-import su.geocaching.android.ui.ProgressBarView;
 import su.geocaching.android.ui.R;
 import su.geocaching.android.ui.geocachemap.GeoCacheOverlayItem;
 import su.geocaching.android.ui.preferences.DashboardPreferenceActivity;
@@ -47,7 +45,7 @@ import su.geocaching.android.ui.preferences.DashboardPreferenceActivity;
  * @author Android-Geocaching.su student project team
  * @since October 2010
  */
-public class SearchMapActivity extends MapActivity implements IConnectionAware, ILocationAware, android.os.Handler.Callback {
+public class SearchMapActivity extends SherlockMapActivity implements IConnectionAware, ILocationAware, android.os.Handler.Callback {
     private final static String TAG = SearchMapActivity.class.getCanonicalName();
     private final static float CLOSE_DISTANCE_TO_GC_VALUE = 100; // if we nearly than this distance in meters to geocache - gps will be work maximal often
     private final static String SEARCH_MAP_ACTIVITY_FOLDER = "/SearchMapActivity";
@@ -59,17 +57,18 @@ public class SearchMapActivity extends MapActivity implements IConnectionAware, 
     private DistanceToGeoCacheOverlay distanceOverlay;
     private DynamicUserLocationOverlay userOverlay;
     private MapView map;
-    private MapController mapController;
     private List<Overlay> mapOverlays;
 
     private TextView gpsStatusTextView;
     private TextView distanceStatusTextView;
-    private ProgressBarView progressBarView;
+    private ProgressBar progressBarCircle;
     private Toast providerUnavailableToast;
     private Toast connectionLostToast;
 
     private SmoothCompassThread animationThread;
     private CheckpointManager checkpointManager;
+
+    private GeoCache geoCache;
 
     // handler associated with this activity
     private Handler handler;
@@ -83,29 +82,37 @@ public class SearchMapActivity extends MapActivity implements IConnectionAware, 
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         LogManager.d(TAG, "onCreate");
+
+        //requestWindowFeature(Window.FEATURE_INDETERMINATE_PROGRESS);
+
         setContentView(R.layout.search_map_activity);
+
+        geoCache = (GeoCache) getIntent().getParcelableExtra(GeoCache.class.getCanonicalName());
+
+        getSupportActionBar().setHomeButtonEnabled(true);
+        getSupportActionBar().setTitle(geoCache.getName());
 
         providerUnavailableToast = Toast.makeText(this, getString(R.string.search_geocache_best_provider_lost), Toast.LENGTH_LONG);
         connectionLostToast = Toast.makeText(this, getString(R.string.map_internet_lost), Toast.LENGTH_LONG);
 
         gpsStatusTextView = (TextView) findViewById(R.id.waitingLocationFixText);
         distanceStatusTextView = (TextView) findViewById(R.id.distanceToCacheText);
-        progressBarView = (ProgressBarView) findViewById(R.id.progressCircle);
+        progressBarCircle = (ProgressBar) findViewById(R.id.progressCircle);
+        /* TODO: Implement
         progressBarView.setOnClickListener(new OnClickListener() {
             @Override
             public void onClick(View v) {
                 NavigationManager.startExternalGpsStatusActivity(v.getContext());
             }
-        });
+        }); */
 
         map = (MapView) findViewById(R.id.searchGeocacheMap);
         mapOverlays = map.getOverlays();
-        mapController = map.getController();
         userOverlay = new DynamicUserLocationOverlay(this, map);
         boolean isMultiTouchAvailable = getPackageManager().hasSystemFeature(PackageManager.FEATURE_TOUCHSCREEN_MULTITOUCH);
         map.setBuiltInZoomControls(!isMultiTouchAvailable);
 
-        Controller.getInstance().getPreferencesManager().setLastSearchedGeoCache(getCurrentGeoCache());
+        Controller.getInstance().getPreferencesManager().setLastSearchedGeoCache(geoCache);
         Controller.getInstance().getGoogleAnalyticsManager().trackActivityLaunch(SEARCH_MAP_ACTIVITY_FOLDER);
 
         checkpointOverlay = new CheckpointOverlay(Controller.getInstance().getResourceManager().getCacheMarker(GeoCacheType.CHECKPOINT, GeoCacheStatus.NOT_ACTIVE_CHECKPOINT), this, map);
@@ -143,14 +150,6 @@ public class SearchMapActivity extends MapActivity implements IConnectionAware, 
     protected void onResume() {
         super.onResume();
         LogManager.d(TAG, "onResume");
-        GeoCache geoCache = getCurrentGeoCache();
-
-        if (geoCache == null) {
-            LogManager.e(TAG, "Geocache is null. Finishing.");
-            Toast.makeText(this, getString(R.string.search_geocache_error_no_geocache), Toast.LENGTH_LONG).show();
-            this.finish();
-            return;
-        }
 
         if (!Controller.getInstance().getDbManager().isCacheStored(geoCache.getId())) {
             LogManager.e(TAG, "Geocache is not in found in database. Finishing.");
@@ -167,6 +166,7 @@ public class SearchMapActivity extends MapActivity implements IConnectionAware, 
             checkpointOverlay.addOverlayItem(new GeoCacheOverlayItem(checkpoint, "", ""));
             if (checkpoint.getStatus() == GeoCacheStatus.ACTIVE_CHECKPOINT) {
                 Controller.getInstance().setCurrentSearchPoint(checkpoint);
+                getSupportActionBar().setSubtitle(checkpoint.getName());
             }
         }
 
@@ -187,14 +187,14 @@ public class SearchMapActivity extends MapActivity implements IConnectionAware, 
 
         if (!Controller.getInstance().getLocationManager().isBestProviderEnabled()) {
             showDialog(DIALOG_ID_TURN_ON_GPS);
-            progressBarView.hide();
+            hideProgressBarCircle();
             UiHelper.setGone(gpsStatusTextView);
         } else {
             if (Controller.getInstance().getLocationManager().hasPreciseLocation()) {
-                progressBarView.hide();
+                hideProgressBarCircle();
             } else {
                 gpsStatusTextView.setText(R.string.gps_status_initialization);
-                progressBarView.show();
+                showProgressBarCircle();
             }
         }
 
@@ -224,7 +224,7 @@ public class SearchMapActivity extends MapActivity implements IConnectionAware, 
     public void updateLocation(Location location) {
         userOverlay.updateLocation(location);
         LogManager.d(TAG, "update location");
-        progressBarView.hide();
+        hideProgressBarCircle();
         if (CoordinateHelper.getDistanceBetween(location, Controller.getInstance().getCurrentSearchPoint().getLocationGeoPoint()) < CLOSE_DISTANCE_TO_GC_VALUE) {
             Controller.getInstance().getLocationManager().updateFrequency(GpsUpdateFrequency.MAXIMAL);
         } else {
@@ -259,7 +259,7 @@ public class SearchMapActivity extends MapActivity implements IConnectionAware, 
         int maxLat = Integer.MIN_VALUE;
         int minLon = Integer.MAX_VALUE;
         int maxLon = Integer.MIN_VALUE;
-        final GeoCache gc = getCurrentGeoCache();
+
         final Location location = Controller.getInstance().getLocationManager().getLastKnownLocation();
         if (location != null) {
             final GeoPoint currentGeoPoint = CoordinateHelper.locationToGeoPoint(location);
@@ -268,12 +268,12 @@ public class SearchMapActivity extends MapActivity implements IConnectionAware, 
             minLon = currentGeoPoint.getLongitudeE6();
             maxLon = currentGeoPoint.getLongitudeE6();
         }
-        minLat = Math.min(gc.getLocationGeoPoint().getLatitudeE6(), minLat);
-        maxLat = Math.max(gc.getLocationGeoPoint().getLatitudeE6(), maxLat);
-        minLon = Math.min(gc.getLocationGeoPoint().getLongitudeE6(), minLon);
-        maxLon = Math.max(gc.getLocationGeoPoint().getLongitudeE6(), maxLon);
+        minLat = Math.min(geoCache.getLocationGeoPoint().getLatitudeE6(), minLat);
+        maxLat = Math.max(geoCache.getLocationGeoPoint().getLatitudeE6(), maxLat);
+        minLon = Math.min(geoCache.getLocationGeoPoint().getLongitudeE6(), minLon);
+        maxLon = Math.max(geoCache.getLocationGeoPoint().getLongitudeE6(), maxLon);
 
-        for (GeoCache checkpoint : Controller.getInstance().getCheckpointManager(gc.getId()).getCheckpoints()) {
+        for (GeoCache checkpoint : Controller.getInstance().getCheckpointManager(geoCache.getId()).getCheckpoints()) {
             minLat = Math.min(checkpoint.getLocationGeoPoint().getLatitudeE6(), minLat);
             maxLat = Math.max(checkpoint.getLocationGeoPoint().getLatitudeE6(), maxLat);
             minLon = Math.min(checkpoint.getLocationGeoPoint().getLongitudeE6(), minLon);
@@ -286,14 +286,14 @@ public class SearchMapActivity extends MapActivity implements IConnectionAware, 
 
         // Set zoom
         if (latSpan != 0 && lonSpan != 0) {
-            mapController.zoomToSpan(latSpan, lonSpan);
+            map.getController().zoomToSpan(latSpan, lonSpan);
         }
 
         // Calculate new center of map
         GeoPoint center = new GeoPoint((minLat + maxLat) / 2, (minLon + maxLon) / 2);
 
         // Set new center of map
-        mapController.setCenter(center);
+        map.getController().animateTo(center);
 
         // if markers not in map - zoom out. logic below
         boolean needZoomOut = false;
@@ -307,15 +307,15 @@ public class SearchMapActivity extends MapActivity implements IConnectionAware, 
         if (!needZoomOut) {
             // still not need zoom out
             // Check contains markers in visible part of map
-            Drawable marker = Controller.getInstance().getResourceManager().getCacheMarker(gc.getType(), gc.getStatus());
-            needZoomOut = !mapContains(gc.getLocationGeoPoint(), marker.getBounds());
+            Drawable marker = Controller.getInstance().getResourceManager().getCacheMarker(geoCache.getType(), geoCache.getStatus());
+            needZoomOut = !mapContains(geoCache.getLocationGeoPoint(), marker.getBounds());
         }
 
         // check contains checkpoints markers in visible part of map if still not need zoom out
         if (!needZoomOut) {
             Rect bounds = Controller.getInstance().getResourceManager().getCacheMarker(GeoCacheType.CHECKPOINT, GeoCacheStatus.NOT_ACTIVE_CHECKPOINT).getBounds();
 
-            for (GeoCache checkpoint : Controller.getInstance().getCheckpointManager(gc.getId()).getCheckpoints()) {
+            for (GeoCache checkpoint : Controller.getInstance().getCheckpointManager(geoCache.getId()).getCheckpoints()) {
                 if (needZoomOut = !mapContains(checkpoint.getLocationGeoPoint(), bounds)) {
                     break;
                 }
@@ -325,7 +325,7 @@ public class SearchMapActivity extends MapActivity implements IConnectionAware, 
         // if markers are not visible then zoomOut
         if (needZoomOut) {
             LogManager.d(TAG, "markers not in the visible part of map. Zoom out.");
-            mapController.zoomOut();
+            map.getController().zoomOut();
         }
     }
 
@@ -341,7 +341,7 @@ public class SearchMapActivity extends MapActivity implements IConnectionAware, 
      */
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-        MenuInflater inflater = getMenuInflater();
+        MenuInflater inflater = getSupportMenuInflater();
         inflater.inflate(R.menu.search_map_menu, menu);
         return true;
     }
@@ -352,6 +352,12 @@ public class SearchMapActivity extends MapActivity implements IConnectionAware, 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
+            case android.R.id.home:
+                NavigationManager.startDashboardActivity(this);
+                return true;
+            case R.id.menu_mylocation:
+                onMyLocationClick();
+                return true;
             case R.id.menuDefaultZoom:
                 resetZoom();
                 return true;
@@ -359,7 +365,7 @@ public class SearchMapActivity extends MapActivity implements IConnectionAware, 
                 NavigationManager.startCompassActivity(this);
                 return true;
             case R.id.menuGeoCacheInfo:
-                NavigationManager.startInfoActivity(this, getCurrentGeoCache());
+                NavigationManager.startInfoActivity(this, geoCache);
                 return true;
             case R.id.driving_directions:
                 onDrivingDirectionsSelected();
@@ -368,7 +374,7 @@ public class SearchMapActivity extends MapActivity implements IConnectionAware, 
                 showExternalMap();
                 return true;
             case R.id.stepByStep:
-                NavigationManager.startCheckpointsFolder(this, getCurrentGeoCache());
+                NavigationManager.startCheckpointsFolder(this, geoCache);
                 return true;
             case R.id.searchMapSettings:
                 startActivity(new Intent(this, DashboardPreferenceActivity.class));
@@ -433,23 +439,23 @@ public class SearchMapActivity extends MapActivity implements IConnectionAware, 
                 break;
             case AccurateUserLocationManager.OUT_OF_SERVICE:
                 // provider unavailable
-                progressBarView.show();
+                showProgressBarCircle();
                 gpsStatusTextView.setText(R.string.gps_status_unavailable);
                 providerUnavailableToast.show();
                 break;
             case AccurateUserLocationManager.TEMPORARILY_UNAVAILABLE:
                 // gps connection lost. just show progress bar
-                progressBarView.show();
+                showProgressBarCircle();
                 break;
             case AccurateUserLocationManager.GPS_EVENT_FIRST_FIX:
                 // location fixed. hide progress bar
-                progressBarView.hide();
+                hideProgressBarCircle();
                 break;
             case AccurateUserLocationManager.EVENT_PROVIDER_DISABLED:
                 if (LocationManager.GPS_PROVIDER.equals(provider)) {
                     // gps has been turned off
                     showDialog(DIALOG_ID_TURN_ON_GPS);
-                    progressBarView.hide();
+                    hideProgressBarCircle();
                     UiHelper.setGone(gpsStatusTextView);
                 }
                 break;
@@ -461,11 +467,21 @@ public class SearchMapActivity extends MapActivity implements IConnectionAware, 
                     } catch (Exception e) {
                         LogManager.w(TAG, "Can't dismiss dialog, probably it hasn't ever been shown", e);
                     }
-                    progressBarView.show();
+                    showProgressBarCircle();
                     UiHelper.setVisible(gpsStatusTextView);
                 }
                 break;
         }
+    }
+
+    private void showProgressBarCircle() {
+        progressBarCircle.setVisibility(View.VISIBLE);
+        //setSupportProgressBarIndeterminateVisibility(true);
+    }
+
+    private void hideProgressBarCircle() {
+        progressBarCircle.setVisibility(View.GONE);
+        //setSupportProgressBarIndeterminateVisibility(false);
     }
 
     /**
@@ -493,16 +509,11 @@ public class SearchMapActivity extends MapActivity implements IConnectionAware, 
         }
     }
 
-    public void onHomeClick(View v) {
-        NavigationManager.startDashboardActivity(this);
-    }
-
     /**
      * Set map center and zoom level from last using search geocache map
      */
     private void updateMapInfoFromSettings() {
         SearchMapInfo lastMapInfo = Controller.getInstance().getPreferencesManager().getLastSearchMapInfo();
-        GeoCache geoCache = getCurrentGeoCache();
         // TODO: also resetZoom if user location and all markers are out of the current view port
         if (lastMapInfo.getGeoCacheId() != geoCache.getId()) {
             map.post( new Runnable() {
@@ -518,8 +529,8 @@ public class SearchMapActivity extends MapActivity implements IConnectionAware, 
 
     private void updateMap(SearchMapInfo lastMapInfo) {
         GeoPoint lastCenter = new GeoPoint(lastMapInfo.getCenterX(), lastMapInfo.getCenterY());
-        mapController.setCenter(lastCenter);
-        mapController.setZoom(lastMapInfo.getZoom());
+        map.getController().setCenter(lastCenter);
+        map.getController().setZoom(lastMapInfo.getZoom());
         map.invalidate();
     }
 
@@ -535,7 +546,7 @@ public class SearchMapActivity extends MapActivity implements IConnectionAware, 
         int centerX = map.getMapCenter().getLatitudeE6();
         int centerY = map.getMapCenter().getLongitudeE6();
         int zoom = map.getZoomLevel();
-        int geocacheId = getCurrentGeoCache().getId();
+        int geocacheId = geoCache.getId();
         return new SearchMapInfo(centerX, centerY, zoom, geocacheId);
     }
 
@@ -605,39 +616,30 @@ public class SearchMapActivity extends MapActivity implements IConnectionAware, 
         super.onPrepareDialog(id, dialog);
     }
 
-    /**
-     * Called when 'my location' image button was clicked
-     *
-     * @param v
-     */
-    public void onMyLocationClick(View v) {
+    private void onMyLocationClick() {
         Location lastLocation = Controller.getInstance().getLocationManager().getLastKnownLocation();
         if (lastLocation != null) {
             GeoPoint center = CoordinateHelper.locationToGeoPoint(lastLocation);
             map.getController().animateTo(center);
-            map.invalidate();
         } else {
             Toast.makeText(getBaseContext(), getString(R.string.status_null_last_location), Toast.LENGTH_SHORT).show();
         }
     }
 
-    public void setActiveItem(GeoCache geoCache) {
-        if (geoCache.getType() == GeoCacheType.CHECKPOINT)
+    public void setActiveItem(GeoCache activeItem) {
+        if (activeItem.getType() == GeoCacheType.CHECKPOINT)
         {
-            Controller.getInstance().getCheckpointManager(getCurrentGeoCache().getId()).setActiveItem(geoCache.getId());
+            checkpointManager.setActiveItem(activeItem.getId());
+            getSupportActionBar().setSubtitle(activeItem.getName());
         }
         else
         {
-            Controller.getInstance().getCheckpointManager(getCurrentGeoCache().getId()).deactivateCheckpoints();
-            Controller.getInstance().setCurrentSearchPoint(geoCache);
+            checkpointManager.deactivateCheckpoints();
+            Controller.getInstance().setCurrentSearchPoint(activeItem);
+            getSupportActionBar().setSubtitle(null);
         }
         updateDistanceTextView();
         map.invalidate();
-    }
-
-    private GeoCache getCurrentGeoCache()
-    {
-        return (GeoCache) getIntent().getParcelableExtra(GeoCache.class.getCanonicalName());
     }
 
     public SearchGeoCacheOverlay getGeoCacheOverlay()
