@@ -81,6 +81,8 @@
     <style name="Geocaching.ActionBarStyle" parent="@style/Widget.Sherlock.Light.ActionBar">
         <item name="android:titleTextStyle">@style/Geocaching.ActionBar.TitleTextStyle</item>
         <item name="titleTextStyle">@style/Geocaching.ActionBar.TitleTextStyle</item>
+        <item name="android:subtitleTextStyle">@style/Geocaching.ActionBar.SubtitleTextStyle</item>
+        <item name="subtitleTextStyle">@style/Geocaching.ActionBar.SubtitleTextStyle</item>
         <item name="android:displayOptions">showHome|showTitle</item>
         <item name="displayOptions">showHome|showTitle</item>
     </style>
@@ -88,7 +90,12 @@
     <style name="Geocaching.ActionBar.TitleTextStyle" parent="@style/TextAppearance.Sherlock.Widget.ActionBar.Title">
         <item name="android:textColor">@color/dashboard_text_color</item>
         <item name="android:textStyle">bold</item>
-    </style>    
+    </style>
+
+    <style name="Geocaching.ActionBar.SubtitleTextStyle" parent="@style/TextAppearance.Sherlock.Widget.ActionBar.Subtitle">
+        <item name="android:textColor">@color/dashboard_text_color</item>
+        <item name="android:textStyle">italic</item>
+    </style>
         
     <style name="Geocaching.ActionBar.TabStyle" parent="@style/Widget.Sherlock.Light.ActionBar.TabView">
         <!-- <item name="android:padding">4dip</item> -->

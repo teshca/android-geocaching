@@ -1,30 +1,42 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
-	<item
-            android:id="@+id/menuGeoCacheInfo"
-            android:icon="@drawable/ic_menu_info_details"
-		    android:title="@string/menu_geocache_info" />
-	<item
-            android:id="@+id/menuStartCompass"
-            android:icon="@drawable/ic_menu_compass"
-		    android:title="@string/menu_start_compass" />
-	<item
+    <item
+            android:id="@+id/menu_mylocation"
+            android:icon="@android:drawable/ic_menu_mylocation"
+            android:title="@string/menu_mylocation"
+            android:showAsAction="always"/>
+    <item
+            android:id="@+id/menuDefaultZoom"
+            android:icon="@android:drawable/ic_menu_zoom"
+            android:title="@string/menu_default_zoom"
+            android:showAsAction="always"/>
+ 	<item
             android:id="@+id/stepByStep"
             android:title="@string/checkpoints"
-		    android:icon="@drawable/ic_menu_checkpoint" />
-	<item
-            android:id="@+id/menuDefaultZoom"
-            android:icon="@drawable/ic_menu_zoom"
-		    android:title="@string/menu_default_zoom" />
-	<item
+		    android:icon="@android:drawable/ic_menu_myplaces"
+            android:showAsAction="always"/>
+    <item
+            android:id="@+id/menuStartCompass"
+            android:icon="@android:drawable/ic_menu_compass"
+            android:title="@string/menu_start_compass"
+            android:showAsAction="ifRoom"/>
+    <item
+            android:id="@+id/menuGeoCacheInfo"
+            android:icon="@android:drawable/ic_menu_info_details"
+            android:title="@string/menu_geocache_info"
+            android:showAsAction="ifRoom"/>
+    <item
             android:id="@+id/searchMapSettings"
             android:title="@string/preference"
-		    android:icon="@drawable/ic_menu_settings" />
+		    android:icon="@android:drawable/ic_menu_preferences"
+            android:showAsAction="never"/>
     <item
             android:id="@+id/driving_directions"
             android:title="@string/menu_driving_directions"
-            android:icon="@drawable/ic_menu_directions" />
+            android:icon="@android:drawable/ic_menu_directions"
+            android:showAsAction="never"/>
     <item
             android:id="@+id/show_external_map"
             android:title="@string/menu_external_map"
-            android:icon="@drawable/ic_menu_mapmode" />
+            android:icon="@android:drawable/ic_menu_mapmode"
+            android:showAsAction="never"/>
 </menu>
