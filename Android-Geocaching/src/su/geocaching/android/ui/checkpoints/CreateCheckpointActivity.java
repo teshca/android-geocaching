@@ -301,7 +301,7 @@ public class CreateCheckpointActivity extends SherlockActivity {
         }
     }
 
-    class SexagesimalListener extends TextChangelListener {
+    class SexagesimalListener extends TextChangeListener {
 
         @Override
         public void afterTextChanged(Editable s) {
@@ -328,7 +328,7 @@ public class CreateCheckpointActivity extends SherlockActivity {
         }
     }
 
-    class SexagesimalSecondsListener extends TextChangelListener {
+    class SexagesimalSecondsListener extends TextChangeListener {
 
         @Override
         public void afterTextChanged(Editable s) {
@@ -359,7 +359,7 @@ public class CreateCheckpointActivity extends SherlockActivity {
         }
     }
 
-    class DecimalListener extends TextChangelListener {
+    class DecimalListener extends TextChangeListener {
 
         @Override
         public void afterTextChanged(Editable s) {
@@ -378,7 +378,7 @@ public class CreateCheckpointActivity extends SherlockActivity {
         }
     }
 
-    class AzimuthListener extends TextChangelListener {
+    class AzimuthListener extends TextChangeListener {
 
         @Override
         public void afterTextChanged(Editable s) {
@@ -401,7 +401,7 @@ public class CreateCheckpointActivity extends SherlockActivity {
         }
     }
 
-    class TextChangelListener implements TextWatcher {
+    class TextChangeListener implements TextWatcher {
 
         @Override
         public void afterTextChanged(Editable s) {
