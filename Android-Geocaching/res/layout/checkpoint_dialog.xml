@@ -1,14 +1,16 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-	android:layout_width="fill_parent" android:layout_height="fill_parent"
-	android:orientation="vertical" android:background="@color/dashboard_background">
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+    android:orientation="vertical"
+    android:background="@color/dashboard_background">
 
 	<LinearLayout 
 	    android:layout_width="fill_parent"
 		android:layout_height="wrap_content" 
 		android:orientation="horizontal"
-		android:layout_marginLeft="5dip" 
-		android:layout_marginTop="10dip">
+		android:layout_margin="10dip">
 		<TextView 
 		    android:text="@string/status" 
 		    android:textSize="17sp"
@@ -24,15 +26,21 @@
 			android:id="@+id/tvCheckpointDialogStatus"/>
 	</LinearLayout>
 	
-	<TextView android:id="@+id/checkpointCoordinate" android:text="@string/coordinates"
-		android:textColor="@color/dashboard_text_color" android:layout_margin="5dip"
-		android:layout_height="wrap_content" android:textSize="17sp"
-		android:layout_width="fill_parent" android:gravity="center"/>
+	<TextView
+        android:id="@+id/checkpointCoordinate"
+        android:text="@string/coordinates"
+		android:textColor="@color/dashboard_text_color"
+        android:layout_marginLeft="10dip"
+        android:layout_marginBottom="5dip"
+        android:textSize="17sp"
+		android:layout_height="wrap_content"
+		android:layout_width="wrap_content"/>
 
-	<LinearLayout android:layout_width="fill_parent"
-		android:layout_height="wrap_content" android:orientation="horizontal"
-		android:gravity="center" android:paddingTop="5dip"
-		android:layout_margin="5dip">
+	<LinearLayout
+        android:layout_width="fill_parent"
+		android:layout_height="wrap_content"
+        android:layout_margin="5dip"
+        android:orientation="horizontal">
 		<Button android:id="@+id/checkpointActiveButton"
 			android:layout_height="wrap_content"
             android:layout_width="wrap_content"

@@ -102,7 +102,7 @@
 
         <activity
             android:name="su.geocaching.android.ui.checkpoints.CheckpointDialog"
-            android:theme="@android:style/Theme.Dialog">
+            android:theme="@style/Theme.Sherlock.Light.Dialog">
         </activity>
     </application>
 </manifest>
