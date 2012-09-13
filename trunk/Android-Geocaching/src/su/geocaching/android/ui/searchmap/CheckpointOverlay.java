@@ -48,11 +48,13 @@ public class CheckpointOverlay extends ItemizedOverlay<GeoCacheOverlayItem> {
                         return;
                     }
                 }
-                GeoCache gc = new GeoCache();
-                gc.setType(GeoCacheType.CHECKPOINT);
-                gc.setId(Controller.getInstance().getPreferencesManager().getLastSearchedGeoCache().getId());
-                gc.setLocationGeoPoint(mapView.getProjection().fromPixels((int) e.getX(), (int) e.getY()));
-                NavigationManager.startCreateCheckpointActivity(searchMapActivity, gc);
+                GeoCache geocache = Controller.getInstance().getPreferencesManager().getLastSearchedGeoCache();
+                GeoCache checkpoint = new GeoCache();
+                checkpoint.setType(GeoCacheType.CHECKPOINT);
+                checkpoint.setName(geocache.getName());
+                checkpoint.setId(geocache.getId());
+                checkpoint.setLocationGeoPoint(mapView.getProjection().fromPixels((int) e.getX(), (int) e.getY()));
+                NavigationManager.startCreateCheckpointActivity(searchMapActivity, checkpoint);
             }
 
             public boolean onSingleTapConfirmed(MotionEvent e) {

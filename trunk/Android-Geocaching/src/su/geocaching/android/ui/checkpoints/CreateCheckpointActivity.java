@@ -1,6 +1,5 @@
 package su.geocaching.android.ui.checkpoints;
 
-import android.app.Activity;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
@@ -10,6 +9,10 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.TextView.BufferType;
 import android.widget.Toast;
+import com.actionbarsherlock.app.SherlockActivity;
+import com.actionbarsherlock.view.Menu;
+import com.actionbarsherlock.view.MenuInflater;
+import com.actionbarsherlock.view.MenuItem;
 import com.google.android.maps.GeoPoint;
 import su.geocaching.android.controller.Controller;
 import su.geocaching.android.controller.utils.CoordinateHelper;
@@ -30,13 +33,13 @@ import java.text.DecimalFormat;
  *
  * @author Nikita Bumakov
  */
-public class CreateCheckpointActivity extends Activity {
+public class CreateCheckpointActivity extends SherlockActivity {
 
     private static final String TAG = CreateCheckpointActivity.class.getCanonicalName();
-    private static final String STEP_BY_STEP_TAB_ACTIVITY_FOLDER = "/CreateCheckpointActivity";
+    private static final String CREATE_CHECK_POINT_ACTIVITY_NAME = "/CreateCheckpointActivity";
 
     private LinearLayout sexagesimal, sexagesimalSeconds, decimal, azimuth;
-    private TextWatcher sexagesimalWatcher, sexagesimalSecondsWacher, decimalWatcher, azimuthWatcher;
+    private TextWatcher sexagesimalWatcher, sexagesimalSecondsWatcher, decimalWatcher, azimuthWatcher;
 
     private EditText name;
 
@@ -54,7 +57,7 @@ public class CreateCheckpointActivity extends Activity {
 
     private CheckpointManager checkpointManager;
 
-    private GeoCache gc;
+    private GeoCache geoCache;
     private GeoPoint currentInputGeoPoint;
 
     private DecimalFormat degreesFractionFormat = new DecimalFormat("000000");
@@ -67,16 +70,19 @@ public class CreateCheckpointActivity extends Activity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.create_checkpoint_activity);
 
+        geoCache = getIntent().getExtras().getParcelable(GeoCache.class.getCanonicalName());
+        checkpointManager = Controller.getInstance().getCheckpointManager(geoCache.getId());
+
+        getSupportActionBar().setHomeButtonEnabled(true);
+        getSupportActionBar().setTitle(geoCache.getName());
+
         sexagesimal = (LinearLayout) findViewById(R.id.SexagesimalLayout);
         sexagesimalSeconds = (LinearLayout) findViewById(R.id.SexagesimalSeconsdLayout);
         decimal = (LinearLayout) findViewById(R.id.DecimalLayout);
         azimuth = (LinearLayout) findViewById(R.id.AzimuthLayout);
 
-        gc = getIntent().getExtras().getParcelable(GeoCache.class.getCanonicalName());
-        checkpointManager = Controller.getInstance().getCheckpointManager(gc.getId());
-
         sexagesimalWatcher = new SexagesimalListener();
-        sexagesimalSecondsWacher = new SexagesimalSecondsListener();
+        sexagesimalSecondsWatcher = new SexagesimalSecondsListener();
         decimalWatcher = new DecimalListener();
         azimuthWatcher = new AzimuthListener();
 
@@ -84,7 +90,28 @@ public class CreateCheckpointActivity extends Activity {
         updateTextBoxes();
         startWatch();
 
-        Controller.getInstance().getGoogleAnalyticsManager().trackActivityLaunch(STEP_BY_STEP_TAB_ACTIVITY_FOLDER);
+        Controller.getInstance().getGoogleAnalyticsManager().trackActivityLaunch(CREATE_CHECK_POINT_ACTIVITY_NAME);
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        MenuInflater inflater = getSupportMenuInflater();
+        inflater.inflate(R.menu.create_checkpoint_menu, menu);
+        return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case android.R.id.home:
+                NavigationManager.startDashboardActivity(this);
+                return true;
+            case R.id.menu_save_checkpoint:
+                onSaveCheckpoint();
+                return true;
+            default:
+                return super.onOptionsItemSelected(item);
+        }
     }
 
     private void init() {
@@ -120,8 +147,8 @@ public class CreateCheckpointActivity extends Activity {
             currentLocation = CoordinateHelper.locationToGeoPoint(locationManager.getLastKnownLocation());
             info.setText(R.string.relative_to_current_location);
         } else {
-            // GeoCache gc = Controller.getInstance().getPreferencesManager().getLastSearchedGeoCache();
-            GeoCache gc = Controller.getInstance().getDbManager().getCacheByID(this.gc.getId());
+            // GeoCache geoCache = Controller.getInstance().getPreferencesManager().getLastSearchedGeoCache();
+            GeoCache gc = Controller.getInstance().getDbManager().getCacheByID(this.geoCache.getId());
             currentLocation = gc.getLocationGeoPoint();
             info.setText(R.string.relative_to_cache_location);
         }
@@ -130,7 +157,7 @@ public class CreateCheckpointActivity extends Activity {
 
     private void updateTextBoxes() {
         if (currentInputGeoPoint == null) {
-            currentInputGeoPoint = gc.getLocationGeoPoint();
+            currentInputGeoPoint = geoCache.getLocationGeoPoint();
         }
         updateSexagesimal();
         updateSexagesimalSeconds();
@@ -193,12 +220,12 @@ public class CreateCheckpointActivity extends Activity {
         lngMinutes.addTextChangedListener(sexagesimalWatcher);
         lngMinutesFraction.addTextChangedListener(sexagesimalWatcher);
 
-        sLatDegrees.addTextChangedListener(sexagesimalSecondsWacher);
-        sLatMinutes.addTextChangedListener(sexagesimalSecondsWacher);
-        sLatSeconds.addTextChangedListener(sexagesimalSecondsWacher);
-        sLngDegrees.addTextChangedListener(sexagesimalSecondsWacher);
-        sLngMinutes.addTextChangedListener(sexagesimalSecondsWacher);
-        sLngSeconds.addTextChangedListener(sexagesimalSecondsWacher);
+        sLatDegrees.addTextChangedListener(sexagesimalSecondsWatcher);
+        sLatMinutes.addTextChangedListener(sexagesimalSecondsWatcher);
+        sLatSeconds.addTextChangedListener(sexagesimalSecondsWatcher);
+        sLngDegrees.addTextChangedListener(sexagesimalSecondsWatcher);
+        sLngMinutes.addTextChangedListener(sexagesimalSecondsWatcher);
+        sLngSeconds.addTextChangedListener(sexagesimalSecondsWatcher);
 
         dLatDegrees.addTextChangedListener(decimalWatcher);
         dLatDegreesFraction.addTextChangedListener(decimalWatcher);
@@ -217,12 +244,12 @@ public class CreateCheckpointActivity extends Activity {
         lngMinutes.removeTextChangedListener(sexagesimalWatcher);
         lngMinutesFraction.removeTextChangedListener(sexagesimalWatcher);
 
-        sLatDegrees.removeTextChangedListener(sexagesimalSecondsWacher);
-        sLatMinutes.removeTextChangedListener(sexagesimalSecondsWacher);
-        sLatSeconds.removeTextChangedListener(sexagesimalSecondsWacher);
-        sLngDegrees.removeTextChangedListener(sexagesimalSecondsWacher);
-        sLngMinutes.removeTextChangedListener(sexagesimalSecondsWacher);
-        sLngSeconds.removeTextChangedListener(sexagesimalSecondsWacher);
+        sLatDegrees.removeTextChangedListener(sexagesimalSecondsWatcher);
+        sLatMinutes.removeTextChangedListener(sexagesimalSecondsWatcher);
+        sLatSeconds.removeTextChangedListener(sexagesimalSecondsWatcher);
+        sLngDegrees.removeTextChangedListener(sexagesimalSecondsWatcher);
+        sLngMinutes.removeTextChangedListener(sexagesimalSecondsWatcher);
+        sLngSeconds.removeTextChangedListener(sexagesimalSecondsWatcher);
 
         dLatDegrees.removeTextChangedListener(decimalWatcher);
         dLatDegreesFraction.removeTextChangedListener(decimalWatcher);
@@ -264,9 +291,9 @@ public class CreateCheckpointActivity extends Activity {
         }
     }
 
-    public void onEnterClick(View v) {
+    private void onSaveCheckpoint() {
         try {
-            checkpointManager.addCheckpoint(gc.getId(), name.getText().toString(), currentInputGeoPoint.getLatitudeE6(), currentInputGeoPoint.getLongitudeE6());
+            checkpointManager.addCheckpoint(geoCache.getId(), name.getText().toString(), currentInputGeoPoint.getLatitudeE6(), currentInputGeoPoint.getLongitudeE6());
             finish();
         } catch (Exception e) {
             LogManager.e(TAG, e.getMessage(), e);

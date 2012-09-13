@@ -92,7 +92,7 @@
         <activity
             android:name="su.geocaching.android.ui.checkpoints.CreateCheckpointActivity"
             android:theme="@style/Theme.Geocaching"
-            android:windowSoftInputMode="adjustPan">
+            android:windowSoftInputMode="adjustResize">
         </activity>
 
         <activity
