@@ -141,6 +141,7 @@ public class CheckpointsFolderActivity extends SherlockListActivity {
     @Override
     protected void onListItemClick(ListView l, View v, int position, long id) {
         super.onListItemClick(l, v, position, id);
-        NavigationManager.startCheckpointDialog(this, ((GeoCache) this.getListAdapter().getItem(position)).getId());
+        GeoCache selectedGeoCache = (GeoCache) this.getListAdapter().getItem(position);
+        NavigationManager.startCheckpointDialog(this, selectedGeoCache);
     }
 }

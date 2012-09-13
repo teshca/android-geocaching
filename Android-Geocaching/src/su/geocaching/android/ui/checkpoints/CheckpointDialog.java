@@ -5,11 +5,9 @@ import com.actionbarsherlock.app.SherlockActivity;
 import su.geocaching.android.controller.Controller;
 import su.geocaching.android.controller.utils.CoordinateHelper;
 import su.geocaching.android.controller.managers.CheckpointManager;
-import su.geocaching.android.controller.managers.NavigationManager;
-import su.geocaching.android.controller.managers.ResourceManager;
 import su.geocaching.android.model.GeoCache;
+import su.geocaching.android.model.GeoCacheType;
 import su.geocaching.android.ui.R;
-import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.TextView;
@@ -17,51 +15,44 @@ import android.widget.TextView;
 public class CheckpointDialog extends SherlockActivity {
     private static final String CHECKPOINT_DIALOG_ACTIVITY_FOLDER = "/CheckpointDialog";
     private CheckpointManager checkpointManager;
-    private int checkpointId, cacheId;
+    private GeoCache checkpoint;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.checkpoint_dialog);
 
-        Intent intent = getIntent();
-        checkpointId = intent.getIntExtra(NavigationManager.CACHE_ID, 0);
-        cacheId = Controller.getInstance().getPreferencesManager().getLastSearchedGeoCache().getId();
-        checkpointManager = Controller.getInstance().getCheckpointManager(cacheId);
-        ResourceManager rm = Controller.getInstance().getResourceManager();
+        checkpoint = (GeoCache) getIntent().getParcelableExtra(GeoCache.class.getCanonicalName());
+
+        // TODO: Pass geocache though intent extra
+        int currentCacheId = Controller.getInstance().getPreferencesManager().getLastSearchedGeoCache().getId();
+        checkpointManager = Controller.getInstance().getCheckpointManager(currentCacheId);
 
         TextView coordinates = (TextView) findViewById(R.id.checkpointCoordinate);
         TextView status = (TextView) findViewById(R.id.tvCheckpointDialogStatus);
 
         Button checkpointDeleteButton = (Button) findViewById(R.id.checkpointDeleteButton);
-        checkpointDeleteButton.setEnabled(checkpointId != cacheId);
+        checkpointDeleteButton.setEnabled(checkpoint.getType() == GeoCacheType.CHECKPOINT);
 
-        GeoCache cache;
-        if (checkpointId == cacheId) {
-            findViewById(R.id.checkpointDeleteButton).setEnabled(false);
-            cache = Controller.getInstance().getDbManager().getCacheByID(cacheId);
-        } else {
-            cache = checkpointManager.getGeoCache(checkpointId);
-        }
-        coordinates.setText(CoordinateHelper.coordinateToString(cache.getLocationGeoPoint()));
-        status.setText(rm.getGeoCacheStatus(cache));
-        setTitle(cache.getName());
+        coordinates.setText(CoordinateHelper.coordinateToString(checkpoint.getLocationGeoPoint()));
+        status.setText(Controller.getInstance().getResourceManager().getGeoCacheStatus(checkpoint));
+        setTitle(checkpoint.getName());
 
         Controller.getInstance().getGoogleAnalyticsManager().trackActivityLaunch(CHECKPOINT_DIALOG_ACTIVITY_FOLDER);
     }
 
     public void onActiveClick(View v) {
-        if (cacheId == checkpointId) {
-            checkpointManager.deactivateCheckpoints();
-            Controller.getInstance().setCurrentSearchPoint(Controller.getInstance().getDbManager().getCacheByID(cacheId));
+        if (checkpoint.getType() == GeoCacheType.CHECKPOINT) {
+            checkpointManager.setActiveItem(checkpoint.getId());
         } else {
-            checkpointManager.setActiveItem(checkpointId);
+            checkpointManager.deactivateCheckpoints();
+            Controller.getInstance().setCurrentSearchPoint(checkpoint);
         }
         finish();
     }
 
     public void onDeleteClick(View v) {
-        checkpointManager.removeCheckpoint(checkpointId);
+        checkpointManager.removeCheckpoint(checkpoint.getId());
         finish();
     }
 }
