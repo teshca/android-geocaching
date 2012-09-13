@@ -32,7 +32,6 @@ import java.util.Locale;
  * @author Nikita Bumakov
  */
 public class NavigationManager {
-    public static final String CACHE_ID = "cache_id";
 
     /**
      * Invoke "home" action, returning to DashBoardActivity
@@ -93,9 +92,9 @@ public class NavigationManager {
         context.startActivity(intent);
     }
 
-    public static void startCheckpointDialog(Context context, int cacheId) {
+    public static void startCheckpointDialog(Context context, GeoCache geoCache) {
         Intent intent = new Intent(context, CheckpointDialog.class);
-        intent.putExtra(CACHE_ID, cacheId);
+        intent.putExtra(GeoCache.class.getCanonicalName(), geoCache);
         context.startActivity(intent);
     }
 
