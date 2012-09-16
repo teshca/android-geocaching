@@ -189,6 +189,9 @@ public class CompassActivity extends SherlockActivity {
             case R.id.compassOdometer:
                 toggleOdometerVisibility();
                 return true;
+            case R.id.menuStartGpsStatus:
+                StartGpsStatusActivity(null);
+                return true;
             default:
                 return super.onOptionsItemSelected(item);
         }
@@ -252,7 +255,7 @@ public class CompassActivity extends SherlockActivity {
     }
 
     public void StartGpsStatusActivity(View v) {
-        NavigationManager.startExternalGpsStatusActivity(v.getContext());
+        NavigationManager.startExternalGpsStatusActivity(this);
     }
 
     @Override
