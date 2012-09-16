@@ -191,9 +191,9 @@ public class NavigationManager {
      * @param context parent context
      */
     private static void startAndroidMarketActivity(Context context, String ApplicationId) {
-        Intent marketIntent = new Intent(Intent.ACTION_VIEW, Uri.parse(String.format("market://details?id={0}", ApplicationId)));
+        Intent marketIntent = new Intent(Intent.ACTION_VIEW, Uri.parse(String.format("market://details?id=%s", ApplicationId)));
         if (isApplicationAvailable(context, marketIntent)) {
-            Controller.getInstance().getGoogleAnalyticsManager().trackExternalActivityLaunch(String.format("/AndroidMarket/{0}", ApplicationId));
+            Controller.getInstance().getGoogleAnalyticsManager().trackExternalActivityLaunch(String.format("/AndroidMarket/%s", ApplicationId));
             context.startActivity(marketIntent);
         }
     }
@@ -210,7 +210,7 @@ public class NavigationManager {
      * @param context parent context
      */
     public static boolean isAndroidMarketAvailable(Context context) {
-        Intent marketIntent = new Intent(Intent.ACTION_VIEW, Uri.parse(String.format("market://details?id={0}", geocachingApplicationId)));
+        Intent marketIntent = new Intent(Intent.ACTION_VIEW, Uri.parse(String.format("market://details?id=%s", geocachingApplicationId)));
         return isApplicationAvailable(context, marketIntent);
     }
     
