@@ -2,8 +2,6 @@
 <resources>
     <string name="info_activity_menu_save_cache">Сохранить</string>
 	<string name="info_activity_menu_delete_cache">Удалить</string>
-	<string name="info_activity_menu_search_map">Искать по карте</string>
-    <string name="info_activity_menu_search_compass">Искать по компасу</string>
 	<string name="info_activity_menu_cache_notes">Заметки</string>
 	<string name="info_activity_menu_refresh">Обновить</string>
 	<string name="info_activity_menu_web_view_search">Поиск на странице</string>

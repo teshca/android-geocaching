@@ -19,8 +19,10 @@ import su.geocaching.android.controller.managers.*;
 import su.geocaching.android.controller.utils.CoordinateHelper;
 import su.geocaching.android.controller.utils.UiHelper;
 import su.geocaching.android.model.GeoCache;
+import su.geocaching.android.model.GeoCacheStatus;
 import su.geocaching.android.model.GeoCacheType;
 import su.geocaching.android.ui.R;
+import su.geocaching.android.ui.geocachemap.GeoCacheOverlayItem;
 import su.geocaching.android.ui.preferences.CompassPreferenceActivity;
 
 /**
@@ -95,10 +97,16 @@ public class CompassActivity extends SherlockActivity {
         compassView.setHelper(preferenceManager.getCompassAppearance());
         compassView.setKeepScreenOn(preferenceManager.getKeepScreenOnPreference());
 
-        GeoCache currentSearchPoint = Controller.getInstance().getCurrentSearchPoint();
-        if (currentSearchPoint.getType() == GeoCacheType.CHECKPOINT) {
-            getSupportActionBar().setSubtitle(currentSearchPoint.getName());
+        Controller.getInstance().setCurrentSearchPoint(geoCache);
+        for (GeoCache checkpoint : Controller.getInstance().getCheckpointManager(geoCache.getId()).getCheckpoints()) {
+            if (checkpoint.getStatus() == GeoCacheStatus.ACTIVE_CHECKPOINT) {
+                Controller.getInstance().setCurrentSearchPoint(checkpoint);
+                getSupportActionBar().setSubtitle(checkpoint.getName());
+            }
         }
+
+        GeoCache currentSearchPoint = Controller.getInstance().getCurrentSearchPoint();
+
         cacheCoordinates.setText(CoordinateHelper.coordinateToString(currentSearchPoint.getLocationGeoPoint()));
         cacheIcon.setImageResource(Controller.getInstance().getResourceManager().getMarkerResId(currentSearchPoint.getType(), currentSearchPoint.getStatus()));
         updateOdometer();
