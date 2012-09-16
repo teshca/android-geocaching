@@ -369,6 +369,9 @@ public class SearchMapActivity extends SherlockMapActivity implements IConnectio
             case R.id.searchMapSettings:
                 startActivity(new Intent(this, DashboardPreferenceActivity.class));
                 return true;
+            case R.id.menuStartGpsStatus:
+                StartGpsStatusActivity(null);
+                return true;
             default:
                 return super.onOptionsItemSelected(item);
         }
@@ -647,6 +650,6 @@ public class SearchMapActivity extends SherlockMapActivity implements IConnectio
     }
 
     public void StartGpsStatusActivity(View v) {
-        NavigationManager.startExternalGpsStatusActivity(v.getContext());
+        NavigationManager.startExternalGpsStatusActivity(this);
     }
 }

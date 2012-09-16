@@ -39,4 +39,8 @@
             android:title="@string/menu_external_map"
             android:icon="@android:drawable/ic_menu_mapmode"
             android:showAsAction="never"/>
+    <item
+            android:id="@+id/menuStartGpsStatus"
+            android:title="@string/menu_gps_status"
+            android:showAsAction="never"/>
 </menu>
