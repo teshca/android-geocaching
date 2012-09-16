@@ -99,16 +99,22 @@ public class DefaultCompassDrawing extends AbstractCompassDrawing {
     }
 
     private void drawAzimuthLabel(Canvas canvas, float direction) {
-        canvas.drawText(CompassHelper.degreesToString(direction, AZIMUTH_FORMAT), centerX * 0.95f, -centerY * 0.8f, azimuthTextPaint);
+        int x = Math.round(centerX * 0.95f);
+        int y = -Math.round(centerY * 0.8f);
+        canvas.drawText(CompassHelper.degreesToString(direction, AZIMUTH_FORMAT), x, y, azimuthTextPaint);
     }
 
     private void drawDeclinationLabel(Canvas canvas) {
-        canvas.drawText(String.format(AZIMUTH_FORMAT, declination), centerX * 0.95f, -centerY * 0.68f, declinationTextPaint);
+        int x = Math.round(centerX * 0.95f);
+        int y = -Math.round(centerY * 0.68f);
+        canvas.drawText(String.format(AZIMUTH_FORMAT, declination), x, y, declinationTextPaint);
     }   
     
     private void drawDistanceLabel(Canvas canvas) {
         boolean hasPreciseLocation = Controller.getInstance().getLocationManager().hasPreciseLocation();
-        canvas.drawText(CoordinateHelper.distanceToString(distance, hasPreciseLocation), -centerX * 0.95f, -centerY * 0.8f, distanceTextPaint);
+        int x = -Math.round(centerX * 0.95f);
+        int y = -Math.round(centerY * 0.8f);
+        canvas.drawText(CoordinateHelper.distanceToString(distance, hasPreciseLocation), x, y, distanceTextPaint);
     }
 
     @Override
