@@ -66,7 +66,6 @@ public class SearchMapActivity extends SherlockMapActivity implements IConnectio
     private Toast connectionLostToast;
 
     private SmoothCompassThread animationThread;
-    private CheckpointManager checkpointManager;
 
     private GeoCache geoCache;
 
@@ -98,13 +97,6 @@ public class SearchMapActivity extends SherlockMapActivity implements IConnectio
         gpsStatusTextView = (TextView) findViewById(R.id.waitingLocationFixText);
         distanceStatusTextView = (TextView) findViewById(R.id.distanceToCacheText);
         progressBarCircle = (ProgressBar) findViewById(R.id.progressCircle);
-        /* TODO: Implement
-        progressBarView.setOnClickListener(new OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                NavigationManager.startExternalGpsStatusActivity(v.getContext());
-            }
-        }); */
 
         map = (MapView) findViewById(R.id.searchGeocacheMap);
         mapOverlays = map.getOverlays();
@@ -154,15 +146,13 @@ public class SearchMapActivity extends SherlockMapActivity implements IConnectio
         if (!Controller.getInstance().getDbManager().isCacheStored(geoCache.getId())) {
             LogManager.e(TAG, "Geocache is not in found in database. Finishing.");
             Toast.makeText(this, getString(R.string.search_geocache_error_geocache_not_in_db), Toast.LENGTH_LONG).show();
-            this.finish();
-            NavigationManager.startFavoritesActivity(this);
+            finish();
             return;
         }
 
-        checkpointManager = Controller.getInstance().getCheckpointManager(geoCache.getId());
         checkpointOverlay.clear();
         Controller.getInstance().setCurrentSearchPoint(geoCache);
-        for (GeoCache checkpoint : checkpointManager.getCheckpoints()) {
+        for (GeoCache checkpoint : Controller.getInstance().getCheckpointManager(geoCache.getId()).getCheckpoints()) {
             checkpointOverlay.addOverlayItem(new GeoCacheOverlayItem(checkpoint, "", ""));
             if (checkpoint.getStatus() == GeoCacheStatus.ACTIVE_CHECKPOINT) {
                 Controller.getInstance().setCurrentSearchPoint(checkpoint);
@@ -362,7 +352,7 @@ public class SearchMapActivity extends SherlockMapActivity implements IConnectio
                 resetZoom();
                 return true;
             case R.id.menuStartCompass:
-                NavigationManager.startCompassActivity(this);
+                NavigationManager.startCompassActivity(this, geoCache);
                 return true;
             case R.id.menuGeoCacheInfo:
                 NavigationManager.startInfoActivity(this, geoCache);
@@ -629,12 +619,12 @@ public class SearchMapActivity extends SherlockMapActivity implements IConnectio
     public void setActiveItem(GeoCache activeItem) {
         if (activeItem.getType() == GeoCacheType.CHECKPOINT)
         {
-            checkpointManager.setActiveItem(activeItem.getId());
+            Controller.getInstance().getCheckpointManager(geoCache.getId()).setActiveItem(activeItem.getId());
             getSupportActionBar().setSubtitle(activeItem.getName());
         }
         else
         {
-            checkpointManager.deactivateCheckpoints();
+            Controller.getInstance().getCheckpointManager(geoCache.getId()).deactivateCheckpoints();
             Controller.getInstance().setCurrentSearchPoint(activeItem);
             getSupportActionBar().setSubtitle(null);
         }
@@ -650,5 +640,13 @@ public class SearchMapActivity extends SherlockMapActivity implements IConnectio
     public DynamicUserLocationOverlay getLocationOverlay()
     {
         return userOverlay;
+    }
+
+    public GeoCache getGeoCache() {
+        return geoCache;
+    }
+
+    public void StartGpsStatusActivity(View v) {
+        NavigationManager.startExternalGpsStatusActivity(v.getContext());
     }
 }

@@ -35,7 +35,7 @@ public class DynamicUserLocationOverlay extends UserLocationOverlayBase implemen
 
     private final GestureDetector gestureDetector;
 
-    public DynamicUserLocationOverlay(final SearchMapActivity context, final MapView mapView) {
+    public DynamicUserLocationOverlay(final SearchMapActivity searchMapActivity, final MapView mapView) {
         bearing = Float.NaN;
 
         this.map = mapView;
@@ -53,8 +53,8 @@ public class DynamicUserLocationOverlay extends UserLocationOverlayBase implemen
         paintStrokeCompassArrow.setAntiAlias(true);
 
         pathCompassArrow = new Path();
-        compassArrowWidth = (int) (Math.min(context.getWindowManager().getDefaultDisplay().getWidth(), context.getWindowManager().getDefaultDisplay().getHeight()) * COMPASS_ARROW_WIDTH_COEFF);
-        compassArrowHeight = (int) (Math.max(context.getWindowManager().getDefaultDisplay().getWidth(), context.getWindowManager().getDefaultDisplay().getHeight()) * COMPASS_ARROW_HEIGHT_COEFF);
+        compassArrowWidth = (int) (Math.min(searchMapActivity.getWindowManager().getDefaultDisplay().getWidth(), searchMapActivity.getWindowManager().getDefaultDisplay().getHeight()) * COMPASS_ARROW_WIDTH_COEFF);
+        compassArrowHeight = (int) (Math.max(searchMapActivity.getWindowManager().getDefaultDisplay().getWidth(), searchMapActivity.getWindowManager().getDefaultDisplay().getHeight()) * COMPASS_ARROW_HEIGHT_COEFF);
         int h = compassArrowHeight / 2;
         int w = compassArrowWidth / 2;
         pathCompassArrow.moveTo(0, h / 2);
@@ -64,7 +64,7 @@ public class DynamicUserLocationOverlay extends UserLocationOverlayBase implemen
         pathCompassArrow.lineTo(0, h / 2);
         pathCompassArrow.close();
 
-        gestureDetector = new GestureDetector(context, new GestureDetector.SimpleOnGestureListener() {
+        gestureDetector = new GestureDetector(searchMapActivity, new GestureDetector.SimpleOnGestureListener() {
             public boolean onDoubleTap(MotionEvent e) {
                 if (hitTest(e)) {
                     mapView.getController().zoomInFixing((int) e.getX(), (int) e.getY());
@@ -75,7 +75,7 @@ public class DynamicUserLocationOverlay extends UserLocationOverlayBase implemen
             public boolean onSingleTapConfirmed(MotionEvent e) {
                 if (hitTest(e)) {
                     Controller.getInstance().Vibrate();
-                    NavigationManager.startCompassActivity(context);
+                    NavigationManager.startCompassActivity(searchMapActivity, searchMapActivity.getGeoCache());
                     return true;
                 }
                 return false;

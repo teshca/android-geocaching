@@ -75,8 +75,9 @@ public class NavigationManager {
         context.startActivity(intent);
     }
 
-    public static void startCompassActivity(Context context) {
+    public static void startCompassActivity(Context context, GeoCache geoCache) {
         Intent intent = new Intent(context, CompassActivity.class);
+        intent.putExtra(GeoCache.class.getCanonicalName(), geoCache);
         context.startActivity(intent);
     }
 
@@ -148,6 +149,7 @@ public class NavigationManager {
             context.startActivity(intent);
         } else {
             // Application isn't installed
+            startAndroidMarketActivity(context, gpsStatusApplicationId);
             Controller.getInstance().getGoogleAnalyticsManager().trackExternalActivityLaunch("/GpsStatus/0");
         }
     }
@@ -167,19 +169,31 @@ public class NavigationManager {
             context.startActivity(intent);
         } else {
             // Application isn't installed
+            startAndroidMarketActivity(context, yandexMapsApplicationId);
             Controller.getInstance().getGoogleAnalyticsManager().trackExternalActivityLaunch("/ExtternalMap/0");
         }
     }
 
+    private static String geocachingApplicationId = "su.geocaching.android.ui";
+    private static String gpsStatusApplicationId = "com.eclipsim.gpsstatus2";
+    private static String yandexMapsApplicationId = "ru.yandex.yandexmaps";
 
-    private static Intent marketIntent = new Intent(Intent.ACTION_VIEW, Uri.parse("market://details?id=su.geocaching.android.ui"));
     /**
      * Run Android Market application
      * @param context parent context
      */
-    public static void startAndroidMarketActivity(Context context) {
-        if (isAndroidMarketAvailable(context)) {
-            Controller.getInstance().getGoogleAnalyticsManager().trackExternalActivityLaunch("/AndroidMarket");
+    public static void startGeocachingGooglePlayActivity(Context context) {
+        startAndroidMarketActivity(context, geocachingApplicationId);
+    }
+
+    /**
+     * Run Android Market application
+     * @param context parent context
+     */
+    private static void startAndroidMarketActivity(Context context, String ApplicationId) {
+        Intent marketIntent = new Intent(Intent.ACTION_VIEW, Uri.parse(String.format("market://details?id={0}", ApplicationId)));
+        if (isApplicationAvailable(context, marketIntent)) {
+            Controller.getInstance().getGoogleAnalyticsManager().trackExternalActivityLaunch(String.format("/AndroidMarket/{0}", ApplicationId));
             context.startActivity(marketIntent);
         }
     }
@@ -187,8 +201,17 @@ public class NavigationManager {
      * Check if Android Market application is available
      * @param context parent context
      */
-    public static boolean isAndroidMarketAvailable(Context context) {
+    private static boolean isApplicationAvailable(Context context, Intent marketIntent) {
         return context.getPackageManager().queryIntentActivities(marketIntent, PackageManager.COMPONENT_ENABLED_STATE_DEFAULT).size() > 0;
+    }
+
+    /**
+     * Check if Android Market application is available
+     * @param context parent context
+     */
+    public static boolean isAndroidMarketAvailable(Context context) {
+        Intent marketIntent = new Intent(Intent.ACTION_VIEW, Uri.parse(String.format("market://details?id={0}", geocachingApplicationId)));
+        return isApplicationAvailable(context, marketIntent);
     }
     
     /**
@@ -203,8 +226,7 @@ public class NavigationManager {
         intent.putExtra("lat_to", destinationLat);
         intent.putExtra("lon_to", destinationLng);       
         
-        List<ResolveInfo> list = context.getPackageManager().queryIntentActivities(intent, PackageManager.COMPONENT_ENABLED_STATE_DEFAULT);
-        if (list.size() > 0) {
+        if (isApplicationAvailable(context, intent)) {
             // Application installed
             Controller.getInstance().getGoogleAnalyticsManager().trackExternalActivityLaunch("/ExternalDrivingDirrections/Yandex");
             context.startActivity(intent);
@@ -216,13 +238,13 @@ public class NavigationManager {
                     sourceLat, sourceLng, destinationLat, destinationLng);
             intent = new Intent(android.content.Intent.ACTION_VIEW, Uri.parse(uri));
 
-            list = context.getPackageManager().queryIntentActivities(intent, PackageManager.COMPONENT_ENABLED_STATE_DEFAULT);
-            if (list.size() > 0) {
+            if (isApplicationAvailable(context, intent)) {
                 // Application installed
                 Controller.getInstance().getGoogleAnalyticsManager().trackExternalActivityLaunch("/ExternalDrivingDirrections/1");
                 context.startActivity(intent);
             } else {
                 // Application isn't installed
+                startAndroidMarketActivity(context, yandexMapsApplicationId);
                 Controller.getInstance().getGoogleAnalyticsManager().trackExternalActivityLaunch("/ExternalDrivingDirrections/0");
             }                    
         }                

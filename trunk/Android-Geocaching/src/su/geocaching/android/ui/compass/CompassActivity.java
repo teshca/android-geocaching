@@ -1,20 +1,16 @@
 package su.geocaching.android.ui.compass;
 
-import android.app.Activity;
 import android.app.Dialog;
 import android.content.Intent;
 import android.location.Location;
 import android.location.LocationManager;
 import android.os.Bundle;
-import android.view.Menu;
-import android.view.MenuInflater;
-import android.view.MenuItem;
 import android.view.View;
-import android.view.View.OnClickListener;
-import android.widget.ImageView;
-import android.widget.RelativeLayout;
-import android.widget.TextView;
-import android.widget.Toast;
+import android.widget.*;
+import com.actionbarsherlock.app.SherlockActivity;
+import com.actionbarsherlock.view.Menu;
+import com.actionbarsherlock.view.MenuInflater;
+import com.actionbarsherlock.view.MenuItem;
 import su.geocaching.android.controller.Controller;
 import su.geocaching.android.controller.GpsUpdateFrequency;
 import su.geocaching.android.controller.compass.CompassSpeed;
@@ -23,7 +19,7 @@ import su.geocaching.android.controller.managers.*;
 import su.geocaching.android.controller.utils.CoordinateHelper;
 import su.geocaching.android.controller.utils.UiHelper;
 import su.geocaching.android.model.GeoCache;
-import su.geocaching.android.ui.ProgressBarView;
+import su.geocaching.android.model.GeoCacheType;
 import su.geocaching.android.ui.R;
 import su.geocaching.android.ui.preferences.CompassPreferenceActivity;
 
@@ -33,9 +29,10 @@ import su.geocaching.android.ui.preferences.CompassPreferenceActivity;
  * @author Android-Geocaching.su student project team
  * @since October 2010
  */
-public class CompassActivity extends Activity {
+public class CompassActivity extends SherlockActivity {
     private static final String TAG = CompassActivity.class.getCanonicalName();
-    private static final String COMPASS_ACTIVITY = "/CompassActivity";
+    private static final String COMPASS_ACTIVITY_NAME = "/CompassActivity";
+    private static final int DIALOG_ID_TURN_ON_GPS = 1000;
 
     private SmoothCompassThread animationThread;
     private AccurateUserLocationManager locationManager;
@@ -44,41 +41,42 @@ public class CompassActivity extends Activity {
 
     private CompassView compassView;
     private TextView tvOdometer, statusText, cacheCoordinates, userCoordinates;
-    private ProgressBarView progressBarView;
+    private ImageView cacheIcon;
+    private ProgressBar progressBarCircle;
     private RelativeLayout odometerLayout;
     private Toast providerUnavailableToast;
     private ImageView startButton;
 
-    private Controller controller;
-    private static final int DIALOG_ID_TURN_ON_GPS = 1000;
+    private GeoCache geoCache;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         LogManager.d(TAG, "on create");
-        setContentView(R.layout.compass_activity);
 
+        geoCache = (GeoCache) getIntent().getParcelableExtra(GeoCache.class.getCanonicalName());
+
+        getActionBar().setHomeButtonEnabled(true);
+        getActionBar().setTitle(geoCache.getName());
+
+        setContentView(R.layout.compass_activity);
         compassView = (CompassView) findViewById(R.id.compassView);
         tvOdometer = (TextView) findViewById(R.id.tvOdometer);
         cacheCoordinates = (TextView) findViewById(R.id.cacheCoordinates);
+        cacheIcon = (ImageView) findViewById(R.id.ivCacheCoordinate);
         userCoordinates = (TextView) findViewById(R.id.userCoordinates);
-        progressBarView = (ProgressBarView) findViewById(R.id.progressCircle);
-        progressBarView.setOnClickListener(new OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                NavigationManager.startExternalGpsStatusActivity(v.getContext());
-            }
-        });
+        progressBarCircle = (ProgressBar) findViewById(R.id.progressCircle);
+
         statusText = (TextView) findViewById(R.id.waitingLocationFixText);
         odometerLayout = (RelativeLayout) findViewById(R.id.odometer_layout);
+        startButton = (ImageView) findViewById(R.id.startButton);
         providerUnavailableToast = Toast.makeText(this, getString(R.string.search_geocache_best_provider_lost), Toast.LENGTH_LONG);
 
-        controller = Controller.getInstance();
-        locationManager = controller.getLocationManager();
-        preferenceManager = controller.getPreferencesManager();
+        locationManager = Controller.getInstance().getLocationManager();
+        preferenceManager = Controller.getInstance().getPreferencesManager();
         locationListener = new LocationListener();
 
-        controller.getGoogleAnalyticsManager().trackActivityLaunch(COMPASS_ACTIVITY);
+        Controller.getInstance().getGoogleAnalyticsManager().trackActivityLaunch(COMPASS_ACTIVITY_NAME);
     }
 
 
@@ -86,9 +84,10 @@ public class CompassActivity extends Activity {
     protected void onResume() {
         super.onResume();
         LogManager.d(TAG, "onResume");
-        if (controller.getCurrentSearchPoint() == null) {
-            LogManager.e(TAG, "Geocache is null. Finishing.");
-            Toast.makeText(this, this.getString(R.string.search_geocache_error_no_geocache), Toast.LENGTH_LONG).show();
+
+        if (!Controller.getInstance().getDbManager().isCacheStored(geoCache.getId())) {
+            LogManager.e(TAG, "Geocache is not in found in database. Finishing.");
+            Toast.makeText(this, this.getString(R.string.search_geocache_error_geocache_not_in_db), Toast.LENGTH_LONG).show();
             finish();
             return;
         }
@@ -96,9 +95,12 @@ public class CompassActivity extends Activity {
         compassView.setHelper(preferenceManager.getCompassAppearance());
         compassView.setKeepScreenOn(preferenceManager.getKeepScreenOnPreference());
 
-        GeoCache gc = controller.getCurrentSearchPoint();
-        cacheCoordinates.setText(CoordinateHelper.coordinateToString(gc.getLocationGeoPoint()));
-        ((ImageView) findViewById(R.id.ivCacheCoordinate)).setImageResource(controller.getResourceManager().getMarkerResId(gc.getType(), gc.getStatus()));
+        GeoCache currentSearchPoint = Controller.getInstance().getCurrentSearchPoint();
+        if (currentSearchPoint.getType() == GeoCacheType.CHECKPOINT) {
+            getSupportActionBar().setSubtitle(currentSearchPoint.getName());
+        }
+        cacheCoordinates.setText(CoordinateHelper.coordinateToString(currentSearchPoint.getLocationGeoPoint()));
+        cacheIcon.setImageResource(Controller.getInstance().getResourceManager().getMarkerResId(currentSearchPoint.getType(), currentSearchPoint.getStatus()));
         updateOdometer();
 
         if (locationManager.hasLocation()) {
@@ -107,10 +109,10 @@ public class CompassActivity extends Activity {
             userCoordinates.setText(CoordinateHelper.coordinateToString(CoordinateHelper.locationToGeoPoint(locationManager.getLastKnownLocation())));
         }
         if (Controller.getInstance().getLocationManager().hasPreciseLocation()) {
-            progressBarView.setVisibility(View.GONE);
+            progressBarCircle.setVisibility(View.GONE);
         } else {
             statusText.setText(R.string.gps_status_initialization);
-            progressBarView.setVisibility(View.VISIBLE);
+            progressBarCircle.setVisibility(View.VISIBLE);
         }
 
         locationManager.addSubscriber(locationListener);
@@ -158,7 +160,7 @@ public class CompassActivity extends Activity {
      */
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-        MenuInflater inflater = getMenuInflater();
+        MenuInflater inflater = getSupportMenuInflater();
         inflater.inflate(R.menu.compass_menu, menu);
         return true;
     }
@@ -168,22 +170,24 @@ public class CompassActivity extends Activity {
      */
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        GeoCache searchingGC = controller.getPreferencesManager().getLastSearchedGeoCache();
         switch (item.getItemId()) {
+            case android.R.id.home:
+                NavigationManager.startDashboardActivity(this);
+                return true;
             case R.id.menuStartMap:
-                NavigationManager.startSearchMapActivity(this, searchingGC);
+                NavigationManager.startSearchMapActivity(this, geoCache);
                 return true;
             case R.id.menuGeoCacheInfo:
-                NavigationManager.startInfoActivity(this, searchingGC);
+                NavigationManager.startInfoActivity(this, geoCache);
                 return true;
             case R.id.stepByStep:
-                NavigationManager.startCheckpointsFolder(this, searchingGC);
+                NavigationManager.startCheckpointsFolder(this, geoCache);
                 return true;
             case R.id.compassSettings:
                 showCompassPreferences();
                 return true;
             case R.id.compassOdometer:
-                showHideOdometer();
+                toggleOdometerVisibility();
                 return true;
             default:
                 return super.onOptionsItemSelected(item);
@@ -206,17 +210,17 @@ public class CompassActivity extends Activity {
         startActivity(intent);
     }
 
-    private void showHideOdometer() {
+    private void toggleOdometerVisibility() {
         AccurateUserLocationManager.Odometer.refresh();
         boolean isOdometerOn = preferenceManager.isOdometerOnPreference();
         preferenceManager.setOdometerOnPreference(!isOdometerOn);
         AccurateUserLocationManager.Odometer.setEnabled(!isOdometerOn);
         updateOdometer();
+        invalidateOptionsMenu();
     }
 
     private void updateOdometer() {
         if (preferenceManager.isOdometerOnPreference()) {
-            startButton = (ImageView) findViewById(R.id.startButton);
             odometerLayout.setVisibility(View.VISIBLE);
             tvOdometer.setText(CoordinateHelper.distanceToString(AccurateUserLocationManager.Odometer.getDistance()));
             toggleStartButton();
@@ -233,10 +237,6 @@ public class CompassActivity extends Activity {
         }
     }
 
-    public void onHomeClick(View v) {
-        NavigationManager.startDashboardActivity(this);
-    }
-
     public void onStartStopOdometerClick(View v) {
         AccurateUserLocationManager.Odometer.setEnabled(!AccurateUserLocationManager.Odometer.isEnabled());
         toggleStartButton();
@@ -248,7 +248,11 @@ public class CompassActivity extends Activity {
     }
 
     public void onCloseOdometerClick(View v) {
-        showHideOdometer();
+        toggleOdometerVisibility();
+    }
+
+    public void StartGpsStatusActivity(View v) {
+        NavigationManager.startExternalGpsStatusActivity(v.getContext());
     }
 
     @Override
@@ -278,14 +282,14 @@ public class CompassActivity extends Activity {
             if (tvOdometer.isShown()) {
                 tvOdometer.setText(CoordinateHelper.distanceToString(AccurateUserLocationManager.Odometer.getDistance()));
             }
-            UiHelper.setGone(progressBarView);
-            float distance = CoordinateHelper.getDistanceBetween(controller.getCurrentSearchPoint().getLocationGeoPoint(), location);
+            UiHelper.setGone(progressBarCircle);
+            float distance = CoordinateHelper.getDistanceBetween(Controller.getInstance().getCurrentSearchPoint().getLocationGeoPoint(), location);
             if (distance < CLOSE_DISTANCE_TO_GC_VALUE || AccurateUserLocationManager.Odometer.isEnabled()) {
-                controller.getLocationManager().updateFrequency(GpsUpdateFrequency.MAXIMAL);
+                Controller.getInstance().getLocationManager().updateFrequency(GpsUpdateFrequency.MAXIMAL);
             } else {
-                controller.getLocationManager().updateFrequencyFromPreferences();
+                Controller.getInstance().getLocationManager().updateFrequencyFromPreferences();
             }
-            compassView.setCacheDirection(CoordinateHelper.getBearingBetween(location, controller.getCurrentSearchPoint().getLocationGeoPoint()));
+            compassView.setCacheDirection(CoordinateHelper.getBearingBetween(location, Controller.getInstance().getCurrentSearchPoint().getLocationGeoPoint()));
             userCoordinates.setText(CoordinateHelper.coordinateToString(CoordinateHelper.locationToGeoPoint(location)));
             compassView.setDistance(distance);
         }
@@ -299,19 +303,19 @@ public class CompassActivity extends Activity {
                     break;
                 case AccurateUserLocationManager.OUT_OF_SERVICE:
                     // provider unavailable
-                    UiHelper.setVisible(progressBarView);
+                    UiHelper.setVisible(progressBarCircle);
                     statusText.setText(R.string.gps_status_unavailable);
                     providerUnavailableToast.show();
                     break;
                 case AccurateUserLocationManager.TEMPORARILY_UNAVAILABLE:
                     // gps connection lost. just show progress bar
-                    UiHelper.setVisible(progressBarView);
+                    UiHelper.setVisible(progressBarCircle);
                     break;
                 case AccurateUserLocationManager.EVENT_PROVIDER_DISABLED:
                     if (LocationManager.GPS_PROVIDER.equals(provider)) {
                         // gps has been turned off
                         showDialog(DIALOG_ID_TURN_ON_GPS);
-                        UiHelper.setGone(progressBarView);
+                        UiHelper.setGone(progressBarCircle);
                         UiHelper.setGone(statusText);
                     }
                     break;
@@ -323,7 +327,7 @@ public class CompassActivity extends Activity {
                         } catch (Exception e) {
                             LogManager.w(TAG, "Can't dismiss dialog, probably it hasn't ever been shown", e);
                         }
-                        UiHelper.setVisible(progressBarView);
+                        UiHelper.setVisible(progressBarCircle);
                         UiHelper.setVisible(statusText);
                     }
                     break;

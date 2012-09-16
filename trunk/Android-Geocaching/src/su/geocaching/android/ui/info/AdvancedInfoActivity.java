@@ -197,9 +197,12 @@ public class AdvancedInfoActivity extends SherlockFragmentActivity {
             case R.id.menu_info_delete:
                 onDeleteCache();
                 return true;
-            case R.id.menu_info_search:
-                onSearchCache();
-                return true;                
+            case R.id.menu_info_search_map:
+                onSearchCacheMap();
+                return true;
+            case R.id.menu_info_search_compass:
+                onSearchCacheCompass();
+                return true;
             case R.id.menu_info_notes:
                 onEditNotes();
                 return true;                
@@ -245,12 +248,21 @@ public class AdvancedInfoActivity extends SherlockFragmentActivity {
         invalidateOptionsMenu();        
     }
 
+    private void onSearchCacheMap() {
+        onSearchCache();
+        NavigationManager.startSearchMapActivity(this, infoViewModel.getGeoCachce());
+    }
+
+    private void onSearchCacheCompass() {
+        onSearchCache();
+        NavigationManager.startCompassActivity(this, infoViewModel.getGeoCachce());
+    }
+
     private void onSearchCache() {
         if (!infoViewModel.isCacheStored()) {
             infoViewModel.saveCache();
             invalidateOptionsMenu();            
         }
-        NavigationManager.startSearchMapActivity(this, infoViewModel.getGeoCachce());
     }
 
     public void openCheckpointDialog(GeoPoint geoPoint) {
