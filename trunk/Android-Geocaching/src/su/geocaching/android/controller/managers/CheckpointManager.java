@@ -85,10 +85,6 @@ public class CheckpointManager {
         return index;
     }
 
-    public GeoCache getGeoCache(int id) {
-        return checkpoints.get(findIndexById(id));
-    }
-
     /**
      * @param id the Id of active item
      */

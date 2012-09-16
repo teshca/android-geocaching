@@ -14,7 +14,7 @@
         android:id="@+id/menu_info_notes"
         android:title="@string/info_activity_menu_cache_notes"
         android:icon="@android:drawable/ic_menu_edit"
-        android:showAsAction="always" />
+        android:showAsAction="never" />
 	<item
       	android:id="@+id/menu_info_search_map"
       	android:title="@string/menu_start_map"
@@ -25,7 +25,7 @@
         android:id="@+id/menu_info_search_compass"
         android:title="@string/menu_start_compass"
         android:icon="@android:drawable/ic_menu_compass"
-        android:showAsAction="ifRoom" />
+        android:showAsAction="never" />
 
 	<item
 		android:id="@+id/menu_info_refresh"
