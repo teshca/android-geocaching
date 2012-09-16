@@ -70,7 +70,7 @@ public class DashboardActivity extends SherlockActivity {
                 this.showDialog(ABOUT_DIALOG_ID);
                 return true;
             case R.id.give_feedback:
-                NavigationManager.startAndroidMarketActivity(this);
+                NavigationManager.startGeocachingGooglePlayActivity(this);
             default:
                 return super.onOptionsItemSelected(item);
         }

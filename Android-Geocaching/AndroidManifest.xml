@@ -39,6 +39,7 @@
         <activity
             android:name="su.geocaching.android.ui.compass.CompassActivity"
             android:theme="@style/Theme.Geocaching"
+            android:uiOptions="splitActionBarWhenNarrow"
             android:screenOrientation="portrait">
         </activity>
 

@@ -6,35 +6,33 @@
                 android:background="@color/dashboard_background"
                 android:id="@+id/compassLayout">
 
-    <!-- Logo -->
-    <LinearLayout android:id="@+id/logoLayout"
-                  style="@style/TitleBar"
-                  android:layout_alignParentTop="true">
-        <ImageView android:src="@drawable/geologo"
-                   style="@style/TitleBarLogo"
-                   android:id="@+id/title_logo"
-                   android:onClick="onHomeClick"/>
-        <TextView android:id="@+id/waitingLocationFixText"
-                  android:layout_width="wrap_content"
-                  android:layout_height="fill_parent"
-                  android:textColor="#ffffffff"
-                  android:padding="3dip"
-                  android:textSize="@dimen/text_size_small"/>
+    <!-- semitransparent info layer -->
+    <LinearLayout
+            android:id="@+id/infoLayer"
+            style="@style/MapInfoLayer"
+            android:layout_alignParentTop="true">
+        <View
+                style="@style/MapInfoSpring"/>
 
-        <!-- It view need for right align -->
-        <View style="@style/TitleBarSpring"/>
-
-		<su.geocaching.android.ui.ProgressBarView
-                style="@style/ProgressBarView"
-				android:id="@+id/progressCircle"
-				android:layout_marginRight="5dip"/>
-	</LinearLayout>
+        <TextView
+                android:id="@+id/waitingLocationFixText"
+                android:clickable="true"
+                android:onClick="StartGpsStatusActivity"
+                style="@style/MapInfoItem"/>
+        <ProgressBar
+                android:id="@+id/progressCircle"
+                android:onClick="StartGpsStatusActivity"
+                android:layout_width="16dip"
+                android:layout_height="16dip"
+                android:visibility="gone"
+                android:layout_marginRight="2dip"/>
+    </LinearLayout>
 
     <!-- Cache coordinate -->
     <LinearLayout android:id="@+id/targetCoordinates"
                   android:layout_width="fill_parent"
                   android:layout_height="wrap_content"
-                  android:layout_below="@id/logoLayout"
+                  android:layout_below="@id/infoLayer"
                   android:gravity="center">
         <ImageView android:id="@+id/ivCacheCoordinate"
                    android:layout_height="20dp"

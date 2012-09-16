@@ -27,7 +27,7 @@ public class AskForRatingDialog extends AlertDialog {
                 new OnClickListener() {
                     public void onClick(DialogInterface dialog, int id) {
                         Controller.getInstance().getGoogleAnalyticsManager().trackActivityLaunch(ASK_FOR_RATING_DIALOG_NAME + "/yes");
-                        NavigationManager.startAndroidMarketActivity(getContext());
+                        NavigationManager.startGeocachingGooglePlayActivity(getContext());
                         dialog.dismiss();
                     }
                 });

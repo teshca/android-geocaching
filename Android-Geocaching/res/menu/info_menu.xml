@@ -10,17 +10,23 @@
 		android:title="@string/info_activity_menu_delete_cache"
 		android:icon="@android:drawable/ic_menu_delete"
 		android:showAsAction="always" />
+    <item
+        android:id="@+id/menu_info_notes"
+        android:title="@string/info_activity_menu_cache_notes"
+        android:icon="@android:drawable/ic_menu_edit"
+        android:showAsAction="always" />
 	<item
-      	android:id="@+id/menu_info_search"
-      	android:title="@string/info_activity_menu_search_cache"
+      	android:id="@+id/menu_info_search_map"
+      	android:title="@string/info_activity_menu_search_map"
 		android:icon="@android:drawable/ic_menu_mapmode"
 		android:showAsAction="always" />
-	
-	<item
-		android:id="@+id/menu_info_notes"
-		android:title="@string/info_activity_menu_cache_notes"
-		android:icon="@drawable/ic_menu_compose"
-		android:showAsAction="never" />	
+
+    <item
+        android:id="@+id/menu_info_search_compass"
+        android:title="@string/info_activity_menu_search_compass"
+        android:icon="@android:drawable/ic_menu_compass"
+        android:showAsAction="ifRoom" />
+
 	<item
 		android:id="@+id/menu_info_refresh"
 		android:title="@string/info_activity_menu_refresh"
