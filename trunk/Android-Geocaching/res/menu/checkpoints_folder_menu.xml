@@ -4,11 +4,11 @@
         android:id="@+id/addCheckpointMenu"
         android:title="@string/add_checkpoint"
         android:showAsAction="always"
-        android:icon="@android:drawable/ic_menu_add">
+        android:icon="@drawable/ic_menu_add">
     </item>
 	<item
         android:id="@+id/removeAllCheckpointMenu"
         android:title="@string/delete_all"
-        android:icon="@android:drawable/ic_menu_delete">
+        android:icon="@drawable/ic_menu_delete">
     </item>
 </menu>

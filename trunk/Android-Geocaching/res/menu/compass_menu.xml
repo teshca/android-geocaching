@@ -7,21 +7,21 @@
     <item
             android:id="@+id/stepByStep"
             android:title="@string/checkpoints"
-            android:icon="@android:drawable/ic_menu_myplaces"
+            android:icon="@drawable/ic_menu_myplaces"
             android:showAsAction="always"/>
     <item
             android:id="@+id/menuStartMap"
-            android:icon="@android:drawable/ic_menu_mapmode"
+            android:icon="@drawable/ic_menu_mapmode"
             android:title="@string/menu_start_map"
             android:showAsAction="ifRoom"/>
     <item
             android:id="@+id/menuGeoCacheInfo"
-            android:icon="@android:drawable/ic_menu_info_details"
+            android:icon="@drawable/ic_menu_info_details"
             android:title="@string/menu_geocache_info"
             android:showAsAction="ifRoom"/>
     <item
             android:id="@+id/compassSettings"
-            android:icon="@drawable/ic_menu_settings"
+            android:icon="@drawable/ic_menu_preferences"
             android:title="@string/settings"
             android:showAsAction="never"/>
     <item
