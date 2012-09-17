@@ -19,19 +19,4 @@
         <item name="android:layout_height">fill_parent</item>
         <item name="android:layout_weight">1</item>
     </style>
-
-    <style name="ProgressBarView">
-        <item name="android:layout_width">@dimen/header_progress_bar_size</item>
-        <item name="android:layout_height">@dimen/header_progress_bar_size</item>
-        <item name="android:layout_gravity">center_vertical</item>
-        <item name="android:background">@anim/earth_anim</item>
-    </style>
-
-	<style name="MyLocationButton">
-		<item name="android:layout_width">wrap_content</item>
-		<item name="android:layout_height">wrap_content</item>
-		<item name="android:adjustViewBounds">true</item>
-		<item name="android:src">@drawable/ic_menu_mylocation</item>
-		<item name="android:background">@android:color/transparent</item>
-	</style>
 </resources>

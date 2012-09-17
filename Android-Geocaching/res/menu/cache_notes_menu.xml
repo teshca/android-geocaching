@@ -3,6 +3,6 @@
 	<item
 		android:id="@+id/menu_cache_notes_save"
 		android:title="@string/cache_notes_activity_menu_save"
-		android:icon="@android:drawable/ic_menu_save"
+		android:icon="@drawable/ic_menu_save"
 		android:showAsAction="always" />
 </menu>

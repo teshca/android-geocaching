@@ -58,8 +58,8 @@ public class CompassActivity extends SherlockActivity {
 
         geoCache = (GeoCache) getIntent().getParcelableExtra(GeoCache.class.getCanonicalName());
 
-        getActionBar().setHomeButtonEnabled(true);
-        getActionBar().setTitle(geoCache.getName());
+        getSupportActionBar().setHomeButtonEnabled(true);
+        getSupportActionBar().setTitle(geoCache.getName());
 
         setContentView(R.layout.compass_activity);
         compassView = (CompassView) findViewById(R.id.compassView);

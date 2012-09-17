@@ -3,16 +3,16 @@
     <item
         android:id="@+id/menu_sort"
         android:title="@string/menu_sort"
-        android:icon="@android:drawable/ic_menu_sort_by_size"
+        android:icon="@drawable/ic_menu_sort_by_size"
         android:showAsAction="always" />
     <item
         android:id="@+id/menu_search"
         android:title="@string/menu_search"
-        android:icon="@android:drawable/ic_menu_search"
+        android:icon="@drawable/ic_menu_search"
         android:showAsAction="always" />
     <item
         android:id="@+id/menu_delete_all_caches"
         android:title="@string/menu_delete_all_caches"
-        android:icon = "@android:drawable/ic_menu_delete"
+        android:icon = "@drawable/ic_menu_delete"
         android:showAsAction="never" />
 </menu>
