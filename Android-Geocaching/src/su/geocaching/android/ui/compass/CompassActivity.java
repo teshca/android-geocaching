@@ -20,9 +20,7 @@ import su.geocaching.android.controller.utils.CoordinateHelper;
 import su.geocaching.android.controller.utils.UiHelper;
 import su.geocaching.android.model.GeoCache;
 import su.geocaching.android.model.GeoCacheStatus;
-import su.geocaching.android.model.GeoCacheType;
 import su.geocaching.android.ui.R;
-import su.geocaching.android.ui.geocachemap.GeoCacheOverlayItem;
 import su.geocaching.android.ui.preferences.CompassPreferenceActivity;
 
 /**
