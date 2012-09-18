@@ -19,6 +19,7 @@ public class DefaultCompassDrawing extends AbstractCompassDrawing {
     protected Paint azimuthTextPaint = new Paint();
     protected Paint declinationTextPaint = new Paint();
     protected Bitmap roseBitmap, needleBitmap, arrowBitmap, gpsSourceBitmap;
+    private Bitmap scaledBitmap;
 
     public DefaultCompassDrawing() {
         super();
@@ -57,9 +58,9 @@ public class DefaultCompassDrawing extends AbstractCompassDrawing {
         centerX = w / 2;
         centerY = h / 2;
         needleWidth = size / 30;
-        roseBitmap = Bitmap.createScaledBitmap(roseBitmap, size, size, true);
-        bitmapX = -roseBitmap.getWidth() / 2;
-        bitmapY = -roseBitmap.getHeight() / 2;
+        scaledBitmap = Bitmap.createScaledBitmap(roseBitmap, size, size, true);
+        bitmapX = -scaledBitmap.getWidth() / 2;
+        bitmapY = -scaledBitmap.getHeight() / 2;
         needleBitmap = createNeedle();
         arrowBitmap = createCacheArrow();
         
@@ -75,7 +76,7 @@ public class DefaultCompassDrawing extends AbstractCompassDrawing {
     public void draw(Canvas canvas, float northDirection) {
         canvas.drawColor(bgColor);
         canvas.translate(centerX, centerY); // !!!
-        canvas.drawBitmap(roseBitmap, bitmapX, bitmapY, bitmapPaint);
+        canvas.drawBitmap(scaledBitmap, bitmapX, bitmapY, bitmapPaint);
 
         drawNeedle(canvas, northDirection);
         drawAzimuthLabel(canvas, northDirection);
