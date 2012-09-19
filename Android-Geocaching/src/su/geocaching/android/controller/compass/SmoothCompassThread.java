@@ -63,14 +63,6 @@ public class SmoothCompassThread extends Thread implements IBearingAware {
         this.speed = speed;
     }
 
-    public void addSubscriber(ICompassView compassView) {
-        synchronized (this.compassView) {
-            if (!this.compassView.contains(compassView)) {
-                this.compassView.add(compassView);
-            }
-        }
-    }
-
     @Override
     public void run() {
         LogManager.d(TAG, "SmoothCompassThread - run");
@@ -91,10 +83,9 @@ public class SmoothCompassThread extends Thread implements IBearingAware {
                 needleDirection = currentDirection;
 
                 synchronized (compassView) {
-                    if (compassView != null)
-                        for (ICompassView compass : compassView) {
-                            forcePaint |= !compass.setDirection(needleDirection);
-                        }
+                    for (ICompassView compass : compassView) {
+                        forcePaint |= !compass.setDirection(needleDirection);
+                    }
                 }
             } else {
                 isArrived = true;
@@ -117,11 +108,10 @@ public class SmoothCompassThread extends Thread implements IBearingAware {
     public void updateBearing(float bearing, float declination, CompassSourceType sourceType) {
         // update source type
         synchronized (compassView) {
-            if (compassView != null)
-                for (ICompassView compass : compassView) {
-                    compass.setSourceType(sourceType);
-                    compass.setDeclination(declination);
-                }
+            for (ICompassView compass : compassView) {
+                compass.setSourceType(sourceType);
+                compass.setDeclination(declination);
+            }
         }
         // update bearing
         float newDirection = bearing;

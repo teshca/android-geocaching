@@ -45,7 +45,6 @@
     <!-- compass view -->
     <su.geocaching.android.ui.compass.CompassView
             android:id="@+id/compassView"
-            android:background="@color/dashboard_background"
             android:layout_width="fill_parent"
             android:layout_height="0dip"
             android:layout_weight="1"/>
