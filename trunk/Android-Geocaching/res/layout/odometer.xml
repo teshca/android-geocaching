@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="utf-8"?>
+<merge xmlns:android="http://schemas.android.com/apk/res/android">
+        <ImageView
+                android:id="@+id/odometer_start_stop_button"
+                android:layout_height="30dp"
+                android:layout_width="30dp"
+                android:layout_centerVertical="true"
+                android:src="@drawable/ic_play"
+                android:scaleType="centerCrop"
+                android:layout_marginLeft="6dp"/>
+
+        <ImageView
+                android:id="@+id/odometer_refresh_button"
+                android:layout_height="30dp"
+                android:layout_width="30dp"
+                android:layout_centerVertical="true"
+                android:src="@drawable/ic_refresh"
+                android:scaleType="centerCrop"
+                android:layout_marginLeft="6dp" />
+
+        <TextView
+                android:layout_height="wrap_content"
+                android:layout_width="wrap_content"
+                android:layout_centerVertical="true"
+                android:textColor="#FFEFEBEF"
+                android:textSize="@dimen/text_size_big"
+                android:textStyle="bold"
+                android:layout_marginLeft="6dp"
+                android:text="@string/odometer" />
+
+        <TextView
+                android:id="@+id/odometer_distance_text"
+                android:layout_height="wrap_content"
+                android:layout_width="0dip"
+                android:layout_weight="1"
+                android:layout_centerVertical="true"
+                android:textColor="#FFEFEBEF"
+                android:textSize="@dimen/text_size_big"
+                android:textStyle="bold"
+                android:layout_marginLeft="6dp" />
+
+        <ImageView
+                android:id="@+id/odometer_close_button"
+                android:layout_height="30dp"
+                android:layout_width="30dp"
+                android:layout_centerVertical="true"
+                android:src="@drawable/ic_close_odometer"
+                android:scaleType="centerCrop"
+                android:layout_marginLeft="6dp"
+                android:layout_marginRight="6dp"/>
+</merge>

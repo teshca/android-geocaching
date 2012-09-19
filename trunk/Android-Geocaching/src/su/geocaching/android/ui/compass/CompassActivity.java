@@ -20,6 +20,7 @@ import su.geocaching.android.controller.utils.CoordinateHelper;
 import su.geocaching.android.controller.utils.UiHelper;
 import su.geocaching.android.model.GeoCache;
 import su.geocaching.android.model.GeoCacheStatus;
+import su.geocaching.android.ui.OdometerView;
 import su.geocaching.android.ui.R;
 import su.geocaching.android.ui.preferences.CompassPreferenceActivity;
 
@@ -40,12 +41,11 @@ public class CompassActivity extends SherlockActivity {
     private PreferencesManager preferenceManager;
 
     private CompassView compassView;
-    private TextView tvOdometer, statusText, cacheCoordinates, userCoordinates;
+    private TextView statusText, cacheCoordinates, userCoordinates;
     private ImageView cacheIcon;
     private ProgressBar progressBarCircle;
-    private RelativeLayout odometerLayout;
+    private OdometerView odometer;
     private Toast providerUnavailableToast;
-    private ImageView startButton;
 
     private GeoCache geoCache;
 
@@ -61,15 +61,15 @@ public class CompassActivity extends SherlockActivity {
 
         setContentView(R.layout.compass_activity);
         compassView = (CompassView) findViewById(R.id.compassView);
-        tvOdometer = (TextView) findViewById(R.id.tvOdometer);
+
         cacheCoordinates = (TextView) findViewById(R.id.cacheCoordinates);
         cacheIcon = (ImageView) findViewById(R.id.ivCacheCoordinate);
         userCoordinates = (TextView) findViewById(R.id.userCoordinates);
         progressBarCircle = (ProgressBar) findViewById(R.id.progressCircle);
 
         statusText = (TextView) findViewById(R.id.waitingLocationFixText);
-        odometerLayout = (RelativeLayout) findViewById(R.id.odometer_layout);
-        startButton = (ImageView) findViewById(R.id.startButton);
+        odometer = (OdometerView) findViewById(R.id.odometerView);
+
         providerUnavailableToast = Toast.makeText(this, getString(R.string.search_geocache_best_provider_lost), Toast.LENGTH_LONG);
 
         locationManager = Controller.getInstance().getLocationManager();
@@ -107,7 +107,7 @@ public class CompassActivity extends SherlockActivity {
 
         cacheCoordinates.setText(CoordinateHelper.coordinateToString(currentSearchPoint.getLocationGeoPoint()));
         cacheIcon.setImageResource(Controller.getInstance().getResourceManager().getMarkerResId(currentSearchPoint.getType(), currentSearchPoint.getStatus()));
-        updateOdometer();
+        odometer.updateView();
 
         if (locationManager.hasLocation()) {
             LogManager.d(TAG, "runLogic: has location. Update location with last known location");
@@ -193,7 +193,8 @@ public class CompassActivity extends SherlockActivity {
                 showCompassPreferences();
                 return true;
             case R.id.compassOdometer:
-                toggleOdometerVisibility();
+                odometer.toggleOdometerVisibility();
+                invalidateOptionsMenu();
                 return true;
             case R.id.menuStartGpsStatus:
                 StartGpsStatusActivity(null);
@@ -217,47 +218,6 @@ public class CompassActivity extends SherlockActivity {
         stopAnimation();
         Intent intent = new Intent(this, CompassPreferenceActivity.class);
         startActivity(intent);
-    }
-
-    private void toggleOdometerVisibility() {
-        AccurateUserLocationManager.Odometer.refresh();
-        boolean isOdometerOn = preferenceManager.isOdometerOnPreference();
-        preferenceManager.setOdometerOnPreference(!isOdometerOn);
-        AccurateUserLocationManager.Odometer.setEnabled(!isOdometerOn);
-        updateOdometer();
-        invalidateOptionsMenu();
-    }
-
-    private void updateOdometer() {
-        if (preferenceManager.isOdometerOnPreference()) {
-            odometerLayout.setVisibility(View.VISIBLE);
-            tvOdometer.setText(CoordinateHelper.distanceToString(AccurateUserLocationManager.Odometer.getDistance()));
-            toggleStartButton();
-        } else {
-            odometerLayout.setVisibility(View.GONE);
-        }
-    }
-
-    private void toggleStartButton() {
-        if (AccurateUserLocationManager.Odometer.isEnabled()) {
-            startButton.setImageResource(R.drawable.ic_pause);
-        } else {
-            startButton.setImageResource(R.drawable.ic_play);
-        }
-    }
-
-    public void onStartStopOdometerClick(View v) {
-        AccurateUserLocationManager.Odometer.setEnabled(!AccurateUserLocationManager.Odometer.isEnabled());
-        toggleStartButton();
-    }
-
-    public void onRefreshOdometerClick(View v) {
-        AccurateUserLocationManager.Odometer.refresh();
-        tvOdometer.setText(CoordinateHelper.distanceToString(0));
-    }
-
-    public void onCloseOdometerClick(View v) {
-        toggleOdometerVisibility();
     }
 
     public void StartGpsStatusActivity(View v) {
@@ -288,9 +248,7 @@ public class CompassActivity extends SherlockActivity {
 
         @Override
         public void updateLocation(Location location) {
-            if (tvOdometer.isShown()) {
-                tvOdometer.setText(CoordinateHelper.distanceToString(AccurateUserLocationManager.Odometer.getDistance()));
-            }
+            odometer.updateDistance();
             UiHelper.setGone(progressBarCircle);
             float distance = CoordinateHelper.getDistanceBetween(Controller.getInstance().getCurrentSearchPoint().getLocationGeoPoint(), location);
             if (distance < CLOSE_DISTANCE_TO_GC_VALUE || AccurateUserLocationManager.Odometer.isEnabled()) {
