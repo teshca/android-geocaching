@@ -19,7 +19,6 @@ public abstract class AbstractCompassDrawing {
     public static final String AZIMUTH_FORMAT = "%.1f°";
 
     protected int centerX, centerY;
-    protected int bgColor; // background color, taken from the xml
     protected int needleWidth = 8;
     protected float distance;
     protected float declination;
@@ -35,10 +34,6 @@ public abstract class AbstractCompassDrawing {
 
     public void setDeclination(float declination) {
         this.declination = declination;        
-    }
-
-    public AbstractCompassDrawing() {
-        bgColor = Color.parseColor(Controller.getInstance().getResourceManager().getString(R.color.dashboard_background));
     }
 
     /**
