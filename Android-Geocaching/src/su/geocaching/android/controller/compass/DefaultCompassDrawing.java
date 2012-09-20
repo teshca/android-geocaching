@@ -24,7 +24,7 @@ public class DefaultCompassDrawing extends AbstractCompassDrawing {
     public DefaultCompassDrawing() {
         super();
 
-        roseBitmap = BitmapFactory.decodeResource(Controller.getInstance().getResourceManager().getResources(), R.drawable.compass_rose_yellow);
+        roseBitmap = createRouse();
         gpsSourceBitmap = BitmapFactory.decodeResource(Controller.getInstance().getResourceManager().getResources(), R.drawable.ic_satellite_dish);
 
         int dashboardColor = Color.parseColor(Controller.getInstance().getResourceManager().getString(R.color.dashboard_text_color)); 
@@ -50,6 +50,10 @@ public class DefaultCompassDrawing extends AbstractCompassDrawing {
         bitmapPaint.setFilterBitmap(true);
     }
 
+    protected Bitmap createRouse() {
+        return BitmapFactory.decodeResource(Controller.getInstance().getResourceManager().getResources(), R.drawable.compass_rose_yellow);
+    }
+
     private int bitmapX, bitmapY, size;
 
     @Override
@@ -61,6 +65,9 @@ public class DefaultCompassDrawing extends AbstractCompassDrawing {
         centerX = w / 2;
         centerY = h / 2;
         needleWidth = size / 30;
+        
+        recycleBitmaps();
+        
         scaledBitmap = Bitmap.createScaledBitmap(roseBitmap, size, size, true);
         bitmapX = -scaledBitmap.getWidth() / 2;
         bitmapY = -scaledBitmap.getHeight() / 2;
@@ -73,6 +80,12 @@ public class DefaultCompassDrawing extends AbstractCompassDrawing {
         azimuthTextPaint.setStrokeWidth((float) size / 300);
         declinationTextPaint.setTextSize(size * 0.06f);
         declinationTextPaint.setStrokeWidth((float) size / 600);
+    }
+
+    private void recycleBitmaps() {
+        if (scaledBitmap != null) scaledBitmap.recycle();
+        if (needleBitmap != null) scaledBitmap.recycle();
+        if (arrowBitmap != null) scaledBitmap.recycle();
     }
 
     @Override
@@ -180,6 +193,12 @@ public class DefaultCompassDrawing extends AbstractCompassDrawing {
         canvas.drawCircle(0, 0, needleWidth * 1.5f, paint);
 
         return bitmap;
+    }
+
+    public void destroy() {
+        recycleBitmaps();
+        roseBitmap.recycle();
+        gpsSourceBitmap.recycle();
     }
 
     @Override

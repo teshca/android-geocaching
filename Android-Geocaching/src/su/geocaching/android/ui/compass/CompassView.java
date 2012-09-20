@@ -125,8 +125,12 @@ public class CompassView extends SurfaceView implements SurfaceHolder.Callback, 
      * @param helperType //TODO describe it
      */
     public void setHelper(String helperType) {
-        if(compassDrawing != null && helperType.equals(compassDrawing.getType())){
+        if(compassDrawing != null && helperType.equals(compassDrawing.getType())) {
             return;
+        }
+
+        if (compassDrawing != null) {
+        	compassDrawing.destroy();
         }
 
         if (helperType.equals(AbstractCompassDrawing.TYPE_CLASSIC)) {
@@ -155,5 +159,7 @@ public class CompassView extends SurfaceView implements SurfaceHolder.Callback, 
     @Override
     public void surfaceDestroyed(SurfaceHolder holder) {
         ready = false;
+        compassDrawing.destroy();
+        compassDrawing = null;
     }
 }

@@ -69,4 +69,6 @@ public abstract class AbstractCompassDrawing {
     public abstract void drawSourceType(Canvas canvas, CompassSourceType sourceType);
 
     public abstract String getType();
+
+    public void destroy() {};
 }
