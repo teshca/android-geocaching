@@ -54,7 +54,10 @@ public class DefaultCompassDrawing extends AbstractCompassDrawing {
 
     @Override
     public void onSizeChanged(int w, int h) {
-        size = Math.min(h, w);
+        int newSize = Math.min(h, w);
+        if (newSize == size) return;
+
+        size = newSize;
         centerX = w / 2;
         centerY = h / 2;
         needleWidth = size / 30;
@@ -74,7 +77,7 @@ public class DefaultCompassDrawing extends AbstractCompassDrawing {
 
     @Override
     public void draw(Canvas canvas, float northDirection) {
-        canvas.drawColor(bgColor);
+        canvas.drawColor(0, PorterDuff.Mode.CLEAR);
         canvas.translate(centerX, centerY); // !!!
         canvas.drawBitmap(scaledBitmap, bitmapX, bitmapY, bitmapPaint);
 

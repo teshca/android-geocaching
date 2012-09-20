@@ -2,6 +2,7 @@ package su.geocaching.android.ui.compass;
 
 import android.content.Context;
 import android.graphics.Canvas;
+import android.graphics.PixelFormat;
 import android.util.AttributeSet;
 import android.view.SurfaceHolder;
 import android.view.SurfaceView;
@@ -29,8 +30,13 @@ public class CompassView extends SurfaceView implements SurfaceHolder.Callback, 
         super(context, attributeSet);
         LogManager.d(TAG, "new CompassView");
 
-        //compassDrawing = new DefaultCompassDrawing();
-        ready = true; // Is it need?
+        // setup transparent background  for compass view
+        this.setZOrderOnTop(true);    // necessary
+        SurfaceHolder compassViewHolder = this.getHolder();
+        compassViewHolder.setFormat(PixelFormat.TRANSPARENT);
+        // end setup transparent background  for compass view
+
+        compassViewHolder.addCallback(this);
     }
 
     @Override
