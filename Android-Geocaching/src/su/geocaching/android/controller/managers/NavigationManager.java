@@ -62,6 +62,7 @@ public class NavigationManager {
      */
     public static void startInfoActivity(Context context, GeoCache geoCache) {
         Intent intent = new Intent(context, AdvancedInfoActivity.class);
+        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
         intent.putExtra(GeoCache.class.getCanonicalName(), geoCache);
         context.startActivity(intent);
     }    
@@ -71,12 +72,14 @@ public class NavigationManager {
      */
     public static void startSearchMapActivity(Context context, GeoCache geoCache) {
         Intent intent = new Intent(context, SearchMapActivity.class);
+        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
         intent.putExtra(GeoCache.class.getCanonicalName(), geoCache);
         context.startActivity(intent);
     }
 
     public static void startCompassActivity(Context context, GeoCache geoCache) {
         Intent intent = new Intent(context, CompassActivity.class);
+        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
         intent.putExtra(GeoCache.class.getCanonicalName(), geoCache);
         context.startActivity(intent);
     }
