@@ -213,9 +213,11 @@ public class GeocachingSuApiManager implements IApiManager {
     }
 
     private String getCharsetFromContentType(String contentType) {
-        for (String param : contentType.replace(" ", "").split(";")) {
-            if (param.toLowerCase().startsWith("charset=")) {
-                return param.split("=", 2)[1];
+        if (contentType != null) {
+            for (String param : contentType.replace(" ", "").split(";")) {
+                if (param.toLowerCase().startsWith("charset=")) {
+                    return param.split("=", 2)[1];
+                }
             }
         }
         return CP1251_ENCODING;
