@@ -27,6 +27,7 @@ import su.geocaching.android.model.GeoCache;
 import su.geocaching.android.ui.R;
 
 import java.text.DecimalFormat;
+import java.text.ParseException;
 
 /**
  * Coordinate converter for waypoints
@@ -60,10 +61,10 @@ public class CreateCheckpointActivity extends SherlockActivity {
     private GeoCache geoCache;
     private GeoPoint currentInputGeoPoint;
 
-    private DecimalFormat degreesFractionFormat = new DecimalFormat("000000");
-    private DecimalFormat minutesFractionFormat = new DecimalFormat("000");
-    private DecimalFormat minFormat = new DecimalFormat("00");
-    private DecimalFormat secFormat = new DecimalFormat("00.00");
+    private static DecimalFormat degreesFractionFormat = new DecimalFormat("000000");
+    private static DecimalFormat minutesFractionFormat = new DecimalFormat("000");
+    private static DecimalFormat minFormat = new DecimalFormat("00");
+    private static DecimalFormat secFormat = new DecimalFormat("00.00");
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -147,9 +148,7 @@ public class CreateCheckpointActivity extends SherlockActivity {
             currentLocation = CoordinateHelper.locationToGeoPoint(locationManager.getLastKnownLocation());
             info.setText(R.string.relative_to_current_location);
         } else {
-            // GeoCache geoCache = Controller.getInstance().getPreferencesManager().getLastSearchedGeoCache();
-            GeoCache gc = Controller.getInstance().getDbManager().getCacheByID(this.geoCache.getId());
-            currentLocation = gc.getLocationGeoPoint();
+            currentLocation = geoCache.getLocationGeoPoint();
             info.setText(R.string.relative_to_cache_location);
         }
 
@@ -301,19 +300,53 @@ public class CreateCheckpointActivity extends SherlockActivity {
         }
     }
 
+    private static String ERROR_MESSAGE = Controller.getInstance().getResourceManager().getString(R.string.checkpoint_general_parsing_error);
+    private static int ParseIntValue(TextView textView) {
+        try
+        {
+            return Integer.parseInt(textView.getText().toString());
+        }
+        catch (NumberFormatException e) {
+            textView.setError(ERROR_MESSAGE);
+            throw e;
+        }
+    }
+    private static float ParseFractionValue(TextView textView) {
+        try
+        {
+            return  Float.parseFloat("." + textView.getText());
+        }
+        catch (NumberFormatException e) {
+            textView.setError(ERROR_MESSAGE);
+            throw e;
+        }
+    }
+    private static float ParseFloatValue(TextView textView) throws ParseException {
+        try
+        {
+            // http://code.google.com/p/android-geocaching/issues/detail?id=232
+            String seconds = textView.getText().toString().replace('.', secFormat.getDecimalFormatSymbols().getDecimalSeparator());
+            return secFormat.parse(seconds).floatValue();
+        }
+        catch (ParseException e) {
+            textView.setError(ERROR_MESSAGE);
+            throw e;
+        }
+    }
+
     class SexagesimalListener extends TextChangeListener {
 
         @Override
         public void afterTextChanged(Editable s) {
             try {
-                int degreesInt = Integer.parseInt(latDegrees.getText().toString());
-                int minutesInt = Integer.parseInt(latMinutes.getText().toString());
-                float minutesFloat = Float.parseFloat("." + latMinutesFraction.getText());
+                int degreesInt = ParseIntValue(latDegrees);
+                int minutesInt = ParseIntValue(latMinutes);
+                float minutesFloat = ParseFractionValue(latMinutesFraction);
                 int latitudeE6 = new Sexagesimal(degreesInt, (double)minutesInt + minutesFloat).toCoordinateE6();
 
-                degreesInt = Integer.parseInt(lngDegrees.getText().toString());
-                minutesInt = Integer.parseInt(lngMinutes.getText().toString());
-                minutesFloat = Float.parseFloat("." + lngMinutesFraction.getText());
+                degreesInt = ParseIntValue(lngDegrees);
+                minutesInt = ParseIntValue(lngMinutes);
+                minutesFloat = ParseFractionValue(lngMinutesFraction);
                 int longitudeE6 = new Sexagesimal(degreesInt, (double)minutesInt + minutesFloat).toCoordinateE6();
 
                 currentInputGeoPoint = new GeoPoint(latitudeE6, longitudeE6);
@@ -322,7 +355,7 @@ public class CreateCheckpointActivity extends SherlockActivity {
                 updateDecimal();
                 updateAzimuth();
                 startWatch();
-            } catch (Exception e) {
+            } catch (NumberFormatException e) {
                 LogManager.e(TAG, e.getMessage(), e);
             }
         }
@@ -333,18 +366,14 @@ public class CreateCheckpointActivity extends SherlockActivity {
         @Override
         public void afterTextChanged(Editable s) {
             try {
-                int degreesInt = Integer.parseInt(sLatDegrees.getText().toString());
-                int minutesInt = Integer.parseInt(sLatMinutes.getText().toString());
-                // http://code.google.com/p/android-geocaching/issues/detail?id=232
-                String seconds = sLatSeconds.getText().toString().replace('.', secFormat.getDecimalFormatSymbols().getDecimalSeparator());
-                float secondsFloat = secFormat.parse(seconds).floatValue();
+                int degreesInt = ParseIntValue(sLatDegrees);
+                int minutesInt = ParseIntValue(sLatMinutes);
+                float secondsFloat = ParseFloatValue(sLatSeconds);
                 int latitudeE6 = new SexagesimalSec(degreesInt, minutesInt, secondsFloat).toCoordinateE6();
 
-                degreesInt = Integer.parseInt(sLngDegrees.getText().toString());
-                minutesInt = Integer.parseInt(sLngMinutes.getText().toString());
-                // http://code.google.com/p/android-geocaching/issues/detail?id=232
-                seconds = sLngSeconds.getText().toString().replace('.', secFormat.getDecimalFormatSymbols().getDecimalSeparator());
-                secondsFloat = secFormat.parse(seconds).floatValue();
+                degreesInt = ParseIntValue(sLngDegrees);
+                minutesInt = ParseIntValue(sLngMinutes);
+                secondsFloat = ParseFloatValue(sLngSeconds);
                 int longitudeE6 = new SexagesimalSec(degreesInt, minutesInt, secondsFloat).toCoordinateE6();
 
                 currentInputGeoPoint = new GeoPoint(latitudeE6, longitudeE6);
@@ -353,7 +382,9 @@ public class CreateCheckpointActivity extends SherlockActivity {
                 updateDecimal();
                 updateAzimuth();
                 startWatch();
-            } catch (Exception e) {
+            } catch (NumberFormatException e) {
+                LogManager.e(TAG, e.getMessage(), e);
+            } catch (ParseException e) {
                 LogManager.e(TAG, e.getMessage(), e);
             }
         }
@@ -364,15 +395,15 @@ public class CreateCheckpointActivity extends SherlockActivity {
         @Override
         public void afterTextChanged(Editable s) {
             try {
-                double latitudeE6 = (double)(Integer.parseInt(dLatDegrees.getText().toString()) + Float.parseFloat("." + dLatDegreesFraction.getText())) * 1E6;
-                double longitudeE6 = (double)(Integer.parseInt(dLngDegrees.getText().toString()) + Float.parseFloat("." + dLngDegreesFraction.getText())) * 1E6;
+                double latitudeE6 = (double)(ParseIntValue(dLatDegrees) + ParseFractionValue(dLatDegreesFraction)) * 1E6;
+                double longitudeE6 = (double)(ParseIntValue(dLngDegrees) + ParseFractionValue(dLngDegreesFraction)) * 1E6;
                 currentInputGeoPoint = new GeoPoint((int)latitudeE6, (int)longitudeE6);
                 stopWatch();
                 updateSexagesimal();
                 updateSexagesimalSeconds();
                 updateAzimuth();
                 startWatch();
-            } catch (Exception e) {
+            } catch (NumberFormatException e) {
                 LogManager.e(TAG, e.getMessage(), e);
             }
         }
@@ -383,19 +414,19 @@ public class CreateCheckpointActivity extends SherlockActivity {
         @Override
         public void afterTextChanged(Editable s) {
             try {
-                int azimuth = Integer.parseInt(etAzimuth.getText().toString());
+                int azimuth = ParseIntValue(etAzimuth);
                 if (azimuth > 360) {
+                    etAzimuth.setError(ERROR_MESSAGE);
                     return;
                 }
-                int distance = Integer.parseInt(etDistance.getText().toString());
-                GeoPoint goalGP = CoordinateHelper.distanceBearingToGeoPoint(currentLocation, azimuth, distance);
-                currentInputGeoPoint = new GeoPoint(goalGP.getLatitudeE6(), goalGP.getLongitudeE6());
+                int distance = ParseIntValue(etDistance);
+                currentInputGeoPoint = CoordinateHelper.distanceBearingToGeoPoint(currentLocation, azimuth, distance);
                 stopWatch();
                 updateDecimal();
                 updateSexagesimal();
                 updateSexagesimalSeconds();
                 startWatch();
-            } catch (Exception e) {
+            } catch (NumberFormatException e) {
                 LogManager.e(TAG, e.getMessage(), e);
             }
         }
