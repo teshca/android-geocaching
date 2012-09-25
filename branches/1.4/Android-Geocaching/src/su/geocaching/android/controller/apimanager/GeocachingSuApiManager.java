@@ -14,6 +14,7 @@ import java.io.OutputStream;
 import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.URL;
+import java.net.URLConnection;
 import java.util.*;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -190,7 +191,9 @@ public class GeocachingSuApiManager implements IApiManager {
         
         BufferedReader in = null;
         try {
-            in = new BufferedReader(new InputStreamReader(url.openStream(), CP1251_ENCODING));
+            URLConnection connection = url.openConnection();
+            String charset = getCharsetFromContentType(connection.getContentType());
+            in = new BufferedReader(new InputStreamReader(connection.getInputStream(), charset));
             int size;
             while ((size = in.read(buffer)) != -1) {
                 html.append(buffer, 0, size);
@@ -206,6 +209,17 @@ public class GeocachingSuApiManager implements IApiManager {
         resultHtml = resultHtml.replaceAll("\\r|\\n", "");
         
         return resultHtml;
+    }
+
+    private String getCharsetFromContentType(String contentType) {
+        if (contentType != null) {
+            for (String param : contentType.replace(" ", "").split(";")) {
+                if (param.toLowerCase().startsWith("charset=")) {
+                    return param.split("=", 2)[1];
+                }
+            }
+        }
+        return CP1251_ENCODING;
     }
 
     @Override
