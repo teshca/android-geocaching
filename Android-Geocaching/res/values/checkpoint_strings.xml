@@ -26,4 +26,5 @@
     <string name="checkpoints_folder_confirm_delete_title">Вы уверены?</string>
     <string name="checkpoint_name">Название точки</string>
     <string name="no_related_checkpoints">Нет котрольных точек связанных с тайником</string>
+    <string name="checkpoint_general_parsing_error">Не верно указано значение</string>
 </resources>
