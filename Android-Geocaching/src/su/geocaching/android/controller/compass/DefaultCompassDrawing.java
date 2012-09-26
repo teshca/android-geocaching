@@ -59,11 +59,13 @@ public class DefaultCompassDrawing extends AbstractCompassDrawing {
     @Override
     public void onSizeChanged(int w, int h) {
         int newSize = Math.min(h, w);
+
+        centerX = w / 2;
+        centerY = h / 2;
+
         if (newSize == size) return;
 
         size = newSize;
-        centerX = w / 2;
-        centerY = h / 2;
         needleWidth = size / 30;
         
         recycleBitmaps();
