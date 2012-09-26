@@ -20,7 +20,7 @@
     <string name="delete_all">Удалить все</string>
     <string name="sexagestimal_template">гг°мм,ммм\'</string>
     <string name="sexagestimal_seconds__template">гг°мм\'сс.сс\"</string>
-    <string name="decimal_template">гг,ггггг°</string>
+    <string name="decimal_template">гг,гггггг°</string>
     <string name="azimuth_template">По азимуту</string>
     <string name="checkpoints_folder_confirm_delete_message">Удалить все контрольные точки?</string>
     <string name="checkpoints_folder_confirm_delete_title">Вы уверены?</string>
