@@ -302,9 +302,12 @@ public class CreateCheckpointActivity extends SherlockActivity {
 
     private static String ERROR_MESSAGE = Controller.getInstance().getResourceManager().getString(R.string.checkpoint_general_parsing_error);
     private static int ParseIntValue(TextView textView) {
+        String text = textView.getText().toString();
+        if (text.isEmpty()) return 0;
+
         try
         {
-            return Integer.parseInt(textView.getText().toString());
+            return Integer.parseInt(text);
         }
         catch (NumberFormatException e) {
             textView.setError(ERROR_MESSAGE);
@@ -312,9 +315,12 @@ public class CreateCheckpointActivity extends SherlockActivity {
         }
     }
     private static float ParseFractionValue(TextView textView) {
+        String text = textView.getText().toString();
+        if (text.isEmpty()) return 0;
+
         try
         {
-            return  Float.parseFloat("." + textView.getText());
+            return  Float.parseFloat("." + text);
         }
         catch (NumberFormatException e) {
             textView.setError(ERROR_MESSAGE);
@@ -322,10 +328,13 @@ public class CreateCheckpointActivity extends SherlockActivity {
         }
     }
     private static float ParseFloatValue(TextView textView) throws ParseException {
+        String text = textView.getText().toString();
+        if (text.isEmpty()) return 0;
+
         try
         {
             // http://code.google.com/p/android-geocaching/issues/detail?id=232
-            String seconds = textView.getText().toString().replace('.', secFormat.getDecimalFormatSymbols().getDecimalSeparator());
+            String seconds = text.replace('.', secFormat.getDecimalFormatSymbols().getDecimalSeparator());
             return secFormat.parse(seconds).floatValue();
         }
         catch (ParseException e) {
