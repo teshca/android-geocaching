@@ -18,7 +18,8 @@ public class DefaultCompassDrawing extends AbstractCompassDrawing {
     protected Paint distanceTextPaint = new Paint();
     protected Paint azimuthTextPaint = new Paint();
     protected Paint declinationTextPaint = new Paint();
-    protected Bitmap roseBitmap, needleBitmap, arrowBitmap, gpsSourceBitmap;
+    protected Paint needlePaint = new Paint();
+    protected Bitmap roseBitmap, needleBitmap, greenArrowBitmap, grayArrowBitmap,gpsSourceBitmap;
     private Bitmap scaledBitmap;
 
     public DefaultCompassDrawing() {
@@ -47,6 +48,10 @@ public class DefaultCompassDrawing extends AbstractCompassDrawing {
         declinationTextPaint.setStyle(Style.STROKE);
         declinationTextPaint.setStrokeWidth(0.8f);
 
+        needlePaint.setAntiAlias(true);
+        needlePaint.setStyle(Style.FILL_AND_STROKE);
+        needlePaint.setStrokeWidth(1);
+
         bitmapPaint.setFilterBitmap(true);
     }
 
@@ -74,7 +79,8 @@ public class DefaultCompassDrawing extends AbstractCompassDrawing {
         bitmapX = -scaledBitmap.getWidth() / 2;
         bitmapY = -scaledBitmap.getHeight() / 2;
         needleBitmap = createNeedle();
-        arrowBitmap = createCacheArrow();
+        greenArrowBitmap = createGreenCacheArrow();
+        grayArrowBitmap = createGrayCacheArrow();
         
         distanceTextPaint.setTextSize(size * 0.1f);
         distanceTextPaint.setStrokeWidth((float) size / 300);
@@ -86,8 +92,9 @@ public class DefaultCompassDrawing extends AbstractCompassDrawing {
 
     private void recycleBitmaps() {
         if (scaledBitmap != null) scaledBitmap.recycle();
-        if (needleBitmap != null) scaledBitmap.recycle();
-        if (arrowBitmap != null) scaledBitmap.recycle();
+        if (needleBitmap != null) needleBitmap.recycle();
+        if (greenArrowBitmap != null) greenArrowBitmap.recycle();
+        if (grayArrowBitmap != null) grayArrowBitmap.recycle();
     }
 
     @Override
@@ -139,62 +146,62 @@ public class DefaultCompassDrawing extends AbstractCompassDrawing {
     @Override
     public void drawCacheArrow(Canvas canvas, float direction) {
         canvas.rotate(direction);
+        Bitmap arrowBitmap = Controller.getInstance().getLocationManager().hasPreciseLocation() ? greenArrowBitmap : grayArrowBitmap;
         canvas.drawBitmap(arrowBitmap, -arrowBitmap.getWidth() / 2, -arrowBitmap.getHeight() / 2, bitmapPaint);
         canvas.rotate(-direction);
+    }
+
+    private Path createNeedlePath() {
+        Path needlePath = new Path();
+        needlePath.moveTo(-needleWidth, 0);
+        needlePath.lineTo(0, -size * 0.425f);
+        needlePath.lineTo(needleWidth, 0);
+        needlePath.close();
+        return needlePath;
     }
 
     private Bitmap createNeedle() {
         Bitmap bitmap = Bitmap.createBitmap(needleWidth * 3, size, Bitmap.Config.ARGB_8888);
         Canvas canvas = new Canvas(bitmap);
-        Path needlePath = new Path();
-        Paint paint = new Paint();
-        paint.setAntiAlias(true);
-        paint.setStyle(Style.FILL_AND_STROKE);
-        paint.setStrokeWidth(1);
+        Path needlePath = createNeedlePath();
 
-        float top = size / 2 * 0.85f;
         canvas.translate(needleWidth * 1.5f, size / 2);
-        needlePath.moveTo(-needleWidth, 0);
-        needlePath.lineTo(0, -top);
-        needlePath.lineTo(needleWidth, 0);
-        needlePath.close();
 
-        paint.setARGB(200, 255, 0, 0);
-        canvas.drawPath(needlePath, paint);
+        needlePaint.setARGB(200, 255, 0, 0);
+        canvas.drawPath(needlePath, needlePaint);
 
         canvas.rotate(180);
-        paint.setARGB(200, 0, 0, 255);
-        canvas.drawPath(needlePath, paint);
+        needlePaint.setARGB(200, 0, 0, 255);
+        canvas.drawPath(needlePath, needlePaint);
 
-        paint.setColor(Color.argb(255, 255, 230, 110));
-        canvas.drawCircle(0, 0, needleWidth * 1.5f, paint);
+        needlePaint.setColor(Color.argb(255, 255, 230, 110));
+        canvas.drawCircle(0, 0, needleWidth * 1.5f, needlePaint);
 
         return bitmap;
     }
 
-    private Bitmap createCacheArrow() {
+    private Bitmap createCacheArrow(int color) {
         Bitmap bitmap = Bitmap.createBitmap(needleWidth * 3, size, Bitmap.Config.ARGB_8888);
         Canvas canvas = new Canvas(bitmap);
-        Path arrowPath = new Path();
-        Paint paint = new Paint();
-        paint.setAntiAlias(true);
-        paint.setStyle(Style.FILL_AND_STROKE);
-        paint.setStrokeWidth(1);
+        Path arrowPath = createNeedlePath();
 
-        float top = size / 2 * 0.85f;
         canvas.translate(needleWidth * 1.5f, size / 2);
-        arrowPath.moveTo(-needleWidth, 0);
-        arrowPath.lineTo(0, -top);
-        arrowPath.lineTo(needleWidth, 0);
-        arrowPath.close();
 
-        paint.setARGB(200, 60, 200, 90);
-        canvas.drawPath(arrowPath, paint);
+        needlePaint.setColor(color);
+        canvas.drawPath(arrowPath, needlePaint);
 
-        paint.setColor(Color.argb(255, 255, 230, 110));
-        canvas.drawCircle(0, 0, needleWidth * 1.5f, paint);
+        needlePaint.setColor(Color.argb(255, 255, 230, 110));
+        canvas.drawCircle(0, 0, needleWidth * 1.5f, needlePaint);
 
         return bitmap;
+    }
+
+    private Bitmap createGreenCacheArrow() {
+        return createCacheArrow(Color.argb(200, 60, 200, 90));
+    }
+
+    private Bitmap createGrayCacheArrow() {
+        return createCacheArrow(Color.argb(200, 84, 84, 84));
     }
 
     public void destroy() {
