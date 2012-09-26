@@ -27,7 +27,9 @@ import su.geocaching.android.model.GeoCache;
 import su.geocaching.android.ui.R;
 
 import java.text.DecimalFormat;
+import java.text.DecimalFormatSymbols;
 import java.text.ParseException;
+import java.util.Locale;
 
 /**
  * Coordinate converter for waypoints
@@ -68,6 +70,11 @@ public class CreateCheckpointActivity extends SherlockActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+
+        // We will use US separator because of this bug ın Androıd
+        // http://code.google.com/p/android-geocaching/issues/detail?id=232
+        secFormat.setDecimalFormatSymbols(DecimalFormatSymbols.getInstance(Locale.US));
+
         super.onCreate(savedInstanceState);
         setContentView(R.layout.create_checkpoint_activity);
 
@@ -333,9 +340,7 @@ public class CreateCheckpointActivity extends SherlockActivity {
 
         try
         {
-            // http://code.google.com/p/android-geocaching/issues/detail?id=232
-            String seconds = text.replace('.', secFormat.getDecimalFormatSymbols().getDecimalSeparator());
-            return secFormat.parse(seconds).floatValue();
+            return secFormat.parse(text).floatValue();
         }
         catch (ParseException e) {
             textView.setError(ERROR_MESSAGE);

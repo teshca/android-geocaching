@@ -60,7 +60,7 @@
                           android:layout_height="wrap_content"
                           android:nextFocusDown="@+id/sLatmMinutes"
                           android:imeOptions="actionNext"/>
-                <TextView android:text="."
+                <TextView android:text=","
                           android:layout_width="wrap_content"
                           android:textSize="@dimen/text_size_big"
                           android:layout_height="wrap_content"/>
@@ -109,7 +109,7 @@
                           android:layout_height="wrap_content"
                           android:nextFocusDown="@+id/sLngmMinutes"
                           android:imeOptions="actionNext"/>
-                <TextView android:text="."
+                <TextView android:text=","
                           android:layout_width="wrap_content"
                           android:textSize="@dimen/text_size_big"
                           android:layout_height="wrap_content"/>
@@ -270,7 +270,7 @@
                           android:layout_height="wrap_content"
                           android:nextFocusDown="@+id/dLatFraction"
                           android:imeOptions="actionNext"/>
-                <TextView android:text="."
+                <TextView android:text=","
                           android:layout_width="wrap_content"
                           android:textSize="@dimen/text_size_big"
                           android:layout_height="wrap_content"/>
@@ -306,7 +306,7 @@
                           android:layout_height="wrap_content"
                           android:nextFocusDown="@+id/dLngFraction"
                           android:imeOptions="actionNext"/>
-                <TextView android:text="."
+                <TextView android:text=","
                           android:layout_width="wrap_content"
                           android:textSize="@dimen/text_size_big"
                           android:layout_height="wrap_content"/>
