@@ -36,7 +36,8 @@ public class Sexagesimal {
     }
 
     public int toCoordinateE6() {
-        double coordinateE6 = Math.signum(degrees) * (Math.abs(degrees) + (minutes / 60.0)) * 1E6;
+        double coordinateE6 = (Math.abs(degrees) + (minutes / 60.0)) * 1E6;
+        if (degrees < 0) coordinateE6 = - coordinateE6;
         return (int) Math.round(coordinateE6);
     }
 }
