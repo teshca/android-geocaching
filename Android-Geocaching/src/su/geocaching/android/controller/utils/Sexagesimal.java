@@ -18,7 +18,7 @@ public class Sexagesimal {
 
     public Sexagesimal(int coordinateE6) {
         degrees = coordinateE6 / 1000000;
-        int minutesE6 = (coordinateE6 % 1000000) * 60;
+        int minutesE6 = (Math.abs(coordinateE6) % 1000000) * 60;
         minutes = minutesE6 / 1E6;
     }
 
@@ -36,7 +36,7 @@ public class Sexagesimal {
     }
 
     public int toCoordinateE6() {
-        double coordinateE6 = (degrees + (minutes / 60.0)) * 1E6;
+        double coordinateE6 = Math.signum(degrees) * (Math.abs(degrees) + (minutes / 60.0)) * 1E6;
         return (int) Math.round(coordinateE6);
     }
 }
