@@ -4,6 +4,9 @@
             android:id="@+id/give_feedback"
             android:title="@string/menu_give_feedback"/>
     <item
+            android:id="@+id/developers_email"
+            android:title="@string/menu_developers_email"/>
+    <item
             android:id="@+id/about"
             android:title="@string/menu_about"/>
 </menu>

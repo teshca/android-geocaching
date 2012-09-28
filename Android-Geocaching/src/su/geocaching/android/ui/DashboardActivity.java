@@ -71,6 +71,8 @@ public class DashboardActivity extends SherlockActivity {
                 return true;
             case R.id.give_feedback:
                 NavigationManager.startGeocachingGooglePlayActivity(this);
+            case R.id.developers_email:
+                NavigationManager.SendEmailToDevelopers(this);
             default:
                 return super.onOptionsItemSelected(item);
         }

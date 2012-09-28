@@ -82,7 +82,6 @@ public class DefaultCompassDrawing extends AbstractCompassDrawing {
             needleBitmap = createNeedle();
             greenArrowBitmap = createGreenCacheArrow();
             grayArrowBitmap = createGrayCacheArrow();
-            LogManager.d("COMPASS", "CREATED");
             distanceTextPaint.setTextSize(size * 0.1f);
             distanceTextPaint.setStrokeWidth((float) size / 300);
             azimuthTextPaint.setTextSize(size * 0.1f);

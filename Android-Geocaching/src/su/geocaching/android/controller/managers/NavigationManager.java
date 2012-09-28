@@ -9,7 +9,9 @@ import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.content.pm.ResolveInfo;
 import android.net.Uri;
+import android.os.Build;
 import android.provider.Settings;
+import android.text.AndroidCharacter;
 import su.geocaching.android.controller.Controller;
 import su.geocaching.android.model.GeoCache;
 import su.geocaching.android.ui.DashboardActivity;
@@ -252,4 +254,21 @@ public class NavigationManager {
             }                    
         }                
     }
+
+    public static void SendEmailToDevelopers(Context context) {
+        String applicationVersion = Controller.getInstance().getApplicationVersionName();
+        String androidVersion = Build.VERSION.RELEASE;
+        String deviceName = Build.MODEL;
+        String subject = context.getString(R.string.developers_email_subject);
+        String body = context.getString(R.string.developers_email_body, applicationVersion, androidVersion, deviceName);
+        Intent emailIntent = new Intent(android.content.Intent.ACTION_SEND);
+        emailIntent.putExtra(android.content.Intent.EXTRA_EMAIL, new String[]{"android.geocaching.su@gmail.com"});
+        emailIntent.putExtra(android.content.Intent.EXTRA_SUBJECT, subject);
+        //emailIntent.setType("plain/text");
+        emailIntent.setType("message/rfc822"); //need this to prompts email client only
+        emailIntent.putExtra(android.content.Intent.EXTRA_TEXT, body);
+        context.startActivity(emailIntent);
+    }
+
+
 }
