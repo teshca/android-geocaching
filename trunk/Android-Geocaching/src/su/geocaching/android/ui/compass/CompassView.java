@@ -76,7 +76,7 @@ public class CompassView extends SurfaceView implements SurfaceHolder.Callback, 
         SurfaceHolder holder = this.getHolder();
         if (holder != null) {
             try {
-                c = holder.lockCanvas(null);
+                c = holder.lockCanvas();
                 synchronized (holder) {
                     if (c != null) {
                         success = onDrawnCheck(c);
