@@ -70,24 +70,26 @@ public class DefaultCompassDrawing extends AbstractCompassDrawing {
 
         if (newSize == size) return;
 
-        size = newSize;
-        needleWidth = size / 30;
-        
-        recycleBitmaps();
-        
-        scaledBitmap = Bitmap.createScaledBitmap(roseBitmap, size, size, true);
-        bitmapX = -scaledBitmap.getWidth() / 2;
-        bitmapY = -scaledBitmap.getHeight() / 2;
-        needleBitmap = createNeedle();
-        greenArrowBitmap = createGreenCacheArrow();
-        grayArrowBitmap = createGrayCacheArrow();
-        
-        distanceTextPaint.setTextSize(size * 0.1f);
-        distanceTextPaint.setStrokeWidth((float) size / 300);
-        azimuthTextPaint.setTextSize(size * 0.1f);
-        azimuthTextPaint.setStrokeWidth((float) size / 300);
-        declinationTextPaint.setTextSize(size * 0.06f);
-        declinationTextPaint.setStrokeWidth((float) size / 600);
+        synchronized(bitmapPaint) {
+            size = newSize;
+            needleWidth = size / 30;
+
+            recycleBitmaps();
+
+            scaledBitmap = Bitmap.createScaledBitmap(roseBitmap, size, size, true);
+            bitmapX = -scaledBitmap.getWidth() / 2;
+            bitmapY = -scaledBitmap.getHeight() / 2;
+            needleBitmap = createNeedle();
+            greenArrowBitmap = createGreenCacheArrow();
+            grayArrowBitmap = createGrayCacheArrow();
+            LogManager.d("COMPASS", "CREATED");
+            distanceTextPaint.setTextSize(size * 0.1f);
+            distanceTextPaint.setStrokeWidth((float) size / 300);
+            azimuthTextPaint.setTextSize(size * 0.1f);
+            azimuthTextPaint.setStrokeWidth((float) size / 300);
+            declinationTextPaint.setTextSize(size * 0.06f);
+            declinationTextPaint.setStrokeWidth((float) size / 600);
+        }
     }
 
     private void recycleBitmaps() {
@@ -99,20 +101,24 @@ public class DefaultCompassDrawing extends AbstractCompassDrawing {
 
     @Override
     public void draw(Canvas canvas, float northDirection) {
-        canvas.drawColor(0, PorterDuff.Mode.CLEAR);
-        canvas.translate(centerX, centerY); // !!!
-        canvas.drawBitmap(scaledBitmap, bitmapX, bitmapY, bitmapPaint);
+        synchronized(bitmapPaint) {
+            canvas.drawColor(0, PorterDuff.Mode.CLEAR);
+            canvas.translate(centerX, centerY); // !!!
+            canvas.drawBitmap(scaledBitmap, bitmapX, bitmapY, bitmapPaint);
 
-        drawNeedle(canvas, northDirection);
-        drawAzimuthLabel(canvas, northDirection);
-        drawDistanceLabel(canvas);
-        drawDeclinationLabel(canvas);
+            drawNeedle(canvas, northDirection);
+            drawAzimuthLabel(canvas, northDirection);
+            drawDistanceLabel(canvas);
+            drawDeclinationLabel(canvas);
+        }
     }
 
     private void drawNeedle(Canvas canvas, float direction) {
-        canvas.rotate(direction);
-        canvas.drawBitmap(needleBitmap, -needleBitmap.getWidth() / 2, -needleBitmap.getHeight() / 2, bitmapPaint);
-        canvas.rotate(-direction);
+        synchronized(bitmapPaint) {
+            canvas.rotate(direction);
+            canvas.drawBitmap(needleBitmap, -needleBitmap.getWidth() / 2, -needleBitmap.getHeight() / 2, bitmapPaint);
+            canvas.rotate(-direction);
+        }
     }
 
     @Override
@@ -145,10 +151,12 @@ public class DefaultCompassDrawing extends AbstractCompassDrawing {
 
     @Override
     public void drawCacheArrow(Canvas canvas, float direction) {
-        canvas.rotate(direction);
-        Bitmap arrowBitmap = Controller.getInstance().getLocationManager().hasPreciseLocation() ? greenArrowBitmap : grayArrowBitmap;
-        canvas.drawBitmap(arrowBitmap, -arrowBitmap.getWidth() / 2, -arrowBitmap.getHeight() / 2, bitmapPaint);
-        canvas.rotate(-direction);
+        synchronized(bitmapPaint) {
+            canvas.rotate(direction);
+            Bitmap arrowBitmap = Controller.getInstance().getLocationManager().hasPreciseLocation() ? greenArrowBitmap : grayArrowBitmap;
+            canvas.drawBitmap(arrowBitmap, -arrowBitmap.getWidth() / 2, -arrowBitmap.getHeight() / 2, bitmapPaint);
+            canvas.rotate(-direction);
+        }
     }
 
     private Path createNeedlePath() {
