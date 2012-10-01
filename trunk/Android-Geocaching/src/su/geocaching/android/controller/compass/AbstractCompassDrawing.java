@@ -70,5 +70,5 @@ public abstract class AbstractCompassDrawing {
 
     public abstract String getType();
 
-    public void destroy() {};
+    public void destroy() {}
 }
