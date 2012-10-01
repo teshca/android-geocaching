@@ -33,7 +33,7 @@
         <item name="android:maxLines">1</item>
     </style>
     
-    <style name="Theme.Geocaching" parent="@style/Theme.Sherlock.Light">
+    <style name="Theme.Geocaching" parent="@style/Theme.geocaching">
         <item name="android:actionBarStyle">@style/Geocaching.ActionBarStyle</item>
         <item name="actionBarStyle">@style/Geocaching.ActionBarStyle</item>
 
@@ -43,7 +43,7 @@
         <item name="absForceOverflow">true</item>
     </style>
 
-    <style name="Geocaching.ActionBarStyle" parent="@style/Widget.Sherlock.Light.ActionBar">
+    <style name="Geocaching.ActionBarStyle" parent="@style/geocaching_transparent_ActionBar">
         <item name="android:titleTextStyle">@style/Geocaching.ActionBar.TitleTextStyle</item>
         <item name="titleTextStyle">@style/Geocaching.ActionBar.TitleTextStyle</item>
         <item name="android:subtitleTextStyle">@style/Geocaching.ActionBar.SubtitleTextStyle</item>
@@ -62,7 +62,7 @@
         <item name="android:textStyle">italic</item>
     </style>
         
-    <style name="Geocaching.ActionBar.TabStyle" parent="@style/Widget.Sherlock.Light.ActionBar.TabView">
+    <style name="Geocaching.ActionBar.TabStyle" parent="@style/geocaching_ActionBarTabStyle">
         <!-- <item name="android:padding">4dip</item> -->
     </style>
     
