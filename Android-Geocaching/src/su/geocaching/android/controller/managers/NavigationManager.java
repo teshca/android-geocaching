@@ -179,9 +179,9 @@ public class NavigationManager {
         }
     }
 
-    private static String geocachingApplicationId = "su.geocaching.android.ui";
-    private static String gpsStatusApplicationId = "com.eclipsim.gpsstatus2";
-    private static String yandexMapsApplicationId = "ru.yandex.yandexmaps";
+    private static final String geocachingApplicationId = "su.geocaching.android.ui";
+    private static final String gpsStatusApplicationId = "com.eclipsim.gpsstatus2";
+    private static final String yandexMapsApplicationId = "ru.yandex.yandexmaps";
 
     /**
      * Run Android Market application

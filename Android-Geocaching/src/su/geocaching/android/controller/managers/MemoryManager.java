@@ -12,7 +12,7 @@ import android.widget.Toast;
 
 public class MemoryManager {
     
-    private static int UPDATE_INTERVAL = 1000; // Milliseconds
+    private static final int UPDATE_INTERVAL = 1000; // Milliseconds
     
     private final Timer memoryTimer;
     private final TimerTask memoryReporterTask;
@@ -44,7 +44,7 @@ public class MemoryManager {
         };        
         
         memoryTimer = new Timer();
-    };
+    }
 
     public void showMemoryToast() {
         memoryTimer.schedule(memoryReporterTask, 0, UPDATE_INTERVAL);   

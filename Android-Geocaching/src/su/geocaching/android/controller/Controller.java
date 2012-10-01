@@ -29,7 +29,7 @@ public class Controller {
      * Visibility is public because LogManager and AnalyticsManager use this constant
      */
     public static final boolean DEBUG = true;
-    private static boolean SHOW_MEMORY_TOAST = false;
+    private static final boolean SHOW_MEMORY_TOAST = false;
 
     private static Controller instance;
     private Context applicationContext;
