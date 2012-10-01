@@ -14,7 +14,7 @@
         android:verticalSpacing="4dip"
         android:horizontalSpacing="4dip"
         android:stretchMode="columnWidth"
-        android:listSelector="@drawable/abs__list_selector_holo_light"
+        android:listSelector="@drawable/list_selector_holo_light"
         android:drawSelectorOnTop="true"
         android:columnWidth="@dimen/adapter_photo_size"        
         android:gravity="center"/>
