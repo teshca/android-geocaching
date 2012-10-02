@@ -1,14 +1,13 @@
 package su.geocaching.android.ui.checkpoints;
 
+import android.graphics.Rect;
 import android.os.Bundle;
+import android.os.Handler;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.view.View;
-import android.widget.EditText;
-import android.widget.LinearLayout;
-import android.widget.TextView;
+import android.widget.*;
 import android.widget.TextView.BufferType;
-import android.widget.Toast;
 import com.actionbarsherlock.app.SherlockActivity;
 import com.actionbarsherlock.view.Menu;
 import com.actionbarsherlock.view.MenuInflater;
@@ -41,6 +40,9 @@ public class CreateCheckpointActivity extends SherlockActivity {
     private static final String TAG = CreateCheckpointActivity.class.getCanonicalName();
     private static final String CREATE_CHECK_POINT_ACTIVITY_NAME = "/CreateCheckpointActivity";
 
+    private Handler mHandler = new Handler();
+
+    private ScrollView checkpointScrollView;
     private LinearLayout sexagesimal, sexagesimalSeconds, decimal, azimuth;
     private TextWatcher sexagesimalWatcher, sexagesimalSecondsWatcher, decimalWatcher, azimuthWatcher;
 
@@ -83,6 +85,8 @@ public class CreateCheckpointActivity extends SherlockActivity {
 
         getSupportActionBar().setHomeButtonEnabled(true);
         getSupportActionBar().setTitle(geoCache.getName());
+
+        checkpointScrollView  = (ScrollView) findViewById(R.id.checkpointScrollView);
 
         sexagesimal = (LinearLayout) findViewById(R.id.SexagesimalLayout);
         sexagesimalSeconds = (LinearLayout) findViewById(R.id.SexagesimalSeconsdLayout);
@@ -266,10 +270,6 @@ public class CreateCheckpointActivity extends SherlockActivity {
         etDistance.removeTextChangedListener(azimuthWatcher);
     }
 
-    public void onHomeClick(View v) {
-        NavigationManager.startDashboardActivity(this);
-    }
-
     public void onSexagesimalClick(View v) {
         toggleVisibility(sexagesimal);
     }
@@ -286,13 +286,22 @@ public class CreateCheckpointActivity extends SherlockActivity {
         toggleVisibility(azimuth);
     }
 
-    private void toggleVisibility(View v) {
+    private void toggleVisibility(final View v) {
         switch (v.getVisibility()) {
             case View.VISIBLE:
                 v.setVisibility(View.GONE);
                 break;
             case View.GONE:
                 v.setVisibility(View.VISIBLE);
+                //checkpointScrollView.requestChildFocus(v, v);
+                v.requestFocus();
+                mHandler.post(
+                        new Runnable() {
+                            public void run() {
+                                checkpointScrollView.requestChildRectangleOnScreen(v, new Rect(0,0, v.getWidth(),v.getHeight()), false);
+                            }
+                        });
+
                 break;
         }
     }
