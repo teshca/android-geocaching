@@ -98,11 +98,51 @@ public class CreateCheckpointActivity extends SherlockActivity {
         decimalWatcher = new DecimalListener();
         azimuthWatcher = new AzimuthListener();
 
-        init();
+        ToggleButton sexagesimalToggle = (ToggleButton) findViewById(R.id.sexagestimal_toggle_button);
+        sexagesimalToggle.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                setVisibility(sexagesimal, isChecked);
+            }
+        });
+
+        ToggleButton sexagesimalSecondsToggle = (ToggleButton) findViewById(R.id.sexagestimal_seconds_toggle_button);
+        sexagesimalSecondsToggle.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                setVisibility(sexagesimalSeconds, isChecked);
+            }
+        });
+
+        ToggleButton decimalToggle = (ToggleButton) findViewById(R.id.decimal_toggle_button);
+        decimalToggle.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                setVisibility(decimal, isChecked);
+            }
+        });
+
+        ToggleButton azimuthToggle = (ToggleButton) findViewById(R.id.azimuth_toggle_button);
+        azimuthToggle.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                setVisibility(azimuth, isChecked);
+            }
+        });
+
+        initInputFields();
+
         updateTextBoxes();
-        startWatch();
 
         Controller.getInstance().getGoogleAnalyticsManager().trackActivityLaunch(CREATE_CHECK_POINT_ACTIVITY_NAME);
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        startWatch();
+    }
+
+    @Override
+    public void onPause() {
+        super.onPause();
+        stopWatch();
     }
 
     @Override
@@ -126,7 +166,7 @@ public class CreateCheckpointActivity extends SherlockActivity {
         }
     }
 
-    private void init() {
+    private void initInputFields() {
 
         name = (EditText) findViewById(R.id.checkpointName);
 
@@ -270,40 +310,21 @@ public class CreateCheckpointActivity extends SherlockActivity {
         etDistance.removeTextChangedListener(azimuthWatcher);
     }
 
-    public void onSexagesimalClick(View v) {
-        toggleVisibility(sexagesimal);
-    }
-
-    public void onSexagesimalSecondsClick(View v) {
-        toggleVisibility(sexagesimalSeconds);
-    }
-
-    public void onDecimalClick(View v) {
-        toggleVisibility(decimal);
-    }
-
-    public void onAzimuthClick(View v) {
-        toggleVisibility(azimuth);
-    }
-
-    private void toggleVisibility(final View v) {
-        switch (v.getVisibility()) {
-            case View.VISIBLE:
-                v.setVisibility(View.GONE);
-                break;
-            case View.GONE:
-                v.setVisibility(View.VISIBLE);
-                //checkpointScrollView.requestChildFocus(v, v);
-                v.requestFocus();
-                mHandler.post(
-                        new Runnable() {
-                            public void run() {
-                                checkpointScrollView.requestChildRectangleOnScreen(v, new Rect(0,0, v.getWidth(),v.getHeight()), false);
-                            }
-                        });
-
-                break;
-        }
+    private void setVisibility(final View v, boolean isVisible)
+    {
+       if (isVisible) {
+           v.setVisibility(View.VISIBLE);
+           //checkpointScrollView.requestChildFocus(v, v);
+           v.requestFocus();
+           mHandler.post(
+                   new Runnable() {
+                       public void run() {
+                           checkpointScrollView.requestChildRectangleOnScreen(v, new Rect(0,0, v.getWidth(),v.getHeight()), false);
+                       }
+                   });
+       } else {
+           v.setVisibility(View.GONE);
+       }
     }
 
     private void onSaveCheckpoint() {
