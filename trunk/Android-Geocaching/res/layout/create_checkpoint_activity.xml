@@ -21,12 +21,12 @@
             android:layout_weight="1"/>
 
         <ToggleButton
+                android:id="@+id/sexagestimal_toggle_button"
                 android:textOn="@string/sexagestimal_template"
                 android:textOff="@string/sexagestimal_template"
                 android:checked="true"
                 android:layout_height="wrap_content"
-                android:layout_width="fill_parent"
-                android:onClick="onSexagesimalClick"/>
+                android:layout_width="fill_parent"/>
 
         <LinearLayout android:layout_width="fill_parent"
                       android:layout_height="wrap_content"
@@ -134,11 +134,11 @@
 
 
         <ToggleButton
-                android:textOn="@string/sexagestimal_seconds__template"
-                android:textOff="@string/sexagestimal_seconds__template"
+                android:id="@+id/sexagestimal_seconds_toggle_button"
+                android:textOn="@string/sexagestimal_seconds_template"
+                android:textOff="@string/sexagestimal_seconds_template"
                 android:layout_height="wrap_content"
-                android:layout_width="fill_parent"
-                android:onClick="onSexagesimalSecondsClick"/>
+                android:layout_width="fill_parent"/>
 
         <LinearLayout android:layout_width="fill_parent"
                       android:layout_height="wrap_content"
@@ -248,11 +248,11 @@
 
 
         <ToggleButton
+                android:id="@+id/decimal_toggle_button"
                 android:textOn="@string/decimal_template"
                 android:textOff="@string/decimal_template"
                 android:layout_height="wrap_content"
-                android:layout_width="fill_parent"
-                android:onClick="onDecimalClick"/>
+                android:layout_width="fill_parent"/>
 
         <LinearLayout android:layout_width="fill_parent"
                       android:layout_height="wrap_content"
@@ -335,11 +335,11 @@
         </LinearLayout>
 
         <ToggleButton
+                android:id="@+id/azimuth_toggle_button"
                 android:textOn="@string/azimuth_template"
                 android:textOff="@string/azimuth_template"
                 android:layout_height="wrap_content"
-                android:layout_width="fill_parent"
-                android:onClick="onAzimuthClick"/>
+                android:layout_width="fill_parent"/>
 
         <LinearLayout android:layout_width="fill_parent"
                       android:layout_height="fill_parent"
