@@ -241,89 +241,72 @@ public class SearchMapActivity extends SherlockMapActivity implements IConnectio
     }
 
     /**
-     * Set map zoom which can show userPoint and GeoCachePoint
+     * Set map zoom which can show userPoint, GeoCachePoint and all checkpoints
      */
     private void resetZoom() {
         // Calculate min/max latitude & longitude
-        int minLat = Integer.MAX_VALUE;
-        int maxLat = Integer.MIN_VALUE;
-        int minLon = Integer.MAX_VALUE;
-        int maxLon = Integer.MIN_VALUE;
+        Rect area = new Rect(Integer.MAX_VALUE, Integer.MAX_VALUE, Integer.MIN_VALUE, Integer.MIN_VALUE);
 
+        // user location
         final Location location = Controller.getInstance().getLocationManager().getLastKnownLocation();
         if (location != null) {
-            final GeoPoint currentGeoPoint = CoordinateHelper.locationToGeoPoint(location);
-            minLat = currentGeoPoint.getLatitudeE6();
-            maxLat = currentGeoPoint.getLatitudeE6();
-            minLon = currentGeoPoint.getLongitudeE6();
-            maxLon = currentGeoPoint.getLongitudeE6();
+            updateArea(area, CoordinateHelper.locationToGeoPoint(location));
         }
-        minLat = Math.min(geoCache.getLocationGeoPoint().getLatitudeE6(), minLat);
-        maxLat = Math.max(geoCache.getLocationGeoPoint().getLatitudeE6(), maxLat);
-        minLon = Math.min(geoCache.getLocationGeoPoint().getLongitudeE6(), minLon);
-        maxLon = Math.max(geoCache.getLocationGeoPoint().getLongitudeE6(), maxLon);
-
+        // geocache
+        updateArea(area, geoCache.getLocationGeoPoint());
+        // checkpoints
         for (GeoCache checkpoint : Controller.getInstance().getCheckpointManager(geoCache.getId()).getCheckpoints()) {
-            minLat = Math.min(checkpoint.getLocationGeoPoint().getLatitudeE6(), minLat);
-            maxLat = Math.max(checkpoint.getLocationGeoPoint().getLatitudeE6(), maxLat);
-            minLon = Math.min(checkpoint.getLocationGeoPoint().getLongitudeE6(), minLon);
-            maxLon = Math.max(checkpoint.getLocationGeoPoint().getLongitudeE6(), maxLon);
+            updateArea(area,checkpoint.getLocationGeoPoint());
         }
 
-        // Calculate span
-        int latSpan = maxLat - minLat;
-        int lonSpan = maxLon - minLon;
+        if (area.width() <= 0 || area.height() <= 0) return;
 
-        // Set zoom
-        if (latSpan != 0 && lonSpan != 0) {
-            map.getController().zoomToSpan(latSpan, lonSpan);
-        }
+        // update zoom
+        map.getController().zoomToSpan(area.height(), area.width());
 
-        // Calculate new center of map
-        GeoPoint center = new GeoPoint((minLat + maxLat) / 2, (minLon + maxLon) / 2);
+        // Second round: now we need to take into account icon bounds
 
-        // Set new center of map
-        map.getController().animateTo(center);
-
-        // if markers not in map - zoom out. logic below
-        boolean needZoomOut = false;
-
+        // user location
         if (location != null) {
-            // is user marker visible
-            GeoPoint currentGeoPoint = CoordinateHelper.locationToGeoPoint(location);
-            needZoomOut = !mapContains(currentGeoPoint, userOverlay.getBounds());
+            final GeoPoint currentGeoPoint = CoordinateHelper.locationToGeoPoint(location);
+            updateArea(area, currentGeoPoint, userOverlay.getBounds());
         }
-
-        if (!needZoomOut) {
-            // still not need zoom out
-            // Check contains markers in visible part of map
-            Drawable marker = Controller.getInstance().getResourceManager().getCacheMarker(geoCache.getType(), geoCache.getStatus());
-            needZoomOut = !mapContains(geoCache.getLocationGeoPoint(), marker.getBounds());
+        // geocache
+        final Drawable marker = Controller.getInstance().getResourceManager().getCacheMarker(geoCache.getType(), geoCache.getStatus());
+        updateArea(area, geoCache.getLocationGeoPoint(), marker.getBounds());
+        // checkpoints
+        for (GeoCache checkpoint : Controller.getInstance().getCheckpointManager(geoCache.getId()).getCheckpoints()) {
+            final Drawable checkpointMarker = Controller.getInstance().getResourceManager().getCacheMarker(GeoCacheType.CHECKPOINT, GeoCacheStatus.NOT_ACTIVE_CHECKPOINT);
+            updateArea(area,checkpoint.getLocationGeoPoint(), checkpointMarker.getBounds());
         }
+        // second zoom update
+        map.getController().zoomToSpan(area.height(), area.width());
 
-        // check contains checkpoints markers in visible part of map if still not need zoom out
-        if (!needZoomOut) {
-            Rect bounds = Controller.getInstance().getResourceManager().getCacheMarker(GeoCacheType.CHECKPOINT, GeoCacheStatus.NOT_ACTIVE_CHECKPOINT).getBounds();
+        // calculate new center of map
+        GeoPoint center = new GeoPoint(area.centerY(), area.centerX());
 
-            for (GeoCache checkpoint : Controller.getInstance().getCheckpointManager(geoCache.getId()).getCheckpoints()) {
-                if (needZoomOut = !mapContains(checkpoint.getLocationGeoPoint(), bounds)) {
-                    break;
-                }
-            }
-        }
-
-        // if markers are not visible then zoomOut
-        if (needZoomOut) {
-            LogManager.d(TAG, "markers not in the visible part of map. Zoom out.");
-            map.getController().zoomOut();
-        }
+        // set new center of map
+        map.getController().animateTo(center);
     }
 
-    private boolean mapContains(GeoPoint center, Rect bounds) {
+    private void updateArea(Rect area, GeoPoint geoPoint) {
+        area.left = Math.min(area.left, geoPoint.getLongitudeE6());
+        area.right = Math.max(area.right, geoPoint.getLongitudeE6());
+        area.bottom = Math.max(area.bottom, geoPoint.getLatitudeE6());
+        area.top = Math.min(area.top, geoPoint.getLatitudeE6());
+    }
+
+    private void updateArea(Rect area, GeoPoint geoPoint, Rect bounds) {
         final Point point = new Point();
-        map.getProjection().toPixels(center, point);
-        return (point.x + bounds.left > 0) && (point.x + bounds.right < map.getWidth()) &&
-                (point.y + bounds.top > 0) && (point.y + bounds.bottom < map.getHeight());
+        map.getProjection().toPixels(geoPoint, point);
+
+        final GeoPoint topLeft = map.getProjection().fromPixels(point.x + bounds.left, point.y + bounds.top);
+        final GeoPoint bottomRight = map.getProjection().fromPixels(point.x + bounds.right, point.y + bounds.bottom);
+
+        area.left = Math.min(area.left, topLeft.getLongitudeE6());
+        area.right = Math.max(area.right, bottomRight.getLongitudeE6());
+        area.bottom = Math.max(area.bottom, topLeft.getLatitudeE6());
+        area.top = Math.min(area.top, bottomRight.getLatitudeE6());
     }
 
     /**
