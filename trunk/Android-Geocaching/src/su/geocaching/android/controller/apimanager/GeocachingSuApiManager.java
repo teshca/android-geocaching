@@ -14,10 +14,10 @@ import java.io.OutputStream;
 import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.URL;
-import java.net.URLConnection;
 import java.util.*;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
+import java.util.zip.GZIPInputStream;
 
 import android.net.http.AndroidHttpClient;
 
@@ -66,7 +66,7 @@ public class GeocachingSuApiManager implements IApiManager {
         }
 
         final GeoCachesSaxHandler handler;
-        HttpURLConnection connection = null;
+        InputStreamReader inputStreamReader = null;
         try {
             SAXParserFactory factory = SAXParserFactory.newInstance();
             SAXParser parser = factory.newSAXParser();
@@ -75,14 +75,9 @@ public class GeocachingSuApiManager implements IApiManager {
             double maxLongitude = rect.br.getLongitudeE6() * 1E-6;
             double minLongitude = rect.tl.getLongitudeE6() * 1E-6;
             URL url = getCacheListUrl(maxLatitude, minLatitude, maxLongitude, minLongitude);
-            connection = (HttpURLConnection) url.openConnection();
 
-            if (connection.getResponseCode() != HttpURLConnection.HTTP_OK) {
-                LogManager.e(TAG, "Can't connect to geocaching.su. Response: " + connection.getResponseCode());
-                return memoryStorage.getCaches(rect);
-            }
-
-            InputSource geoCacheXml = new InputSource(new InputStreamReader(connection.getInputStream(), CP1251_ENCODING));
+            inputStreamReader = getInputSteamReader(url);
+            InputSource geoCacheXml = new InputSource(inputStreamReader);
             handler = new GeoCachesSaxHandler();
             parser.parse(geoCacheXml, handler);
             memoryStorage.addCaches(handler.getGeoCaches(), rect);
@@ -95,8 +90,12 @@ public class GeocachingSuApiManager implements IApiManager {
         } catch (ParserConfigurationException e) {
             LogManager.e(TAG, e.getMessage(), e);
         } finally {
-            if (connection != null) {
-                connection.disconnect();
+            if (inputStreamReader != null) {
+                try {
+                    inputStreamReader.close();
+                } catch (IOException e) {
+                    LogManager.e(TAG, e.getMessage(), e);
+                }
             }
         }
 
@@ -188,13 +187,10 @@ public class GeocachingSuApiManager implements IApiManager {
     private String downloadText(URL url) throws IOException {
         StringBuilder html = new StringBuilder();
         char[] buffer = new char[1024];
-        
         BufferedReader in = null;
         try {
-            URLConnection connection = url.openConnection();
-            //connection.setRequestProperty("Accept-Encoding", "gzip");
-            String charset = getCharsetFromContentType(connection.getContentType());
-            in = new BufferedReader(new InputStreamReader(connection.getInputStream(), charset));
+            InputStreamReader inputStreamReader = getInputSteamReader(url);
+            in = new BufferedReader(inputStreamReader);
             int size;
             while ((size = in.read(buffer)) != -1) {
                 html.append(buffer, 0, size);
@@ -210,6 +206,22 @@ public class GeocachingSuApiManager implements IApiManager {
         resultHtml = resultHtml.replaceAll("\\r|\\n", "");
         
         return resultHtml;
+    }
+
+    private InputStreamReader getInputSteamReader(URL url) throws IOException {
+        HttpURLConnection connection = (HttpURLConnection) url.openConnection();
+        connection.setRequestProperty("Accept-Encoding", "gzip;q=1.0, identity;q=0.5, *;q=0");
+
+        if (connection.getResponseCode() != HttpURLConnection.HTTP_OK) {
+            throw new IOException("Can't connect to geocaching.su. Response: " + connection.getResponseCode());
+        }
+        InputStream inputStream = connection.getInputStream();
+        if ("gzip".equalsIgnoreCase(connection.getContentEncoding())) {
+            inputStream = new GZIPInputStream(inputStream);
+        }
+        String charset = getCharsetFromContentType(connection.getContentType());
+
+        return new InputStreamReader(inputStream, charset);
     }
 
     private String getCharsetFromContentType(String contentType) {
