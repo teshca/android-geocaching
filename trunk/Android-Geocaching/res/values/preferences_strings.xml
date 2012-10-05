@@ -49,7 +49,7 @@
         <item>DEFAULT</item>
         <item>CUSTOM</item>
     </string-array>
-    <string name="prefer_icon_default_value">DEFAULT</string>
+    <string name="prefer_icon_default_value">CUSTOM</string>
     <!-- map.type -->
     <string name="prefer_map_type_title">Тип карты</string>
     <string name="prefer_map_type_key">map.type</string>
@@ -145,7 +145,7 @@
         <item>CLASSIC</item>
         <item>PALE</item>
     </string-array>
-    <string name="prefer_appearance_default_value">CLASSIC</string>
+    <string name="prefer_appearance_default_value">PALE</string>
     <!-- compass.sensor -->
     <string name="prefer_appearance_summary">Выберите внешний вид компаса</string>
     <string name="prefer_sensor_type_title">Тип сенсора</string>
