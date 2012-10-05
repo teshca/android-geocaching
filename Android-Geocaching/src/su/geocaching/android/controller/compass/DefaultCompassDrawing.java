@@ -14,19 +14,19 @@ import su.geocaching.android.ui.R;
  */
 public class DefaultCompassDrawing extends AbstractCompassDrawing {
 
-    protected Paint bitmapPaint = new Paint();
-    protected Paint distanceTextPaint = new Paint();
-    protected Paint azimuthTextPaint = new Paint();
-    protected Paint declinationTextPaint = new Paint();
-    protected Paint needlePaint = new Paint();
-    protected Bitmap roseBitmap, needleBitmap, greenArrowBitmap, grayArrowBitmap,gpsSourceBitmap;
+    private final Paint bitmapPaint = new Paint();
+    private final Paint distanceTextPaint = new Paint();
+    private final Paint azimuthTextPaint = new Paint();
+    private final Paint declinationTextPaint = new Paint();
+    private final Paint needlePaint = new Paint();
+    protected Bitmap roseBitmap, needleBitmap, greenArrowBitmap, grayArrowBitmap, gpsSourceBitmap;
     private Bitmap scaledBitmap;
 
     public DefaultCompassDrawing() {
         super();
 
         roseBitmap = createRouse();
-        gpsSourceBitmap = BitmapFactory.decodeResource(Controller.getInstance().getResourceManager().getResources(), R.drawable.ic_satellite_dish);
+        gpsSourceBitmap = BitmapFactory.decodeResource(Controller.getInstance().getResourceManager().getResources(), R.drawable.ic_action_satellite_dish);
 
         int dashboardColor = Color.parseColor(Controller.getInstance().getResourceManager().getString(R.color.dashboard_text_color)); 
         
@@ -77,17 +77,17 @@ public class DefaultCompassDrawing extends AbstractCompassDrawing {
             recycleBitmaps();
 
             scaledBitmap = Bitmap.createScaledBitmap(roseBitmap, size, size, true);
-            bitmapX = -scaledBitmap.getWidth() / 2;
-            bitmapY = -scaledBitmap.getHeight() / 2;
+            bitmapX = -size / 2;
+            bitmapY = -size / 2;
             needleBitmap = createNeedle();
             greenArrowBitmap = createGreenCacheArrow();
             grayArrowBitmap = createGrayCacheArrow();
             distanceTextPaint.setTextSize(size * 0.1f);
-            distanceTextPaint.setStrokeWidth((float) size / 300);
+            distanceTextPaint.setStrokeWidth(size * 0.003f);
             azimuthTextPaint.setTextSize(size * 0.1f);
-            azimuthTextPaint.setStrokeWidth((float) size / 300);
+            azimuthTextPaint.setStrokeWidth(size * 0.003f);
             declinationTextPaint.setTextSize(size * 0.06f);
-            declinationTextPaint.setStrokeWidth((float) size / 600);
+            declinationTextPaint.setStrokeWidth(size * 0.0015f);
         }
     }
 
