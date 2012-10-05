@@ -31,7 +31,7 @@ public class DashboardActivity extends SherlockActivity {
         getSupportActionBar().setDisplayUseLogoEnabled(true);
         getSupportActionBar().setDisplayShowTitleEnabled(false);
         getSupportActionBar().setHomeButtonEnabled(true);
-        getSupportActionBar().setBackgroundDrawable(getResources().getDrawable(R.drawable.geologo_background1));
+        getSupportActionBar().setBackgroundDrawable(getResources().getDrawable(R.drawable.action_bar_background));
         Controller.getInstance().getGoogleAnalyticsManager().trackActivityLaunch(DASHBOARD_ACTIVITY_NAME);        
     }
     
