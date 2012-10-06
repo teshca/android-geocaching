@@ -8,6 +8,7 @@ package su.geocaching.android.ui.info;
 
 import java.util.ArrayList;
 
+import android.content.res.Resources;
 import android.util.TypedValue;
 import com.actionbarsherlock.app.ActionBar;
 import com.actionbarsherlock.app.SherlockFragmentActivity;
@@ -78,6 +79,8 @@ public class AdvancedInfoActivity extends SherlockFragmentActivity {
         getSupportActionBar().setNavigationMode(ActionBar.NAVIGATION_MODE_TABS);
         getSupportActionBar().setHomeButtonEnabled(true);
 
+        updateTitleTextView(infoViewModel.isCacheStored());
+
         setContentView(R.layout.advanced_info_activity);
                    
         ActionBar.Tab infoTab = getSupportActionBar().newTab();
@@ -109,6 +112,18 @@ public class AdvancedInfoActivity extends SherlockFragmentActivity {
         mTabsAdapter.addTab(photoTab, PhotoFragment.class);
 
         Controller.getInstance().getGoogleAnalyticsManager().trackActivityLaunch(INFO_ACTIVITY_NAME);
+    }
+
+    private void updateTitleTextView(boolean isCacheStored) {
+        int titleId = Resources.getSystem().getIdentifier("action_bar_title", "id", "android");
+        if (titleId == 0) titleId = R.id.abs__action_bar_title;
+        TextView titleTextView = (TextView)findViewById(titleId);
+        if (titleTextView == null) return;
+        if (isCacheStored) {
+            titleTextView.setTextColor(getResources().getColor(R.color.dashboard_text_color));
+        } else {
+            titleTextView.setTextColor(getResources().getColor(R.color.disabled_text_color));
+        }
     }
     
     private void updateTabTextView(TextView tabTextView, boolean isDownloaded) {
@@ -228,7 +243,8 @@ public class AdvancedInfoActivity extends SherlockFragmentActivity {
 
     private void onSaveCache() {
         infoViewModel.saveCache();
-        invalidateOptionsMenu();        
+        invalidateOptionsMenu();
+        updateTitleTextView(true);
     }
 
     private void onDeleteCache() {
@@ -245,7 +261,8 @@ public class AdvancedInfoActivity extends SherlockFragmentActivity {
     
     private void performDeleteCache() {
         infoViewModel.deleteCache();
-        invalidateOptionsMenu();        
+        invalidateOptionsMenu();
+        updateTitleTextView(false);
     }
 
     private void onSearchCacheMap() {
