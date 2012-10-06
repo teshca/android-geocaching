@@ -48,6 +48,7 @@
         </activity>
 
         <activity
+            android:label="@string/select_map_activity_name"
             android:name="su.geocaching.android.ui.selectmap.SelectMapActivity">
         </activity>
       
@@ -63,19 +64,25 @@
         </activity>
 
         <activity
+            android:label="@string/favorites_activity_name"
             android:name="su.geocaching.android.ui.FavoritesFolderActivity">
         </activity>
 
         <!-- preferences -->
-        <activity 
+        <activity
+            android:label="@string/preferences_activity_name"
             android:name=".preferences.DashboardPreferenceActivity"/>
-        <activity 
+        <activity
+            android:label="@string/preferences_activity_name"
             android:name=".preferences.MapPreferenceActivity"/>
-        <activity 
+        <activity
+            android:label="@string/preferences_activity_name"
             android:name=".preferences.CompassPreferenceActivity"/>
-        <activity 
+        <activity
+            android:label="@string/preferences_activity_name"
             android:name=".preferences.EnergySavingPreferenceActivity"/>
-        <activity 
+        <activity
+            android:label="@string/preferences_activity_name"
             android:name=".preferences.TrafficPreferenceActivity"/>
 
         <!-- checkpoints -->

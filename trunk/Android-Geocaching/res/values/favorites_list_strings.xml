@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+    <string name="favorites_activity_name">Избранное</string>
     <string name="favorites_activity_no_caches_message">В базе нет ни одного тайника</string>
     <string name="favorites_activity_confirm_delete_title">Удалить все тайники?</string>
     <string name="ask_delete_all_caches_in_database">Вы действительно хотите удалить все тайники (%d шт.)?</string>
