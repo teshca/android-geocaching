@@ -11,11 +11,20 @@
 	        android:title="@string/energy_saving_preference_title" />	
 	<Preference
 	        android:key="trafficPreference"
-	        android:title="@string/traffic_preference_title" />	
-	<Preference
-	        android:key="internetPreference"
-	        android:title="@string/connection_preference_title" />
-	<Preference
-	        android:key="gpsPreference"
-	        android:title="@string/location_preference_title" />
+	        android:title="@string/traffic_preference_title" />
+
+    <!--
+    <Preference
+            android:selectable="false"
+            android:enabled="false" />
+     -->
+
+    <PreferenceCategory android:title="@string/system_category_title">
+        <Preference
+                android:key="internetPreference"
+                android:title="@string/connection_preference_title" />
+        <Preference
+                android:key="gpsPreference"
+                android:title="@string/location_preference_title" />
+    </PreferenceCategory>
 </PreferenceScreen>
