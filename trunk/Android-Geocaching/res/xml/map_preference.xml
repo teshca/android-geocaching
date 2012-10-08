@@ -9,11 +9,11 @@
                 android:entryValues="@array/requests_map_type_values"
                 android:defaultValue="@string/prefer_map_type_default_value"/>
         <ListPreference
+                android:key="@string/prefer_icon_key"
+                android:title="@string/map_markers_title"
                 android:entries="@array/requests_icon_type_entries"
                 android:defaultValue="@string/prefer_icon_default_value"
                 android:entryValues="@array/requests_icon_type_values"
-                android:title="@string/map_markers_title"
-                android:key="@string/prefer_icon_key"
                 android:dialogIcon="@drawable/ic_cache_default_traditional_valid"/>
         <CheckBoxPreference
                 android:key="@string/use_group_cache_key"
@@ -27,7 +27,6 @@
         <su.geocaching.android.controller.ListMultiSelectPreference
                 android:key="@string/cache_filter_type"
                 android:title="@string/cache_filter_type_title"
-                android:summary="@string/cache_filter_type_summary"
                 android:defaultValue="@string/cache_filter_default_value"
                 android:entries="@array/cache_filter_type_entries"
                 android:entryValues="@array/cache_filter_type_values"/>
@@ -35,7 +34,6 @@
         <su.geocaching.android.controller.ListMultiSelectPreference
                 android:key="@string/cache_filter_status"
                 android:title="@string/cache_filter_status_title"
-                android:summary="@string/cache_filter_status_summary"
                 android:defaultValue="@string/cache_filter_default_value"
                 android:entries="@array/cache_filter_status_entries"
                 android:entryValues="@array/cache_filter_status_values"/>

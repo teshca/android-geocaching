@@ -1,6 +1,7 @@
 package su.geocaching.android.ui.preferences;
 
 import android.os.Bundle;
+import android.preference.ListPreference;
 import android.preference.Preference;
 import com.actionbarsherlock.app.SherlockPreferenceActivity;
 import com.actionbarsherlock.view.MenuItem;
@@ -24,8 +25,9 @@ public class EnergySavingPreferenceActivity extends SherlockPreferenceActivity i
         getSupportActionBar().setHomeButtonEnabled(true);
         addPreferencesFromResource(R.xml.energy_saving_preference);
 
-        Preference preference = findPreference(getString(R.string.gps_update_frequency_key));
+        ListPreference preference = (ListPreference)findPreference(getString(R.string.gps_update_frequency_key));
         preference.setOnPreferenceChangeListener(this);
+        preference.setSummary(preference.getEntry());
     }
 
     /* (non-Javadoc)
@@ -33,8 +35,11 @@ public class EnergySavingPreferenceActivity extends SherlockPreferenceActivity i
      */
     @Override
     public boolean onPreferenceChange(Preference preference, Object newValue) {
+        ListPreference listPreference = (ListPreference)preference;
         GpsUpdateFrequency frequency = GpsUpdateFrequency.valueOf((String) newValue);
         Controller.getInstance().getLocationManager().updateFrequency(frequency);
+        // update summary
+        preference.setSummary(listPreference.getEntries()[listPreference.findIndexOfValue((String)newValue)]);
         return true;
     }
     

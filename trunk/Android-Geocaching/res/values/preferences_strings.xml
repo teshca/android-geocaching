@@ -2,25 +2,23 @@
     <string name="preferences_activity_name">Настройки</string>
 
     <!-- Dashboard -->
-    <string name="map_preference_title">Настройки карты</string>
-    <string name="compass_preference_title">Настройки компаса</string>
+    <string name="map_preference_title">Карта</string>
+    <string name="compass_preference_title">Компас</string>
     <string name="energy_saving_preference_title">Энергосбережение</string>
-    <string name="location_preference_title">Настройки координат</string>
-    <string name="connection_preference_title">Настройки интернета</string>
+    <string name="location_preference_title">Координаты</string>
+    <string name="connection_preference_title">Беспроводные сети</string>
+    <string name="system_category_title">Системные</string>
 
     <!-- Keep screen on preference section -->
-    <string name="keep_screen_on_title">Не выключать экран</string>
+    <string name="keep_screen_on_title">Не отключать экран</string>
     <string name="keep_screen_on_key">keepScreen</string>
-    <string name="keep_screen_on_summary">Не выключать экран при поиске</string>
+    <string name="keep_screen_on_summary">Не отключать экран во время поиска тайника</string>
     <bool name="keep_screen_on_default_value">true</bool>
 
     <!-- GPS power saving section -->
-    <string name="gps_update_frequency_title">Обновления GPS</string>
+    <string name="gps_update_frequency_title">Обновление координат</string>
     <string name="gps_update_frequency_key">energy_saving.gps</string>
-    <string name="gps_update_frequency_dialog_title">Частота обновления GPS</string>
-    <string name="gps_update_frequency_summary">Как часто обновлять координаты от GPS. Максимально часто не
-        рекоммендуется.
-    </string>
+    <string name="gps_update_frequency_dialog_title">Частота обновления координат</string>
     <string-array name="gps_update_frequency_entries">
         <item>Очень часто</item>
         <item>Часто</item>
@@ -53,7 +51,7 @@
     </string-array>
     <string name="prefer_icon_default_value">CUSTOM</string>
     <!-- map.type -->
-    <string name="prefer_map_type_title">Тип карты</string>
+    <string name="prefer_map_type_title">Слои</string>
     <string name="prefer_map_type_key">map.type</string>
     <string-array name="requests_map_type_entries">
         <item>Карта</item>
@@ -67,7 +65,7 @@
     <!-- map.addWay -->
     <string name="use_group_cache_key">map.addWay</string>
     <string name="use_group_cache_title">Группировка тайников</string>
-    <string name="use_group_cache_summary">Использовать группировку близких тайников</string>
+    <string name="use_group_cache_summary">На мелом масштабе близкие тайники объединять в группы</string>
     <bool name="use_group_cache_default_value">true</bool>
 
     <!-- map.filters -->
@@ -76,7 +74,6 @@
     <!-- map.filter.type -->
     <string name="cache_filter_type_title">Тип тайников</string>
     <string name="cache_filter_type">filter.type</string>
-    <string name="cache_filter_type_summary">Выберите типы отображаемых тайников</string>
     <string-array name="cache_filter_type_entries">
         <item>Традиционный</item>
         <item>Виртуальный</item>
@@ -98,9 +95,10 @@
         <item>WEBCAM</item>
     </string-array>
     <!-- map.filter.status -->
+    <string name="filter_disabled">Фильтр отключён</string>
+    <string name="filter_warning">"Внимание! Таники не будут показаны"</string>
     <string name="cache_filter_status_title">Статус тайников</string>
     <string name="cache_filter_status">filter.status</string>
-    <string name="cache_filter_status_summary">Выберите статусы отображаемых тайников</string>
     <string-array name="cache_filter_status_entries">
         <item>Действующий</item>
         <item>Недействующий</item>
@@ -116,10 +114,8 @@
     <!-- Compass Preferences -->
     <string name="compass_category_title">Компас</string>
     <!-- compass.speed -->
-    <string name="prefer_speed_dialog_title">Скорость</string>
     <string name="prefs_speed_key">compass.speed</string>
-    <string name="prefer_speed_title">Скорость</string>
-    <string name="prefer_speed_summary">Выберите скорость вращения стрелки компаса</string>
+    <string name="prefer_speed_title">Скорость стрелки</string>
     <string-array name="speed_preference_entries">
         <item>Без сглаживания</item>
         <item>Медленная</item>
@@ -136,7 +132,6 @@
     </string-array>
     <string name="prefer_speed_default_value">NORMAL</string>
     <!-- compass.appearance -->
-    <string name="prefer_appearance_dialog_title">Внешний вид</string>
     <string name="prefer_appearance_title">Внешний вид</string>
     <string name="prefs_appearance_key">compass.appearance</string>
     <string-array name="appearance_preference_entries">
@@ -149,11 +144,10 @@
     </string-array>
     <string name="prefer_appearance_default_value">PALE</string>
     <!-- compass.sensor -->
-    <string name="prefer_appearance_summary">Выберите внешний вид компаса</string>
     <string name="prefer_sensor_type_title">Тип сенсора</string>
     <string name="prefs_sensor_key">compass.sensor</string>
     <string-array name="sensor_type_preference_entries">
-        <item>Магнитный сенсор</item>
+        <item>Магнитное поле</item>
         <item>Спутники GPS</item>
     </string-array>
     <string-array name="sensor_preference_values">
@@ -169,9 +163,9 @@
     <string name="traffic_preference_category_title">Трафик мобильного интернета</string>
     <string name="traffic_preference_title">Трафик мобильного интернета</string>
 
-    <string name="download_photos_always_title">Сохранять фотографии</string>
+    <string name="download_photos_always_title">Загружать фотографии</string>
     <string name="download_photos_always_key">downloadPhotosAlwaysKey</string>
-    <string name="download_photos_always_summary">Всегда сохранять фотографии тайника</string>
+    <string name="download_photos_always_summary">Загружать фотографии тайника без подтверждения</string>
     <bool name="download_photos_always_value">false</bool>
 	
     <!--

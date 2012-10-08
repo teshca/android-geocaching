@@ -1,11 +1,5 @@
 package su.geocaching.android.controller;
 
-/**
- *
-
-
- */
-
 import android.app.AlertDialog.Builder;
 import android.content.Context;
 import android.content.DialogInterface;
@@ -65,24 +59,26 @@ public class ListMultiSelectPreference extends ListPreference {
             return ((String) val).split(SEPARATOR);
     }
 
+    public CharSequence[] getSelectedEntryValues(CharSequence val) {
+        if ("".equals(val))
+            return null;
+        if (val.equals(DEFAULT_VALUE))
+            return getEntries();
+        else
+            return ((String) val).split(SEPARATOR);
+    }
+
     private void restoreCheckedEntries() {
         CharSequence[] entryValues = getEntryValues();
-
-        String[] vals = parseStoredValue(getValue());
-        if (vals != null) {
-            if (vals[0].trim().equals(DEFAULT_VALUE)) {
-                for (int i = 0; i < getEntries().length; i++) {
-                    mClickedDialogEntryIndices[i] = true;
-                }
-            } else {
-                for (int i = 0; i < entryValues.length; i++) {
-                    for (String value : vals) {
-                        if (entryValues[i].equals(value.trim())) {
-                            mClickedDialogEntryIndices[i] = true;
-                            break;
-                        } else {
-                            mClickedDialogEntryIndices[i] = false;
-                        }
+        CharSequence[] selectedValues = getSelectedEntryValues(getValue());
+        if (selectedValues != null) {
+            for (int i = 0; i < entryValues.length; i++) {
+                for (CharSequence value : selectedValues) {
+                    if (entryValues[i].equals(value)) {
+                        mClickedDialogEntryIndices[i] = true;
+                        break;
+                    } else {
+                        mClickedDialogEntryIndices[i] = false;
                     }
                 }
             }
@@ -95,18 +91,17 @@ public class ListMultiSelectPreference extends ListPreference {
 
         CharSequence[] entryValues = getEntryValues();
         if (positiveResult && entryValues != null) {
-            StringBuffer value = new StringBuffer();
+            StringBuilder value = new StringBuilder();
             for (int i = 0; i < entryValues.length; i++) {
                 if (mClickedDialogEntryIndices[i]) {
-                    value.append(entryValues[i]).append(SEPARATOR);
+                    if (value.length() != 0) value.append(SEPARATOR);
+                    value.append(entryValues[i]);
                 }
             }
 
-            if (callChangeListener(value)) {
-                String val = value.toString();
-                if (val.length() > 0)
-                    val = val.substring(0, val.length() - SEPARATOR.length());
-                setValue(val);
+            String stringValue = value.toString();
+            if (callChangeListener(stringValue)) {
+                setValue(stringValue);
             }
         }
     }
