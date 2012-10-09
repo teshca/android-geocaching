@@ -10,6 +10,7 @@ import java.util.ArrayList;
 
 import android.content.res.Resources;
 import android.util.TypedValue;
+import android.view.View;
 import com.actionbarsherlock.app.ActionBar;
 import com.actionbarsherlock.app.SherlockFragmentActivity;
 import com.actionbarsherlock.view.MenuInflater;
@@ -52,6 +53,8 @@ public class AdvancedInfoActivity extends SherlockFragmentActivity {
     private TextSizeAdjustableTextView notebookTabTextView;
     private TextSizeAdjustableTextView photoTabTextView;
 
+    private TextView titleTextView;
+
     private TextSizeAdjustableTextView getTabTextView() {
         final LayoutInflater inflater = LayoutInflater.from(this);
         TextSizeAdjustableTextView textView = (TextSizeAdjustableTextView) inflater.inflate(R.layout.info_action_bar_tab, null);
@@ -79,7 +82,18 @@ public class AdvancedInfoActivity extends SherlockFragmentActivity {
         getSupportActionBar().setNavigationMode(ActionBar.NAVIGATION_MODE_TABS);
         getSupportActionBar().setHomeButtonEnabled(true);
 
-        updateTitleTextView(infoViewModel.isCacheStored());
+        titleTextView = getTitleTextView();
+        if (titleTextView != null) {
+            titleTextView.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    if (!infoViewModel.isCacheStored()) {
+                        onSaveCache();
+                    }
+                }
+            });
+            updateTitleTextView(infoViewModel.isCacheStored());
+        }
 
         setContentView(R.layout.advanced_info_activity);
                    
@@ -114,10 +128,13 @@ public class AdvancedInfoActivity extends SherlockFragmentActivity {
         Controller.getInstance().getGoogleAnalyticsManager().trackActivityLaunch(INFO_ACTIVITY_NAME);
     }
 
-    private void updateTitleTextView(boolean isCacheStored) {
+    private TextView getTitleTextView(){
         int titleId = Resources.getSystem().getIdentifier("action_bar_title", "id", "android");
         if (titleId == 0) titleId = R.id.abs__action_bar_title;
-        TextView titleTextView = (TextView)findViewById(titleId);
+        return  (TextView)findViewById(titleId);
+    }
+
+    private void updateTitleTextView(boolean isCacheStored) {
         if (titleTextView == null) return;
         if (isCacheStored) {
             titleTextView.setTextColor(getResources().getColor(R.color.dashboard_text_color));

@@ -67,7 +67,7 @@ public class MapPreferenceActivity extends SherlockPreferenceActivity {
     private CharSequence getFilterSummary(ListMultiSelectPreference listPreference, Object newValue) {
         CharSequence[] selectedValues = listPreference.getSelectedEntryValues((String)newValue);
         if (selectedValues == null)
-            return getString(R.string.filter_warninig);
+            return getString(R.string.filter_warning);
         if (selectedValues.length == listPreference.getEntries().length)
             return getString(R.string.filter_disabled);
 
