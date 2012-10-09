@@ -24,7 +24,6 @@
                 android:layout_centerVertical="true"
                 android:textColor="#FFEFEBEF"
                 android:textSize="@dimen/text_size_big"
-                android:textStyle="bold"
                 android:layout_marginLeft="6dp"
                 android:text="@string/odometer" />
 
@@ -36,7 +35,6 @@
                 android:layout_centerVertical="true"
                 android:textColor="#FFEFEBEF"
                 android:textSize="@dimen/text_size_big"
-                android:textStyle="bold"
                 android:layout_marginLeft="6dp" />
 
         <ImageView
