@@ -294,8 +294,7 @@ public class AdvancedInfoActivity extends SherlockFragmentActivity {
 
     private void onSearchCache() {
         if (!infoViewModel.isCacheStored()) {
-            infoViewModel.saveCache();
-            invalidateOptionsMenu();            
+            onSaveCache();
         }
     }
 
