@@ -120,11 +120,15 @@ public class CheckpointManager {
     }
 
     //TODO: (?:<\D+?>)?'(?:</\D+?>)?          <--->        <strong>'</strong>
-    private static final String degPattern = "(?:<sup>&#9702;</sup>|&#176;|\\D+)";
-    private static final String coordinatePattern = "(\\d+)\\s*" + degPattern + "\\s*(\\d+)\\s*.\\s*(\\d+)";
-    private static final Pattern geoPattern = Pattern.compile("[N|S]\\s*" + coordinatePattern + "\\D{1,}[E|W]\\s*" + coordinatePattern + "(?:&rsquo;|'|&#39;)?");
+    private static final String degrees = "(?:<sup>(?:&#9702;|0|o|O)</sup>|\\s+|&#176;|&deg;|&nbsp;|\\D{2,6}|градусов)";
+    private static final String minutes = "(?:&rsquo;|'|&#39;|мин)";
+    private static final String delimiter = "[,\\.]";
+    private static final String coordinatePattern = "(\\d+)\\s*" + degrees + "\\s*(\\d+)\\s*" + delimiter + "\\s*(\\d+)";
+    private static final Pattern geoPattern = Pattern.compile("[N|S]?\\s*" + coordinatePattern + "\\D+" + coordinatePattern + "\\s*" + minutes + "?");
     public static String insertCheckpointsLink(String text) {
         if (text == null) throw new IllegalArgumentException("text is null");
+
+        text = text.replace("</strong><strong>", ""); // prepare string. actually this is server side responsibility
 
         Matcher pageMatcher = geoPattern.matcher(text);
         StringBuffer sb = new StringBuffer();
@@ -145,8 +149,7 @@ public class CheckpointManager {
             } catch (Exception e) {
                 continue;
             }
-
-            pageMatcher.appendReplacement(sb, String.format("<a href=\"geo:%d,%d\"><b>%s</b></a>", latitude, longitude, pageMatcher.group(0)));
+            pageMatcher.appendReplacement(sb, String.format("<a href=\"geo:%d,%d\" style=\"color: rgb(86,144,93)\"><b>%s</b></a>", latitude, longitude, pageMatcher.group(0)));
         }
 
         pageMatcher.appendTail(sb);
