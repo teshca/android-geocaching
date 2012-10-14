@@ -56,7 +56,9 @@ public class CompassView extends SurfaceView implements SurfaceHolder.Callback, 
     protected void onSizeChanged(int w, int h, int oldw, int oldh) {
         super.onSizeChanged(w, h, oldw, oldh);
         LogManager.d(TAG, "onSizeChanged" + w + " " + h);
-        compassDrawing.onSizeChanged(w, h);
+        if (compassDrawing != null) {
+            compassDrawing.onSizeChanged(w, h);
+        }
     }
 
     @Override
