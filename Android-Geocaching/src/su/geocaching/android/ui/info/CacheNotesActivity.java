@@ -33,6 +33,7 @@ public class CacheNotesActivity extends SherlockActivity {
         setContentView(su.geocaching.android.ui.R.layout.cache_notes_activity);
 
         cacheNotesText = (EditText) findViewById(su.geocaching.android.ui.R.id.cache_notes_text);
+        cacheNotesText.setText(Controller.getInstance().getDbManager().getNoteById(geoCache.getId()));
 
         getSupportActionBar().setTitle(geoCache.getName());
         getSupportActionBar().setHomeButtonEnabled(true);
