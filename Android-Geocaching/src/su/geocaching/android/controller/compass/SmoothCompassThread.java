@@ -6,6 +6,7 @@ import su.geocaching.android.controller.managers.IBearingAware;
 import su.geocaching.android.controller.managers.LogManager;
 import su.geocaching.android.controller.managers.UncaughtExceptionsHandler;
 
+import java.util.Collections;
 import java.util.LinkedList;
 import java.util.List;
 
@@ -25,20 +26,18 @@ public class SmoothCompassThread extends Thread implements IBearingAware {
     private static final float LEAVED_EPS = 2.5f;
     private static final float SPEED_EPS = 0.55f;
 
-    private CompassSpeed speed;
-    private List<ICompassView> compassView = new LinkedList<ICompassView>();
-    private CompassManager compassManager;
+    private final List<ICompassView> compassView = new LinkedList<ICompassView>();
+    private final CompassManager compassManager;
 
     private float goalDirection = 0;
     private boolean isRunning = false;
+    private CompassSpeed speed;
 
     public SmoothCompassThread(ICompassView... compassView) {
         LogManager.d(TAG, "new SmoothCompassThread");
 
         if (compassView != null) {
-            for (ICompassView compass : compassView) {
-                this.compassView.add(compass);
-            }
+            Collections.addAll(this.compassView, compassView);
         }
         speed = CompassSpeed.NORMAL;
 
@@ -67,7 +66,7 @@ public class SmoothCompassThread extends Thread implements IBearingAware {
     public void run() {
         LogManager.d(TAG, "SmoothCompassThread - run");
         float speed = 0;
-        float needleDirection = 0;
+        float needleDirection = goalDirection;
         boolean forcePaint = true;
         boolean isArrived = false; // The needle has not arrived the goalDirection
 
@@ -102,8 +101,6 @@ public class SmoothCompassThread extends Thread implements IBearingAware {
         }
     }
 
-    private float averageDirection = 0;
-
     @Override
     public void updateBearing(float bearing, float declination, CompassSourceType sourceType) {
         // update source type
@@ -114,17 +111,11 @@ public class SmoothCompassThread extends Thread implements IBearingAware {
             }
         }
         // update bearing
-        float newDirection = bearing;
-        float difference = newDirection - averageDirection;
-        difference = CompassHelper.normalizeAngle(difference);
-
-        newDirection = averageDirection + difference / 4; // TODO extract constant
-
-        newDirection = CompassHelper.normalizeAngle(newDirection);
-        goalDirection = averageDirection = newDirection;
+        goalDirection = bearing;
     }
 
     private float calculateSpeed(float difference, float oldSpeed) {
+        difference = difference / 4;
         switch (speed) {
             case DIRET:
                 oldSpeed = oldSpeed * 0f; // friction
