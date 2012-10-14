@@ -82,9 +82,11 @@ public class SmoothCompassThread extends Thread implements IBearingAware {
                 needleDirection = currentDirection;
 
                 synchronized (compassView) {
+                    boolean successDraw = true;
                     for (ICompassView compass : compassView) {
-                        forcePaint |= !compass.setDirection(needleDirection);
+                        successDraw &= compass.setDirection(needleDirection);
                     }
+                    forcePaint = !successDraw;
                 }
             } else {
                 isArrived = true;
