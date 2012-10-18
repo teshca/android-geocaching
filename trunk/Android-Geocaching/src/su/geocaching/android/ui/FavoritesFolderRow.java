@@ -8,10 +8,11 @@ import android.widget.FrameLayout;
 import su.geocaching.android.controller.Controller;
 
 public class FavoritesFolderRow extends FrameLayout implements Checkable {
-    private static final ColorDrawable checkedBackgroundDrawable = new ColorDrawable();
+    private static final ColorDrawable checkedBackgroundDrawable;
 
     static {
-        checkedBackgroundDrawable.setColor(Controller.getInstance().getResourceManager().getColor(R.color.dashboard_text_color));
+        int color = Controller.getInstance().getResourceManager().getColor(R.color.dashboard_text_color);
+        checkedBackgroundDrawable = new ColorDrawable(color);
         checkedBackgroundDrawable.setAlpha(0x3F);
     }
 
