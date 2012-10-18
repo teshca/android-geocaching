@@ -30,6 +30,10 @@ public class ResourceManager {
         return context.getResources().getDrawable(id);
     }
 
+    public int getColor(int id) {
+        return context.getResources().getColor(id);
+    }
+
     public String getString(int id) {
         return context.getString(id);
     }
