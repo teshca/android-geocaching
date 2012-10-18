@@ -28,7 +28,7 @@ public class DefaultCompassDrawing extends AbstractCompassDrawing {
         roseBitmap = createRouse();
         gpsSourceBitmap = BitmapFactory.decodeResource(Controller.getInstance().getResourceManager().getResources(), R.drawable.ic_action_satellite_dish);
 
-        int dashboardColor = Color.parseColor(Controller.getInstance().getResourceManager().getString(R.color.dashboard_text_color)); 
+        int dashboardColor = Controller.getInstance().getResourceManager().getColor(R.color.dashboard_text_color);
         
         distanceTextPaint.setColor(dashboardColor);
         distanceTextPaint.setAntiAlias(true);

@@ -1,9 +1,6 @@
 package su.geocaching.android.controller.compass;
 
 import android.graphics.Canvas;
-import android.graphics.Color;
-import su.geocaching.android.controller.Controller;
-import su.geocaching.android.ui.R;
 
 /**
  * Abstract class implements a strategy of drawing compass

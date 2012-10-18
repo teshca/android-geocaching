@@ -10,6 +10,7 @@
     <string name="sort_by">Сортировать по:</string>
     <string name="by_distance">Расстоянию</string>
     <string name="by_name">Названию</string>
+    <string name="favorites_menu_delete">Удалить тайник</string>
     <!--
     <string name="sort_by">Дате добавления</string>
     -->

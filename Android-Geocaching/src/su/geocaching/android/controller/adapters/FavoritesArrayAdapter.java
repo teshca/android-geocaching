@@ -14,6 +14,7 @@ import su.geocaching.android.controller.managers.LogManager;
 import su.geocaching.android.controller.managers.ResourceManager;
 import su.geocaching.android.controller.utils.CoordinateHelper;
 import su.geocaching.android.model.GeoCache;
+import su.geocaching.android.ui.FavoritesFolderRow;
 import su.geocaching.android.ui.R;
 import su.geocaching.android.ui.compass.UiThreadCompassView;
 
@@ -60,20 +61,20 @@ public class FavoritesArrayAdapter extends BaseArrayAdapter<GeoCache> implements
     }
 
     @Override
-    public View getView(int position, View cv, ViewGroup parent) {
+    public View getView(int position, View convertView, ViewGroup parent) {
 
         LogManager.d(TAG, "getView");
         long time = System.currentTimeMillis();
 
-        if (cv == null) {
+        if (convertView == null) {
             long time2 = System.currentTimeMillis();
-            cv = inflater.inflate(R.layout.favorites_folder_row, null);
-            cv.setTag(new Holder(cv.findViewById(R.id.tvName), cv.findViewById(R.id.tvType), cv.findViewById(R.id.tvStatus), cv.findViewById(R.id.ivIcon), cv.findViewById(R.id.compassView), cv.findViewById(R.id.tvDistance)));
+            convertView = new FavoritesFolderRow(getContext());
+            convertView.setTag(new Holder(convertView.findViewById(R.id.tvName), convertView.findViewById(R.id.tvType), convertView.findViewById(R.id.tvStatus), convertView.findViewById(R.id.ivIcon), convertView.findViewById(R.id.compassView), convertView.findViewById(R.id.tvDistance)));
             LogManager.d(TAG, "inflater.inflate done for " + (System.currentTimeMillis() - time2) + " ms.");
         }
 
         final GeoCache geoCache = getItem(position);
-        final Holder holder = (Holder) cv.getTag();
+        final Holder holder = (Holder) convertView.getTag();
         holder.textViewName.setText(geoCache.getName());
         holder.textViewType.setText(rm.getGeoCacheType(geoCache));
         holder.textViewStatus.setText(rm.getGeoCacheStatus(geoCache));
@@ -96,7 +97,7 @@ public class FavoritesArrayAdapter extends BaseArrayAdapter<GeoCache> implements
         holder.compassView.invalidate();
 
         LogManager.d(TAG, "getView done for " + (System.currentTimeMillis() - time) + " ms. gc.name " + geoCache.getName() + " position " + position);
-        return cv;
+        return convertView;
     }
 
     /**
