@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+    <item
+        android:id="@+id/menu_checkpoint_activate"
+        android:title="@string/checkpoint_active"
+        android:icon="@drawable/ic_menu_goto"
+        android:showAsAction="always" />
+    <item
+        android:id="@+id/menu_checkpoint_delete"
+        android:icon="@drawable/ic_menu_delete"
+        android:title="@string/checkpoint_delete"
+        android:showAsAction="always"/>
+</menu>

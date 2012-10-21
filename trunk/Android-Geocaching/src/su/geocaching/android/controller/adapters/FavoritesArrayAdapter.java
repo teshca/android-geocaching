@@ -11,7 +11,6 @@ import android.widget.TextView;
 import su.geocaching.android.controller.Controller;
 import su.geocaching.android.controller.compass.AbstractCompassDrawing;
 import su.geocaching.android.controller.managers.LogManager;
-import su.geocaching.android.controller.managers.ResourceManager;
 import su.geocaching.android.controller.utils.CoordinateHelper;
 import su.geocaching.android.model.GeoCache;
 import su.geocaching.android.ui.FavoritesFolderRow;
@@ -32,32 +31,21 @@ public class FavoritesArrayAdapter extends BaseArrayAdapter<GeoCache> implements
     private Comparator<GeoCache> distanceComparator = new DistanceComparator();
     private Comparator<GeoCache> nameComparator = new NameComparator();
 
-    private List<GeoCache> allItemsArray;
-    private List<GeoCache> filteredItemsArray;
+    private List<GeoCache> allItemsArray = new ArrayList<GeoCache>();
     private ModelFilter filter;
 
-    private ResourceManager rm;
     private Location lastLocation;
 
     public enum GeoCacheSortType {
         BY_DIST, BY_NAME
     }
 
-    private GeoCacheSortType sortType;
+    private GeoCacheSortType sortType = GeoCacheSortType.BY_DIST;
 
 
     public FavoritesArrayAdapter(final Context context) {
         super(context);
         lastLocation = Controller.getInstance().getLocationManager().getLastKnownLocation();
-        rm = Controller.getInstance().getResourceManager();
-        sortType = GeoCacheSortType.BY_DIST;
-
-        this.allItemsArray = new ArrayList<GeoCache>();
-//        allItemsArray.addAll(list);
-//        this.add(list);
-        this.filteredItemsArray = new ArrayList<GeoCache>();
-        filteredItemsArray.addAll(allItemsArray);
-        getFilter();
     }
 
     @Override
@@ -69,32 +57,38 @@ public class FavoritesArrayAdapter extends BaseArrayAdapter<GeoCache> implements
         if (convertView == null) {
             long time2 = System.currentTimeMillis();
             convertView = new FavoritesFolderRow(getContext());
-            convertView.setTag(new Holder(convertView.findViewById(R.id.tvName), convertView.findViewById(R.id.tvType), convertView.findViewById(R.id.tvStatus), convertView.findViewById(R.id.ivIcon), convertView.findViewById(R.id.compassView), convertView.findViewById(R.id.tvDistance)));
             LogManager.d(TAG, "inflater.inflate done for " + (System.currentTimeMillis() - time2) + " ms.");
         }
 
+        final TextView textViewName = (TextView) convertView.findViewById(R.id.tvName);
+        final TextView textViewType = (TextView) convertView.findViewById(R.id.tvType);
+        final TextView textViewStatus = (TextView) convertView.findViewById(R.id.tvStatus);
+        final TextView textViewDistance =  (TextView) convertView.findViewById(R.id.tvDistance);
+        final ImageView imageViewIcon = (ImageView) convertView.findViewById(R.id.ivIcon);
+        final UiThreadCompassView compassView = (UiThreadCompassView) convertView.findViewById(R.id.compassView);        
+
         final GeoCache geoCache = getItem(position);
-        final Holder holder = (Holder) convertView.getTag();
-        holder.textViewName.setText(geoCache.getName());
-        holder.textViewType.setText(rm.getGeoCacheType(geoCache));
-        holder.textViewStatus.setText(rm.getGeoCacheStatus(geoCache));
-        holder.imageViewIcon.setImageResource(rm.getMarkerResId(geoCache.getType(), geoCache.getStatus()));
+        textViewName.setText(geoCache.getName());
+        textViewType.setText(Controller.getInstance().getResourceManager().getGeoCacheType(geoCache));
+        textViewStatus.setText(Controller.getInstance().getResourceManager().getGeoCacheStatus(geoCache));
+        imageViewIcon.setImageResource(Controller.getInstance().getResourceManager().getMarkerResId(geoCache.getType(), geoCache.getStatus()));
 
         if (lastLocation != null) {
             boolean hasPreciseLocation = Controller.getInstance().getLocationManager().hasPreciseLocation();
             float distance = CoordinateHelper.getDistanceBetween(geoCache.getLocationGeoPoint(), lastLocation);
-            holder.textViewDistance.setText(CoordinateHelper.distanceToString(distance, hasPreciseLocation));
+            textViewDistance.setText(CoordinateHelper.distanceToString(distance, hasPreciseLocation));
         } else {
-            holder.textViewDistance.setVisibility(View.GONE);
+            textViewDistance.setVisibility(View.GONE);
         }
 
         if (lastLocation != null && Controller.getInstance().getCompassManager().IsCompassAvailable()) {
-            holder.compassView.setCacheDirection(CoordinateHelper.getBearingBetween(lastLocation, geoCache.getLocationGeoPoint()));
+        	compassView.setHelper(AbstractCompassDrawing.TYPE_PREVIEW);
+            compassView.setCacheDirection(CoordinateHelper.getBearingBetween(lastLocation, geoCache.getLocationGeoPoint()));
         } else {
-            holder.compassView.setVisibility(View.GONE);
+            compassView.setVisibility(View.GONE);
         }
 
-        holder.compassView.invalidate();
+        compassView.invalidate();
 
         LogManager.d(TAG, "getView done for " + (System.currentTimeMillis() - time) + " ms. gc.name " + geoCache.getName() + " position " + position);
         return convertView;
@@ -131,26 +125,6 @@ public class FavoritesArrayAdapter extends BaseArrayAdapter<GeoCache> implements
 
     public void setSortType(GeoCacheSortType sortType) {
         this.sortType = sortType;
-    }
-
-    private class Holder {
-        final TextView textViewName;
-        final TextView textViewType;
-        final TextView textViewStatus;
-        final TextView textViewDistance;
-        final ImageView imageViewIcon;
-        final UiThreadCompassView compassView;
-
-
-        public Holder(final View textViewName, final View textViewType, final View textViewStatus, final View imageViewIcon, final View compassView, final View textViewDistance) {
-            this.textViewName = (TextView) textViewName;
-            this.textViewType = (TextView) textViewType;
-            this.textViewStatus = (TextView) textViewStatus;
-            this.imageViewIcon = (ImageView) imageViewIcon;
-            this.compassView = (UiThreadCompassView) compassView;
-            this.textViewDistance = (TextView) textViewDistance;
-            this.compassView.setHelper(AbstractCompassDrawing.TYPE_PREVIEW);
-        }
     }
 
     class DistanceComparator implements Comparator<GeoCache> {
@@ -202,10 +176,8 @@ public class FavoritesArrayAdapter extends BaseArrayAdapter<GeoCache> implements
         @SuppressWarnings("unchecked")
         @Override
         protected void publishResults(CharSequence constraint, FilterResults results) {
-            filteredItemsArray = (ArrayList<GeoCache>) results.values;
-            notifyDataSetChanged();
             clear();
-            for (GeoCache aFilteredItemsArray : filteredItemsArray) add(aFilteredItemsArray);
+            addAll((ArrayList<GeoCache>) results.values);
             sort();
             notifyDataSetInvalidated();
             notifyDataSetChanged();

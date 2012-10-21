@@ -25,6 +25,8 @@ import su.geocaching.android.controller.managers.DbManager;
 import su.geocaching.android.controller.managers.LogManager;
 import su.geocaching.android.controller.managers.NavigationManager;
 import su.geocaching.android.model.GeoCache;
+import su.geocaching.android.ui.dialogs.ConfirmDeleteCacheListener;
+import su.geocaching.android.ui.dialogs.DeleteCacheDialog;
 
 import java.util.List;
 
@@ -37,6 +39,7 @@ public class FavoritesFolderActivity extends SherlockListActivity {
     private static final String FAVORITES_FOLDER_ACTIVITY_NAME = "/FavoritesActivity";
     private static final int SORT_TYPE_DIALOG_ID = 0;
     private static final int DELETE_ALL_CACHES_DIALOG_ID = 1;
+    //private static final int DELETE_CACHE_DIALOG_ID = 2;
 
     private DbManager dbManager;
     private FavoritesArrayAdapter favoriteGeoCachesAdapter;
@@ -78,13 +81,38 @@ public class FavoritesFolderActivity extends SherlockListActivity {
         });
     }
 
-    private void deleteGeocache(int position) {
-        GeoCache geoCache = favoriteGeoCachesAdapter.getItem(position);
-        // TODO: Show confirmation dialog using fragments
+    //private ConfirmDeleteCacheListener deleteCacheListener = new ConfirmDeleteCacheListener() {
+    //    public void onConfirm(GeoCache geocache) {
+    //        performDeleteCache(geocache);
+    //    }
+    //};
+
+    private void performDeleteCache(GeoCache geoCache) {
+        dbManager.deleteCacheById(geoCache.getId());
         favoriteGeoCachesAdapter.remove(geoCache);
-        //updateNoCacheVisibility();
-        //invalidateOptionsMenu();
-        //dbManager.deleteCacheById(geoCache.getId());
+        updateNoCacheVisibility();
+        invalidateOptionsMenu();
+    }
+
+    private void deleteGeocache(int position) {
+        final GeoCache geoCache = favoriteGeoCachesAdapter.getItem(position);
+        //TODO Display confirmation dialog
+        performDeleteCache(geoCache);
+    }
+
+    private void onSearchCacheMap(int position) {
+        GeoCache geoCache = favoriteGeoCachesAdapter.getItem(position);
+        NavigationManager.startSearchMapActivity(this, geoCache);
+    }
+
+    private void onSearchCacheCompass(int position) {
+        GeoCache geoCache = favoriteGeoCachesAdapter.getItem(position);
+        NavigationManager.startCompassActivity(this, geoCache);
+    }
+
+    private void onOpenCacheInfo(int position) {
+        GeoCache geoCache = favoriteGeoCachesAdapter.getItem(position);
+        NavigationManager.startInfoActivity(this, geoCache);
     }
     
     private void refreshListData() {
@@ -119,6 +147,30 @@ public class FavoritesFolderActivity extends SherlockListActivity {
         getListView().onRestoreInstanceState(state);
 
         invalidateOptionsMenu();
+    }
+
+    @Override
+    protected void onRestoreInstanceState(Bundle bundle) {
+        getListView().setChoiceMode(ListView.CHOICE_MODE_SINGLE);
+        super.onRestoreInstanceState(bundle);
+        final int position = getListView().getCheckedItemPosition();
+        if (position != -1) {
+            mActionMode = startActionMode(mActionModeCallback);
+
+            // if checked item is off screen, scroll  list to make it visible
+            Handler handler = new Handler();
+            handler.postDelayed(new Runnable() {
+                @Override
+                public void run() {
+                    if (getListView().getFirstVisiblePosition() > position || getListView().getLastVisiblePosition() <= position) {
+                        getListView().smoothScrollToPosition(position);
+                    }
+                }
+            }, 500);
+
+        } else {
+            getListView().setChoiceMode(ListView.CHOICE_MODE_NONE);
+        }
     }
 
     @Override
@@ -235,6 +287,9 @@ public class FavoritesFolderActivity extends SherlockListActivity {
                 });
                 return builder.create();
             }
+            //case DELETE_CACHE_DIALOG_ID: {
+            //    return new DeleteCacheDialog(this, deleteCacheListener);
+            //}
             default: {
                 return null;
             }
@@ -274,6 +329,18 @@ public class FavoritesFolderActivity extends SherlockListActivity {
                 case R.id.menu_favorites_delete:
                     deleteGeocache(getListView().getCheckedItemPosition());
                     mode.finish(); // Action picked, so close the CAB
+                    return true;
+                case R.id.menu_favorites_search_map:
+                    onSearchCacheMap(getListView().getCheckedItemPosition());
+                    mode.finish();
+                    return true;
+                case R.id.menu_favorites_search_compass:
+                    onSearchCacheCompass(getListView().getCheckedItemPosition());
+                    mode.finish();
+                    return true;
+                case R.id.menu_favorites_info:
+                    onOpenCacheInfo(getListView().getCheckedItemPosition());
+                    mode.finish();
                     return true;
                 default:
                     return false;

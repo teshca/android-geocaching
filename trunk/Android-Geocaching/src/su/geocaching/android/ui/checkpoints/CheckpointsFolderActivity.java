@@ -8,16 +8,16 @@ import android.view.View;
 import android.widget.ListView;
 import android.widget.TextView;
 import com.actionbarsherlock.app.SherlockListActivity;
+import com.actionbarsherlock.view.ActionMode;
 import com.actionbarsherlock.view.Menu;
 import com.actionbarsherlock.view.MenuInflater;
 import com.actionbarsherlock.view.MenuItem;
 import su.geocaching.android.controller.Controller;
-import su.geocaching.android.controller.adapters.FavoritesArrayAdapter;
+import su.geocaching.android.controller.adapters.CheckpointsArrayAdapter;
 import su.geocaching.android.controller.managers.CheckpointManager;
 import su.geocaching.android.controller.managers.LogManager;
 import su.geocaching.android.controller.managers.NavigationManager;
 import su.geocaching.android.model.GeoCache;
-import su.geocaching.android.ui.FavoritesFolderActivity;
 import su.geocaching.android.ui.R;
 
 import java.util.ArrayList;
@@ -30,14 +30,16 @@ import java.util.List;
  */
 public class CheckpointsFolderActivity extends SherlockListActivity {
 
-    private static final String TAG = FavoritesFolderActivity.class.getCanonicalName();
+    private static final String TAG = CheckpointsFolderActivity.class.getCanonicalName();
     private static final String CHECKPOINT_FOLDER_ACTIVITY_NAME = "/CheckpointFolderActivity";
     private static final int DELETE_CHECKPOINTS_DIALOG_ID = 1;
 
     private CheckpointManager checkpointManager;
-    private FavoritesArrayAdapter checkpointsAdapter;
+    private CheckpointsArrayAdapter checkpointsAdapter;
     private TextView tvNoCache;
     private GeoCache geoCache;
+
+    private ActionMode mActionMode;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -46,12 +48,14 @@ public class CheckpointsFolderActivity extends SherlockListActivity {
 
         geoCache = getIntent().getParcelableExtra(GeoCache.class.getCanonicalName());
         checkpointManager = Controller.getInstance().getCheckpointManager(geoCache.getId());
-        checkpointsAdapter = new FavoritesArrayAdapter(this);
+        checkpointsAdapter = new CheckpointsArrayAdapter(this);
 
         tvNoCache = (TextView) findViewById(R.id.tvNoCheckpoints);
 
         getSupportActionBar().setTitle(geoCache.getName());
         getSupportActionBar().setHomeButtonEnabled(true);
+
+        getListView().setChoiceMode(ListView.CHOICE_MODE_SINGLE);
 
         setListAdapter(checkpointsAdapter);
 
@@ -59,22 +63,30 @@ public class CheckpointsFolderActivity extends SherlockListActivity {
     }
 
     @Override
+    protected void onRestoreInstanceState(Bundle bundle) {
+        super.onRestoreInstanceState(bundle);
+        if (getListView().getCheckedItemPosition() != -1) {
+            mActionMode = startActionMode(mActionModeCallback);
+        }
+    }
+
+    @Override
     protected void onResume() {
+        refreshListData();
+        super.onResume();
+    }
+
+    private void refreshListData() {
         List<GeoCache> checkpointList = new ArrayList<GeoCache>(checkpointManager.getCheckpoints());
         checkpointsAdapter.clear();
-        if (checkpointList.isEmpty()) {
-            tvNoCache.setVisibility(View.VISIBLE);
-            LogManager.d(TAG, "checkpoints DB empty");
-        } else {
+        if (!checkpointList.isEmpty()) {
             checkpointList.add(0, geoCache);
-            tvNoCache.setVisibility(View.GONE);
-            for (GeoCache gc : checkpointList) {
-                checkpointsAdapter.add(gc);
+            for (GeoCache geoCache : checkpointList) {
+                checkpointsAdapter.add(geoCache);
             }
         }
-       // checkpointsAdapter.sort();
+        updateNoCacheVisibility();
         checkpointsAdapter.notifyDataSetChanged();
-        super.onResume();
     }
 
     @Override
@@ -141,7 +153,74 @@ public class CheckpointsFolderActivity extends SherlockListActivity {
     @Override
     protected void onListItemClick(ListView l, View v, int position, long id) {
         super.onListItemClick(l, v, position, id);
-        GeoCache selectedGeoCache = (GeoCache) this.getListAdapter().getItem(position);
-        NavigationManager.startCheckpointDialog(this, selectedGeoCache);
+        if (mActionMode == null) {
+            mActionMode = startActionMode(mActionModeCallback);
+        } else {
+            mActionMode.invalidate();
+        }
     }
+
+    private void onDeleteCheckpoint(int position) {
+        GeoCache checkpoint = checkpointsAdapter.getItem(position);
+        checkpointManager.removeCheckpoint(checkpoint.getId());
+        refreshListData();
+    }
+
+    private void updateNoCacheVisibility() {
+        if (checkpointManager.getCheckpoints().isEmpty()) {
+            tvNoCache.setVisibility(View.VISIBLE);
+        } else {
+            tvNoCache.setVisibility(View.GONE);
+        }
+    }
+
+    private void onActivateCheckpoint(int position) {
+        GeoCache checkpoint = checkpointsAdapter.getItem(position);
+        checkpointManager.activateCheckpoint(checkpoint);
+        finish();
+    }
+
+    private ActionMode.Callback mActionModeCallback = new ActionMode.Callback() {
+
+        // Called when the action mode is created; startActionMode() was called
+        @Override
+        public boolean onCreateActionMode(ActionMode mode, Menu menu) {
+            // Inflate a menu resource providing context menu items
+            MenuInflater inflater = mode.getMenuInflater();
+            inflater.inflate(R.menu.checkpoint_context_menu, menu);
+            return true;
+        }
+
+        // Called each time the action mode is shown. Always called after onCreateActionMode, but
+        // may be called multiple times if the mode is invalidated.
+        @Override
+        public boolean onPrepareActionMode(ActionMode mode, Menu menu) {
+            menu.findItem(R.id.menu_checkpoint_delete).setVisible(getListView().getCheckedItemPosition() != 0);
+            return true;
+        }
+
+        // Called when the user selects a contextual menu item
+        @Override
+        public boolean onActionItemClicked(ActionMode mode, MenuItem item) {
+            switch (item.getItemId()) {
+                case R.id.menu_checkpoint_delete:
+                    onDeleteCheckpoint(getListView().getCheckedItemPosition());
+                    mode.finish(); // Action picked, so close the CAB
+                    return true;
+                case R.id.menu_checkpoint_activate:
+                    onActivateCheckpoint(getListView().getCheckedItemPosition());
+                    mode.finish();
+                    return true;
+                default:
+                    return false;
+            }
+        }
+
+        // Called when the user exits the action mode
+        @Override
+        public void onDestroyActionMode(ActionMode mode) {
+            getListView().setItemChecked(getListView().getCheckedItemPosition(), false);
+            mActionMode = null;
+        }
+    };
 }
