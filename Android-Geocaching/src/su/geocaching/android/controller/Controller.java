@@ -28,7 +28,7 @@ public class Controller {
      * This constant is really needed, because compiler can remove code blocks which cannot be execute. 
      * Visibility is public because LogManager and AnalyticsManager use this constant
      */
-    public static final boolean DEBUG = true;
+    public static final boolean DEBUG = false;
     private static final boolean SHOW_MEMORY_TOAST = false;
 
     private static Controller instance;
