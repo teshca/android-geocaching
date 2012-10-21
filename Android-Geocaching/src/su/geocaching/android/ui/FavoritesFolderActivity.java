@@ -25,8 +25,8 @@ import su.geocaching.android.controller.managers.DbManager;
 import su.geocaching.android.controller.managers.LogManager;
 import su.geocaching.android.controller.managers.NavigationManager;
 import su.geocaching.android.model.GeoCache;
-import su.geocaching.android.ui.dialogs.ConfirmDeleteCacheListener;
-import su.geocaching.android.ui.dialogs.DeleteCacheDialog;
+import su.geocaching.android.ui.info.ConfirmDialogResultListener;
+import su.geocaching.android.ui.info.RemoveFavoriteCacheDialog;
 
 import java.util.List;
 
@@ -39,7 +39,6 @@ public class FavoritesFolderActivity extends SherlockListActivity {
     private static final String FAVORITES_FOLDER_ACTIVITY_NAME = "/FavoritesActivity";
     private static final int SORT_TYPE_DIALOG_ID = 0;
     private static final int DELETE_ALL_CACHES_DIALOG_ID = 1;
-    //private static final int DELETE_CACHE_DIALOG_ID = 2;
 
     private DbManager dbManager;
     private FavoritesArrayAdapter favoriteGeoCachesAdapter;
@@ -81,12 +80,6 @@ public class FavoritesFolderActivity extends SherlockListActivity {
         });
     }
 
-    //private ConfirmDeleteCacheListener deleteCacheListener = new ConfirmDeleteCacheListener() {
-    //    public void onConfirm(GeoCache geocache) {
-    //        performDeleteCache(geocache);
-    //    }
-    //};
-
     private void performDeleteCache(GeoCache geoCache) {
         dbManager.deleteCacheById(geoCache.getId());
         favoriteGeoCachesAdapter.remove(geoCache);
@@ -96,8 +89,15 @@ public class FavoritesFolderActivity extends SherlockListActivity {
 
     private void deleteGeocache(int position) {
         final GeoCache geoCache = favoriteGeoCachesAdapter.getItem(position);
-        //TODO Display confirmation dialog
-        performDeleteCache(geoCache);
+        ConfirmDialogResultListener deleteCacheListener = new ConfirmDialogResultListener() {
+                public void onConfirm() {
+                    performDeleteCache(geoCache);
+                }
+        };
+        (new RemoveFavoriteCacheDialog(this, deleteCacheListener)).show();
+        // TODO:
+        // implement confirm dialog using DialogFragment, only possible when
+        // transform ListActivity to FragmentActivity and ListFragment
     }
 
     private void onSearchCacheMap(int position) {
@@ -287,9 +287,6 @@ public class FavoritesFolderActivity extends SherlockListActivity {
                 });
                 return builder.create();
             }
-            //case DELETE_CACHE_DIALOG_ID: {
-            //    return new DeleteCacheDialog(this, deleteCacheListener);
-            //}
             default: {
                 return null;
             }
