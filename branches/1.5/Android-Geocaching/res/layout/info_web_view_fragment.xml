@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout    
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"    
+	android:background="@android:drawable/gallery_thumb"
+	android:padding="5dip">
+	<WebView
+	    android:id="@+id/info_web_brouse"
+	    android:layout_width="fill_parent"
+	    android:layout_height="fill_parent">
+	</WebView>
+	<ProgressBar 
+	    android:id="@+id/info_progress_bar"
+	    android:visibility="gone"
+	    android:layout_width="wrap_content"
+	    android:layout_height="wrap_content"
+	    android:layout_gravity="center"/>
+	<LinearLayout
+	    android:id="@+id/info_error_panel"
+	    android:visibility="gone"
+	    android:orientation="vertical"
+	    android:layout_width="wrap_content"
+	    android:layout_height="wrap_content"
+	    android:layout_gravity="center">	    
+	    <TextView
+		    android:layout_width="wrap_content"
+		    android:layout_height="wrap_content"
+		    android:padding="12dip"	         
+	        android:text="@string/info_download_error_message" />
+	    <ImageButton
+	        android:id="@+id/refresh_button"
+	        android:padding="24dip"
+	        android:contentDescription="@string/info_activity_menu_refresh" 
+		    android:layout_width="wrap_content"
+		    android:layout_height="wrap_content"
+		    android:layout_gravity="center"	    
+	        android:src="@drawable/ic_menu_refresh" />
+	</LinearLayout>
+</FrameLayout>

@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+    android:background="@color/dashboard_background">
+
+    <ListView
+        android:id="@android:id/list"
+        android:layout_height="fill_parent"
+        android:layout_width="fill_parent"
+        android:cacheColorHint="@color/dashboard_background" />
+
+    <TextView
+        android:id="@+id/tvNoCheckpoints"
+        android:layout_gravity="center"
+        android:gravity="center"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/no_related_checkpoints"
+        style="@style/Geocaching.TextMessage"
+        android:visibility="gone"/>
+
+</FrameLayout>
+

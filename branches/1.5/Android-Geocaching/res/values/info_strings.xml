@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="info_activity_menu_save_cache">Сохранить</string>
+	<string name="info_activity_menu_delete_cache">Удалить</string>
+	<string name="info_activity_menu_cache_notes">Заметки</string>
+	<string name="info_activity_menu_refresh">Обновить</string>
+	<string name="info_activity_menu_web_view_search">Поиск на странице</string>
+    
+	<string name="info_activity_download_photo_traffic_warning">Загрузка фотографий может потребовать большого количества мобильного тарфика.</string>
+	<string name="info_activity_download_photo_without_confirmation">Загружать фотографии без подтверджения</string>
+	<string name="info_activity_download_photo_button_caption">Загрузить</string>
+	
+	<string name="info_activity_sd_card_error">SD карта не найдена.\nУбедитесь, что телефон не подключен к комньютеру как внешний диск.</string>
+	
+    <!-- <string name="info_activity_dialog_dont_show_again">Больше не спрашивать</string>-->
+	<string name="info_activity_notes_hint">Заметки для тайника</string>
+	<string name="info_activity_confirm_delete_message">Вы действительно хотите удалить всю информацию о тайнике?</string>
+	<string name="info_activity_confirm_delete_title">Удалить тайник?</string>
+    <string name="ask_add_cache_in_db">Сохраните тайник, чтобы иметь возможность добавлять контрольные точки</string>
+
+	<string name="info_tab_name_info">ИНФОРМАЦИЯ</string>
+	<string name="info_tab_name_notebook">БЛОКНОТ</string>
+	<string name="info_tab_name_photo">ФОТОГРАФИИ</string>
+	
+	<string name="info_download_error_message">Ошибка загрузки данных</string>
+	<string name="info_no_photo_message">Фотографий этого тайника нет</string>
+
+    <string name="cache_notes_activity_menu_save">Сохранить</string>
+</resources>

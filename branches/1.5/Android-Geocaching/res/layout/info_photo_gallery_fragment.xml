@@ -1,0 +1,104 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout    
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"    
+	android:background="@android:drawable/gallery_thumb"
+	android:padding="5dip">
+    <su.geocaching.android.ui.info.GalleryView
+        android:id="@+id/galleryView"
+        android:visibility="gone"
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent"
+        android:numColumns="auto_fit"
+        android:verticalSpacing="4dip"
+        android:horizontalSpacing="4dip"
+        android:stretchMode="columnWidth"
+        android:listSelector="@drawable/list_selector_holo_light"
+        android:drawSelectorOnTop="true"
+        android:columnWidth="@dimen/adapter_photo_size"        
+        android:gravity="center"/>
+    <TextView
+        android:id="@+id/info_no_photos_text"	    
+        android:visibility="gone"
+        style="@style/Geocaching.TextMessage"
+		android:text="@string/info_no_photo_message"
+	    android:layout_width="wrap_content"
+	    android:layout_height="wrap_content"
+	    android:layout_gravity="center"/>
+	<ProgressBar 
+	    android:id="@+id/info_progress_bar"
+	    android:visibility="gone"
+	    android:layout_width="wrap_content"
+	    android:layout_height="wrap_content"
+	    android:layout_gravity="center"/>
+	<LinearLayout
+	    android:id="@+id/info_error_panel"
+	    android:visibility="gone"
+	    android:orientation="vertical"
+	    android:layout_width="wrap_content"
+	    android:layout_height="wrap_content"
+	    android:layout_gravity="center">	    
+	    <TextView
+		    android:layout_width="wrap_content"
+		    android:layout_height="wrap_content"
+		    android:padding="12dip"
+            style="@style/Geocaching.TextMessage"
+	        android:text="@string/info_download_error_message" />
+	    <ImageButton
+	        android:id="@+id/refresh_button"
+	        android:padding="24dip"
+	        android:contentDescription="@string/info_activity_menu_refresh" 
+		    android:layout_width="wrap_content"
+		    android:layout_height="wrap_content"
+		    android:layout_gravity="center"	    
+	        android:src="@drawable/ic_menu_refresh" />
+	</LinearLayout>
+	<LinearLayout
+	    android:id="@+id/info_traffic_warning_panel"
+	    android:visibility="gone"
+	    android:orientation="vertical"
+	    android:layout_width="wrap_content"
+	    android:layout_height="wrap_content"
+	    android:layout_gravity="center">	    
+	    <TextView
+		    android:layout_width="wrap_content"
+		    android:layout_height="wrap_content"
+            android:textSize="20sp"
+		    android:layout_margin="6dip"
+		    android:layout_gravity="center"         
+	        android:text="@string/info_activity_download_photo_traffic_warning" />
+		<CheckBox
+	        android:id="@+id/downloadAlways"
+	        android:text="@string/info_activity_download_photo_without_confirmation"
+			android:layout_height="wrap_content"
+	        android:layout_width="fill_parent"
+	        android:layout_gravity="center"
+	        android:layout_margin="6dip"/>	    
+	    <Button
+	        android:id="@+id/download_button"
+	        android:padding="12dip"
+	        android:layout_margin="6dip"
+		    android:layout_width="wrap_content"
+		    android:layout_height="wrap_content"
+		    android:layout_gravity="center"
+            android:textSize="20sp"
+	        android:text="@string/info_activity_download_photo_button_caption" />
+	</LinearLayout>	
+	<LinearLayout
+	    android:id="@+id/info_sd_card_error_panel"
+	    android:visibility="gone"
+	    android:orientation="vertical"
+	    android:layout_width="wrap_content"
+	    android:layout_height="wrap_content"
+	    android:layout_gravity="center">	    
+	    <TextView
+		    android:layout_width="wrap_content"
+		    android:layout_height="wrap_content"
+            style="@style/Geocaching.TextMessage"
+		    android:layout_margin="6dip"
+		    android:layout_gravity="center"         
+	        android:text="@string/info_activity_sd_card_error" />
+	</LinearLayout>		
+	
+</FrameLayout>

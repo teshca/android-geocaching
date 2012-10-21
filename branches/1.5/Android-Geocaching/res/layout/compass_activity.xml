@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        android:orientation="vertical"
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent"
+        android:background="@color/dashboard_background">
+
+    <!-- semitransparent info layer -->
+    <LinearLayout
+            android:id="@+id/infoLayer"
+            android:gravity="right"
+            style="@style/MapInfoLayer">
+        <TextView
+                android:id="@+id/waitingLocationFixText"
+                android:clickable="true"
+                android:onClick="StartGpsStatusActivity"
+                style="@style/MapInfoItem"/>
+        <ProgressBar
+                android:id="@+id/progressCircle"
+                android:onClick="StartGpsStatusActivity"
+                android:layout_width="16dip"
+                android:layout_height="16dip"
+                android:visibility="gone"
+                android:layout_marginRight="2dip"/>
+    </LinearLayout>
+
+    <!-- point coordinates -->
+    <LinearLayout
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center">
+        <ImageView android:id="@+id/ivCacheCoordinate"
+                   android:layout_height="20dp"
+                   android:layout_width="20dp"
+                   android:scaleType="centerInside"
+                   android:layout_margin="2dp"/>
+        <TextView android:id="@+id/cacheCoordinates"
+                  android:layout_height="wrap_content"
+                  android:layout_width="wrap_content"
+                  android:textColor="@color/dashboard_text_color">
+        </TextView>
+    </LinearLayout>
+
+    <!-- compass view -->
+    <su.geocaching.android.ui.compass.CompassView
+            android:id="@+id/compassView"
+            android:layout_width="fill_parent"
+            android:layout_height="0dip"
+            android:layout_weight="1"/>
+
+    <!-- user's coordinates -->
+    <LinearLayout
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center">
+        <ImageView android:layout_height="20dp"
+                   android:layout_width="20dp"
+                   android:src="@drawable/ic_user_coordinate"
+                   android:scaleType="centerInside"
+                   android:layout_margin="2dp"/>
+        <TextView android:id="@+id/userCoordinates"
+                  android:layout_height="wrap_content"
+                  android:layout_width="wrap_content"
+                  android:textColor="@color/dashboard_text_color"
+                  android:text="@string/location_unknown"/>
+    </LinearLayout>
+
+    <!-- odometer -->
+    <su.geocaching.android.ui.OdometerView
+            android:id="@+id/odometerView"
+            android:layout_width="fill_parent"
+            android:layout_height="50dp"
+            android:layout_margin="5dp" />
+
+</LinearLayout>
