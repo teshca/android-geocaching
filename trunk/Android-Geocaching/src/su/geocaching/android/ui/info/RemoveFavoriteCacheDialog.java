@@ -17,7 +17,7 @@ public class RemoveFavoriteCacheDialog extends AlertDialog {
 
     private ConfirmDialogResultListener resultListener;
 
-    protected RemoveFavoriteCacheDialog(final Context context, final ConfirmDialogResultListener resultListener) {
+    public RemoveFavoriteCacheDialog(final Context context, final ConfirmDialogResultListener resultListener) {
         super(context);
         this.resultListener = resultListener;
     }
