@@ -2,9 +2,9 @@
 <manifest
     xmlns:android="http://schemas.android.com/apk/res/android"
     package="su.geocaching.android.ui"
-    android:versionName="1.5.0 dev"
+    android:versionName="1.5.0"
     android:installLocation="preferExternal"
-    android:versionCode="1080">
+    android:versionCode="1500">
 
     <uses-permission android:name="android.permission.INTERNET"/>
     <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION"/>
@@ -23,7 +23,7 @@
         android:label="@string/app_name"
         android:name="su.geocaching.android.controller.GeocachingApplication"
         android:theme="@style/Theme.Geocaching.Custom"
-        android:debuggable="true">
+        android:debuggable="false">
 
         <uses-library android:name="com.google.android.maps" android:required="true"/>
 
