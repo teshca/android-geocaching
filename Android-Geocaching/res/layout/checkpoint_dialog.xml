@@ -44,14 +44,14 @@
 		<Button android:id="@+id/checkpointActiveButton"
 			android:layout_height="wrap_content"
             android:layout_width="wrap_content"
-			android:text="@string/active"
+			android:text="@string/checkpoint_active"
             android:onClick="onActiveClick"
 			android:drawableLeft="@drawable/activate"
 			android:layout_weight="1" />
 		<Button android:id="@+id/checkpointDeleteButton"
 			android:layout_height="wrap_content"
             android:layout_width="wrap_content"
-			android:text="@string/delete"
+			android:text="@string/checkpoint_delete"
             android:onClick="onDeleteClick"
 			android:drawableLeft="@drawable/delete"
 			android:layout_weight="1" />

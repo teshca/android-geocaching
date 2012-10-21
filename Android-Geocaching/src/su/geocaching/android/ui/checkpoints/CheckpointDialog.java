@@ -42,12 +42,7 @@ public class CheckpointDialog extends SherlockActivity {
     }
 
     public void onActiveClick(View v) {
-        if (checkpoint.getType() == GeoCacheType.CHECKPOINT) {
-            checkpointManager.setActiveItem(checkpoint.getId());
-        } else {
-            checkpointManager.deactivateCheckpoints();
-            Controller.getInstance().setCurrentSearchPoint(checkpoint);
-        }
+        checkpointManager.activateCheckpoint(checkpoint);
         finish();
     }
 

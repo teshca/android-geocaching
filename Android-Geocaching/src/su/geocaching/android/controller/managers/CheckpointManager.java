@@ -155,4 +155,13 @@ public class CheckpointManager {
         pageMatcher.appendTail(sb);
         return sb.toString();
     }
+
+    public void activateCheckpoint(GeoCache checkpoint) {
+        if (checkpoint.getType() == GeoCacheType.CHECKPOINT) {
+            setActiveItem(checkpoint.getId());
+        } else {
+            deactivateCheckpoints();
+            Controller.getInstance().setCurrentSearchPoint(checkpoint);
+        }
+    }
 }

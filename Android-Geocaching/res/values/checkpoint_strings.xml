@@ -15,8 +15,8 @@
     <string name="azimuth">Азимут:</string>
     <string name="distance">Расстояние:</string>
     <string name="checkpoint_dialog_title">Контрольная точка</string>
-    <string name="active">Выбрать</string>
-    <string name="delete">Удалить</string>
+    <string name="checkpoint_active">Выбрать</string>
+    <string name="checkpoint_delete">Удалить</string>
     <string name="delete_all">Удалить все</string>
     <string name="sexagestimal_template">гг°мм,ммм\'</string>
     <string name="sexagestimal_seconds_template">гг°мм\'сс.сс\"</string>
