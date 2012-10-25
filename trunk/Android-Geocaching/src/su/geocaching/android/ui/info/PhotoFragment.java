@@ -146,6 +146,10 @@ public class PhotoFragment extends SherlockFragment implements IInfoFragment {
     }
 
     public void hideErrorMessage() {
-        errorMessage.setVisibility(View.GONE);        
+        errorMessage.setVisibility(View.GONE);
+
+        //also hide traffic warning in case option menu 'refresh' was clicked
+        // while traffic warning is visible
+        trafficWarning.setVisibility(View.GONE);
     }
 }

@@ -79,7 +79,8 @@ public class InfoViewModel {
                 beginLoadNotebook();
             }
             if (this.photosState.getPhotos() == null) {
-                if (Controller.getInstance().getPreferencesManager().getDownloadPhotosAlways() || Controller.getInstance().getConnectionManager().isWifiConnected()) {
+                if (Controller.getInstance().getPreferencesManager().getDownloadPhotosAlways() ||
+                        Controller.getInstance().getConnectionManager().isWifiConnected()) {
                     beginLoadPhotoUrls();
                 }
             }
@@ -139,6 +140,7 @@ public class InfoViewModel {
     
     public synchronized void beginLoadPhotoUrls() {
         if (isPhotoUrlsLoading()) return;
+        if (!Controller.getInstance().getExternalStorageManager().isExternalStorageAvailable()) return;
         
         downloadPhotoUrlsTask = new AdvancedDownloadPhotoUrlsTask(this);
         downloadPhotoUrlsTask.execute();
