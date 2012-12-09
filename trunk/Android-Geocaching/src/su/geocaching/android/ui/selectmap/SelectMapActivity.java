@@ -9,23 +9,24 @@ import android.view.View;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
-import com.actionbarsherlock.app.SherlockMapActivity;
+import com.actionbarsherlock.app.SherlockFragmentActivity;
 import com.actionbarsherlock.view.Menu;
 import com.actionbarsherlock.view.MenuInflater;
 import com.actionbarsherlock.view.MenuItem;
-import com.actionbarsherlock.view.Window;
-import com.google.android.maps.GeoPoint;
-import com.google.android.maps.MapView;
+import com.google.android.gms.maps.GoogleMap;
+import com.google.android.gms.maps.SupportMapFragment;
+import com.google.android.gms.maps.model.CameraPosition;
+import com.google.android.gms.maps.model.LatLng;
+import com.google.android.gms.maps.model.MarkerOptions;
 import su.geocaching.android.controller.Controller;
 import su.geocaching.android.controller.apimanager.GeoRect;
 import su.geocaching.android.controller.managers.*;
-import su.geocaching.android.controller.selectmap.mapupdatetimer.MapUpdateTimer;
-import su.geocaching.android.controller.utils.CoordinateHelper;
-import su.geocaching.android.model.GeoCacheStatus;
-import su.geocaching.android.model.GeoCacheType;
 import su.geocaching.android.model.MapInfo;
 import su.geocaching.android.ui.R;
 import su.geocaching.android.ui.geocachemap.GeoCacheOverlayItem;
+import su.geocaching.android.ui.map.GoogleMapWrapper;
+import su.geocaching.android.ui.map.IMapWrapper;
+import su.geocaching.android.ui.map.ViewPortChangedListener;
 import su.geocaching.android.ui.preferences.MapPreferenceActivity;
 
 import java.util.List;
@@ -34,17 +35,22 @@ import java.util.List;
  * @author Yuri Denison
  * @since 04.11.2010
  */
-public class SelectMapActivity extends SherlockMapActivity implements IConnectionAware, ILocationAware {
+public class SelectMapActivity extends SherlockFragmentActivity implements IConnectionAware, ILocationAware {
     private static final String TAG = SelectMapActivity.class.getCanonicalName();
     private static final String SELECT_ACTIVITY_FOLDER = "/SelectActivity";
     private static final int ENABLE_CONNECTION_DIALOG_ID = 0;
-    private MapView mapView;
+
+    /**
+     * Note that this may be null if the Google Play services APK is not available.
+     */
+    private GoogleMap mMap;
+    private IMapWrapper mapWrapper;
+
     private SelectGeoCacheOverlay selectGeoCacheOverlay;
     private StaticUserLocationOverlay locationOverlay;
     private LowPowerUserLocationManager locationManager;
     private ConnectionManager connectionManager;
     private ProgressBar progressCircle;
-    private MapUpdateTimer mapTimer;
     private TextView connectionInfoTextView;
     private TextView downloadingInfoTextView;
     private TextView groupingInfoTextView;
@@ -64,7 +70,7 @@ public class SelectMapActivity extends SherlockMapActivity implements IConnectio
         setContentView(R.layout.select_map_activity);
         getSupportActionBar().setHomeButtonEnabled(true);
 
-        mapView = (MapView) findViewById(R.id.selectGeocacheMap);
+        setUpMapIfNeeded();
 
         progressCircle = (ProgressBar) findViewById(R.id.progressCircle);
 
@@ -72,17 +78,13 @@ public class SelectMapActivity extends SherlockMapActivity implements IConnectio
         groupingInfoTextView = (TextView) findViewById(R.id.groupingInfoTextView);
         downloadingInfoTextView = (TextView) findViewById(R.id.downloadingInfoTextView);
 
-        locationOverlay = new StaticUserLocationOverlay(Controller.getInstance().getResourceManager().getUserLocationMarker());
-        selectGeoCacheOverlay = new SelectGeoCacheOverlay(Controller.getInstance().getResourceManager().getCacheMarker(GeoCacheType.TRADITIONAL, GeoCacheStatus.VALID), this, mapView);
-        mapView.getOverlays().add(selectGeoCacheOverlay);
-        mapView.getOverlays().add(locationOverlay);
+        //locationOverlay = new StaticUserLocationOverlay(Controller.getInstance().getResourceManager().getUserLocationMarker());
+        //selectGeoCacheOverlay = new SelectGeoCacheOverlay(Controller.getInstance().getResourceManager().getCacheMarker(GeoCacheType.TRADITIONAL, GeoCacheStatus.VALID), this, mapView);
+        //mapView.getOverlays().add(selectGeoCacheOverlay);
+        //mapView.getOverlays().add(locationOverlay);
 
         locationManager = Controller.getInstance().getLowPowerLocationManager();
         connectionManager = Controller.getInstance().getConnectionManager();
-
-        boolean isMultiTouchAvailable = getPackageManager().hasSystemFeature(PackageManager.FEATURE_TOUCHSCREEN_MULTITOUCH);
-        mapView.setBuiltInZoomControls(!isMultiTouchAvailable);
-        mapView.invalidate();
 
         selectMapViewModel = Controller.getInstance().getSelectMapViewModel();
         Controller.getInstance().getGoogleAnalyticsManager().trackActivityLaunch(SELECT_ACTIVITY_FOLDER);
@@ -90,14 +92,11 @@ public class SelectMapActivity extends SherlockMapActivity implements IConnectio
 
     private void updateMapInfoFromSettings() {
         MapInfo lastMapInfo = Controller.getInstance().getPreferencesManager().getLastSelectMapInfo();
-        GeoPoint lastCenter = new GeoPoint(lastMapInfo.getCenterX(), lastMapInfo.getCenterY());
-        mapView.getController().setCenter(lastCenter);
-        mapView.getController().animateTo(lastCenter);
-        mapView.getController().setZoom(lastMapInfo.getZoom());
+        mapWrapper.restoreMapSate(lastMapInfo);
     }
 
     private void saveMapInfoToSettings() {
-        MapInfo mapInfo = new MapInfo(mapView.getMapCenter().getLatitudeE6(), mapView.getMapCenter().getLongitudeE6(), mapView.getZoomLevel());
+        MapInfo mapInfo = mapWrapper.getMapState();
         Controller.getInstance().getPreferencesManager().setLastSelectMapInfo(mapInfo);
     }
 
@@ -105,8 +104,10 @@ public class SelectMapActivity extends SherlockMapActivity implements IConnectio
     protected void onResume() {
         super.onResume();
         LogManager.d(TAG, "onResume");
+
+        setUpMapIfNeeded();
         // update mapView setting in case they were changed in preferences
-        mapView.setSatellite(Controller.getInstance().getPreferencesManager().useSatelliteMap());
+        //mapView.setSatellite(Controller.getInstance().getPreferencesManager().useSatelliteMap());
         // add subscriber to connection manager
         connectionManager.addSubscriber(this);
         // ask to enable if disabled
@@ -120,27 +121,18 @@ public class SelectMapActivity extends SherlockMapActivity implements IConnectio
         updateMapInfoFromSettings();
         // register activity against view model
         selectMapViewModel.registerActivity(this);
-        // schedule map update timer tasks
-        mapTimer = new MapUpdateTimer(this);
     }
 
     @Override
     protected void onPause() {
         super.onPause();
         LogManager.d(TAG, "onPause");
-        // cancel current map update timer and all it's tasks
-        mapTimer.cancel();
         // unsubscribe  form location and connection manager
         locationManager.removeSubscriber(this);
         connectionManager.removeSubscriber(this);
         saveMapInfoToSettings();
         // don't keep reference to this activity in view model
         selectMapViewModel.unregisterActivity(this);
-    }
-
-    @Override
-    protected boolean isRouteDisplayed() {
-        return false;
     }
 
     /**
@@ -176,49 +168,26 @@ public class SelectMapActivity extends SherlockMapActivity implements IConnectio
     private void updateLocationOverlay(Location location) {
         LogManager.d(TAG, "updateLocationOverlay");
         if (location != null) {
-            locationOverlay.updateLocation(location);
-            mapView.invalidate();
+            mapWrapper.updateLocationMarker(location);
         }
-    }
-
-    public void beginUpdateGeoCacheOverlay() {
-        LogManager.d(TAG, "beginUpdateGeoCacheOverlay");
-        runOnUiThread(
-                new Runnable() {
-                    @Override
-                    public void run() {
-                        GeoRect viewPort = getCurrentGeoRect();
-                        selectMapViewModel.beginUpdateGeocacheOverlay(viewPort, mapView.getProjection(), mapView.getWidth(), mapView.getHeight());
-                    }
-                }
-        );
-    }
-
-    private GeoRect getCurrentGeoRect()
-    {
-        final int MAX_LONG = (int) 180E6;
-        GeoPoint tl = mapView.getProjection().fromPixels(0, 0);
-        GeoPoint br = mapView.getProjection().fromPixels(mapView.getWidth(), mapView.getHeight());
-        if (mapView.getLongitudeSpan() >= 2 * MAX_LONG)
-        {
-            tl = new GeoPoint(tl.getLatitudeE6(), -MAX_LONG + 1);
-            br = new GeoPoint(br.getLatitudeE6(), MAX_LONG);
-        }
-        return new GeoRect(tl, br);
     }
 
     public synchronized void updateGeoCacheOverlay(List<GeoCacheOverlayItem> overlayItemList) {
         LogManager.d(TAG, "overlayItemList updated; size: %d", overlayItemList.size());
-        selectGeoCacheOverlay.clear();
+
+       // mMap.clear();
+        for (GeoCacheOverlayItem geoCacheOverlayItem : overlayItemList) {
+            LatLng latLng = new LatLng(geoCacheOverlayItem.getPoint().getLatitudeE6() * 1E-6, geoCacheOverlayItem.getPoint().getLongitudeE6() * 1E-6);
+            mMap.addMarker(new MarkerOptions().position(latLng).title(geoCacheOverlayItem.getTitle()));
+        }
+
         hideTooMayCachesToast();
-        selectGeoCacheOverlay.AddOverlayItems(overlayItemList);
-        mapView.invalidate();
     }
 
     public void tooManyOverlayItems() {
         showTooMayCachesToast();
-        selectGeoCacheOverlay.clear();
-        mapView.invalidate();
+ //       selectGeoCacheOverlay.clear();
+        //mapView.invalidate();
     }
 
     private void showTooMayCachesToast() {
@@ -271,7 +240,7 @@ public class SelectMapActivity extends SherlockMapActivity implements IConnectio
 
     @Override
     public void onConnectionFound() {
-        // TODO: make text sorter and use INVISIBLE instead of GONE
+        // TODO: make text shorter and use INVISIBLE instead of GONE
         connectionInfoTextView.setVisibility(View.GONE);
     }
 
@@ -282,19 +251,13 @@ public class SelectMapActivity extends SherlockMapActivity implements IConnectio
     private void onMyLocationClick() {
         final Location lastLocation = locationManager.getLastKnownLocation();
         if (lastLocation != null) {
-            GeoPoint center = CoordinateHelper.locationToGeoPoint(lastLocation);
-            mapView.getController().animateTo(center);
-            mapView.invalidate();
+           mapWrapper.animateToLocation(lastLocation);
         } else {
             if (statusNullLastLocationToast == null) {
                 statusNullLastLocationToast = Toast.makeText(getBaseContext(), getString(R.string.status_null_last_location), Toast.LENGTH_SHORT);
             }
             statusNullLastLocationToast.show();
         }
-    }
-
-    public MapView getMapView() {
-        return mapView;
     }
 
     @Override
@@ -304,5 +267,56 @@ public class SelectMapActivity extends SherlockMapActivity implements IConnectio
 
     @Override
     public void onStatusChanged(String provider, int status, Bundle extras) {
+    }
+
+    /**
+     * Sets up the map if it is possible to do so (i.e., the Google Play services APK is correctly
+     * installed) and the map has not already been instantiated.. This will ensure that we only ever
+     * call {@link #setUpMap()} once when {@link #mMap} is not null.
+     * <p>
+     * If it isn't installed {@link com.google.android.gms.maps.SupportMapFragment} (and
+     * {@link com.google.android.gms.maps.MapView
+     * MapView}) will show a prompt for the user to install/update the Google Play services APK on
+     * their device.
+     * <p>
+     * A user can return to this Activity after following the prompt and correctly
+     * installing/updating/enabling the Google Play services. Since the Activity may not have been
+     * completely destroyed during this process (it is likely that it would only be stopped or
+     * paused), {@link #onCreate(Bundle)} may not be called again so we should call this method in
+     * {@link #onResume()} to guarantee that it will be called.
+     */
+    private void setUpMapIfNeeded() {
+        // Do a null check to confirm that we have not already instantiated the map.
+        if (mMap == null) {
+            // Try to obtain the map from the SupportMapFragment.
+            mapFragment = ((SupportMapFragment) getSupportFragmentManager().findFragmentById(R.id.map));
+            mMap = mapFragment.getMap();
+            // Check if we were successful in obtaining the map.
+            if (mMap != null) {
+                setUpMap();
+            }
+        }
+    }
+    SupportMapFragment mapFragment;
+    /**
+     * This is where we can add markers or lines, add listeners or move the camera. In this case, we
+     * just add a marker near Africa.
+     * <p>
+     * This should only be called once and when we are sure that {@link #mMap} is not null.
+     */
+    private void setUpMap() {
+        mapWrapper = new GoogleMapWrapper(mMap);
+
+        boolean isMultiTouchAvailable = getPackageManager().hasSystemFeature(PackageManager.FEATURE_TOUCHSCREEN_MULTITOUCH);
+        mapWrapper.setZoomControlsEnabled(!isMultiTouchAvailable);
+
+        mapWrapper.setViewPortChangedListener(new ViewPortChangedListener() {
+            @Override
+            public void OnViewPortChanged(GeoRect viewPort) {
+                selectMapViewModel.beginUpdateGeocacheOverlay(viewPort, mapWrapper.getProjection(), mapFragment.getView().getWidth(), mapFragment.getView().getHeight());
+            }
+        });
+
+        mapWrapper.setupMyLocationLayer();
     }
 }

@@ -55,8 +55,6 @@
         <SOURCES />
       </library>
     </orderEntry>
-    <orderEntry type="library" name="libs1" level="project" />
-    <orderEntry type="library" name="libs" level="project" />
     <orderEntry type="module-library">
       <library>
         <CLASSES>

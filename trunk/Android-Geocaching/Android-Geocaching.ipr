@@ -13,6 +13,10 @@
       <directory url="file://$PROJECT_DIR$/../JakeWharton-ActionBarSherlock-88fc341/samples/roboguice/gen" includeSubdirectories="true" />
       <directory url="file://$PROJECT_DIR$/../JakeWharton-ActionBarSherlock-88fc341/samples/known-bugs/gen" includeSubdirectories="true" />
       <directory url="file://$PROJECT_DIR$/../JakeWharton-ActionBarSherlock-88fc341/samples/styled/gen" includeSubdirectories="true" />
+      <directory url="file://$PROJECT_DIR$/../google-play-services_lib/gen" includeSubdirectories="true" />
+      <directory url="file://C:/Android/android-sdk/extras/google/google_play_services/samples/maps/gen" includeSubdirectories="true" />
+      <directory url="file://C:/Android/android-sdk/extras/google/google_play_services/libproject/google-play-services_lib/gen" includeSubdirectories="true" />
+      <directory url="file://$PROJECT_DIR$/../google-maps-samples/gen" includeSubdirectories="true" />
     </excludeFromCompile>
     <resourceExtensions />
     <wildcardResourcePatterns>
@@ -27,7 +31,11 @@
       <entry name="?*.tld" />
       <entry name="?*.ftl" />
     </wildcardResourcePatterns>
-    <annotationProcessing enabled="false" useClasspath="true" />
+    <annotationProcessing>
+      <profile default="true" name="Default" enabled="false">
+        <processorPath useClasspath="true" />
+      </profile>
+    </annotationProcessing>
   </component>
   <component name="CopyrightManager" default="">
     <module2copyright />
@@ -184,12 +192,10 @@
   <component name="ProjectModuleManager">
     <modules>
       <module fileurl="file://$PROJECT_DIR$/../JakeWharton-ActionBarSherlock-88fc341/library/ActionBarSherlock.iml" filepath="$PROJECT_DIR$/../JakeWharton-ActionBarSherlock-88fc341/library/ActionBarSherlock.iml" />
+      <module fileurl="file://$PROJECT_DIR$/../JakeWharton-ActionBarSherlock-88fc341/samples/demos/ActionBarSherlockDemos.iml" filepath="$PROJECT_DIR$/../JakeWharton-ActionBarSherlock-88fc341/samples/demos/ActionBarSherlockDemos.iml" />
       <module fileurl="file://$PROJECT_DIR$/Android-Geocaching.iml" filepath="$PROJECT_DIR$/Android-Geocaching.iml" />
-      <module fileurl="file://$PROJECT_DIR$/../JakeWharton-ActionBarSherlock-88fc341/samples/demos/Demos.iml" filepath="$PROJECT_DIR$/../JakeWharton-ActionBarSherlock-88fc341/samples/demos/Demos.iml" />
-      <module fileurl="file://$PROJECT_DIR$/../JakeWharton-ActionBarSherlock-88fc341/samples/fragments/Fragments.iml" filepath="$PROJECT_DIR$/../JakeWharton-ActionBarSherlock-88fc341/samples/fragments/Fragments.iml" />
-      <module fileurl="file://$PROJECT_DIR$/../JakeWharton-ActionBarSherlock-88fc341/samples/known-bugs/Known-bugs.iml" filepath="$PROJECT_DIR$/../JakeWharton-ActionBarSherlock-88fc341/samples/known-bugs/Known-bugs.iml" />
-      <module fileurl="file://$PROJECT_DIR$/../JakeWharton-ActionBarSherlock-88fc341/samples/roboguice/Roboguice.iml" filepath="$PROJECT_DIR$/../JakeWharton-ActionBarSherlock-88fc341/samples/roboguice/Roboguice.iml" />
-      <module fileurl="file://$PROJECT_DIR$/../JakeWharton-ActionBarSherlock-88fc341/samples/styled/Styled.iml" filepath="$PROJECT_DIR$/../JakeWharton-ActionBarSherlock-88fc341/samples/styled/Styled.iml" />
+      <module fileurl="file://$PROJECT_DIR$/../google-maps-samples/Google-maps-samples.iml" filepath="$PROJECT_DIR$/../google-maps-samples/Google-maps-samples.iml" />
+      <module fileurl="file://$PROJECT_DIR$/../google-play-services_lib/google-play-services.iml" filepath="$PROJECT_DIR$/../google-play-services_lib/google-play-services.iml" />
     </modules>
   </component>
   <component name="ProjectResources">
@@ -199,31 +205,35 @@
     <output url="file://$PROJECT_DIR$/out" />
   </component>
   <component name="SvnBranchConfigurationManager">
+    <option name="myConfigurationMap">
+      <map>
+        <entry key="$PROJECT_DIR$">
+          <value>
+            <SvnBranchConfiguration>
+              <option name="trunkUrl" value="" />
+            </SvnBranchConfiguration>
+          </value>
+        </entry>
+        <entry key="$PROJECT_DIR$/../JakeWharton-ActionBarSherlock-88fc341/library">
+          <value>
+            <SvnBranchConfiguration>
+              <option name="trunkUrl" value="" />
+            </SvnBranchConfiguration>
+          </value>
+        </entry>
+        <entry key="$PROJECT_DIR$/../JakeWharton-ActionBarSherlock-88fc341/samples/demos">
+          <value>
+            <SvnBranchConfiguration>
+              <option name="trunkUrl" value="" />
+            </SvnBranchConfiguration>
+          </value>
+        </entry>
+      </map>
+    </option>
     <option name="mySupportsUserInfoFilter" value="true" />
   </component>
   <component name="VcsDirectoryMappings">
     <mapping directory="" vcs="svn" />
-  </component>
-  <component name="libraryTable">
-    <library name="libs">
-      <CLASSES>
-        <root url="jar://$PROJECT_DIR$/../JakeWharton-ActionBarSherlock-88fc341/samples/roboguice/libs/android-support-v4.jar!/" />
-        <root url="jar://$PROJECT_DIR$/../JakeWharton-ActionBarSherlock-88fc341/samples/roboguice/libs/roboguice-2.0b4.jar!/" />
-        <root url="jar://$PROJECT_DIR$/../JakeWharton-ActionBarSherlock-88fc341/samples/roboguice/libs/roboguice-sherlock-1.0.jar!/" />
-        <root url="jar://$PROJECT_DIR$/../JakeWharton-ActionBarSherlock-88fc341/samples/roboguice/libs/javax.inject-1.jar!/" />
-        <root url="jar://$PROJECT_DIR$/../JakeWharton-ActionBarSherlock-88fc341/samples/roboguice/libs/guice-3.0-no_aop.jar!/" />
-      </CLASSES>
-      <JAVADOC />
-      <SOURCES />
-    </library>
-    <library name="libs1">
-      <CLASSES>
-        <root url="jar://$PROJECT_DIR$/../JakeWharton-ActionBarSherlock-88fc341/samples/styled/libs/nineoldandroids-2.2.0.jar!/" />
-        <root url="jar://$PROJECT_DIR$/../JakeWharton-ActionBarSherlock-88fc341/samples/styled/libs/android-support-v4.jar!/" />
-      </CLASSES>
-      <JAVADOC />
-      <SOURCES />
-    </library>
   </component>
 </project>
 
