@@ -63,13 +63,6 @@ public class ResourceManager {
         return getMarker(resId);
     }
 
-    public Drawable getUserLocationMarker()
-    {
-        Drawable marker = getDrawable(R.drawable.ic_my_location);
-        marker.setBounds(-marker.getMinimumWidth() / 2, -marker.getMinimumHeight() + 20, marker.getMinimumWidth() / 2, 20);
-        return marker;
-    }
-
     /**
      * Return marker resource id of input geoCache
      * 

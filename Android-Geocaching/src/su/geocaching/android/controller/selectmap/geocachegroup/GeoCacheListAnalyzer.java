@@ -2,7 +2,9 @@ package su.geocaching.android.controller.selectmap.geocachegroup;
 
 import android.graphics.Point;
 import android.os.AsyncTask;
-import com.google.android.maps.Projection;
+import com.google.android.gms.maps.Projection;
+import com.google.android.gms.maps.model.LatLng;
+import com.google.android.maps.GeoPoint;
 import su.geocaching.android.model.GeoCache;
 import su.geocaching.android.ui.geocachemap.GeoCacheOverlayItem;
 
@@ -36,7 +38,10 @@ public class GeoCacheListAnalyzer {
                 if (num < MINIMUM_GROUP_SIZE_TO_CREATE_CLUSTER) {
                     overlayItemList.add(new GeoCacheOverlayItem(centroid.getCache(), "", ""));
                 } else {
-                    overlayItemList.add(new GeoCacheOverlayItem(projection.fromPixels(centroid.getX(), centroid.getY()), "Group", ""));
+                    Point screenLocation = new Point(centroid.getX(), centroid.getY());
+                    LatLng location = projection.fromScreenLocation(screenLocation);
+                    GeoPoint geoPoint = new GeoPoint((int)(location.latitude * 1E6),(int)(location.longitude*1E6));
+                    overlayItemList.add(new GeoCacheOverlayItem(geoPoint, "Group", ""));
                 }
             }
         }
@@ -69,7 +74,8 @@ public class GeoCacheListAnalyzer {
     private List<GeoCacheView> generatePointsList(List<GeoCache> geoCacheList) {
         List<GeoCacheView> list = new LinkedList<GeoCacheView>();
         for (GeoCache cache : geoCacheList) {
-            Point point = projection.toPixels(cache.getLocationGeoPoint(), null);
+            LatLng latLng = new LatLng(cache.getLocationGeoPoint().getLatitudeE6() * 1E-6, cache.getLocationGeoPoint().getLongitudeE6() * 1E-6);
+            Point point = projection.toScreenLocation(latLng);
             list.add(new GeoCacheView(point.x, point.y, cache));
         }
         return list;

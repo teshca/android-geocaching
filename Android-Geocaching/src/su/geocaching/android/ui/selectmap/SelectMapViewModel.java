@@ -1,7 +1,7 @@
 package su.geocaching.android.ui.selectmap;
 
 import android.os.AsyncTask;
-import com.google.android.maps.Projection;
+import com.google.android.gms.maps.Projection;
 import su.geocaching.android.controller.Controller;
 import su.geocaching.android.controller.apimanager.DownloadGeoCachesTask;
 import su.geocaching.android.controller.apimanager.GeoRect;

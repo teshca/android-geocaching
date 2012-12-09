@@ -30,7 +30,7 @@ public class MapUpdateTimerState {
 
     private synchronized void sendRequest() {
         if (requestSent && mapUpdated) {
-            gcMap.beginUpdateGeoCacheOverlay();
+            //gcMap.beginUpdateGeoCacheOverlay();
 
             mapUpdated = false;
             requestSent = false;
