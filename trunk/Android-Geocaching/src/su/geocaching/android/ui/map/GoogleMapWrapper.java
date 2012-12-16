@@ -4,9 +4,15 @@ import android.location.Location;
 import com.google.android.gms.maps.*;
 import com.google.android.gms.maps.model.*;
 import com.google.android.maps.GeoPoint;
+import su.geocaching.android.controller.Controller;
 import su.geocaching.android.controller.apimanager.GeoRect;
+import su.geocaching.android.model.GeoCache;
 import su.geocaching.android.model.MapInfo;
 import su.geocaching.android.ui.R;
+import su.geocaching.android.ui.geocachemap.GeoCacheOverlayItem;
+
+import java.util.ArrayList;
+import java.util.List;
 
 import static com.google.android.gms.maps.GoogleMap.*;
 
@@ -15,6 +21,10 @@ public class GoogleMapWrapper implements IMapWrapper {
     private GoogleMap mMap;
     private Marker userMarker;
     private Polygon userAccuracyPolygon;
+
+    private LocationSource.OnLocationChangedListener locationChangedListener;
+
+    private List<Marker> geocacheMarkers = new ArrayList<Marker>();
 
     public GoogleMapWrapper(GoogleMap map) {
         mMap = map;
@@ -108,8 +118,6 @@ public class GoogleMapWrapper implements IMapWrapper {
         );
     }
 
-    LocationSource.OnLocationChangedListener locationChangedListener;
-
     @Override
     public void setupMyLocationLayer() {
         mMap.setMyLocationEnabled(true);
@@ -125,6 +133,35 @@ public class GoogleMapWrapper implements IMapWrapper {
                 locationChangedListener = null;
             }
         });
+    }
+
+    @Override
+    public void updateGeoCacheOverlay(List<GeoCacheOverlayItem> overlayItemList) {
+        //TODO Optimize
+        clearGeocacheOverlay();
+
+        for (GeoCacheOverlayItem geoCacheOverlayItem : overlayItemList) {
+            GeoCache geoCache = geoCacheOverlayItem.getGeoCache();
+            Marker marker = mMap.addMarker(getGeocacheMarkerOptions(geoCache));
+            geocacheMarkers.add(marker);
+        }
+    }
+
+    private MarkerOptions getGeocacheMarkerOptions(GeoCache geoCache) {
+        LatLng latLng = new LatLng(geoCache.getLocationGeoPoint().getLatitudeE6() * 1E-6, geoCache.getLocationGeoPoint().getLongitudeE6() * 1E-6);
+        int iconId = Controller.getInstance().getResourceManager().getMarkerResId(geoCache.getType(), geoCache.getStatus());
+        return
+            new MarkerOptions()
+                .position(latLng)
+                .icon(BitmapDescriptorFactory.fromResource(iconId));
+    }
+
+    @Override
+    public void clearGeocacheOverlay() {
+        for (Marker marker : geocacheMarkers) {
+            marker.remove();
+        }
+        geocacheMarkers.clear();
     }
 
     private static final int ACCURACY_CIRCLE_COLOR = 0x4000aa00;
