@@ -1,0 +1,78 @@
+﻿<UserControl
+	xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+	xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+	xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+	xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:es="http://schemas.microsoft.com/expression/2010/drawing"    
+	mc:Ignorable="d"
+	x:Class="GeocachingIcons.LauncherIconRound"
+	d:DesignWidth="512" d:DesignHeight="512">
+
+    <Grid Width="512" Height="512">    		
+        <Grid>
+            <Grid.RowDefinitions>
+            	<RowDefinition Height="*" />
+                <RowDefinition Height="*" />
+            </Grid.RowDefinitions>
+            <Grid.ColumnDefinitions>
+            	<ColumnDefinition Width="*" />
+                <ColumnDefinition Width="*" />
+            </Grid.ColumnDefinitions>            
+        	<es:Arc
+                Grid.Column="1"
+                Grid.Row="1"  
+                ArcThickness="1" 
+                ArcThicknessUnit="Percent" 
+                StartAngle="90"
+                EndAngle="180"             
+                Fill="#FFE47A13" 
+                Stretch="Fill"
+                UseLayoutRounding="False" />
+        	<es:Arc
+                Grid.Column="1"
+                Grid.Row="0"  
+                ArcThickness="1" 
+                ArcThicknessUnit="Percent" 
+                StartAngle="0"
+                EndAngle="90"             
+                Fill="#FF0485CC" 
+                Stretch="Fill" 
+                UseLayoutRounding="False" /> 
+        	<es:Arc
+                Grid.Column="0"
+                Grid.Row="1"  
+                ArcThickness="1" 
+                ArcThicknessUnit="Percent" 
+                StartAngle="180"
+                EndAngle="270"             
+                Fill="#FF04A63C" 
+                Stretch="Fill" 
+                UseLayoutRounding="False" /> 
+        	<es:Arc
+                Grid.Column="0"
+                Grid.Row="0"  
+                ArcThickness="1" 
+                ArcThicknessUnit="Percent" 
+                StartAngle="270"
+                EndAngle="0"             
+                Fill="#FFFCF604" 
+                Stretch="Fill" 
+                UseLayoutRounding="False" />                                             
+        </Grid>		
+            
+    	<Ellipse Margin="50" StrokeThickness="10" Stroke="#80151314">
+    		<Ellipse.Fill>
+    			<RadialGradientBrush>
+    				<GradientStop Color="#FFFFFFFF"/>
+    				<GradientStop Color="#FFE47A13" Offset="1"/>
+    			</RadialGradientBrush>
+    		</Ellipse.Fill>
+    	</Ellipse>
+        <Path 
+            Fill="#FF151314" 
+            Data="M21.487396,0 C42.237396,4.54 62.697357,10.47 83.447357,15.03 C62.217377,23.279999 40.707367,30.82 19.477386,39.07 C16.977386,54.749996 13.677368,70.32 11.447388,86.030006 C13.147369,88.07 15.307373,90.18 14.927368,93.110001 C15.067383,98.130005 9.2073669,101.87 4.6773682,99.800003 C0.21737671,98.100006 -1.5326233,91.910004 1.557373,88.220001 C2.9473877,86.020004 6.9673767,86.340004 6.9073792,83.209999 C11.737366,55.469997 16.767365,27.759998 21.487396,0 z M27.63736,60.280003 C33.327362,56.299999 41.017365,56.109997 47.497406,58.060001 C51.667389,59.280003 53.977386,63.509998 54.347382,67.620003 C50.527374,68.010002 46.727386,68.600006 42.897369,68.920006 C41.667389,65.07 36.117401,64.020004 33.757355,67.32 C32.187347,69.380005 34.297394,71.880005 36.447357,72.209999 C41.37735,73.760002 47.967377,73.540001 50.847382,78.639999 C54.817352,86 50.027374,95.630005 42.327362,98.100006 C36.297394,99.970001 29.517365,100.12 23.547394,97.970001 C19.307373,96.360001 17.647369,91.800003 16.757385,87.740005 C20.797394,86.350006 25.12735,86.600006 29.327362,86.160004 C30.147369,88.420006 31.567352,91.030006 34.367401,90.910004 C37.857391,91.610001 41.497406,88.260002 39.927399,84.709999 C35.327362,81.840004 28.977386,82.75 24.907379,78.740005 C19.817383,73.480003 21.927399,64.240005 27.63736,60.280003 z M55.007355,88.209999 C56.297394,78.020004 58.307404,67.920006 60.197357,57.829998 C64.397369,57.810001 68.587372,57.780003 72.787384,57.889996 C71.487396,65.600006 70.067352,73.300003 68.727386,81.010002 C68.417389,83.139999 67.87735,85.490005 69.097382,87.459999 C72.397369,89.230003 75.457367,85.990005 76.687347,83.18 C80.247406,75.230003 79.817352,66.139999 82.427399,57.959995 C86.557404,57.59 90.717377,57.869999 94.867401,57.869999 C92.537384,71.440002 90.267365,85.020004 87.737396,98.540001 C83.827362,98.560005 79.927399,98.560005 76.027374,98.510002 C76.247406,96.610001 76.497406,94.709999 76.727386,92.82 C73.077362,96.760002 68.157379,100.35001 62.457367,99.400002 C57.027374,99.090004 54.257355,93.050003 55.007355,88.209999 z" 
+            Stretch="Uniform" 
+            UseLayoutRounding="False" 
+            Margin="120,104,120,136" />        
+    </Grid>
+</UserControl>
