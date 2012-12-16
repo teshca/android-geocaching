@@ -7,11 +7,14 @@ import com.google.android.maps.GeoPoint;
 import su.geocaching.android.controller.Controller;
 import su.geocaching.android.controller.apimanager.GeoRect;
 import su.geocaching.android.model.GeoCache;
+import su.geocaching.android.model.GeoCacheType;
 import su.geocaching.android.model.MapInfo;
 import su.geocaching.android.ui.R;
 import su.geocaching.android.ui.geocachemap.GeoCacheOverlayItem;
 
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
 
 import static com.google.android.gms.maps.GoogleMap.*;
@@ -24,7 +27,8 @@ public class GoogleMapWrapper implements IMapWrapper {
 
     private LocationSource.OnLocationChangedListener locationChangedListener;
 
-    private List<Marker> geocacheMarkers = new ArrayList<Marker>();
+    private HashMap<Integer, Marker> geocacheMarkers = new HashMap<Integer, Marker>();
+    private List<Marker> groupMarkers = new ArrayList<Marker>();
 
     public GoogleMapWrapper(GoogleMap map) {
         mMap = map;
@@ -89,6 +93,62 @@ public class GoogleMapWrapper implements IMapWrapper {
     }
 
     @Override
+    public void updateGeoCacheOverlay(List<GeoCacheOverlayItem> overlayItemList) {
+        //TODO Optimize. Reuse existing group markers
+        for (Marker marker : groupMarkers) {
+            marker.remove();
+        }
+        groupMarkers.clear();
+
+        HashSet<Integer> cacheIds = new HashSet<Integer>();
+
+        for (GeoCacheOverlayItem geoCacheOverlayItem : overlayItemList) {
+            GeoCache geoCache = geoCacheOverlayItem.getGeoCache();
+            if (geoCache.getType() == GeoCacheType.GROUP) {
+                Marker marker = mMap.addMarker(getGeocacheMarkerOptions(geoCache));
+                groupMarkers.add(marker);
+            } else {
+                if (!geocacheMarkers.containsKey(geoCache.getId())) {
+                    Marker marker = mMap.addMarker(getGeocacheMarkerOptions(geoCache));
+                    geocacheMarkers.put(geoCache.getId(), marker);
+                }
+
+                cacheIds.add(geoCache.getId());
+            }
+        }
+
+        // remove retired cache markers
+        for (Integer cacheId : geocacheMarkers.keySet().toArray(new Integer[geocacheMarkers.size()])) {
+            if (!cacheIds.contains(cacheId)) {
+                geocacheMarkers.get(cacheId).remove();
+                geocacheMarkers.remove(cacheId);
+            }
+        }
+    }
+
+    private MarkerOptions getGeocacheMarkerOptions(GeoCache geoCache) {
+        LatLng latLng = new LatLng(geoCache.getLocationGeoPoint().getLatitudeE6() * 1E-6, geoCache.getLocationGeoPoint().getLongitudeE6() * 1E-6);
+        int iconId = Controller.getInstance().getResourceManager().getMarkerResId(geoCache.getType(), geoCache.getStatus());
+        return
+                new MarkerOptions()
+                        .position(latLng)
+                        .icon(BitmapDescriptorFactory.fromResource(iconId));
+    }
+
+    @Override
+    public void clearGeocacheOverlay() {
+        for (Marker marker : geocacheMarkers.values()) {
+            marker.remove();
+        }
+        geocacheMarkers.clear();
+
+        for (Marker marker : groupMarkers) {
+            marker.remove();
+        }
+        groupMarkers.clear();
+    }
+
+    @Override
     public void updateLocationMarker(Location location) {
         if (locationChangedListener != null) {
             locationChangedListener.onLocationChanged(location);
@@ -133,35 +193,6 @@ public class GoogleMapWrapper implements IMapWrapper {
                 locationChangedListener = null;
             }
         });
-    }
-
-    @Override
-    public void updateGeoCacheOverlay(List<GeoCacheOverlayItem> overlayItemList) {
-        //TODO Optimize
-        clearGeocacheOverlay();
-
-        for (GeoCacheOverlayItem geoCacheOverlayItem : overlayItemList) {
-            GeoCache geoCache = geoCacheOverlayItem.getGeoCache();
-            Marker marker = mMap.addMarker(getGeocacheMarkerOptions(geoCache));
-            geocacheMarkers.add(marker);
-        }
-    }
-
-    private MarkerOptions getGeocacheMarkerOptions(GeoCache geoCache) {
-        LatLng latLng = new LatLng(geoCache.getLocationGeoPoint().getLatitudeE6() * 1E-6, geoCache.getLocationGeoPoint().getLongitudeE6() * 1E-6);
-        int iconId = Controller.getInstance().getResourceManager().getMarkerResId(geoCache.getType(), geoCache.getStatus());
-        return
-            new MarkerOptions()
-                .position(latLng)
-                .icon(BitmapDescriptorFactory.fromResource(iconId));
-    }
-
-    @Override
-    public void clearGeocacheOverlay() {
-        for (Marker marker : geocacheMarkers) {
-            marker.remove();
-        }
-        geocacheMarkers.clear();
     }
 
     private static final int ACCURACY_CIRCLE_COLOR = 0x4000aa00;
