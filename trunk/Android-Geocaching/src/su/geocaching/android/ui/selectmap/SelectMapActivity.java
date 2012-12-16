@@ -288,7 +288,7 @@ public class SelectMapActivity extends SherlockFragmentActivity implements IConn
      * This should only be called once and when we are sure that {@link #mMap} is not null.
      */
     private void setUpMap() {
-        mapWrapper = new GoogleMapWrapper(mMap);
+        mapWrapper = new GoogleMapWrapper(mMap, this);
 
         boolean isMultiTouchAvailable = getPackageManager().hasSystemFeature(PackageManager.FEATURE_TOUCHSCREEN_MULTITOUCH);
         mapWrapper.setZoomControlsEnabled(!isMultiTouchAvailable);

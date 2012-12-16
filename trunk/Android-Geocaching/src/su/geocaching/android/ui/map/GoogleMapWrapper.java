@@ -1,11 +1,14 @@
 package su.geocaching.android.ui.map;
 
+import android.content.Context;
+import android.graphics.Point;
 import android.location.Location;
 import com.google.android.gms.maps.*;
 import com.google.android.gms.maps.model.*;
 import com.google.android.maps.GeoPoint;
 import su.geocaching.android.controller.Controller;
 import su.geocaching.android.controller.apimanager.GeoRect;
+import su.geocaching.android.controller.managers.NavigationManager;
 import su.geocaching.android.model.GeoCache;
 import su.geocaching.android.model.GeoCacheType;
 import su.geocaching.android.model.MapInfo;
@@ -27,13 +30,30 @@ public class GoogleMapWrapper implements IMapWrapper {
 
     private LocationSource.OnLocationChangedListener locationChangedListener;
 
+    private HashMap<String, GeoCache> markers = new HashMap<String, GeoCache>();
     private HashMap<Integer, Marker> geocacheMarkers = new HashMap<Integer, Marker>();
     private List<Marker> groupMarkers = new ArrayList<Marker>();
 
-    public GoogleMapWrapper(GoogleMap map) {
+    public GoogleMapWrapper(GoogleMap map, final Context context) {
         mMap = map;
         mMap.getUiSettings().setMyLocationButtonEnabled(false);
         mMap.getUiSettings().setRotateGesturesEnabled(false);
+
+        mMap.setOnMarkerClickListener(
+            new OnMarkerClickListener() {
+                @Override
+                public boolean onMarkerClick(Marker marker) {
+                    GeoCache geoCache = markers.get(marker.getId());
+                    if (geoCache.getType() == GeoCacheType.GROUP) {
+                        LatLng latLng = getCacheLocation(geoCache);
+                        Point point = mMap.getProjection().toScreenLocation(latLng);
+                        mMap.animateCamera(CameraUpdateFactory.zoomBy(1, point));
+                    } else {
+                        NavigationManager.startInfoActivity(context, geoCache);
+                    }
+                    return true;
+                }
+            });
     }
 
     @Override
@@ -96,7 +116,7 @@ public class GoogleMapWrapper implements IMapWrapper {
     public void updateGeoCacheOverlay(List<GeoCacheOverlayItem> overlayItemList) {
         //TODO Optimize. Reuse existing group markers
         for (Marker marker : groupMarkers) {
-            marker.remove();
+            removeGeoCacheMarker(marker);
         }
         groupMarkers.clear();
 
@@ -105,14 +125,13 @@ public class GoogleMapWrapper implements IMapWrapper {
         for (GeoCacheOverlayItem geoCacheOverlayItem : overlayItemList) {
             GeoCache geoCache = geoCacheOverlayItem.getGeoCache();
             if (geoCache.getType() == GeoCacheType.GROUP) {
-                Marker marker = mMap.addMarker(getGeocacheMarkerOptions(geoCache));
+                Marker marker = addGeoCacheMarker(geoCache);
                 groupMarkers.add(marker);
             } else {
                 if (!geocacheMarkers.containsKey(geoCache.getId())) {
-                    Marker marker = mMap.addMarker(getGeocacheMarkerOptions(geoCache));
+                    Marker marker = addGeoCacheMarker(geoCache);
                     geocacheMarkers.put(geoCache.getId(), marker);
                 }
-
                 cacheIds.add(geoCache.getId());
             }
         }
@@ -120,14 +139,25 @@ public class GoogleMapWrapper implements IMapWrapper {
         // remove retired cache markers
         for (Integer cacheId : geocacheMarkers.keySet().toArray(new Integer[geocacheMarkers.size()])) {
             if (!cacheIds.contains(cacheId)) {
-                geocacheMarkers.get(cacheId).remove();
+                removeGeoCacheMarker(geocacheMarkers.get(cacheId));
                 geocacheMarkers.remove(cacheId);
             }
         }
     }
 
+    private Marker addGeoCacheMarker(GeoCache geoCache) {
+        Marker marker = mMap.addMarker(getGeocacheMarkerOptions(geoCache));
+        markers.put(marker.getId(), geoCache);
+        return marker;
+    }
+
+    private void removeGeoCacheMarker(Marker marker) {
+        markers.remove(marker.getId());
+        marker.remove();
+    }
+
     private MarkerOptions getGeocacheMarkerOptions(GeoCache geoCache) {
-        LatLng latLng = new LatLng(geoCache.getLocationGeoPoint().getLatitudeE6() * 1E-6, geoCache.getLocationGeoPoint().getLongitudeE6() * 1E-6);
+        LatLng latLng = getCacheLocation(geoCache);
         int iconId = Controller.getInstance().getResourceManager().getMarkerResId(geoCache.getType(), geoCache.getStatus());
         return
                 new MarkerOptions()
@@ -135,15 +165,21 @@ public class GoogleMapWrapper implements IMapWrapper {
                         .icon(BitmapDescriptorFactory.fromResource(iconId));
     }
 
+    private static LatLng getCacheLocation(GeoCache geoCache) {
+        return new LatLng(geoCache.getLocationGeoPoint().getLatitudeE6() * 1E-6, geoCache.getLocationGeoPoint().getLongitudeE6() * 1E-6);
+    }
+
     @Override
     public void clearGeocacheOverlay() {
+        // delete geocache markers
         for (Marker marker : geocacheMarkers.values()) {
-            marker.remove();
+            removeGeoCacheMarker(marker);
         }
         geocacheMarkers.clear();
 
+        // delete group markers
         for (Marker marker : groupMarkers) {
-            marker.remove();
+            removeGeoCacheMarker(marker);
         }
         groupMarkers.clear();
     }
@@ -166,6 +202,7 @@ public class GoogleMapWrapper implements IMapWrapper {
             userMarker.setPosition(userPosition);
         }
 
+        //TODO: optimize. don't recreate if accuracy is not changed
         if (userAccuracyPolygon != null)
                 userAccuracyPolygon.remove();
 
