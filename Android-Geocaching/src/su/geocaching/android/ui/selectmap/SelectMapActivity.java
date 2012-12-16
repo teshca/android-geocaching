@@ -15,9 +15,6 @@ import com.actionbarsherlock.view.MenuInflater;
 import com.actionbarsherlock.view.MenuItem;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.SupportMapFragment;
-import com.google.android.gms.maps.model.CameraPosition;
-import com.google.android.gms.maps.model.LatLng;
-import com.google.android.gms.maps.model.MarkerOptions;
 import su.geocaching.android.controller.Controller;
 import su.geocaching.android.controller.apimanager.GeoRect;
 import su.geocaching.android.controller.managers.*;
@@ -46,8 +43,6 @@ public class SelectMapActivity extends SherlockFragmentActivity implements IConn
     private GoogleMap mMap;
     private IMapWrapper mapWrapper;
 
-    private SelectGeoCacheOverlay selectGeoCacheOverlay;
-    private StaticUserLocationOverlay locationOverlay;
     private LowPowerUserLocationManager locationManager;
     private ConnectionManager connectionManager;
     private ProgressBar progressCircle;
@@ -77,11 +72,6 @@ public class SelectMapActivity extends SherlockFragmentActivity implements IConn
         connectionInfoTextView = (TextView) findViewById(R.id.connectionInfoTextView);
         groupingInfoTextView = (TextView) findViewById(R.id.groupingInfoTextView);
         downloadingInfoTextView = (TextView) findViewById(R.id.downloadingInfoTextView);
-
-        //locationOverlay = new StaticUserLocationOverlay(Controller.getInstance().getResourceManager().getUserLocationMarker());
-        //selectGeoCacheOverlay = new SelectGeoCacheOverlay(Controller.getInstance().getResourceManager().getCacheMarker(GeoCacheType.TRADITIONAL, GeoCacheStatus.VALID), this, mapView);
-        //mapView.getOverlays().add(selectGeoCacheOverlay);
-        //mapView.getOverlays().add(locationOverlay);
 
         locationManager = Controller.getInstance().getLowPowerLocationManager();
         connectionManager = Controller.getInstance().getConnectionManager();
@@ -174,20 +164,13 @@ public class SelectMapActivity extends SherlockFragmentActivity implements IConn
 
     public synchronized void updateGeoCacheOverlay(List<GeoCacheOverlayItem> overlayItemList) {
         LogManager.d(TAG, "overlayItemList updated; size: %d", overlayItemList.size());
-
-       // mMap.clear();
-        for (GeoCacheOverlayItem geoCacheOverlayItem : overlayItemList) {
-            LatLng latLng = new LatLng(geoCacheOverlayItem.getPoint().getLatitudeE6() * 1E-6, geoCacheOverlayItem.getPoint().getLongitudeE6() * 1E-6);
-            mMap.addMarker(new MarkerOptions().position(latLng).title(geoCacheOverlayItem.getTitle()));
-        }
-
+        mapWrapper.updateGeoCacheOverlay(overlayItemList);
         hideTooMayCachesToast();
     }
 
     public void tooManyOverlayItems() {
         showTooMayCachesToast();
- //       selectGeoCacheOverlay.clear();
-        //mapView.invalidate();
+        mapWrapper.clearGeocacheOverlay();
     }
 
     private void showTooMayCachesToast() {
