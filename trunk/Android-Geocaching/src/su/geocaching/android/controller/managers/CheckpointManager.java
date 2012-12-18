@@ -7,7 +7,6 @@ import su.geocaching.android.model.GeoCache;
 import su.geocaching.android.model.GeoCacheStatus;
 import su.geocaching.android.model.GeoCacheType;
 import su.geocaching.android.ui.R;
-import su.geocaching.android.ui.geocachemap.GeoCacheOverlayItem;
 
 import java.util.List;
 import java.util.regex.Matcher;
@@ -42,7 +41,7 @@ public class CheckpointManager {
         return cacheId;
     }
 
-    public GeoCacheOverlayItem addCheckpoint(int cacheId, String name, int latitudeE6, int longitudeE6) {
+    public GeoCache addCheckpoint(int cacheId, String name, int latitudeE6, int longitudeE6) {
         deactivateCheckpoints();
         checkpointNumber++;
         GeoCache gc = new GeoCache();
@@ -60,7 +59,7 @@ public class CheckpointManager {
 
         dbm.addCheckpointGeoCache(gc, cacheId);
         controller.setCurrentSearchPoint(gc);
-        return new GeoCacheOverlayItem(gc, "", "");
+        return gc;
     }
 
     public void deactivateCheckpoints() {

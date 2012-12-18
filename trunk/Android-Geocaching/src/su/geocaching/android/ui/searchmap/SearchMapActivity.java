@@ -21,7 +21,6 @@ import com.actionbarsherlock.app.SherlockMapActivity;
 import com.actionbarsherlock.view.Menu;
 import com.actionbarsherlock.view.MenuInflater;
 import com.actionbarsherlock.view.MenuItem;
-import com.actionbarsherlock.view.Window;
 import com.google.android.maps.GeoPoint;
 import com.google.android.maps.MapView;
 import com.google.android.maps.Overlay;
@@ -36,7 +35,6 @@ import su.geocaching.android.model.GeoCacheStatus;
 import su.geocaching.android.model.GeoCacheType;
 import su.geocaching.android.model.SearchMapInfo;
 import su.geocaching.android.ui.R;
-import su.geocaching.android.ui.geocachemap.GeoCacheOverlayItem;
 import su.geocaching.android.ui.preferences.DashboardPreferenceActivity;
 
 /**
@@ -52,8 +50,8 @@ public class SearchMapActivity extends SherlockMapActivity implements IConnectio
 
     private static final int DIALOG_ID_TURN_ON_GPS = 1000;
 
-    private CheckpointOverlay checkpointOverlay;
-    private SearchGeoCacheOverlay searchGeoCacheOverlay;
+    //private CheckpointOverlay checkpointOverlay;
+    //private SearchGeoCacheOverlay searchGeoCacheOverlay;
     private DistanceToGeoCacheOverlay distanceOverlay;
     private DynamicUserLocationOverlay userOverlay;
     private MapView map;
@@ -107,11 +105,11 @@ public class SearchMapActivity extends SherlockMapActivity implements IConnectio
         Controller.getInstance().getPreferencesManager().setLastSearchedGeoCache(geoCache);
         Controller.getInstance().getGoogleAnalyticsManager().trackActivityLaunch(SEARCH_MAP_ACTIVITY_FOLDER);
 
-        checkpointOverlay = new CheckpointOverlay(Controller.getInstance().getResourceManager().getCacheMarker(GeoCacheType.CHECKPOINT, GeoCacheStatus.NOT_ACTIVE_CHECKPOINT), this, map);
-        mapOverlays.add(checkpointOverlay);
+        //checkpointOverlay = new CheckpointOverlay(Controller.getInstance().getResourceManager().getCacheMarker(GeoCacheType.CHECKPOINT, GeoCacheStatus.NOT_ACTIVE_CHECKPOINT), this, map);
+        //mapOverlays.add(checkpointOverlay);
 
-        searchGeoCacheOverlay = new SearchGeoCacheOverlay(null, this, map);
-        mapOverlays.add(searchGeoCacheOverlay);
+        //searchGeoCacheOverlay = new SearchGeoCacheOverlay(null, this, map);
+        //mapOverlays.add(searchGeoCacheOverlay);
 
         handler = new Handler(this);
     }
@@ -150,6 +148,7 @@ public class SearchMapActivity extends SherlockMapActivity implements IConnectio
             return;
         }
 
+        /*
         checkpointOverlay.clear();
         Controller.getInstance().setCurrentSearchPoint(geoCache);
         for (GeoCache checkpoint : Controller.getInstance().getCheckpointManager(geoCache.getId()).getCheckpoints()) {
@@ -159,14 +158,17 @@ public class SearchMapActivity extends SherlockMapActivity implements IConnectio
                 getSupportActionBar().setSubtitle(checkpoint.getName());
             }
         }
+        */
 
         map.setKeepScreenOn(Controller.getInstance().getPreferencesManager().getKeepScreenOnPreference());
         updateMapInfoFromSettings();
         map.setSatellite(Controller.getInstance().getPreferencesManager().useSatelliteMap());
 
+        /*
         GeoCacheOverlayItem cacheOverlayItem = new GeoCacheOverlayItem(geoCache, "", "");
         searchGeoCacheOverlay.clear();
         searchGeoCacheOverlay.addOverlayItem(cacheOverlayItem);
+        */
 
         if (Controller.getInstance().getLocationManager().hasLocation()) {
             LogManager.d(TAG, "Update location with last known location");
@@ -617,12 +619,12 @@ public class SearchMapActivity extends SherlockMapActivity implements IConnectio
         updateDistanceTextView();
         map.invalidate();
     }
-
+    /*
     public SearchGeoCacheOverlay getGeoCacheOverlay()
     {
         return searchGeoCacheOverlay;
     }
-
+     */
     public DynamicUserLocationOverlay getLocationOverlay()
     {
         return userOverlay;

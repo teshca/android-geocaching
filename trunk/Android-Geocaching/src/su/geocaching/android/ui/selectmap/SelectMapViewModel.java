@@ -8,7 +8,6 @@ import su.geocaching.android.controller.apimanager.GeoRect;
 import su.geocaching.android.controller.managers.LogManager;
 import su.geocaching.android.controller.selectmap.geocachegroup.GroupGeoCacheTask;
 import su.geocaching.android.model.GeoCache;
-import su.geocaching.android.ui.geocachemap.GeoCacheOverlayItem;
 
 import java.util.LinkedList;
 import java.util.List;
@@ -26,7 +25,7 @@ public class SelectMapViewModel {
     private GroupGeoCacheTask groupTask = null;
     private DownloadGeoCachesTask downloadTask = null;
     // TODO: also keep current viewport, don't run any update if viewport is the same
-    private List<GeoCacheOverlayItem> currentGeoCacheOverlayItems = new LinkedList<GeoCacheOverlayItem>();
+    private List<GeoCache> currentGeoCacheMarkers = new LinkedList<GeoCache>();
 
     private Projection projection;
     private int mapWidth, mapHeight;
@@ -53,12 +52,12 @@ public class SelectMapViewModel {
         if (Controller.getInstance().getPreferencesManager().isCacheGroupingEnabled() && geoCacheList.size() > MIN_GROUP_CACHE_NUMBER) {
             beginGroupGeoCacheList(geoCacheList);
         } else {
-            currentGeoCacheOverlayItems.clear();
+            currentGeoCacheMarkers.clear();
             if (geoCacheList.size() < MAX_OVERLAY_ITEMS_NUMBER) {
                 for (GeoCache geoCache : geoCacheList) {
-                    currentGeoCacheOverlayItems.add(new GeoCacheOverlayItem(geoCache, "", ""));
+                    currentGeoCacheMarkers.add(geoCache);
                 }
-                onUpdateGeocacheOverlay();
+                onUpdateGeocacheMarkers();
             } else {
                 onTooManyOverlayItems();
             }
@@ -72,13 +71,17 @@ public class SelectMapViewModel {
         onShowGroupingInfo();
     }
 
-    public synchronized void geocacheListGrouped(List<GeoCacheOverlayItem> geoCacheList) {
+    public synchronized void geocacheListGrouped(List<GeoCache> geoCacheList) {
         onHideGroupingInfo();
-        currentGeoCacheOverlayItems.clear();
-        for (GeoCacheOverlayItem geoCacheOverlayItem : geoCacheList) {
-            currentGeoCacheOverlayItems.add(geoCacheOverlayItem);
+        currentGeoCacheMarkers.clear();
+        for (GeoCache geoCache : geoCacheList) {
+            currentGeoCacheMarkers.add(geoCache);
         }
-        onUpdateGeocacheOverlay();
+        onUpdateGeocacheMarkers();
+    }
+
+    public synchronized void groupTaskCancelled() {
+        onHideGroupingInfo();
     }
 
     private synchronized void cancelGroupTask() {
@@ -94,9 +97,9 @@ public class SelectMapViewModel {
         }
     }
 
-    private synchronized void onUpdateGeocacheOverlay() {
+    private synchronized void onUpdateGeocacheMarkers() {
         if (activity != null) {
-            activity.updateGeoCacheOverlay(currentGeoCacheOverlayItems);
+            activity.updateGeoCacheMarkers(currentGeoCacheMarkers);
         }
     }
 
@@ -148,7 +151,7 @@ public class SelectMapViewModel {
         }
         this.activity = activity;
         // display [grouped] caches
-        onUpdateGeocacheOverlay();
+        onUpdateGeocacheMarkers();
         // update activity state
         if (groupTask != null && !groupTask.isCancelled() && (groupTask.getStatus() != AsyncTask.Status.FINISHED)) {
             onShowGroupingInfo();

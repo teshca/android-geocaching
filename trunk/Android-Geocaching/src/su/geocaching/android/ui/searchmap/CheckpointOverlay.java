@@ -10,7 +10,6 @@ import su.geocaching.android.controller.managers.NavigationManager;
 import su.geocaching.android.model.GeoCache;
 import su.geocaching.android.model.GeoCacheType;
 import su.geocaching.android.ui.OverlayUtils;
-import su.geocaching.android.ui.geocachemap.GeoCacheOverlayItem;
 import android.graphics.drawable.Drawable;
 import android.view.GestureDetector;
 import android.view.MotionEvent;
@@ -24,16 +23,16 @@ import com.google.android.maps.OverlayItem;
  *
  * @author Nikita Bumakov
  */
-public class CheckpointOverlay extends ItemizedOverlay<GeoCacheOverlayItem> {
-
+public class CheckpointOverlay {
+    /*
     private final GestureDetector gestureDetector;
-    private final List<GeoCacheOverlayItem> items;
+    private final List<GeoCache> items;
     private boolean isMultiTouch;
 
     public CheckpointOverlay(Drawable defaultMarker, final SearchMapActivity searchMapActivity, final MapView mapView) {
         super(defaultMarker);
 
-        items = new LinkedList<GeoCacheOverlayItem>();
+        items = new LinkedList<GeoCache>();
 
         gestureDetector = new GestureDetector(searchMapActivity, new GestureDetector.SimpleOnGestureListener() {
             public void onLongPress(MotionEvent e) {
@@ -41,10 +40,10 @@ public class CheckpointOverlay extends ItemizedOverlay<GeoCacheOverlayItem> {
                 if (searchMapActivity.getGeoCacheOverlay().hitTest(e, mapView)) return;
                 if (searchMapActivity.getLocationOverlay().hitTest(e)) return;
 
-                for (GeoCacheOverlayItem item : items) {
+                for (GeoCache item : items) {
                     if (hitTest(e, item))
                     {
-                        searchMapActivity.setActiveItem(item.getGeoCache());
+                        searchMapActivity.setActiveItem(item);
                         return;
                     }
                 }
@@ -136,4 +135,6 @@ public class CheckpointOverlay extends ItemizedOverlay<GeoCacheOverlayItem> {
         isMultiTouch = OverlayUtils.isMultiTouch(event);
         return gestureDetector.onTouchEvent(event);
     }
+
+    */
 }

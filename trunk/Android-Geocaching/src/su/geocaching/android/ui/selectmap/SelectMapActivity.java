@@ -18,20 +18,14 @@ import com.google.android.gms.maps.SupportMapFragment;
 import su.geocaching.android.controller.Controller;
 import su.geocaching.android.controller.apimanager.GeoRect;
 import su.geocaching.android.controller.managers.*;
+import su.geocaching.android.model.GeoCache;
 import su.geocaching.android.model.MapInfo;
 import su.geocaching.android.ui.R;
-import su.geocaching.android.ui.geocachemap.GeoCacheOverlayItem;
-import su.geocaching.android.ui.map.GoogleMapWrapper;
-import su.geocaching.android.ui.map.IMapWrapper;
 import su.geocaching.android.ui.map.ViewPortChangedListener;
 import su.geocaching.android.ui.preferences.MapPreferenceActivity;
 
 import java.util.List;
 
-/**
- * @author Yuri Denison
- * @since 04.11.2010
- */
 public class SelectMapActivity extends SherlockFragmentActivity implements IConnectionAware, ILocationAware {
     private static final String TAG = SelectMapActivity.class.getCanonicalName();
     private static final String SELECT_ACTIVITY_FOLDER = "/SelectActivity";
@@ -41,7 +35,7 @@ public class SelectMapActivity extends SherlockFragmentActivity implements IConn
      * Note that this may be null if the Google Play services APK is not available.
      */
     private GoogleMap mMap;
-    private IMapWrapper mapWrapper;
+    private ISelectMapWrapper mapWrapper;
 
     private LowPowerUserLocationManager locationManager;
     private ConnectionManager connectionManager;
@@ -162,15 +156,15 @@ public class SelectMapActivity extends SherlockFragmentActivity implements IConn
         }
     }
 
-    public synchronized void updateGeoCacheOverlay(List<GeoCacheOverlayItem> overlayItemList) {
-        LogManager.d(TAG, "overlayItemList updated; size: %d", overlayItemList.size());
-        mapWrapper.updateGeoCacheOverlay(overlayItemList);
+    public synchronized void updateGeoCacheMarkers(List<GeoCache> geoCachesList) {
+        LogManager.d(TAG, "geoCachesList updated; size: %d", geoCachesList.size());
+        mapWrapper.updateGeoCacheMarkers(geoCachesList);
         hideTooMayCachesToast();
     }
 
     public void tooManyOverlayItems() {
         showTooMayCachesToast();
-        mapWrapper.clearGeocacheOverlay();
+        mapWrapper.clearGeocacheMarkers();
     }
 
     private void showTooMayCachesToast() {
@@ -288,7 +282,7 @@ public class SelectMapActivity extends SherlockFragmentActivity implements IConn
      * This should only be called once and when we are sure that {@link #mMap} is not null.
      */
     private void setUpMap() {
-        mapWrapper = new GoogleMapWrapper(mMap, this);
+        mapWrapper = new SelectGoogleMapWrapper(mMap, this);
 
         boolean isMultiTouchAvailable = getPackageManager().hasSystemFeature(PackageManager.FEATURE_TOUCHSCREEN_MULTITOUCH);
         mapWrapper.setZoomControlsEnabled(!isMultiTouchAvailable);
