@@ -4,7 +4,6 @@ import android.graphics.Point;
 import su.geocaching.android.controller.Controller;
 import su.geocaching.android.controller.managers.NavigationManager;
 import su.geocaching.android.ui.OverlayUtils;
-import su.geocaching.android.ui.geocachemap.GeoCacheOverlayItem;
 import android.graphics.drawable.Drawable;
 import android.view.GestureDetector;
 import android.view.MotionEvent;
@@ -16,8 +15,8 @@ import com.google.android.maps.MapView;
  * @author Android-Geocaching.su student project team
  * @since October 2010 GeoCache Itemized Overlay for one or more caches
  */
-class SearchGeoCacheOverlay extends ItemizedOverlay<GeoCacheOverlayItem> {
-
+class SearchGeoCacheOverlay {
+    /*
     private GeoCacheOverlayItem item;
     private final GestureDetector gestureDetector;
 
@@ -92,4 +91,5 @@ class SearchGeoCacheOverlay extends ItemizedOverlay<GeoCacheOverlayItem> {
     public void draw(android.graphics.Canvas canvas, MapView mapView, boolean shadow) {
         super.draw(canvas, mapView, false);
     }
+    */
 }

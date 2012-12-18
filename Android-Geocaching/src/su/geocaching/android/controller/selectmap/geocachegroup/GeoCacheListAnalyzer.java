@@ -6,7 +6,7 @@ import com.google.android.gms.maps.Projection;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.maps.GeoPoint;
 import su.geocaching.android.model.GeoCache;
-import su.geocaching.android.ui.geocachemap.GeoCacheOverlayItem;
+import su.geocaching.android.model.GeoCacheType;
 
 import java.util.LinkedList;
 import java.util.List;
@@ -20,7 +20,6 @@ public class GeoCacheListAnalyzer {
     private Projection projection;
     private int mapWidth, mapHeight;
 
-    private static final int MINIMUM_GROUP_SIZE_TO_CREATE_CLUSTER = 2;
     private static final int FINGER_SIZE_X = 60;
     private static final int FINGER_SIZE_Y = 80;
 
@@ -30,22 +29,25 @@ public class GeoCacheListAnalyzer {
         this.mapHeight = mapHeight;
     }
 
-    private LinkedList<GeoCacheOverlayItem> createOverlayItemList(List<Centroid> centroidList) {
-        final LinkedList<GeoCacheOverlayItem> overlayItemList = new LinkedList<GeoCacheOverlayItem>();
+    private LinkedList<GeoCache> createGeocachesList(List<Centroid> centroidList) {
+        final LinkedList<GeoCache> geocachesList = new LinkedList<GeoCache>();
         for (Centroid centroid : centroidList) {
             int num = centroid.getNumberOfView();
-            if (num != 0) {
-                if (num < MINIMUM_GROUP_SIZE_TO_CREATE_CLUSTER) {
-                    overlayItemList.add(new GeoCacheOverlayItem(centroid.getCache(), "", ""));
+            if (num > 0) {
+                if (num == 1) {
+                    geocachesList.add(centroid.getCache());
                 } else {
                     Point screenLocation = new Point(centroid.getX(), centroid.getY());
                     LatLng location = projection.fromScreenLocation(screenLocation);
                     GeoPoint geoPoint = new GeoPoint((int)(location.latitude * 1E6),(int)(location.longitude*1E6));
-                    overlayItemList.add(new GeoCacheOverlayItem(geoPoint, "Group", ""));
+                    GeoCache group = new GeoCache();
+                    group.setLocationGeoPoint(geoPoint);
+                    group.setType(GeoCacheType.GROUP);
+                    geocachesList.add(group);
                 }
             }
         }
-        return overlayItemList;
+        return geocachesList;
     }
 
     private List<Centroid> generateCentroids() {
@@ -61,14 +63,14 @@ public class GeoCacheListAnalyzer {
         return centroids;
     }
 
-    public List<GeoCacheOverlayItem> getGroupedList(List<GeoCache> geoCacheList, AsyncTask<?,?,?> asyncTask) {
+    public List<GeoCache> getGroupedList(List<GeoCache> geoCacheList, AsyncTask<?,?,?> asyncTask) {
         final List<Centroid> centroids = generateCentroids();
         if (asyncTask.isCancelled()) return null;
         final List<GeoCacheView> points = generatePointsList(geoCacheList);
         if (asyncTask.isCancelled()) return null;
         final List<Centroid> centroidList = new KMeans(points, centroids, asyncTask).getCentroids();
         if (asyncTask.isCancelled()) return null;
-        return createOverlayItemList(centroidList);
+        return createGeocachesList(centroidList);
     }
 
     private List<GeoCacheView> generatePointsList(List<GeoCache> geoCacheList) {
