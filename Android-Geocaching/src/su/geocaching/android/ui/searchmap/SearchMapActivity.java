@@ -1,13 +1,8 @@
 package su.geocaching.android.ui.searchmap;
 
-import java.util.List;
-
 import android.app.Dialog;
 import android.content.Intent;
 import android.content.pm.PackageManager;
-import android.graphics.Point;
-import android.graphics.Rect;
-import android.graphics.drawable.Drawable;
 import android.location.Location;
 import android.location.LocationManager;
 import android.os.Bundle;
@@ -17,23 +12,20 @@ import android.view.View;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
-import com.actionbarsherlock.app.SherlockMapActivity;
+import com.actionbarsherlock.app.SherlockFragmentActivity;
 import com.actionbarsherlock.view.Menu;
 import com.actionbarsherlock.view.MenuInflater;
 import com.actionbarsherlock.view.MenuItem;
+import com.google.android.gms.maps.GoogleMap;
+import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.maps.GeoPoint;
-import com.google.android.maps.MapView;
-import com.google.android.maps.Overlay;
 import su.geocaching.android.controller.Controller;
 import su.geocaching.android.controller.managers.*;
 import su.geocaching.android.controller.utils.CoordinateHelper;
 import su.geocaching.android.controller.GpsUpdateFrequency;
 import su.geocaching.android.controller.compass.SmoothCompassThread;
 import su.geocaching.android.controller.utils.UiHelper;
-import su.geocaching.android.model.GeoCache;
-import su.geocaching.android.model.GeoCacheStatus;
-import su.geocaching.android.model.GeoCacheType;
-import su.geocaching.android.model.SearchMapInfo;
+import su.geocaching.android.model.*;
 import su.geocaching.android.ui.R;
 import su.geocaching.android.ui.preferences.DashboardPreferenceActivity;
 
@@ -43,25 +35,31 @@ import su.geocaching.android.ui.preferences.DashboardPreferenceActivity;
  * @author Android-Geocaching.su student project team
  * @since October 2010
  */
-public class SearchMapActivity extends SherlockMapActivity implements IConnectionAware, ILocationAware, android.os.Handler.Callback {
+public class SearchMapActivity extends SherlockFragmentActivity
+        implements IConnectionAware, ILocationAware, android.os.Handler.Callback {
     private final static String TAG = SearchMapActivity.class.getCanonicalName();
     private final static float CLOSE_DISTANCE_TO_GC_VALUE = 100; // if we nearly than this distance in meters to geocache - gps will be work maximal often
-    private final static String SEARCH_MAP_ACTIVITY_FOLDER = "/SearchMapActivity";
+    private final static String SEARCH_MAP_ACTIVITY_NAME = "/SearchMapActivity";
 
     private static final int DIALOG_ID_TURN_ON_GPS = 1000;
 
+    /**
+     * Note that this may be null if the Google Play services APK is not available.
+     */
+    private GoogleMap googleMap;
+    private ISearchMapWrapper mapWrapper;
+
     //private CheckpointOverlay checkpointOverlay;
     //private SearchGeoCacheOverlay searchGeoCacheOverlay;
-    private DistanceToGeoCacheOverlay distanceOverlay;
-    private DynamicUserLocationOverlay userOverlay;
-    private MapView map;
-    private List<Overlay> mapOverlays;
+    //private DistanceToGeoCacheOverlay distanceOverlay;
+    //private DynamicUserLocationOverlay userOverlay;
 
     private TextView gpsStatusTextView;
     private TextView distanceStatusTextView;
     private ProgressBar progressBarCircle;
     private Toast providerUnavailableToast;
     private Toast connectionLostToast;
+    private Toast statusNullLastLocationToast;
 
     private SmoothCompassThread animationThread;
 
@@ -96,14 +94,10 @@ public class SearchMapActivity extends SherlockMapActivity implements IConnectio
         distanceStatusTextView = (TextView) findViewById(R.id.distanceToCacheText);
         progressBarCircle = (ProgressBar) findViewById(R.id.progressCircle);
 
-        map = (MapView) findViewById(R.id.searchGeocacheMap);
-        mapOverlays = map.getOverlays();
-        userOverlay = new DynamicUserLocationOverlay(this, map);
-        boolean isMultiTouchAvailable = getPackageManager().hasSystemFeature(PackageManager.FEATURE_TOUCHSCREEN_MULTITOUCH);
-        map.setBuiltInZoomControls(!isMultiTouchAvailable);
+        setUpMapIfNeeded();
 
         Controller.getInstance().getPreferencesManager().setLastSearchedGeoCache(geoCache);
-        Controller.getInstance().getGoogleAnalyticsManager().trackActivityLaunch(SEARCH_MAP_ACTIVITY_FOLDER);
+        Controller.getInstance().getGoogleAnalyticsManager().trackActivityLaunch(SEARCH_MAP_ACTIVITY_NAME);
 
         //checkpointOverlay = new CheckpointOverlay(Controller.getInstance().getResourceManager().getCacheMarker(GeoCacheType.CHECKPOINT, GeoCacheStatus.NOT_ACTIVE_CHECKPOINT), this, map);
         //mapOverlays.add(checkpointOverlay);
@@ -148,9 +142,20 @@ public class SearchMapActivity extends SherlockMapActivity implements IConnectio
             return;
         }
 
+        Controller.getInstance().setCurrentSearchPoint(geoCache);
+
+        setUpMapIfNeeded();
+
+        boolean keepScreenOn = Controller.getInstance().getPreferencesManager().getKeepScreenOnPreference();
+        this.mapFragment.getView().setKeepScreenOn(keepScreenOn);
+        updateMapInfoFromSettings();
+        //map.setSatellite(Controller.getInstance().getPreferencesManager().useSatelliteMap());
+
+        mapWrapper.clearGeocacheMarkers();
+        mapWrapper.setSearchGeocache(geoCache);
+
         /*
         checkpointOverlay.clear();
-        Controller.getInstance().setCurrentSearchPoint(geoCache);
         for (GeoCache checkpoint : Controller.getInstance().getCheckpointManager(geoCache.getId()).getCheckpoints()) {
             checkpointOverlay.addOverlayItem(new GeoCacheOverlayItem(checkpoint, "", ""));
             if (checkpoint.getStatus() == GeoCacheStatus.ACTIVE_CHECKPOINT) {
@@ -159,10 +164,6 @@ public class SearchMapActivity extends SherlockMapActivity implements IConnectio
             }
         }
         */
-
-        map.setKeepScreenOn(Controller.getInstance().getPreferencesManager().getKeepScreenOnPreference());
-        updateMapInfoFromSettings();
-        map.setSatellite(Controller.getInstance().getPreferencesManager().useSatelliteMap());
 
         /*
         GeoCacheOverlayItem cacheOverlayItem = new GeoCacheOverlayItem(geoCache, "", "");
@@ -193,7 +194,6 @@ public class SearchMapActivity extends SherlockMapActivity implements IConnectio
         Controller.getInstance().getLocationManager().addSubscriber(this);
         Controller.getInstance().getConnectionManager().addSubscriber(this);
         Controller.getInstance().getCallbackManager().addSubscriber(handler);
-        map.invalidate();
 
         if (!Controller.getInstance().getConnectionManager().isActiveNetworkConnected()) {
             onConnectionLost();
@@ -213,38 +213,26 @@ public class SearchMapActivity extends SherlockMapActivity implements IConnectio
      * @see su.geocaching.android.controller.ILocationAware#updateLocation(android.location.Location)
      */
     @Override
-    public void updateLocation(Location location) {
-        userOverlay.updateLocation(location);
+    public void updateLocation(Location userLocation) {
         LogManager.d(TAG, "update location");
         hideProgressBarCircle();
-        if (CoordinateHelper.getDistanceBetween(location, Controller.getInstance().getCurrentSearchPoint().getLocationGeoPoint()) < CLOSE_DISTANCE_TO_GC_VALUE) {
+        final GeoPoint cachePosition = Controller.getInstance().getCurrentSearchPoint().getLocationGeoPoint();
+        final float distance = CoordinateHelper.getDistanceBetween(cachePosition, userLocation);
+        if (distance < CLOSE_DISTANCE_TO_GC_VALUE) {
             Controller.getInstance().getLocationManager().updateFrequency(GpsUpdateFrequency.MAXIMAL);
         } else {
             Controller.getInstance().getLocationManager().updateFrequencyFromPreferences();
         }
         boolean isPrecise = Controller.getInstance().getLocationManager().hasPreciseLocation();
-        distanceStatusTextView.setText(
-                CoordinateHelper.distanceToString(
-                        CoordinateHelper.getDistanceBetween(Controller.getInstance().getCurrentSearchPoint().getLocationGeoPoint(), location),
-                        isPrecise));
-        userOverlay.setLocationPrecise(isPrecise);
-        if (distanceOverlay == null) {
-            LogManager.d(TAG, "update location: add distance and user overlays");
-            distanceOverlay = new DistanceToGeoCacheOverlay(CoordinateHelper.locationToGeoPoint(location), map);
-            mapOverlays.add(0, distanceOverlay); // lower overlay
-            mapOverlays.add(userOverlay);
+        distanceStatusTextView.setText(CoordinateHelper.distanceToString(distance, isPrecise));
 
-            startCompassAnimation();
-            return;
-        }
-        distanceOverlay.setUserPoint(CoordinateHelper.locationToGeoPoint(location));
-
-        map.invalidate();
+        mapWrapper.updateLocationMarker(userLocation, isPrecise);
     }
 
     /**
      * Set map zoom which can show userPoint, GeoCachePoint and all checkpoints
      */
+    /*
     private void resetZoom() {
         // Calculate min/max latitude & longitude
         Rect area = new Rect(Integer.MAX_VALUE, Integer.MAX_VALUE, Integer.MIN_VALUE, Integer.MIN_VALUE);
@@ -310,7 +298,7 @@ public class SearchMapActivity extends SherlockMapActivity implements IConnectio
         area.bottom = Math.max(area.bottom, topLeft.getLatitudeE6());
         area.top = Math.min(area.top, bottomRight.getLatitudeE6());
     }
-
+    */
     /**
      * Creating menu object
      */
@@ -334,7 +322,7 @@ public class SearchMapActivity extends SherlockMapActivity implements IConnectio
                 onMyLocationClick();
                 return true;
             case R.id.menuDefaultZoom:
-                resetZoom();
+                //resetZoom();
                 return true;
             case R.id.menuStartCompass:
                 NavigationManager.startCompassActivity(this, geoCache);
@@ -380,23 +368,13 @@ public class SearchMapActivity extends SherlockMapActivity implements IConnectio
         final GeoPoint destination = Controller.getInstance().getCurrentSearchPoint().getLocationGeoPoint();
         final double latitude = destination.getLatitudeE6() / 1E6;
         final double longitude = destination.getLongitudeE6() / 1E6;
-        NavigationManager.startExternalMap(this, latitude, longitude, map.getZoomLevel());
+        NavigationManager.startExternalMap(this, latitude, longitude, mapWrapper.getMapState().getZoom());
     }
 
     /*
      * (non-Javadoc)
      *
-     * @see com.google.android.maps.MapActivity#isRouteDisplayed()
-     */
-    @Override
-    protected boolean isRouteDisplayed() {
-        return false;
-    }
-
-    /*
-     * (non-Javadoc)
-     *
-     * @see su.geocaching.android.ui.geocachemap.IConnectionAware#onConnectionLost()
+     * @see su.geocaching.android.controller.IConnectionAware#onConnectionLost()
      */
     @Override
     public void onConnectionLost() {
@@ -467,7 +445,7 @@ public class SearchMapActivity extends SherlockMapActivity implements IConnectio
      */
     private void startCompassAnimation() {
         if (animationThread == null) {
-            animationThread = new SmoothCompassThread(userOverlay);
+            animationThread = new SmoothCompassThread(mapWrapper);
             animationThread.setRunning(true);
             animationThread.start();
         }
@@ -494,22 +472,21 @@ public class SearchMapActivity extends SherlockMapActivity implements IConnectio
         SearchMapInfo lastMapInfo = Controller.getInstance().getPreferencesManager().getLastSearchMapInfo();
         // TODO: also resetZoom if user location and all markers are out of the current view port
         if (lastMapInfo.getGeoCacheId() != geoCache.getId()) {
+            /*
             map.post( new Runnable() {
                 @Override
                 public void run() {
                     resetZoom();
                 }
             });
+            */
         } else {
             updateMap(lastMapInfo);
         }
     }
 
     private void updateMap(SearchMapInfo lastMapInfo) {
-        GeoPoint lastCenter = new GeoPoint(lastMapInfo.getCenterX(), lastMapInfo.getCenterY());
-        map.getController().setCenter(lastCenter);
-        map.getController().setZoom(lastMapInfo.getZoom());
-        map.invalidate();
+        mapWrapper.restoreMapSate(lastMapInfo);
     }
 
     /**
@@ -521,11 +498,9 @@ public class SearchMapActivity extends SherlockMapActivity implements IConnectio
     }
 
     private SearchMapInfo getMapInfo() {
-        int centerX = map.getMapCenter().getLatitudeE6();
-        int centerY = map.getMapCenter().getLongitudeE6();
-        int zoom = map.getZoomLevel();
+        MapInfo mapInfo = mapWrapper.getMapState();
         int geocacheId = geoCache.getId();
-        return new SearchMapInfo(centerX, centerY, zoom, geocacheId);
+        return new SearchMapInfo(mapInfo.getCenterX(), mapInfo.getCenterY(), mapInfo.getZoom(), geocacheId);
     }
 
     @Override
@@ -554,10 +529,8 @@ public class SearchMapActivity extends SherlockMapActivity implements IConnectio
             case CallbackManager.WHAT_LOCATION_DEPRECATED:
                 // update distance text view
                 final boolean isPrecise = Controller.getInstance().getLocationManager().hasPreciseLocation();
+                mapWrapper.setLocationPrecise(isPrecise);
                 updateDistanceTextView();
-                if (userOverlay != null) {
-                    userOverlay.setLocationPrecise(isPrecise);
-                }
                 return true;
         }
         return false;
@@ -595,46 +568,92 @@ public class SearchMapActivity extends SherlockMapActivity implements IConnectio
     }
 
     private void onMyLocationClick() {
-        Location lastLocation = Controller.getInstance().getLocationManager().getLastKnownLocation();
+        final Location lastLocation = Controller.getInstance().getLocationManager().getLastKnownLocation();
         if (lastLocation != null) {
-            GeoPoint center = CoordinateHelper.locationToGeoPoint(lastLocation);
-            map.getController().animateTo(center);
+            mapWrapper.animateToLocation(lastLocation);
         } else {
-            Toast.makeText(getBaseContext(), getString(R.string.status_null_last_location), Toast.LENGTH_SHORT).show();
+            if (statusNullLastLocationToast == null) {
+                statusNullLastLocationToast = Toast.makeText(getBaseContext(), getString(R.string.status_null_last_location), Toast.LENGTH_SHORT);
+            }
+            statusNullLastLocationToast.show();
         }
-    }
-
-    public void setActiveItem(GeoCache activeItem) {
-        if (activeItem.getType() == GeoCacheType.CHECKPOINT)
-        {
-            Controller.getInstance().getCheckpointManager(geoCache.getId()).setActiveItem(activeItem.getId());
-            getSupportActionBar().setSubtitle(activeItem.getName());
-        }
-        else
-        {
-            Controller.getInstance().getCheckpointManager(geoCache.getId()).deactivateCheckpoints();
-            Controller.getInstance().setCurrentSearchPoint(activeItem);
-            getSupportActionBar().setSubtitle(null);
-        }
-        updateDistanceTextView();
-        map.invalidate();
     }
     /*
-    public SearchGeoCacheOverlay getGeoCacheOverlay()
-    {
-        return searchGeoCacheOverlay;
-    }
-     */
-    public DynamicUserLocationOverlay getLocationOverlay()
-    {
-        return userOverlay;
-    }
+   public void setActiveItem(GeoCache activeItem) {
+       if (activeItem.getType() == GeoCacheType.CHECKPOINT)
+       {
+           Controller.getInstance().getCheckpointManager(geoCache.getId()).setActiveItem(activeItem.getId());
+           getSupportActionBar().setSubtitle(activeItem.getName());
+       }
+       else
+       {
+           Controller.getInstance().getCheckpointManager(geoCache.getId()).deactivateCheckpoints();
+           Controller.getInstance().setCurrentSearchPoint(activeItem);
+           getSupportActionBar().setSubtitle(null);
+       }
+       updateDistanceTextView();
+       map.invalidate();
+   }
 
+   public SearchGeoCacheOverlay getGeoCacheOverlay()
+   {
+       return searchGeoCacheOverlay;
+   }
+
+   public DynamicUserLocationOverlay getLocationOverlay()
+   {
+       return userOverlay;
+   }
+     */
     public GeoCache getGeoCache() {
         return geoCache;
     }
 
     public void StartGpsStatusActivity(View v) {
         NavigationManager.startExternalGpsStatusActivity(this);
+    }
+
+    /**
+     * Sets up the map if it is possible to do so (i.e., the Google Play services APK is correctly
+     * installed) and the map has not already been instantiated.. This will ensure that we only ever
+     * call {@link #setUpMap()} once when {@link #googleMap} is not null.
+     * <p>
+     * If it isn't installed {@link com.google.android.gms.maps.SupportMapFragment} (and
+     * {@link com.google.android.gms.maps.MapView
+     * MapView}) will show a prompt for the user to install/update the Google Play services APK on
+     * their device.
+     * <p>
+     * A user can return to this Activity after following the prompt and correctly
+     * installing/updating/enabling the Google Play services. Since the Activity may not have been
+     * completely destroyed during this process (it is likely that it would only be stopped or
+     * paused), {@link #onCreate(Bundle)} may not be called again so we should call this method in
+     * {@link #onResume()} to guarantee that it will be called.
+     */
+    private void setUpMapIfNeeded() {
+        // Do a null check to confirm that we have not already instantiated the map.
+        if (googleMap == null) {
+            // Try to obtain the map from the SupportMapFragment.
+            mapFragment = ((SupportMapFragment) getSupportFragmentManager().findFragmentById(R.id.map));
+            googleMap = mapFragment.getMap();
+            // Check if we were successful in obtaining the map.
+            if (googleMap != null) {
+                setUpMap();
+            }
+        }
+    }
+    SupportMapFragment mapFragment;
+    /**
+     * This is where we can add markers or lines, add listeners or move the camera. In this case, we
+     * just add a marker near Africa.
+     * <p>
+     * This should only be called once and when we are sure that {@link #googleMap} is not null.
+     */
+    private void setUpMap() {
+        mapWrapper = new SearchGoogleMapWrapper(googleMap, this);
+
+        boolean isMultiTouchAvailable = getPackageManager().hasSystemFeature(PackageManager.FEATURE_TOUCHSCREEN_MULTITOUCH);
+        mapWrapper.setZoomControlsEnabled(!isMultiTouchAvailable);
+
+        mapWrapper.setupMyLocationLayer();
     }
 }
