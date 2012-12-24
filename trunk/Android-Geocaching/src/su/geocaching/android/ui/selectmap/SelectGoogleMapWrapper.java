@@ -93,7 +93,7 @@ public class SelectGoogleMapWrapper extends GoogleMapWrapper implements ISelectM
     }
 
     private Marker addGeoCacheMarker(GeoCache geoCache) {
-        Marker marker = mMap.addMarker(getGeocacheMarkerOptions(geoCache));
+        Marker marker = googleMap.addMarker(getGeocacheMarkerOptions(geoCache));
         markers.put(marker.getId(), geoCache);
         return marker;
     }
@@ -110,9 +110,5 @@ public class SelectGoogleMapWrapper extends GoogleMapWrapper implements ISelectM
                 new MarkerOptions()
                         .position(latLng)
                         .icon(BitmapDescriptorFactory.fromResource(iconId));
-    }
-
-    private static LatLng getCacheLocation(GeoCache geoCache) {
-        return new LatLng(geoCache.getLocationGeoPoint().getLatitudeE6() * 1E-6, geoCache.getLocationGeoPoint().getLongitudeE6() * 1E-6);
     }
 }
