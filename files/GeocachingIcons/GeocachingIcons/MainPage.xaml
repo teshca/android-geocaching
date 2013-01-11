@@ -11,11 +11,12 @@
            <ColumnDefinition Width="Auto"/>
        </Grid.ColumnDefinitions>
 
-       <Viewbox x:Name="Canvas" Width="96" Height="96" >
+       <Viewbox x:Name="Canvas" Width="{Binding ElementName=IconSize, Path=Text}" Height="{Binding ElementName=IconSize, Path=Text}" >
             <local:LauncherIconRound UseLayoutRounding="False"/>           	   
        </Viewbox>
        
        <StackPanel Grid.Column="1" VerticalAlignment="Center">
+            <TextBox x:Name="IconSize" Text="72" />
             <Button Content="Сохранить" Click="SaveButtonClick" />
         </StackPanel>
     </Grid>

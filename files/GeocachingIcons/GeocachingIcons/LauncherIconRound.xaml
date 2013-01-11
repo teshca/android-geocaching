@@ -35,7 +35,7 @@
                 ArcThicknessUnit="Percent" 
                 StartAngle="0"
                 EndAngle="90"             
-                Fill="#FF0485CC" 
+                Fill="#FF04A63C" 
                 Stretch="Fill" 
                 UseLayoutRounding="False" /> 
         	<es:Arc
@@ -45,7 +45,7 @@
                 ArcThicknessUnit="Percent" 
                 StartAngle="180"
                 EndAngle="270"             
-                Fill="#FF04A63C" 
+                Fill="#FF0485CC" 
                 Stretch="Fill" 
                 UseLayoutRounding="False" /> 
         	<es:Arc
