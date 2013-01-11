@@ -18,7 +18,8 @@ public class BaseArrayAdapter<T> extends ArrayAdapter<T> {
         inflater = (LayoutInflater) getContext().getSystemService(Context.LAYOUT_INFLATER_SERVICE);
     }
 
-    public void add(Collection<T> collection) {
+    // Added in API level 11
+    public void addAll(Collection<? extends T> collection) {
         for (T o : collection) {
             add(o);
         }

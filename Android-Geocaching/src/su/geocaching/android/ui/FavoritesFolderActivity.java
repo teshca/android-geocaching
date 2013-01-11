@@ -119,7 +119,7 @@ public class FavoritesFolderActivity extends SherlockListActivity {
         List<GeoCache> favoritesList = dbManager.getFavoritesGeoCaches();
 
         favoriteGeoCachesAdapter.clear();
-        favoriteGeoCachesAdapter.add(favoritesList);
+        favoriteGeoCachesAdapter.addAll(favoritesList);
         favoriteGeoCachesAdapter.setAllItemsArray(favoritesList);
         favoriteGeoCachesAdapter.sort();
         favoriteGeoCachesAdapter.notifyDataSetChanged();
