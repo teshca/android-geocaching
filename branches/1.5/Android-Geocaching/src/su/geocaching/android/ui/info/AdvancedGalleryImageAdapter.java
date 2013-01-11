@@ -24,7 +24,7 @@ class AdvancedGalleryImageAdapter extends BaseArrayAdapter<GeoCachePhotoViewMode
 
     public void updateImageList() {        
         clear();
-        add(infoViewModel.getPhotosState().getPhotos());
+        addAll(infoViewModel.getPhotosState().getPhotos());
         notifyDataSetChanged();
     }
 
