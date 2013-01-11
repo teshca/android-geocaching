@@ -2,9 +2,9 @@
 <manifest
     xmlns:android="http://schemas.android.com/apk/res/android"
     package="su.geocaching.android.ui"
-    android:versionName="1.5.1"
+    android:versionName="1.5.2"
     android:installLocation="auto"
-    android:versionCode="1510">
+    android:versionCode="1520">
 
     <uses-permission android:name="android.permission.INTERNET"/>
     <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION"/>
