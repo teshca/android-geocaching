@@ -32,7 +32,7 @@ class GalleryImageAdapter extends BaseArrayAdapter<Uri> {
 
     public void updateImageList() {
         clear();
-        add(Controller.getInstance().getExternalStorageManager().getPhotos(cacheId));
+        addAll(Controller.getInstance().getExternalStorageManager().getPhotos(cacheId));
     }
 
     @Override
