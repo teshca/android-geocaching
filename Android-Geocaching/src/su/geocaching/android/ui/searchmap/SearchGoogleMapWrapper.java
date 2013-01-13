@@ -15,6 +15,7 @@ import su.geocaching.android.ui.R;
 import su.geocaching.android.ui.map.GoogleMapWrapper;
 
 import java.util.Arrays;
+import java.util.Collection;
 
 public class SearchGoogleMapWrapper extends GoogleMapWrapper implements ISearchMapWrapper {
 
@@ -74,7 +75,7 @@ public class SearchGoogleMapWrapper extends GoogleMapWrapper implements ISearchM
         super.updateLocationMarker(location);
 
         int color = isPrecise ? preciseColor : notPreciseColor;
-        LatLng userPosition = new LatLng(location.getLatitude(), location.getLongitude());
+        LatLng userPosition = getUserLocation(location);
         LatLng cachePosition = getCacheLocation(Controller.getInstance().getCurrentSearchPoint());
         if (cacheDirection == null) {
             PolylineOptions options = new PolylineOptions();
@@ -98,15 +99,27 @@ public class SearchGoogleMapWrapper extends GoogleMapWrapper implements ISearchM
     }
 
     @Override
-    public void resetZoom(int width, int height) {
+    public void resetZoom(int width, int height, boolean animate) {
+        Collection<GeoCache> geocaches = geocacheOverlay.getGeocaches();
+        if (currentUserLocation == null && geocaches.isEmpty()) return;
+
         LatLngBounds.Builder boundsBuilder = new LatLngBounds.Builder();
         // current user location
-        boundsBuilder.include(new LatLng(currentUserLocation.getLatitude(), currentUserLocation.getLongitude()));
+        if (currentUserLocation != null) {
+            boundsBuilder.include(getUserLocation(currentUserLocation));
+        }
         // geocache and checkpoint markers
-        for (GeoCache geocache: geocacheOverlay.getGeocaches()) {
+        for (GeoCache geocache: geocaches) {
             boundsBuilder.include(getCacheLocation(geocache));
         }
-        googleMap.animateCamera(CameraUpdateFactory.newLatLngBounds(boundsBuilder.build(), width, height, 30));
+
+        CameraUpdate cameraUpdate = CameraUpdateFactory.newLatLngBounds(boundsBuilder.build(), width, height, 50);
+
+        if (animate) {
+            googleMap.animateCamera(cameraUpdate);
+        } else {
+            googleMap.moveCamera(cameraUpdate);
+        }
     }
 
     /**
