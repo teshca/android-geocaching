@@ -1,14 +1,17 @@
 package su.geocaching.android.ui.searchmap;
 
+import android.annotation.SuppressLint;
 import android.app.Dialog;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.location.Location;
 import android.location.LocationManager;
+import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
 import android.view.View;
+import android.view.ViewTreeObserver;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -16,8 +19,10 @@ import com.actionbarsherlock.app.SherlockFragmentActivity;
 import com.actionbarsherlock.view.Menu;
 import com.actionbarsherlock.view.MenuInflater;
 import com.actionbarsherlock.view.MenuItem;
+import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.SupportMapFragment;
+import com.google.android.gms.maps.model.LatLngBounds;
 import com.google.android.maps.GeoPoint;
 import su.geocaching.android.controller.Controller;
 import su.geocaching.android.controller.managers.*;
@@ -233,7 +238,7 @@ public class SearchMapActivity extends SherlockFragmentActivity
                 onMyLocationClick();
                 return true;
             case R.id.menuDefaultZoom:
-                resetZoom();
+                resetZoom(true);
                 return true;
             case R.id.menuStartCompass:
                 NavigationManager.startCompassActivity(this, geoCache);
@@ -261,8 +266,30 @@ public class SearchMapActivity extends SherlockFragmentActivity
         }
     }
 
-    private void resetZoom() {
-        mapWrapper.resetZoom(mapFragment.getView().getWidth(), mapFragment.getView().getHeight());
+    private void resetZoom(final boolean animate) {
+        // Pan to see all markers in view.
+        final View mapView = mapFragment.getView();
+        final int mapWidth = mapView.getWidth();
+        final int mapHeight = mapView.getHeight();
+        // Cannot zoom to bounds until the map has a size.
+        if (mapWidth == 0 ||mapHeight == 0) {
+            if (mapView.getViewTreeObserver().isAlive()) {
+                mapView.getViewTreeObserver().addOnGlobalLayoutListener(new ViewTreeObserver.OnGlobalLayoutListener() {
+                    @SuppressLint("NewApi") // We check which build version we are using.
+                    @Override
+                    public void onGlobalLayout() {
+                        if (Build.VERSION.SDK_INT < Build.VERSION_CODES.JELLY_BEAN) {
+                            mapView.getViewTreeObserver().removeGlobalOnLayoutListener(this);
+                        } else {
+                            mapView.getViewTreeObserver().removeOnGlobalLayoutListener(this);
+                        }
+                        mapWrapper.resetZoom(mapView.getWidth(), mapView.getHeight(), animate);
+                    }
+                });
+            }
+        } else {
+            mapWrapper.resetZoom(mapWidth, mapHeight, animate);
+        }
     }
 
     private void onDrivingDirectionsSelected() {
@@ -386,14 +413,9 @@ public class SearchMapActivity extends SherlockFragmentActivity
     private void updateMapInfoFromSettings() {
         SearchMapInfo lastMapInfo = Controller.getInstance().getPreferencesManager().getLastSearchMapInfo();
         // TODO: also resetZoom if user location and all markers are out of the current view port
+
         if (lastMapInfo.getGeoCacheId() != geoCache.getId()) {
-            //TODO: remove post. First restore map state then reset
-            mapFragment.getView().post( new Runnable() {
-                @Override
-                public void run() {
-                    resetZoom();
-                }
-            });
+            resetZoom(false);
         } else {
             updateMap(lastMapInfo);
         }
