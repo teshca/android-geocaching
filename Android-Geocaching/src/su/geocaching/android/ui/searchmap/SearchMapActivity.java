@@ -138,6 +138,7 @@ public class SearchMapActivity extends SherlockFragmentActivity
         boolean keepScreenOn = Controller.getInstance().getPreferencesManager().getKeepScreenOnPreference();
         this.mapFragment.getView().setKeepScreenOn(keepScreenOn);
         updateMapInfoFromSettings();
+        //todo: setup map layer
         //map.setSatellite(Controller.getInstance().getPreferencesManager().useSatelliteMap());
 
         mapWrapper.clearGeocacheMarkers();
@@ -210,76 +211,6 @@ public class SearchMapActivity extends SherlockFragmentActivity
     }
 
     /**
-     * Set map zoom which can show userPoint, GeoCachePoint and all checkpoints
-     */
-    /*
-    private void resetZoom() {
-        // Calculate min/max latitude & longitude
-        Rect area = new Rect(Integer.MAX_VALUE, Integer.MAX_VALUE, Integer.MIN_VALUE, Integer.MIN_VALUE);
-
-        // user location
-        final Location location = Controller.getInstance().getLocationManager().getLastKnownLocation();
-        if (location != null) {
-            updateArea(area, CoordinateHelper.locationToGeoPoint(location));
-        }
-        // geocache
-        updateArea(area, geoCache.getLocationGeoPoint());
-        // checkpoints
-        for (GeoCache checkpoint : Controller.getInstance().getCheckpointManager(geoCache.getId()).getCheckpoints()) {
-            updateArea(area,checkpoint.getLocationGeoPoint());
-        }
-
-        if (area.width() <= 0 || area.height() <= 0) return;
-
-        // update zoom
-        map.getController().zoomToSpan(area.height(), area.width());
-
-        // Second round: now we need to take into account icon bounds
-
-        // user location
-        if (location != null) {
-            final GeoPoint currentGeoPoint = CoordinateHelper.locationToGeoPoint(location);
-            updateArea(area, currentGeoPoint, userOverlay.getBounds());
-        }
-        // geocache
-        final Drawable marker = Controller.getInstance().getResourceManager().getCacheMarker(geoCache.getType(), geoCache.getStatus());
-        updateArea(area, geoCache.getLocationGeoPoint(), marker.getBounds());
-        // checkpoints
-        for (GeoCache checkpoint : Controller.getInstance().getCheckpointManager(geoCache.getId()).getCheckpoints()) {
-            final Drawable checkpointMarker = Controller.getInstance().getResourceManager().getCacheMarker(GeoCacheType.CHECKPOINT, GeoCacheStatus.NOT_ACTIVE_CHECKPOINT);
-            updateArea(area,checkpoint.getLocationGeoPoint(), checkpointMarker.getBounds());
-        }
-        // second zoom update
-        map.getController().zoomToSpan(area.height(), area.width());
-
-        // calculate new center of map
-        GeoPoint center = new GeoPoint(area.centerY(), area.centerX());
-
-        // set new center of map
-        map.getController().animateTo(center);
-    }
-
-    private void updateArea(Rect area, GeoPoint geoPoint) {
-        area.left = Math.min(area.left, geoPoint.getLongitudeE6());
-        area.right = Math.max(area.right, geoPoint.getLongitudeE6());
-        area.bottom = Math.max(area.bottom, geoPoint.getLatitudeE6());
-        area.top = Math.min(area.top, geoPoint.getLatitudeE6());
-    }
-
-    private void updateArea(Rect area, GeoPoint geoPoint, Rect bounds) {
-        final Point point = new Point();
-        map.getProjection().toPixels(geoPoint, point);
-
-        final GeoPoint topLeft = map.getProjection().fromPixels(point.x + bounds.left, point.y + bounds.top);
-        final GeoPoint bottomRight = map.getProjection().fromPixels(point.x + bounds.right, point.y + bounds.bottom);
-
-        area.left = Math.min(area.left, topLeft.getLongitudeE6());
-        area.right = Math.max(area.right, bottomRight.getLongitudeE6());
-        area.bottom = Math.max(area.bottom, topLeft.getLatitudeE6());
-        area.top = Math.min(area.top, bottomRight.getLatitudeE6());
-    }
-    */
-    /**
      * Creating menu object
      */
     @Override
@@ -302,7 +233,7 @@ public class SearchMapActivity extends SherlockFragmentActivity
                 onMyLocationClick();
                 return true;
             case R.id.menuDefaultZoom:
-                //resetZoom();
+                resetZoom();
                 return true;
             case R.id.menuStartCompass:
                 NavigationManager.startCompassActivity(this, geoCache);
@@ -328,6 +259,10 @@ public class SearchMapActivity extends SherlockFragmentActivity
             default:
                 return super.onOptionsItemSelected(item);
         }
+    }
+
+    private void resetZoom() {
+        mapWrapper.resetZoom(mapFragment.getView().getWidth(), mapFragment.getView().getHeight());
     }
 
     private void onDrivingDirectionsSelected() {
@@ -452,14 +387,13 @@ public class SearchMapActivity extends SherlockFragmentActivity
         SearchMapInfo lastMapInfo = Controller.getInstance().getPreferencesManager().getLastSearchMapInfo();
         // TODO: also resetZoom if user location and all markers are out of the current view port
         if (lastMapInfo.getGeoCacheId() != geoCache.getId()) {
-            /*
-            map.post( new Runnable() {
+            //TODO: remove post. First restore map state then reset
+            mapFragment.getView().post( new Runnable() {
                 @Override
                 public void run() {
                     resetZoom();
                 }
             });
-            */
         } else {
             updateMap(lastMapInfo);
         }
