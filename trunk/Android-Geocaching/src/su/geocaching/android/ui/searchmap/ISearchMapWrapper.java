@@ -10,5 +10,8 @@ public interface ISearchMapWrapper extends IMapWrapper, ICompassView {
     void setLocationPrecise(boolean isLocationPrecise);
 
     void setSearchGeocache(GeoCache geoCache);
+    void addCheckpointMarker(GeoCache checkpoint);
     void clearGeocacheMarkers();
+
+    void updateCacheDirection();
 }
