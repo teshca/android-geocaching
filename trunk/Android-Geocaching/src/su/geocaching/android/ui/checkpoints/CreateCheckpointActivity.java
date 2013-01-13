@@ -65,17 +65,19 @@ public class CreateCheckpointActivity extends SherlockActivity {
     private GeoCache geoCache;
     private GeoPoint currentInputGeoPoint;
 
-    private static DecimalFormat degreesFractionFormat = new DecimalFormat("000000");
-    private static DecimalFormat minutesFractionFormat = new DecimalFormat("000");
-    private static DecimalFormat minFormat = new DecimalFormat("00");
-    private static DecimalFormat secFormat = new DecimalFormat("00.00");
+    private static final DecimalFormat degreesFractionFormat = new DecimalFormat("000000");
+    private static final DecimalFormat minutesFractionFormat = new DecimalFormat("000");
+    private static final DecimalFormat minFormat = new DecimalFormat("00");
+    private static final DecimalFormat secFormat = new DecimalFormat("00.00");
+
+    private static final DecimalFormatSymbols decimalFormatSymbols = new DecimalFormatSymbols(Locale.US);
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
 
         // We will use US separator because of this bug ın Androıd
         // http://code.google.com/p/android-geocaching/issues/detail?id=232
-        secFormat.setDecimalFormatSymbols(DecimalFormatSymbols.getInstance(Locale.US));
+        secFormat.setDecimalFormatSymbols(decimalFormatSymbols);
 
         super.onCreate(savedInstanceState);
         setContentView(R.layout.create_checkpoint_activity);
@@ -343,7 +345,7 @@ public class CreateCheckpointActivity extends SherlockActivity {
 
     private static int ParseIntValue(TextView textView) {
         String text = textView.getText().toString();
-        if (text.isEmpty()) return 0;
+        if (text.length() == 0) return 0;
 
         try
         {
@@ -356,7 +358,7 @@ public class CreateCheckpointActivity extends SherlockActivity {
     }
     private static float ParseFractionValue(TextView textView) {
         String text = textView.getText().toString();
-        if (text.isEmpty()) return 0;
+        if (text.length() == 0) return 0;
 
         try
         {
@@ -369,7 +371,7 @@ public class CreateCheckpointActivity extends SherlockActivity {
     }
     private static float ParseFloatValue(TextView textView) throws ParseException {
         String text = textView.getText().toString();
-        if (text.isEmpty()) return 0;
+        if (text.length() == 0) return 0;
 
         try
         {
