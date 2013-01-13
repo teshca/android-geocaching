@@ -14,4 +14,9 @@ public interface ISearchMapWrapper extends IMapWrapper, ICompassView {
     void clearGeocacheMarkers();
 
     void updateCacheDirection();
+
+    /**
+     * Set map zoom which can show userPoint, GeoCachePoint and all checkpoints
+     */
+    void resetZoom(int width, int height);
 }

@@ -9,6 +9,7 @@ import su.geocaching.android.controller.Controller;
 import su.geocaching.android.model.GeoCache;
 import su.geocaching.android.ui.map.GoogleMapWrapper;
 
+import java.util.Collection;
 import java.util.HashMap;
 import java.util.LinkedList;
 
@@ -56,5 +57,9 @@ public class GoogleGeocacheOverlay {
     private void removeGeoCacheMarker(Marker marker) {
         geocaches.remove(marker.getId());
         marker.remove();
+    }
+
+    public Collection<GeoCache> getGeocaches() {
+        return geocaches.values();
     }
 }

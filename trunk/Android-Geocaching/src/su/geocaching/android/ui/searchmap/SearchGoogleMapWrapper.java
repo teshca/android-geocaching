@@ -2,6 +2,8 @@ package su.geocaching.android.ui.searchmap;
 
 import android.content.Context;
 import android.location.Location;
+import com.google.android.gms.maps.CameraUpdate;
+import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.model.*;
 import su.geocaching.android.controller.Controller;
@@ -93,6 +95,18 @@ public class SearchGoogleMapWrapper extends GoogleMapWrapper implements ISearchM
             LatLng cachePosition = getCacheLocation(Controller.getInstance().getCurrentSearchPoint());
             cacheDirection.getPoints().set(1, cachePosition);
         }
+    }
+
+    @Override
+    public void resetZoom(int width, int height) {
+        LatLngBounds.Builder boundsBuilder = new LatLngBounds.Builder();
+        // current user location
+        boundsBuilder.include(new LatLng(currentUserLocation.getLatitude(), currentUserLocation.getLongitude()));
+        // geocache and checkpoint markers
+        for (GeoCache geocache: geocacheOverlay.getGeocaches()) {
+            boundsBuilder.include(getCacheLocation(geocache));
+        }
+        googleMap.animateCamera(CameraUpdateFactory.newLatLngBounds(boundsBuilder.build(), width, height, 30));
     }
 
     /**
