@@ -32,8 +32,8 @@ public class GoogleMapWrapper implements IMapWrapper {
     @Override
     public MapInfo getMapState() {
         CameraPosition cameraPosition = googleMap.getCameraPosition();
-        int latE6 = (int) (cameraPosition.target.latitude * 1E6);
-        int lonE6 = (int) (cameraPosition.target.longitude * 1E6);
+        int latE6 = toE6(cameraPosition.target.latitude);
+        int lonE6 = toE6(cameraPosition.target.longitude);
         int zoom = (int) cameraPosition.zoom;
         return  new MapInfo(latE6, lonE6, zoom);
     }
@@ -70,13 +70,17 @@ public class GoogleMapWrapper implements IMapWrapper {
 
     private GeoRect getViewPortGeoRect() {
         LatLngBounds viewPortBounds = googleMap.getProjection().getVisibleRegion().latLngBounds;
-        GeoPoint tl = new GeoPoint(toE6(viewPortBounds.northeast.latitude), toE6(viewPortBounds.southwest.longitude));
-        GeoPoint br = new GeoPoint(toE6(viewPortBounds.southwest.latitude), toE6(viewPortBounds.northeast.longitude));
+        GeoPoint tl = toGeoPoint(viewPortBounds.northeast);
+        GeoPoint br = toGeoPoint(viewPortBounds.southwest);
         return new GeoRect(tl, br);
     }
 
-    private static int toE6(double coordinate) {
+    protected static int toE6(double coordinate) {
         return (int) (coordinate * 1E6);
+    }
+
+    protected static GeoPoint toGeoPoint(LatLng latLng) {
+        return new GeoPoint(toE6(latLng.latitude), toE6(latLng.longitude));
     }
 
     @Override

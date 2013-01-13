@@ -49,11 +49,6 @@ public class SearchMapActivity extends SherlockFragmentActivity
     private GoogleMap googleMap;
     private ISearchMapWrapper mapWrapper;
 
-    //private CheckpointOverlay checkpointOverlay;
-    //private SearchGeoCacheOverlay searchGeoCacheOverlay;
-    //private DistanceToGeoCacheOverlay distanceOverlay;
-    //private DynamicUserLocationOverlay userOverlay;
-
     private TextView gpsStatusTextView;
     private TextView distanceStatusTextView;
     private ProgressBar progressBarCircle;
@@ -98,12 +93,6 @@ public class SearchMapActivity extends SherlockFragmentActivity
 
         Controller.getInstance().getPreferencesManager().setLastSearchedGeoCache(geoCache);
         Controller.getInstance().getGoogleAnalyticsManager().trackActivityLaunch(SEARCH_MAP_ACTIVITY_NAME);
-
-        //checkpointOverlay = new CheckpointOverlay(Controller.getInstance().getResourceManager().getCacheMarker(GeoCacheType.CHECKPOINT, GeoCacheStatus.NOT_ACTIVE_CHECKPOINT), this, map);
-        //mapOverlays.add(checkpointOverlay);
-
-        //searchGeoCacheOverlay = new SearchGeoCacheOverlay(null, this, map);
-        //mapOverlays.add(searchGeoCacheOverlay);
 
         handler = new Handler(this);
     }
@@ -154,22 +143,13 @@ public class SearchMapActivity extends SherlockFragmentActivity
         mapWrapper.clearGeocacheMarkers();
         mapWrapper.setSearchGeocache(geoCache);
 
-        /*
-        checkpointOverlay.clear();
         for (GeoCache checkpoint : Controller.getInstance().getCheckpointManager(geoCache.getId()).getCheckpoints()) {
-            checkpointOverlay.addOverlayItem(new GeoCacheOverlayItem(checkpoint, "", ""));
+            mapWrapper.addCheckpointMarker(checkpoint);
             if (checkpoint.getStatus() == GeoCacheStatus.ACTIVE_CHECKPOINT) {
                 Controller.getInstance().setCurrentSearchPoint(checkpoint);
                 getSupportActionBar().setSubtitle(checkpoint.getName());
             }
         }
-        */
-
-        /*
-        GeoCacheOverlayItem cacheOverlayItem = new GeoCacheOverlayItem(geoCache, "", "");
-        searchGeoCacheOverlay.clear();
-        searchGeoCacheOverlay.addOverlayItem(cacheOverlayItem);
-        */
 
         if (Controller.getInstance().getLocationManager().hasLocation()) {
             LogManager.d(TAG, "Update location with last known location");
@@ -578,7 +558,7 @@ public class SearchMapActivity extends SherlockFragmentActivity
             statusNullLastLocationToast.show();
         }
     }
-    /*
+
    public void setActiveItem(GeoCache activeItem) {
        if (activeItem.getType() == GeoCacheType.CHECKPOINT)
        {
@@ -591,20 +571,10 @@ public class SearchMapActivity extends SherlockFragmentActivity
            Controller.getInstance().setCurrentSearchPoint(activeItem);
            getSupportActionBar().setSubtitle(null);
        }
+       //mapWrapper.updateDistance();
        updateDistanceTextView();
-       map.invalidate();
    }
 
-   public SearchGeoCacheOverlay getGeoCacheOverlay()
-   {
-       return searchGeoCacheOverlay;
-   }
-
-   public DynamicUserLocationOverlay getLocationOverlay()
-   {
-       return userOverlay;
-   }
-     */
     public GeoCache getGeoCache() {
         return geoCache;
     }
