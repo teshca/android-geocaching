@@ -12,9 +12,7 @@ import su.geocaching.android.model.GeoCacheType;
 import su.geocaching.android.ui.R;
 import su.geocaching.android.ui.map.GoogleMapWrapper;
 
-import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.LinkedList;
 
 public class SearchGoogleMapWrapper extends GoogleMapWrapper implements ISearchMapWrapper {
 

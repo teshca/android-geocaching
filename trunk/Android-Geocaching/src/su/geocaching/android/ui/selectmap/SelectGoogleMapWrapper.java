@@ -61,7 +61,7 @@ public class SelectGoogleMapWrapper extends GoogleMapWrapper implements ISelectM
     }
 
     @Override
-    public void updateGeoCacheMarkers(List<GeoCache> overlayItemList) {
+    public void updateGeoCacheMarkers(List<GeoCache> geoCacheList) {
         //TODO Optimize. Reuse existing group markers
         for (Marker marker : groupMarkers) {
             removeGeoCacheMarker(marker);
@@ -70,7 +70,7 @@ public class SelectGoogleMapWrapper extends GoogleMapWrapper implements ISelectM
 
         HashSet<Integer> cacheIds = new HashSet<Integer>();
 
-        for (GeoCache geoCache : overlayItemList) {
+        for (GeoCache geoCache : geoCacheList) {
             if (geoCache.getType() == GeoCacheType.GROUP) {
                 Marker marker = addGeoCacheMarker(geoCache);
                 groupMarkers.add(marker);

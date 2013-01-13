@@ -70,8 +70,8 @@ public class GoogleMapWrapper implements IMapWrapper {
 
     private GeoRect getViewPortGeoRect() {
         LatLngBounds viewPortBounds = googleMap.getProjection().getVisibleRegion().latLngBounds;
-        GeoPoint tl = toGeoPoint(viewPortBounds.northeast);
-        GeoPoint br = toGeoPoint(viewPortBounds.southwest);
+        GeoPoint tl = new GeoPoint(toE6(viewPortBounds.northeast.latitude), toE6(viewPortBounds.southwest.longitude));
+        GeoPoint br = new GeoPoint(toE6(viewPortBounds.southwest.latitude), toE6(viewPortBounds.northeast.longitude));
         return new GeoRect(tl, br);
     }
 
