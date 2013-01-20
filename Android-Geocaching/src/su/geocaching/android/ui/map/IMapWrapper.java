@@ -13,10 +13,11 @@ public interface IMapWrapper {
 
     void setZoomControlsEnabled(boolean zoomControlsEnabled);
 
-    void setViewPortChangedListener(ViewPortChangedListener listener);
+    void setViewPortChangeListener(ViewPortChangeListener listener);
 
     Projection getProjection();
 
     void setupMyLocationLayer();
     void updateLocationMarker(Location location);
+    void setLocationMarkerTapListener(LocationMarkerTapListener listener);
 }

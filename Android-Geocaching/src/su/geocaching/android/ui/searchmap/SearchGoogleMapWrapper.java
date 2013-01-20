@@ -12,6 +12,7 @@ import su.geocaching.android.controller.managers.NavigationManager;
 import su.geocaching.android.model.GeoCache;
 import su.geocaching.android.model.GeoCacheType;
 import su.geocaching.android.ui.R;
+import su.geocaching.android.ui.map.GeocacheMarkerTapListener;
 import su.geocaching.android.ui.map.GoogleMapWrapper;
 
 import java.util.Arrays;
@@ -25,7 +26,8 @@ public class SearchGoogleMapWrapper extends GoogleMapWrapper implements ISearchM
     private final int notPreciseColor;
     private static final int DISTANCE_STROKE_WIDTH = 4;
 
-    GoogleGeocacheOverlay geocacheOverlay;
+    private GoogleGeocacheOverlay geocacheOverlay;
+    private GeocacheMarkerTapListener geocacheTapListener;
 
     public SearchGoogleMapWrapper(GoogleMap map, final Context context) {
         super(map);
@@ -33,41 +35,52 @@ public class SearchGoogleMapWrapper extends GoogleMapWrapper implements ISearchM
         notPreciseColor = Controller.getInstance().getResourceManager().getColor(R.color.user_location_arrow_color_not_precise);
         geocacheOverlay = new GoogleGeocacheOverlay(map);
 
-        //TODO: tong click --> set active item
-        //TODO: click on user arrow --> run compass
-
-        map.setOnMarkerClickListener(
-                new GoogleMap.OnMarkerClickListener() {
-                    @Override
-                    public boolean onMarkerClick(Marker marker) {
-                        GeoCache geoCache = geocacheOverlay.getCacheByMarkerId(marker.getId());
-
-                        Controller.getInstance().Vibrate();
-
-                        if (geoCache.getType() == GeoCacheType.CHECKPOINT) {
-                            NavigationManager.startCheckpointDialog(context, geoCache);
-                        } else {
-                            NavigationManager.startInfoActivity(context, geoCache);
-                        }
-
-                        return true;
-                    }
-                });
-
+        // TODO: Implement listener, don't pass context
         map.setOnMapLongClickListener(
-                new GoogleMap.OnMapLongClickListener() {
-                    @Override
-                    public void onMapLongClick(LatLng latLng) {
-                        GeoCache geocache = Controller.getInstance().getPreferencesManager().getLastSearchedGeoCache();
-                        GeoCache checkpoint = new GeoCache();
-                        checkpoint.setType(GeoCacheType.CHECKPOINT);
-                        checkpoint.setName(geocache.getName());
-                        checkpoint.setId(geocache.getId());
-                        checkpoint.setLocationGeoPoint(toGeoPoint(latLng));
-                        NavigationManager.startCreateCheckpointActivity(context, checkpoint);
-                    }
+            new GoogleMap.OnMapLongClickListener() {
+                @Override
+                public void onMapLongClick(LatLng latLng) {
+                    GeoCache geocache = Controller.getInstance().getPreferencesManager().getLastSearchedGeoCache();
+                    GeoCache checkpoint = new GeoCache();
+                    checkpoint.setType(GeoCacheType.CHECKPOINT);
+                    checkpoint.setName(geocache.getName());
+                    checkpoint.setId(geocache.getId());
+                    checkpoint.setLocationGeoPoint(toGeoPoint(latLng));
+                    NavigationManager.startCreateCheckpointActivity(context, checkpoint);
                 }
+            }
         );
+
+        // hack to implement long click on cache markers
+        map.setOnMarkerDragListener(new GoogleMap.OnMarkerDragListener() {
+            @Override
+            public void onMarkerDragStart(Marker marker) {
+                GeoCache geoCache = geocacheOverlay.getCacheByMarkerId(marker.getId());
+                geocacheOverlay.removeGeoCacheMarker(marker);
+                geocacheOverlay.addGeoCacheMarker(geoCache);
+                if (geocacheTapListener != null) {
+                    geocacheTapListener.OnMarkerLongTapped(geoCache);
+                }
+            }
+
+            @Override
+            public void onMarkerDrag(Marker marker) {
+            }
+
+            @Override
+            public void onMarkerDragEnd(Marker marker) {
+            }
+        });
+    }
+
+    @Override
+    protected boolean onMarkerTap(Marker marker) {
+        GeoCache geoCache = geocacheOverlay.getCacheByMarkerId(marker.getId());
+        if (geocacheTapListener != null && geoCache != null) {
+            geocacheTapListener.OnMarkerTapped(geoCache);
+            return true;
+        }
+        return false;
     }
 
     @Override
@@ -92,9 +105,10 @@ public class SearchGoogleMapWrapper extends GoogleMapWrapper implements ISearchM
 
     @Override
     public void updateCacheDirection() {
-        if (cacheDirection == null) {
+        if (cacheDirection != null) {
             LatLng cachePosition = getCacheLocation(Controller.getInstance().getCurrentSearchPoint());
-            cacheDirection.getPoints().set(1, cachePosition);
+            LatLng userPosition = getUserLocation(currentUserLocation);
+            cacheDirection.setPoints(Arrays.asList(userPosition, cachePosition));
         }
     }
 
@@ -113,6 +127,7 @@ public class SearchGoogleMapWrapper extends GoogleMapWrapper implements ISearchM
             boundsBuilder.include(getCacheLocation(geocache));
         }
 
+        // TODO: take into account size of marker and it's anchor
         CameraUpdate cameraUpdate = CameraUpdateFactory.newLatLngBounds(boundsBuilder.build(), width, height, 50);
 
         if (animate) {
@@ -122,6 +137,11 @@ public class SearchGoogleMapWrapper extends GoogleMapWrapper implements ISearchM
         }
     }
 
+    @Override
+    public void setGeocacheTapListener(GeocacheMarkerTapListener listener) {
+        geocacheTapListener = listener;
+    }
+
     /**
      * Change behaviour of arrow if location precise or not
      *
@@ -129,8 +149,10 @@ public class SearchGoogleMapWrapper extends GoogleMapWrapper implements ISearchM
      * @see su.geocaching.android.controller.managers.AccurateUserLocationManager#hasPreciseLocation()
      */
     public void setLocationPrecise(boolean isLocationPrecise) {
-        int color = isLocationPrecise ? preciseColor : notPreciseColor;
-        cacheDirection.setColor(color);
+        if (cacheDirection != null) {
+            final int color = isLocationPrecise ? preciseColor : notPreciseColor;
+            cacheDirection.setColor(color);
+        }
     }
 
     @Override

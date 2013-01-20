@@ -1,5 +1,6 @@
 package su.geocaching.android.ui.map;
 
+import android.graphics.Bitmap;
 import android.location.Location;
 import com.google.android.gms.maps.*;
 import com.google.android.gms.maps.model.*;
@@ -17,10 +18,31 @@ public class GoogleMapWrapper implements IMapWrapper {
     protected Location currentUserLocation;
     protected LocationSource.OnLocationChangedListener locationChangedListener;
 
+    private static final Bitmap clickableBitmap = Bitmap.createBitmap(50, 50, Bitmap.Config.ALPHA_8);
+    private Marker userPositionClickArea; // hack to make user position clickable
+    private LocationMarkerTapListener locationMarkerTapListener;
+
     public GoogleMapWrapper(GoogleMap map) {
         googleMap = map;
         googleMap.getUiSettings().setMyLocationButtonEnabled(false);
         googleMap.getUiSettings().setRotateGesturesEnabled(false);
+
+        map.setOnMarkerClickListener(
+            new GoogleMap.OnMarkerClickListener() {
+                @Override
+                public boolean onMarkerClick(Marker marker) {
+                    if (marker.getId().equals(userPositionClickArea.getId())) {
+                        if (locationMarkerTapListener != null)
+                            locationMarkerTapListener.OnMarkerTapped();
+                        return true;
+                    }
+                    return onMarkerTap(marker);
+                }
+            });
+    }
+
+    protected boolean onMarkerTap(Marker marker) {
+        return false;
     }
 
     @Override
@@ -51,7 +73,7 @@ public class GoogleMapWrapper implements IMapWrapper {
     }
 
     @Override
-    public void setViewPortChangedListener(final ViewPortChangedListener listener) {
+    public void setViewPortChangeListener(final ViewPortChangeListener listener) {
         googleMap.setOnCameraChangeListener(
                 new OnCameraChangeListener() {
                     @Override
@@ -89,6 +111,23 @@ public class GoogleMapWrapper implements IMapWrapper {
             currentUserLocation = location;
             locationChangedListener.onLocationChanged(location);
         }
+
+        // Update clickable area
+        LatLng userPosition = getUserLocation(location);
+        if (userPositionClickArea == null) {
+            MarkerOptions markerOptions = new MarkerOptions();
+            markerOptions.position(userPosition);
+            markerOptions.anchor(0.5f, 0.4f); // strange google maps bug
+            markerOptions.icon(BitmapDescriptorFactory.fromBitmap(clickableBitmap));
+            userPositionClickArea = googleMap.addMarker(markerOptions);
+        } else {
+            userPositionClickArea.setPosition(userPosition);
+        }
+    }
+
+    @Override
+    public void setLocationMarkerTapListener(LocationMarkerTapListener listener) {
+        locationMarkerTapListener = listener;
     }
 
     @Override
