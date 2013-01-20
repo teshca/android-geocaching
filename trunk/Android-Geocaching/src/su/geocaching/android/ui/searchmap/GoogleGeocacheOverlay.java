@@ -8,6 +8,7 @@ import com.google.android.gms.maps.model.MarkerOptions;
 import su.geocaching.android.controller.Controller;
 import su.geocaching.android.model.GeoCache;
 import su.geocaching.android.ui.map.GoogleMapWrapper;
+import su.geocaching.android.ui.map.GoogleMarkerOptions;
 
 import java.util.Collection;
 import java.util.HashMap;
@@ -26,20 +27,12 @@ public class GoogleGeocacheOverlay {
     }
 
     public Marker addGeoCacheMarker(GeoCache geoCache) {
-        Marker marker = googleMap.addMarker(getGeocacheMarkerOptions(geoCache));
+        // it's draggable in order to implement long-click listener
+        MarkerOptions draggableGeocacheMarkerOptions = GoogleMarkerOptions.fromGeocache(geoCache).draggable(true);
+        Marker marker = googleMap.addMarker(draggableGeocacheMarkerOptions);
         geocaches.put(marker.getId(), geoCache);
         markers.add(marker);
         return marker;
-    }
-
-    private MarkerOptions getGeocacheMarkerOptions(GeoCache geoCache) {
-        LatLng latLng = GoogleMapWrapper.getCacheLocation(geoCache);
-        int iconId = Controller.getInstance().getResourceManager().getMarkerResId(geoCache.getType(), geoCache.getStatus());
-        return
-                new MarkerOptions()
-                        .position(latLng)
-                        .anchor(0.5f, 0.95f)
-                        .icon(BitmapDescriptorFactory.fromResource(iconId));
     }
 
     public GeoCache getCacheByMarkerId(String markerId) {
@@ -54,7 +47,7 @@ public class GoogleGeocacheOverlay {
         markers.clear();
     }
 
-    private void removeGeoCacheMarker(Marker marker) {
+    public void removeGeoCacheMarker(Marker marker) {
         geocaches.remove(marker.getId());
         marker.remove();
     }

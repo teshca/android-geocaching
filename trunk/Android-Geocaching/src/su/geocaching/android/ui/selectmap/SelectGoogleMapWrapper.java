@@ -4,15 +4,13 @@ import android.content.Context;
 import android.graphics.Point;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
-import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.Marker;
-import com.google.android.gms.maps.model.MarkerOptions;
-import su.geocaching.android.controller.Controller;
 import su.geocaching.android.controller.managers.NavigationManager;
 import su.geocaching.android.model.GeoCache;
 import su.geocaching.android.model.GeoCacheType;
 import su.geocaching.android.ui.map.GoogleMapWrapper;
+import su.geocaching.android.ui.map.GoogleMarkerOptions;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -93,7 +91,7 @@ public class SelectGoogleMapWrapper extends GoogleMapWrapper implements ISelectM
     }
 
     private Marker addGeoCacheMarker(GeoCache geoCache) {
-        Marker marker = googleMap.addMarker(getGeocacheMarkerOptions(geoCache));
+        Marker marker = googleMap.addMarker(GoogleMarkerOptions.fromGeocache(geoCache));
         markers.put(marker.getId(), geoCache);
         return marker;
     }
@@ -101,14 +99,5 @@ public class SelectGoogleMapWrapper extends GoogleMapWrapper implements ISelectM
     private void removeGeoCacheMarker(Marker marker) {
         markers.remove(marker.getId());
         marker.remove();
-    }
-
-    private MarkerOptions getGeocacheMarkerOptions(GeoCache geoCache) {
-        LatLng latLng = getCacheLocation(geoCache);
-        int iconId = Controller.getInstance().getResourceManager().getMarkerResId(geoCache.getType(), geoCache.getStatus());
-        return
-                new MarkerOptions()
-                        .position(latLng)
-                        .icon(BitmapDescriptorFactory.fromResource(iconId));
     }
 }

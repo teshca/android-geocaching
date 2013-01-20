@@ -21,7 +21,7 @@ import su.geocaching.android.controller.managers.*;
 import su.geocaching.android.model.GeoCache;
 import su.geocaching.android.model.MapInfo;
 import su.geocaching.android.ui.R;
-import su.geocaching.android.ui.map.ViewPortChangedListener;
+import su.geocaching.android.ui.map.ViewPortChangeListener;
 import su.geocaching.android.ui.preferences.MapPreferenceActivity;
 
 import java.util.List;
@@ -287,7 +287,7 @@ public class SelectMapActivity extends SherlockFragmentActivity implements IConn
         boolean isMultiTouchAvailable = getPackageManager().hasSystemFeature(PackageManager.FEATURE_TOUCHSCREEN_MULTITOUCH);
         mapWrapper.setZoomControlsEnabled(!isMultiTouchAvailable);
 
-        mapWrapper.setViewPortChangedListener(new ViewPortChangedListener() {
+        mapWrapper.setViewPortChangeListener(new ViewPortChangeListener() {
             @Override
             public void OnViewPortChanged(GeoRect viewPort) {
                 selectMapViewModel.beginUpdateGeocacheOverlay(viewPort, mapWrapper.getProjection(), mapFragment.getView().getWidth(), mapFragment.getView().getHeight());

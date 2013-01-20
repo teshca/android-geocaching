@@ -19,10 +19,8 @@ import com.actionbarsherlock.app.SherlockFragmentActivity;
 import com.actionbarsherlock.view.Menu;
 import com.actionbarsherlock.view.MenuInflater;
 import com.actionbarsherlock.view.MenuItem;
-import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.SupportMapFragment;
-import com.google.android.gms.maps.model.LatLngBounds;
 import com.google.android.maps.GeoPoint;
 import su.geocaching.android.controller.Controller;
 import su.geocaching.android.controller.managers.*;
@@ -32,6 +30,8 @@ import su.geocaching.android.controller.compass.SmoothCompassThread;
 import su.geocaching.android.controller.utils.UiHelper;
 import su.geocaching.android.model.*;
 import su.geocaching.android.ui.R;
+import su.geocaching.android.ui.map.GeocacheMarkerTapListener;
+import su.geocaching.android.ui.map.LocationMarkerTapListener;
 import su.geocaching.android.ui.preferences.DashboardPreferenceActivity;
 
 /**
@@ -272,7 +272,7 @@ public class SearchMapActivity extends SherlockFragmentActivity
         final int mapWidth = mapView.getWidth();
         final int mapHeight = mapView.getHeight();
         // Cannot zoom to bounds until the map has a size.
-        if (mapWidth == 0 ||mapHeight == 0) {
+        if (mapWidth == 0 || mapHeight == 0) {
             if (mapView.getViewTreeObserver().isAlive()) {
                 mapView.getViewTreeObserver().addOnGlobalLayoutListener(new ViewTreeObserver.OnGlobalLayoutListener() {
                     @SuppressLint("NewApi") // We check which build version we are using.
@@ -515,19 +515,28 @@ public class SearchMapActivity extends SherlockFragmentActivity
         }
     }
 
-   public void setActiveItem(GeoCache activeItem) {
-       if (activeItem.getType() == GeoCacheType.CHECKPOINT)
-       {
+   private void setActiveItem(GeoCache activeItem) {
+       if (activeItem.getType() == GeoCacheType.CHECKPOINT) {
            Controller.getInstance().getCheckpointManager(geoCache.getId()).setActiveItem(activeItem.getId());
            getSupportActionBar().setSubtitle(activeItem.getName());
-       }
-       else
-       {
+       } else {
            Controller.getInstance().getCheckpointManager(geoCache.getId()).deactivateCheckpoints();
            Controller.getInstance().setCurrentSearchPoint(activeItem);
            getSupportActionBar().setSubtitle(null);
        }
-       //mapWrapper.updateDistance();
+
+       // update checkpoint markers
+       // TODO: optimize
+       mapWrapper.clearGeocacheMarkers();
+       mapWrapper.setSearchGeocache(geoCache);
+       for (GeoCache checkpoint : Controller.getInstance().getCheckpointManager(geoCache.getId()).getCheckpoints()) {
+           mapWrapper.addCheckpointMarker(checkpoint);
+       }
+
+       // update cache direction
+       mapWrapper.updateCacheDirection();
+
+       // update distance
        updateDistanceTextView();
    }
 
@@ -581,5 +590,29 @@ public class SearchMapActivity extends SherlockFragmentActivity
         mapWrapper.setZoomControlsEnabled(!isMultiTouchAvailable);
 
         mapWrapper.setupMyLocationLayer();
+        mapWrapper.setLocationMarkerTapListener(new LocationMarkerTapListener() {
+            @Override
+            public void OnMarkerTapped() {
+                Controller.getInstance().Vibrate();
+                NavigationManager.startCompassActivity(SearchMapActivity.this, geoCache);
+            }
+        });
+
+        mapWrapper.setGeocacheTapListener(new GeocacheMarkerTapListener() {
+            @Override
+            public void OnMarkerTapped(final GeoCache geocache) {
+                Controller.getInstance().Vibrate();
+                if (geocache.getType() == GeoCacheType.CHECKPOINT) {
+                    NavigationManager.startCheckpointDialog(SearchMapActivity.this, geocache);
+                } else {
+                    NavigationManager.startInfoActivity(SearchMapActivity.this, geocache);
+                }
+            }
+
+            @Override
+            public void OnMarkerLongTapped(final GeoCache geocache) {
+               setActiveItem(geocache);
+            }
+        });
     }
 }
