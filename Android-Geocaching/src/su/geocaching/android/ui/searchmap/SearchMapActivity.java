@@ -21,6 +21,7 @@ import com.actionbarsherlock.view.MenuInflater;
 import com.actionbarsherlock.view.MenuItem;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.SupportMapFragment;
+import com.google.android.gms.maps.model.LatLng;
 import com.google.android.maps.GeoPoint;
 import su.geocaching.android.controller.Controller;
 import su.geocaching.android.controller.managers.*;
@@ -32,6 +33,7 @@ import su.geocaching.android.model.*;
 import su.geocaching.android.ui.R;
 import su.geocaching.android.ui.map.GeocacheMarkerTapListener;
 import su.geocaching.android.ui.map.LocationMarkerTapListener;
+import su.geocaching.android.ui.map.MapLongClickListener;
 import su.geocaching.android.ui.preferences.DashboardPreferenceActivity;
 
 /**
@@ -584,7 +586,7 @@ public class SearchMapActivity extends SherlockFragmentActivity
      * This should only be called once and when we are sure that {@link #googleMap} is not null.
      */
     private void setUpMap() {
-        mapWrapper = new SearchGoogleMapWrapper(googleMap, this);
+        mapWrapper = new SearchGoogleMapWrapper(googleMap);
 
         boolean isMultiTouchAvailable = getPackageManager().hasSystemFeature(PackageManager.FEATURE_TOUCHSCREEN_MULTITOUCH);
         mapWrapper.setZoomControlsEnabled(!isMultiTouchAvailable);
@@ -612,6 +614,18 @@ public class SearchMapActivity extends SherlockFragmentActivity
             @Override
             public void OnMarkerLongTapped(final GeoCache geocache) {
                setActiveItem(geocache);
+            }
+        });
+
+        mapWrapper.setMapLongClickListener(new MapLongClickListener() {
+            @Override
+            public void onMapLongClick(LatLng latLng) {
+                GeoCache checkpoint = new GeoCache();
+                checkpoint.setType(GeoCacheType.CHECKPOINT);
+                checkpoint.setName(geoCache.getName());
+                checkpoint.setId(geoCache.getId());
+                //checkpoint.setLocationGeoPoint(toGeoPoint(latLng)); TODO
+                NavigationManager.startCreateCheckpointActivity(SearchMapActivity.this, checkpoint);
             }
         });
     }

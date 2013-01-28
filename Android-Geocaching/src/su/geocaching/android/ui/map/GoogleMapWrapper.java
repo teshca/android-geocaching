@@ -147,11 +147,11 @@ public class GoogleMapWrapper implements IMapWrapper {
         });
     }
 
-    public static LatLng getCacheLocation(GeoCache geoCache) {
+    protected static LatLng getCacheLocation(GeoCache geoCache) {
         return new LatLng(geoCache.getLocationGeoPoint().getLatitudeE6() * 1E-6, geoCache.getLocationGeoPoint().getLongitudeE6() * 1E-6);
     }
 
-    public static LatLng getUserLocation(Location location) {
+    protected static LatLng getUserLocation(Location location) {
         return new LatLng(location.getLatitude(), location.getLongitude());
     }
 }

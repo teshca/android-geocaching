@@ -1,6 +1,5 @@
 package su.geocaching.android.ui.searchmap;
 
-import android.content.Context;
 import android.location.Location;
 import com.google.android.gms.maps.CameraUpdate;
 import com.google.android.gms.maps.CameraUpdateFactory;
@@ -8,12 +7,11 @@ import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.model.*;
 import su.geocaching.android.controller.Controller;
 import su.geocaching.android.controller.compass.CompassSourceType;
-import su.geocaching.android.controller.managers.NavigationManager;
 import su.geocaching.android.model.GeoCache;
-import su.geocaching.android.model.GeoCacheType;
 import su.geocaching.android.ui.R;
 import su.geocaching.android.ui.map.GeocacheMarkerTapListener;
 import su.geocaching.android.ui.map.GoogleMapWrapper;
+import su.geocaching.android.ui.map.MapLongClickListener;
 
 import java.util.Arrays;
 import java.util.Collection;
@@ -28,25 +26,21 @@ public class SearchGoogleMapWrapper extends GoogleMapWrapper implements ISearchM
 
     private GoogleGeocacheOverlay geocacheOverlay;
     private GeocacheMarkerTapListener geocacheTapListener;
+    private MapLongClickListener mapLongClickListener;
 
-    public SearchGoogleMapWrapper(GoogleMap map, final Context context) {
+    public SearchGoogleMapWrapper(GoogleMap map) {
         super(map);
         preciseColor = Controller.getInstance().getResourceManager().getColor(R.color.user_location_arrow_color_precise);
         notPreciseColor = Controller.getInstance().getResourceManager().getColor(R.color.user_location_arrow_color_not_precise);
         geocacheOverlay = new GoogleGeocacheOverlay(map);
 
-        // TODO: Implement listener, don't pass context
         map.setOnMapLongClickListener(
             new GoogleMap.OnMapLongClickListener() {
                 @Override
                 public void onMapLongClick(LatLng latLng) {
-                    GeoCache geocache = Controller.getInstance().getPreferencesManager().getLastSearchedGeoCache();
-                    GeoCache checkpoint = new GeoCache();
-                    checkpoint.setType(GeoCacheType.CHECKPOINT);
-                    checkpoint.setName(geocache.getName());
-                    checkpoint.setId(geocache.getId());
-                    checkpoint.setLocationGeoPoint(toGeoPoint(latLng));
-                    NavigationManager.startCreateCheckpointActivity(context, checkpoint);
+                    if (mapLongClickListener != null) {
+                        mapLongClickListener.onMapLongClick(latLng);
+                    }
                 }
             }
         );
@@ -140,6 +134,11 @@ public class SearchGoogleMapWrapper extends GoogleMapWrapper implements ISearchM
     @Override
     public void setGeocacheTapListener(GeocacheMarkerTapListener listener) {
         geocacheTapListener = listener;
+    }
+
+    @Override
+    public void setMapLongClickListener(MapLongClickListener listener) {
+        mapLongClickListener = listener;
     }
 
     /**

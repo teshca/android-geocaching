@@ -39,20 +39,15 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" readonly="true" id="9dfe056f-2d77-44b2-a1e9-8cd41c586ab0" name="Default" comment="">
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/su/geocaching/android/ui/map/GeocacheMarkerTapListener.java" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/su/geocaching/android/ui/map/GoogleMarkerOptions.java" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/su/geocaching/android/ui/map/LocationMarkerTapListener.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/Android-Geocaching.ipr" afterPath="$PROJECT_DIR$/Android-Geocaching.ipr" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/su/geocaching/android/ui/map/MapLongClickListener.java" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/Android-Geocaching.iws" afterPath="$PROJECT_DIR$/Android-Geocaching.iws" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/su/geocaching/android/ui/searchmap/GoogleGeocacheOverlay.java" afterPath="$PROJECT_DIR$/src/su/geocaching/android/ui/searchmap/GoogleGeocacheOverlay.java" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/su/geocaching/android/ui/map/GoogleMapWrapper.java" afterPath="$PROJECT_DIR$/src/su/geocaching/android/ui/map/GoogleMapWrapper.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/su/geocaching/android/ui/map/IMapWrapper.java" afterPath="$PROJECT_DIR$/src/su/geocaching/android/ui/map/IMapWrapper.java" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/su/geocaching/android/ui/searchmap/ISearchMapWrapper.java" afterPath="$PROJECT_DIR$/src/su/geocaching/android/ui/searchmap/ISearchMapWrapper.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/su/geocaching/android/ui/selectmap/ISelectMapWrapper.java" afterPath="$PROJECT_DIR$/src/su/geocaching/android/ui/selectmap/ISelectMapWrapper.java" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/su/geocaching/android/ui/searchmap/SearchGoogleMapWrapper.java" afterPath="$PROJECT_DIR$/src/su/geocaching/android/ui/searchmap/SearchGoogleMapWrapper.java" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/su/geocaching/android/ui/searchmap/SearchMapActivity.java" afterPath="$PROJECT_DIR$/src/su/geocaching/android/ui/searchmap/SearchMapActivity.java" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/su/geocaching/android/ui/selectmap/SelectGoogleMapWrapper.java" afterPath="$PROJECT_DIR$/src/su/geocaching/android/ui/selectmap/SelectGoogleMapWrapper.java" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/su/geocaching/android/ui/selectmap/SelectMapActivity.java" afterPath="$PROJECT_DIR$/src/su/geocaching/android/ui/selectmap/SelectMapActivity.java" />
-      <change type="MOVED" beforePath="E:\Projects\android-geocaching\trunk\Android-Geocaching\src\su\geocaching\android\ui\map\ViewPortChangedListener.java" afterPath="$PROJECT_DIR$/src/su/geocaching/android/ui/map/ViewPortChangeListener.java" />
     </list>
     <ignored path="Android-Geocaching.iws" />
     <ignored path=".idea/workspace.xml" />
@@ -60,26 +55,26 @@
     <file path="$PROJECT_DIR$/../google-maps-samples/gen/com/example/mapdemo/R.java" changelist="9dfe056f-2d77-44b2-a1e9-8cd41c586ab0" time="1354817791617" ignored="false" />
     <file path="$PROJECT_DIR$/../google-maps-samples/gen/com/example/mapdemo/BuildConfig.java" changelist="9dfe056f-2d77-44b2-a1e9-8cd41c586ab0" time="1354817791763" ignored="false" />
     <file path="/a.dummy" changelist="9dfe056f-2d77-44b2-a1e9-8cd41c586ab0" time="1354818661441" ignored="false" />
-    <file path="/SelectMapActivity.java" changelist="9dfe056f-2d77-44b2-a1e9-8cd41c586ab0" time="1355766163622" ignored="false" />
+    <file path="/SelectMapActivity.java" changelist="9dfe056f-2d77-44b2-a1e9-8cd41c586ab0" time="1359395690681" ignored="false" />
     <file path="/AndroidManifest.xml" changelist="9dfe056f-2d77-44b2-a1e9-8cd41c586ab0" time="1355162117373" ignored="false" />
     <file path="/MapWrapper.java" changelist="9dfe056f-2d77-44b2-a1e9-8cd41c586ab0" time="1355044362596" ignored="false" />
-    <file path="/GoogleMapWrapper.java" changelist="9dfe056f-2d77-44b2-a1e9-8cd41c586ab0" time="1358705846387" ignored="false" />
+    <file path="/GoogleMapWrapper.java" changelist="9dfe056f-2d77-44b2-a1e9-8cd41c586ab0" time="1359395801087" ignored="false" />
     <file path="/IMapWrapper.java" changelist="9dfe056f-2d77-44b2-a1e9-8cd41c586ab0" time="1358697337447" ignored="false" />
-    <file path="/fragment.java" changelist="9dfe056f-2d77-44b2-a1e9-8cd41c586ab0" time="1358699180271" ignored="false" />
+    <file path="/fragment.java" changelist="9dfe056f-2d77-44b2-a1e9-8cd41c586ab0" time="1359394344641" ignored="false" />
     <file path="/ViewPortChangedListener.java" changelist="9dfe056f-2d77-44b2-a1e9-8cd41c586ab0" time="1355044823759" ignored="false" />
     <file path="/GeoCacheListAnalyzer.java" changelist="9dfe056f-2d77-44b2-a1e9-8cd41c586ab0" time="1355765670197" ignored="false" />
     <file path="$PROJECT_DIR$/../google-play-services_lib/AndroidManifest.xml" changelist="9dfe056f-2d77-44b2-a1e9-8cd41c586ab0" time="1355071857097" ignored="false" />
     <file path="/ISelectMapWrapper.java" changelist="9dfe056f-2d77-44b2-a1e9-8cd41c586ab0" time="1356293903497" ignored="false" />
-    <file path="/SelectGoogleMapWrapper.java" changelist="9dfe056f-2d77-44b2-a1e9-8cd41c586ab0" time="1358084563533" ignored="false" />
+    <file path="/SelectGoogleMapWrapper.java" changelist="9dfe056f-2d77-44b2-a1e9-8cd41c586ab0" time="1359395544745" ignored="false" />
     <file path="/GroupGeoCacheTask.java" changelist="9dfe056f-2d77-44b2-a1e9-8cd41c586ab0" time="1355764876875" ignored="false" />
     <file path="/SelectMapViewModel.java" changelist="9dfe056f-2d77-44b2-a1e9-8cd41c586ab0" time="1355766140798" ignored="false" />
     <file path="/CheckpointManager.java" changelist="9dfe056f-2d77-44b2-a1e9-8cd41c586ab0" time="1355771043865" ignored="false" />
     <file path="/CheckpointOverlay.java" changelist="9dfe056f-2d77-44b2-a1e9-8cd41c586ab0" time="1355771348371" ignored="false" />
     <file path="/search_map_activity.xml" changelist="9dfe056f-2d77-44b2-a1e9-8cd41c586ab0" time="1355851036431" ignored="false" />
-    <file path="/SearchMapActivity.java" changelist="9dfe056f-2d77-44b2-a1e9-8cd41c586ab0" time="1358705188066" ignored="false" />
+    <file path="/SearchMapActivity.java" changelist="9dfe056f-2d77-44b2-a1e9-8cd41c586ab0" time="1359394840244" ignored="false" />
     <file path="$PROJECT_DIR$/gen/su/geocaching/android/ui/R.java" changelist="9dfe056f-2d77-44b2-a1e9-8cd41c586ab0" time="1356028970608" ignored="false" />
-    <file path="/SearchGoogleMapWrapper.java" changelist="9dfe056f-2d77-44b2-a1e9-8cd41c586ab0" time="1358705732984" ignored="false" />
-    <file path="/ISearchMapWrapper.java" changelist="9dfe056f-2d77-44b2-a1e9-8cd41c586ab0" time="1358699422878" ignored="false" />
+    <file path="/SearchGoogleMapWrapper.java" changelist="9dfe056f-2d77-44b2-a1e9-8cd41c586ab0" time="1359394657833" ignored="false" />
+    <file path="/ISearchMapWrapper.java" changelist="9dfe056f-2d77-44b2-a1e9-8cd41c586ab0" time="1359394676137" ignored="false" />
     <file path="/UserLocationOverlay.java" changelist="9dfe056f-2d77-44b2-a1e9-8cd41c586ab0" time="1356186083885" ignored="false" />
     <file path="/GeocacheOverlay.java" changelist="9dfe056f-2d77-44b2-a1e9-8cd41c586ab0" time="1356294475014" ignored="false" />
     <file path="/GoogleGeocacheOverlay.java" changelist="9dfe056f-2d77-44b2-a1e9-8cd41c586ab0" time="1358706697707" ignored="false" />
@@ -106,7 +101,6 @@
     <disable_hints />
   </component>
   <component name="DebuggerManager">
-    <ui_properties default_suspend_policy="SuspendAll" default_condition_enabled="true" />
     <line_breakpoints default_suspend_policy="SuspendAll" default_condition_enabled="true">
       <breakpoint url="file://$PROJECT_DIR$/src/su/geocaching/android/ui/checkpoints/CheckpointsFolderActivity.java" line="66" class="su.geocaching.android.ui.checkpoints.CheckpointsFolderActivity" package="su.geocaching.android.ui.checkpoints">
         <option name="ENABLED" value="true" />
@@ -157,6 +151,7 @@
         <option name="LOG_MESSAGE" value="" />
       </breakpoint>
     </breakpoint_any>
+    <ui_properties default_suspend_policy="SuspendAll" default_condition_enabled="true" />
     <breakpoint_rules />
     <ui_properties />
   </component>
@@ -165,117 +160,7 @@
     <favorites_list name="Android-Geocaching" />
   </component>
   <component name="FileEditorManager">
-    <leaf>
-      <file leaf-file-name="SearchGoogleMapWrapper.java" pinned="false" current="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/su/geocaching/android/ui/searchmap/SearchGoogleMapWrapper.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state line="186" column="35" selection-start="7062" selection-end="7062" vertical-scroll-proportion="0.0">
-              <folding>
-                <element signature="imports" expanded="true" />
-                <element signature="e#1680#2355#0" expanded="true" />
-                <element signature="e#2340#2341#0" expanded="true" />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="GoogleGeocacheOverlay.java" pinned="false" current="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/su/geocaching/android/ui/searchmap/GoogleGeocacheOverlay.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state line="30" column="97" selection-start="1138" selection-end="1180" vertical-scroll-proportion="0.0">
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="GoogleMarkerOptions.java" pinned="false" current="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/su/geocaching/android/ui/map/GoogleMarkerOptions.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state line="8" column="32" selection-start="321" selection-end="340" vertical-scroll-proportion="0.0">
-              <folding>
-                <element signature="imports" expanded="true" />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="ISearchMapWrapper.java" pinned="false" current="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/su/geocaching/android/ui/searchmap/ISearchMapWrapper.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state line="16" column="21" selection-start="657" selection-end="657" vertical-scroll-proportion="0.0">
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="SelectGoogleMapWrapper.java" pinned="false" current="true" current-in-tab="true">
-        <entry file="file://$PROJECT_DIR$/src/su/geocaching/android/ui/selectmap/SelectGoogleMapWrapper.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state line="6" column="0" selection-start="210" selection-end="210" vertical-scroll-proportion="0.18149467">
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="GoogleMapWrapper.java" pinned="false" current="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/su/geocaching/android/ui/map/GoogleMapWrapper.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state line="34" column="11" selection-start="1377" selection-end="1377" vertical-scroll-proportion="0.0">
-              <folding>
-                <element signature="imports" expanded="true" />
-                <element signature="e#1158#1639#0" expanded="true" />
-                <element signature="e#1624#1625#0" expanded="true" />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="CheckpointOverlay.java" pinned="false" current="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/su/geocaching/android/ui/searchmap/CheckpointOverlay.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state line="46" column="31" selection-start="1604" selection-end="1674" vertical-scroll-proportion="0.0">
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="SearchMapActivity.java" pinned="false" current="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/su/geocaching/android/ui/searchmap/SearchMapActivity.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state line="590" column="0" selection-start="23801" selection-end="23801" vertical-scroll-proportion="0.0">
-              <folding>
-                <element signature="imports" expanded="true" />
-                <element signature="e#10947#11634#0" expanded="true" />
-                <element signature="e#11615#11616#0" expanded="true" />
-                <element signature="e#23893#24157#0" expanded="true" />
-                <element signature="e#24146#24147#0" expanded="true" />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="DynamicUserLocationOverlay.java" pinned="false" current="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/su/geocaching/android/ui/searchmap/DynamicUserLocationOverlay.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state line="22" column="73" selection-start="899" selection-end="899" vertical-scroll-proportion="0.0">
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="SelectMapActivity.java" pinned="false" current="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/su/geocaching/android/ui/selectmap/SelectMapActivity.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state line="296" column="42" selection-start="11353" selection-end="11353" vertical-scroll-proportion="0.0">
-              <folding>
-                <element signature="e#10999#11307#0" expanded="true" />
-                <element signature="e#11296#11297#0" expanded="true" />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-    </leaf>
+    <leaf />
   </component>
   <component name="FindManager">
     <FindUsagesManager>
@@ -285,21 +170,21 @@
   <component name="IdeDocumentHistory">
     <option name="changedFiles">
       <list>
-        <option value="$PROJECT_DIR$/src/su/geocaching/android/ui/selectmap/ISelectMapWrapper.java" />
-        <option value="$PROJECT_DIR$/AndroidManifest.xml" />
-        <option value="$PROJECT_DIR$/src/su/geocaching/android/ui/map/ClusterBounds.java" />
         <option value="$PROJECT_DIR$/src/su/geocaching/android/ui/map/ClusterBoundsBuilder.java" />
         <option value="$PROJECT_DIR$/src/su/geocaching/android/ui/map/MarkerTapListener.java" />
         <option value="$PROJECT_DIR$/src/su/geocaching/android/ui/map/LocationMarkerTapListener.java" />
-        <option value="$PROJECT_DIR$/src/su/geocaching/android/ui/map/IMapWrapper.java" />
-        <option value="$PROJECT_DIR$/src/su/geocaching/android/ui/searchmap/ISearchMapWrapper.java" />
         <option value="$PROJECT_DIR$/src/su/geocaching/android/ui/map/GeocacheMarkerTapListener.java" />
-        <option value="$PROJECT_DIR$/src/su/geocaching/android/ui/searchmap/SearchMapActivity.java" />
-        <option value="$PROJECT_DIR$/src/su/geocaching/android/ui/map/GoogleMapWrapper.java" />
-        <option value="$PROJECT_DIR$/src/su/geocaching/android/ui/searchmap/SearchGoogleMapWrapper.java" />
         <option value="$PROJECT_DIR$/src/su/geocaching/android/ui/map/GoogleGeocacheMarkerOptions.java" />
         <option value="$PROJECT_DIR$/src/su/geocaching/android/ui/map/GoogleMarkerOptions.java" />
         <option value="$PROJECT_DIR$/src/su/geocaching/android/ui/searchmap/GoogleGeocacheOverlay.java" />
+        <option value="$PROJECT_DIR$/src/su/geocaching/android/ui/map/MapLongClickListener.java" />
+        <option value="$PROJECT_DIR$/src/su/geocaching/android/ui/searchmap/SearchMapActivity.java" />
+        <option value="$PROJECT_DIR$/src/su/geocaching/android/ui/selectmap/SelectMapActivity.java" />
+        <option value="$PROJECT_DIR$/src/su/geocaching/android/ui/map/GoogleMapWrapper.java" />
+        <option value="$PROJECT_DIR$/src/su/geocaching/android/ui/searchmap/SearchGoogleMapWrapper.java" />
+        <option value="$PROJECT_DIR$/src/su/geocaching/android/ui/map/IMapWrapper.java" />
+        <option value="$PROJECT_DIR$/src/su/geocaching/android/ui/selectmap/ISelectMapWrapper.java" />
+        <option value="$PROJECT_DIR$/src/su/geocaching/android/ui/searchmap/ISearchMapWrapper.java" />
         <option value="$PROJECT_DIR$/src/su/geocaching/android/ui/selectmap/SelectGoogleMapWrapper.java" />
       </list>
     </option>
@@ -342,26 +227,6 @@
       <sortByType />
     </navigator>
     <panes>
-      <pane id="ProjectPane">
-        <subPane>
-          <PATH>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="Android-Geocaching" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
-            </PATH_ELEMENT>
-          </PATH>
-          <PATH>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="Android-Geocaching" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="Android-Geocaching" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-          </PATH>
-        </subPane>
-      </pane>
       <pane id="PackagesPane">
         <subPane>
           <PATH>
@@ -382,17 +247,155 @@
           </PATH>
         </subPane>
       </pane>
+      <pane id="ProjectPane">
+        <subPane>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="Android-Geocaching" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
+            </PATH_ELEMENT>
+          </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="Android-Geocaching" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="Android-Geocaching" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+          </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="Android-Geocaching" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="Android-Geocaching" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="src" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="android" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="ui" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+          </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="Android-Geocaching" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="Android-Geocaching" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="src" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="android" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="ui" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="selectmap" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+          </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="Android-Geocaching" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="Android-Geocaching" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="src" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="android" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="ui" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="searchmap" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+          </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="Android-Geocaching" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="Android-Geocaching" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="src" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="android" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="ui" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="map" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+          </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="Android-Geocaching" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="Android-Geocaching" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="src" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="android" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+          </PATH>
+        </subPane>
+      </pane>
     </panes>
   </component>
   <component name="PropertiesComponent">
     <property name="FileHistory.org.jetbrains.idea.svn.history.SvnHistoryProvider_flatWidth1" value="114" />
-    <property name="project.structure.last.edited" value="Modules" />
-    <property name="FileHistory.org.jetbrains.idea.svn.history.SvnHistoryProvider_flatWidth0" value="94" />
     <property name="SHOW_ALL_PROCESSES" value="false" />
+    <property name="FileHistory.org.jetbrains.idea.svn.history.SvnHistoryProvider_flatWidth0" value="94" />
+    <property name="project.structure.last.edited" value="Modules" />
     <property name="FileHistory.org.jetbrains.idea.svn.history.SvnHistoryProvider_flatWidth3" value="44" />
-    <property name="FileHistory.org.jetbrains.idea.svn.history.SvnHistoryProvider_flatWidth2" value="114" />
-    <property name="OverrideImplement.combined" value="true" />
     <property name="project.structure.proportion" value="0.15" />
+    <property name="OverrideImplement.combined" value="true" />
+    <property name="FileHistory.org.jetbrains.idea.svn.history.SvnHistoryProvider_flatWidth2" value="114" />
     <property name="FileHistory.org.jetbrains.idea.svn.history.SvnHistoryProvider_flatOrder1" value="1" />
     <property name="FileHistory.org.jetbrains.idea.svn.history.SvnHistoryProvider_flatOrder0" value="0" />
     <property name="FileHistory.org.jetbrains.idea.svn.history.SvnHistoryProvider_flatOrder3" value="3" />
@@ -412,19 +415,19 @@
     <property name="GoToClass.toSaveIncludeLibraries" value="false" />
     <property name="MemberChooser.showClasses" value="true" />
     <property name="FileHistory.org.jetbrains.idea.svn.history.SvnHistoryProvider_flatWidth4" value="115" />
-    <property name="FileHistory.org.jetbrains.idea.svn.history.SvnHistoryProvider_flatWidth5" value="789" />
     <property name="GoToClass.includeLibraries" value="false" />
-    <property name="GoToFile.includeJavaFiles" value="false" />
+    <property name="FileHistory.org.jetbrains.idea.svn.history.SvnHistoryProvider_flatWidth5" value="789" />
     <property name="last_directory_selection" value="$PROJECT_DIR$/src/su/geocaching/android/ui" />
+    <property name="GoToFile.includeJavaFiles" value="false" />
     <property name="FileHistory.org.jetbrains.idea.svn.history.SvnHistoryProvider_treeOrder5" value="5" />
     <property name="FileHistory.org.jetbrains.idea.svn.history.SvnHistoryProvider_treeOrder3" value="3" />
     <property name="FileHistory.org.jetbrains.idea.svn.history.SvnHistoryProvider_treeOrder4" value="4" />
-    <property name="FileHistory.org.jetbrains.idea.svn.history.SvnHistoryProvider_treeOrder1" value="1" />
     <property name="AndroidLayoutSelectedEditor" value="text-editor" />
-    <property name="project.structure.side.proportion" value="0.33449882" />
+    <property name="FileHistory.org.jetbrains.idea.svn.history.SvnHistoryProvider_treeOrder1" value="1" />
     <property name="FileHistory.org.jetbrains.idea.svn.history.SvnHistoryProvider_treeOrder2" value="2" />
-    <property name="MemberChooser.copyJavadoc" value="false" />
+    <property name="project.structure.side.proportion" value="0.33449882" />
     <property name="FileHistory.org.jetbrains.idea.svn.history.SvnHistoryProvider_treeOrder0" value="0" />
+    <property name="MemberChooser.copyJavadoc" value="false" />
   </component>
   <component name="RecentsManager">
     <key name="CopyClassDialog.RECENTS_KEY">
@@ -694,25 +697,25 @@
       <window_info id="Changes" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32676518" sideWeight="0.4969697" order="11" side_tool="false" content_ui="tabs" />
       <window_info id="JetGradle" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.18583396" sideWeight="0.44217688" order="6" side_tool="true" content_ui="tabs" />
       <window_info id="Palette" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="5" side_tool="false" content_ui="tabs" />
-      <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.55172414" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
+      <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.5515548" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Ant Build" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.21249048" sideWeight="0.42998353" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.56650245" sideWeight="0.7030303" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.70607555" sideWeight="0.29166666" order="7" side_tool="true" content_ui="tabs" />
       <window_info id="Favorites" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="2" side_tool="true" content_ui="tabs" />
       <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32994923" sideWeight="0.5" order="8" side_tool="false" content_ui="tabs" />
-      <window_info id="Messages" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.18226601" sideWeight="0.5" order="10" side_tool="false" content_ui="tabs" />
       <window_info id="Android" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.5369458" sideWeight="0.49733436" order="9" side_tool="false" content_ui="tabs" />
       <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.3282572" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
       <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.24469697" sideWeight="0.23316912" order="1" side_tool="true" content_ui="tabs" />
       <window_info id="Maven Projects" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.075399846" sideWeight="0.4398682" order="7" side_tool="true" content_ui="tabs" />
       <window_info id="Commander" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.3998477" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
-      <window_info id="Project" active="true" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.2469697" sideWeight="0.44827586" order="0" side_tool="false" content_ui="combo" />
+      <window_info id="Project" active="true" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.2469697" sideWeight="0.44844517" order="0" side_tool="false" content_ui="combo" />
       <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32512316" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Palette&#9;" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32954547" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Cvs" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
       <window_info id="Designer" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32954547" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Preview" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.15454546" sideWeight="0.45963755" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Message" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
+      <window_info id="Messages" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.18226601" sideWeight="0.5" order="10" side_tool="false" content_ui="tabs" />
       <window_info id="Hierarchy" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="4" side_tool="false" content_ui="combo" />
       <window_info id="Inspection" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.4645799" sideWeight="0.5" order="5" side_tool="false" content_ui="tabs" />
     </layout>
@@ -777,100 +780,24 @@
     <option name="FILTER_TARGETS" value="false" />
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/src/su/geocaching/android/ui/selectmap/ISelectMapWrapper.java">
+    <entry file="file://$PROJECT_DIR$/src/su/geocaching/android/ui/searchmap/GoogleGeocacheOverlay.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="7" column="52" selection-start="216" selection-end="216" vertical-scroll-proportion="0.0">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/su/geocaching/android/ui/map/IMapWrapper.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="15" column="49" selection-start="431" selection-end="431" vertical-scroll-proportion="0.0">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/su/geocaching/android/ui/map/LocationMarkerTapListener.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="2" column="22" selection-start="61" selection-end="61" vertical-scroll-proportion="0.06049822">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="jar://$PROJECT_DIR$/../google-play-services_lib/libs/google-play-services.jar!/com/google/android/gms/maps/LocationSource.class">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="12" column="13" selection-start="393" selection-end="393" vertical-scroll-proportion="0.3482309">
+        <state line="30" column="97" selection-start="1138" selection-end="1180" vertical-scroll-proportion="0.0">
           <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/src/su/geocaching/android/ui/map/ViewPortChangeListener.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="4" column="22" selection-start="122" selection-end="122" vertical-scroll-proportion="0.12099644">
+        <state line="4" column="22" selection-start="122" selection-end="122" vertical-scroll-proportion="0.0">
           <folding />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/su/geocaching/android/ui/selectmap/SelectMapActivity.java">
+    <entry file="file://$PROJECT_DIR$/src/su/geocaching/android/ui/map/GoogleUserLocationLayer.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="296" column="42" selection-start="11353" selection-end="11353" vertical-scroll-proportion="0.0">
-          <folding>
-            <element signature="e#10999#11307#0" expanded="true" />
-            <element signature="e#11296#11297#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/su/geocaching/android/ui/map/GeocacheMarkerTapListener.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="6" column="57" selection-start="252" selection-end="252" vertical-scroll-proportion="0.18149467">
+        <state line="7" column="13" selection-start="212" selection-end="212" vertical-scroll-proportion="0.0">
           <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/su/geocaching/android/ui/searchmap/DynamicUserLocationOverlay.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="22" column="73" selection-start="899" selection-end="899" vertical-scroll-proportion="0.0">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/su/geocaching/android/ui/searchmap/ISearchMapWrapper.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="16" column="21" selection-start="657" selection-end="657" vertical-scroll-proportion="0.0">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/su/geocaching/android/ui/searchmap/CheckpointOverlay.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="46" column="31" selection-start="1604" selection-end="1674" vertical-scroll-proportion="0.0">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/su/geocaching/android/ui/searchmap/SearchMapActivity.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="590" column="0" selection-start="23801" selection-end="23801" vertical-scroll-proportion="0.0">
-          <folding>
-            <element signature="imports" expanded="true" />
-            <element signature="e#10947#11634#0" expanded="true" />
-            <element signature="e#11615#11616#0" expanded="true" />
-            <element signature="e#23893#24157#0" expanded="true" />
-            <element signature="e#24146#24147#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/su/geocaching/android/ui/searchmap/SearchGoogleMapWrapper.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="186" column="35" selection-start="7062" selection-end="7062" vertical-scroll-proportion="0.0">
-          <folding>
-            <element signature="imports" expanded="true" />
-            <element signature="e#1680#2355#0" expanded="true" />
-            <element signature="e#2340#2341#0" expanded="true" />
-          </folding>
         </state>
       </provider>
     </entry>
@@ -883,27 +810,99 @@
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/src/su/geocaching/android/ui/map/LocationMarkerTapListener.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="2" column="22" selection-start="61" selection-end="61" vertical-scroll-proportion="0.0">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/su/geocaching/android/ui/map/MapLongClickListener.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="5" column="39" selection-start="159" selection-end="173" vertical-scroll-proportion="0.0">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/su/geocaching/android/ui/map/GeocacheMarkerTapListener.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="4" column="47" selection-start="107" selection-end="132" vertical-scroll-proportion="0.120567374">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/su/geocaching/android/ui/selectmap/SelectMapViewModel.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="17" column="13" selection-start="612" selection-end="612" vertical-scroll-proportion="0.20804195">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/su/geocaching/android/ui/map/IMapWrapper.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="21" column="74" selection-start="642" selection-end="642" vertical-scroll-proportion="0.5521368">
+          <folding />
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/src/su/geocaching/android/ui/map/GoogleMapWrapper.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="34" column="11" selection-start="1377" selection-end="1377" vertical-scroll-proportion="0.0">
+        <state line="149" column="13" selection-start="5512" selection-end="5512" vertical-scroll-proportion="0.0">
           <folding>
             <element signature="imports" expanded="true" />
-            <element signature="e#1158#1639#0" expanded="true" />
-            <element signature="e#1624#1625#0" expanded="true" />
           </folding>
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/su/geocaching/android/ui/searchmap/GoogleGeocacheOverlay.java">
+    <entry file="file://$PROJECT_DIR$/src/su/geocaching/android/ui/selectmap/SelectMapActivity.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="30" column="97" selection-start="1138" selection-end="1180" vertical-scroll-proportion="0.0">
+        <state line="39" column="20" selection-start="1650" selection-end="1650" vertical-scroll-proportion="0.31993008">
           <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/su/geocaching/android/ui/searchmap/SearchMapActivity.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="602" column="28" selection-start="24290" selection-end="24290" vertical-scroll-proportion="0.5680581">
+          <folding>
+            <element signature="imports" expanded="true" />
+            <element signature="e#24993#25522#0" expanded="true" />
+            <element signature="e#25511#25512#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/su/geocaching/android/ui/searchmap/ISearchMapWrapper.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="25" column="68" selection-start="1018" selection-end="1018" vertical-scroll-proportion="0.5811966">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/su/geocaching/android/ui/searchmap/SearchGoogleMapWrapper.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="133" column="0" selection-start="5162" selection-end="5298" vertical-scroll-proportion="0.32136753">
+          <folding>
+            <element signature="imports" expanded="true" />
+            <element signature="e#1565#1870#0" expanded="true" />
+            <element signature="e#1855#1856#0" expanded="true" />
+          </folding>
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/src/su/geocaching/android/ui/selectmap/SelectGoogleMapWrapper.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="6" column="0" selection-start="210" selection-end="210" vertical-scroll-proportion="0.18149467">
+        <state line="0" column="0" selection-start="0" selection-end="0" vertical-scroll-proportion="0.0">
+          <folding>
+            <element signature="imports" expanded="true" />
+            <element signature="e#963#971#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/su/geocaching/android/ui/selectmap/ISelectMapWrapper.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="9" column="4" selection-start="288" selection-end="352" vertical-scroll-proportion="0.15070923">
           <folding />
         </state>
       </provider>
