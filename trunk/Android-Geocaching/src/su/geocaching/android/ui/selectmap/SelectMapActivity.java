@@ -19,8 +19,10 @@ import su.geocaching.android.controller.Controller;
 import su.geocaching.android.controller.apimanager.GeoRect;
 import su.geocaching.android.controller.managers.*;
 import su.geocaching.android.model.GeoCache;
+import su.geocaching.android.model.GeoCacheType;
 import su.geocaching.android.model.MapInfo;
 import su.geocaching.android.ui.R;
+import su.geocaching.android.ui.map.GeocacheMarkerTapListener;
 import su.geocaching.android.ui.map.ViewPortChangeListener;
 import su.geocaching.android.ui.preferences.MapPreferenceActivity;
 
@@ -282,7 +284,7 @@ public class SelectMapActivity extends SherlockFragmentActivity implements IConn
      * This should only be called once and when we are sure that {@link #mMap} is not null.
      */
     private void setUpMap() {
-        mapWrapper = new SelectGoogleMapWrapper(mMap, this);
+        mapWrapper = new SelectGoogleMapWrapper(mMap);
 
         boolean isMultiTouchAvailable = getPackageManager().hasSystemFeature(PackageManager.FEATURE_TOUCHSCREEN_MULTITOUCH);
         mapWrapper.setZoomControlsEnabled(!isMultiTouchAvailable);
@@ -291,6 +293,17 @@ public class SelectMapActivity extends SherlockFragmentActivity implements IConn
             @Override
             public void OnViewPortChanged(GeoRect viewPort) {
                 selectMapViewModel.beginUpdateGeocacheOverlay(viewPort, mapWrapper.getProjection(), mapFragment.getView().getWidth(), mapFragment.getView().getHeight());
+            }
+        });
+
+        mapWrapper.setGeocacheTapListener(new GeocacheMarkerTapListener() {
+            @Override
+            public void OnMarkerTapped(final GeoCache geocache) {
+                NavigationManager.startInfoActivity(SelectMapActivity.this, geocache);
+            }
+
+            @Override
+            public void OnMarkerLongTapped(final GeoCache geocache) {
             }
         });
 
