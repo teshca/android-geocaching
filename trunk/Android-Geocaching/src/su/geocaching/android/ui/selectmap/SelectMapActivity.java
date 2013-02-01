@@ -19,7 +19,6 @@ import su.geocaching.android.controller.Controller;
 import su.geocaching.android.controller.apimanager.GeoRect;
 import su.geocaching.android.controller.managers.*;
 import su.geocaching.android.model.GeoCache;
-import su.geocaching.android.model.GeoCacheType;
 import su.geocaching.android.model.MapInfo;
 import su.geocaching.android.ui.R;
 import su.geocaching.android.ui.map.GeocacheMarkerTapListener;

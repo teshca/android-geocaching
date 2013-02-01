@@ -4,9 +4,9 @@ import android.graphics.Bitmap;
 import android.location.Location;
 import com.google.android.gms.maps.*;
 import com.google.android.gms.maps.model.*;
-import com.google.android.maps.GeoPoint;
 import su.geocaching.android.controller.apimanager.GeoRect;
 import su.geocaching.android.model.GeoCache;
+import su.geocaching.android.model.GeoPoint;
 import su.geocaching.android.model.MapInfo;
 
 import static com.google.android.gms.maps.GoogleMap.*;
@@ -92,17 +92,18 @@ public class GoogleMapWrapper implements IMapWrapper {
 
     private GeoRect getViewPortGeoRect() {
         LatLngBounds viewPortBounds = googleMap.getProjection().getVisibleRegion().latLngBounds;
-        GeoPoint tl = new GeoPoint(toE6(viewPortBounds.northeast.latitude), toE6(viewPortBounds.southwest.longitude));
-        GeoPoint br = new GeoPoint(toE6(viewPortBounds.southwest.latitude), toE6(viewPortBounds.northeast.longitude));
+        GeoPoint tl = new GeoPoint(viewPortBounds.northeast.latitude, viewPortBounds.southwest.longitude);
+        GeoPoint br = new GeoPoint(viewPortBounds.southwest.latitude, viewPortBounds.northeast.longitude);
         return new GeoRect(tl, br);
     }
 
+    @Deprecated
     protected static int toE6(double coordinate) {
         return (int) (coordinate * 1E6);
     }
 
     protected static GeoPoint toGeoPoint(LatLng latLng) {
-        return new GeoPoint(toE6(latLng.latitude), toE6(latLng.longitude));
+        return new GeoPoint(latLng.latitude, latLng.longitude);
     }
 
     @Override
@@ -148,7 +149,7 @@ public class GoogleMapWrapper implements IMapWrapper {
     }
 
     protected static LatLng getCacheLocation(GeoCache geoCache) {
-        return new LatLng(geoCache.getLocationGeoPoint().getLatitudeE6() * 1E-6, geoCache.getLocationGeoPoint().getLongitudeE6() * 1E-6);
+        return new LatLng(geoCache.getGeoPoint().getLatitude(), geoCache.getGeoPoint().getLongitude());
     }
 
     protected static LatLng getUserLocation(Location location) {

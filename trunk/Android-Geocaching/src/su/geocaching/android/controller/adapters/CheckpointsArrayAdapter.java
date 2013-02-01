@@ -24,7 +24,7 @@ public class CheckpointsArrayAdapter extends FavoritesArrayAdapter {
         final GeoCache geoCache = getItem(position);
         if (geoCache.getType() == GeoCacheType.CHECKPOINT) {
             final TextView textViewType = (TextView) view.findViewById(R.id.tvType);
-            textViewType.setText(CoordinateHelper.coordinateToString(geoCache.getLocationGeoPoint()));
+            textViewType.setText(CoordinateHelper.coordinateToString(geoCache.getGeoPoint()));
         }
         return view;
     }

@@ -105,7 +105,7 @@ public class CompassActivity extends SherlockActivity {
 
         GeoCache currentSearchPoint = Controller.getInstance().getCurrentSearchPoint();
 
-        cacheCoordinates.setText(CoordinateHelper.coordinateToString(currentSearchPoint.getLocationGeoPoint()));
+        cacheCoordinates.setText(CoordinateHelper.coordinateToString(currentSearchPoint.getGeoPoint()));
         cacheIcon.setImageResource(Controller.getInstance().getResourceManager().getMarkerResId(currentSearchPoint.getType(), currentSearchPoint.getStatus()));
         odometer.updateView();
 
@@ -250,13 +250,13 @@ public class CompassActivity extends SherlockActivity {
         public void updateLocation(Location location) {
             odometer.updateDistance();
             UiHelper.setGone(progressBarCircle);
-            float distance = CoordinateHelper.getDistanceBetween(Controller.getInstance().getCurrentSearchPoint().getLocationGeoPoint(), location);
+            float distance = CoordinateHelper.getDistanceBetween(Controller.getInstance().getCurrentSearchPoint().getGeoPoint(), location);
             if (distance < CLOSE_DISTANCE_TO_GC_VALUE || AccurateUserLocationManager.Odometer.isEnabled()) {
                 Controller.getInstance().getLocationManager().updateFrequency(GpsUpdateFrequency.MAXIMAL);
             } else {
                 Controller.getInstance().getLocationManager().updateFrequencyFromPreferences();
             }
-            compassView.setCacheDirection(CoordinateHelper.getBearingBetween(location, Controller.getInstance().getCurrentSearchPoint().getLocationGeoPoint()));
+            compassView.setCacheDirection(CoordinateHelper.getBearingBetween(location, Controller.getInstance().getCurrentSearchPoint().getGeoPoint()));
             userCoordinates.setText(CoordinateHelper.coordinateToString(CoordinateHelper.locationToGeoPoint(location)));
             compassView.setDistance(distance);
         }

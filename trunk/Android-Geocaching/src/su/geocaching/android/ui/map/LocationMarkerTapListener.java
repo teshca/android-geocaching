@@ -1,5 +1,5 @@
 package su.geocaching.android.ui.map;
 
-abstract public class LocationMarkerTapListener {
+public abstract class LocationMarkerTapListener {
     public abstract void OnMarkerTapped();
 }

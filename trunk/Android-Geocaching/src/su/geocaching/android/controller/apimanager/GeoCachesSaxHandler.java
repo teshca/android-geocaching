@@ -3,11 +3,11 @@ package su.geocaching.android.controller.apimanager;
 import java.util.LinkedList;
 import java.util.List;
 
-import com.google.android.maps.GeoPoint;
 import org.xml.sax.Attributes;
 import org.xml.sax.SAXException;
 import org.xml.sax.helpers.DefaultHandler;
 import su.geocaching.android.controller.managers.LogManager;
+import su.geocaching.android.model.GeoPoint;
 import su.geocaching.android.model.GeoCache;
 import su.geocaching.android.model.GeoCacheStatus;
 import su.geocaching.android.model.GeoCacheType;
@@ -47,7 +47,7 @@ class GeoCachesSaxHandler extends DefaultHandler {
     private final static String STATUS = "st";
 
     private GeoCache geoCache;
-    private int latitude, longitude;
+    private double latitude, longitude;
     private String text;
     private LinkedList<GeoCache> geoCacheList;
 
@@ -98,17 +98,17 @@ class GeoCachesSaxHandler extends DefaultHandler {
             int status = parseCacheParameter(text);
             setGeoCacheStatus(status);
         } else if (localName.equalsIgnoreCase(C)) {
-            geoCache.setLocationGeoPoint(new GeoPoint(latitude, longitude));
+            geoCache.setGeoPoint(new GeoPoint(latitude, longitude));
             geoCacheList.add(geoCache);
         }
 
         super.endElement(uri, localName, qName);
     }
 
-    private static int parseCoordinate(String coordinate) {
-        int result = 0;
+    private static double parseCoordinate(String coordinate) {
+        double result = 0;
         try {
-            result = (int) (Double.parseDouble(coordinate) * 1E6);
+            result = Double.parseDouble(coordinate);
         } catch (NumberFormatException e) {
             LogManager.e(TAG, "parseCoordinate: Invalid numeric format", e);
         }

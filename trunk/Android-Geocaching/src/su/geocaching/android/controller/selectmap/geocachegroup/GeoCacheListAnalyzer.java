@@ -4,9 +4,10 @@ import android.graphics.Point;
 import android.os.AsyncTask;
 import com.google.android.gms.maps.Projection;
 import com.google.android.gms.maps.model.LatLng;
-import com.google.android.maps.GeoPoint;
+
 import su.geocaching.android.model.GeoCache;
 import su.geocaching.android.model.GeoCacheType;
+import su.geocaching.android.model.GeoPoint;
 
 import java.util.LinkedList;
 import java.util.List;
@@ -39,9 +40,9 @@ public class GeoCacheListAnalyzer {
                 } else {
                     Point screenLocation = new Point(centroid.getX(), centroid.getY());
                     LatLng location = projection.fromScreenLocation(screenLocation);
-                    GeoPoint geoPoint = new GeoPoint((int)(location.latitude * 1E6),(int)(location.longitude*1E6));
+                    GeoPoint geoPoint = new GeoPoint(location.latitude, location.longitude);
                     GeoCache group = new GeoCache();
-                    group.setLocationGeoPoint(geoPoint);
+                    group.setGeoPoint(geoPoint);
                     group.setType(GeoCacheType.GROUP);
                     geocachesList.add(group);
                 }
@@ -76,7 +77,7 @@ public class GeoCacheListAnalyzer {
     private List<GeoCacheView> generatePointsList(List<GeoCache> geoCacheList) {
         List<GeoCacheView> list = new LinkedList<GeoCacheView>();
         for (GeoCache cache : geoCacheList) {
-            LatLng latLng = new LatLng(cache.getLocationGeoPoint().getLatitudeE6() * 1E-6, cache.getLocationGeoPoint().getLongitudeE6() * 1E-6);
+            LatLng latLng = new LatLng(cache.getGeoPoint().getLatitude(), cache.getGeoPoint().getLongitude());
             Point point = projection.toScreenLocation(latLng);
             list.add(new GeoCacheView(point.x, point.y, cache));
         }

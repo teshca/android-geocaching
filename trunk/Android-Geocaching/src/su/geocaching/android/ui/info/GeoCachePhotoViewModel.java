@@ -31,14 +31,14 @@ public class GeoCachePhotoViewModel {
             _listener.onPhotoDownloadingChanged();
         }
     }
-    
+
     private URL remoteUrl;
     public URL getRemoteUrl() {
         return remoteUrl;
     }
     
     private int geoCacheId;
-    public int getGeoCachceId() {
+    public int getGeoCacheId() {
         return geoCacheId;
     }    
     

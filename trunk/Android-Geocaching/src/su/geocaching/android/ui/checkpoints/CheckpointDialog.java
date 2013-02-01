@@ -34,7 +34,7 @@ public class CheckpointDialog extends SherlockActivity {
         Button checkpointDeleteButton = (Button) findViewById(R.id.checkpointDeleteButton);
         checkpointDeleteButton.setEnabled(checkpoint.getType() == GeoCacheType.CHECKPOINT);
 
-        coordinates.setText(CoordinateHelper.coordinateToString(checkpoint.getLocationGeoPoint()));
+        coordinates.setText(CoordinateHelper.coordinateToString(checkpoint.getGeoPoint()));
         status.setText(Controller.getInstance().getResourceManager().getGeoCacheStatus(checkpoint));
         setTitle(checkpoint.getName());
 

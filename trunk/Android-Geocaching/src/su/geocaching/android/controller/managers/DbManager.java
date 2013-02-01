@@ -13,11 +13,11 @@ import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 import android.text.TextUtils;
 
-import com.google.android.maps.GeoPoint;
 import su.geocaching.android.controller.Controller;
 import su.geocaching.android.model.GeoCache;
 import su.geocaching.android.model.GeoCacheStatus;
 import su.geocaching.android.model.GeoCacheType;
+import su.geocaching.android.model.GeoPoint;
 
 /**
  * This class contains method for working with database.
@@ -136,8 +136,9 @@ public class DbManager extends SQLiteOpenHelper {
         values.put(COLUMN_NAME, geoCacheForAdd.getName());
         values.put(COLUMN_STATUS, geoCacheForAdd.getStatus().ordinal());
         values.put(COLUMN_TYPE, geoCacheForAdd.getType().ordinal());
-        values.put(COLUMN_LAT, geoCacheForAdd.getLocationGeoPoint().getLatitudeE6());
-        values.put(COLUMN_LON, geoCacheForAdd.getLocationGeoPoint().getLongitudeE6());
+        //TODO
+        values.put(COLUMN_LAT, geoCacheForAdd.getGeoPoint().getLatitudeE6());
+        values.put(COLUMN_LON, geoCacheForAdd.getGeoPoint().getLongitudeE6());
         values.put(COLUMN_WEB_TEXT, webText);
         if (photos != null) {
             values.put(COLUMN_PHOTOS, TextUtils.join(PHOTO_URL_DEVIDER, photos));
@@ -157,8 +158,9 @@ public class DbManager extends SQLiteOpenHelper {
         values.put(CACHE_ID, cacheId);
         values.put(CHECKPOINT_ID, checkpoint.getId());
         values.put(COLUMN_NAME, checkpoint.getName());
-        values.put(COLUMN_LAT, checkpoint.getLocationGeoPoint().getLatitudeE6());
-        values.put(COLUMN_LON, checkpoint.getLocationGeoPoint().getLongitudeE6());
+        //TODO
+        values.put(COLUMN_LAT, checkpoint.getGeoPoint().getLatitudeE6());
+        values.put(COLUMN_LON, checkpoint.getGeoPoint().getLongitudeE6());
         values.put(COLUMN_STATUS, checkpoint.getStatus().ordinal());
 
         db.insert(DATABASE_CHECKPOINT_NAME_TABLE, null, values);
@@ -179,7 +181,8 @@ public class DbManager extends SQLiteOpenHelper {
         cache.setId(id);
 
         cache.setName(cur.getString(cur.getColumnIndex(COLUMN_NAME)));
-        cache.setLocationGeoPoint(new GeoPoint(cur.getInt(cur.getColumnIndex(COLUMN_LAT)), cur.getInt(cur.getColumnIndex(COLUMN_LON))));
+        //TODO
+        cache.setGeoPoint(GeoPoint.fromE6(cur.getInt(cur.getColumnIndex(COLUMN_LAT)), cur.getInt(cur.getColumnIndex(COLUMN_LON))));
         cache.setStatus(GeoCacheStatus.values()[cur.getInt(cur.getColumnIndex(COLUMN_STATUS))]);
         cache.setType(GeoCacheType.values()[cur.getInt(cur.getColumnIndex(COLUMN_TYPE))]);
 
@@ -202,7 +205,7 @@ public class DbManager extends SQLiteOpenHelper {
             geocache.setId(cur.getInt(cur.getColumnIndex(COLUMN_ID)));
             geocache.setName(cur.getString(cur.getColumnIndex(COLUMN_NAME)));
             geocache.setStatus(GeoCacheStatus.values()[cur.getInt(cur.getColumnIndex(COLUMN_STATUS))]);
-            geocache.setLocationGeoPoint(new GeoPoint(cur.getInt(cur.getColumnIndex(COLUMN_LAT)), cur.getInt(cur.getColumnIndex(COLUMN_LON))));
+            geocache.setGeoPoint(GeoPoint.fromE6(cur.getInt(cur.getColumnIndex(COLUMN_LAT)), cur.getInt(cur.getColumnIndex(COLUMN_LON))));
             geocache.setType(GeoCacheType.values()[cur.getInt(cur.getColumnIndex(COLUMN_TYPE))]);
             exitCollection.add(geocache);
 
@@ -229,7 +232,7 @@ public class DbManager extends SQLiteOpenHelper {
             GeoCache geocache = new GeoCache();
             geocache.setId(cursor.getInt(cursor.getColumnIndex(CHECKPOINT_ID)));
             geocache.setName(cursor.getString(cursor.getColumnIndex(COLUMN_NAME)));
-            geocache.setLocationGeoPoint(new GeoPoint(cursor.getInt(cursor.getColumnIndex(COLUMN_LAT)), cursor.getInt(cursor.getColumnIndex(COLUMN_LON))));
+            geocache.setGeoPoint(GeoPoint.fromE6(cursor.getInt(cursor.getColumnIndex(COLUMN_LAT)), cursor.getInt(cursor.getColumnIndex(COLUMN_LON))));
             geocache.setType(GeoCacheType.CHECKPOINT);
             geocache.setStatus(GeoCacheStatus.values()[cursor.getInt(cursor.getColumnIndex(COLUMN_STATUS))]);
             exitCollection.add(geocache);
