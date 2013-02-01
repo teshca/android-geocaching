@@ -4,7 +4,7 @@ import android.graphics.Canvas;
 
 /**
  * Abstract class implements a strategy of drawing compass
- * 
+ *
  * @author Nikita Bumakov
  */
 public abstract class AbstractCompassDrawing {
@@ -22,44 +22,44 @@ public abstract class AbstractCompassDrawing {
 
     /**
      * @param distance
-     *            the distance to set
+     *         the distance to set
      */
     public void setDistance(float distance) {
         this.distance = distance;
     }
-    
+
 
     public void setDeclination(float declination) {
-        this.declination = declination;        
+        this.declination = declination;
     }
 
     /**
      * Draw a compass with a given direction of the compass's needle
-     * 
+     *
      * @param canvas
-     *            - drawing canvas
+     *         - drawing canvas
      * @param northDirection
-     *            - direction to the North relative to 0 degrees
+     *         - direction to the North relative to 0 degrees
      */
     public abstract void draw(Canvas canvas, float northDirection);
 
     /**
      * called when resize the view
-     * 
+     *
      * @param width
-     *            - new width
+     *         - new width
      * @param height
-     *            - new height
+     *         - new height
      */
     public abstract void onSizeChanged(int width, int height);
 
     /**
      * Draw cache arrow
-     * 
+     *
      * @param canvas
-     *            - drawing canvas
+     *         - drawing canvas
      * @param cacheDirection
-     *            - direction to the cache relative to 0 degrees
+     *         - direction to the cache relative to 0 degrees
      */
     public abstract void drawCacheArrow(Canvas canvas, float cacheDirection);
 
@@ -67,5 +67,6 @@ public abstract class AbstractCompassDrawing {
 
     public abstract String getType();
 
-    public void destroy() {}
+    public void destroy() {
+    }
 }

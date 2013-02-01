@@ -8,6 +8,8 @@ import java.util.List;
 
 public interface ISelectMapWrapper extends IMapWrapper {
     void setGeocacheTapListener(GeocacheMarkerTapListener listener);
+
     void updateGeoCacheMarkers(List<GeoCache> geoCaches);
+
     void clearGeocacheMarkers();
 }

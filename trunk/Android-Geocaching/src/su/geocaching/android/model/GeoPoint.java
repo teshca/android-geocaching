@@ -8,8 +8,8 @@ public class GeoPoint {
     }
 
     public GeoPoint(double latitude, double longitude) {
-      this.latitude = latitude;
-      this.longitude = longitude;
+        this.latitude = latitude;
+        this.longitude = longitude;
     }
 
     public double getLatitude() {
@@ -30,11 +30,11 @@ public class GeoPoint {
 
     @Deprecated
     public int getLatitudeE6() {
-        return (int)(this.latitude * 1E6);
+        return (int) (this.latitude * 1E6);
     }
 
     @Deprecated
     public int getLongitudeE6() {
-        return (int)(this.longitude * 1E6);
+        return (int) (this.longitude * 1E6);
     }
 }

@@ -22,7 +22,7 @@ class AdvancedGalleryImageAdapter extends BaseArrayAdapter<GeoCachePhotoViewMode
         LogManager.d(TAG, "created");
     }
 
-    public void updateImageList() {        
+    public void updateImageList() {
         clear();
         addAll(infoViewModel.getPhotosState().getPhotos());
         notifyDataSetChanged();
@@ -39,9 +39,9 @@ class AdvancedGalleryImageAdapter extends BaseArrayAdapter<GeoCachePhotoViewMode
         }
         return convertView;
     }
-    
+
     @Override
     public boolean isEnabled(int position) {
-        return !getItem(position).IsDownloading(); 
-    } 
+        return !getItem(position).IsDownloading();
+    }
 }

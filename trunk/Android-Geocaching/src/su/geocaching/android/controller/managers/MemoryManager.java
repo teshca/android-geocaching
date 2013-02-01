@@ -11,19 +11,19 @@ import java.util.Timer;
 import java.util.TimerTask;
 
 public class MemoryManager {
-    
+
     private static final int UPDATE_INTERVAL = 1000; // Milliseconds
-    
+
     private final Timer memoryTimer;
     private final TimerTask memoryReporterTask;
-    
+
     public MemoryManager(Context context) {
-        
+
         final Toast memoryToast = Toast.makeText(context, "Memory usage", Toast.LENGTH_SHORT);
         memoryToast.setGravity(Gravity.BOTTOM | Gravity.RIGHT, 0, 0);
-        
+
         memoryReporterTask = new TimerTask() {
-            private Handler updateUI = new Handler(){
+            private Handler updateUI = new Handler() {
                 @Override
                 public void dispatchMessage(Message msg) {
                     super.dispatchMessage(msg);
@@ -33,20 +33,20 @@ public class MemoryManager {
                         memoryToast.show();
                     }
                 }
-            };            
-            
+            };
+
             @Override
-            public void run() {                
+            public void run() {
                 Message m = new Message();
                 m.arg1 = (int) Debug.getNativeHeapAllocatedSize();
-                updateUI.sendMessage(m);  
+                updateUI.sendMessage(m);
             }
-        };        
-        
+        };
+
         memoryTimer = new Timer();
     }
 
     public void showMemoryToast() {
-        memoryTimer.schedule(memoryReporterTask, 0, UPDATE_INTERVAL);   
+        memoryTimer.schedule(memoryReporterTask, 0, UPDATE_INTERVAL);
     }
 }

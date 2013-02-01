@@ -10,7 +10,8 @@ import su.geocaching.android.controller.compass.CompassSourceType;
  */
 public interface IBearingAware {
     /**
-     * @param bearing - new bearing in degrees
+     * @param bearing
+     *         - new bearing in degrees
      */
     public void updateBearing(float bearing, float declination, CompassSourceType sourceType);
 }

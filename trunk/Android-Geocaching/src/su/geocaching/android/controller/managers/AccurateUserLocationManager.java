@@ -83,7 +83,8 @@ public class AccurateUserLocationManager extends AbstractUserLocationManager imp
     private GpsUpdateFrequency updateFrequency;
 
     /**
-     * @param locationManager manager which can add or remove updates of location services
+     * @param locationManager
+     *         manager which can add or remove updates of location services
      */
     public AccurateUserLocationManager(LocationManager locationManager) {
         super(locationManager);
@@ -99,7 +100,8 @@ public class AccurateUserLocationManager extends AbstractUserLocationManager imp
     }
 
     /**
-     * @param subscriber activity which will be listen location updates
+     * @param subscriber
+     *         activity which will be listen location updates
      */
     public void addSubscriber(ILocationAware subscriber) {
         removeUpdatesTask.cancel();
@@ -117,7 +119,8 @@ public class AccurateUserLocationManager extends AbstractUserLocationManager imp
     }
 
     /**
-     * @param subscriber activity which no need to listen location updates
+     * @param subscriber
+     *         activity which no need to listen location updates
      * @return true if activity was subscribed on location updates
      */
     public boolean removeSubscriber(ILocationAware subscriber) {
@@ -135,12 +138,9 @@ public class AccurateUserLocationManager extends AbstractUserLocationManager imp
         return res;
     }
 
-    public void checkSubscribers()
-    {
-        synchronized (subscribers)
-        {
-            if (subscribers.size() == 0)
-            {
+    public void checkSubscribers() {
+        synchronized (subscribers) {
+            if (subscribers.size() == 0) {
                 removeUpdatesTask.cancel();
                 removeUpdates();
             }
@@ -168,7 +168,8 @@ public class AccurateUserLocationManager extends AbstractUserLocationManager imp
     /**
      * Tell to subscribers about event using statuses
      *
-     * @param provider which has been disabled
+     * @param provider
+     *         which has been disabled
      */
     @Override
     public void onProviderDisabled(String provider) {
@@ -178,7 +179,8 @@ public class AccurateUserLocationManager extends AbstractUserLocationManager imp
     /**
      * Tell to subscribers about event using statuses
      *
-     * @param provider which has been enabled
+     * @param provider
+     *         which has been enabled
      */
     @Override
     public void onProviderEnabled(String provider) {
@@ -224,21 +226,23 @@ public class AccurateUserLocationManager extends AbstractUserLocationManager imp
     /**
      * Aggregate status changing from {@link #onStatusChanged(String, int, android.os.Bundle)} and {@link #onGpsStatusChanged(int)}
      *
-     * @param provider the name of the location provider associated with this update
-     * @param status   one of
-     *                 <ul><li>{@link #GPS_EVENT_FIRST_FIX}
-     *                 <li>{@link #GPS_EVENT_SATELLITE_STATUS}
-     *                 <li>{@link #GPS_EVENT_STARTED}
-     *                 <li>{@link #GPS_EVENT_STOPPED}
-     *                 <li>{@link #OUT_OF_SERVICE}
-     *                 <li>{@link #TEMPORARILY_UNAVAILABLE}</ul>
-     *                 <li>{@link #EVENT_PROVIDER_DISABLED}</ul>
-     *                 <li>{@link #EVENT_PROVIDER_ENABLED}</ul>
-     * @param extras   an optional Bundle which will contain provider specific status variables (from {@link android.location.LocationListener#onStatusChanged(java.lang.String, int, android.os.Bundle)})
+     * @param provider
+     *         the name of the location provider associated with this update
+     * @param status
+     *         one of
+     *         <ul><li>{@link #GPS_EVENT_FIRST_FIX}
+     *         <li>{@link #GPS_EVENT_SATELLITE_STATUS}
+     *         <li>{@link #GPS_EVENT_STARTED}
+     *         <li>{@link #GPS_EVENT_STOPPED}
+     *         <li>{@link #OUT_OF_SERVICE}
+     *         <li>{@link #TEMPORARILY_UNAVAILABLE}</ul>
+     *         <li>{@link #EVENT_PROVIDER_DISABLED}</ul>
+     *         <li>{@link #EVENT_PROVIDER_ENABLED}</ul>
+     * @param extras
+     *         an optional Bundle which will contain provider specific status variables (from {@link android.location.LocationListener#onStatusChanged(java.lang.String, int, android.os.Bundle)})
      */
     private void onAggregatedStatusChanged(String provider, int status, Bundle extras) {
-        synchronized (subscribers)
-        {
+        synchronized (subscribers) {
             for (ILocationAware subscriber : subscribers) {
                 subscriber.onStatusChanged(provider, status, extras);
             }
@@ -331,7 +335,8 @@ public class AccurateUserLocationManager extends AbstractUserLocationManager imp
     /**
      * Refresh frequency of location updates and re-request location updates from current provider
      *
-     * @param value frequency which need
+     * @param value
+     *         frequency which need
      */
     public synchronized void updateFrequency(GpsUpdateFrequency value) {
         if (updateFrequency.equals(value)) {
@@ -384,7 +389,8 @@ public class AccurateUserLocationManager extends AbstractUserLocationManager imp
         private AccurateUserLocationManager parent;
 
         /**
-         * @param parent listener which want remove updates
+         * @param parent
+         *         listener which want remove updates
          */
         public RemoveUpdatesTask(AccurateUserLocationManager parent) {
             this.parent = parent;
@@ -469,7 +475,8 @@ public class AccurateUserLocationManager extends AbstractUserLocationManager imp
         /**
          * Increase distance of user path
          *
-         * @param location new location of user
+         * @param location
+         *         new location of user
          */
         private static void onLocationChanged(Location location) {
             if (isEnabled && lastLocation != null) {

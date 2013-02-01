@@ -474,8 +474,7 @@ public class SearchMapActivity extends SherlockFragmentActivity
         return false;
     }
 
-    private void updateDistanceTextView()
-    {
+    private void updateDistanceTextView() {
         if (distanceStatusTextView != null && Controller.getInstance().getLocationManager().hasLocation()) {
             distanceStatusTextView.setText(
                     CoordinateHelper.distanceToString(
@@ -517,30 +516,30 @@ public class SearchMapActivity extends SherlockFragmentActivity
         }
     }
 
-   private void setActiveItem(GeoCache activeItem) {
-       if (activeItem.getType() == GeoCacheType.CHECKPOINT) {
-           Controller.getInstance().getCheckpointManager(geoCache.getId()).setActiveItem(activeItem.getId());
-           getSupportActionBar().setSubtitle(activeItem.getName());
-       } else {
-           Controller.getInstance().getCheckpointManager(geoCache.getId()).deactivateCheckpoints();
-           Controller.getInstance().setCurrentSearchPoint(activeItem);
-           getSupportActionBar().setSubtitle(null);
-       }
+    private void setActiveItem(GeoCache activeItem) {
+        if (activeItem.getType() == GeoCacheType.CHECKPOINT) {
+            Controller.getInstance().getCheckpointManager(geoCache.getId()).setActiveItem(activeItem.getId());
+            getSupportActionBar().setSubtitle(activeItem.getName());
+        } else {
+            Controller.getInstance().getCheckpointManager(geoCache.getId()).deactivateCheckpoints();
+            Controller.getInstance().setCurrentSearchPoint(activeItem);
+            getSupportActionBar().setSubtitle(null);
+        }
 
-       // update checkpoint markers
-       // TODO: optimize
-       mapWrapper.clearGeocacheMarkers();
-       mapWrapper.setSearchGeocache(geoCache);
-       for (GeoCache checkpoint : Controller.getInstance().getCheckpointManager(geoCache.getId()).getCheckpoints()) {
-           mapWrapper.addCheckpointMarker(checkpoint);
-       }
+        // update checkpoint markers
+        // TODO: optimize
+        mapWrapper.clearGeocacheMarkers();
+        mapWrapper.setSearchGeocache(geoCache);
+        for (GeoCache checkpoint : Controller.getInstance().getCheckpointManager(geoCache.getId()).getCheckpoints()) {
+            mapWrapper.addCheckpointMarker(checkpoint);
+        }
 
-       // update cache direction
-       mapWrapper.updateCacheDirection();
+        // update cache direction
+        mapWrapper.updateCacheDirection();
 
-       // update distance
-       updateDistanceTextView();
-   }
+        // update distance
+        updateDistanceTextView();
+    }
 
     public GeoCache getGeoCache() {
         return geoCache;
@@ -554,12 +553,12 @@ public class SearchMapActivity extends SherlockFragmentActivity
      * Sets up the map if it is possible to do so (i.e., the Google Play services APK is correctly
      * installed) and the map has not already been instantiated.. This will ensure that we only ever
      * call {@link #setUpMap()} once when {@link #googleMap} is not null.
-     * <p>
+     * <p/>
      * If it isn't installed {@link com.google.android.gms.maps.SupportMapFragment} (and
      * {@link com.google.android.gms.maps.MapView
      * MapView}) will show a prompt for the user to install/update the Google Play services APK on
      * their device.
-     * <p>
+     * <p/>
      * A user can return to this Activity after following the prompt and correctly
      * installing/updating/enabling the Google Play services. Since the Activity may not have been
      * completely destroyed during this process (it is likely that it would only be stopped or
@@ -578,11 +577,13 @@ public class SearchMapActivity extends SherlockFragmentActivity
             }
         }
     }
+
     SupportMapFragment mapFragment;
+
     /**
      * This is where we can add markers or lines, add listeners or move the camera. In this case, we
      * just add a marker near Africa.
-     * <p>
+     * <p/>
      * This should only be called once and when we are sure that {@link #googleMap} is not null.
      */
     private void setUpMap() {
@@ -613,7 +614,7 @@ public class SearchMapActivity extends SherlockFragmentActivity
 
             @Override
             public void OnMarkerLongTapped(final GeoCache geocache) {
-               setActiveItem(geocache);
+                setActiveItem(geocache);
             }
         });
 

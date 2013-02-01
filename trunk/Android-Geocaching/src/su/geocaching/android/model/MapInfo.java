@@ -4,7 +4,7 @@ import java.io.Serializable;
 
 /**
  * Represent information about map center and map zoom
- * 
+ *
  * @author Grigory Kalabin. grigory.kalabin@gmail.com
  * @since March 2011
  */
@@ -28,11 +28,11 @@ public class MapInfo implements Serializable {
 
     /**
      * @param centerX
-     *            latitude of map center point
+     *         latitude of map center point
      * @param centerY
-     *            logitude of map center point
+     *         logitude of map center point
      * @param zoom
-     *            map zoom value
+     *         map zoom value
      */
     public MapInfo(int centerX, int centerY, int zoom) {
         this.centerX = centerX;
@@ -63,7 +63,7 @@ public class MapInfo implements Serializable {
 
     /**
      * @param centerX
-     *            latitude of map center point
+     *         latitude of map center point
      */
     public void setCenterX(int centerX) {
         this.centerX = centerX;
@@ -71,7 +71,7 @@ public class MapInfo implements Serializable {
 
     /**
      * @param centerY
-     *            longitude of map center point
+     *         longitude of map center point
      */
     public void setCenterY(int centerY) {
         this.centerY = centerY;
@@ -79,7 +79,7 @@ public class MapInfo implements Serializable {
 
     /**
      * @param zoom
-     *            map zoom value
+     *         map zoom value
      */
     public void setZoom(int zoom) {
         this.zoom = zoom;

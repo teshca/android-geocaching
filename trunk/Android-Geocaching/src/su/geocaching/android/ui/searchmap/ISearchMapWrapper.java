@@ -9,10 +9,13 @@ import su.geocaching.android.ui.map.MapLongClickListener;
 
 public interface ISearchMapWrapper extends IMapWrapper, ICompassView {
     void updateLocationMarker(Location location, boolean isLocationPrecise);
+
     void setLocationPrecise(boolean isLocationPrecise);
 
     void setSearchGeocache(GeoCache geoCache);
+
     void addCheckpointMarker(GeoCache checkpoint);
+
     void clearGeocacheMarkers();
 
     void updateCacheDirection();
@@ -23,5 +26,6 @@ public interface ISearchMapWrapper extends IMapWrapper, ICompassView {
     void resetZoom(int width, int height, boolean animate);
 
     void setMapLongClickListener(MapLongClickListener listener);
+
     void setGeocacheTapListener(GeocacheMarkerTapListener listener);
 }

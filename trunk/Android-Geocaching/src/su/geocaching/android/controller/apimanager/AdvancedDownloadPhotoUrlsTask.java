@@ -20,7 +20,7 @@ public class AdvancedDownloadPhotoUrlsTask extends AsyncTask<Void, Void, List<UR
     private static final String TAG = AdvancedDownloadPhotoUrlsTask.class.getCanonicalName();
 
     private InfoViewModel infoViewModel;
-    
+
     public AdvancedDownloadPhotoUrlsTask(InfoViewModel infoViewModel) {
         this.infoViewModel = infoViewModel;
         Thread.setDefaultUncaughtExceptionHandler(new UncaughtExceptionsHandler());
@@ -33,19 +33,19 @@ public class AdvancedDownloadPhotoUrlsTask extends AsyncTask<Void, Void, List<UR
 
     @Override
     protected List<URL> doInBackground(Void... arg0) {
-        List<URL> photoList = Controller.getInstance().getApiManager().getPhotoList(this.infoViewModel.getGeoCachceId());   
+        List<URL> photoList = Controller.getInstance().getApiManager().getPhotoList(this.infoViewModel.getGeoCachceId());
         return photoList;
     }
 
     @Override
     protected void onPostExecute(List<URL> result) {
         LogManager.d(TAG, "onPostExecute");
-        
+
         if (result == null) {
             this.infoViewModel.geocachePhotoListDownloadFailed();
             return;
         }
-        
-        this.infoViewModel.geocachePhotoListDownloaded(result);        
+
+        this.infoViewModel.geocachePhotoListDownloaded(result);
     }
 }

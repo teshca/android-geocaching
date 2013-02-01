@@ -32,16 +32,16 @@ public class DashboardActivity extends SherlockActivity {
         getSupportActionBar().setDisplayShowTitleEnabled(false);
         getSupportActionBar().setHomeButtonEnabled(true);
         getSupportActionBar().setBackgroundDrawable(getResources().getDrawable(R.drawable.action_bar_background));
-        Controller.getInstance().getGoogleAnalyticsManager().trackActivityLaunch(DASHBOARD_ACTIVITY_NAME);        
+        Controller.getInstance().getGoogleAnalyticsManager().trackActivityLaunch(DASHBOARD_ACTIVITY_NAME);
     }
-    
+
     @Override
     public void onResume() {
         super.onResume();
         //  check if we want to display dialog asking for rating and feedback
         if (!Controller.getInstance().getPreferencesManager().isAskForRatingShown()
-            && Controller.getInstance().getPreferencesManager().getNumberOfRuns() > 8
-            && Controller.getInstance().getConnectionManager().isWifiConnected()) {
+                && Controller.getInstance().getPreferencesManager().getNumberOfRuns() > 8
+                && Controller.getInstance().getConnectionManager().isWifiConnected()) {
             this.showDialog(ASK_FOR_RATING_DIALOG_ID);
             Controller.getInstance().getPreferencesManager().setAskForRatingShown();
         }
@@ -53,7 +53,8 @@ public class DashboardActivity extends SherlockActivity {
         inflater.inflate(R.menu.dashboard_option_menu, menu);
         return true;
     }
-     @Override
+
+    @Override
     public boolean onPrepareOptionsMenu(Menu menu) {
         menu.findItem(R.id.give_feedback).setVisible(NavigationManager.isAndroidMarketAvailable(this));
         return super.onPrepareOptionsMenu(menu);
@@ -82,7 +83,7 @@ public class DashboardActivity extends SherlockActivity {
 
     protected Dialog onCreateDialog(int id) {
         switch (id) {
-            case ABOUT_DIALOG_ID: 
+            case ABOUT_DIALOG_ID:
                 return new AboutDialog(this);
             case ASK_FOR_RATING_DIALOG_ID:
                 return new AskForRatingDialog(this);

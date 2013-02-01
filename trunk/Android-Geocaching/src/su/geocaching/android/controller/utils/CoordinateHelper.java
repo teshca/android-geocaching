@@ -31,9 +31,9 @@ public class CoordinateHelper {
 
     /**
      * @param l1
-     *            first location
+     *         first location
      * @param l2
-     *            second location
+     *         second location
      * @return distance between locations in meters
      */
     public static float getDistanceBetween(Location l1, Location l2) {
@@ -44,9 +44,9 @@ public class CoordinateHelper {
 
     /**
      * @param l1
-     *            location
+     *         location
      * @param l2
-     *            GeoPoint
+     *         GeoPoint
      * @return distance between locations in meters
      */
     public static float getDistanceBetween(Location l1, GeoPoint l2) {
@@ -57,9 +57,9 @@ public class CoordinateHelper {
 
     /**
      * @param l1
-     *            GeoPoint
+     *         GeoPoint
      * @param l2
-     *            location
+     *         location
      * @return distance between locations in meters
      */
     public static float getDistanceBetween(GeoPoint l1, Location l2) {
@@ -68,9 +68,9 @@ public class CoordinateHelper {
 
     /**
      * @param l1
-     *            first GeoPoint
+     *         first GeoPoint
      * @param l2
-     *            second GeoPoint
+     *         second GeoPoint
      * @return distance between locations in meters
      */
     public static float getDistanceBetween(GeoPoint l1, GeoPoint l2) {
@@ -81,9 +81,9 @@ public class CoordinateHelper {
 
     /**
      * @param l1
-     *            location from
+     *         location from
      * @param l2
-     *            location to
+     *         location to
      * @return bearing of direction from l1 to l2 in degrees
      */
     public static float getBearingBetween(Location l1, GeoPoint l2) {
@@ -99,7 +99,8 @@ public class CoordinateHelper {
     }
 
     /**
-     * @param dist distance (suggested to geocache in meters)
+     * @param dist
+     *         distance (suggested to geocache in meters)
      * @return String of distance formatted value and measure
      */
     public static String distanceToString(float dist) {
@@ -107,8 +108,10 @@ public class CoordinateHelper {
     }
 
     /**
-     * @param dist      distance (suggested to geocache in meters)
-     * @param isPrecise true, if distance value precise
+     * @param dist
+     *         distance (suggested to geocache in meters)
+     * @param isPrecise
+     *         true, if distance value precise
      * @return String of distance formatted value and measure
      */
     public static String distanceToString(float dist, boolean isPrecise) {
@@ -131,7 +134,7 @@ public class CoordinateHelper {
 
     /**
      * @param location
-     *            - Location object
+     *         - Location object
      * @return location coverted to GeoPoint object
      */
     public static GeoPoint locationToGeoPoint(Location location) {
@@ -142,7 +145,7 @@ public class CoordinateHelper {
      * Formatting coordinate in accordance with standard
      *
      * @param location
-     *            - coordinates
+     *         - coordinates
      * @return formating string (for example: "60° 12,123' с.ш. | 30° 32,321'" в.д.)
      */
     public static String coordinateToString(GeoPoint location) {
@@ -168,14 +171,17 @@ public class CoordinateHelper {
         return String.format(format, latitude.degrees, latitude.minutes, longitude.degrees, longitude.minutes);
     }
 
-  /**
-   * Calculate geopoint that located at a distance "distance" in the "bearing" direction from currentGeoPoint
-   *
-   * @param currentGeoPoint current location
-   * @param bearing direction to the goal point
-   * @param distance distance to the goal point
-   * @return goal geopoint
-   */
+    /**
+     * Calculate geopoint that located at a distance "distance" in the "bearing" direction from currentGeoPoint
+     *
+     * @param currentGeoPoint
+     *         current location
+     * @param bearing
+     *         direction to the goal point
+     * @param distance
+     *         distance to the goal point
+     * @return goal geopoint
+     */
     public static GeoPoint distanceBearingToGeoPoint(GeoPoint currentGeoPoint, float bearing, float distance) {
         double latitude = Math.toRadians(currentGeoPoint.getLatitude());
         double longitude = Math.toRadians(currentGeoPoint.getLongitude());

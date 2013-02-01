@@ -24,7 +24,7 @@ public class CheckpointManager {
     public CheckpointManager(int id) {
         controller = Controller.getInstance();
         dbm = controller.getDbManager();
-        
+
         cacheId = id;
         checkpoints = dbm.getCheckpointsArrayById(id);
         for (GeoCache checkpoint : checkpoints) {
@@ -50,7 +50,7 @@ public class CheckpointManager {
         } else {
             gc.setName(name.trim());
         }
-        
+
         gc.setGeoPoint(geoPoint);
         gc.setType(GeoCacheType.CHECKPOINT);
         gc.setStatus(GeoCacheStatus.ACTIVE_CHECKPOINT);
@@ -85,7 +85,8 @@ public class CheckpointManager {
     }
 
     /**
-     * @param id the Id of active item
+     * @param id
+     *         the Id of active item
      */
     public void setActiveItem(int id) {
         int activeItemIndex = findIndexById(id);
@@ -124,6 +125,7 @@ public class CheckpointManager {
     private static final String delimiter = "[,\\.]";
     private static final String coordinatePattern = "(\\d+)\\s*" + degrees + "\\s*(\\d+)\\s*" + delimiter + "\\s*(\\d+)";
     private static final Pattern geoPattern = Pattern.compile("[N|S]?\\s*" + coordinatePattern + "\\D+" + coordinatePattern + "\\s*" + minutes + "?");
+
     public static String insertCheckpointsLink(String text) {
         if (text == null) throw new IllegalArgumentException("text is null");
 
@@ -139,12 +141,12 @@ public class CheckpointManager {
                 int degrees = Integer.parseInt(pageMatcher.group(1));
                 int minutes = Integer.parseInt(pageMatcher.group(2));
                 double milliMinutes = Double.parseDouble("." + pageMatcher.group(3));
-                latitudeE6 = new Sexagesimal(degrees, (double)minutes + milliMinutes).toCoordinateE6();
+                latitudeE6 = new Sexagesimal(degrees, (double) minutes + milliMinutes).toCoordinateE6();
 
                 degrees = Integer.parseInt(pageMatcher.group(4));
                 minutes = Integer.parseInt(pageMatcher.group(5));
                 milliMinutes = Float.parseFloat("." + pageMatcher.group(6));
-                longitudeE6 = new Sexagesimal(degrees, (double)minutes + milliMinutes).toCoordinateE6();
+                longitudeE6 = new Sexagesimal(degrees, (double) minutes + milliMinutes).toCoordinateE6();
             } catch (Exception e) {
                 continue;
             }

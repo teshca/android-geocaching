@@ -18,7 +18,8 @@ public class LowPowerUserLocationManager extends AbstractUserLocationManager imp
     private static final int MIN_UPDATE_DISTANCE = 50; // 50 м
 
     /**
-     * @param locationManager manager which can add or remove updates of location services
+     * @param locationManager
+     *         manager which can add or remove updates of location services
      */
     public LowPowerUserLocationManager(LocationManager locationManager) {
         super(locationManager);
@@ -26,7 +27,8 @@ public class LowPowerUserLocationManager extends AbstractUserLocationManager imp
     }
 
     /**
-     * @param subscriber activity which will be listen location updates
+     * @param subscriber
+     *         activity which will be listen location updates
      */
     public void addSubscriber(ILocationAware subscriber) {
         synchronized (subscribers) {
@@ -41,7 +43,8 @@ public class LowPowerUserLocationManager extends AbstractUserLocationManager imp
     }
 
     /**
-     * @param subscriber activity which no need to listen location updates
+     * @param subscriber
+     *         activity which no need to listen location updates
      * @return true if activity was subscribed on location updates
      */
     public boolean removeSubscriber(ILocationAware subscriber) {

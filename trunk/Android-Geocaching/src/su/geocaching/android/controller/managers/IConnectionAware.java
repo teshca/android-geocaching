@@ -12,7 +12,7 @@ public interface IConnectionAware {
      * Called when internet has been lost
      */
     public void onConnectionLost();
-    
+
     /**
      * Called when internet has been appeared
      */

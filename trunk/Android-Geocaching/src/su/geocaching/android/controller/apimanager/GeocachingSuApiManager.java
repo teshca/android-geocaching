@@ -33,7 +33,7 @@ import java.util.zip.GZIPInputStream;
 public class GeocachingSuApiManager implements IApiManager {
 
     private static final String TAG = GeocachingSuApiManager.class.getCanonicalName();
-   
+
     public static final String LINK_INFO_TEXT = "http://pda.geocaching.su/cache.php?cid=%d&mode=0";
     public static final String LINK_NOTEBOOK_TEXT = "http://pda.geocaching.su/note.php?cid=%d&mode=0";
     public static final String LINK_PHOTO_PAGE = "http://pda.geocaching.su/pict.php?cid=%d&mode=0";
@@ -110,11 +110,11 @@ public class GeocachingSuApiManager implements IApiManager {
             return null;
         }
     }
-    
+
     private URL getNotebookUrl(int cacheId) throws MalformedURLException {
         return new URL(String.format(LINK_NOTEBOOK_TEXT, cacheId));
-    }      
-    
+    }
+
     @Override
     public String getInfo(int cacheId) {
         try {
@@ -123,17 +123,17 @@ public class GeocachingSuApiManager implements IApiManager {
             return null;
         }
     }
-    
+
     private URL getInfoUrl(int cacheId) throws MalformedURLException {
         return new URL(String.format(LINK_INFO_TEXT, cacheId));
     }
-    
+
     @Override
     public List<URL> getPhotoList(int cacheId) {
         try {
             String photoPage = getText(getPhotoUrl(cacheId));
             if (photoPage == null) return null;
-            
+
             Pattern linkPattern = Pattern.compile("<a href=\"([^>]*)\"><img [^>]*></a>");
             Matcher pageMatcher = linkPattern.matcher(photoPage);
             ArrayList<String> links = new ArrayList<String>();
@@ -144,22 +144,22 @@ public class GeocachingSuApiManager implements IApiManager {
             List<URL> photoUrls = new ArrayList<URL>();
             for (String photoLink : links) {
                 try {
-                    photoUrls.add(new URL(photoLink));                
+                    photoUrls.add(new URL(photoLink));
                 } catch (MalformedURLException e) {
                     LogManager.e(TAG, e.getMessage(), e);
                 }
             }
-            
+
             return photoUrls;
         } catch (MalformedURLException e) {
             return null;
         }
-    }  
+    }
 
     private URL getPhotoUrl(int cacheId) throws MalformedURLException {
         return new URL(String.format(LINK_PHOTO_PAGE, cacheId));
-    }    
-    
+    }
+
     private String getText(URL url) {
         String result = null;
 
@@ -174,10 +174,10 @@ public class GeocachingSuApiManager implements IApiManager {
                     LogManager.e(TAG, "getInfo failed", e);
                 }
         }
-        
+
         return result;
     }
-    
+
     private String downloadText(URL url) throws IOException {
         StringBuilder html = new StringBuilder();
         char[] buffer = new char[1024];
@@ -188,17 +188,17 @@ public class GeocachingSuApiManager implements IApiManager {
             int size;
             while ((size = in.read(buffer)) != -1) {
                 html.append(buffer, 0, size);
-            }                    
+            }
         } finally {
             if (in != null) {
-                in.close();   
+                in.close();
             }
         }
 
         String resultHtml = html.toString();
         resultHtml = resultHtml.replace(CP1251_ENCODING, UTF8_ENCODING);
         resultHtml = resultHtml.replaceAll("\\r|\\n", "");
-        
+
         return resultHtml;
     }
 
@@ -241,20 +241,20 @@ public class GeocachingSuApiManager implements IApiManager {
                 LogManager.e(TAG, e.getMessage(), e);
             }
         return success;
-    } 
-    
+    }
+
     private boolean downloadAndSavePhoto(URL url, File file) throws IOException {
 
         if (file == null) {
             LogManager.e(TAG, "file is null");
             return false;
         }
-        
+
         if (url == null) {
             LogManager.e(TAG, "url is null");
             return false;
         }
-                
+
         if (!Controller.getInstance().getConnectionManager().isActiveNetworkConnected()) {
             return false;
         }
@@ -267,7 +267,7 @@ public class GeocachingSuApiManager implements IApiManager {
             HttpResponse response = client.execute(getRequest);
             final int statusCode = response.getStatusLine().getStatusCode();
             if (statusCode != HttpStatus.SC_OK) {
-                LogManager.w(TAG, String.format("Error %d while retrieving bitmap from %s",  statusCode, url));
+                LogManager.w(TAG, String.format("Error %d while retrieving bitmap from %s", statusCode, url));
                 return false;
             }
 
@@ -298,7 +298,7 @@ public class GeocachingSuApiManager implements IApiManager {
         } catch (Exception e) {
             // Could provide a more explicit error message for IOException or IllegalStateException
             getRequest.abort();
-            LogManager.e(TAG,  String.format("Error while retrieving bitmap from %s", url), e);
+            LogManager.e(TAG, String.format("Error while retrieving bitmap from %s", url), e);
             return false;
         } finally {
             if (client != null) {

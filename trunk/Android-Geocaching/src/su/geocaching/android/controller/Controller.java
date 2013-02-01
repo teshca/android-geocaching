@@ -25,7 +25,7 @@ import java.lang.reflect.Method;
 public class Controller {
     private static final String TAG = Controller.class.getCanonicalName();
     /**
-     * This constant is really needed, because compiler can remove code blocks which cannot be execute. 
+     * This constant is really needed, because compiler can remove code blocks which cannot be execute.
      * Visibility is public because LogManager and AnalyticsManager use this constant
      */
     public static final boolean DEBUG = true;
@@ -133,7 +133,8 @@ public class Controller {
     }
 
     /**
-     * @param context for init manager
+     * @param context
+     *         for init manager
      * @return location manager which can send to ILocationAware location updates
      */
     private synchronized AccurateUserLocationManager getLocationManager(Context context) {
@@ -145,7 +146,8 @@ public class Controller {
     }
 
     /**
-     * @param context for init manager
+     * @param context
+     *         for init manager
      * @return location manager which can send to ILocationAware location updates
      */
     private synchronized LowPowerUserLocationManager getLowPowerLocationManager(Context context) {
@@ -167,7 +169,8 @@ public class Controller {
     }
 
     /**
-     * @param context for init manager
+     * @param context
+     *         for init manager
      * @return compass manager which can send to IBearingAware updates of bearing
      */
     private synchronized CompassManager getCompassManager(Context context) {
@@ -179,7 +182,8 @@ public class Controller {
     }
 
     /**
-     * @param context for init manager
+     * @param context
+     *         for init manager
      * @return connection manager which can send to IConnectionAware updates of Internet connection status
      */
     private synchronized ConnectionManager getConnectionManager(Context context) {
@@ -191,7 +195,8 @@ public class Controller {
     }
 
     /**
-     * @param context for init manager
+     * @param context
+     *         for init manager
      * @return resource manager which can give you application resources
      */
     private synchronized ResourceManager getResourceManager(Context context) {
@@ -203,7 +208,8 @@ public class Controller {
     }
 
     /**
-     * @param context for init manager
+     * @param context
+     *         for init manager
      * @return resource manager which can give you application preferences
      */
     private synchronized PreferencesManager getPreferencesManager(Context context) {
@@ -215,7 +221,8 @@ public class Controller {
     }
 
     /**
-     * @param context for init manager
+     * @param context
+     *         for init manager
      * @return resource manager which can give you interface to working with database
      */
     private synchronized DbManager getDbManager(Context context) {
@@ -227,7 +234,8 @@ public class Controller {
     }
 
     /**
-     * @param context for init manager
+     * @param context
+     *         for init manager
      * @return resource manager which can give you interface to working with SD card
      */
     private synchronized ExternalStorageManager getExternalStorageManager(Context context) {
@@ -247,7 +255,8 @@ public class Controller {
     }
 
     /**
-     * @param cacheId cache id
+     * @param cacheId
+     *         cache id
      * @return the checkpointManager
      */
     public CheckpointManager getCheckpointManager(int cacheId) {
@@ -269,7 +278,8 @@ public class Controller {
     /**
      * Set global application context which will be used for initialize of managers
      *
-     * @param applicationContext global application context of application
+     * @param applicationContext
+     *         global application context of application
      */
     protected void setApplicationContext(Context applicationContext) {
         this.applicationContext = applicationContext;
@@ -295,15 +305,15 @@ public class Controller {
     }
 
     public int getScreenRotation() {
-        Display display = ((WindowManager)this.applicationContext.getSystemService(Context.WINDOW_SERVICE)).getDefaultDisplay();
+        Display display = ((WindowManager) this.applicationContext.getSystemService(Context.WINDOW_SERVICE)).getDefaultDisplay();
 
         int rotation;
         try {
             // Since API Level 8
-            Method getRotationMethod = Display.class.getMethod("getRotation", new Class[] {} );
+            Method getRotationMethod = Display.class.getMethod("getRotation", new Class[]{});
             rotation = (Integer) getRotationMethod.invoke(display);
         } catch (Exception e) {
-            rotation =  display.getOrientation();
+            rotation = display.getOrientation();
         }
 
         if (rotation == Surface.ROTATION_0) return 0;
@@ -313,10 +323,10 @@ public class Controller {
 
         return 0;
     }
-    
+
     public ContentResolver getContentResolver() {
         return applicationContext.getContentResolver();
-    }    
+    }
 
     public void onTerminate() {
         dbManager.close();

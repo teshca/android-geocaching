@@ -22,7 +22,7 @@ import java.util.EnumSet;
  */
 public class PreferencesManager {
     private static final String TAG = PreferencesManager.class.getCanonicalName();
-    
+
     private static final String NUMBER_OF_RUNS_PREFERENCE_KEY = "number_of_runs_preffference_key";
     private static final String ASK_FOR_RATING_SHOWN_PREFERENCE_KEY = "ask_for_rating_preffference_key";
 
@@ -51,7 +51,8 @@ public class PreferencesManager {
     /**
      * Save last searched geocache id in preferences
      *
-     * @param lastSearchedGeoCache last searched geoCache
+     * @param lastSearchedGeoCache
+     *         last searched geoCache
      */
     public synchronized void setLastSearchedGeoCache(GeoCache lastSearchedGeoCache) {
         if (lastSearchedGeoCache != null) {
@@ -63,7 +64,8 @@ public class PreferencesManager {
     }
 
     /**
-     * @param info with data to save
+     * @param info
+     *         with data to save
      */
     public synchronized void setLastSelectMapInfo(MapInfo info) {
         if (info != null) {
@@ -103,7 +105,8 @@ public class PreferencesManager {
     }
 
     /**
-     * @param info with data to save
+     * @param info
+     *         with data to save
      */
     public synchronized void setLastSearchMapInfo(SearchMapInfo info) {
         if (info != null) {
@@ -133,39 +136,39 @@ public class PreferencesManager {
         editor.commit();
     }
 
-     public boolean getRemoveFavoriteWithoutConfirm() {
+    public boolean getRemoveFavoriteWithoutConfirm() {
         return preferences.getBoolean(context.getString(R.string.remove_cache_without_confirm_key), false);
     }
 
-     public void setDownloadPhotosAlways(boolean downloadPhotosAlways) {
+    public void setDownloadPhotosAlways(boolean downloadPhotosAlways) {
         SharedPreferences.Editor editor = preferences.edit();
         editor.putBoolean(context.getString(R.string.download_photos_always_key), downloadPhotosAlways);
         editor.commit();
-     }
+    }
 
-     public boolean getDownloadPhotosAlways() {
-         return preferences.getBoolean(context.getString(R.string.download_photos_always_key), false);
-     }
-     
-     public void setNumberOfRuns(int numberOfRuns) {
-         SharedPreferences.Editor editor = preferences.edit();
-         editor.putInt(NUMBER_OF_RUNS_PREFERENCE_KEY, numberOfRuns);
-         editor.commit();
-     }
+    public boolean getDownloadPhotosAlways() {
+        return preferences.getBoolean(context.getString(R.string.download_photos_always_key), false);
+    }
 
-     public int getNumberOfRuns() {
-         return preferences.getInt(NUMBER_OF_RUNS_PREFERENCE_KEY, 0);
-     }
-      
-     public boolean isAskForRatingShown() {
-         return preferences.getBoolean(ASK_FOR_RATING_SHOWN_PREFERENCE_KEY, false);
-     }
-      
-     public void setAskForRatingShown() {
-         SharedPreferences.Editor editor = preferences.edit();
-         editor.putBoolean(ASK_FOR_RATING_SHOWN_PREFERENCE_KEY, true);
-         editor.commit();
-     }
+    public void setNumberOfRuns(int numberOfRuns) {
+        SharedPreferences.Editor editor = preferences.edit();
+        editor.putInt(NUMBER_OF_RUNS_PREFERENCE_KEY, numberOfRuns);
+        editor.commit();
+    }
+
+    public int getNumberOfRuns() {
+        return preferences.getInt(NUMBER_OF_RUNS_PREFERENCE_KEY, 0);
+    }
+
+    public boolean isAskForRatingShown() {
+        return preferences.getBoolean(ASK_FOR_RATING_SHOWN_PREFERENCE_KEY, false);
+    }
+
+    public void setAskForRatingShown() {
+        SharedPreferences.Editor editor = preferences.edit();
+        editor.putBoolean(ASK_FOR_RATING_SHOWN_PREFERENCE_KEY, true);
+        editor.commit();
+    }
 
     /*
     public void setDownloadNoteBookAlways(boolean downloadNotebookAlways) {

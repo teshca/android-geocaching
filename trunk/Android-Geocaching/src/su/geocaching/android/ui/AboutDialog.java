@@ -39,8 +39,7 @@ public class AboutDialog extends AlertDialog {
     }
 
     @Override
-    public void onAttachedToWindow()
-    {
+    public void onAttachedToWindow() {
         Controller.getInstance().getGoogleAnalyticsManager().trackActivityLaunch("/AboutDialog");
     }
 }

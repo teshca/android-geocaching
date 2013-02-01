@@ -19,53 +19,54 @@ public class GalleryItemView extends FrameLayout implements GeoCachePhotoDownloa
 
     private GeoCachePhotoViewModel cachePhoto;
     private final int thumbnailsPhotoSize;
-    
+
     private ProgressBar progressBar;
     private ImageView image;
     private View errorMessage;
-    
+
     public GalleryItemView(final Context context, GeoCachePhotoViewModel cachePhoto) {
         super(context);
         this.cachePhoto = cachePhoto;
-        
+
         View.inflate(context, R.layout.info_photo_gallery_item, this);
         thumbnailsPhotoSize = context.getResources().getDimensionPixelSize(R.dimen.adapter_photo_size);
         setLayoutParams(new GridView.LayoutParams(GridView.LayoutParams.FILL_PARENT, thumbnailsPhotoSize));
         setMinimumWidth(thumbnailsPhotoSize);
-        
+
         image = (ImageView) findViewById(R.id.photo_image);
         progressBar = (ProgressBar) findViewById(R.id.photo_progress_bar);
         errorMessage = findViewById(R.id.photo_error_panel);
-        
+
         ImageButton refreshButton = (ImageButton) findViewById(R.id.refresh_button);
         refreshButton.setOnClickListener(new OnClickListener() {
             @Override
             public void onClick(View v) {
                 GalleryItemView.this.cachePhoto.beginLoadPhoto();
-            }}
-        );        
-        
+            }
+        }
+        );
+
         LogManager.d(TAG, "onCreate");
     }
-    
+
     public void updateGeoCachePhoto(GeoCachePhotoViewModel photo) {
         if (getWindowToken() != null) {
             this.cachePhoto.removePhotoDownloadingChangedEventListener(this);
             this.cachePhoto = photo;
             this.cachePhoto.addPhotoDownloadingChangedEventListener(this);
-            updateView();            
+            updateView();
         } else {
-            this.cachePhoto = photo; 
+            this.cachePhoto = photo;
         }
     }
-    
+
     private Bitmap scaleBitmap(GeoCachePhotoViewModel cachePhoto) {
         BitmapFactory.Options justDecodeBoundsOptions = new BitmapFactory.Options();
         justDecodeBoundsOptions.inJustDecodeBounds = true;
         Uri localUri = cachePhoto.getLocalUri();
         if (localUri == null) {
             return null;
-        }        
+        }
         String path = localUri.getPath();
         BitmapFactory.decodeFile(path, justDecodeBoundsOptions);
         if (justDecodeBoundsOptions.outHeight == -1 || justDecodeBoundsOptions.outWidth == -1) {
@@ -77,7 +78,7 @@ public class GalleryItemView extends FrameLayout implements GeoCachePhotoDownloa
         // TODO: Try BitmapFactory.decodeStream with FlushedInputStream
         return BitmapFactory.decodeFile(path, scaleOptions);
     }
-    
+
     // http://code.google.com/p/android/issues/detail?id=6066
     /*
     private static class FlushedInputStream extends FilterInputStream {
@@ -103,40 +104,38 @@ public class GalleryItemView extends FrameLayout implements GeoCachePhotoDownloa
             return totalBytesSkipped;
         }
     }
-    */    
-          
+    */
+
     private void updateView() {
-        errorMessage.setVisibility(GONE);  
+        errorMessage.setVisibility(GONE);
         progressBar.setVisibility(GONE);
         image.setVisibility(GONE);
-        
-        if (this.cachePhoto.IsDownloading()) {    
+
+        if (this.cachePhoto.IsDownloading()) {
             progressBar.setVisibility(VISIBLE);
         } else {
             if (this.cachePhoto.HasErrors()) {
-                errorMessage.setVisibility(VISIBLE); 
+                errorMessage.setVisibility(VISIBLE);
             } else {
                 progressBar.setVisibility(VISIBLE);
                 Handler handler = new Handler();
-                Runnable r = new Runnable()
-                {
-                    public void run() 
-                    {
+                Runnable r = new Runnable() {
+                    public void run() {
                         Bitmap bitmap = scaleBitmap(cachePhoto);
                         if (bitmap != null) {
                             image.setVisibility(VISIBLE);
-                            image.setImageBitmap(bitmap);    
+                            image.setImageBitmap(bitmap);
                         } else {
                             errorMessage.setVisibility(VISIBLE);
                         }
                         progressBar.setVisibility(GONE);
                     }
                 };
-                handler.post(r);           
+                handler.post(r);
             }
         }
     }
-    
+
     @Override
     protected void onAttachedToWindow() {
         LogManager.d(TAG, "onAttachedToWindow");
@@ -154,6 +153,6 @@ public class GalleryItemView extends FrameLayout implements GeoCachePhotoDownloa
 
     @Override
     public void onPhotoDownloadingChanged() {
-        updateView();        
-    }   
+        updateView();
+    }
 }

@@ -106,7 +106,8 @@ public class CompassView extends SurfaceView implements SurfaceHolder.Callback, 
     }
 
     /**
-     * @param direction - direction to geocache in degrees
+     * @param direction
+     *         - direction to geocache in degrees
      */
     public void setCacheDirection(float direction) {
         cacheDirection = direction;
@@ -117,22 +118,23 @@ public class CompassView extends SurfaceView implements SurfaceHolder.Callback, 
     public void setDistance(float distance) {
         compassDrawing.setDistance(distance);
     }
-    
+
     @Override
     public void setDeclination(float declination) {
-        compassDrawing.setDeclination(declination);        
-    }    
+        compassDrawing.setDeclination(declination);
+    }
 
     /**
-     * @param helperType //TODO describe it
+     * @param helperType
+     *         //TODO describe it
      */
     public void setHelper(String helperType) {
-        if(compassDrawing != null && helperType.equals(compassDrawing.getType())) {
+        if (compassDrawing != null && helperType.equals(compassDrawing.getType())) {
             return;
         }
 
         if (compassDrawing != null) {
-        	compassDrawing.destroy();
+            compassDrawing.destroy();
         }
 
         if (helperType.equals(AbstractCompassDrawing.TYPE_CLASSIC)) {

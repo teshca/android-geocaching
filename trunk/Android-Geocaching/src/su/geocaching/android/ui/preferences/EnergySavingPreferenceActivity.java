@@ -25,7 +25,7 @@ public class EnergySavingPreferenceActivity extends SherlockPreferenceActivity i
         getSupportActionBar().setHomeButtonEnabled(true);
         addPreferencesFromResource(R.xml.energy_saving_preference);
 
-        ListPreference preference = (ListPreference)findPreference(getString(R.string.gps_update_frequency_key));
+        ListPreference preference = (ListPreference) findPreference(getString(R.string.gps_update_frequency_key));
         preference.setOnPreferenceChangeListener(this);
         preference.setSummary(preference.getEntry());
     }
@@ -35,14 +35,14 @@ public class EnergySavingPreferenceActivity extends SherlockPreferenceActivity i
      */
     @Override
     public boolean onPreferenceChange(Preference preference, Object newValue) {
-        ListPreference listPreference = (ListPreference)preference;
+        ListPreference listPreference = (ListPreference) preference;
         GpsUpdateFrequency frequency = GpsUpdateFrequency.valueOf((String) newValue);
         Controller.getInstance().getLocationManager().updateFrequency(frequency);
         // update summary
-        preference.setSummary(listPreference.getEntries()[listPreference.findIndexOfValue((String)newValue)]);
+        preference.setSummary(listPreference.getEntries()[listPreference.findIndexOfValue((String) newValue)]);
         return true;
     }
-    
+
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
@@ -52,5 +52,5 @@ public class EnergySavingPreferenceActivity extends SherlockPreferenceActivity i
             default:
                 return super.onOptionsItemSelected(item);
         }
-    }    
+    }
 }

@@ -21,7 +21,8 @@ public class CallbackManager {
     }
 
     /**
-     * @param handler subscriber which will be receive messages
+     * @param handler
+     *         subscriber which will be receive messages
      */
     public synchronized void addSubscriber(Handler handler) {
         if (!handlers.contains(handler)) {
@@ -30,7 +31,8 @@ public class CallbackManager {
     }
 
     /**
-     * @param handler subscriber which no need to receive messages
+     * @param handler
+     *         subscriber which no need to receive messages
      * @return true if subscriber has been subscribed on receiving messages
      */
     public synchronized boolean removeSubscriber(Handler handler) {
@@ -40,8 +42,10 @@ public class CallbackManager {
     /**
      * Send message to subscribers
      *
-     * @param what code of message
-     * @param obj  data which will be assigned to Message.obj field
+     * @param what
+     *         code of message
+     * @param obj
+     *         data which will be assigned to Message.obj field
      */
     public void postHandlerMessage(final int what, final Object obj) {
         for (Handler handler : handlers) {
@@ -52,7 +56,8 @@ public class CallbackManager {
     /**
      * Send message without data to subscribers
      *
-     * @param what code of message
+     * @param what
+     *         code of message
      */
     public void postEmptyMessage(final int what) {
         for (Handler handler : handlers) {
@@ -63,8 +68,10 @@ public class CallbackManager {
     /**
      * Send message to subscribers with delay
      *
-     * @param what  code of message
-     * @param delay of sending in milliseconds
+     * @param what
+     *         code of message
+     * @param delay
+     *         of sending in milliseconds
      */
     public void postEmptyMessageDelayed(final int what, long delay) {
         for (Handler handler : handlers) {

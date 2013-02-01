@@ -22,17 +22,17 @@ public interface IApiManager {
      * Get info about geocache.This method synchronous.
      */
     public String getInfo(int cacheId);
-    
+
     /**
      * Get notebook of geocache.This method synchronous.
      */
-    public String getNotebook(int cacheId); 
-    
+    public String getNotebook(int cacheId);
+
     /**
      * Get list of photos of geocache.This method synchronous.
      */
-    public List<URL> getPhotoList(int cacheId);  
-    
+    public List<URL> getPhotoList(int cacheId);
+
     /**
      * Download photo image from the given URL and save it to external storage.
      */

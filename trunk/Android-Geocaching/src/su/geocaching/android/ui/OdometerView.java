@@ -34,7 +34,7 @@ public class OdometerView extends LinearLayout {
             }
         });
 
-        ImageView refreshButton =  (ImageView) findViewById(R.id.odometer_refresh_button);
+        ImageView refreshButton = (ImageView) findViewById(R.id.odometer_refresh_button);
         refreshButton.setOnClickListener(new OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -42,7 +42,7 @@ public class OdometerView extends LinearLayout {
             }
         });
 
-        ImageView closeButton =  (ImageView) findViewById(R.id.odometer_close_button);
+        ImageView closeButton = (ImageView) findViewById(R.id.odometer_close_button);
         closeButton.setOnClickListener(new OnClickListener() {
             @Override
             public void onClick(View view) {

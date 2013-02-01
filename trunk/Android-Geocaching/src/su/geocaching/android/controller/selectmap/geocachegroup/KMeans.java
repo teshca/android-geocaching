@@ -15,7 +15,7 @@ public class KMeans {
     private static final long TIMEOUT = 3 * 1000; // milliseconds
     private boolean ready;
 
-    public KMeans(List<GeoCacheView> cacheCoordinates, List<Centroid> centroids, AsyncTask<?,?,?> asyncTask) {
+    public KMeans(List<GeoCacheView> cacheCoordinates, List<Centroid> centroids, AsyncTask<?, ?, ?> asyncTask) {
         this.points = cacheCoordinates;
         this.centroids = centroids;
         initResultsMap();
