@@ -138,6 +138,7 @@ public class SearchMapActivity extends SherlockFragmentActivity
         }
 
         Controller.getInstance().setCurrentSearchPoint(geoCache);
+        getSupportActionBar().setSubtitle(null);
 
         setUpMapIfNeeded();
 
