@@ -1,16 +1,16 @@
 package su.geocaching.android.ui.checkpoints;
 
+import android.os.Bundle;
+import android.view.View;
 import android.widget.Button;
+import android.widget.TextView;
 import com.actionbarsherlock.app.SherlockActivity;
 import su.geocaching.android.controller.Controller;
-import su.geocaching.android.controller.utils.CoordinateHelper;
 import su.geocaching.android.controller.managers.CheckpointManager;
+import su.geocaching.android.controller.utils.CoordinateHelper;
 import su.geocaching.android.model.GeoCache;
 import su.geocaching.android.model.GeoCacheType;
 import su.geocaching.android.ui.R;
-import android.os.Bundle;
-import android.view.View;
-import android.widget.TextView;
 
 public class CheckpointDialog extends SherlockActivity {
     private static final String CHECKPOINT_DIALOG_ACTIVITY_FOLDER = "/CheckpointDialog";

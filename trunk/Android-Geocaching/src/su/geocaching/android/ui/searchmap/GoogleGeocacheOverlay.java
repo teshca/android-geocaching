@@ -1,13 +1,9 @@
 package su.geocaching.android.ui.searchmap;
 
 import com.google.android.gms.maps.GoogleMap;
-import com.google.android.gms.maps.model.BitmapDescriptorFactory;
-import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
-import su.geocaching.android.controller.Controller;
 import su.geocaching.android.model.GeoCache;
-import su.geocaching.android.ui.map.GoogleMapWrapper;
 import su.geocaching.android.ui.map.GoogleMarkerOptions;
 
 import java.util.Collection;

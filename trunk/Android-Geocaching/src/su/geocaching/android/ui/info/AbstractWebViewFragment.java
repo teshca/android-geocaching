@@ -1,14 +1,6 @@
 package su.geocaching.android.ui.info;
 
-import com.actionbarsherlock.app.SherlockFragment;
-import com.actionbarsherlock.view.Menu;
-import com.actionbarsherlock.view.MenuInflater;
-import com.actionbarsherlock.view.MenuItem;
-
-import su.geocaching.android.model.GeoPoint;
-import su.geocaching.android.controller.Controller;
-import su.geocaching.android.ui.R;
-import su.geocaching.android.controller.apimanager.GeocachingSuApiManager;
+import android.graphics.Picture;
 import android.os.Build;
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -16,11 +8,18 @@ import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 import android.webkit.WebView;
-import android.webkit.WebViewClient;
-import android.graphics.Picture;
 import android.webkit.WebView.PictureListener;
+import android.webkit.WebViewClient;
 import android.widget.ImageButton;
 import android.widget.ProgressBar;
+import com.actionbarsherlock.app.SherlockFragment;
+import com.actionbarsherlock.view.Menu;
+import com.actionbarsherlock.view.MenuInflater;
+import com.actionbarsherlock.view.MenuItem;
+import su.geocaching.android.controller.Controller;
+import su.geocaching.android.controller.apimanager.GeocachingSuApiManager;
+import su.geocaching.android.model.GeoPoint;
+import su.geocaching.android.ui.R;
 
 public abstract class AbstractWebViewFragment extends SherlockFragment implements IInfoFragment {
     

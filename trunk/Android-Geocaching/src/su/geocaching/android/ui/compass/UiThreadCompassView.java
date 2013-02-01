@@ -2,7 +2,6 @@ package su.geocaching.android.ui.compass;
 
 import android.content.Context;
 import android.graphics.Canvas;
-import android.opengl.Visibility;
 import android.util.AttributeSet;
 import android.view.View;
 import su.geocaching.android.controller.Controller;

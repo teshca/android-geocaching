@@ -5,6 +5,7 @@ import android.net.Uri;
 import android.os.Environment;
 import android.provider.MediaStore;
 import android.util.Log;
+import su.geocaching.android.controller.Controller;
 
 import java.io.File;
 import java.io.FilenameFilter;
@@ -12,8 +13,6 @@ import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.Collection;
 import java.util.LinkedList;
-
-import su.geocaching.android.controller.Controller;
 
 public class ExternalStorageManager {
 

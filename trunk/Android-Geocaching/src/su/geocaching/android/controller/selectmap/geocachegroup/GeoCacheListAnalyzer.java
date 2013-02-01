@@ -4,7 +4,6 @@ import android.graphics.Point;
 import android.os.AsyncTask;
 import com.google.android.gms.maps.Projection;
 import com.google.android.gms.maps.model.LatLng;
-
 import su.geocaching.android.model.GeoCache;
 import su.geocaching.android.model.GeoCacheType;
 import su.geocaching.android.model.GeoPoint;

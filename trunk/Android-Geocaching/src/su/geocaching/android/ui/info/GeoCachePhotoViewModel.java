@@ -1,13 +1,13 @@
 package su.geocaching.android.ui.info;
 
+import android.net.Uri;
+import android.os.AsyncTask;
+import su.geocaching.android.controller.Controller;
+import su.geocaching.android.controller.apimanager.AdvancedDownloadPhotoTask;
+
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
-
-import su.geocaching.android.controller.Controller;
-import su.geocaching.android.controller.apimanager.AdvancedDownloadPhotoTask;
-import android.net.Uri;
-import android.os.AsyncTask;
 
 public class GeoCachePhotoViewModel {
     

@@ -23,10 +23,10 @@ import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.LatLng;
 import su.geocaching.android.controller.Controller;
-import su.geocaching.android.controller.managers.*;
-import su.geocaching.android.controller.utils.CoordinateHelper;
 import su.geocaching.android.controller.GpsUpdateFrequency;
 import su.geocaching.android.controller.compass.SmoothCompassThread;
+import su.geocaching.android.controller.managers.*;
+import su.geocaching.android.controller.utils.CoordinateHelper;
 import su.geocaching.android.controller.utils.UiHelper;
 import su.geocaching.android.model.*;
 import su.geocaching.android.ui.R;
@@ -169,7 +169,7 @@ public class SearchMapActivity extends SherlockFragmentActivity
         if (!Controller.getInstance().getLocationManager().isBestProviderEnabled()) {
             showDialog(DIALOG_ID_TURN_ON_GPS);
             hideProgressBarCircle();
-            UiHelper.setGone(gpsStatusTextView);
+            UiHelper.hide(gpsStatusTextView);
         } else {
             if (Controller.getInstance().getLocationManager().hasPreciseLocation()) {
                 hideProgressBarCircle();
@@ -356,7 +356,7 @@ public class SearchMapActivity extends SherlockFragmentActivity
                     // gps has been turned off
                     showDialog(DIALOG_ID_TURN_ON_GPS);
                     hideProgressBarCircle();
-                    UiHelper.setGone(gpsStatusTextView);
+                    UiHelper.hide(gpsStatusTextView);
                 }
                 break;
             case AccurateUserLocationManager.EVENT_PROVIDER_ENABLED:
@@ -368,7 +368,7 @@ public class SearchMapActivity extends SherlockFragmentActivity
                         LogManager.w(TAG, "Can't dismiss dialog, probably it hasn't ever been shown", e);
                     }
                     showProgressBarCircle();
-                    UiHelper.setVisible(gpsStatusTextView);
+                    UiHelper.show(gpsStatusTextView);
                 }
                 break;
         }

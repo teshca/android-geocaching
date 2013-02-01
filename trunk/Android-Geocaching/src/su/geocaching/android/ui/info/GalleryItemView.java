@@ -6,11 +6,7 @@ import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.os.Handler;
 import android.view.View;
-import android.widget.FrameLayout;
-import android.widget.GridView;
-import android.widget.ImageButton;
-import android.widget.ImageView;
-import android.widget.ProgressBar;
+import android.widget.*;
 import su.geocaching.android.controller.managers.LogManager;
 import su.geocaching.android.ui.R;
 

@@ -1,5 +1,7 @@
 package su.geocaching.android.ui.info;
 
+import android.os.Bundle;
+import android.widget.EditText;
 import com.actionbarsherlock.app.SherlockActivity;
 import com.actionbarsherlock.view.Menu;
 import com.actionbarsherlock.view.MenuInflater;
@@ -7,8 +9,6 @@ import com.actionbarsherlock.view.MenuItem;
 import su.geocaching.android.controller.Controller;
 import su.geocaching.android.controller.managers.LogManager;
 import su.geocaching.android.controller.managers.NavigationManager;
-import android.os.Bundle;
-import android.widget.EditText;
 import su.geocaching.android.model.GeoCache;
 import su.geocaching.android.ui.R;
 

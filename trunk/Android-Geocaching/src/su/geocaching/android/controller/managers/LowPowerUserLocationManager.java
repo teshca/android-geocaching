@@ -1,6 +1,8 @@
 package su.geocaching.android.controller.managers;
 
-import android.location.*;
+import android.location.Criteria;
+import android.location.LocationListener;
+import android.location.LocationManager;
 
 /**
  * Location manager which get updates of location by GSM/Wi-Fi

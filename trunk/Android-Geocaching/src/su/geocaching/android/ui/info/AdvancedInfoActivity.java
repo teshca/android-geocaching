@@ -6,39 +6,37 @@ package su.geocaching.android.ui.info;
  * @author Nickolay Artamonov
  */
 
-import java.util.ArrayList;
-
-import android.content.res.Resources;
-import android.util.TypedValue;
-import android.view.View;
-import com.actionbarsherlock.app.ActionBar;
-import com.actionbarsherlock.app.SherlockFragmentActivity;
-import com.actionbarsherlock.view.MenuInflater;
-import com.actionbarsherlock.view.MenuItem;
-import com.actionbarsherlock.view.Menu;
-
-import su.geocaching.android.controller.Controller;
-import su.geocaching.android.controller.managers.NavigationManager;
-import su.geocaching.android.model.GeoCache;
-import su.geocaching.android.model.GeoCacheType;
-import su.geocaching.android.model.GeoPoint;
-import su.geocaching.android.ui.R;
-
 import android.app.Dialog;
+import android.content.res.Resources;
 import android.graphics.Typeface;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v4.view.ViewPager;
+import android.util.TypedValue;
 import android.view.Gravity;
 import android.view.LayoutInflater;
+import android.view.View;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
+import com.actionbarsherlock.app.ActionBar;
+import com.actionbarsherlock.app.SherlockFragmentActivity;
+import com.actionbarsherlock.view.Menu;
+import com.actionbarsherlock.view.MenuInflater;
+import com.actionbarsherlock.view.MenuItem;
+import su.geocaching.android.controller.Controller;
+import su.geocaching.android.controller.managers.NavigationManager;
+import su.geocaching.android.model.GeoCache;
+import su.geocaching.android.model.GeoCacheType;
+import su.geocaching.android.model.GeoPoint;
+import su.geocaching.android.ui.R;
 import su.geocaching.android.ui.info.controls.TextSizeAdjustableTextView;
 import su.geocaching.android.ui.info.controls.TextSizeAdjustedEvent;
 import su.geocaching.android.ui.info.controls.TextSizeAdjustedListener;
+
+import java.util.ArrayList;
 
 public class AdvancedInfoActivity extends SherlockFragmentActivity {
     ViewPager  mViewPager;

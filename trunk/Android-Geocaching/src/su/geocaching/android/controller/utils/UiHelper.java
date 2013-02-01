@@ -13,7 +13,7 @@ public class UiHelper {
      *
      * @param v view
      */
-    public static void setVisible(View v) {
+    public static void show(View v) {
         if (v.getVisibility() != View.VISIBLE) {
             v.setVisibility(View.VISIBLE);
         }
@@ -24,7 +24,7 @@ public class UiHelper {
      *
      * @param v view
      */
-    public static void setGone(View v) {
+    public static void hide(View v) {
         if (v.getVisibility() != View.GONE) {
             v.setVisibility(View.GONE);
         }

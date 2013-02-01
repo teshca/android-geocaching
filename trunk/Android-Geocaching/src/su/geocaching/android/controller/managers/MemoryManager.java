@@ -1,14 +1,14 @@
 package su.geocaching.android.controller.managers;
 
-import java.util.Timer;
-import java.util.TimerTask;
-
 import android.content.Context;
 import android.os.Debug;
 import android.os.Handler;
 import android.os.Message;
 import android.view.Gravity;
 import android.widget.Toast;
+
+import java.util.Timer;
+import java.util.TimerTask;
 
 public class MemoryManager {
     

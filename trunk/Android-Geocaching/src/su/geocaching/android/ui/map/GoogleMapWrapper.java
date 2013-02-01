@@ -9,7 +9,7 @@ import su.geocaching.android.model.GeoCache;
 import su.geocaching.android.model.GeoPoint;
 import su.geocaching.android.model.MapInfo;
 
-import static com.google.android.gms.maps.GoogleMap.*;
+import static com.google.android.gms.maps.GoogleMap.OnCameraChangeListener;
 
 public class GoogleMapWrapper implements IMapWrapper {
 
@@ -51,13 +51,14 @@ public class GoogleMapWrapper implements IMapWrapper {
         googleMap.animateCamera(CameraUpdateFactory.newLatLng(center));
     }
 
+    // TODO: Save and load double mapState
     @Override
     public MapInfo getMapState() {
         CameraPosition cameraPosition = googleMap.getCameraPosition();
-        int latE6 = toE6(cameraPosition.target.latitude);
-        int lonE6 = toE6(cameraPosition.target.longitude);
+        int latE6 = (int) (cameraPosition.target.latitude * 1E6);
+        int lonE6 = (int) (cameraPosition.target.longitude * 1E6);
         int zoom = (int) cameraPosition.zoom;
-        return  new MapInfo(latE6, lonE6, zoom);
+        return new MapInfo(latE6, lonE6, zoom);
     }
 
     @Override
@@ -95,15 +96,6 @@ public class GoogleMapWrapper implements IMapWrapper {
         GeoPoint tl = new GeoPoint(viewPortBounds.northeast.latitude, viewPortBounds.southwest.longitude);
         GeoPoint br = new GeoPoint(viewPortBounds.southwest.latitude, viewPortBounds.northeast.longitude);
         return new GeoRect(tl, br);
-    }
-
-    @Deprecated
-    protected static int toE6(double coordinate) {
-        return (int) (coordinate * 1E6);
-    }
-
-    protected static GeoPoint toGeoPoint(LatLng latLng) {
-        return new GeoPoint(latLng.latitude, latLng.longitude);
     }
 
     @Override

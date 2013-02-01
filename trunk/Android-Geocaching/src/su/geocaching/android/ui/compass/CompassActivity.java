@@ -6,7 +6,10 @@ import android.location.Location;
 import android.location.LocationManager;
 import android.os.Bundle;
 import android.view.View;
-import android.widget.*;
+import android.widget.ImageView;
+import android.widget.ProgressBar;
+import android.widget.TextView;
+import android.widget.Toast;
 import com.actionbarsherlock.app.SherlockActivity;
 import com.actionbarsherlock.view.Menu;
 import com.actionbarsherlock.view.MenuInflater;
@@ -250,7 +253,7 @@ public class CompassActivity extends SherlockActivity {
         @Override
         public void updateLocation(Location location) {
             odometer.updateDistance();
-            UiHelper.setGone(progressBarCircle);
+            UiHelper.hide(progressBarCircle);
             float distance = CoordinateHelper.getDistanceBetween(Controller.getInstance().getCurrentSearchPoint().getGeoPoint(), location);
             if (distance < CLOSE_DISTANCE_TO_GC_VALUE || AccurateUserLocationManager.Odometer.isEnabled()) {
                 Controller.getInstance().getLocationManager().updateFrequency(GpsUpdateFrequency.MAXIMAL);
@@ -271,20 +274,20 @@ public class CompassActivity extends SherlockActivity {
                     break;
                 case AccurateUserLocationManager.OUT_OF_SERVICE:
                     // provider unavailable
-                    UiHelper.setVisible(progressBarCircle);
+                    UiHelper.show(progressBarCircle);
                     statusText.setText(R.string.gps_status_unavailable);
                     providerUnavailableToast.show();
                     break;
                 case AccurateUserLocationManager.TEMPORARILY_UNAVAILABLE:
                     // gps connection lost. just show progress bar
-                    UiHelper.setVisible(progressBarCircle);
+                    UiHelper.show(progressBarCircle);
                     break;
                 case AccurateUserLocationManager.EVENT_PROVIDER_DISABLED:
                     if (LocationManager.GPS_PROVIDER.equals(provider)) {
                         // gps has been turned off
                         showDialog(DIALOG_ID_TURN_ON_GPS);
-                        UiHelper.setGone(progressBarCircle);
-                        UiHelper.setGone(statusText);
+                        UiHelper.hide(progressBarCircle);
+                        UiHelper.hide(statusText);
                     }
                     break;
                 case AccurateUserLocationManager.EVENT_PROVIDER_ENABLED:
@@ -295,8 +298,8 @@ public class CompassActivity extends SherlockActivity {
                         } catch (Exception e) {
                             LogManager.w(TAG, "Can't dismiss dialog, probably it hasn't ever been shown", e);
                         }
-                        UiHelper.setVisible(progressBarCircle);
-                        UiHelper.setVisible(statusText);
+                        UiHelper.show(progressBarCircle);
+                        UiHelper.show(statusText);
                     }
                     break;
             }
