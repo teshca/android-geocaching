@@ -29,7 +29,7 @@ public class AdvancedDownloadPhotoTask extends AsyncTask<Void, Void, Boolean> {
 
     @Override
     protected Boolean doInBackground(Void... params) {
-        return Controller.getInstance().getApiManager().downloadPhoto(this.cachePhotoViewModel.getGeoCachceId(), this.cachePhotoViewModel.getRemoteUrl());
+        return Controller.getInstance().getApiManager().downloadPhoto(this.cachePhotoViewModel.getGeoCacheId(), this.cachePhotoViewModel.getRemoteUrl());
     }
 
     @Override

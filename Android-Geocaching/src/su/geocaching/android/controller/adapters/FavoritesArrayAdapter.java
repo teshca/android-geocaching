@@ -75,7 +75,7 @@ public class FavoritesArrayAdapter extends BaseArrayAdapter<GeoCache> implements
 
         if (lastLocation != null) {
             boolean hasPreciseLocation = Controller.getInstance().getLocationManager().hasPreciseLocation();
-            float distance = CoordinateHelper.getDistanceBetween(geoCache.getLocationGeoPoint(), lastLocation);
+            float distance = CoordinateHelper.getDistanceBetween(geoCache.getGeoPoint(), lastLocation);
             textViewDistance.setText(CoordinateHelper.distanceToString(distance, hasPreciseLocation));
         } else {
             textViewDistance.setVisibility(View.GONE);
@@ -83,7 +83,7 @@ public class FavoritesArrayAdapter extends BaseArrayAdapter<GeoCache> implements
 
         if (lastLocation != null && Controller.getInstance().getCompassManager().IsCompassAvailable()) {
         	compassView.setHelper(AbstractCompassDrawing.TYPE_PREVIEW);
-            compassView.setCacheDirection(CoordinateHelper.getBearingBetween(lastLocation, geoCache.getLocationGeoPoint()));
+            compassView.setCacheDirection(CoordinateHelper.getBearingBetween(lastLocation, geoCache.getGeoPoint()));
         } else {
             compassView.setVisibility(View.GONE);
         }
@@ -134,8 +134,8 @@ public class FavoritesArrayAdapter extends BaseArrayAdapter<GeoCache> implements
             if (lastLocation == null) {
                 return 0;
             }
-            float distance1 = CoordinateHelper.getDistanceBetween(geoCache1.getLocationGeoPoint(), lastLocation);
-            float distance2 = CoordinateHelper.getDistanceBetween(geoCache2.getLocationGeoPoint(), lastLocation);
+            float distance1 = CoordinateHelper.getDistanceBetween(geoCache1.getGeoPoint(), lastLocation);
+            float distance2 = CoordinateHelper.getDistanceBetween(geoCache2.getGeoPoint(), lastLocation);
             return Float.compare(distance1, distance2);
         }
     }

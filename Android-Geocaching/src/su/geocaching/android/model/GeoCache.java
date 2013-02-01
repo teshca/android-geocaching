@@ -2,7 +2,6 @@ package su.geocaching.android.model;
 
 import android.os.Parcel;
 import android.os.Parcelable;
-import com.google.android.maps.GeoPoint;
 
 /**
  * Class for storing information about the cache
@@ -13,23 +12,23 @@ import com.google.android.maps.GeoPoint;
 public class GeoCache implements Parcelable {
 
     private int id; // Unique identifier of GeoCache(from geocaching.su)
-    private GeoPoint locationGeoPoint;
+    private GeoPoint geoPoint;
     private String name;
     private GeoCacheType type;
     private GeoCacheStatus status;
 
     public GeoCache() {
-        locationGeoPoint = new GeoPoint(0, 0);
+        geoPoint = new GeoPoint(0, 0);
         type = GeoCacheType.TRADITIONAL;
         status = GeoCacheStatus.VALID;
     }
 
-    public GeoPoint getLocationGeoPoint() {
-        return locationGeoPoint;
+    public GeoPoint getGeoPoint() {
+        return geoPoint;
     }
 
-    public void setLocationGeoPoint(GeoPoint locationGeoPoint) {
-        this.locationGeoPoint = locationGeoPoint;
+    public void setGeoPoint(GeoPoint geoPoint) {
+        this.geoPoint = geoPoint;
     }
 
     public int getId() {
@@ -84,8 +83,8 @@ public class GeoCache implements Parcelable {
         // ! Important order of writing to parcel
         arg0.writeInt(id);
         arg0.writeString(name);
-        arg0.writeInt(locationGeoPoint.getLatitudeE6());
-        arg0.writeInt(locationGeoPoint.getLongitudeE6());
+        arg0.writeDouble(geoPoint.getLatitude());
+        arg0.writeDouble(geoPoint.getLongitude());
         arg0.writeInt(type.ordinal());
         arg0.writeInt(status.ordinal());
     }
@@ -104,7 +103,7 @@ public class GeoCache implements Parcelable {
             GeoCache res = new GeoCache();
             res.id = in.readInt();
             res.name = in.readString();
-            res.locationGeoPoint = new GeoPoint(in.readInt(), in.readInt());
+            res.geoPoint = new GeoPoint(in.readDouble(), in.readDouble());
             res.type = GeoCacheType.values()[in.readInt()];
             res.status = GeoCacheStatus.values()[in.readInt()];
             return res;

@@ -1,11 +1,11 @@
 package su.geocaching.android.controller.managers;
 
-import com.google.android.maps.GeoPoint;
 import su.geocaching.android.controller.Controller;
 import su.geocaching.android.controller.utils.Sexagesimal;
 import su.geocaching.android.model.GeoCache;
 import su.geocaching.android.model.GeoCacheStatus;
 import su.geocaching.android.model.GeoCacheType;
+import su.geocaching.android.model.GeoPoint;
 import su.geocaching.android.ui.R;
 
 import java.util.List;
@@ -41,7 +41,7 @@ public class CheckpointManager {
         return cacheId;
     }
 
-    public GeoCache addCheckpoint(int cacheId, String name, int latitudeE6, int longitudeE6) {
+    public GeoCache addCheckpoint(int cacheId, String name, GeoPoint geoPoint) {
         deactivateCheckpoints();
         checkpointNumber++;
         GeoCache gc = new GeoCache();
@@ -51,7 +51,7 @@ public class CheckpointManager {
             gc.setName(name.trim());
         }
         
-        gc.setLocationGeoPoint(new GeoPoint(latitudeE6, longitudeE6));
+        gc.setGeoPoint(geoPoint);
         gc.setType(GeoCacheType.CHECKPOINT);
         gc.setStatus(GeoCacheStatus.ACTIVE_CHECKPOINT);
         gc.setId(checkpointNumber);
@@ -133,22 +133,22 @@ public class CheckpointManager {
         StringBuffer sb = new StringBuffer();
 
         while (pageMatcher.find()) {
-            int latitude;
-            int longitude;
+            int latitudeE6;
+            int longitudeE6;
             try {
                 int degrees = Integer.parseInt(pageMatcher.group(1));
                 int minutes = Integer.parseInt(pageMatcher.group(2));
                 double milliMinutes = Double.parseDouble("." + pageMatcher.group(3));
-                latitude = new Sexagesimal(degrees, (double)minutes + milliMinutes).toCoordinateE6();
+                latitudeE6 = new Sexagesimal(degrees, (double)minutes + milliMinutes).toCoordinateE6();
 
                 degrees = Integer.parseInt(pageMatcher.group(4));
                 minutes = Integer.parseInt(pageMatcher.group(5));
                 milliMinutes = Float.parseFloat("." + pageMatcher.group(6));
-                longitude = new Sexagesimal(degrees, (double)minutes + milliMinutes).toCoordinateE6();
+                longitudeE6 = new Sexagesimal(degrees, (double)minutes + milliMinutes).toCoordinateE6();
             } catch (Exception e) {
                 continue;
             }
-            pageMatcher.appendReplacement(sb, String.format("<a href=\"geo:%d,%d\" style=\"color: rgb(86,144,93)\"><b>%s</b></a>", latitude, longitude, pageMatcher.group(0)));
+            pageMatcher.appendReplacement(sb, String.format("<a href=\"geo:%d,%d\" style=\"color: rgb(86,144,93)\"><b>%s</b></a>", latitudeE6, longitudeE6, pageMatcher.group(0)));
         }
 
         pageMatcher.appendTail(sb);

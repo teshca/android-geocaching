@@ -36,7 +36,7 @@
       <sourceFolder url="file://$MODULE_DIR$/gen" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/src" isTestSource="false" />
     </content>
-    <orderEntry type="jdk" jdkName="Android 4.2 Google APIs" jdkType="Android SDK" />
+    <orderEntry type="jdk" jdkName="Android 4.2 Platform" jdkType="Android SDK" />
     <orderEntry type="sourceFolder" forTests="false" />
     <orderEntry type="module" module-name="ActionBarSherlock" />
     <orderEntry type="module" module-name="google-play-services" />
@@ -44,15 +44,6 @@
       <library>
         <CLASSES>
           <root url="jar://$MODULE_DIR$/libs/libGoogleAnalytics.jar!/" />
-        </CLASSES>
-        <JAVADOC />
-        <SOURCES />
-      </library>
-    </orderEntry>
-    <orderEntry type="module-library">
-      <library>
-        <CLASSES>
-          <root url="jar://$MODULE_DIR$/libs/actionbarsherlock-plugin-maps-4.1.0.jar!/" />
         </CLASSES>
         <JAVADOC />
         <SOURCES />

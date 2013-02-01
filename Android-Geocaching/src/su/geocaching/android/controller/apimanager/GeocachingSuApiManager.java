@@ -70,10 +70,10 @@ public class GeocachingSuApiManager implements IApiManager {
         try {
             SAXParserFactory factory = SAXParserFactory.newInstance();
             SAXParser parser = factory.newSAXParser();
-            double maxLatitude = rect.tl.getLatitudeE6() * 1E-6;
-            double minLatitude = rect.br.getLatitudeE6() * 1E-6;
-            double maxLongitude = rect.br.getLongitudeE6() * 1E-6;
-            double minLongitude = rect.tl.getLongitudeE6() * 1E-6;
+            double maxLatitude = rect.tl.getLatitude();
+            double minLatitude = rect.br.getLatitude();
+            double maxLongitude = rect.br.getLongitude();
+            double minLongitude = rect.tl.getLongitude();
             URL url = getCacheListUrl(maxLatitude, minLatitude, maxLongitude, minLongitude);
 
             inputStreamReader = getInputSteamReader(url);
@@ -297,8 +297,7 @@ public class GeocachingSuApiManager implements IApiManager {
                     }
                     entity.consumeContent();
                 }
-            } 
-            else {
+            } else {
                 LogManager.e(TAG, String.format("Error while retrieving bitmap from %s. Content is null", url));
                 return false;
             }

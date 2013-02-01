@@ -19,12 +19,12 @@ public class SexagesimalSec {
         this.seconds = seconds;
     }
 
-    public SexagesimalSec(int coordinateE6) {
-        degrees = coordinateE6 / 1000000;
-        int minutesE6 = (Math.abs(coordinateE6) % 1000000) * 60;
-        minutes = minutesE6 / 1000000;
-        int secondsE6 = (minutesE6 % 1000000) * 60;
-        seconds = secondsE6 / 1E6;
+    public SexagesimalSec(double coordinate) {
+        double min = (Math.abs(coordinate) % 1) * 60;
+        degrees = (int) Math.abs(coordinate);
+        minutes = (int) min;
+        seconds = (min % 1) * 60;
+        if (coordinate < 0) degrees = -degrees;
     }
 
     public SexagesimalSec roundTo(int i) {
@@ -47,9 +47,9 @@ public class SexagesimalSec {
         return copy;
     }
 
-    public int toCoordinateE6() {
-        double coordinateE6 = (Math.abs(degrees) + (minutes / 60.0) + (seconds / 3600.0)) * 1E6;
-        if (degrees < 0) coordinateE6 = - coordinateE6;
-        return (int) Math.round(coordinateE6);
+    public double toCoordinate() {
+        double coordinate = (Math.abs(degrees) + (minutes / 60.0) + (seconds / 3600.0));
+        if (degrees < 0) coordinate = -coordinate;
+        return coordinate;
     }
 }

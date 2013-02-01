@@ -2,7 +2,7 @@ package su.geocaching.android.controller.utils;
 
 import android.content.res.Resources;
 import android.location.Location;
-import com.google.android.maps.GeoPoint;
+import su.geocaching.android.model.GeoPoint;
 import su.geocaching.android.controller.Controller;
 import su.geocaching.android.ui.R;
 
@@ -51,7 +51,7 @@ public class CoordinateHelper {
      */
     public static float getDistanceBetween(Location l1, GeoPoint l2) {
         float[] results = new float[1];
-        Location.distanceBetween(l1.getLatitude(), l1.getLongitude(), l2.getLatitudeE6() / 1E6, l2.getLongitudeE6() / 1E6, results);
+        Location.distanceBetween(l1.getLatitude(), l1.getLongitude(), l2.getLatitude(), l2.getLongitude(), results);
         return results[0];
     }
 
@@ -75,7 +75,7 @@ public class CoordinateHelper {
      */
     public static float getDistanceBetween(GeoPoint l1, GeoPoint l2) {
         float[] results = new float[1];
-        Location.distanceBetween((double) l1.getLatitudeE6() / 1E6, (double) l1.getLongitudeE6() / 1E6, (double) l2.getLatitudeE6() / 1E6, (double) l2.getLongitudeE6() / 1E6, results);
+        Location.distanceBetween(l1.getLatitude(), l1.getLongitude(), l2.getLatitude(), l2.getLongitude(), results);
         return results[0];
     }
 
@@ -88,13 +88,13 @@ public class CoordinateHelper {
      */
     public static float getBearingBetween(Location l1, GeoPoint l2) {
         float[] results = new float[2];
-        Location.distanceBetween(l1.getLatitude(), l1.getLongitude(), l2.getLatitudeE6() / 1E6, l2.getLongitudeE6() / 1E6, results);
+        Location.distanceBetween(l1.getLatitude(), l1.getLongitude(), l2.getLatitude(), l2.getLongitude(), results);
         return results[1];
     }
 
     public static float getBearingBetween(GeoPoint l1, GeoPoint l2) {
         float[] results = new float[2];
-        Location.distanceBetween(l1.getLatitudeE6() / 1E6, l1.getLongitudeE6() / 1E6, l2.getLatitudeE6() / 1E6, l2.getLongitudeE6() / 1E6, results);
+        Location.distanceBetween(l1.getLatitude(), l1.getLongitude(), l2.getLatitude(), l2.getLongitude(), results);
         return results[1];
     }
 
@@ -135,7 +135,7 @@ public class CoordinateHelper {
      * @return location coverted to GeoPoint object
      */
     public static GeoPoint locationToGeoPoint(Location location) {
-        return new GeoPoint((int) (location.getLatitude() * 1E6), (int) (location.getLongitude() * 1E6));
+        return new GeoPoint(location.getLatitude(), location.getLongitude());
     }
 
     /**
@@ -146,8 +146,8 @@ public class CoordinateHelper {
      * @return formating string (for example: "60° 12,123' с.ш. | 30° 32,321'" в.д.)
      */
     public static String coordinateToString(GeoPoint location) {
-        Sexagesimal latitude = new Sexagesimal(location.getLatitudeE6()).roundTo(3);
-        Sexagesimal longitude = new Sexagesimal(location.getLongitudeE6()).roundTo(3);
+        Sexagesimal latitude = new Sexagesimal(location.getLatitude()).roundTo(3);
+        Sexagesimal longitude = new Sexagesimal(location.getLongitude()).roundTo(3);
 
         Resources res = Controller.getInstance().getResourceManager().getResources();
         String format;
@@ -177,9 +177,9 @@ public class CoordinateHelper {
    * @return goal geopoint
    */
     public static GeoPoint distanceBearingToGeoPoint(GeoPoint currentGeoPoint, float bearing, float distance) {
-        double latitude = currentGeoPoint.getLatitudeE6() * Math.PI / 180E6;
-        double longitude = currentGeoPoint.getLongitudeE6() * Math.PI / 180E6;
-        double radianBearing = bearing * Math.PI / 180.0;
+        double latitude = Math.toRadians(currentGeoPoint.getLatitude());
+        double longitude = Math.toRadians(currentGeoPoint.getLongitude());
+        double radianBearing = Math.toRadians(bearing);
 
         double distanceDivRadius = distance / EARTH_RADIUS;
 
@@ -188,8 +188,8 @@ public class CoordinateHelper {
         double goalLongitude = longitude
                 + Math.atan2(Math.sin(radianBearing) * Math.sin(distanceDivRadius) * Math.cos(latitude), Math.cos(distanceDivRadius) - Math.sin(latitude) * Math.sin(goalLatitude));
 
-        goalLatitude = goalLatitude * 180E6 / Math.PI;
-        goalLongitude = goalLongitude * 180E6 / Math.PI;
-        return new GeoPoint((int) (goalLatitude), (int) (goalLongitude));
+        goalLatitude = Math.toDegrees(goalLatitude);
+        goalLongitude = Math.toDegrees(goalLongitude);
+        return new GeoPoint(goalLatitude, goalLongitude);
     }
 }

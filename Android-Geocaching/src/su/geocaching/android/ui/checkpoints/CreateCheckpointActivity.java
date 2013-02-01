@@ -12,7 +12,6 @@ import com.actionbarsherlock.app.SherlockActivity;
 import com.actionbarsherlock.view.Menu;
 import com.actionbarsherlock.view.MenuInflater;
 import com.actionbarsherlock.view.MenuItem;
-import com.google.android.maps.GeoPoint;
 import su.geocaching.android.controller.Controller;
 import su.geocaching.android.controller.utils.CoordinateHelper;
 import su.geocaching.android.controller.utils.Sexagesimal;
@@ -23,6 +22,7 @@ import su.geocaching.android.controller.managers.LogManager;
 import su.geocaching.android.controller.managers.NavigationManager;
 import su.geocaching.android.controller.managers.AccurateUserLocationManager;
 import su.geocaching.android.model.GeoCache;
+import su.geocaching.android.model.GeoPoint;
 import su.geocaching.android.ui.R;
 
 import java.text.DecimalFormat;
@@ -201,7 +201,7 @@ public class CreateCheckpointActivity extends SherlockActivity {
             currentLocation = CoordinateHelper.locationToGeoPoint(locationManager.getLastKnownLocation());
             info.setText(R.string.relative_to_current_location);
         } else {
-            currentLocation = geoCache.getLocationGeoPoint();
+            currentLocation = geoCache.getGeoPoint();
             info.setText(R.string.relative_to_cache_location);
         }
 
@@ -209,7 +209,7 @@ public class CreateCheckpointActivity extends SherlockActivity {
 
     private void updateTextBoxes() {
         if (currentInputGeoPoint == null) {
-            currentInputGeoPoint = geoCache.getLocationGeoPoint();
+            currentInputGeoPoint = geoCache.getGeoPoint();
         }
         updateSexagesimal();
         updateSexagesimalSeconds();
@@ -218,8 +218,8 @@ public class CreateCheckpointActivity extends SherlockActivity {
     }
 
     private void updateSexagesimal() {
-        int lat = currentInputGeoPoint.getLatitudeE6();
-        int lng = currentInputGeoPoint.getLongitudeE6();
+        double lat = currentInputGeoPoint.getLatitude();
+        double lng = currentInputGeoPoint.getLongitude();
 
         Sexagesimal sexagesimal = new Sexagesimal(lat).roundTo(3);
         latDegrees.setText(Integer.toString(sexagesimal.degrees), BufferType.EDITABLE);
@@ -235,8 +235,8 @@ public class CreateCheckpointActivity extends SherlockActivity {
     }
 
     private void updateSexagesimalSeconds() {
-        int lat = currentInputGeoPoint.getLatitudeE6();
-        int lng = currentInputGeoPoint.getLongitudeE6();
+        double lat = currentInputGeoPoint.getLatitude();
+        double lng = currentInputGeoPoint.getLongitude();
 
         SexagesimalSec sSexagesimal = new SexagesimalSec(lat).roundTo(2);
         sLatDegrees.setText(Integer.toString(sSexagesimal.degrees), BufferType.EDITABLE);
@@ -331,7 +331,7 @@ public class CreateCheckpointActivity extends SherlockActivity {
 
     private void onSaveCheckpoint() {
         try {
-            checkpointManager.addCheckpoint(geoCache.getId(), name.getText().toString(), currentInputGeoPoint.getLatitudeE6(), currentInputGeoPoint.getLongitudeE6());
+            checkpointManager.addCheckpoint(geoCache.getId(), name.getText().toString(), new GeoPoint(currentInputGeoPoint));
             finish();
         } catch (Exception e) {
             LogManager.e(TAG, e.getMessage(), e);
@@ -388,10 +388,10 @@ public class CreateCheckpointActivity extends SherlockActivity {
         @Override
         public void afterTextChanged(Editable s) {
             try {
+                // Latitude
                 int degreesInt = ParseIntValue(latDegrees);
                 int minutesInt = ParseIntValue(latMinutes);
                 float minutesFloat = ParseFractionValue(latMinutesFraction);
-                int latitudeE6 = new Sexagesimal(degreesInt, (double)minutesInt + minutesFloat).toCoordinateE6();
 
                 if (degreesInt > 80 || degreesInt < -80)  {
                     latDegrees.setError(ERROR_MESSAGE);
@@ -401,12 +401,12 @@ public class CreateCheckpointActivity extends SherlockActivity {
                     latMinutes.setError(ERROR_MESSAGE);
                     return;
                 }
+                double latitude = new Sexagesimal(degreesInt, (double)minutesInt + minutesFloat).toCoordinate();
 
+                // Longitude
                 degreesInt = ParseIntValue(lngDegrees);
                 minutesInt = ParseIntValue(lngMinutes);
                 minutesFloat = ParseFractionValue(lngMinutesFraction);
-                int longitudeE6 = new Sexagesimal(degreesInt, (double)minutesInt + minutesFloat).toCoordinateE6();
-
                 if (degreesInt > 180 || degreesInt < -180)  {
                     lngDegrees.setError(ERROR_MESSAGE);
                     return;
@@ -415,8 +415,9 @@ public class CreateCheckpointActivity extends SherlockActivity {
                     lngMinutes.setError(ERROR_MESSAGE);
                     return;
                 }
+                double longitude = new Sexagesimal(degreesInt, (double)minutesInt + minutesFloat).toCoordinate();
 
-                currentInputGeoPoint = new GeoPoint(latitudeE6, longitudeE6);
+                currentInputGeoPoint = new GeoPoint(latitude, longitude);
                 stopWatch();
                 updateSexagesimalSeconds();
                 updateDecimal();
@@ -433,11 +434,10 @@ public class CreateCheckpointActivity extends SherlockActivity {
         @Override
         public void afterTextChanged(Editable s) {
             try {
+                // Latitude
                 int degreesInt = ParseIntValue(sLatDegrees);
                 int minutesInt = ParseIntValue(sLatMinutes);
                 float secondsFloat = ParseFloatValue(sLatSeconds);
-                int latitudeE6 = new SexagesimalSec(degreesInt, minutesInt, secondsFloat).toCoordinateE6();
-
                 if (degreesInt > 80 || degreesInt < -80)  {
                     dLatDegrees.setError(ERROR_MESSAGE);
                     return;
@@ -450,12 +450,12 @@ public class CreateCheckpointActivity extends SherlockActivity {
                     sLatSeconds.setError(ERROR_MESSAGE);
                     return;
                 }
+                double latitude = new SexagesimalSec(degreesInt, minutesInt, secondsFloat).toCoordinate();
 
+                // Longitude
                 degreesInt = ParseIntValue(sLngDegrees);
                 minutesInt = ParseIntValue(sLngMinutes);
                 secondsFloat = ParseFloatValue(sLngSeconds);
-                int longitudeE6 = new SexagesimalSec(degreesInt, minutesInt, secondsFloat).toCoordinateE6();
-
                 if (degreesInt > 180 || degreesInt < -180)  {
                     sLngDegrees.setError(ERROR_MESSAGE);
                     return;
@@ -468,8 +468,9 @@ public class CreateCheckpointActivity extends SherlockActivity {
                     sLngSeconds.setError(ERROR_MESSAGE);
                     return;
                 }
+                double longitude = new SexagesimalSec(degreesInt, minutesInt, secondsFloat).toCoordinate();
 
-                currentInputGeoPoint = new GeoPoint(latitudeE6, longitudeE6);
+                currentInputGeoPoint = new GeoPoint(latitude, longitude);
                 stopWatch();
                 updateSexagesimal();
                 updateDecimal();
@@ -488,19 +489,19 @@ public class CreateCheckpointActivity extends SherlockActivity {
         @Override
         public void afterTextChanged(Editable s) {
             try {
-                double latitudeE6 = (double)(ParseIntValue(dLatDegrees) + ParseFractionValue(dLatDegreesFraction)) * 1E6;
-                double longitudeE6 = (double)(ParseIntValue(dLngDegrees) + ParseFractionValue(dLngDegreesFraction)) * 1E6;
+                double latitude = ParseIntValue(dLatDegrees) + ParseFractionValue(dLatDegreesFraction);
+                double longitude = ParseIntValue(dLngDegrees) + ParseFractionValue(dLngDegreesFraction);
 
-                if (latitudeE6 > 80E6 || latitudeE6 < -80E6) {
+                if (latitude > 80 || latitude < -80) {
                     dLatDegrees.setError(ERROR_MESSAGE);
                     return;
                 }
-                if (longitudeE6 > 180E6 || longitudeE6 < -180E6) {
+                if (longitude > 180 || longitude < -180) {
                     dLngDegrees.setError(ERROR_MESSAGE);
                     return;
                 }
 
-                currentInputGeoPoint = new GeoPoint((int)latitudeE6, (int)longitudeE6);
+                currentInputGeoPoint = new GeoPoint(latitude, longitude);
                 stopWatch();
                 updateSexagesimal();
                 updateSexagesimalSeconds();

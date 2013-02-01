@@ -16,12 +16,12 @@ import com.actionbarsherlock.app.SherlockFragmentActivity;
 import com.actionbarsherlock.view.MenuInflater;
 import com.actionbarsherlock.view.MenuItem;
 import com.actionbarsherlock.view.Menu;
-import com.google.android.maps.GeoPoint;
 
 import su.geocaching.android.controller.Controller;
 import su.geocaching.android.controller.managers.NavigationManager;
 import su.geocaching.android.model.GeoCache;
 import su.geocaching.android.model.GeoCacheType;
+import su.geocaching.android.model.GeoPoint;
 import su.geocaching.android.ui.R;
 
 import android.app.Dialog;
@@ -308,7 +308,7 @@ public class AdvancedInfoActivity extends SherlockFragmentActivity {
         GeoCache checkpoint = new GeoCache();
         checkpoint.setId(infoViewModel.getGeoCachceId());
         checkpoint.setType(GeoCacheType.CHECKPOINT);
-        checkpoint.setLocationGeoPoint(geoPoint);
+        checkpoint.setGeoPoint(geoPoint);
         NavigationManager.startCreateCheckpointActivity(this, checkpoint);      
     }
     

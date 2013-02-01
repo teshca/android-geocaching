@@ -38,7 +38,7 @@ public class GeoCacheMemoryStorage {
     {
         List<GeoCache> filteredGeoCaches = new LinkedList<GeoCache>();
         for (GeoCache gc : geoCaches) {
-            if (rect.contains(gc.getLocationGeoPoint())) {
+            if (rect.contains(gc.getGeoPoint())) {
                 filteredGeoCaches.add(gc);
             }
         }

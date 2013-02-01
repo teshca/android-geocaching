@@ -22,7 +22,6 @@ import com.actionbarsherlock.view.MenuItem;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.LatLng;
-import com.google.android.maps.GeoPoint;
 import su.geocaching.android.controller.Controller;
 import su.geocaching.android.controller.managers.*;
 import su.geocaching.android.controller.utils.CoordinateHelper;
@@ -204,7 +203,7 @@ public class SearchMapActivity extends SherlockFragmentActivity
     public void updateLocation(Location userLocation) {
         LogManager.d(TAG, "update location");
         hideProgressBarCircle();
-        final GeoPoint cachePosition = Controller.getInstance().getCurrentSearchPoint().getLocationGeoPoint();
+        final GeoPoint cachePosition = Controller.getInstance().getCurrentSearchPoint().getGeoPoint();
         final float distance = CoordinateHelper.getDistanceBetween(cachePosition, userLocation);
         if (distance < CLOSE_DISTANCE_TO_GC_VALUE) {
             Controller.getInstance().getLocationManager().updateFrequency(GpsUpdateFrequency.MAXIMAL);
@@ -297,11 +296,11 @@ public class SearchMapActivity extends SherlockFragmentActivity
     private void onDrivingDirectionsSelected() {
         final Location location = Controller.getInstance().getLocationManager().getLastKnownLocation();
         if (location != null) {
-            final GeoPoint destination = Controller.getInstance().getCurrentSearchPoint().getLocationGeoPoint();
+            final GeoPoint destination = Controller.getInstance().getCurrentSearchPoint().getGeoPoint();
             final double sourceLat = location.getLatitude();
             final double sourceLng = location.getLongitude();
-            final double destinationLat = destination.getLatitudeE6() / 1E6;
-            final double destinationLng = destination.getLongitudeE6() / 1E6;
+            final double destinationLat = destination.getLatitude();
+            final double destinationLng = destination.getLongitude();
             NavigationManager.startExternalDrivingDirrections(this, sourceLat, sourceLng, destinationLat, destinationLng);
         } else {
             Toast.makeText(getBaseContext(), getString(R.string.status_null_last_location), Toast.LENGTH_LONG).show();
@@ -309,9 +308,9 @@ public class SearchMapActivity extends SherlockFragmentActivity
     }
 
     private void showExternalMap() {
-        final GeoPoint destination = Controller.getInstance().getCurrentSearchPoint().getLocationGeoPoint();
-        final double latitude = destination.getLatitudeE6() / 1E6;
-        final double longitude = destination.getLongitudeE6() / 1E6;
+        final GeoPoint destination = Controller.getInstance().getCurrentSearchPoint().getGeoPoint();
+        final double latitude = destination.getLatitude();
+        final double longitude = destination.getLongitude();
         NavigationManager.startExternalMap(this, latitude, longitude, mapWrapper.getMapState().getZoom());
     }
 
@@ -480,7 +479,7 @@ public class SearchMapActivity extends SherlockFragmentActivity
             distanceStatusTextView.setText(
                     CoordinateHelper.distanceToString(
                             CoordinateHelper.getDistanceBetween(
-                                    Controller.getInstance().getCurrentSearchPoint().getLocationGeoPoint(),
+                                    Controller.getInstance().getCurrentSearchPoint().getGeoPoint(),
                                     Controller.getInstance().getLocationManager().getLastKnownLocation()),
                             Controller.getInstance().getLocationManager().hasPreciseLocation()));
         }
@@ -624,7 +623,7 @@ public class SearchMapActivity extends SherlockFragmentActivity
                 checkpoint.setType(GeoCacheType.CHECKPOINT);
                 checkpoint.setName(geoCache.getName());
                 checkpoint.setId(geoCache.getId());
-                //checkpoint.setLocationGeoPoint(toGeoPoint(latLng)); TODO
+                checkpoint.setGeoPoint(new GeoPoint(latLng.latitude, latLng.longitude));
                 NavigationManager.startCreateCheckpointActivity(SearchMapActivity.this, checkpoint);
             }
         });
