@@ -1,7 +1,7 @@
 package su.geocaching.android.controller.managers;
 
-import su.geocaching.android.controller.Controller;
 import android.util.Log;
+import su.geocaching.android.controller.Controller;
 
 /**
  * Manager for logging

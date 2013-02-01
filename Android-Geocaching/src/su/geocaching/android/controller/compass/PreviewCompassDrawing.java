@@ -1,6 +1,9 @@
 package su.geocaching.android.controller.compass;
 
-import android.graphics.*;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.graphics.Canvas;
+import android.graphics.Paint;
 import su.geocaching.android.controller.Controller;
 import su.geocaching.android.ui.R;
 

@@ -1,6 +1,7 @@
 package su.geocaching.android.controller.utils;
 
 //TODO: Rename, implement gettes and setters with argument validation
+//TODO: Implement unit tests
 public class Sexagesimal {
     public int degrees;
     public double minutes;

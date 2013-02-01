@@ -2,8 +2,8 @@ package su.geocaching.android.controller.utils;
 
 import android.content.res.Resources;
 import android.location.Location;
-import su.geocaching.android.model.GeoPoint;
 import su.geocaching.android.controller.Controller;
+import su.geocaching.android.model.GeoPoint;
 import su.geocaching.android.ui.R;
 
 /**

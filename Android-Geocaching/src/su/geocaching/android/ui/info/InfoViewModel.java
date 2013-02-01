@@ -1,10 +1,5 @@
 package su.geocaching.android.ui.info;
 
-import java.net.URL;
-import java.util.Collection;
-import java.util.HashMap;
-import java.util.List;
-
 import android.os.AsyncTask;
 import su.geocaching.android.controller.Controller;
 import su.geocaching.android.controller.apimanager.AdvancedDownloadInfoTask;
@@ -13,6 +8,11 @@ import su.geocaching.android.controller.apimanager.AdvancedDownloadPhotoUrlsTask
 import su.geocaching.android.controller.managers.DbManager;
 import su.geocaching.android.controller.managers.LogManager;
 import su.geocaching.android.model.GeoCache;
+
+import java.net.URL;
+import java.util.Collection;
+import java.util.HashMap;
+import java.util.List;
 
 public class InfoViewModel {
     private static final String TAG = InfoViewModel.class.getCanonicalName();

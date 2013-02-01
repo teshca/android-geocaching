@@ -1,9 +1,9 @@
 package su.geocaching.android.controller.apimanager;
 
+import su.geocaching.android.model.GeoCache;
+
 import java.net.URL;
 import java.util.List;
-
-import su.geocaching.android.model.GeoCache;
 
 /**
  * @author Nikita Bumakov

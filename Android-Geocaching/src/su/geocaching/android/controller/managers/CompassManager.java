@@ -1,10 +1,6 @@
 package su.geocaching.android.controller.managers;
 
-import android.hardware.GeomagneticField;
-import android.hardware.Sensor;
-import android.hardware.SensorEvent;
-import android.hardware.SensorEventListener;
-import android.hardware.SensorManager;
+import android.hardware.*;
 import android.location.Location;
 import android.os.Bundle;
 import su.geocaching.android.controller.Controller;

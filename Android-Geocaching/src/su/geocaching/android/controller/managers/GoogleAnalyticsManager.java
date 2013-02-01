@@ -1,8 +1,8 @@
 package su.geocaching.android.controller.managers;
 
-import su.geocaching.android.controller.Controller;
 import android.content.Context;
 import com.google.android.apps.analytics.GoogleAnalyticsTracker;
+import su.geocaching.android.controller.Controller;
 import su.geocaching.android.ui.R;
 
 import java.io.PrintWriter;

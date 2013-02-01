@@ -1,7 +1,7 @@
 package su.geocaching.android.controller;
 
-import su.geocaching.android.controller.managers.UncaughtExceptionsHandler;
 import android.app.Application;
+import su.geocaching.android.controller.managers.UncaughtExceptionsHandler;
 
 /**
  * @author Grigory Kalabin. grigory.kalabin@gmail.com

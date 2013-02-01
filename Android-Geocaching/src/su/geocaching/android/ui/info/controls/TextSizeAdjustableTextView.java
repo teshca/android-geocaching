@@ -3,7 +3,6 @@ package su.geocaching.android.ui.info.controls;
 import android.content.Context;
 import android.text.TextPaint;
 import android.util.AttributeSet;
-import android.util.TypedValue;
 import android.widget.TextView;
 
 import java.util.HashSet;
