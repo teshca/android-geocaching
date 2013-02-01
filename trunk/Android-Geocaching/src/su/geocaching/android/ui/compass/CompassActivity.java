@@ -96,6 +96,7 @@ public class CompassActivity extends SherlockActivity {
         compassView.setKeepScreenOn(preferenceManager.getKeepScreenOnPreference());
 
         Controller.getInstance().setCurrentSearchPoint(geoCache);
+        getSupportActionBar().setSubtitle(null);
         for (GeoCache checkpoint : Controller.getInstance().getCheckpointManager(geoCache.getId()).getCheckpoints()) {
             if (checkpoint.getStatus() == GeoCacheStatus.ACTIVE_CHECKPOINT) {
                 Controller.getInstance().setCurrentSearchPoint(checkpoint);
