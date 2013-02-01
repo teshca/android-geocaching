@@ -18,7 +18,7 @@ public class AdvancedDownloadNotebookTask extends AsyncTask<Void, Void, String> 
     private static final String TAG = AdvancedDownloadNotebookTask.class.getCanonicalName();
 
     private InfoViewModel infoViewModel;
-    
+
     public AdvancedDownloadNotebookTask(InfoViewModel infoViewModel) {
         this.infoViewModel = infoViewModel;
         Thread.setDefaultUncaughtExceptionHandler(new UncaughtExceptionsHandler());
@@ -32,22 +32,21 @@ public class AdvancedDownloadNotebookTask extends AsyncTask<Void, Void, String> 
     @Override
     protected String doInBackground(Void... arg0) {
         String cacheNotebook = Controller.getInstance().getApiManager().getNotebook(this.infoViewModel.getGeoCachceId());
-        if (cacheNotebook != null)
-        {
+        if (cacheNotebook != null) {
             cacheNotebook = CheckpointManager.insertCheckpointsLink(cacheNotebook);
-        }        
+        }
         return cacheNotebook;
     }
 
     @Override
     protected void onPostExecute(String result) {
         LogManager.d(TAG, "onPreExecute");
-        
+
         if (result == null) {
             this.infoViewModel.geocacheNotebookDownloadFailed();
             return;
         }
-        
-        this.infoViewModel.geocacheNotebookDownloaded(result);        
+
+        this.infoViewModel.geocacheNotebookDownloaded(result);
     }
 }

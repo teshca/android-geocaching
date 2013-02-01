@@ -15,8 +15,10 @@ public class LogManager {
     /**
      * Send a DEBUG log message.
      *
-     * @param tag Used to identify the source of a log message. It usually identifies the class or activity where the log call occurs.
-     * @param msg The message you would like logged.
+     * @param tag
+     *         Used to identify the source of a log message. It usually identifies the class or activity where the log call occurs.
+     * @param msg
+     *         The message you would like logged.
      */
     public static void d(String tag, String msg) {
         if (DEBUG) {
@@ -27,9 +29,12 @@ public class LogManager {
     /**
      * Send a DEBUG log message.
      *
-     * @param tag Used to identify the source of a log message. It usually identifies the class or activity where the log call occurs.
-     * @param msgFormat Formatted message you would like logged.
-     * @param params Params for formatted string
+     * @param tag
+     *         Used to identify the source of a log message. It usually identifies the class or activity where the log call occurs.
+     * @param msgFormat
+     *         Formatted message you would like logged.
+     * @param params
+     *         Params for formatted string
      */
     public static void d(String tag, String msgFormat, Object... params) {
         d(tag, String.format(msgFormat, params));
@@ -38,8 +43,10 @@ public class LogManager {
     /**
      * Send a INFO log message.
      *
-     * @param tag Used to identify the source of a log message. It usually identifies the class or activity where the log call occurs.
-     * @param msg The message you would like logged.
+     * @param tag
+     *         Used to identify the source of a log message. It usually identifies the class or activity where the log call occurs.
+     * @param msg
+     *         The message you would like logged.
      */
     public static void i(String tag, String msg) {
         Log.i(tag, msg);
@@ -48,8 +55,10 @@ public class LogManager {
     /**
      * Send a ERROR log message.
      *
-     * @param tag Used to identify the source of a log message. It usually identifies the class or activity where the log call occurs.
-     * @param msg The message you would like logged.
+     * @param tag
+     *         Used to identify the source of a log message. It usually identifies the class or activity where the log call occurs.
+     * @param msg
+     *         The message you would like logged.
      */
     public static void e(String tag, String msg) {
         Controller.getInstance().getGoogleAnalyticsManager().trackError(tag, msg);
@@ -59,8 +68,10 @@ public class LogManager {
     /**
      * Send a VERBOSE log message.
      *
-     * @param tag Used to identify the source of a log message. It usually identifies the class or activity where the log call occurs.
-     * @param msg The message you would like logged.
+     * @param tag
+     *         Used to identify the source of a log message. It usually identifies the class or activity where the log call occurs.
+     * @param msg
+     *         The message you would like logged.
      */
     public static void v(String tag, String msg) {
         if (DEBUG) {
@@ -71,8 +82,10 @@ public class LogManager {
     /**
      * Send a WARNING log message.
      *
-     * @param tag Used to identify the source of a log message. It usually identifies the class or activity where the log call occurs.
-     * @param msg The message you would like logged.
+     * @param tag
+     *         Used to identify the source of a log message. It usually identifies the class or activity where the log call occurs.
+     * @param msg
+     *         The message you would like logged.
      */
     public static void w(String tag, String msg) {
         Log.w(tag, msg);
@@ -81,9 +94,12 @@ public class LogManager {
     /**
      * Send a WARNING log message and log the exception.
      *
-     * @param tag Used to identify the source of a log message. It usually identifies the class or activity where the log call occurs.
-     * @param msg The message you would like logged.
-     * @param ex  An exception to log
+     * @param tag
+     *         Used to identify the source of a log message. It usually identifies the class or activity where the log call occurs.
+     * @param msg
+     *         The message you would like logged.
+     * @param ex
+     *         An exception to log
      */
     public static void w(String tag, String msg, Throwable ex) {
         Log.w(tag, msg, ex);
@@ -92,9 +108,12 @@ public class LogManager {
     /**
      * Send a ERROR log message and log the exception.
      *
-     * @param tag Used to identify the source of a log message. It usually identifies the class or activity where the log call occurs.
-     * @param msg The message you would like logged.
-     * @param ex  An exception to log
+     * @param tag
+     *         Used to identify the source of a log message. It usually identifies the class or activity where the log call occurs.
+     * @param msg
+     *         The message you would like logged.
+     * @param ex
+     *         An exception to log
      */
     public static void e(String tag, String msg, Throwable ex) {
         Controller.getInstance().getGoogleAnalyticsManager().trackCaughtException(tag, ex);

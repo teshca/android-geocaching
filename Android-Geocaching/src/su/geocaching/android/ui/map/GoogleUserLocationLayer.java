@@ -19,7 +19,7 @@ public class GoogleUserLocationLayer {
     public void onUserLocationUpdated(Location location) {
         LatLng userPosition = new LatLng(location.getLatitude(), location.getLongitude());
 
-        if (userMarker ==  null) {
+        if (userMarker == null) {
             userMarker = googleMap.addMarker(
                     new MarkerOptions()
                             .icon(BitmapDescriptorFactory.fromResource(R.drawable.ic_my_location))

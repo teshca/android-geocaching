@@ -43,17 +43,17 @@ public class NavigationManager {
         context.startActivity(intent);
     }
 
-    public static void startSelectMapActivity(Context context){
+    public static void startSelectMapActivity(Context context) {
         Intent intent = new Intent(context, SelectMapActivity.class);
         context.startActivity(intent);
     }
 
-    public static void startPreferencesActivity(Context context){
+    public static void startPreferencesActivity(Context context) {
         Intent intent = new Intent(context, DashboardPreferenceActivity.class);
         context.startActivity(intent);
     }
 
-    public static void startFavoritesActivity(Context context){
+    public static void startFavoritesActivity(Context context) {
         Intent intent = new Intent(context, FavoritesFolderActivity.class);
         context.startActivity(intent);
     }
@@ -66,7 +66,7 @@ public class NavigationManager {
         intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
         intent.putExtra(GeoCache.class.getCanonicalName(), geoCache);
         context.startActivity(intent);
-    }    
+    }
 
     /**
      * Open SearchMapActivity activity
@@ -141,7 +141,9 @@ public class NavigationManager {
 
     /**
      * Run external GpsStatus & toolbox application
-     * @param context parent context
+     *
+     * @param context
+     *         parent context
      */
     public static void startExternalGpsStatusActivity(Context context) {
         Intent intent = new Intent("com.eclipsim.gpsstatus.VIEW");
@@ -157,10 +159,12 @@ public class NavigationManager {
             Controller.getInstance().getGoogleAnalyticsManager().trackExternalActivityLaunch("/GpsStatus/0");
         }
     }
-    
+
     /**
      * Run external Map application
-     * @param context parent context
+     *
+     * @param context
+     *         parent context
      */
     public static void startExternalMap(Context context, double latitude, double longitude, int zoom) {
         final String uri = String.format(Locale.ENGLISH, "geo:%f,%f?z=%d", latitude, longitude, zoom);
@@ -184,7 +188,9 @@ public class NavigationManager {
 
     /**
      * Run Android Market application
-     * @param context parent context
+     *
+     * @param context
+     *         parent context
      */
     public static void startGeocachingGooglePlayActivity(Context context) {
         startAndroidMarketActivity(context, geocachingApplicationId);
@@ -192,7 +198,9 @@ public class NavigationManager {
 
     /**
      * Run Android Market application
-     * @param context parent context
+     *
+     * @param context
+     *         parent context
      */
     private static void startAndroidMarketActivity(Context context, String ApplicationId) {
         Intent marketIntent = new Intent(Intent.ACTION_VIEW, Uri.parse(String.format("market://details?id=%s", ApplicationId)));
@@ -201,9 +209,12 @@ public class NavigationManager {
             context.startActivity(marketIntent);
         }
     }
+
     /**
      * Check if Android Market application is available
-     * @param context parent context
+     *
+     * @param context
+     *         parent context
      */
     private static boolean isApplicationAvailable(Context context, Intent marketIntent) {
         return context.getPackageManager().queryIntentActivities(marketIntent, PackageManager.COMPONENT_ENABLED_STATE_DEFAULT).size() > 0;
@@ -211,25 +222,29 @@ public class NavigationManager {
 
     /**
      * Check if Android Market application is available
-     * @param context parent context
+     *
+     * @param context
+     *         parent context
      */
     public static boolean isAndroidMarketAvailable(Context context) {
         Intent marketIntent = new Intent(Intent.ACTION_VIEW, Uri.parse(String.format("market://details?id=%s", geocachingApplicationId)));
         return isApplicationAvailable(context, marketIntent);
     }
-    
+
     /**
      * Run driving directions application.
      * Prefer Yandex maps if exists
-     * @param context parent context
+     *
+     * @param context
+     *         parent context
      */
     public static void startExternalDrivingDirrections(Context context, double sourceLat, double sourceLng, double destinationLat, double destinationLng) {
         Intent intent = new Intent("ru.yandex.yandexmaps.action.BUILD_ROUTE_ON_MAP");
         intent.putExtra("lat_from", sourceLat);
         intent.putExtra("lon_from", sourceLng);
         intent.putExtra("lat_to", destinationLat);
-        intent.putExtra("lon_to", destinationLng);       
-        
+        intent.putExtra("lon_to", destinationLng);
+
         if (isApplicationAvailable(context, intent)) {
             // Application installed
             Controller.getInstance().getGoogleAnalyticsManager().trackExternalActivityLaunch("/ExternalDrivingDirrections/Yandex");
@@ -250,8 +265,8 @@ public class NavigationManager {
                 // Application isn't installed
                 startAndroidMarketActivity(context, yandexMapsApplicationId);
                 Controller.getInstance().getGoogleAnalyticsManager().trackExternalActivityLaunch("/ExternalDrivingDirrections/0");
-            }                    
-        }                
+            }
+        }
     }
 
     public static void SendEmailToDevelopers(Context context) {

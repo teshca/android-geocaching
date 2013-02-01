@@ -37,29 +37,31 @@ public class CompassManager implements SensorEventListener, ILocationAware {
     private Sensor magnitudeSensor;
 
     /**
-     * @param sensorManager manager which can add or remove updates of sensors
+     * @param sensorManager
+     *         manager which can add or remove updates of sensors
      */
     public CompassManager(SensorManager sensorManager, AccurateUserLocationManager userLocationManager) {
         this.sensorManager = sensorManager;
         this.locationManager = userLocationManager;
-       
+
         if (sensorManager != null) {
             gravitySensor = sensorManager.getDefaultSensor(Sensor.TYPE_ACCELEROMETER);
             magnitudeSensor = sensorManager.getDefaultSensor(Sensor.TYPE_MAGNETIC_FIELD);
         }
 
         isCompassAvailable = gravitySensor != null && magnitudeSensor != null;
-        
+
         subscribers = new ArrayList<IBearingAware>();
         LogManager.d(TAG, "new CompassManager created");
     }
-    
+
     public boolean IsCompassAvailable() {
-       return isCompassAvailable;
+        return isCompassAvailable;
     }
 
     /**
-     * @param subscriber activity which will be listen location updates
+     * @param subscriber
+     *         activity which will be listen location updates
      */
     public void addSubscriber(IBearingAware subscriber) {
         synchronized (subscribers) {
@@ -78,7 +80,8 @@ public class CompassManager implements SensorEventListener, ILocationAware {
     }
 
     /**
-     * @param subscriber activity which no need to listen location updates
+     * @param subscriber
+     *         activity which no need to listen location updates
      * @return true if activity was subscribed on location updates
      */
     public boolean removeSubscriber(IBearingAware subscriber) {
@@ -140,7 +143,8 @@ public class CompassManager implements SensorEventListener, ILocationAware {
     }
 
     /**
-     * @param lastDirection current direction known to this listener
+     * @param lastDirection
+     *         current direction known to this listener
      */
     private void notifyObservers(float lastDirection) {
         float screenDirection = lastDirection + Controller.getInstance().getScreenRotation();
@@ -150,19 +154,19 @@ public class CompassManager implements SensorEventListener, ILocationAware {
             observer.updateBearing(realDirrection, declination, isUsingGps ? CompassSourceType.GPS : CompassSourceType.SENSOR);
         }
     }
-    
+
     private float getDeclination() {
         final Location location = this.locationManager.getLastKnownLocation();
         if (location == null) return 0;
-        
+
         GeomagneticField geometricField = new GeomagneticField(
-                (float)location.getLatitude(), 
-                (float)location.getLongitude(), 
-                (float)location.getAltitude(), 
+                (float) location.getLatitude(),
+                (float) location.getLongitude(),
+                (float) location.getAltitude(),
                 location.getTime());
-        
+
         return geometricField.getDeclination();
-    } 
+    }
 
     /**
      * Add updates of sensors
@@ -191,7 +195,8 @@ public class CompassManager implements SensorEventListener, ILocationAware {
      * Set mode of compass - use bearing from gps or hardware sensors(accelerometer and magnetic field).
      * If manager already using this 'provider' - do nothing.
      *
-     * @param useGps true if using gps
+     * @param useGps
+     *         true if using gps
      */
     void resetUpdates(boolean useGps) {
         LogManager.d(TAG, "resetUpdates=" + useGps);
@@ -211,7 +216,7 @@ public class CompassManager implements SensorEventListener, ILocationAware {
 
         notifyObservers(lastDirection);
     }
-    
+
     private boolean GetDefaultGpsUsing() {
         return !isCompassAvailable || Controller.getInstance().getPreferencesManager().isUsingGpsCompassPreference();
     }

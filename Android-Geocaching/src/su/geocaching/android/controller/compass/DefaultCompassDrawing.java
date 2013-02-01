@@ -29,19 +29,19 @@ public class DefaultCompassDrawing extends AbstractCompassDrawing {
         gpsSourceBitmap = BitmapFactory.decodeResource(Controller.getInstance().getResourceManager().getResources(), R.drawable.ic_action_satellite_dish);
 
         int dashboardColor = Controller.getInstance().getResourceManager().getColor(R.color.dashboard_text_color);
-        
+
         distanceTextPaint.setColor(dashboardColor);
         distanceTextPaint.setAntiAlias(true);
         distanceTextPaint.setTextAlign(Align.LEFT);
         distanceTextPaint.setStyle(Style.STROKE);
         distanceTextPaint.setStrokeWidth(0.8f);
-        
+
         azimuthTextPaint.setColor(dashboardColor);
         azimuthTextPaint.setAntiAlias(true);
         azimuthTextPaint.setTextAlign(Align.RIGHT);
         azimuthTextPaint.setStyle(Style.STROKE);
-        azimuthTextPaint.setStrokeWidth(0.8f);        
-        
+        azimuthTextPaint.setStrokeWidth(0.8f);
+
         declinationTextPaint.setColor(dashboardColor);
         declinationTextPaint.setAntiAlias(true);
         declinationTextPaint.setTextAlign(Align.RIGHT);
@@ -70,7 +70,7 @@ public class DefaultCompassDrawing extends AbstractCompassDrawing {
 
         if (newSize == size) return;
 
-        synchronized(bitmapPaint) {
+        synchronized (bitmapPaint) {
             size = newSize;
             needleWidth = size / 30;
 
@@ -100,7 +100,7 @@ public class DefaultCompassDrawing extends AbstractCompassDrawing {
 
     @Override
     public void draw(Canvas canvas, float northDirection) {
-        synchronized(bitmapPaint) {
+        synchronized (bitmapPaint) {
             canvas.drawColor(0, PorterDuff.Mode.CLEAR);
             canvas.translate(centerX, centerY); // !!!
             canvas.drawBitmap(scaledBitmap, bitmapX, bitmapY, bitmapPaint);
@@ -113,7 +113,7 @@ public class DefaultCompassDrawing extends AbstractCompassDrawing {
     }
 
     private void drawNeedle(Canvas canvas, float direction) {
-        synchronized(bitmapPaint) {
+        synchronized (bitmapPaint) {
             canvas.rotate(direction);
             canvas.drawBitmap(needleBitmap, -needleBitmap.getWidth() / 2, -needleBitmap.getHeight() / 2, bitmapPaint);
             canvas.rotate(-direction);
@@ -125,7 +125,7 @@ public class DefaultCompassDrawing extends AbstractCompassDrawing {
         if (sourceType == CompassSourceType.GPS) {
             int halfWidth = gpsSourceBitmap.getWidth() / 2;
             int halfHeight = gpsSourceBitmap.getHeight() / 2;
-            canvas.drawBitmap(gpsSourceBitmap, -halfWidth,  -halfHeight, bitmapPaint);
+            canvas.drawBitmap(gpsSourceBitmap, -halfWidth, -halfHeight, bitmapPaint);
         }
     }
 
@@ -139,8 +139,8 @@ public class DefaultCompassDrawing extends AbstractCompassDrawing {
         int x = Math.round(centerX * 0.95f);
         int y = -Math.round(centerY * 0.68f);
         canvas.drawText(String.format(AZIMUTH_FORMAT, declination), x, y, declinationTextPaint);
-    }   
-    
+    }
+
     private void drawDistanceLabel(Canvas canvas) {
         boolean hasPreciseLocation = Controller.getInstance().getLocationManager().hasPreciseLocation();
         int x = -Math.round(centerX * 0.95f);
@@ -150,7 +150,7 @@ public class DefaultCompassDrawing extends AbstractCompassDrawing {
 
     @Override
     public void drawCacheArrow(Canvas canvas, float direction) {
-        synchronized(bitmapPaint) {
+        synchronized (bitmapPaint) {
             canvas.rotate(direction);
             Bitmap arrowBitmap = Controller.getInstance().getLocationManager().hasPreciseLocation() ? greenArrowBitmap : grayArrowBitmap;
             canvas.drawBitmap(arrowBitmap, -arrowBitmap.getWidth() / 2, -arrowBitmap.getHeight() / 2, bitmapPaint);

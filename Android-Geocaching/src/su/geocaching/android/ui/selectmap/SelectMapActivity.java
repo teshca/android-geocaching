@@ -229,7 +229,7 @@ public class SelectMapActivity extends SherlockFragmentActivity implements IConn
     private void onMyLocationClick() {
         final Location lastLocation = locationManager.getLastKnownLocation();
         if (lastLocation != null) {
-           mapWrapper.animateToLocation(lastLocation);
+            mapWrapper.animateToLocation(lastLocation);
         } else {
             if (statusNullLastLocationToast == null) {
                 statusNullLastLocationToast = Toast.makeText(getBaseContext(), getString(R.string.status_null_last_location), Toast.LENGTH_SHORT);
@@ -251,12 +251,12 @@ public class SelectMapActivity extends SherlockFragmentActivity implements IConn
      * Sets up the map if it is possible to do so (i.e., the Google Play services APK is correctly
      * installed) and the map has not already been instantiated.. This will ensure that we only ever
      * call {@link #setUpMap()} once when {@link #mMap} is not null.
-     * <p>
+     * <p/>
      * If it isn't installed {@link com.google.android.gms.maps.SupportMapFragment} (and
      * {@link com.google.android.gms.maps.MapView
      * MapView}) will show a prompt for the user to install/update the Google Play services APK on
      * their device.
-     * <p>
+     * <p/>
      * A user can return to this Activity after following the prompt and correctly
      * installing/updating/enabling the Google Play services. Since the Activity may not have been
      * completely destroyed during this process (it is likely that it would only be stopped or
@@ -275,11 +275,13 @@ public class SelectMapActivity extends SherlockFragmentActivity implements IConn
             }
         }
     }
+
     SupportMapFragment mapFragment;
+
     /**
      * This is where we can add markers or lines, add listeners or move the camera. In this case, we
      * just add a marker near Africa.
-     * <p>
+     * <p/>
      * This should only be called once and when we are sure that {@link #mMap} is not null.
      */
     private void setUpMap() {

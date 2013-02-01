@@ -26,7 +26,8 @@ public class ConnectionManager {
     private ConnectivityManager connectivityManager;
 
     /**
-     * @param context which can give ConnectivityManager
+     * @param context
+     *         which can give ConnectivityManager
      */
     public ConnectionManager(Context context) {
         this.connectivityManager = (ConnectivityManager) context.getSystemService(Context.CONNECTIVITY_SERVICE);
@@ -38,7 +39,8 @@ public class ConnectionManager {
     }
 
     /**
-     * @param activity which will be added
+     * @param activity
+     *         which will be added
      */
     public synchronized void addSubscriber(IConnectionAware activity) {
         if (subscribers.contains(activity)) {
@@ -53,7 +55,8 @@ public class ConnectionManager {
     }
 
     /**
-     * @param activity which will be removed
+     * @param activity
+     *         which will be removed
      * @return true if that activity has been contain in list of subscribers
      */
     public synchronized boolean removeSubscriber(IConnectionAware activity) {

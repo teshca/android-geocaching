@@ -38,9 +38,9 @@ public class GoogleAnalyticsManager {
 
     public void trackUncaughtException(String tag, Throwable ex) {
         trackException("Uncaught exception", tag, ex);
-        if (ex.getCause() != null) { 
+        if (ex.getCause() != null) {
             trackUncaughtException(tag + "-inner-" + ex.getMessage(), ex.getCause());
-        }        
+        }
     }
 
     public void trackError(String tag, String message) {
@@ -54,7 +54,7 @@ public class GoogleAnalyticsManager {
         ex.printStackTrace(printWriter);
         final String exception = stackTrace.toString().substring(0, MAX_STACK_TRACE_LENGTH);
 
-        tracker.trackEvent(category + ": " + applicationVersionName, tag, exception , 0);
+        tracker.trackEvent(category + ": " + applicationVersionName, tag, exception, 0);
         tracker.dispatch();
     }
 }

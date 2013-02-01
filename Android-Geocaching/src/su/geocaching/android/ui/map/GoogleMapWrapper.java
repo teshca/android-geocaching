@@ -28,17 +28,17 @@ public class GoogleMapWrapper implements IMapWrapper {
         googleMap.getUiSettings().setRotateGesturesEnabled(false);
 
         map.setOnMarkerClickListener(
-            new GoogleMap.OnMarkerClickListener() {
-                @Override
-                public boolean onMarkerClick(Marker marker) {
-                    if (marker.getId().equals(userPositionClickArea.getId())) {
-                        if (locationMarkerTapListener != null)
-                            locationMarkerTapListener.OnMarkerTapped();
-                        return true;
+                new GoogleMap.OnMarkerClickListener() {
+                    @Override
+                    public boolean onMarkerClick(Marker marker) {
+                        if (marker.getId().equals(userPositionClickArea.getId())) {
+                            if (locationMarkerTapListener != null)
+                                locationMarkerTapListener.OnMarkerTapped();
+                            return true;
+                        }
+                        return onMarkerTap(marker);
                     }
-                    return onMarkerTap(marker);
-                }
-            });
+                });
     }
 
     protected boolean onMarkerTap(Marker marker) {

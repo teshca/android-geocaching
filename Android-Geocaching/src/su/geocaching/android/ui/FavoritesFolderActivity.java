@@ -90,9 +90,9 @@ public class FavoritesFolderActivity extends SherlockListActivity {
     private void deleteGeocache(int position) {
         final GeoCache geoCache = favoriteGeoCachesAdapter.getItem(position);
         ConfirmDialogResultListener deleteCacheListener = new ConfirmDialogResultListener() {
-                public void onConfirm() {
-                    performDeleteCache(geoCache);
-                }
+            public void onConfirm() {
+                performDeleteCache(geoCache);
+            }
         };
         (new RemoveFavoriteCacheDialog(this, deleteCacheListener)).show();
         // TODO:
@@ -114,7 +114,7 @@ public class FavoritesFolderActivity extends SherlockListActivity {
         GeoCache geoCache = favoriteGeoCachesAdapter.getItem(position);
         NavigationManager.startInfoActivity(this, geoCache);
     }
-    
+
     private void refreshListData() {
         List<GeoCache> favoritesList = dbManager.getFavoritesGeoCaches();
 
@@ -138,7 +138,7 @@ public class FavoritesFolderActivity extends SherlockListActivity {
     @Override
     protected void onResume() {
         super.onResume();
-        
+
         // Save ListView state
         Parcelable state = getListView().onSaveInstanceState();
         // Refresh list data
@@ -226,15 +226,12 @@ public class FavoritesFolderActivity extends SherlockListActivity {
     @Override
     public boolean onSearchRequested() {
         Configuration config = this.getResources().getConfiguration();
-        if (config.hardKeyboardHidden == Configuration.HARDKEYBOARDHIDDEN_NO)
-        {
+        if (config.hardKeyboardHidden == Configuration.HARDKEYBOARDHIDDEN_NO) {
             Toast.makeText(this, R.string.favorites_hardware_keyboard_alert, Toast.LENGTH_SHORT).show();
-        }
-        else
-        {
-            InputMethodManager keyboard = (InputMethodManager)getSystemService(Context.INPUT_METHOD_SERVICE);
+        } else {
+            InputMethodManager keyboard = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
             boolean isKeyboardShown = keyboard.showSoftInput(getListView(), InputMethodManager.SHOW_FORCED);
-            if (!isKeyboardShown){
+            if (!isKeyboardShown) {
                 LogManager.e(TAG, "Keyboard is not displayed for filtering");
             }
         }
@@ -270,21 +267,21 @@ public class FavoritesFolderActivity extends SherlockListActivity {
                 AlertDialog.Builder builder = new AlertDialog.Builder(this);
                 builder.setTitle(R.string.favorites_activity_confirm_delete_title);
                 builder.setMessage(String.format(this.getString(R.string.ask_delete_all_caches_in_database), favoriteGeoCachesAdapter.getAllItemsCount()))
-                .setPositiveButton(getString(R.string.yes), new DialogInterface.OnClickListener() {
-                    public void onClick(DialogInterface dialog, int id) {
-                        dbManager.clearDB();
-                        favoriteGeoCachesAdapter.clear();
-                        favoriteGeoCachesAdapter.notifyDataSetChanged();
-                        tvNoCache.setVisibility(View.VISIBLE);
-                        invalidateOptionsMenu();
-                        dialog.cancel();
-                    }
-                })
-                .setNegativeButton(getString(R.string.no), new DialogInterface.OnClickListener() {
-                    public void onClick(DialogInterface dialog, int id) {
-                        dialog.cancel();
-                    }
-                });
+                        .setPositiveButton(getString(R.string.yes), new DialogInterface.OnClickListener() {
+                            public void onClick(DialogInterface dialog, int id) {
+                                dbManager.clearDB();
+                                favoriteGeoCachesAdapter.clear();
+                                favoriteGeoCachesAdapter.notifyDataSetChanged();
+                                tvNoCache.setVisibility(View.VISIBLE);
+                                invalidateOptionsMenu();
+                                dialog.cancel();
+                            }
+                        })
+                        .setNegativeButton(getString(R.string.no), new DialogInterface.OnClickListener() {
+                            public void onClick(DialogInterface dialog, int id) {
+                                dialog.cancel();
+                            }
+                        });
                 return builder.create();
             }
             default: {

@@ -48,14 +48,16 @@ public class UiThreadCompassView extends View implements IBearingAware {
     }
 
     /**
-     * @param direction - direction to geocache in degrees
+     * @param direction
+     *         - direction to geocache in degrees
      */
     public void setCacheDirection(float direction) {
         cacheDirection = direction;
     }
 
     /**
-     * @param helperType //TODO describe it
+     * @param helperType
+     *         //TODO describe it
      */
     public void setHelper(String helperType) {
         if (compassDrawing != null && helperType.equals(compassDrawing.getType())) {
@@ -79,7 +81,7 @@ public class UiThreadCompassView extends View implements IBearingAware {
     protected void onAttachedToWindow() {
         LogManager.d(TAG, "onAttachedToWindow");
         if (getVisibility() == VISIBLE) {
-            Controller.getInstance().getCompassManager().addSubscriber(this);    
+            Controller.getInstance().getCompassManager().addSubscriber(this);
         }
         super.onAttachedToWindow();
     }

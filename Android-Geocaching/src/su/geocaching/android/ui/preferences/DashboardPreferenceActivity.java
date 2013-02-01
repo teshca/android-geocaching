@@ -74,7 +74,7 @@ public class DashboardPreferenceActivity extends SherlockPreferenceActivity {
             }
         });
     }
-    
+
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
@@ -84,5 +84,5 @@ public class DashboardPreferenceActivity extends SherlockPreferenceActivity {
             default:
                 return super.onOptionsItemSelected(item);
         }
-    }        
+    }
 }

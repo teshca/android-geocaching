@@ -44,6 +44,6 @@ public class Sexagesimal {
 
     @Deprecated
     public int toCoordinateE6() {
-        return (int)(toCoordinate() * 1E6);
+        return (int) (toCoordinate() * 1E6);
     }
 }

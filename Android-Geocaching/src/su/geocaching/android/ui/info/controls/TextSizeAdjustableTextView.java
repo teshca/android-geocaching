@@ -22,7 +22,7 @@ public class TextSizeAdjustableTextView extends TextView {
         super(context);
     }
 
-    protected void onMeasure (int widthMeasureSpec, int heightMeasureSpec) {
+    protected void onMeasure(int widthMeasureSpec, int heightMeasureSpec) {
         super.onMeasure(widthMeasureSpec, heightMeasureSpec);
         TextPaint textPaint = getPaint();
         float size = textPaint.getTextSize();
@@ -30,7 +30,7 @@ public class TextSizeAdjustableTextView extends TextView {
         float stringWidth = textPaint.measureText(getText().toString());
         float percent = (textViewWidth / stringWidth);
         if (percent < 0.99) {
-            float newTextSize = size*percent;
+            float newTextSize = size * percent;
             textPaint.setTextSize(newTextSize);
             onTextSizeAdjusted(newTextSize);
         }
@@ -42,19 +42,16 @@ public class TextSizeAdjustableTextView extends TextView {
 
     private Set<TextSizeAdjustedListener> textSizeAdjustedEventListeners = new HashSet<TextSizeAdjustedListener>();
 
-    public synchronized void addTextSizeAdjustedListener(TextSizeAdjustedListener listener)
-    {
+    public synchronized void addTextSizeAdjustedListener(TextSizeAdjustedListener listener) {
         textSizeAdjustedEventListeners.add(listener);
     }
-    public synchronized void removeTextSizeAdjustedListener(TextSizeAdjustedListener listener)
-    {
+
+    public synchronized void removeTextSizeAdjustedListener(TextSizeAdjustedListener listener) {
         textSizeAdjustedEventListeners.remove(listener);
     }
 
-    private synchronized void fireTextSizeAdjusted(TextSizeAdjustedEvent textSizeAdjustedListenerEvent)
-    {
-        for (TextSizeAdjustedListener textSizeAdjustedEventListener: textSizeAdjustedEventListeners)
-        {
+    private synchronized void fireTextSizeAdjusted(TextSizeAdjustedEvent textSizeAdjustedListenerEvent) {
+        for (TextSizeAdjustedListener textSizeAdjustedEventListener : textSizeAdjustedEventListeners) {
             textSizeAdjustedEventListener.textSizeAdjusted(textSizeAdjustedListenerEvent);
         }
     }

@@ -8,7 +8,7 @@ public class GeoRect {
     public GeoPoint br;
 
     public GeoRect(GeoPoint tl, GeoPoint br) {
-        assert(tl.getLatitude() < br.getLatitude() || tl.getLongitude() == br.getLongitude() );
+        assert (tl.getLatitude() < br.getLatitude() || tl.getLongitude() == br.getLongitude());
         this.tl = tl;
         this.br = br;
     }
@@ -19,7 +19,8 @@ public class GeoRect {
 
         if (br.getLongitude() > tl.getLongitude()) {
             if (rect.br.getLongitude() > rect.tl.getLongitude()) {
-                if (rect.tl.getLongitude() < tl.getLongitude() || rect.br.getLongitude() > br.getLongitude()) return false;
+                if (rect.tl.getLongitude() < tl.getLongitude() || rect.br.getLongitude() > br.getLongitude())
+                    return false;
             } else {
                 return false;
             }
@@ -29,8 +30,8 @@ public class GeoRect {
                 if (rect.br.getLongitude() < br.getLongitude()) return true;
             } else {
                 if ((rect.tl.getLongitude() < tl.getLongitude() && rect.tl.getLongitude() > br.getLongitude())
-                    || ((rect.br.getLongitude() < tl.getLongitude() && rect.br.getLongitude() > br.getLongitude())))
-                        return false;
+                        || ((rect.br.getLongitude() < tl.getLongitude() && rect.br.getLongitude() > br.getLongitude())))
+                    return false;
             }
         }
         return true;
@@ -40,7 +41,7 @@ public class GeoRect {
         if (point.getLatitude() > tl.getLatitude()) return false;
         if (point.getLatitude() < br.getLatitude()) return false;
 
-        if (br.getLongitude() > tl.getLongitude()){
+        if (br.getLongitude() > tl.getLongitude()) {
             if (point.getLongitude() < tl.getLongitude() || point.getLongitude() > br.getLongitude()) return false;
         } else {
             // rightLong maybe smaller than leftLong. 4ex 160:-160
@@ -51,8 +52,7 @@ public class GeoRect {
     }
 
     @Override
-    public String toString()
-    {
+    public String toString() {
         return String.format("%s : %s", tl, br);
     }
 

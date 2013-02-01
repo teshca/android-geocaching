@@ -9,6 +9,7 @@ public interface IMapWrapper {
     void animateToLocation(Location location);
 
     MapInfo getMapState();
+
     void restoreMapSate(MapInfo lastMapInfo);
 
     void setZoomControlsEnabled(boolean zoomControlsEnabled);
@@ -18,6 +19,8 @@ public interface IMapWrapper {
     Projection getProjection();
 
     void setupMyLocationLayer();
+
     void updateLocationMarker(Location location);
+
     void setLocationMarkerTapListener(LocationMarkerTapListener listener);
 }

@@ -22,7 +22,7 @@ public class TrafficPreferenceActivity extends SherlockPreferenceActivity {
         getSupportActionBar().setHomeButtonEnabled(true);
         addPreferencesFromResource(R.xml.traffic_preference);
     }
-    
+
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
@@ -32,5 +32,5 @@ public class TrafficPreferenceActivity extends SherlockPreferenceActivity {
             default:
                 return super.onOptionsItemSelected(item);
         }
-    }    
+    }
 }

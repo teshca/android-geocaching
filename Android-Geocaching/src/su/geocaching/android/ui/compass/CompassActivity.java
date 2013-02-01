@@ -137,7 +137,7 @@ public class CompassActivity extends SherlockActivity {
         providerUnavailableToast.cancel();
         super.onPause();
     }
-    
+
     @Override
     protected void onStop() {
         super.onStop();

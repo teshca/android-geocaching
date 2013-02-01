@@ -19,41 +19,41 @@ public class ExternalStorageManager {
     private static final String TAG = ExternalStorageManager.class.getCanonicalName();
     private static final String OLD_PHOTOS_DIRECTORY = "/Android Geocaching.su/photos";
     private Context context;
-    
+
     private static final FilenameFilter imageFilter = new FilenameFilter() {
         @Override
         public boolean accept(File dir, String name) {
             return (name.endsWith(".jpg") || name.endsWith(".png"));
         }
     };
-    
-    public boolean isExternalStorageAvailable() {        
+
+    public boolean isExternalStorageAvailable() {
         String state = Environment.getExternalStorageState();
         return Environment.MEDIA_MOUNTED.equals(state);
-    }    
-    
-    private File getExternalFilesDir() {      
+    }
+
+    private File getExternalFilesDir() {
         if (android.os.Build.VERSION.SDK_INT >= 8) {
             return context.getExternalFilesDir(null);
-        } else{
+        } else {
             // e.g. "<sdcard>/Android/data/<package_name>/files/"
             final File extCacheDir = new File(Environment.getExternalStorageDirectory(),
-                "/Android/data/" + context.getApplicationInfo().packageName + "/files/");
+                    "/Android/data/" + context.getApplicationInfo().packageName + "/files/");
             extCacheDir.mkdirs();
             return extCacheDir;
-        }        
-    } 
-    
+        }
+    }
+
     private File getBasePhotosDir() {
         return new File(getExternalFilesDir(), "/photos");
     }
-    
-    public ExternalStorageManager(Context context){
+
+    public ExternalStorageManager(Context context) {
         this.context = context;
         updatePhotoCacheDirectory();
         prunePhotoCache();
     }
-    
+
     private void updatePhotoCacheDirectory() {
         File oldPhotosDirectory = new File(Environment.getExternalStorageDirectory(), OLD_PHOTOS_DIRECTORY);
         // this only executes once after update
@@ -87,7 +87,7 @@ public class ExternalStorageManager {
                         } else {
                             deletePhotos(cacheId);
                         }
-                    } catch(NumberFormatException e) {
+                    } catch (NumberFormatException e) {
                         LogManager.e(TAG, e);
                     }
                 }
@@ -109,7 +109,7 @@ public class ExternalStorageManager {
         try {
             context.getContentResolver().delete(
                     MediaStore.Images.Media.EXTERNAL_CONTENT_URI,
-                    String.format("%s like '%s%%'",  MediaStore.Images.Media.DATA, photosDirectory.getAbsolutePath()),
+                    String.format("%s like '%s%%'", MediaStore.Images.Media.DATA, photosDirectory.getAbsolutePath()),
                     null);
         } catch (Exception e) {
             Log.e(TAG, e.getMessage(), e);
@@ -132,16 +132,16 @@ public class ExternalStorageManager {
 
     public Collection<Uri> getPhotos(int cacheId) {
         final File imagesDirectory = getPhotosDirectory(cacheId);
-        final File[] photoFiles = imagesDirectory.listFiles(imageFilter); 
+        final File[] photoFiles = imagesDirectory.listFiles(imageFilter);
         final LinkedList<Uri> photosUrls = new LinkedList<Uri>();
         if (photoFiles != null) {
             for (File f : photoFiles) {
                 photosUrls.add(Uri.fromFile(f));
-            }            
-        }        
+            }
+        }
         return photosUrls;
     }
-    
+
     private File getPhotosDirectory(int cacheId) {
         return new File(getBasePhotosDir(), Integer.toString(cacheId));
     }
@@ -153,7 +153,7 @@ public class ExternalStorageManager {
         }
         return new File(imagesDirectory, fileName);
     }
-    
+
     public void prunePhotoCache() {
         File photosDirectory = getBasePhotosDir();
         File[] photoFiles = photosDirectory.listFiles();
@@ -165,13 +165,13 @@ public class ExternalStorageManager {
                         continue;
                     }
                     deletePhotos(cacheId);
-                } catch(NumberFormatException e) {
+                } catch (NumberFormatException e) {
                     LogManager.w(TAG, e.getMessage());
-                }            
+                }
             }
         }
     }
-    
+
     //TODO: Remove?
     /*
     public Uri addFileToMediaFirectory(File file) {
@@ -188,11 +188,11 @@ public class ExternalStorageManager {
         return photoUri;
     }
     */
-    
+
     public Uri getLocalPhotoUri(URL remoteUrl, int cacheId) {
         String fileName = remoteUrl.getPath().substring(remoteUrl.getPath().lastIndexOf("/"));
         File imagesDirectory = getPhotosDirectory(cacheId);
-        File photoFile = new File(imagesDirectory, fileName); 
+        File photoFile = new File(imagesDirectory, fileName);
         return Uri.fromFile(photoFile);
     }
- }
+}

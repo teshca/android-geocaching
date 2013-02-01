@@ -88,7 +88,7 @@ public class CreateCheckpointActivity extends SherlockActivity {
         getSupportActionBar().setHomeButtonEnabled(true);
         getSupportActionBar().setTitle(geoCache.getName());
 
-        checkpointScrollView  = (ScrollView) findViewById(R.id.checkpointScrollView);
+        checkpointScrollView = (ScrollView) findViewById(R.id.checkpointScrollView);
 
         sexagesimal = (LinearLayout) findViewById(R.id.SexagesimalLayout);
         sexagesimalSeconds = (LinearLayout) findViewById(R.id.SexagesimalSeconsdLayout);
@@ -312,21 +312,20 @@ public class CreateCheckpointActivity extends SherlockActivity {
         etDistance.removeTextChangedListener(azimuthWatcher);
     }
 
-    private void setVisibility(final View v, boolean isVisible)
-    {
-       if (isVisible) {
-           v.setVisibility(View.VISIBLE);
-           //checkpointScrollView.requestChildFocus(v, v);
-           v.requestFocus();
-           mHandler.post(
-                   new Runnable() {
-                       public void run() {
-                           checkpointScrollView.requestChildRectangleOnScreen(v, new Rect(0,0, v.getWidth(),v.getHeight()), false);
-                       }
-                   });
-       } else {
-           v.setVisibility(View.GONE);
-       }
+    private void setVisibility(final View v, boolean isVisible) {
+        if (isVisible) {
+            v.setVisibility(View.VISIBLE);
+            //checkpointScrollView.requestChildFocus(v, v);
+            v.requestFocus();
+            mHandler.post(
+                    new Runnable() {
+                        public void run() {
+                            checkpointScrollView.requestChildRectangleOnScreen(v, new Rect(0, 0, v.getWidth(), v.getHeight()), false);
+                        }
+                    });
+        } else {
+            v.setVisibility(View.GONE);
+        }
     }
 
     private void onSaveCheckpoint() {
@@ -341,43 +340,39 @@ public class CreateCheckpointActivity extends SherlockActivity {
 
     private static String ERROR_MESSAGE =
             android.os.Build.VERSION.SDK_INT > 11 ?
-                Controller.getInstance().getResourceManager().getString(R.string.checkpoint_general_parsing_error) : "!";
+                    Controller.getInstance().getResourceManager().getString(R.string.checkpoint_general_parsing_error) : "!";
 
     private static int ParseIntValue(TextView textView) {
         String text = textView.getText().toString();
         if (text.length() == 0) return 0;
 
-        try
-        {
+        try {
             return Integer.parseInt(text);
-        }
-        catch (NumberFormatException e) {
-        	textView.setError(ERROR_MESSAGE);
-            throw e;
-        }
-    }
-    private static float ParseFractionValue(TextView textView) {
-        String text = textView.getText().toString();
-        if (text.length() == 0) return 0;
-
-        try
-        {
-            return  Float.parseFloat("." + text);
-        }
-        catch (NumberFormatException e) {
+        } catch (NumberFormatException e) {
             textView.setError(ERROR_MESSAGE);
             throw e;
         }
     }
+
+    private static float ParseFractionValue(TextView textView) {
+        String text = textView.getText().toString();
+        if (text.length() == 0) return 0;
+
+        try {
+            return Float.parseFloat("." + text);
+        } catch (NumberFormatException e) {
+            textView.setError(ERROR_MESSAGE);
+            throw e;
+        }
+    }
+
     private static float ParseFloatValue(TextView textView) throws ParseException {
         String text = textView.getText().toString();
         if (text.length() == 0) return 0;
 
-        try
-        {
+        try {
             return secFormat.parse(text).floatValue();
-        }
-        catch (ParseException e) {
+        } catch (ParseException e) {
             textView.setError(ERROR_MESSAGE);
             throw e;
         }
@@ -393,29 +388,29 @@ public class CreateCheckpointActivity extends SherlockActivity {
                 int minutesInt = ParseIntValue(latMinutes);
                 float minutesFloat = ParseFractionValue(latMinutesFraction);
 
-                if (degreesInt > 80 || degreesInt < -80)  {
+                if (degreesInt > 80 || degreesInt < -80) {
                     latDegrees.setError(ERROR_MESSAGE);
                     return;
                 }
-                if (minutesInt > 59)  {
+                if (minutesInt > 59) {
                     latMinutes.setError(ERROR_MESSAGE);
                     return;
                 }
-                double latitude = new Sexagesimal(degreesInt, (double)minutesInt + minutesFloat).toCoordinate();
+                double latitude = new Sexagesimal(degreesInt, (double) minutesInt + minutesFloat).toCoordinate();
 
                 // Longitude
                 degreesInt = ParseIntValue(lngDegrees);
                 minutesInt = ParseIntValue(lngMinutes);
                 minutesFloat = ParseFractionValue(lngMinutesFraction);
-                if (degreesInt > 180 || degreesInt < -180)  {
+                if (degreesInt > 180 || degreesInt < -180) {
                     lngDegrees.setError(ERROR_MESSAGE);
                     return;
                 }
-                if (minutesInt > 59)  {
+                if (minutesInt > 59) {
                     lngMinutes.setError(ERROR_MESSAGE);
                     return;
                 }
-                double longitude = new Sexagesimal(degreesInt, (double)minutesInt + minutesFloat).toCoordinate();
+                double longitude = new Sexagesimal(degreesInt, (double) minutesInt + minutesFloat).toCoordinate();
 
                 currentInputGeoPoint = new GeoPoint(latitude, longitude);
                 stopWatch();
@@ -438,15 +433,15 @@ public class CreateCheckpointActivity extends SherlockActivity {
                 int degreesInt = ParseIntValue(sLatDegrees);
                 int minutesInt = ParseIntValue(sLatMinutes);
                 float secondsFloat = ParseFloatValue(sLatSeconds);
-                if (degreesInt > 80 || degreesInt < -80)  {
+                if (degreesInt > 80 || degreesInt < -80) {
                     dLatDegrees.setError(ERROR_MESSAGE);
                     return;
                 }
-                if (minutesInt > 59)  {
+                if (minutesInt > 59) {
                     sLatMinutes.setError(ERROR_MESSAGE);
                     return;
                 }
-                if (secondsFloat >= 60)  {
+                if (secondsFloat >= 60) {
                     sLatSeconds.setError(ERROR_MESSAGE);
                     return;
                 }
@@ -456,15 +451,15 @@ public class CreateCheckpointActivity extends SherlockActivity {
                 degreesInt = ParseIntValue(sLngDegrees);
                 minutesInt = ParseIntValue(sLngMinutes);
                 secondsFloat = ParseFloatValue(sLngSeconds);
-                if (degreesInt > 180 || degreesInt < -180)  {
+                if (degreesInt > 180 || degreesInt < -180) {
                     sLngDegrees.setError(ERROR_MESSAGE);
                     return;
                 }
-                if (minutesInt > 59)  {
+                if (minutesInt > 59) {
                     sLngMinutes.setError(ERROR_MESSAGE);
                     return;
                 }
-                if (secondsFloat >= 60)  {
+                if (secondsFloat >= 60) {
                     sLngSeconds.setError(ERROR_MESSAGE);
                     return;
                 }

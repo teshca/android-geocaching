@@ -17,7 +17,7 @@ public class AdvancedDownloadInfoTask extends AsyncTask<Void, Void, String> {
     private static final String TAG = AdvancedDownloadInfoTask.class.getCanonicalName();
 
     private InfoViewModel infoViewModel;
-    
+
 
     public AdvancedDownloadInfoTask(InfoViewModel infoViewModel) {
         this.infoViewModel = infoViewModel;
@@ -32,22 +32,21 @@ public class AdvancedDownloadInfoTask extends AsyncTask<Void, Void, String> {
     @Override
     protected String doInBackground(Void... arg0) {
         String cacheInfo = Controller.getInstance().getApiManager().getInfo(this.infoViewModel.getGeoCachceId());
-        if (cacheInfo != null)
-        {
+        if (cacheInfo != null) {
             cacheInfo = CheckpointManager.insertCheckpointsLink(cacheInfo);
-        }        
+        }
         return cacheInfo;
     }
 
     @Override
     protected void onPostExecute(String result) {
         LogManager.d(TAG, "onPreExecute");
-        
+
         if (result == null) {
             this.infoViewModel.geocacheInfoDownloadFailed();
             return;
         }
-        
-        this.infoViewModel.geocacheInfoDownloaded(result);        
+
+        this.infoViewModel.geocacheInfoDownloaded(result);
     }
 }

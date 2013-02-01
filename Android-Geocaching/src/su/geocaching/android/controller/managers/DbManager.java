@@ -44,7 +44,7 @@ public class DbManager extends SQLiteOpenHelper {
     private static final String COLUMN_PHOTOS = "photos";
     private static final String CACHE_ID = "cache_id";
     private static final String CHECKPOINT_ID = "checkpoint_id";
-    
+
     private static final String PHOTO_URL_DEVIDER = "; ";
 
     private SQLiteDatabase db;
@@ -53,7 +53,7 @@ public class DbManager extends SQLiteOpenHelper {
             "CREATE TABLE %s (%s INTEGER, %s STRING, %s INTEGER, %s INTEGER, %s INTEGER, %s INTEGER, %s STRING, %s STRING, %s STRING, %s STRING);",
             DATABASE_NAME_TABLE, COLUMN_ID, COLUMN_NAME, COLUMN_TYPE, COLUMN_STATUS, COLUMN_LAT, COLUMN_LON, COLUMN_WEB_TEXT, COLUMN_NOTEBOOK_TEXT, COLUMN_USER_NOTES, COLUMN_PHOTOS);
     private static final String SQL_CREATE_DATABASE_CHECKPOINT_TABLE = String.format(
-            "CREATE TABLE %s (%s INTEGER PRIMARY KEY AUTOINCREMENT, %s INTEGER, %s INTEGER, %s STRING, %s INTEGER, %s INTEGER, %s INTEGER);", 
+            "CREATE TABLE %s (%s INTEGER PRIMARY KEY AUTOINCREMENT, %s INTEGER, %s INTEGER, %s STRING, %s INTEGER, %s INTEGER, %s INTEGER);",
             DATABASE_CHECKPOINT_NAME_TABLE, COLUMN_ID, CACHE_ID, CHECKPOINT_ID, COLUMN_NAME, COLUMN_LAT, COLUMN_LON, COLUMN_STATUS);
 
     public DbManager(Context context) {
@@ -121,13 +121,16 @@ public class DbManager extends SQLiteOpenHelper {
             } finally {
                 db.endTransaction();
             }
-        }        
+        }
     }
 
     /**
-     * @param geoCacheForAdd  GeoCache for add in database
-     * @param webText         html text for description GeoCache
-     * @param webNotebookText text for web notebook
+     * @param geoCacheForAdd
+     *         GeoCache for add in database
+     * @param webText
+     *         html text for description GeoCache
+     * @param webNotebookText
+     *         text for web notebook
      */
     public void addGeoCache(GeoCache geoCacheForAdd, String webText, String webNotebookText, Collection<URL> photos) {
         ContentValues values = new ContentValues();
@@ -149,7 +152,8 @@ public class DbManager extends SQLiteOpenHelper {
     }
 
     /**
-     * @param checkpoint GeoCache for add in database
+     * @param checkpoint
+     *         GeoCache for add in database
      */
     public void addCheckpointGeoCache(GeoCache checkpoint, int cacheId) {
         LogManager.d(TAG, "addCheckpointGeoCache " + checkpoint.getId());
@@ -166,7 +170,8 @@ public class DbManager extends SQLiteOpenHelper {
     }
 
     /**
-     * @param id ID GeoCache for taking from database
+     * @param id
+     *         ID GeoCache for taking from database
      * @return GeoCache if database have GeoCache. Null if database haven't GeoCache
      */
     public GeoCache getCacheByID(int id) {
@@ -216,7 +221,8 @@ public class DbManager extends SQLiteOpenHelper {
     }
 
     /**
-     * @param id id of GeoCache
+     * @param id
+     *         id of GeoCache
      * @return list of checkpoints corresponding to a given cache
      */
     public ArrayList<GeoCache> getCheckpointsArrayById(int id) {
@@ -244,7 +250,8 @@ public class DbManager extends SQLiteOpenHelper {
     }
 
     /**
-     * @param id ID GeoCache for taking his html description
+     * @param id
+     *         ID GeoCache for taking his html description
      * @return String if GeoCache in database. Empty string if in database haven't GeoCache
      */
     public String getCacheInfoById(int id) {
@@ -284,7 +291,7 @@ public class DbManager extends SQLiteOpenHelper {
         cursor.close();
         return exitString;
     }
-    
+
     public Collection<URL> getCachePhotosById(int id) {
         ArrayList<URL> photosUrl = null;
 
@@ -306,15 +313,18 @@ public class DbManager extends SQLiteOpenHelper {
                 }
             }
         }
-        cursor.close();        
+        cursor.close();
 
         return photosUrl;
     }
 
     /**
-     * @param cacheId      id of Searching GeoCache
-     * @param checkpointId id of checkpoint
-     * @param status       checkpoint status
+     * @param cacheId
+     *         id of Searching GeoCache
+     * @param checkpointId
+     *         id of checkpoint
+     * @param status
+     *         checkpoint status
      */
     public void updateCheckpointCacheStatus(int cacheId, int checkpointId, GeoCacheStatus status) {
         db.execSQL(String.format("UPDATE %s SET %s=%d WHERE %s=%d AND %s=%d", DATABASE_CHECKPOINT_NAME_TABLE, COLUMN_STATUS, status.ordinal(), CACHE_ID, cacheId, CHECKPOINT_ID, checkpointId));
@@ -323,7 +333,8 @@ public class DbManager extends SQLiteOpenHelper {
     /**
      * Remove geocache from DB, also remove all checkpoints corresponding to a geocache
      *
-     * @param id ID geocache for delete from database
+     * @param id
+     *         ID geocache for delete from database
      */
     public void deleteCacheById(int id) {
         db.execSQL(String.format("DELETE FROM %s WHERE %s=%d;", DATABASE_NAME_TABLE, COLUMN_ID, id));
@@ -331,8 +342,10 @@ public class DbManager extends SQLiteOpenHelper {
     }
 
     /**
-     * @param cacheId id of parent geocache
-     * @param checkpointId checkpoint id for delete from database
+     * @param cacheId
+     *         id of parent geocache
+     * @param checkpointId
+     *         checkpoint id for delete from database
      */
     public void deleteCheckpointCache(int cacheId, int checkpointId) {
         db.execSQL(String.format("DELETE FROM %s WHERE %s=%d AND %s=%d;", DATABASE_CHECKPOINT_NAME_TABLE, CACHE_ID, cacheId, CHECKPOINT_ID, checkpointId));
@@ -359,7 +372,7 @@ public class DbManager extends SQLiteOpenHelper {
         values.put(COLUMN_USER_NOTES, note);
         db.update(DATABASE_NAME_TABLE, values, COLUMN_ID + "=" + cacheId, null);
     }
-    
+
     public void updatePhotos(int cacheId, Collection<URL> photos) {
         ContentValues values = new ContentValues();
         values.put(COLUMN_PHOTOS, TextUtils.join(PHOTO_URL_DEVIDER, photos));

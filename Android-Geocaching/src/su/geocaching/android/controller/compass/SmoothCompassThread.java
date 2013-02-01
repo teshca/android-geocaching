@@ -56,7 +56,8 @@ public class SmoothCompassThread extends Thread implements IBearingAware {
     }
 
     /**
-     * @param speed - Speed mode of compass needle
+     * @param speed
+     *         - Speed mode of compass needle
      */
     public void setSpeed(CompassSpeed speed) {
         this.speed = speed;

@@ -16,7 +16,7 @@ public class AdvancedDownloadPhotoTask extends AsyncTask<Void, Void, Boolean> {
     private static final String TAG = AdvancedDownloadPhotoTask.class.getCanonicalName();
 
     private GeoCachePhotoViewModel cachePhotoViewModel;
-    
+
     public AdvancedDownloadPhotoTask(GeoCachePhotoViewModel cachePhotoViewModel) {
         this.cachePhotoViewModel = cachePhotoViewModel;
         Thread.setDefaultUncaughtExceptionHandler(new UncaughtExceptionsHandler());
@@ -35,12 +35,12 @@ public class AdvancedDownloadPhotoTask extends AsyncTask<Void, Void, Boolean> {
     @Override
     protected void onPostExecute(Boolean success) {
         LogManager.d(TAG, "onPostExecute");
-        
+
         if (!success) {
             this.cachePhotoViewModel.geocachePhotoDownloadFailed();
             return;
         }
-        
-        this.cachePhotoViewModel.geocachePhotoDownloaded();        
+
+        this.cachePhotoViewModel.geocachePhotoDownloaded();
     }
 }

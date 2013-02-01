@@ -28,7 +28,8 @@ public abstract class AbstractUserLocationManager implements LocationListener {
     protected Location lastLocation;
 
     /**
-     * @param locationManager manager which can add or remove updates of location services
+     * @param locationManager
+     *         manager which can add or remove updates of location services
      */
     public AbstractUserLocationManager(LocationManager locationManager) {
         this.locationManager = locationManager;
@@ -55,9 +56,13 @@ public abstract class AbstractUserLocationManager implements LocationListener {
         return currentBestLocation;
     }
 
-    /** Determines whether one Location reading is better than the current Location fix
-     * @param location  The new Location that you want to evaluate
-     * @param currentBestLocation  The current Location fix, to which you want to compare the new one
+    /**
+     * Determines whether one Location reading is better than the current Location fix
+     *
+     * @param location
+     *         The new Location that you want to evaluate
+     * @param currentBestLocation
+     *         The current Location fix, to which you want to compare the new one
      */
     private boolean isBetterLocation(Location location, Location currentBestLocation) {
         if (currentBestLocation == null) {
@@ -111,12 +116,14 @@ public abstract class AbstractUserLocationManager implements LocationListener {
     }
 
     /**
-     * @param subscriber activity which will be listen location updates
+     * @param subscriber
+     *         activity which will be listen location updates
      */
     public abstract void addSubscriber(ILocationAware subscriber);
 
     /**
-     * @param subscriber activity which no need to listen location updates
+     * @param subscriber
+     *         activity which no need to listen location updates
      * @return true if activity was subscribed on location updates
      */
     public abstract boolean removeSubscriber(ILocationAware subscriber);
@@ -152,7 +159,8 @@ public abstract class AbstractUserLocationManager implements LocationListener {
     /**
      * Tell to subscribers about event using statuses
      *
-     * @param provider which has been disabled
+     * @param provider
+     *         which has been disabled
      */
     public void onProviderDisabled(String provider) {
     }
@@ -160,7 +168,8 @@ public abstract class AbstractUserLocationManager implements LocationListener {
     /**
      * Tell to subscribers about event using statuses
      *
-     * @param provider which has been enabled
+     * @param provider
+     *         which has been enabled
      */
     public void onProviderEnabled(String provider) {
     }

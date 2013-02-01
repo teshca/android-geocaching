@@ -16,7 +16,7 @@ import su.geocaching.android.ui.R;
  */
 public class MapPreferenceActivity extends SherlockPreferenceActivity {
 
-    private static final String MAP_PREFERENCE_ACTIVITY_NAME= "/preferences/Map";
+    private static final String MAP_PREFERENCE_ACTIVITY_NAME = "/preferences/Map";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -25,19 +25,19 @@ public class MapPreferenceActivity extends SherlockPreferenceActivity {
         getSupportActionBar().setHomeButtonEnabled(true);
         addPreferencesFromResource(R.xml.map_preference);
 
-        final ListPreference mapType = (ListPreference)findPreference(getString(R.string.prefer_map_type_key));
+        final ListPreference mapType = (ListPreference) findPreference(getString(R.string.prefer_map_type_key));
         mapType.setOnPreferenceChangeListener(updateStatusOnListPreferenceChangeListener);
         mapType.setSummary(mapType.getEntry());
 
-        final ListPreference iconsType = (ListPreference)findPreference(getString(R.string.prefer_icon_key));
+        final ListPreference iconsType = (ListPreference) findPreference(getString(R.string.prefer_icon_key));
         iconsType.setOnPreferenceChangeListener(updateStatusOnListPreferenceChangeListener);
         iconsType.setSummary(iconsType.getEntry());
 
-        final ListMultiSelectPreference typeFilter = (ListMultiSelectPreference)findPreference(getString(R.string.cache_filter_type));
+        final ListMultiSelectPreference typeFilter = (ListMultiSelectPreference) findPreference(getString(R.string.cache_filter_type));
         typeFilter.setOnPreferenceChangeListener(updateStatusOnListMultiSelectPreferenceChangeListener);
         typeFilter.setSummary(getFilterSummary(typeFilter, typeFilter.getValue()));
 
-        final ListMultiSelectPreference statusFilter = (ListMultiSelectPreference)findPreference(getString(R.string.cache_filter_status));
+        final ListMultiSelectPreference statusFilter = (ListMultiSelectPreference) findPreference(getString(R.string.cache_filter_status));
         statusFilter.setOnPreferenceChangeListener(updateStatusOnListMultiSelectPreferenceChangeListener);
         statusFilter.setSummary(getFilterSummary(statusFilter, statusFilter.getValue()));
     }
@@ -48,7 +48,7 @@ public class MapPreferenceActivity extends SherlockPreferenceActivity {
                 public boolean onPreferenceChange(Preference preference, Object newValue) {
                     final ListPreference listPreference = (ListPreference) preference;
                     if (listPreference == null) return false;
-                    preference.setSummary(listPreference.getEntries()[listPreference.findIndexOfValue((String)newValue)]);
+                    preference.setSummary(listPreference.getEntries()[listPreference.findIndexOfValue((String) newValue)]);
                     return true;
                 }
             };
@@ -65,16 +65,16 @@ public class MapPreferenceActivity extends SherlockPreferenceActivity {
             };
 
     private CharSequence getFilterSummary(ListMultiSelectPreference listPreference, Object newValue) {
-        CharSequence[] selectedValues = listPreference.getSelectedEntryValues((String)newValue);
+        CharSequence[] selectedValues = listPreference.getSelectedEntryValues((String) newValue);
         if (selectedValues == null)
             return getString(R.string.filter_warning);
         if (selectedValues.length == listPreference.getEntries().length)
             return getString(R.string.filter_disabled);
 
         String summary = "";
-        for(CharSequence val: selectedValues) {
+        for (CharSequence val : selectedValues) {
             if (summary.length() != 0) summary += ", ";
-            summary += listPreference.getEntries()[listPreference.findIndexOfValue((String)val)];
+            summary += listPreference.getEntries()[listPreference.findIndexOfValue((String) val)];
         }
         return summary;
     }
@@ -88,5 +88,5 @@ public class MapPreferenceActivity extends SherlockPreferenceActivity {
             default:
                 return super.onOptionsItemSelected(item);
         }
-    }    
+    }
 }

@@ -35,14 +35,14 @@ public class SearchGoogleMapWrapper extends GoogleMapWrapper implements ISearchM
         geocacheOverlay = new GoogleGeocacheOverlay(map);
 
         map.setOnMapLongClickListener(
-            new GoogleMap.OnMapLongClickListener() {
-                @Override
-                public void onMapLongClick(LatLng latLng) {
-                    if (mapLongClickListener != null) {
-                        mapLongClickListener.onMapLongClick(latLng);
+                new GoogleMap.OnMapLongClickListener() {
+                    @Override
+                    public void onMapLongClick(LatLng latLng) {
+                        if (mapLongClickListener != null) {
+                            mapLongClickListener.onMapLongClick(latLng);
+                        }
                     }
                 }
-            }
         );
 
         // hack to implement long click on cache markers
@@ -117,7 +117,7 @@ public class SearchGoogleMapWrapper extends GoogleMapWrapper implements ISearchM
             boundsBuilder.include(getUserLocation(currentUserLocation));
         }
         // geocache and checkpoint markers
-        for (GeoCache geocache: geocaches) {
+        for (GeoCache geocache : geocaches) {
             boundsBuilder.include(getCacheLocation(geocache));
         }
 
@@ -144,7 +144,8 @@ public class SearchGoogleMapWrapper extends GoogleMapWrapper implements ISearchM
     /**
      * Change behaviour of arrow if location precise or not
      *
-     * @param isLocationPrecise true if user location precise
+     * @param isLocationPrecise
+     *         true if user location precise
      * @see su.geocaching.android.controller.managers.AccurateUserLocationManager#hasPreciseLocation()
      */
     public void setLocationPrecise(boolean isLocationPrecise) {

@@ -14,7 +14,7 @@ import java.util.ListIterator;
 
 /**
  * Class downloads List of GeoCaches and adds them to SelectMapActivity
- * 
+ *
  * @author Nikita Bumakov
  */
 public class DownloadGeoCachesTask extends AsyncTask<GeoRect, Integer, List<GeoCache>> {

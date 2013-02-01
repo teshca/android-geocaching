@@ -12,27 +12,27 @@ import su.geocaching.android.ui.R;
 import su.geocaching.android.ui.info.InfoViewModel.PhotosTabState;
 
 public class PhotoFragment extends SherlockFragment implements IInfoFragment {
-    
+
     private InfoViewModel infoViewModel;
     private GalleryView galleryView;
-    private AdvancedGalleryImageAdapter galleryAdapter;   
-    
+    private AdvancedGalleryImageAdapter galleryAdapter;
+
     private ProgressBar progressBar;
     private View errorMessage;
     private ImageButton refreshButton;
     private TextView noPhotosTextView;
     private View sdCardErrorMessage;
-    
+
     private View trafficWarning;
     private Button downloadButton;
     private CheckBox downloadAlways;
-    
+
     private PhotosTabState state;
-   
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View v = inflater.inflate(R.layout.info_photo_gallery_fragment, container, false);
-        
+
         progressBar = (ProgressBar) v.findViewById(R.id.info_progress_bar);
         errorMessage = v.findViewById(R.id.info_error_panel);
         noPhotosTextView = (TextView) v.findViewById(R.id.info_no_photos_text);
@@ -41,9 +41,10 @@ public class PhotoFragment extends SherlockFragment implements IInfoFragment {
             @Override
             public void onClick(View v) {
                 infoViewModel.beginLoadPhotoUrls();
-            }}
+            }
+        }
         );
-        
+
         trafficWarning = v.findViewById(R.id.info_traffic_warning_panel);
         downloadAlways = (CheckBox) v.findViewById(R.id.downloadAlways);
         downloadButton = (Button) v.findViewById(R.id.download_button);
@@ -52,29 +53,30 @@ public class PhotoFragment extends SherlockFragment implements IInfoFragment {
             public void onClick(View v) {
                 infoViewModel.beginLoadPhotoUrls();
 
-                Controller.getInstance().getPreferencesManager().setDownloadPhotosAlways(downloadAlways.isChecked());                
+                Controller.getInstance().getPreferencesManager().setDownloadPhotosAlways(downloadAlways.isChecked());
                 trafficWarning.setVisibility(View.GONE);
-            }}
+            }
+        }
         );
-        
+
         sdCardErrorMessage = v.findViewById(R.id.info_sd_card_error_panel);
-        
+
         infoViewModel = Controller.getInstance().getInfoViewModel();
         state = infoViewModel.getPhotosState();
-        
-        galleryView = (GalleryView)v.findViewById(R.id.galleryView);
+
+        galleryView = (GalleryView) v.findViewById(R.id.galleryView);
         galleryAdapter = new AdvancedGalleryImageAdapter(this.getActivity(), Controller.getInstance().getInfoViewModel());
         galleryView.setAdapter(galleryAdapter);
         return v;
     }
-    
-    @Override 
+
+    @Override
     public void onActivityCreated(Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
         if (infoViewModel.getSelectedTabIndex() == state.getIndex()) {
             onNavigatedTo();
         }
-    }    
+    }
 
     @Override
     public void onResume() {
@@ -85,36 +87,36 @@ public class PhotoFragment extends SherlockFragment implements IInfoFragment {
     public void onPause() {
         super.onPause();
     }
-    
+
     @Override
-    public void onNavigatedTo() {        
-        if (galleryView.getVisibility() == View.VISIBLE || 
+    public void onNavigatedTo() {
+        if (galleryView.getVisibility() == View.VISIBLE ||
                 noPhotosTextView.getVisibility() == View.VISIBLE) {
-            return;   
+            return;
         }
-        
+
         trafficWarning.setVisibility(View.GONE);
         sdCardErrorMessage.setVisibility(View.GONE);
         galleryView.setVisibility(View.GONE);
-        noPhotosTextView.setVisibility(View.GONE);             
+        noPhotosTextView.setVisibility(View.GONE);
         errorMessage.setVisibility(View.GONE);
 
         if (Controller.getInstance().getExternalStorageManager().isExternalStorageAvailable()) {
-            if (state.getPhotos() == null && !infoViewModel.isPhotoUrlsLoading()) {            
-                if (Controller.getInstance().getPreferencesManager().getDownloadPhotosAlways() || 
+            if (state.getPhotos() == null && !infoViewModel.isPhotoUrlsLoading()) {
+                if (Controller.getInstance().getPreferencesManager().getDownloadPhotosAlways() ||
                         Controller.getInstance().getConnectionManager().isWifiConnected()) {
-                    infoViewModel.beginLoadPhotoUrls();   
+                    infoViewModel.beginLoadPhotoUrls();
                 } else {
                     trafficWarning.setVisibility(View.VISIBLE);
                 }
             } else {
                 updatePhotosList();
-            }      
+            }
         } else {
-            sdCardErrorMessage.setVisibility(View.VISIBLE);       
+            sdCardErrorMessage.setVisibility(View.VISIBLE);
         }
     }
-    
+
     public void updatePhotosList() {
         if (state.getPhotos() == null) {
             galleryView.setVisibility(View.GONE);
@@ -122,23 +124,23 @@ public class PhotoFragment extends SherlockFragment implements IInfoFragment {
         } else if (state.getPhotos().isEmpty()) {
             galleryView.setVisibility(View.GONE);
             noPhotosTextView.setVisibility(View.VISIBLE);
-        } else {           
+        } else {
             galleryView.setVisibility(View.VISIBLE);
             noPhotosTextView.setVisibility(View.GONE);
-            galleryAdapter.updateImageList();         
+            galleryAdapter.updateImageList();
         }
     }
 
     public void showProgressBar() {
         progressBar.setVisibility(View.VISIBLE);
     }
-    
+
     public void hideProgressBar() {
         progressBar.setVisibility(View.GONE);
     }
-    
+
     public void showErrorMessage() {
-        errorMessage.setVisibility(View.VISIBLE);      
+        errorMessage.setVisibility(View.VISIBLE);
     }
 
     public void hideErrorMessage() {

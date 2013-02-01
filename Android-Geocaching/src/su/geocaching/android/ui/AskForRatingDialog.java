@@ -9,8 +9,8 @@ import su.geocaching.android.controller.managers.NavigationManager;
 
 public class AskForRatingDialog extends AlertDialog {
 
-    private static final String ASK_FOR_RATING_DIALOG_NAME = "/AskForRatingDialog";   
-    
+    private static final String ASK_FOR_RATING_DIALOG_NAME = "/AskForRatingDialog";
+
     public AskForRatingDialog(Context context) {
         super(context);
     }

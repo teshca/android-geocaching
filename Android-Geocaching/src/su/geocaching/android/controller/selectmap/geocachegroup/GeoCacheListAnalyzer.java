@@ -63,7 +63,7 @@ public class GeoCacheListAnalyzer {
         return centroids;
     }
 
-    public List<GeoCache> getGroupedList(List<GeoCache> geoCacheList, AsyncTask<?,?,?> asyncTask) {
+    public List<GeoCache> getGroupedList(List<GeoCache> geoCacheList, AsyncTask<?, ?, ?> asyncTask) {
         final List<Centroid> centroids = generateCentroids();
         if (asyncTask.isCancelled()) return null;
         final List<GeoCacheView> points = generatePointsList(geoCacheList);

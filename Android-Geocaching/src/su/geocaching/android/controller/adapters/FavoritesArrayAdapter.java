@@ -63,9 +63,9 @@ public class FavoritesArrayAdapter extends BaseArrayAdapter<GeoCache> implements
         final TextView textViewName = (TextView) convertView.findViewById(R.id.tvName);
         final TextView textViewType = (TextView) convertView.findViewById(R.id.tvType);
         final TextView textViewStatus = (TextView) convertView.findViewById(R.id.tvStatus);
-        final TextView textViewDistance =  (TextView) convertView.findViewById(R.id.tvDistance);
+        final TextView textViewDistance = (TextView) convertView.findViewById(R.id.tvDistance);
         final ImageView imageViewIcon = (ImageView) convertView.findViewById(R.id.ivIcon);
-        final UiThreadCompassView compassView = (UiThreadCompassView) convertView.findViewById(R.id.compassView);        
+        final UiThreadCompassView compassView = (UiThreadCompassView) convertView.findViewById(R.id.compassView);
 
         final GeoCache geoCache = getItem(position);
         textViewName.setText(geoCache.getName());
@@ -82,7 +82,7 @@ public class FavoritesArrayAdapter extends BaseArrayAdapter<GeoCache> implements
         }
 
         if (lastLocation != null && Controller.getInstance().getCompassManager().IsCompassAvailable()) {
-        	compassView.setHelper(AbstractCompassDrawing.TYPE_PREVIEW);
+            compassView.setHelper(AbstractCompassDrawing.TYPE_PREVIEW);
             compassView.setCacheDirection(CoordinateHelper.getBearingBetween(lastLocation, geoCache.getGeoPoint()));
         } else {
             compassView.setVisibility(View.GONE);
@@ -187,9 +187,8 @@ public class FavoritesArrayAdapter extends BaseArrayAdapter<GeoCache> implements
     public void setAllItemsArray(List<GeoCache> allItemsArray) {
         this.allItemsArray = allItemsArray;
     }
-    
-    public int getAllItemsCount()
-    {
+
+    public int getAllItemsCount() {
         return this.allItemsArray.size();
     }
 }

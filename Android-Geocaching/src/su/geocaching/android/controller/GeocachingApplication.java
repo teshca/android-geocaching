@@ -6,7 +6,6 @@ import su.geocaching.android.controller.managers.UncaughtExceptionsHandler;
 /**
  * @author Grigory Kalabin. grigory.kalabin@gmail.com
  * @since April 2011
- * 
  */
 public class GeocachingApplication extends Application {
 
