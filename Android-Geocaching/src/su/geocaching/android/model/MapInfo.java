@@ -9,13 +9,13 @@ import java.io.Serializable;
  * @since March 2011
  */
 public class MapInfo implements Serializable {
-    public static final int DEFAULT_CENTER_LONGITUDE = 29828674;
-    public static final int DEFAULT_CENTER_LATITUDE = 59879904;
-    public static final int DEFAULT_ZOOM = 13;
+    public static final double DEFAULT_CENTER_LONGITUDE = 29.828674;
+    public static final double DEFAULT_CENTER_LATITUDE = 59.879904;
+    public static final float DEFAULT_ZOOM = 13;
 
-    private int centerX;
-    private int centerY;
-    private int zoom;
+    private double centerX;
+    private double centerY;
+    private float zoom;
 
     /**
      * Init all settings by default values
@@ -34,7 +34,7 @@ public class MapInfo implements Serializable {
      * @param zoom
      *         map zoom value
      */
-    public MapInfo(int centerX, int centerY, int zoom) {
+    public MapInfo(double centerX, double centerY, float zoom) {
         this.centerX = centerX;
         this.centerY = centerY;
         this.zoom = zoom;
@@ -43,21 +43,21 @@ public class MapInfo implements Serializable {
     /**
      * @return latitude of map center point
      */
-    public int getCenterX() {
+    public double getCenterX() {
         return centerX;
     }
 
     /**
      * @return logitude of map center point
      */
-    public int getCenterY() {
+    public double getCenterY() {
         return centerY;
     }
 
     /**
      * @return map zoom value
      */
-    public int getZoom() {
+    public float getZoom() {
         return zoom;
     }
 
@@ -65,7 +65,7 @@ public class MapInfo implements Serializable {
      * @param centerX
      *         latitude of map center point
      */
-    public void setCenterX(int centerX) {
+    public void setCenterX(double centerX) {
         this.centerX = centerX;
     }
 
@@ -73,7 +73,7 @@ public class MapInfo implements Serializable {
      * @param centerY
      *         longitude of map center point
      */
-    public void setCenterY(int centerY) {
+    public void setCenterY(double centerY) {
         this.centerY = centerY;
     }
 
@@ -81,7 +81,7 @@ public class MapInfo implements Serializable {
      * @param zoom
      *         map zoom value
      */
-    public void setZoom(int zoom) {
+    public void setZoom(float zoom) {
         this.zoom = zoom;
     }
 }

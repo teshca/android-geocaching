@@ -55,15 +55,12 @@ public class GoogleMapWrapper implements IMapWrapper {
     @Override
     public MapInfo getMapState() {
         CameraPosition cameraPosition = googleMap.getCameraPosition();
-        int latE6 = (int) (cameraPosition.target.latitude * 1E6);
-        int lonE6 = (int) (cameraPosition.target.longitude * 1E6);
-        int zoom = (int) cameraPosition.zoom;
-        return new MapInfo(latE6, lonE6, zoom);
+        return new MapInfo(cameraPosition.target.latitude, cameraPosition.target.longitude, cameraPosition.zoom);
     }
 
     @Override
     public void restoreMapSate(MapInfo lastMapInfo) {
-        LatLng center = new LatLng(lastMapInfo.getCenterX() * 1E-6, lastMapInfo.getCenterY() * 1E-6);
+        LatLng center = new LatLng(lastMapInfo.getCenterX(), lastMapInfo.getCenterY());
         CameraUpdate cameraUpdate = CameraUpdateFactory.newLatLngZoom(center, lastMapInfo.getZoom());
         googleMap.moveCamera(cameraUpdate);
     }

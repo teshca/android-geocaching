@@ -312,7 +312,7 @@ public class SearchMapActivity extends SherlockFragmentActivity
         final GeoPoint destination = Controller.getInstance().getCurrentSearchPoint().getGeoPoint();
         final double latitude = destination.getLatitude();
         final double longitude = destination.getLongitude();
-        NavigationManager.startExternalMap(this, latitude, longitude, mapWrapper.getMapState().getZoom());
+        NavigationManager.startExternalMap(this, latitude, longitude, (int) mapWrapper.getMapState().getZoom());
     }
 
     /*
