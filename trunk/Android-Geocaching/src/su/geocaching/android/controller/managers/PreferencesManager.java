@@ -71,9 +71,9 @@ public class PreferencesManager {
         if (info != null) {
             LogManager.d(TAG, "Save last map center (" + info.getCenterX() + ", " + info.getCenterY() + ") in settings");
             SharedPreferences.Editor editor = preferences.edit();
-            editor.putInt("selectmap_center_x", info.getCenterX());
-            editor.putInt("selectmap_center_y", info.getCenterY());
-            editor.putInt("selectmap_zoom", info.getZoom());
+            putDouble("selectmap_center_x_double", info.getCenterX(), editor);
+            putDouble("selectmap_center_y_double", info.getCenterY(), editor);
+            editor.putFloat("selectmap_zoom_float", info.getZoom());
             editor.commit();
         }
     }
@@ -83,7 +83,7 @@ public class PreferencesManager {
      */
     public synchronized MapInfo getLastSelectMapInfo() {
         LocationManager locationManager = ((LocationManager) context.getSystemService(Context.LOCATION_SERVICE));
-        int default_x, default_y;
+        double default_x, default_y;
         Location gpsLocation = locationManager.getLastKnownLocation(LocationManager.GPS_PROVIDER);
         if (gpsLocation == null) {
             Location networkLocation = locationManager.getLastKnownLocation(LocationManager.NETWORK_PROVIDER);
@@ -91,16 +91,33 @@ public class PreferencesManager {
                 default_x = MapInfo.DEFAULT_CENTER_LATITUDE;
                 default_y = MapInfo.DEFAULT_CENTER_LONGITUDE;
             } else {
-                default_x = (int) (networkLocation.getLatitude() * 1E6);
-                default_y = (int) (networkLocation.getLongitude() * 1E6);
+                default_x = networkLocation.getLatitude();
+                default_y = networkLocation.getLongitude();
             }
         } else {
-            default_x = (int) (gpsLocation.getLatitude() * 1E6);
-            default_y = (int) (gpsLocation.getLongitude() * 1E6);
+            default_x = gpsLocation.getLatitude();
+            default_y = gpsLocation.getLongitude();
         }
-        int center_x = preferences.getInt("selectmap_center_x", default_x);
-        int center_y = preferences.getInt("selectmap_center_y", default_y);
-        int zoom = preferences.getInt("selectmap_zoom", MapInfo.DEFAULT_ZOOM);
+
+        // TODO
+        // backward compatibility code. remove after most of the users upgraded to version 1.6
+        if (preferences.contains("selectmap_center_x")) {
+            double center_x = preferences.getInt("selectmap_center_x", 0) * 1e-6;
+            double center_y = preferences.getInt("selectmap_center_y", 0) * 1e-6;
+            float zoom = preferences.getInt("selectmap_zoom", 13);
+            SharedPreferences.Editor editor = preferences.edit();
+            editor.remove("selectmap_center_x");
+            editor.remove("selectmap_center_y");
+            editor.remove("selectmap_zoom");
+            editor.commit();
+            MapInfo mapInfo = new MapInfo(center_x, center_y, zoom);
+            setLastSelectMapInfo(mapInfo);
+            return mapInfo;
+        }
+
+        double center_x = getDouble("selectmap_center_x_double", default_x);
+        double center_y = getDouble("selectmap_center_y_double", default_y);
+        float zoom = preferences.getFloat("selectmap_zoom_float", MapInfo.DEFAULT_ZOOM);
         return new MapInfo(center_x, center_y, zoom);
     }
 
@@ -111,9 +128,9 @@ public class PreferencesManager {
     public synchronized void setLastSearchMapInfo(SearchMapInfo info) {
         if (info != null) {
             SharedPreferences.Editor editor = preferences.edit();
-            editor.putInt("searchmap_center_x", info.getCenterX());
-            editor.putInt("searchmap_center_y", info.getCenterY());
-            editor.putInt("searchmap_zoom", info.getZoom());
+            putDouble("searchmap_center_x_double", info.getCenterX(), editor);
+            putDouble("searchmap_center_y_double", info.getCenterY(), editor);
+            editor.putFloat("searchmap_zoom_float", info.getZoom());
             editor.putInt("searchmap_cacheid", info.getGeoCacheId());
             editor.commit();
         }
@@ -123,11 +140,36 @@ public class PreferencesManager {
      * @return MapInfo object with preferences
      */
     public synchronized SearchMapInfo getLastSearchMapInfo() {
-        int center_x = preferences.getInt("searchmap_center_x", MapInfo.DEFAULT_CENTER_LATITUDE);
-        int center_y = preferences.getInt("searchmap_center_y", MapInfo.DEFAULT_CENTER_LONGITUDE);
-        int zoom = preferences.getInt("searchmap_zoom", MapInfo.DEFAULT_ZOOM);
+        // TODO
+        // backward compatibility code. remove after most of the users upgraded to version 1.6
+        if (preferences.contains("searchmap_center_x")) {
+            double center_x = preferences.getInt("searchmap_center_x", 0) * 1e-6;
+            double center_y = preferences.getInt("searchmap_center_y", 0) * 1e-6;
+            float zoom = preferences.getInt("searchmap_zoom", 13);
+            int cacheId = preferences.getInt("searchmap_cacheid", -1);
+            SharedPreferences.Editor editor = preferences.edit();
+            editor.remove("searchmap_center_x");
+            editor.remove("searchmap_center_y");
+            editor.remove("searchmap_zoom");
+            editor.commit();
+            SearchMapInfo mapInfo = new SearchMapInfo(center_x, center_y, zoom, cacheId);
+            setLastSearchMapInfo(mapInfo);
+            return mapInfo;
+        }
+
+        double center_x = getDouble("searchmap_center_x_double", MapInfo.DEFAULT_CENTER_LATITUDE);
+        double center_y = getDouble("searchmap_center_y_double", MapInfo.DEFAULT_CENTER_LONGITUDE);
+        float zoom = preferences.getFloat("searchmap_zoom_float", MapInfo.DEFAULT_ZOOM);
         int cacheId = preferences.getInt("searchmap_cacheid", -1);
         return new SearchMapInfo(center_x, center_y, zoom, cacheId);
+    }
+
+    private void putDouble(String key, double value, SharedPreferences.Editor editor) {
+        editor.putLong(key, Double.doubleToLongBits(value));
+    }
+
+    private double getDouble(String key, double defaultValue) {
+        return Double.longBitsToDouble(preferences.getLong(key, Double.doubleToLongBits(defaultValue)));
     }
 
     public void setRemoveFavoriteWithoutConfirm(boolean forceRemove) {

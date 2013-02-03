@@ -19,7 +19,7 @@ public class SearchMapInfo extends MapInfo implements Serializable {
      * @param geoCacheId
      *         id of GeoCache
      */
-    public SearchMapInfo(int centerX, int centerY, int zoom, int geoCacheId) {
+    public SearchMapInfo(double centerX, double centerY, float zoom, int geoCacheId) {
         super(centerX, centerY, zoom);
         this.geoCacheId = geoCacheId;
     }
