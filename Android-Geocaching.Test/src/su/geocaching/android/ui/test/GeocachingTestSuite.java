@@ -11,10 +11,11 @@ public class GeocachingTestSuite extends TestSuite {
     public GeocachingTestSuite() {
         //addTestSuite(KMeansTest.class);
         addTestSuite(CompassHelperTest.class);
-        addTestSuite(GeoCacheSaxHandlerTest.class);
+        addTestSuite(SexagesimalTest.class);
+        //addTestSuite(GeoCacheSaxHandlerTest.class);
     }
 
-     public static Test suite() {
+    public static Test suite() {
         return new GeocachingTestSuite();
     }
 }
