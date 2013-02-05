@@ -258,5 +258,14 @@
   <component name="VcsDirectoryMappings">
     <mapping directory="" vcs="svn" />
   </component>
+  <component name="libraryTable">
+    <library name="junit-4.11">
+      <CLASSES>
+        <root url="jar://$PROJECT_DIR$/../Android-Geocaching.Test/libs/junit-4.11.jar!/" />
+      </CLASSES>
+      <JAVADOC />
+      <SOURCES />
+    </library>
+  </component>
 </project>
 
