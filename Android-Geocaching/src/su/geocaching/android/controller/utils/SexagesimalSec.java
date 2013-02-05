@@ -22,10 +22,9 @@ public class SexagesimalSec {
 
     public SexagesimalSec(double coordinate) {
         double min = (Math.abs(coordinate) % 1) * 60;
-        degrees = (int) Math.abs(coordinate);
+        degrees = (int) coordinate;
         minutes = (int) min;
         seconds = (min % 1) * 60;
-        if (coordinate < 0) degrees = -degrees;
     }
 
     public SexagesimalSec roundTo(int i) {

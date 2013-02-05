@@ -41,87 +41,19 @@
     <list default="true" readonly="true" id="9dfe056f-2d77-44b2-a1e9-8cd41c586ab0" name="Default" comment="">
       <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/../Android-Geocaching.Test/Android Geocaching.suTest.iml" />
       <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/../Android-Geocaching.Test/Android-Geocaching.Test.iml" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/../Android-Geocaching.Test/src/su/geocaching/android/ui/test/SexagesimalTest.java" />
       <change type="DELETED" beforePath="E:\Projects\android-geocaching\trunk\Android-Geocaching.Test\gen\su\geocaching\android\ui\test\R.java" afterPath="" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/su/geocaching/android/ui/AboutDialog.java" afterPath="$PROJECT_DIR$/src/su/geocaching/android/ui/AboutDialog.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/su/geocaching/android/controller/compass/AbstractCompassDrawing.java" afterPath="$PROJECT_DIR$/src/su/geocaching/android/controller/compass/AbstractCompassDrawing.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/su/geocaching/android/controller/managers/AbstractUserLocationManager.java" afterPath="$PROJECT_DIR$/src/su/geocaching/android/controller/managers/AbstractUserLocationManager.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/su/geocaching/android/ui/info/AbstractWebViewFragment.java" afterPath="$PROJECT_DIR$/src/su/geocaching/android/ui/info/AbstractWebViewFragment.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/su/geocaching/android/controller/managers/AccurateUserLocationManager.java" afterPath="$PROJECT_DIR$/src/su/geocaching/android/controller/managers/AccurateUserLocationManager.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/su/geocaching/android/controller/apimanager/AdvancedDownloadInfoTask.java" afterPath="$PROJECT_DIR$/src/su/geocaching/android/controller/apimanager/AdvancedDownloadInfoTask.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/su/geocaching/android/controller/apimanager/AdvancedDownloadNotebookTask.java" afterPath="$PROJECT_DIR$/src/su/geocaching/android/controller/apimanager/AdvancedDownloadNotebookTask.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/su/geocaching/android/controller/apimanager/AdvancedDownloadPhotoTask.java" afterPath="$PROJECT_DIR$/src/su/geocaching/android/controller/apimanager/AdvancedDownloadPhotoTask.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/su/geocaching/android/controller/apimanager/AdvancedDownloadPhotoUrlsTask.java" afterPath="$PROJECT_DIR$/src/su/geocaching/android/controller/apimanager/AdvancedDownloadPhotoUrlsTask.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/su/geocaching/android/ui/info/AdvancedGalleryImageAdapter.java" afterPath="$PROJECT_DIR$/src/su/geocaching/android/ui/info/AdvancedGalleryImageAdapter.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/su/geocaching/android/ui/info/AdvancedInfoActivity.java" afterPath="$PROJECT_DIR$/src/su/geocaching/android/ui/info/AdvancedInfoActivity.java" />
+      <change type="DELETED" beforePath="E:\Projects\android-geocaching\trunk\Android-Geocaching.Test\src\su\geocaching\android\ui\test\GeoCacheSaxHandlerTest.java" afterPath="" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/Android-Geocaching.ipr" afterPath="$PROJECT_DIR$/Android-Geocaching.ipr" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/Android-Geocaching.iws" afterPath="$PROJECT_DIR$/Android-Geocaching.iws" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../Android-Geocaching.Test/AndroidManifest.xml" afterPath="$PROJECT_DIR$/../Android-Geocaching.Test/AndroidManifest.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/su/geocaching/android/ui/AskForRatingDialog.java" afterPath="$PROJECT_DIR$/src/su/geocaching/android/ui/AskForRatingDialog.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/su/geocaching/android/controller/managers/CallbackManager.java" afterPath="$PROJECT_DIR$/src/su/geocaching/android/controller/managers/CallbackManager.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/su/geocaching/android/controller/managers/CheckpointManager.java" afterPath="$PROJECT_DIR$/src/su/geocaching/android/controller/managers/CheckpointManager.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/su/geocaching/android/ui/compass/CompassActivity.java" afterPath="$PROJECT_DIR$/src/su/geocaching/android/ui/compass/CompassActivity.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/su/geocaching/android/controller/compass/CompassHelper.java" afterPath="$PROJECT_DIR$/src/su/geocaching/android/controller/compass/CompassHelper.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/su/geocaching/android/controller/managers/CompassManager.java" afterPath="$PROJECT_DIR$/src/su/geocaching/android/controller/managers/CompassManager.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/su/geocaching/android/ui/preferences/CompassPreferenceActivity.java" afterPath="$PROJECT_DIR$/src/su/geocaching/android/ui/preferences/CompassPreferenceActivity.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/su/geocaching/android/ui/compass/CompassView.java" afterPath="$PROJECT_DIR$/src/su/geocaching/android/ui/compass/CompassView.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/su/geocaching/android/controller/managers/ConnectionManager.java" afterPath="$PROJECT_DIR$/src/su/geocaching/android/controller/managers/ConnectionManager.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/su/geocaching/android/controller/Controller.java" afterPath="$PROJECT_DIR$/src/su/geocaching/android/controller/Controller.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/su/geocaching/android/controller/utils/CoordinateHelper.java" afterPath="$PROJECT_DIR$/src/su/geocaching/android/controller/utils/CoordinateHelper.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../Android-Geocaching.Test/src/su/geocaching/android/ui/test/CompassHelperTest.java" afterPath="$PROJECT_DIR$/../Android-Geocaching.Test/src/su/geocaching/android/ui/test/CompassHelperTest.java" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/su/geocaching/android/ui/checkpoints/CreateCheckpointActivity.java" afterPath="$PROJECT_DIR$/src/su/geocaching/android/ui/checkpoints/CreateCheckpointActivity.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/su/geocaching/android/ui/DashboardActivity.java" afterPath="$PROJECT_DIR$/src/su/geocaching/android/ui/DashboardActivity.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/su/geocaching/android/ui/preferences/DashboardPreferenceActivity.java" afterPath="$PROJECT_DIR$/src/su/geocaching/android/ui/preferences/DashboardPreferenceActivity.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/su/geocaching/android/controller/managers/DbManager.java" afterPath="$PROJECT_DIR$/src/su/geocaching/android/controller/managers/DbManager.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/su/geocaching/android/controller/compass/DefaultCompassDrawing.java" afterPath="$PROJECT_DIR$/src/su/geocaching/android/controller/compass/DefaultCompassDrawing.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/su/geocaching/android/controller/apimanager/DownloadGeoCachesTask.java" afterPath="$PROJECT_DIR$/src/su/geocaching/android/controller/apimanager/DownloadGeoCachesTask.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/su/geocaching/android/ui/preferences/EnergySavingPreferenceActivity.java" afterPath="$PROJECT_DIR$/src/su/geocaching/android/ui/preferences/EnergySavingPreferenceActivity.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/su/geocaching/android/controller/managers/ExternalStorageManager.java" afterPath="$PROJECT_DIR$/src/su/geocaching/android/controller/managers/ExternalStorageManager.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/su/geocaching/android/controller/adapters/FavoritesArrayAdapter.java" afterPath="$PROJECT_DIR$/src/su/geocaching/android/controller/adapters/FavoritesArrayAdapter.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/su/geocaching/android/ui/FavoritesFolderActivity.java" afterPath="$PROJECT_DIR$/src/su/geocaching/android/ui/FavoritesFolderActivity.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/su/geocaching/android/ui/info/GalleryItemView.java" afterPath="$PROJECT_DIR$/src/su/geocaching/android/ui/info/GalleryItemView.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/su/geocaching/android/controller/selectmap/geocachegroup/GeoCacheListAnalyzer.java" afterPath="$PROJECT_DIR$/src/su/geocaching/android/controller/selectmap/geocachegroup/GeoCacheListAnalyzer.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/su/geocaching/android/controller/apimanager/GeoCacheMemoryStorage.java" afterPath="$PROJECT_DIR$/src/su/geocaching/android/controller/apimanager/GeoCacheMemoryStorage.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/su/geocaching/android/ui/info/GeoCachePhotoViewModel.java" afterPath="$PROJECT_DIR$/src/su/geocaching/android/ui/info/GeoCachePhotoViewModel.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/su/geocaching/android/model/GeoPoint.java" afterPath="$PROJECT_DIR$/src/su/geocaching/android/model/GeoPoint.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/su/geocaching/android/controller/apimanager/GeoRect.java" afterPath="$PROJECT_DIR$/src/su/geocaching/android/controller/apimanager/GeoRect.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/su/geocaching/android/ui/map/GeocacheMarkerTapListener.java" afterPath="$PROJECT_DIR$/src/su/geocaching/android/ui/map/GeocacheMarkerTapListener.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/su/geocaching/android/controller/GeocachingApplication.java" afterPath="$PROJECT_DIR$/src/su/geocaching/android/controller/GeocachingApplication.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/su/geocaching/android/controller/apimanager/GeocachingSuApiManager.java" afterPath="$PROJECT_DIR$/src/su/geocaching/android/controller/apimanager/GeocachingSuApiManager.java" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../Android-Geocaching.Test/src/su/geocaching/android/ui/test/GeocachingTestSuite.java" afterPath="$PROJECT_DIR$/../Android-Geocaching.Test/src/su/geocaching/android/ui/test/GeocachingTestSuite.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/su/geocaching/android/controller/managers/GoogleAnalyticsManager.java" afterPath="$PROJECT_DIR$/src/su/geocaching/android/controller/managers/GoogleAnalyticsManager.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/su/geocaching/android/ui/map/GoogleMapWrapper.java" afterPath="$PROJECT_DIR$/src/su/geocaching/android/ui/map/GoogleMapWrapper.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/su/geocaching/android/ui/map/GoogleUserLocationLayer.java" afterPath="$PROJECT_DIR$/src/su/geocaching/android/ui/map/GoogleUserLocationLayer.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/su/geocaching/android/controller/apimanager/IApiManager.java" afterPath="$PROJECT_DIR$/src/su/geocaching/android/controller/apimanager/IApiManager.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/su/geocaching/android/controller/managers/IBearingAware.java" afterPath="$PROJECT_DIR$/src/su/geocaching/android/controller/managers/IBearingAware.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/su/geocaching/android/controller/compass/ICompassView.java" afterPath="$PROJECT_DIR$/src/su/geocaching/android/controller/compass/ICompassView.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/su/geocaching/android/controller/managers/IConnectionAware.java" afterPath="$PROJECT_DIR$/src/su/geocaching/android/controller/managers/IConnectionAware.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/su/geocaching/android/controller/managers/ILocationAware.java" afterPath="$PROJECT_DIR$/src/su/geocaching/android/controller/managers/ILocationAware.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/su/geocaching/android/ui/map/IMapWrapper.java" afterPath="$PROJECT_DIR$/src/su/geocaching/android/ui/map/IMapWrapper.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/su/geocaching/android/ui/searchmap/ISearchMapWrapper.java" afterPath="$PROJECT_DIR$/src/su/geocaching/android/ui/searchmap/ISearchMapWrapper.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/su/geocaching/android/ui/selectmap/ISelectMapWrapper.java" afterPath="$PROJECT_DIR$/src/su/geocaching/android/ui/selectmap/ISelectMapWrapper.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/su/geocaching/android/ui/info/InfoFragment.java" afterPath="$PROJECT_DIR$/src/su/geocaching/android/ui/info/InfoFragment.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/su/geocaching/android/ui/info/InfoViewModel.java" afterPath="$PROJECT_DIR$/src/su/geocaching/android/ui/info/InfoViewModel.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/su/geocaching/android/controller/selectmap/geocachegroup/KMeans.java" afterPath="$PROJECT_DIR$/src/su/geocaching/android/controller/selectmap/geocachegroup/KMeans.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/su/geocaching/android/controller/managers/LogManager.java" afterPath="$PROJECT_DIR$/src/su/geocaching/android/controller/managers/LogManager.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/su/geocaching/android/controller/managers/LowPowerUserLocationManager.java" afterPath="$PROJECT_DIR$/src/su/geocaching/android/controller/managers/LowPowerUserLocationManager.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/su/geocaching/android/model/MapInfo.java" afterPath="$PROJECT_DIR$/src/su/geocaching/android/model/MapInfo.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/su/geocaching/android/ui/preferences/MapPreferenceActivity.java" afterPath="$PROJECT_DIR$/src/su/geocaching/android/ui/preferences/MapPreferenceActivity.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/su/geocaching/android/controller/managers/MemoryManager.java" afterPath="$PROJECT_DIR$/src/su/geocaching/android/controller/managers/MemoryManager.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/su/geocaching/android/controller/managers/NavigationManager.java" afterPath="$PROJECT_DIR$/src/su/geocaching/android/controller/managers/NavigationManager.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/su/geocaching/android/ui/info/NotebookFragment.java" afterPath="$PROJECT_DIR$/src/su/geocaching/android/ui/info/NotebookFragment.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/su/geocaching/android/ui/OdometerView.java" afterPath="$PROJECT_DIR$/src/su/geocaching/android/ui/OdometerView.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/su/geocaching/android/ui/info/PhotoFragment.java" afterPath="$PROJECT_DIR$/src/su/geocaching/android/ui/info/PhotoFragment.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/su/geocaching/android/controller/managers/PreferencesManager.java" afterPath="$PROJECT_DIR$/src/su/geocaching/android/controller/managers/PreferencesManager.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/su/geocaching/android/controller/managers/ResourceManager.java" afterPath="$PROJECT_DIR$/src/su/geocaching/android/controller/managers/ResourceManager.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../Android-Geocaching.Test/src/su/geocaching/android/ui/test/KMeansTest.java" afterPath="$PROJECT_DIR$/../Android-Geocaching.Test/src/su/geocaching/android/ui/test/KMeansTest.java" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/su/geocaching/android/ui/searchmap/SearchGoogleMapWrapper.java" afterPath="$PROJECT_DIR$/src/su/geocaching/android/ui/searchmap/SearchGoogleMapWrapper.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/su/geocaching/android/ui/searchmap/SearchMapActivity.java" afterPath="$PROJECT_DIR$/src/su/geocaching/android/ui/searchmap/SearchMapActivity.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/su/geocaching/android/model/SearchMapInfo.java" afterPath="$PROJECT_DIR$/src/su/geocaching/android/model/SearchMapInfo.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/su/geocaching/android/ui/selectmap/SelectMapActivity.java" afterPath="$PROJECT_DIR$/src/su/geocaching/android/ui/selectmap/SelectMapActivity.java" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/su/geocaching/android/controller/utils/Sexagesimal.java" afterPath="$PROJECT_DIR$/src/su/geocaching/android/controller/utils/Sexagesimal.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/su/geocaching/android/controller/compass/SmoothCompassThread.java" afterPath="$PROJECT_DIR$/src/su/geocaching/android/controller/compass/SmoothCompassThread.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/su/geocaching/android/ui/info/controls/TextSizeAdjustableTextView.java" afterPath="$PROJECT_DIR$/src/su/geocaching/android/ui/info/controls/TextSizeAdjustableTextView.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/su/geocaching/android/ui/preferences/TrafficPreferenceActivity.java" afterPath="$PROJECT_DIR$/src/su/geocaching/android/ui/preferences/TrafficPreferenceActivity.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/su/geocaching/android/controller/utils/UiHelper.java" afterPath="$PROJECT_DIR$/src/su/geocaching/android/controller/utils/UiHelper.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/su/geocaching/android/ui/compass/UiThreadCompassView.java" afterPath="$PROJECT_DIR$/src/su/geocaching/android/ui/compass/UiThreadCompassView.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/su/geocaching/android/controller/managers/UncaughtExceptionsHandler.java" afterPath="$PROJECT_DIR$/src/su/geocaching/android/controller/managers/UncaughtExceptionsHandler.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/su/geocaching/android/controller/utils/SexagesimalSec.java" afterPath="$PROJECT_DIR$/src/su/geocaching/android/controller/utils/SexagesimalSec.java" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../Android-Geocaching.Test/res/layout/main.xml" afterPath="$PROJECT_DIR$/../Android-Geocaching.Test/res/layout/main.xml" />
     </list>
     <ignored path="Android-Geocaching.iws" />
@@ -129,13 +61,13 @@
     <file path="$PROJECT_DIR$/../google-maps-samples/gen/com/example/mapdemo/Manifest.java" changelist="9dfe056f-2d77-44b2-a1e9-8cd41c586ab0" time="1354817791617" ignored="false" />
     <file path="$PROJECT_DIR$/../google-maps-samples/gen/com/example/mapdemo/R.java" changelist="9dfe056f-2d77-44b2-a1e9-8cd41c586ab0" time="1354817791617" ignored="false" />
     <file path="$PROJECT_DIR$/../google-maps-samples/gen/com/example/mapdemo/BuildConfig.java" changelist="9dfe056f-2d77-44b2-a1e9-8cd41c586ab0" time="1354817791763" ignored="false" />
-    <file path="/a.dummy" changelist="9dfe056f-2d77-44b2-a1e9-8cd41c586ab0" time="1354818661441" ignored="false" />
+    <file path="/a.dummy" changelist="9dfe056f-2d77-44b2-a1e9-8cd41c586ab0" time="1360090732329" ignored="false" />
     <file path="/SelectMapActivity.java" changelist="9dfe056f-2d77-44b2-a1e9-8cd41c586ab0" time="1359395690681" ignored="false" />
     <file path="/AndroidManifest.xml" changelist="9dfe056f-2d77-44b2-a1e9-8cd41c586ab0" time="1355162117373" ignored="false" />
     <file path="/MapWrapper.java" changelist="9dfe056f-2d77-44b2-a1e9-8cd41c586ab0" time="1355044362596" ignored="false" />
     <file path="/GoogleMapWrapper.java" changelist="9dfe056f-2d77-44b2-a1e9-8cd41c586ab0" time="1359744272867" ignored="false" />
     <file path="/IMapWrapper.java" changelist="9dfe056f-2d77-44b2-a1e9-8cd41c586ab0" time="1358697337447" ignored="false" />
-    <file path="/fragment.java" changelist="9dfe056f-2d77-44b2-a1e9-8cd41c586ab0" time="1359744329773" ignored="false" />
+    <file path="/fragment.java" changelist="9dfe056f-2d77-44b2-a1e9-8cd41c586ab0" time="1359930732186" ignored="false" />
     <file path="/ViewPortChangedListener.java" changelist="9dfe056f-2d77-44b2-a1e9-8cd41c586ab0" time="1355044823759" ignored="false" />
     <file path="/GeoCacheListAnalyzer.java" changelist="9dfe056f-2d77-44b2-a1e9-8cd41c586ab0" time="1359490830910" ignored="false" />
     <file path="$PROJECT_DIR$/../google-play-services_lib/AndroidManifest.xml" changelist="9dfe056f-2d77-44b2-a1e9-8cd41c586ab0" time="1355071857097" ignored="false" />
@@ -146,9 +78,9 @@
     <file path="/CheckpointManager.java" changelist="9dfe056f-2d77-44b2-a1e9-8cd41c586ab0" time="1359655762559" ignored="false" />
     <file path="/CheckpointOverlay.java" changelist="9dfe056f-2d77-44b2-a1e9-8cd41c586ab0" time="1355771348371" ignored="false" />
     <file path="/search_map_activity.xml" changelist="9dfe056f-2d77-44b2-a1e9-8cd41c586ab0" time="1355851036431" ignored="false" />
-    <file path="/SearchMapActivity.java" changelist="9dfe056f-2d77-44b2-a1e9-8cd41c586ab0" time="1359743537324" ignored="false" />
+    <file path="/SearchMapActivity.java" changelist="9dfe056f-2d77-44b2-a1e9-8cd41c586ab0" time="1359914477638" ignored="false" />
     <file path="$PROJECT_DIR$/gen/su/geocaching/android/ui/R.java" changelist="9dfe056f-2d77-44b2-a1e9-8cd41c586ab0" time="1356028970608" ignored="false" />
-    <file path="/SearchGoogleMapWrapper.java" changelist="9dfe056f-2d77-44b2-a1e9-8cd41c586ab0" time="1359394657833" ignored="false" />
+    <file path="/SearchGoogleMapWrapper.java" changelist="9dfe056f-2d77-44b2-a1e9-8cd41c586ab0" time="1360090724752" ignored="false" />
     <file path="/ISearchMapWrapper.java" changelist="9dfe056f-2d77-44b2-a1e9-8cd41c586ab0" time="1359394676137" ignored="false" />
     <file path="/UserLocationOverlay.java" changelist="9dfe056f-2d77-44b2-a1e9-8cd41c586ab0" time="1356186083885" ignored="false" />
     <file path="/GeocacheOverlay.java" changelist="9dfe056f-2d77-44b2-a1e9-8cd41c586ab0" time="1356294475014" ignored="false" />
@@ -169,11 +101,17 @@
     <file path="/AdvancedInfoActivity.java" changelist="9dfe056f-2d77-44b2-a1e9-8cd41c586ab0" time="1359490379578" ignored="false" />
     <file path="/AbstractWebViewFragment.java" changelist="9dfe056f-2d77-44b2-a1e9-8cd41c586ab0" time="1359490574263" ignored="false" />
     <file path="/Sexagesimal.java" changelist="9dfe056f-2d77-44b2-a1e9-8cd41c586ab0" time="1359744885721" ignored="false" />
-    <file path="/Dummy.txt" changelist="9dfe056f-2d77-44b2-a1e9-8cd41c586ab0" time="1359571421625" ignored="false" />
+    <file path="/Dummy.txt" changelist="9dfe056f-2d77-44b2-a1e9-8cd41c586ab0" time="1359928842722" ignored="false" />
     <file path="/SexagesimalSec.java" changelist="9dfe056f-2d77-44b2-a1e9-8cd41c586ab0" time="1359744867961" ignored="false" />
-    <file path="/CreateCheckpointActivity.java" changelist="9dfe056f-2d77-44b2-a1e9-8cd41c586ab0" time="1359657274320" ignored="false" />
+    <file path="/CreateCheckpointActivity.java" changelist="9dfe056f-2d77-44b2-a1e9-8cd41c586ab0" time="1359926534034" ignored="false" />
     <file path="/CoordinateHelper.java" changelist="9dfe056f-2d77-44b2-a1e9-8cd41c586ab0" time="1359573363835" ignored="false" />
     <file path="/UiHelper.java" changelist="9dfe056f-2d77-44b2-a1e9-8cd41c586ab0" time="1359744844224" ignored="false" />
+    <file path="/Controller.java" changelist="9dfe056f-2d77-44b2-a1e9-8cd41c586ab0" time="1359745769921" ignored="false" />
+    <file path="/MapInfo.java" changelist="9dfe056f-2d77-44b2-a1e9-8cd41c586ab0" time="1359914684122" ignored="false" />
+    <file path="/SearchMapInfo.java" changelist="9dfe056f-2d77-44b2-a1e9-8cd41c586ab0" time="1359915358605" ignored="false" />
+    <file path="/PreferencesManager.java" changelist="9dfe056f-2d77-44b2-a1e9-8cd41c586ab0" time="1359915994534" ignored="false" />
+    <file path="/GeocachingTestSuite.java" changelist="9dfe056f-2d77-44b2-a1e9-8cd41c586ab0" time="1359926859089" ignored="false" />
+    <file path="/SexagesimalTest.java" changelist="9dfe056f-2d77-44b2-a1e9-8cd41c586ab0" time="1359930229605" ignored="false" />
     <option name="TRACKING_ENABLED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -193,6 +131,7 @@
     <disable_hints />
   </component>
   <component name="DebuggerManager">
+    <ui_properties default_suspend_policy="SuspendAll" default_condition_enabled="true" />
     <line_breakpoints default_suspend_policy="SuspendAll" default_condition_enabled="true">
       <breakpoint url="file://$PROJECT_DIR$/src/su/geocaching/android/ui/checkpoints/CheckpointsFolderActivity.java" line="66" class="su.geocaching.android.ui.checkpoints.CheckpointsFolderActivity" package="su.geocaching.android.ui.checkpoints">
         <option name="ENABLED" value="true" />
@@ -203,48 +142,6 @@
         <option name="COUNT_FILTER_ENABLED" value="false" />
         <option name="COUNT_FILTER" value="0" />
         <option name="CONDITION_ENABLED" value="false" />
-        <option name="CLASS_FILTERS_ENABLED" value="false" />
-        <option name="INSTANCE_FILTERS_ENABLED" value="false" />
-        <option name="CONDITION" value="" />
-        <option name="LOG_MESSAGE" value="" />
-      </breakpoint>
-      <breakpoint url="file://$PROJECT_DIR$/src/su/geocaching/android/ui/searchmap/SearchMapActivity.java" line="521" class="su.geocaching.android.ui.searchmap.SearchMapActivity" package="su.geocaching.android.ui.searchmap">
-        <option name="ENABLED" value="true" />
-        <option name="LOG_ENABLED" value="false" />
-        <option name="LOG_EXPRESSION_ENABLED" value="false" />
-        <option name="SUSPEND_POLICY" value="SuspendAll" />
-        <option name="SUSPEND" value="true" />
-        <option name="COUNT_FILTER_ENABLED" value="false" />
-        <option name="COUNT_FILTER" value="0" />
-        <option name="CONDITION_ENABLED" value="true" />
-        <option name="CLASS_FILTERS_ENABLED" value="false" />
-        <option name="INSTANCE_FILTERS_ENABLED" value="false" />
-        <option name="CONDITION" value="" />
-        <option name="LOG_MESSAGE" value="" />
-      </breakpoint>
-      <breakpoint url="file://$PROJECT_DIR$/src/su/geocaching/android/ui/searchmap/SearchMapActivity.java" line="525" class="su.geocaching.android.ui.searchmap.SearchMapActivity" package="su.geocaching.android.ui.searchmap">
-        <option name="ENABLED" value="true" />
-        <option name="LOG_ENABLED" value="false" />
-        <option name="LOG_EXPRESSION_ENABLED" value="false" />
-        <option name="SUSPEND_POLICY" value="SuspendAll" />
-        <option name="SUSPEND" value="true" />
-        <option name="COUNT_FILTER_ENABLED" value="false" />
-        <option name="COUNT_FILTER" value="0" />
-        <option name="CONDITION_ENABLED" value="true" />
-        <option name="CLASS_FILTERS_ENABLED" value="false" />
-        <option name="INSTANCE_FILTERS_ENABLED" value="false" />
-        <option name="CONDITION" value="" />
-        <option name="LOG_MESSAGE" value="" />
-      </breakpoint>
-      <breakpoint url="file://$PROJECT_DIR$/src/su/geocaching/android/ui/searchmap/SearchMapActivity.java" line="88" class="su.geocaching.android.ui.searchmap.SearchMapActivity" package="su.geocaching.android.ui.searchmap">
-        <option name="ENABLED" value="true" />
-        <option name="LOG_ENABLED" value="false" />
-        <option name="LOG_EXPRESSION_ENABLED" value="false" />
-        <option name="SUSPEND_POLICY" value="SuspendAll" />
-        <option name="SUSPEND" value="true" />
-        <option name="COUNT_FILTER_ENABLED" value="false" />
-        <option name="COUNT_FILTER" value="0" />
-        <option name="CONDITION_ENABLED" value="true" />
         <option name="CLASS_FILTERS_ENABLED" value="false" />
         <option name="INSTANCE_FILTERS_ENABLED" value="false" />
         <option name="CONDITION" value="" />
@@ -285,7 +182,6 @@
         <option name="LOG_MESSAGE" value="" />
       </breakpoint>
     </breakpoint_any>
-    <ui_properties default_suspend_policy="SuspendAll" default_condition_enabled="true" />
     <breakpoint_rules />
     <ui_properties />
   </component>
@@ -295,101 +191,37 @@
   </component>
   <component name="FileEditorManager">
     <leaf>
-      <file leaf-file-name="SmoothCompassThread.java" pinned="false" current="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/su/geocaching/android/controller/compass/SmoothCompassThread.java">
+      <file leaf-file-name="SearchGoogleMapWrapper.java" pinned="false" current="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/su/geocaching/android/ui/searchmap/SearchGoogleMapWrapper.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="17" column="13" selection-start="554" selection-end="554" vertical-scroll-proportion="0.0">
+            <state line="100" column="24" selection-start="3905" selection-end="3905" vertical-scroll-proportion="-2.04">
               <folding />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="IApiManager.java" pinned="false" current="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/su/geocaching/android/controller/apimanager/IApiManager.java">
+      <file leaf-file-name="GoogleMapWrapper.java" pinned="false" current="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/su/geocaching/android/ui/map/GoogleMapWrapper.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="10" column="17" selection-start="196" selection-end="196" vertical-scroll-proportion="0.0">
-              <folding>
-                <element signature="imports" expanded="false" />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="GeoRect.java" pinned="false" current="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/su/geocaching/android/controller/apimanager/GeoRect.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state line="4" column="13" selection-start="113" selection-end="113" vertical-scroll-proportion="0.0">
+            <state line="143" column="28" selection-start="5440" selection-end="5440" vertical-scroll-proportion="-33.64">
               <folding />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="GeocachingSuApiManager.java" pinned="false" current="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/su/geocaching/android/controller/apimanager/GeocachingSuApiManager.java">
+      <file leaf-file-name="SearchMapActivity.java" pinned="false" current="true" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/src/su/geocaching/android/ui/searchmap/SearchMapActivity.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="32" column="13" selection-start="1031" selection-end="1031" vertical-scroll-proportion="0.0">
-              <folding>
-                <element signature="imports" expanded="false" />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="GeoCachesSaxHandler.java" pinned="false" current="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/su/geocaching/android/controller/apimanager/GeoCachesSaxHandler.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state line="34" column="6" selection-start="954" selection-end="954" vertical-scroll-proportion="0.0">
-              <folding>
-                <element signature="imports" expanded="false" />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="DownloadGeoCachesTask.java" pinned="false" current="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/su/geocaching/android/controller/apimanager/DownloadGeoCachesTask.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state line="19" column="13" selection-start="622" selection-end="622" vertical-scroll-proportion="0.0">
-              <folding>
-                <element signature="imports" expanded="false" />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="BaseArrayAdapter.java" pinned="false" current="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/su/geocaching/android/controller/adapters/BaseArrayAdapter.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state line="11" column="13" selection-start="234" selection-end="234" vertical-scroll-proportion="0.0">
-              <folding>
-                <element signature="imports" expanded="false" />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="CheckpointsArrayAdapter.java" pinned="false" current="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/su/geocaching/android/controller/adapters/CheckpointsArrayAdapter.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state line="14" column="13" selection-start="414" selection-end="414" vertical-scroll-proportion="0.0">
+            <state line="547" column="96" selection-start="21659" selection-end="21659" vertical-scroll-proportion="0.5262238">
               <folding />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="FavoritesArrayAdapter.java" pinned="false" current="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/su/geocaching/android/controller/adapters/FavoritesArrayAdapter.java">
+      <file leaf-file-name="IMapWrapper.java" pinned="false" current="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/su/geocaching/android/ui/map/IMapWrapper.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="26" column="13" selection-start="875" selection-end="875" vertical-scroll-proportion="0.0">
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="AndroidManifest.xml" pinned="false" current="true" current-in-tab="true">
-        <entry file="file://$PROJECT_DIR$/AndroidManifest.xml">
-          <provider selected="true" editor-type-id="text-editor">
-            <state line="23" column="42" selection-start="1154" selection-end="1154" vertical-scroll-proportion="0.7227357">
+            <state line="20" column="9" selection-start="495" selection-end="495" vertical-scroll-proportion="0.0">
               <folding />
             </state>
           </provider>
@@ -405,22 +237,22 @@
   <component name="IdeDocumentHistory">
     <option name="changedFiles">
       <list>
-        <option value="$PROJECT_DIR$/src/su/geocaching/android/ui/info/AdvancedInfoActivity.java" />
-        <option value="$PROJECT_DIR$/src/su/geocaching/android/ui/info/AbstractWebViewFragment.java" />
-        <option value="$PROJECT_DIR$/src/su/geocaching/android/controller/selectmap/geocachegroup/GeoCacheListAnalyzer.java" />
-        <option value="$PROJECT_DIR$/src/su/geocaching/android/controller/utils/CoordinateHelper.java" />
-        <option value="$PROJECT_DIR$/src/su/geocaching/android/controller/managers/CheckpointManager.java" />
-        <option value="$PROJECT_DIR$/src/su/geocaching/android/ui/checkpoints/CreateCheckpointActivity.java" />
-        <option value="$PROJECT_DIR$/src/su/geocaching/android/model/GeoPoint.java" />
-        <option value="$PROJECT_DIR$/src/su/geocaching/android/ui/compass/CompassActivity.java" />
-        <option value="$PROJECT_DIR$/src/su/geocaching/android/ui/searchmap/SearchMapActivity.java" />
-        <option value="$PROJECT_DIR$/src/su/geocaching/android/ui/searchmap/GoogleGeocacheOverlay.java" />
-        <option value="$PROJECT_DIR$/src/su/geocaching/android/ui/map/GoogleMapWrapper.java" />
-        <option value="$PROJECT_DIR$/src/su/geocaching/android/ui/info/controls/TextSizeAdjustableTextView.java" />
-        <option value="$PROJECT_DIR$/src/su/geocaching/android/controller/utils/UiHelper.java" />
-        <option value="$PROJECT_DIR$/src/su/geocaching/android/controller/utils/SexagesimalSec.java" />
-        <option value="$PROJECT_DIR$/src/su/geocaching/android/controller/utils/Sexagesimal.java" />
         <option value="$PROJECT_DIR$/AndroidManifest.xml" />
+        <option value="$PROJECT_DIR$/src/su/geocaching/android/controller/Controller.java" />
+        <option value="$PROJECT_DIR$/src/su/geocaching/android/ui/searchmap/SearchMapActivity.java" />
+        <option value="$PROJECT_DIR$/src/su/geocaching/android/model/MapInfo.java" />
+        <option value="$PROJECT_DIR$/src/su/geocaching/android/model/SearchMapInfo.java" />
+        <option value="$PROJECT_DIR$/src/su/geocaching/android/controller/managers/PreferencesManager.java" />
+        <option value="$PROJECT_DIR$/src/su/geocaching/android/ui/checkpoints/CreateCheckpointActivity.java" />
+        <option value="$PROJECT_DIR$/../Android-Geocaching.Test/src/su/geocaching/android/ui/test/GeoCacheSaxHandlerTest.java" />
+        <option value="$PROJECT_DIR$/../Android-Geocaching.Test/src/su/geocaching/android/ui/test/KMeansTest.java" />
+        <option value="$PROJECT_DIR$/../Android-Geocaching.Test/src/su/geocaching/android/ui/test/GeocachingTestSuite.java" />
+        <option value="$PROJECT_DIR$/../Android-Geocaching.Test/src/su/geocaching/android/ui/test/CompassHelperTest.java" />
+        <option value="$PROJECT_DIR$/src/su/geocaching/android/controller/utils/Sexagesimal.java" />
+        <option value="$PROJECT_DIR$/src/su/geocaching/android/controller/utils/SexagesimalSec.java" />
+        <option value="$PROJECT_DIR$/../Android-Geocaching.Test/src/su/geocaching/android/ui/test/SexagesimalTest.java" />
+        <option value="$PROJECT_DIR$/src/su/geocaching/android/ui/map/GoogleMapWrapper.java" />
+        <option value="$PROJECT_DIR$/src/su/geocaching/android/ui/searchmap/SearchGoogleMapWrapper.java" />
       </list>
     </option>
   </component>
@@ -433,6 +265,37 @@
   <component name="ProjectFrameBounds">
     <option name="width" value="1378" />
     <option name="height" value="744" />
+  </component>
+  <component name="ProjectInspectionProfilesVisibleTreeState">
+    <entry key="Project Default">
+      <profile-state>
+        <expanded-state>
+          <State>
+            <id />
+          </State>
+          <State>
+            <id>Error handling</id>
+          </State>
+          <State>
+            <id>General</id>
+          </State>
+          <State>
+            <id>Internationalization issues</id>
+          </State>
+          <State>
+            <id>JUnit issues</id>
+          </State>
+          <State>
+            <id>TestNG</id>
+          </State>
+        </expanded-state>
+        <selected-state>
+          <State>
+            <id>Abstraction issues</id>
+          </State>
+        </selected-state>
+      </profile-state>
+    </entry>
   </component>
   <component name="ProjectLevelVcsManager" settingsEditedManually="false">
     <OptionsSetting value="true" id="Add" />
@@ -447,6 +310,11 @@
   <component name="ProjectReloadState">
     <option name="STATE" value="0" />
   </component>
+  <component name="ProjectStructureProblems">
+    <ignored-problems>
+      <problem id="unused-library(library:project:junit-4.11)" />
+    </ignored-problems>
+  </component>
   <component name="ProjectView">
     <navigator currentView="ProjectPane" proportions="" version="1" splitterProportion="0.5">
       <flattenPackages />
@@ -460,6 +328,16 @@
       <sortByType />
     </navigator>
     <panes>
+      <pane id="Scope">
+        <subPane subId="Project Files">
+          <PATH>
+            <PATH_ELEMENT USER_OBJECT="Root">
+              <option name="myItemId" value="" />
+              <option name="myItemType" value="" />
+            </PATH_ELEMENT>
+          </PATH>
+        </subPane>
+      </pane>
       <pane id="PackagesPane">
         <subPane>
           <PATH>
@@ -484,7 +362,7 @@
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
             </PATH_ELEMENT>
             <PATH_ELEMENT>
-              <option name="myItemId" value="google-maps-samples" />
+              <option name="myItemId" value="Android-Geocaching.Test" />
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
           </PATH>
@@ -498,14 +376,170 @@
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
           </PATH>
-        </subPane>
-      </pane>
-      <pane id="Scope">
-        <subPane subId="Project Files">
           <PATH>
-            <PATH_ELEMENT USER_OBJECT="Root">
-              <option name="myItemId" value="" />
-              <option name="myItemType" value="" />
+            <PATH_ELEMENT>
+              <option name="myItemId" value="Android-Geocaching" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="Android-Geocaching" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="src" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="android" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="ui" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+          </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="Android-Geocaching" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="Android-Geocaching" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="src" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="android" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="ui" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="searchmap" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+          </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="Android-Geocaching" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="Android-Geocaching" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="src" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="android" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="ui" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="map" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+          </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="Android-Geocaching" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="Android-Geocaching" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="src" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="android" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="ui" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="checkpoints" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+          </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="Android-Geocaching" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="Android-Geocaching" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="src" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="android" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+          </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="Android-Geocaching" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="Android-Geocaching" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="src" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="android" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="controller" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+          </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="Android-Geocaching" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="Android-Geocaching" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="src" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="android" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="controller" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="utils" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
           </PATH>
         </subPane>
@@ -514,14 +548,15 @@
   </component>
   <component name="PropertiesComponent">
     <property name="FileHistory.org.jetbrains.idea.svn.history.SvnHistoryProvider_flatWidth1" value="114" />
-    <property name="SHOW_ALL_PROCESSES" value="false" />
-    <property name="FileHistory.org.jetbrains.idea.svn.history.SvnHistoryProvider_flatWidth0" value="94" />
     <property name="project.structure.last.edited" value="Modules" />
+    <property name="FileHistory.org.jetbrains.idea.svn.history.SvnHistoryProvider_flatWidth0" value="94" />
+    <property name="SHOW_ALL_PROCESSES" value="false" />
     <property name="FileHistory.org.jetbrains.idea.svn.history.SvnHistoryProvider_flatWidth3" value="44" />
-    <property name="project.structure.proportion" value="0.15" />
-    <property name="OverrideImplement.combined" value="true" />
     <property name="FileHistory.org.jetbrains.idea.svn.history.SvnHistoryProvider_flatWidth2" value="114" />
+    <property name="OverrideImplement.combined" value="true" />
+    <property name="project.structure.proportion" value="0.15" />
     <property name="FileHistory.org.jetbrains.idea.svn.history.SvnHistoryProvider_flatOrder1" value="1" />
+    <property name="options.splitter.main.proportions" value="0.3" />
     <property name="FileHistory.org.jetbrains.idea.svn.history.SvnHistoryProvider_flatOrder0" value="0" />
     <property name="FileHistory.org.jetbrains.idea.svn.history.SvnHistoryProvider_flatOrder3" value="3" />
     <property name="FileHistory.org.jetbrains.idea.svn.history.SvnHistoryProvider_flatOrder2" value="2" />
@@ -531,29 +566,33 @@
     <property name="FileHistory.org.jetbrains.idea.svn.history.SvnHistoryProvider_flatOrder5" value="5" />
     <property name="FileHistory.org.jetbrains.idea.svn.history.SvnHistoryProvider_treeWidth1" value="98" />
     <property name="FileHistory.org.jetbrains.idea.svn.history.SvnHistoryProvider_flatOrder4" value="4" />
-    <property name="last_opened_file_path" value="$PROJECT_DIR$/../Android-Geocaching.Test/.project" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$/../Android-Geocaching.Test/libs/junit-3.8.jar!/" />
     <property name="FileHistory.org.jetbrains.idea.svn.history.SvnHistoryProvider_treeWidth0" value="99" />
     <property name="FileHistory.org.jetbrains.idea.svn.history.SvnHistoryProvider_treeWidth5" value="774" />
     <property name="FileHistory.org.jetbrains.idea.svn.history.SvnHistoryProvider_treeWidth4" value="100" />
-    <property name="DEBUGGABLE_DEVICE" value="HT0CARX12214" />
     <property name="FileHistory.org.jetbrains.idea.svn.history.SvnHistoryProvider_treeWidth3" value="99" />
+    <property name="DEBUGGABLE_DEVICE" value="HT0CARX12214" />
     <property name="DEBUGGABLE_PROCESS" value="su.geocaching.android.ui" />
     <property name="GoToClass.toSaveIncludeLibraries" value="false" />
     <property name="MemberChooser.showClasses" value="true" />
     <property name="FileHistory.org.jetbrains.idea.svn.history.SvnHistoryProvider_flatWidth4" value="115" />
-    <property name="GoToClass.includeLibraries" value="false" />
     <property name="FileHistory.org.jetbrains.idea.svn.history.SvnHistoryProvider_flatWidth5" value="789" />
-    <property name="last_directory_selection" value="$PROJECT_DIR$/src/su/geocaching/android/ui" />
+    <property name="GoToClass.includeLibraries" value="false" />
+    <property name="options.splitter.details.proportions" value="0.2" />
     <property name="GoToFile.includeJavaFiles" value="false" />
+    <property name="last_directory_selection" value="$PROJECT_DIR$/src/su/geocaching/android/ui" />
     <property name="FileHistory.org.jetbrains.idea.svn.history.SvnHistoryProvider_treeOrder5" value="5" />
+    <property name="options.lastSelected" value="preferences.pluginManager" />
     <property name="FileHistory.org.jetbrains.idea.svn.history.SvnHistoryProvider_treeOrder3" value="3" />
     <property name="FileHistory.org.jetbrains.idea.svn.history.SvnHistoryProvider_treeOrder4" value="4" />
-    <property name="AndroidLayoutSelectedEditor" value="text-editor" />
     <property name="FileHistory.org.jetbrains.idea.svn.history.SvnHistoryProvider_treeOrder1" value="1" />
+    <property name="AndroidLayoutSelectedEditor" value="text-editor" />
+    <property name="project.structure.side.proportion" value="0.32902467" />
     <property name="FileHistory.org.jetbrains.idea.svn.history.SvnHistoryProvider_treeOrder2" value="2" />
-    <property name="project.structure.side.proportion" value="0.33449882" />
-    <property name="FileHistory.org.jetbrains.idea.svn.history.SvnHistoryProvider_treeOrder0" value="0" />
     <property name="MemberChooser.copyJavadoc" value="false" />
+    <property name="FileHistory.org.jetbrains.idea.svn.history.SvnHistoryProvider_treeOrder0" value="0" />
+    <property name="dynamic.classpath" value="false" />
+    <property name="options.searchVisible" value="true" />
   </component>
   <component name="RecentsManager">
     <key name="CopyClassDialog.RECENTS_KEY">
@@ -582,7 +621,70 @@
       <recent name="su.geocaching.android.ui" />
     </key>
   </component>
-  <component name="RunManager" selected="Android Application.Android-Geocaching">
+  <component name="RunManager" selected="JUnit.SexagesimalTest">
+    <configuration default="false" name="All in Android-Geocaching.Test" type="JUnit" factoryName="JUnit" temporary="true">
+      <module name="Android-Geocaching.Test" />
+      <option name="ALTERNATIVE_JRE_PATH_ENABLED" value="false" />
+      <option name="ALTERNATIVE_JRE_PATH" />
+      <option name="PACKAGE_NAME" value="" />
+      <option name="MAIN_CLASS_NAME" />
+      <option name="METHOD_NAME" />
+      <option name="TEST_OBJECT" value="package" />
+      <option name="VM_PARAMETERS" />
+      <option name="PARAMETERS" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$" />
+      <option name="ENV_VARIABLES" />
+      <option name="PASS_PARENT_ENVS" value="true" />
+      <option name="TEST_SEARCH_SCOPE">
+        <value defaultName="moduleWithDependencies" />
+      </option>
+      <envs />
+      <patterns />
+      <RunnerSettings RunnerId="Run" />
+      <ConfigurationWrapper RunnerId="Run" />
+      <method />
+    </configuration>
+    <configuration default="false" name="Android-Geocaching.Test" type="AndroidTestRunConfigurationType" factoryName="Android Tests" temporary="true">
+      <module name="Android-Geocaching.Test" />
+      <option name="TESTING_TYPE" value="0" />
+      <option name="INSTRUMENTATION_RUNNER_CLASS" value="" />
+      <option name="METHOD_NAME" value="" />
+      <option name="CLASS_NAME" value="" />
+      <option name="PACKAGE_NAME" value="" />
+      <option name="TARGET_SELECTION_MODE" value="EMULATOR" />
+      <option name="PREFERRED_AVD" value="" />
+      <option name="COMMAND_LINE" value="" />
+      <option name="WIPE_USER_DATA" value="false" />
+      <option name="DISABLE_BOOT_ANIMATION" value="false" />
+      <option name="NETWORK_SPEED" value="full" />
+      <option name="NETWORK_LATENCY" value="none" />
+      <option name="CLEAR_LOGCAT" value="false" />
+      <RunnerSettings RunnerId="AndroidDebugRunner" />
+      <ConfigurationWrapper RunnerId="AndroidDebugRunner" />
+      <method />
+    </configuration>
+    <configuration default="false" name="CompassHelperTest" type="JUnit" factoryName="JUnit" temporary="true">
+      <module name="Android-Geocaching.Test" />
+      <option name="ALTERNATIVE_JRE_PATH_ENABLED" value="false" />
+      <option name="ALTERNATIVE_JRE_PATH" />
+      <option name="PACKAGE_NAME" value="su.geocaching.android.ui.test" />
+      <option name="MAIN_CLASS_NAME" value="su.geocaching.android.ui.test.CompassHelperTest" />
+      <option name="METHOD_NAME" />
+      <option name="TEST_OBJECT" value="class" />
+      <option name="VM_PARAMETERS" />
+      <option name="PARAMETERS" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$" />
+      <option name="ENV_VARIABLES" />
+      <option name="PASS_PARENT_ENVS" value="true" />
+      <option name="TEST_SEARCH_SCOPE">
+        <value defaultName="moduleWithDependencies" />
+      </option>
+      <envs />
+      <patterns />
+      <RunnerSettings RunnerId="Run" />
+      <ConfigurationWrapper RunnerId="Run" />
+      <method />
+    </configuration>
     <configuration default="true" type="GroovyScriptRunConfiguration" factoryName="Groovy">
       <module name="" />
       <setting name="path" value="" />
@@ -679,6 +781,34 @@
       <option name="CLEAR_LOGCAT" value="false" />
       <method />
     </configuration>
+    <configuration default="false" name="SexagesimalTest" type="JUnit" factoryName="JUnit">
+      <module name="Android-Geocaching.Test" />
+      <option name="ALTERNATIVE_JRE_PATH_ENABLED" value="false" />
+      <option name="ALTERNATIVE_JRE_PATH" />
+      <option name="PACKAGE_NAME" value="su.geocaching.android.ui.test" />
+      <option name="MAIN_CLASS_NAME" value="su.geocaching.android.ui.test.SexagesimalTest" />
+      <option name="METHOD_NAME" />
+      <option name="TEST_OBJECT" value="class" />
+      <option name="VM_PARAMETERS" />
+      <option name="PARAMETERS" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$" />
+      <option name="ENV_VARIABLES" />
+      <option name="PASS_PARENT_ENVS" value="true" />
+      <option name="TEST_SEARCH_SCOPE">
+        <value defaultName="moduleWithDependencies" />
+      </option>
+      <envs />
+      <patterns />
+      <RunnerSettings RunnerId="Debug">
+        <option name="DEBUG_PORT" value="" />
+        <option name="TRANSPORT" value="0" />
+        <option name="LOCAL" value="true" />
+      </RunnerSettings>
+      <RunnerSettings RunnerId="Run" />
+      <ConfigurationWrapper RunnerId="Debug" />
+      <ConfigurationWrapper RunnerId="Run" />
+      <method />
+    </configuration>
     <configuration default="false" name="Android-Geocaching" type="AndroidRunConfigurationType" factoryName="Android Application">
       <module name="Android-Geocaching" />
       <option name="ACTIVITY_CLASS" value="" />
@@ -717,28 +847,21 @@
       <ConfigurationWrapper RunnerId="Run" />
       <method />
     </configuration>
-    <configuration default="false" name="Android-Geocaching.Test" type="AndroidTestRunConfigurationType" factoryName="Android Tests">
-      <module name="Android-Geocaching.Test" />
-      <option name="TESTING_TYPE" value="0" />
-      <option name="INSTRUMENTATION_RUNNER_CLASS" value="" />
-      <option name="METHOD_NAME" value="" />
-      <option name="CLASS_NAME" value="" />
-      <option name="PACKAGE_NAME" value="" />
-      <option name="TARGET_SELECTION_MODE" value="EMULATOR" />
-      <option name="PREFERRED_AVD" value="" />
-      <option name="COMMAND_LINE" value="" />
-      <option name="WIPE_USER_DATA" value="false" />
-      <option name="DISABLE_BOOT_ANIMATION" value="false" />
-      <option name="NETWORK_SPEED" value="full" />
-      <option name="NETWORK_LATENCY" value="none" />
-      <option name="CLEAR_LOGCAT" value="false" />
-      <method />
-    </configuration>
-    <list size="3">
-      <item index="0" class="java.lang.String" itemvalue="Android Application.Android-Geocaching" />
-      <item index="1" class="java.lang.String" itemvalue="Android Application.Google-maps-samples" />
-      <item index="2" class="java.lang.String" itemvalue="Android Tests.Android-Geocaching.Test" />
+    <list size="6">
+      <item index="0" class="java.lang.String" itemvalue="JUnit.SexagesimalTest" />
+      <item index="1" class="java.lang.String" itemvalue="Android Application.Android-Geocaching" />
+      <item index="2" class="java.lang.String" itemvalue="Android Application.Google-maps-samples" />
+      <item index="3" class="java.lang.String" itemvalue="JUnit.All in Android-Geocaching.Test" />
+      <item index="4" class="java.lang.String" itemvalue="Android Tests.Android-Geocaching.Test" />
+      <item index="5" class="java.lang.String" itemvalue="JUnit.CompassHelperTest" />
     </list>
+    <recent_temporary>
+      <list size="3">
+        <item index="0" class="java.lang.String" itemvalue="JUnit.CompassHelperTest" />
+        <item index="1" class="java.lang.String" itemvalue="Android Tests.Android-Geocaching.Test" />
+        <item index="2" class="java.lang.String" itemvalue="JUnit.All in Android-Geocaching.Test" />
+      </list>
+    </recent_temporary>
     <configuration name="&lt;template&gt;" type="WebApp" default="true" selected="false">
       <Host>localhost</Host>
       <Port>5050</Port>
@@ -853,30 +976,30 @@
   </component>
   <component name="ToolWindowManager">
     <frame x="0" y="0" width="1378" height="744" extended-state="0" />
-    <editor active="false" />
+    <editor active="true" />
     <layout>
       <window_info id="Changes" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32676518" sideWeight="0.4969697" order="11" side_tool="false" content_ui="tabs" />
       <window_info id="JetGradle" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.18583396" sideWeight="0.44217688" order="6" side_tool="true" content_ui="tabs" />
-      <window_info id="Preview" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.15454546" sideWeight="0.45963755" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Palette" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="5" side_tool="false" content_ui="tabs" />
-      <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.54351395" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
+      <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.5417349" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Ant Build" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.21249048" sideWeight="0.42998353" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.40722495" sideWeight="0.7030303" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.70607555" sideWeight="0.29166666" order="7" side_tool="true" content_ui="tabs" />
       <window_info id="Favorites" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="2" side_tool="true" content_ui="tabs" />
       <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32994923" sideWeight="0.5" order="8" side_tool="false" content_ui="tabs" />
-      <window_info id="Messages" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.6091954" sideWeight="0.5" order="10" side_tool="false" content_ui="tabs" />
-      <window_info id="Android" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.5369458" sideWeight="0.49733436" order="9" side_tool="false" content_ui="tabs" />
-      <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32676518" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
+      <window_info id="Android" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.52873564" sideWeight="0.49733436" order="9" side_tool="false" content_ui="tabs" />
+      <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32512316" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
       <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.24469697" sideWeight="0.23316912" order="1" side_tool="true" content_ui="tabs" />
-      <window_info id="Maven Projects" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.075399846" sideWeight="0.4398682" order="7" side_tool="true" content_ui="tabs" />
+      <window_info id="Maven Projects" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.07522796" sideWeight="0.4398682" order="7" side_tool="true" content_ui="tabs" />
       <window_info id="Commander" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.3998477" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
-      <window_info id="Project" active="true" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.3206687" sideWeight="0.45648605" order="0" side_tool="false" content_ui="combo" />
-      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32512316" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
+      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.31990883" sideWeight="0.45826513" order="0" side_tool="false" content_ui="combo" />
+      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.56978655" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Palette&#9;" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32954547" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Cvs" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
       <window_info id="Designer" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32954547" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
+      <window_info id="Preview" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.15454546" sideWeight="0.45963755" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Message" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
+      <window_info id="Messages" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.6091954" sideWeight="0.5" order="10" side_tool="false" content_ui="tabs" />
       <window_info id="Hierarchy" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="4" side_tool="false" content_ui="combo" />
       <window_info id="Inspection" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.46305418" sideWeight="0.5" order="5" side_tool="false" content_ui="tabs" />
     </layout>
@@ -941,126 +1064,98 @@
     <option name="FILTER_TARGETS" value="false" />
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/src/su/geocaching/android/controller/managers/PreferencesManager.java">
+    <entry file="file://$PROJECT_DIR$/../Android-Geocaching.Test/local.properties">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="22" column="13" selection-start="722" selection-end="722" vertical-scroll-proportion="0.0">
+        <state line="0" column="0" selection-start="0" selection-end="0" vertical-scroll-proportion="0.0" />
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/../Android-Geocaching.Test/project.properties">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="0" column="0" selection-start="0" selection-end="0" vertical-scroll-proportion="0.0" />
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/../Android-Geocaching.Test/src/su/geocaching/android/ui/test/KMeansTest.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="29" column="0" selection-start="1067" selection-end="1155" vertical-scroll-proportion="0.26164874" />
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/../Android-Geocaching.Test/src/su/geocaching/android/ui/test/GeocachingTestSuite.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="13" column="36" selection-start="402" selection-end="402" vertical-scroll-proportion="0.3207547" />
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/../Android-Geocaching.Test/src/su/geocaching/android/ui/test/CompassHelperTest.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="20" column="35" selection-start="582" selection-end="582" vertical-scroll-proportion="0.5831904" />
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/../Android-Geocaching.Test/src/su/geocaching/android/ui/test/SexagesimalTest.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="21" column="79" selection-start="700" selection-end="700" vertical-scroll-proportion="0.6123499" />
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/su/geocaching/android/controller/utils/SexagesimalSec.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="16" column="34" selection-start="562" selection-end="565" vertical-scroll-proportion="0.33333334">
           <folding />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/su/geocaching/android/controller/managers/ResourceManager.java">
+    <entry file="file://$PROJECT_DIR$/src/su/geocaching/android/controller/utils/Sexagesimal.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="17" column="13" selection-start="555" selection-end="555" vertical-scroll-proportion="0.0">
+        <state line="14" column="22" selection-start="445" selection-end="448" vertical-scroll-proportion="0.33333334">
           <folding />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/su/geocaching/android/controller/managers/UncaughtExceptionsHandler.java">
+    <entry file="file://$PROJECT_DIR$/src/su/geocaching/android/ui/checkpoints/CreateCheckpointActivity.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="12" column="13" selection-start="336" selection-end="336" vertical-scroll-proportion="0.0">
+        <state line="257" column="73" selection-start="11080" selection-end="11083" vertical-scroll-proportion="0.31926605">
           <folding />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/su/geocaching/android/controller/compass/AbstractCompassDrawing.java">
+    <entry file="file://$PROJECT_DIR$/../Android-Geocaching.Test/proguard-project.txt">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="9" column="22" selection-start="203" selection-end="203" vertical-scroll-proportion="0.0">
+        <state line="0" column="0" selection-start="0" selection-end="0" vertical-scroll-proportion="0.0" />
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/../Android-Geocaching.Test/proguard.cfg">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="0" column="0" selection-start="0" selection-end="0" vertical-scroll-proportion="0.0" />
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/su/geocaching/android/ui/map/IMapWrapper.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="20" column="9" selection-start="495" selection-end="495" vertical-scroll-proportion="0.0">
           <folding />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/su/geocaching/android/controller/compass/CompassSourceType.java">
+    <entry file="file://$PROJECT_DIR$/src/su/geocaching/android/ui/map/GoogleMapWrapper.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="2" column="12" selection-start="63" selection-end="63" vertical-scroll-proportion="0.0">
+        <state line="143" column="28" selection-start="5440" selection-end="5440" vertical-scroll-proportion="-33.64">
           <folding />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/su/geocaching/android/controller/compass/PreviewCompassDrawing.java">
+    <entry file="file://$PROJECT_DIR$/src/su/geocaching/android/ui/searchmap/SearchGoogleMapWrapper.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="12" column="13" selection-start="320" selection-end="320" vertical-scroll-proportion="0.0">
-          <folding>
-            <element signature="imports" expanded="false" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/su/geocaching/android/controller/compass/SmoothCompassThread.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="17" column="13" selection-start="554" selection-end="554" vertical-scroll-proportion="0.0">
+        <state line="100" column="24" selection-start="3905" selection-end="3905" vertical-scroll-proportion="-2.04">
           <folding />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/su/geocaching/android/controller/apimanager/IApiManager.java">
+    <entry file="file://$PROJECT_DIR$/src/su/geocaching/android/ui/searchmap/ISearchMapWrapper.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="10" column="17" selection-start="196" selection-end="196" vertical-scroll-proportion="0.0">
-          <folding>
-            <element signature="imports" expanded="false" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/su/geocaching/android/controller/apimanager/GeoRect.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="4" column="13" selection-start="113" selection-end="113" vertical-scroll-proportion="0.0">
+        <state line="20" column="9" selection-start="706" selection-end="706" vertical-scroll-proportion="0.33070865">
           <folding />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/su/geocaching/android/controller/apimanager/GeocachingSuApiManager.java">
+    <entry file="file://$PROJECT_DIR$/src/su/geocaching/android/ui/searchmap/SearchMapActivity.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="32" column="13" selection-start="1031" selection-end="1031" vertical-scroll-proportion="0.0">
-          <folding>
-            <element signature="imports" expanded="false" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/su/geocaching/android/controller/apimanager/GeoCachesSaxHandler.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="34" column="6" selection-start="954" selection-end="954" vertical-scroll-proportion="0.0">
-          <folding>
-            <element signature="imports" expanded="false" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/su/geocaching/android/controller/apimanager/DownloadGeoCachesTask.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="19" column="13" selection-start="622" selection-end="622" vertical-scroll-proportion="0.0">
-          <folding>
-            <element signature="imports" expanded="false" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/su/geocaching/android/controller/adapters/BaseArrayAdapter.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="11" column="13" selection-start="234" selection-end="234" vertical-scroll-proportion="0.0">
-          <folding>
-            <element signature="imports" expanded="false" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/su/geocaching/android/controller/adapters/CheckpointsArrayAdapter.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="14" column="13" selection-start="414" selection-end="414" vertical-scroll-proportion="0.0">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/su/geocaching/android/controller/adapters/FavoritesArrayAdapter.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="26" column="13" selection-start="875" selection-end="875" vertical-scroll-proportion="0.0">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/AndroidManifest.xml">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="23" column="42" selection-start="1154" selection-end="1154" vertical-scroll-proportion="0.7227357">
+        <state line="547" column="96" selection-start="21659" selection-end="21659" vertical-scroll-proportion="0.5262238">
           <folding />
         </state>
       </provider>
@@ -1121,7 +1216,7 @@
           <splitter-proportions>
             <option name="proportions">
               <list>
-                <option value="0.33449882" />
+                <option value="0.32902467" />
               </list>
             </option>
           </splitter-proportions>
@@ -1141,7 +1236,7 @@
       </state>
       <state key="ProjectLibrariesConfigurable.UI">
         <settings>
-          <last-edited>libs1</last-edited>
+          <last-edited>junit-4.11</last-edited>
           <splitter-proportions>
             <option name="proportions">
               <list>

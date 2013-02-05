@@ -157,11 +157,20 @@ public class SearchGoogleMapWrapper extends GoogleMapWrapper implements ISearchM
 
     @Override
     public boolean setDirection(float direction) {
-        if (locationChangedListener != null) {
+        if (locationChangedListener != null && currentUserLocation != null) {
             currentUserLocation.setBearing(direction);
             locationChangedListener.onLocationChanged(currentUserLocation);
         }
         return true;
+    }
+
+    @Override
+    public void updateLocationMarker(Location location) {
+        // bearing updated only with setDirection
+        if (currentUserLocation != null) {
+            location.setBearing(currentUserLocation.getBearing());
+        }
+        super.updateLocationMarker(location);
     }
 
     @Override

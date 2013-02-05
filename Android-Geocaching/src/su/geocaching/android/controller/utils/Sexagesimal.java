@@ -19,8 +19,7 @@ public class Sexagesimal {
 
     public Sexagesimal(double coordinate) {
         minutes = (Math.abs(coordinate) % 1) * 60;
-        degrees = (int) Math.abs(coordinate);
-        if (coordinate < 0) degrees = -degrees;
+        degrees = (int) coordinate;
     }
 
     public Sexagesimal roundTo(int i) {
