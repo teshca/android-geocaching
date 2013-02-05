@@ -81,9 +81,9 @@ public class KMeansTest extends AndroidTestCase {
         List<GeoCacheView> points = generatePoints(numberOfView);
         List<Centroid> centroids = generateCentroids();
         long startTime = System.currentTimeMillis();
-        KMeans k = new KMeans(points, centroids);
-        k.getCentroids();
-        iter = k.getIterations();
+        //KMeans k = new KMeans(points, centroids);
+        //k.getCentroids();
+        //iter = k.getIterations();
         long time = System.currentTimeMillis() - startTime;
         // LogManager.d(TAG, "" + time);
         return time;
