@@ -11,6 +11,7 @@ import su.geocaching.android.controller.GpsUpdateFrequency;
 import su.geocaching.android.controller.ListMultiSelectPreference;
 import su.geocaching.android.model.*;
 import su.geocaching.android.ui.R;
+import su.geocaching.android.ui.map.MapType;
 
 import java.util.EnumSet;
 
@@ -229,10 +230,20 @@ public class PreferencesManager {
         return preferences.getBoolean(context.getString(R.string.keep_screen_on_key), context.getResources().getBoolean(R.bool.keep_screen_on_default_value));
     }
 
-    public boolean useSatelliteMap() {
+    public MapType getMapType() {
         // keys located in resources, because settings logic described in xml and write it automatically to SharedPreferences
-        String mapValue = context.getString(R.string.prefer_map_type_default_value);
-        return (!preferences.getString(context.getString(R.string.prefer_map_type_key), mapValue).equals(mapValue));
+        String key = context.getString(R.string.prefer_map_type_key);
+        String defaultValue = context.getString(R.string.prefer_map_type_default_value);
+        String mapType = preferences.getString(key, defaultValue);
+
+        if (mapType.equals("MAP")) return MapType.GoogleNormal;
+        if (mapType.equals("SATELLITE")) return MapType.GoogleSatellite;
+        if (mapType.equals("HYBRID")) return MapType.GoogleHybrid;
+        if (mapType.equals("TERRAIN")) return MapType.GoogleTerrain;
+
+        if (mapType.equals("OsmMapnik")) return MapType.OsmMapnik;
+
+        return MapType.GoogleNormal;
     }
 
     public Boolean isCacheGroupingEnabled() {

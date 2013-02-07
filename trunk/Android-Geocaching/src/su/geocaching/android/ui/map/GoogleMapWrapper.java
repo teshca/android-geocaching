@@ -4,12 +4,13 @@ import android.graphics.Bitmap;
 import android.location.Location;
 import com.google.android.gms.maps.*;
 import com.google.android.gms.maps.model.*;
+import su.geocaching.android.controller.Controller;
 import su.geocaching.android.controller.apimanager.GeoRect;
 import su.geocaching.android.model.GeoCache;
 import su.geocaching.android.model.GeoPoint;
 import su.geocaching.android.model.MapInfo;
 
-import static com.google.android.gms.maps.GoogleMap.OnCameraChangeListener;
+import static com.google.android.gms.maps.GoogleMap.*;
 
 public class GoogleMapWrapper implements IMapWrapper {
 
@@ -51,7 +52,6 @@ public class GoogleMapWrapper implements IMapWrapper {
         googleMap.animateCamera(CameraUpdateFactory.newLatLng(center));
     }
 
-    // TODO: Save and load double mapState
     @Override
     public MapInfo getMapState() {
         CameraPosition cameraPosition = googleMap.getCameraPosition();
@@ -118,6 +118,34 @@ public class GoogleMapWrapper implements IMapWrapper {
     @Override
     public void setLocationMarkerTapListener(LocationMarkerTapListener listener) {
         locationMarkerTapListener = listener;
+    }
+
+    private TileOverlay customTileOverlay;
+    private MapType currentMapType;
+
+    @Override
+    public void updateMapLayer() {
+        MapType mapType = Controller.getInstance().getPreferencesManager().getMapType();
+        if (mapType == currentMapType) return;
+        currentMapType = mapType;
+
+        if (customTileOverlay != null) customTileOverlay.remove();
+
+        switch (mapType) {
+            case GoogleNormal: googleMap.setMapType(MAP_TYPE_NORMAL); return;
+            case GoogleSatellite: googleMap.setMapType(MAP_TYPE_SATELLITE); return;
+            case GoogleTerrain: googleMap.setMapType(MAP_TYPE_TERRAIN); return;
+            case GoogleHybrid: googleMap.setMapType(MAP_TYPE_HYBRID); return;
+        }
+
+        googleMap.setMapType(MAP_TYPE_NONE);// Don't display any google layer
+
+        switch (mapType) {
+            case OsmMapnik:
+                customTileOverlay = googleMap.addTileOverlay(new TileOverlayOptions().tileProvider(new OsmUrlTileProvider()));
+                customTileOverlay.setZIndex(-100);
+                return;
+        }
     }
 
     @Override
