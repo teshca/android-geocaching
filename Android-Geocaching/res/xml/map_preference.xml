@@ -1,12 +1,17 @@
 <?xml version="1.0" encoding="utf-8"?>
 <PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
     <PreferenceCategory android:title="@string/map_category_title">
-
+        <ListPreference
+                android:key="@string/map_provider_key"
+                android:title="@string/map_provider_title"
+                android:entries="@array/map_provider_entries"
+                android:entryValues="@array/map_provider_values"
+                android:defaultValue="@string/map_provider_default_value"/>
         <ListPreference
                 android:key="@string/prefer_map_type_key"
                 android:title="@string/prefer_map_type_title"
-                android:entries="@array/requests_map_type_entries"
-                android:entryValues="@array/requests_map_type_values"
+                android:entries="@array/google_map_type_entries"
+                android:entryValues="@array/google_map_type_values"
                 android:defaultValue="@string/prefer_map_type_default_value"/>
         <ListPreference
                 android:key="@string/prefer_icon_key"

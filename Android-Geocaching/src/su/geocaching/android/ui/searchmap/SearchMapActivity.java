@@ -145,9 +145,7 @@ public class SearchMapActivity extends SherlockFragmentActivity
         boolean keepScreenOn = Controller.getInstance().getPreferencesManager().getKeepScreenOnPreference();
         this.mapFragment.getView().setKeepScreenOn(keepScreenOn);
         updateMapInfoFromSettings();
-        //todo: setup map layer
-        //map.setSatellite(Controller.getInstance().getPreferencesManager().useSatelliteMap());
-
+        mapWrapper.updateMapLayer();
         mapWrapper.clearGeocacheMarkers();
         mapWrapper.setSearchGeocache(geoCache);
 

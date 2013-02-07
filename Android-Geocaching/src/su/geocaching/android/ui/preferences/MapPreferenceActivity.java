@@ -18,6 +18,8 @@ public class MapPreferenceActivity extends SherlockPreferenceActivity {
 
     private static final String MAP_PREFERENCE_ACTIVITY_NAME = "/preferences/Map";
 
+    private ListPreference mapType;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -25,9 +27,13 @@ public class MapPreferenceActivity extends SherlockPreferenceActivity {
         getSupportActionBar().setHomeButtonEnabled(true);
         addPreferencesFromResource(R.xml.map_preference);
 
-        final ListPreference mapType = (ListPreference) findPreference(getString(R.string.prefer_map_type_key));
+        final ListPreference mapProvider = (ListPreference) findPreference(getString(R.string.map_provider_key));
+        mapProvider.setOnPreferenceChangeListener(updateStatusOnListPreferenceChangeListener);
+        mapProvider.setSummary(mapProvider.getEntry());
+
+        mapType = (ListPreference) findPreference(getString(R.string.prefer_map_type_key));
         mapType.setOnPreferenceChangeListener(updateStatusOnListPreferenceChangeListener);
-        mapType.setSummary(mapType.getEntry());
+        updateMapType(mapProvider.getValue());
 
         final ListPreference iconsType = (ListPreference) findPreference(getString(R.string.prefer_icon_key));
         iconsType.setOnPreferenceChangeListener(updateStatusOnListPreferenceChangeListener);
@@ -49,9 +55,26 @@ public class MapPreferenceActivity extends SherlockPreferenceActivity {
                     final ListPreference listPreference = (ListPreference) preference;
                     if (listPreference == null) return false;
                     preference.setSummary(listPreference.getEntries()[listPreference.findIndexOfValue((String) newValue)]);
+
+                    if (preference.getKey().equals(getString(R.string.map_provider_key))) {
+                        updateMapType(newValue);
+                    }
+
                     return true;
                 }
             };
+
+    private void updateMapType(Object provider) {
+        if (provider.equals("GOOGLE")) {
+            mapType.setEntries(R.array.google_map_type_entries);
+            mapType.setEntryValues(R.array.google_map_type_values);
+        } else if (provider.equals("OSM")) {
+            mapType.setEntries(R.array.osm_map_type_entries);
+            mapType.setEntryValues(R.array.osm_map_type_values);
+        }
+        mapType.setValue(mapType.getEntryValues()[0].toString());
+        mapType.setSummary(mapType.getEntries()[0]);
+    }
 
     private Preference.OnPreferenceChangeListener updateStatusOnListMultiSelectPreferenceChangeListener =
             new Preference.OnPreferenceChangeListener() {

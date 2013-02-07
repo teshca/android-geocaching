@@ -23,4 +23,6 @@ public interface IMapWrapper {
     void updateLocationMarker(Location location);
 
     void setLocationMarkerTapListener(LocationMarkerTapListener listener);
+
+    void updateMapLayer();
 }

@@ -92,7 +92,7 @@ public class SelectMapActivity extends SherlockFragmentActivity implements IConn
 
         setUpMapIfNeeded();
         // update mapView setting in case they were changed in preferences
-        //mapView.setSatellite(Controller.getInstance().getPreferencesManager().useSatelliteMap());
+        mapWrapper.updateMapLayer();
         // add subscriber to connection manager
         connectionManager.addSubscriber(this);
         // ask to enable if disabled
