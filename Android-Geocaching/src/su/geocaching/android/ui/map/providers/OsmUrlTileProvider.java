@@ -1,15 +1,13 @@
-package su.geocaching.android.ui.map;
+package su.geocaching.android.ui.map.providers;
 
 import com.google.android.gms.maps.model.UrlTileProvider;
 import su.geocaching.android.controller.managers.LogManager;
-
 import java.net.MalformedURLException;
 import java.net.URL;
 
-public class OsmUrlTileProvider extends UrlTileProvider {
-    private static final String TAG = OsmUrlTileProvider.class.getCanonicalName();
+public abstract class OsmUrlTileProvider extends UrlTileProvider {
 
-    private static final String baseUrl = "http://tile.openstreetmap.org/%d/%d/%d.png";
+    private static final String TAG = MapnikOsmUrlTileProvider.class.getCanonicalName();
 
     public OsmUrlTileProvider() {
         super(256, 256);
@@ -18,10 +16,12 @@ public class OsmUrlTileProvider extends UrlTileProvider {
     @Override
     public URL getTileUrl(int x, int y, int zoom) {
         try {
-            return new URL(String.format(baseUrl, zoom, x, y));
+            return new URL(String.format(getUrlTemplate(), zoom, x, y));
         } catch (MalformedURLException e) {
             LogManager.e(TAG, e);
         }
         return null;
     }
+
+    protected abstract String getUrlTemplate();
 }

@@ -9,6 +9,10 @@ import su.geocaching.android.controller.apimanager.GeoRect;
 import su.geocaching.android.model.GeoCache;
 import su.geocaching.android.model.GeoPoint;
 import su.geocaching.android.model.MapInfo;
+import su.geocaching.android.ui.map.providers.MapQuestOsmUrlTileProvider;
+import su.geocaching.android.ui.map.providers.MapnikOsmUrlTileProvider;
+import su.geocaching.android.ui.map.providers.OpenCycleMapOsmUrlTileProvider;
+import su.geocaching.android.ui.map.providers.OsmUrlTileProvider;
 
 import static com.google.android.gms.maps.GoogleMap.*;
 
@@ -140,12 +144,35 @@ public class GoogleMapWrapper implements IMapWrapper {
 
         googleMap.setMapType(MAP_TYPE_NONE);// Don't display any google layer
 
+        OsmUrlTileProvider provider = getOsmTileProvider(mapType);
+        if (provider != null) {
+            customTileOverlay = googleMap.addTileOverlay(new TileOverlayOptions().tileProvider(provider));
+            customTileOverlay.setZIndex(-100);
+            return;
+        }
+
+        //TODO: yandex provider
+
+        /*
+            EPSG:3395 - WGS 84 / World Mercator  на сфероиде. Эта проекция используется такими сервисами как Космоснимки, Яндекс карты, Карты mail.ru (спутник) и др.
+            EPSG:3857 - WGS 84 / Pseudo-Mercator (Spherical Mercator) на сфере. Эта проекция используется такими сервисами как Google, Virtualearth, Maps-For-Free, Wikimapia, OpenStreetMap, Роскосмос, Навител, Nokia и др.
+
+        <tile_source name="Yandex RU" url_template="http://vec01.maps.yandex.net/tiles?l=map&amp;x={1}&amp;y={2}&amp;z={0}" ext=".jpg" min_zoom="1" max_zoom="18" tile_size="256" img_density="16" avg_img_size="18000" ellipsoid="true"/>
+        <tile_source name="Yandex Satellite RU" url_template="http://sat01.maps.yandex.net/tiles?l=sat&amp;x={1}&amp;y={2}&amp;z={0}" ext=".jpg" min_zoom="1" max_zoom="16" tile_size="256" img_density="32" avg_img_size="18000" ellipsoid="true"/>
+
+         */
+    }
+
+    private OsmUrlTileProvider getOsmTileProvider(MapType mapType) {
         switch (mapType) {
             case OsmMapnik:
-                customTileOverlay = googleMap.addTileOverlay(new TileOverlayOptions().tileProvider(new OsmUrlTileProvider()));
-                customTileOverlay.setZIndex(-100);
-                return;
+                return new MapnikOsmUrlTileProvider();
+            case OsmCylcle:
+                return new OpenCycleMapOsmUrlTileProvider();
+            case OsmMapQuest:
+                return new MapQuestOsmUrlTileProvider();
         }
+        return null;
     }
 
     @Override

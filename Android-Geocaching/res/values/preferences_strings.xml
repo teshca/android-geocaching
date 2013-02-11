@@ -56,7 +56,7 @@
     <string name="map_provider_key">map.provider</string>
     <string-array name="map_provider_entries">
         <item>Карты Google</item>
-        <item>OpenStreetMap</item>
+        <item>OpenStreetMap (БЕТА)</item>
         <!--<item>Яндекс карты</item>-->
     </string-array>
     <string-array name="map_provider_values">
@@ -86,9 +86,13 @@
 
     <string-array name="osm_map_type_entries">
         <item>Mapnik</item>
+        <item>OpenCycleMap</item>
+        <item>MapQuest</item>
     </string-array>
     <string-array name="osm_map_type_values">
         <item>OsmMapnik</item>
+        <item>OsmCycle</item>
+        <item>OsmMapQuest</item>
     </string-array>
 
     <!-- map.addWay -->

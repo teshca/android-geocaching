@@ -33,7 +33,7 @@ public class MapPreferenceActivity extends SherlockPreferenceActivity {
 
         mapType = (ListPreference) findPreference(getString(R.string.prefer_map_type_key));
         mapType.setOnPreferenceChangeListener(updateStatusOnListPreferenceChangeListener);
-        updateMapType(mapProvider.getValue());
+        updateMapType(mapProvider.getValue(), false);
 
         final ListPreference iconsType = (ListPreference) findPreference(getString(R.string.prefer_icon_key));
         iconsType.setOnPreferenceChangeListener(updateStatusOnListPreferenceChangeListener);
@@ -57,14 +57,14 @@ public class MapPreferenceActivity extends SherlockPreferenceActivity {
                     preference.setSummary(listPreference.getEntries()[listPreference.findIndexOfValue((String) newValue)]);
 
                     if (preference.getKey().equals(getString(R.string.map_provider_key))) {
-                        updateMapType(newValue);
+                        updateMapType(newValue, true);
                     }
 
                     return true;
                 }
             };
 
-    private void updateMapType(Object provider) {
+    private void updateMapType(Object provider, boolean setDefaultMapType) {
         if (provider.equals("GOOGLE")) {
             mapType.setEntries(R.array.google_map_type_entries);
             mapType.setEntryValues(R.array.google_map_type_values);
@@ -72,8 +72,10 @@ public class MapPreferenceActivity extends SherlockPreferenceActivity {
             mapType.setEntries(R.array.osm_map_type_entries);
             mapType.setEntryValues(R.array.osm_map_type_values);
         }
-        mapType.setValue(mapType.getEntryValues()[0].toString());
-        mapType.setSummary(mapType.getEntries()[0]);
+        if (setDefaultMapType) {
+            mapType.setValue(mapType.getEntryValues()[0].toString());
+        }
+        mapType.setSummary(mapType.getEntry());
     }
 
     private Preference.OnPreferenceChangeListener updateStatusOnListMultiSelectPreferenceChangeListener =

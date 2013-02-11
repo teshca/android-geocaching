@@ -242,6 +242,8 @@ public class PreferencesManager {
         if (mapType.equals("TERRAIN")) return MapType.GoogleTerrain;
 
         if (mapType.equals("OsmMapnik")) return MapType.OsmMapnik;
+        if (mapType.equals("OsmCycle")) return MapType.OsmCylcle;
+        if (mapType.equals("OsmMapQuest")) return MapType.OsmMapQuest;
 
         return MapType.GoogleNormal;
     }
