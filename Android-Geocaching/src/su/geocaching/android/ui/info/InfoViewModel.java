@@ -97,7 +97,7 @@ public class InfoViewModel {
             downloadInfoTask.cancel(true);
         }
         if (isTaskActive(downloadNotebookTask)) {
-            downloadInfoTask.cancel(true);
+            downloadNotebookTask.cancel(true);
         }
         if (isTaskActive(downloadPhotoUrlsTask)) {
             downloadPhotoUrlsTask.cancel(true);
