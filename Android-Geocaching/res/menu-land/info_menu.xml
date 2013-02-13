@@ -31,5 +31,10 @@
 		android:id="@+id/menu_info_refresh"
 		android:title="@string/info_activity_menu_refresh"
 		android:icon="@drawable/ic_menu_refresh"
-		android:showAsAction="never" />				
+		android:showAsAction="never" />
+
+    <item
+        android:id="@+id/menu_info_goto_site"
+        android:title="@string/info_activity_menu_goto_site"
+        android:showAsAction="never" />
 </menu>

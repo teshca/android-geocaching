@@ -4,6 +4,7 @@
 	<string name="info_activity_menu_delete_cache">Удалить</string>
 	<string name="info_activity_menu_cache_notes">Заметки</string>
 	<string name="info_activity_menu_refresh">Обновить</string>
+    <string name="info_activity_menu_goto_site">Перейти на сайт</string>
 	<string name="info_activity_menu_web_view_search">Поиск на странице</string>
     
 	<string name="info_activity_download_photo_traffic_warning">Загрузка фотографий может потребовать большого количества мобильного тарфика.</string>
