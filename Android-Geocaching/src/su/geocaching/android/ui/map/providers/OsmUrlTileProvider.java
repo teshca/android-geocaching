@@ -7,7 +7,7 @@ import java.net.URL;
 
 public abstract class OsmUrlTileProvider extends UrlTileProvider {
 
-    private static final String TAG = MapnikOsmUrlTileProvider.class.getCanonicalName();
+    private static final String TAG = OsmUrlTileProvider.class.getCanonicalName();
 
     public OsmUrlTileProvider() {
         super(256, 256);
