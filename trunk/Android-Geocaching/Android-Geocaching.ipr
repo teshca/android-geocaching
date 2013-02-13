@@ -223,6 +223,13 @@
             </SvnBranchConfiguration>
           </value>
         </entry>
+        <entry key="$PROJECT_DIR$/../Android-Geocaching.Test">
+          <value>
+            <SvnBranchConfiguration>
+              <option name="trunkUrl" value="" />
+            </SvnBranchConfiguration>
+          </value>
+        </entry>
         <entry key="$PROJECT_DIR$/../JakeWharton-ActionBarSherlock-88fc341/library">
           <value>
             <SvnBranchConfiguration>

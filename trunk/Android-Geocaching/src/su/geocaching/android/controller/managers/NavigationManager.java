@@ -285,4 +285,9 @@ public class NavigationManager {
     }
 
 
+    public static void gotoSite(Context context, GeoCache geoCache) {
+        Intent intent = new Intent(Intent.ACTION_VIEW);
+        intent.setData(Uri.parse(String.format("http://www.geocaching.su/?pn=101&cid=%d", geoCache.getId())));
+        context.startActivity(intent);
+    }
 }

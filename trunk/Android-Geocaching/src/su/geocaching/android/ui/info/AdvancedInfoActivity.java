@@ -239,9 +239,16 @@ public class AdvancedInfoActivity extends SherlockFragmentActivity {
             case R.id.menu_info_refresh:
                 onRefresh();
                 return true;
+            case R.id.menu_info_goto_site:
+                onGotoSite();
+                return true;
             default:
                 return super.onOptionsItemSelected(item);
         }
+    }
+
+    private void onGotoSite() {
+        NavigationManager.gotoSite(this, infoViewModel.getGeoCachce());
     }
 
     private void onHome() {
