@@ -255,8 +255,8 @@ public class CreateCheckpointActivity extends SherlockActivity {
 
         dLatDegrees.setText(Integer.toString((int)lat), BufferType.EDITABLE);
         dLngDegrees.setText(Integer.toString((int)lng), BufferType.EDITABLE);
-        dLatDegreesFraction.setText(degreesFractionFormat.format(Math.abs(lat) % 1), BufferType.EDITABLE);
-        dLngDegreesFraction.setText(degreesFractionFormat.format(Math.abs(lng) % 1), BufferType.EDITABLE);
+        dLatDegreesFraction.setText(degreesFractionFormat.format((Math.abs(lat) % 1) * 1E6), BufferType.EDITABLE);
+        dLngDegreesFraction.setText(degreesFractionFormat.format((Math.abs(lng) % 1) * 1E6), BufferType.EDITABLE);
     }
 
     private void updateAzimuth() {
