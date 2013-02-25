@@ -100,7 +100,7 @@ public class PreferencesManager {
             default_y = gpsLocation.getLongitude();
         }
 
-        // TODO
+        // TODO Remove after most of the users upgraded to version 1.6
         // backward compatibility code. remove after most of the users upgraded to version 1.6
         if (preferences.contains("selectmap_center_x")) {
             double center_x = preferences.getInt("selectmap_center_x", 0) * 1e-6;
@@ -141,7 +141,7 @@ public class PreferencesManager {
      * @return MapInfo object with preferences
      */
     public synchronized SearchMapInfo getLastSearchMapInfo() {
-        // TODO
+        // TODO Remove after most of the users upgraded to version 1.6
         // backward compatibility code. remove after most of the users upgraded to version 1.6
         if (preferences.contains("searchmap_center_x")) {
             double center_x = preferences.getInt("searchmap_center_x", 0) * 1e-6;

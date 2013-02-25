@@ -28,6 +28,8 @@ public class SearchGoogleMapWrapper extends GoogleMapWrapper implements ISearchM
     private GeocacheMarkerTapListener geocacheTapListener;
     private MapLongClickListener mapLongClickListener;
 
+    private float currentDirection;
+
     public SearchGoogleMapWrapper(GoogleMap map) {
         super(map);
         preciseColor = Controller.getInstance().getResourceManager().getColor(R.color.user_location_arrow_color_precise);
@@ -157,10 +159,8 @@ public class SearchGoogleMapWrapper extends GoogleMapWrapper implements ISearchM
 
     @Override
     public boolean setDirection(float direction) {
-        if (locationChangedListener != null && currentUserLocation != null) {
-            currentUserLocation.setBearing(direction);
-            locationChangedListener.onLocationChanged(currentUserLocation);
-        }
+        currentDirection = direction;
+        updateLocationMarker(currentUserLocation);
         return true;
     }
 
@@ -168,7 +168,7 @@ public class SearchGoogleMapWrapper extends GoogleMapWrapper implements ISearchM
     public void updateLocationMarker(Location location) {
         // bearing updated only with setDirection
         if (currentUserLocation != null) {
-            location.setBearing(currentUserLocation.getBearing());
+            location.setBearing(currentDirection);
         }
         super.updateLocationMarker(location);
     }
