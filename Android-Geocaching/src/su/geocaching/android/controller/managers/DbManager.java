@@ -138,7 +138,7 @@ public class DbManager extends SQLiteOpenHelper {
         values.put(COLUMN_NAME, geoCacheForAdd.getName());
         values.put(COLUMN_STATUS, geoCacheForAdd.getStatus().ordinal());
         values.put(COLUMN_TYPE, geoCacheForAdd.getType().ordinal());
-        //TODO
+        //TODO Update database to store double lat and long
         values.put(COLUMN_LAT, geoCacheForAdd.getGeoPoint().getLatitudeE6());
         values.put(COLUMN_LON, geoCacheForAdd.getGeoPoint().getLongitudeE6());
         values.put(COLUMN_WEB_TEXT, webText);
@@ -161,7 +161,7 @@ public class DbManager extends SQLiteOpenHelper {
         values.put(CACHE_ID, cacheId);
         values.put(CHECKPOINT_ID, checkpoint.getId());
         values.put(COLUMN_NAME, checkpoint.getName());
-        //TODO
+        //TODO Update database to store double lat and long
         values.put(COLUMN_LAT, checkpoint.getGeoPoint().getLatitudeE6());
         values.put(COLUMN_LON, checkpoint.getGeoPoint().getLongitudeE6());
         values.put(COLUMN_STATUS, checkpoint.getStatus().ordinal());
@@ -185,7 +185,7 @@ public class DbManager extends SQLiteOpenHelper {
         cache.setId(id);
 
         cache.setName(cur.getString(cur.getColumnIndex(COLUMN_NAME)));
-        //TODO
+        //TODO: Update database to store double lat and long
         cache.setGeoPoint(GeoPoint.fromE6(cur.getInt(cur.getColumnIndex(COLUMN_LAT)), cur.getInt(cur.getColumnIndex(COLUMN_LON))));
         cache.setStatus(GeoCacheStatus.values()[cur.getInt(cur.getColumnIndex(COLUMN_STATUS))]);
         cache.setType(GeoCacheType.values()[cur.getInt(cur.getColumnIndex(COLUMN_TYPE))]);

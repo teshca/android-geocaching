@@ -28,6 +28,7 @@ public class GoogleMapWrapper implements IMapWrapper {
         googleMap = map;
         googleMap.getUiSettings().setMyLocationButtonEnabled(false);
         googleMap.getUiSettings().setRotateGesturesEnabled(false);
+        googleMap.getUiSettings().setTiltGesturesEnabled(false);
 
         map.setOnMarkerClickListener(
                 new GoogleMap.OnMarkerClickListener() {
@@ -152,7 +153,7 @@ public class GoogleMapWrapper implements IMapWrapper {
         //TODO: yandex provider
         /**
             It's not possible to create yandex provider because they use different projection and it's impossible to use
-            custom projection with current stater of google maps api.
+            custom projection with the current state of google maps api.
 
             EPSG:3395 - WGS 84 / World Mercator  на сфероиде. Эта проекция используется такими сервисами как Космоснимки, Яндекс карты, Карты mail.ru (спутник) и др.
             EPSG:3857 - WGS 84 / Pseudo-Mercator (Spherical Mercator) на сфере. Эта проекция используется такими сервисами как Google, Virtualearth, Maps-For-Free, Wikimapia, OpenStreetMap, Роскосмос, Навител, Nokia и др.

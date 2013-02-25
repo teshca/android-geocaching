@@ -11,10 +11,7 @@ import su.geocaching.android.ui.map.GeocacheMarkerTapListener;
 import su.geocaching.android.ui.map.GoogleMapWrapper;
 import su.geocaching.android.ui.map.GoogleMarkerOptions;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.List;
+import java.util.*;
 
 public class SelectGoogleMapWrapper extends GoogleMapWrapper implements ISelectMapWrapper {
 
@@ -61,18 +58,19 @@ public class SelectGoogleMapWrapper extends GoogleMapWrapper implements ISelectM
 
     @Override
     public void updateGeoCacheMarkers(List<GeoCache> geoCacheList) {
-        //TODO Optimize. Reuse existing group markers
-        for (Marker marker : groupMarkers) {
-            removeGeoCacheMarker(marker);
-        }
-        groupMarkers.clear();
-
         HashSet<Integer> cacheIds = new HashSet<Integer>();
+        ListIterator<Marker> groupIterator = groupMarkers.listIterator();
 
         for (GeoCache geoCache : geoCacheList) {
             if (geoCache.getType() == GeoCacheType.GROUP) {
-                Marker marker = addGeoCacheMarker(geoCache);
-                groupMarkers.add(marker);
+                // Reuse existing group markers
+                if (groupIterator.hasNext()) {
+                    Marker marker = groupIterator.next();
+                    marker.setPosition(getCacheLocation(geoCache));
+                } else {
+                    Marker marker = addGeoCacheMarker(geoCache);
+                    groupIterator.add(marker);
+                }
             } else {
                 if (!geocacheMarkers.containsKey(geoCache.getId())) {
                     Marker marker = addGeoCacheMarker(geoCache);
@@ -88,6 +86,12 @@ public class SelectGoogleMapWrapper extends GoogleMapWrapper implements ISelectM
                 removeGeoCacheMarker(geocacheMarkers.get(cacheId));
                 geocacheMarkers.remove(cacheId);
             }
+        }
+
+        // remove retired group markers
+        while (groupIterator.hasNext()) {
+            groupIterator.next();
+            groupIterator.remove();
         }
     }
 

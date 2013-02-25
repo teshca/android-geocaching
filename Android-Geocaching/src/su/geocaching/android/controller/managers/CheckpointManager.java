@@ -126,6 +126,7 @@ public class CheckpointManager {
     private static final String coordinatePattern = "(\\d+)\\s*" + degrees + "\\s*(\\d+)\\s*" + delimiter + "\\s*(\\d+)";
     private static final Pattern geoPattern = Pattern.compile("[N|S]?\\s*" + coordinatePattern + "\\D+" + coordinatePattern + "\\s*" + minutes + "?");
 
+    // TODO: implement unit tests
     public static String insertCheckpointsLink(String text) {
         if (text == null) throw new IllegalArgumentException("text is null");
 
