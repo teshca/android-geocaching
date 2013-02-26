@@ -18,6 +18,7 @@
       <directory url="file://C:/Android/android-sdk/extras/google/google_play_services/libproject/google-play-services_lib/gen" includeSubdirectories="true" />
       <directory url="file://$PROJECT_DIR$/../google-maps-samples/gen" includeSubdirectories="true" />
       <directory url="file://$PROJECT_DIR$/../Android-Geocaching.Test/gen" includeSubdirectories="true" />
+      <directory url="file://$PROJECT_DIR$/../google-play-services_lib_rev5/gen" includeSubdirectories="true" />
     </excludeFromCompile>
     <resourceExtensions />
     <wildcardResourcePatterns>
@@ -203,8 +204,7 @@
       <module fileurl="file://$PROJECT_DIR$/../JakeWharton-ActionBarSherlock-88fc341/samples/demos/ActionBarSherlockDemos.iml" filepath="$PROJECT_DIR$/../JakeWharton-ActionBarSherlock-88fc341/samples/demos/ActionBarSherlockDemos.iml" />
       <module fileurl="file://$PROJECT_DIR$/Android-Geocaching.iml" filepath="$PROJECT_DIR$/Android-Geocaching.iml" />
       <module fileurl="file://$PROJECT_DIR$/../Android-Geocaching.Test/Android-Geocaching.Test.iml" filepath="$PROJECT_DIR$/../Android-Geocaching.Test/Android-Geocaching.Test.iml" />
-      <module fileurl="file://$PROJECT_DIR$/../google-maps-samples/Google-maps-samples.iml" filepath="$PROJECT_DIR$/../google-maps-samples/Google-maps-samples.iml" />
-      <module fileurl="file://$PROJECT_DIR$/../google-play-services_lib/google-play-services.iml" filepath="$PROJECT_DIR$/../google-play-services_lib/google-play-services.iml" />
+      <module fileurl="file://$PROJECT_DIR$/../google-play-services_lib_rev5/google-play-services_lib_rev5.iml" filepath="$PROJECT_DIR$/../google-play-services_lib_rev5/google-play-services_lib_rev5.iml" />
     </modules>
   </component>
   <component name="ProjectResources">
@@ -244,35 +244,13 @@
             </SvnBranchConfiguration>
           </value>
         </entry>
-        <entry key="$PROJECT_DIR$/../google-maps-samples">
-          <value>
-            <SvnBranchConfiguration>
-              <option name="trunkUrl" value="" />
-            </SvnBranchConfiguration>
-          </value>
-        </entry>
-        <entry key="$PROJECT_DIR$/../google-play-services_lib">
-          <value>
-            <SvnBranchConfiguration>
-              <option name="trunkUrl" value="" />
-            </SvnBranchConfiguration>
-          </value>
-        </entry>
       </map>
     </option>
     <option name="mySupportsUserInfoFilter" value="true" />
   </component>
   <component name="VcsDirectoryMappings">
     <mapping directory="" vcs="svn" />
-  </component>
-  <component name="libraryTable">
-    <library name="junit-4.11">
-      <CLASSES>
-        <root url="jar://$PROJECT_DIR$/../Android-Geocaching.Test/libs/junit-4.11.jar!/" />
-      </CLASSES>
-      <JAVADOC />
-      <SOURCES />
-    </library>
+    <mapping directory="$PROJECT_DIR$/../google-play-services_lib_rev5" vcs="svn" />
   </component>
 </project>
 
