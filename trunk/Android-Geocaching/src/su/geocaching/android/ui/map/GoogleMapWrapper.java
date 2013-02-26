@@ -1,6 +1,7 @@
 package su.geocaching.android.ui.map;
 
 import android.graphics.Bitmap;
+import android.graphics.Color;
 import android.location.Location;
 import com.google.android.gms.maps.*;
 import com.google.android.gms.maps.model.*;
@@ -22,6 +23,8 @@ public class GoogleMapWrapper implements IMapWrapper {
 
     private static final Bitmap clickableBitmap = Bitmap.createBitmap(50, 50, Bitmap.Config.ALPHA_8);
     private Marker userPositionClickArea; // hack to make user position clickable
+    private Marker userPositionClickArea2; // hack to make user position clickable
+
     private LocationMarkerTapListener locationMarkerTapListener;
 
     public GoogleMapWrapper(GoogleMap map) {
@@ -30,11 +33,14 @@ public class GoogleMapWrapper implements IMapWrapper {
         googleMap.getUiSettings().setRotateGesturesEnabled(false);
         googleMap.getUiSettings().setTiltGesturesEnabled(false);
 
+        //clickableBitmap.eraseColor(Color.RED);
+
         map.setOnMarkerClickListener(
                 new GoogleMap.OnMarkerClickListener() {
                     @Override
                     public boolean onMarkerClick(Marker marker) {
-                        if (marker.getId().equals(userPositionClickArea.getId())) {
+                        if (marker.getId().equals(userPositionClickArea.getId()) ||
+                                marker.getId().equals(userPositionClickArea2.getId())) {
                             if (locationMarkerTapListener != null)
                                 locationMarkerTapListener.OnMarkerTapped();
                             return true;
@@ -109,11 +115,20 @@ public class GoogleMapWrapper implements IMapWrapper {
         if (userPositionClickArea == null) {
             MarkerOptions markerOptions = new MarkerOptions();
             markerOptions.position(userPosition);
-            markerOptions.anchor(0.5f, 0.4f); // strange google maps bug
+            markerOptions.anchor(0.4f, 0.4f); // strange google maps bug
             markerOptions.icon(BitmapDescriptorFactory.fromBitmap(clickableBitmap));
             userPositionClickArea = googleMap.addMarker(markerOptions);
         } else {
             userPositionClickArea.setPosition(userPosition);
+        }
+        if (userPositionClickArea2 == null) {
+            MarkerOptions markerOptions = new MarkerOptions();
+            markerOptions.position(userPosition);
+            markerOptions.anchor(0.6f, 0.6f); // strange google maps bug
+            markerOptions.icon(BitmapDescriptorFactory.fromBitmap(clickableBitmap));
+            userPositionClickArea2 = googleMap.addMarker(markerOptions);
+        } else {
+            userPositionClickArea2.setPosition(userPosition);
         }
     }
 
