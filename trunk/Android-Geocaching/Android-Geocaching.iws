@@ -39,14 +39,137 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" readonly="true" id="9dfe056f-2d77-44b2-a1e9-8cd41c586ab0" name="Default" comment="">
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/../google-play-services_lib_rev5/gen/com/google/android" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/../google-play-services_lib_rev5/src/android" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/../google-play-services_lib_rev5/gen/com" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/../google-play-services_lib_rev5/gen" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/../google-play-services_lib_rev5/gen/com/google/android/gms" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/../google-play-services_lib_rev5/libs/google-play-services.jar" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/../google-play-services_lib_rev5" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/../google-play-services_lib_rev5/gen/com/google" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/../google-play-services_lib_rev5/libs" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/../google-play-services_lib_rev5/res" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/../google-play-services_lib_rev5/src" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/../google-play-services_lib_rev5/res/values-af" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/../google-play-services_lib_rev5/res/values-am" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/../google-play-services_lib_rev5/res/values-ar" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/../google-play-services_lib_rev5/res/values-be" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/../google-play-services_lib_rev5/res/values-bg" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/../google-play-services_lib_rev5/res/values-ca" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/../google-play-services_lib_rev5/res/values-cs" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/../google-play-services_lib_rev5/res/values-da" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/../google-play-services_lib_rev5/res/values-de" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/../google-play-services_lib_rev5/res/values-el" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/../google-play-services_lib_rev5/res/values-en-rGB" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/../google-play-services_lib_rev5/res/values-es-rUS" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/../google-play-services_lib_rev5/res/values-es" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/../google-play-services_lib_rev5/res/values-et" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/../google-play-services_lib_rev5/res/values-fa" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/../google-play-services_lib_rev5/res/values-fi" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/../google-play-services_lib_rev5/res/values-fr" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/../google-play-services_lib_rev5/res/values-hi" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/../google-play-services_lib_rev5/res/values-hr" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/../google-play-services_lib_rev5/res/values-hu" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/../google-play-services_lib_rev5/res/values-in" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/../google-play-services_lib_rev5/res/values-it" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/../google-play-services_lib_rev5/res/values-iw" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/../google-play-services_lib_rev5/res/values-ja" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/../google-play-services_lib_rev5/res/values-ko" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/../google-play-services_lib_rev5/res/values-lt" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/../google-play-services_lib_rev5/res/values-lv" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/../google-play-services_lib_rev5/res/values-ms" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/../google-play-services_lib_rev5/res/values-nb" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/../google-play-services_lib_rev5/res/values-nl" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/../google-play-services_lib_rev5/res/values-pl" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/../google-play-services_lib_rev5/res/values-pt-rPT" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/../google-play-services_lib_rev5/res/values-pt" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/../google-play-services_lib_rev5/res/values-ro" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/../google-play-services_lib_rev5/res/values-ru" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/../google-play-services_lib_rev5/res/values-sk" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/../google-play-services_lib_rev5/res/values-sl" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/../google-play-services_lib_rev5/res/values-sr" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/../google-play-services_lib_rev5/res/values-sv" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/../google-play-services_lib_rev5/res/values-sw" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/../google-play-services_lib_rev5/res/values-th" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/../google-play-services_lib_rev5/res/values-tl" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/../google-play-services_lib_rev5/res/values-tr" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/../google-play-services_lib_rev5/res/values-uk" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/../google-play-services_lib_rev5/res/values-vi" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/../google-play-services_lib_rev5/res/values-zh-rCN" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/../google-play-services_lib_rev5/res/values-zh-rTW" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/../google-play-services_lib_rev5/res/values-zu" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/../google-play-services_lib_rev5/res/values" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/../google-play-services_lib_rev5/.classpath" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/../google-play-services_lib_rev5/AndroidManifest.xml" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/../google-play-services_lib_rev5/gen/com/google/android/gms/BuildConfig.java" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/../google-play-services_lib_rev5/gen/com/google/android/gms/Manifest.java" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/../google-play-services_lib_rev5/gen/com/google/android/gms/R.java" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/../google-play-services_lib_rev5/README.txt" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/../google-play-services_lib_rev5/src/android/UnusedStub.java" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/../google-play-services_lib_rev5/libs/google-play-services.jar.properties" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/../google-play-services_lib_rev5/google-play-services_lib.iml" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/../google-play-services_lib_rev5/google-play-services_lib_rev5.iml" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/../google-play-services_lib_rev5/res/values/maps_attrs.xml" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/../google-play-services_lib_rev5/project.properties" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/../google-play-services_lib_rev5/res/values/strings.xml" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/../google-play-services_lib_rev5/res/values-af/strings.xml" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/../google-play-services_lib_rev5/res/values-am/strings.xml" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/../google-play-services_lib_rev5/res/values-ar/strings.xml" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/../google-play-services_lib_rev5/res/values-be/strings.xml" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/../google-play-services_lib_rev5/res/values-bg/strings.xml" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/../google-play-services_lib_rev5/res/values-ca/strings.xml" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/../google-play-services_lib_rev5/res/values-cs/strings.xml" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/../google-play-services_lib_rev5/res/values-da/strings.xml" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/../google-play-services_lib_rev5/res/values-de/strings.xml" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/../google-play-services_lib_rev5/res/values-el/strings.xml" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/../google-play-services_lib_rev5/res/values-en-rGB/strings.xml" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/../google-play-services_lib_rev5/res/values-es/strings.xml" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/../google-play-services_lib_rev5/res/values-es-rUS/strings.xml" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/../google-play-services_lib_rev5/res/values-et/strings.xml" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/../google-play-services_lib_rev5/res/values-fa/strings.xml" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/../google-play-services_lib_rev5/res/values-fi/strings.xml" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/../google-play-services_lib_rev5/res/values-fr/strings.xml" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/../google-play-services_lib_rev5/res/values-hi/strings.xml" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/../google-play-services_lib_rev5/res/values-hr/strings.xml" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/../google-play-services_lib_rev5/res/values-hu/strings.xml" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/../google-play-services_lib_rev5/res/values-in/strings.xml" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/../google-play-services_lib_rev5/res/values-it/strings.xml" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/../google-play-services_lib_rev5/res/values-iw/strings.xml" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/../google-play-services_lib_rev5/res/values-ja/strings.xml" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/../google-play-services_lib_rev5/res/values-ko/strings.xml" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/../google-play-services_lib_rev5/res/values-lt/strings.xml" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/../google-play-services_lib_rev5/res/values-lv/strings.xml" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/../google-play-services_lib_rev5/res/values-ms/strings.xml" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/../google-play-services_lib_rev5/res/values-nb/strings.xml" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/../google-play-services_lib_rev5/res/values-nl/strings.xml" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/../google-play-services_lib_rev5/res/values-pl/strings.xml" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/../google-play-services_lib_rev5/res/values-pt/strings.xml" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/../google-play-services_lib_rev5/res/values-pt-rPT/strings.xml" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/../google-play-services_lib_rev5/res/values-ro/strings.xml" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/../google-play-services_lib_rev5/res/values-ru/strings.xml" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/../google-play-services_lib_rev5/res/values-sk/strings.xml" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/../google-play-services_lib_rev5/res/values-sl/strings.xml" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/../google-play-services_lib_rev5/res/values-sr/strings.xml" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/../google-play-services_lib_rev5/res/values-sv/strings.xml" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/../google-play-services_lib_rev5/res/values-sw/strings.xml" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/../google-play-services_lib_rev5/res/values-th/strings.xml" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/../google-play-services_lib_rev5/res/values-tl/strings.xml" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/../google-play-services_lib_rev5/res/values-tr/strings.xml" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/../google-play-services_lib_rev5/res/values-uk/strings.xml" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/../google-play-services_lib_rev5/res/values-vi/strings.xml" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/../google-play-services_lib_rev5/res/values-zh-rCN/strings.xml" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/../google-play-services_lib_rev5/res/values-zh-rTW/strings.xml" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/../google-play-services_lib_rev5/res/values-zu/strings.xml" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/libs/libGoogleAnalytics.jar" afterPath="$PROJECT_DIR$/libs/libGoogleAnalytics.jar" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../JakeWharton-ActionBarSherlock-88fc341/library/ActionBarSherlock.iml" afterPath="$PROJECT_DIR$/../JakeWharton-ActionBarSherlock-88fc341/library/ActionBarSherlock.iml" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../JakeWharton-ActionBarSherlock-88fc341/samples/demos/ActionBarSherlockDemos.iml" afterPath="$PROJECT_DIR$/../JakeWharton-ActionBarSherlock-88fc341/samples/demos/ActionBarSherlockDemos.iml" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/Android-Geocaching.iml" afterPath="$PROJECT_DIR$/Android-Geocaching.iml" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/Android-Geocaching.ipr" afterPath="$PROJECT_DIR$/Android-Geocaching.ipr" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/Android-Geocaching.iws" afterPath="$PROJECT_DIR$/Android-Geocaching.iws" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/su/geocaching/android/controller/managers/CheckpointManager.java" afterPath="$PROJECT_DIR$/src/su/geocaching/android/controller/managers/CheckpointManager.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/su/geocaching/android/controller/managers/DbManager.java" afterPath="$PROJECT_DIR$/src/su/geocaching/android/controller/managers/DbManager.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/su/geocaching/android/controller/managers/ExternalStorageManager.java" afterPath="$PROJECT_DIR$/src/su/geocaching/android/controller/managers/ExternalStorageManager.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/su/geocaching/android/ui/map/GoogleMapWrapper.java" afterPath="$PROJECT_DIR$/src/su/geocaching/android/ui/map/GoogleMapWrapper.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/su/geocaching/android/controller/managers/PreferencesManager.java" afterPath="$PROJECT_DIR$/src/su/geocaching/android/controller/managers/PreferencesManager.java" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/su/geocaching/android/ui/searchmap/SearchGoogleMapWrapper.java" afterPath="$PROJECT_DIR$/src/su/geocaching/android/ui/searchmap/SearchGoogleMapWrapper.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/su/geocaching/android/ui/selectmap/SelectGoogleMapWrapper.java" afterPath="$PROJECT_DIR$/src/su/geocaching/android/ui/selectmap/SelectGoogleMapWrapper.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/project.properties" afterPath="$PROJECT_DIR$/project.properties" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../JakeWharton-ActionBarSherlock-88fc341/library/project.properties" afterPath="$PROJECT_DIR$/../JakeWharton-ActionBarSherlock-88fc341/library/project.properties" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../JakeWharton-ActionBarSherlock-88fc341/samples/demos/project.properties" afterPath="$PROJECT_DIR$/../JakeWharton-ActionBarSherlock-88fc341/samples/demos/project.properties" />
     </list>
     <ignored path="Android-Geocaching.iws" />
     <ignored path=".idea/workspace.xml" />
@@ -57,12 +180,11 @@
     <file path="/SelectMapActivity.java" changelist="9dfe056f-2d77-44b2-a1e9-8cd41c586ab0" time="1360091427039" ignored="false" />
     <file path="/AndroidManifest.xml" changelist="9dfe056f-2d77-44b2-a1e9-8cd41c586ab0" time="1355162117373" ignored="false" />
     <file path="/MapWrapper.java" changelist="9dfe056f-2d77-44b2-a1e9-8cd41c586ab0" time="1355044362596" ignored="false" />
-    <file path="/GoogleMapWrapper.java" changelist="9dfe056f-2d77-44b2-a1e9-8cd41c586ab0" time="1361816006309" ignored="false" />
+    <file path="/GoogleMapWrapper.java" changelist="9dfe056f-2d77-44b2-a1e9-8cd41c586ab0" time="1361907898679" ignored="false" />
     <file path="/IMapWrapper.java" changelist="9dfe056f-2d77-44b2-a1e9-8cd41c586ab0" time="1358697337447" ignored="false" />
     <file path="/fragment.java" changelist="9dfe056f-2d77-44b2-a1e9-8cd41c586ab0" time="1361211907416" ignored="false" />
     <file path="/ViewPortChangedListener.java" changelist="9dfe056f-2d77-44b2-a1e9-8cd41c586ab0" time="1355044823759" ignored="false" />
     <file path="/GeoCacheListAnalyzer.java" changelist="9dfe056f-2d77-44b2-a1e9-8cd41c586ab0" time="1359490830910" ignored="false" />
-    <file path="$PROJECT_DIR$/../google-play-services_lib/AndroidManifest.xml" changelist="9dfe056f-2d77-44b2-a1e9-8cd41c586ab0" time="1355071857097" ignored="false" />
     <file path="/ISelectMapWrapper.java" changelist="9dfe056f-2d77-44b2-a1e9-8cd41c586ab0" time="1356293903497" ignored="false" />
     <file path="/SelectGoogleMapWrapper.java" changelist="9dfe056f-2d77-44b2-a1e9-8cd41c586ab0" time="1361817669610" ignored="false" />
     <file path="/GroupGeoCacheTask.java" changelist="9dfe056f-2d77-44b2-a1e9-8cd41c586ab0" time="1355764876875" ignored="false" />
@@ -71,7 +193,7 @@
     <file path="/CheckpointOverlay.java" changelist="9dfe056f-2d77-44b2-a1e9-8cd41c586ab0" time="1355771348371" ignored="false" />
     <file path="/search_map_activity.xml" changelist="9dfe056f-2d77-44b2-a1e9-8cd41c586ab0" time="1355851036431" ignored="false" />
     <file path="/SearchMapActivity.java" changelist="9dfe056f-2d77-44b2-a1e9-8cd41c586ab0" time="1360091833749" ignored="false" />
-    <file path="/SearchGoogleMapWrapper.java" changelist="9dfe056f-2d77-44b2-a1e9-8cd41c586ab0" time="1361815154455" ignored="false" />
+    <file path="/SearchGoogleMapWrapper.java" changelist="9dfe056f-2d77-44b2-a1e9-8cd41c586ab0" time="1361908599370" ignored="false" />
     <file path="/ISearchMapWrapper.java" changelist="9dfe056f-2d77-44b2-a1e9-8cd41c586ab0" time="1359394676137" ignored="false" />
     <file path="/UserLocationOverlay.java" changelist="9dfe056f-2d77-44b2-a1e9-8cd41c586ab0" time="1356186083885" ignored="false" />
     <file path="/GeocacheOverlay.java" changelist="9dfe056f-2d77-44b2-a1e9-8cd41c586ab0" time="1356294475014" ignored="false" />
@@ -120,6 +242,11 @@
     <file path="/info_menu.xml" changelist="9dfe056f-2d77-44b2-a1e9-8cd41c586ab0" time="1360778401832" ignored="false" />
     <file path="/info_strings.xml" changelist="9dfe056f-2d77-44b2-a1e9-8cd41c586ab0" time="1360779239178" ignored="false" />
     <file path="/NavigationManager.java" changelist="9dfe056f-2d77-44b2-a1e9-8cd41c586ab0" time="1360778841989" ignored="false" />
+    <file path="/GoogleUserLocationLayer.java" changelist="9dfe056f-2d77-44b2-a1e9-8cd41c586ab0" time="1361906104399" ignored="false" />
+    <file path="$PROJECT_DIR$/../google-play-services_lib/libs/google-play-services.jar!/com/google/android/gms/maps/model/CameraPosition.class" changelist="9dfe056f-2d77-44b2-a1e9-8cd41c586ab0" time="1361909874296" ignored="false" />
+    <file path="$PROJECT_DIR$/../google-play-services_lib/libs/google-play-services.jar!/com/google/android/gms/maps/GoogleMap.class" changelist="9dfe056f-2d77-44b2-a1e9-8cd41c586ab0" time="1361909874296" ignored="false" />
+    <file path="$PROJECT_DIR$/../google-play-services_lib/libs/google-play-services.jar!/com/google/android/gms/maps/model/LatLngBounds.class" changelist="9dfe056f-2d77-44b2-a1e9-8cd41c586ab0" time="1361909874296" ignored="false" />
+    <file path="$PROJECT_DIR$/../google-play-services_lib/libs/google-play-services.jar!/com/google/android/gms/maps/model/LatLng.class" changelist="9dfe056f-2d77-44b2-a1e9-8cd41c586ab0" time="1361909874296" ignored="false" />
     <option name="TRACKING_ENABLED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -139,6 +266,22 @@
     <disable_hints />
   </component>
   <component name="DebuggerManager">
+    <line_breakpoints default_suspend_policy="SuspendAll" default_condition_enabled="true">
+      <breakpoint url="file://$PROJECT_DIR$/src/su/geocaching/android/ui/checkpoints/CheckpointsFolderActivity.java" line="66" class="su.geocaching.android.ui.checkpoints.CheckpointsFolderActivity" package="su.geocaching.android.ui.checkpoints">
+        <option name="ENABLED" value="true" />
+        <option name="LOG_ENABLED" value="false" />
+        <option name="LOG_EXPRESSION_ENABLED" value="false" />
+        <option name="SUSPEND_POLICY" value="SuspendAll" />
+        <option name="SUSPEND" value="true" />
+        <option name="COUNT_FILTER_ENABLED" value="false" />
+        <option name="COUNT_FILTER" value="0" />
+        <option name="CONDITION_ENABLED" value="false" />
+        <option name="CLASS_FILTERS_ENABLED" value="false" />
+        <option name="INSTANCE_FILTERS_ENABLED" value="false" />
+        <option name="CONDITION" value="" />
+        <option name="LOG_MESSAGE" value="" />
+      </breakpoint>
+    </line_breakpoints>
     <ui_properties default_suspend_policy="SuspendAll" default_condition_enabled="true" />
     <breakpoint_any default_suspend_policy="SuspendAll" default_condition_enabled="true">
       <breakpoint>
@@ -174,22 +317,6 @@
         <option name="LOG_MESSAGE" value="" />
       </breakpoint>
     </breakpoint_any>
-    <line_breakpoints default_suspend_policy="SuspendAll" default_condition_enabled="true">
-      <breakpoint url="file://$PROJECT_DIR$/src/su/geocaching/android/ui/checkpoints/CheckpointsFolderActivity.java" line="66" class="su.geocaching.android.ui.checkpoints.CheckpointsFolderActivity" package="su.geocaching.android.ui.checkpoints">
-        <option name="ENABLED" value="true" />
-        <option name="LOG_ENABLED" value="false" />
-        <option name="LOG_EXPRESSION_ENABLED" value="false" />
-        <option name="SUSPEND_POLICY" value="SuspendAll" />
-        <option name="SUSPEND" value="true" />
-        <option name="COUNT_FILTER_ENABLED" value="false" />
-        <option name="COUNT_FILTER" value="0" />
-        <option name="CONDITION_ENABLED" value="false" />
-        <option name="CLASS_FILTERS_ENABLED" value="false" />
-        <option name="INSTANCE_FILTERS_ENABLED" value="false" />
-        <option name="CONDITION" value="" />
-        <option name="LOG_MESSAGE" value="" />
-      </breakpoint>
-    </line_breakpoints>
     <breakpoint_rules />
     <ui_properties />
   </component>
@@ -198,26 +325,7 @@
     <favorites_list name="Android-Geocaching" />
   </component>
   <component name="FileEditorManager">
-    <leaf>
-      <file leaf-file-name="DbManager.java" pinned="false" current="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/su/geocaching/android/controller/managers/DbManager.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state line="188" column="38" selection-start="7895" selection-end="7895" vertical-scroll-proportion="0.0">
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="AbstractWebViewFragment.java" pinned="false" current="true" current-in-tab="true">
-        <entry file="file://$PROJECT_DIR$/src/su/geocaching/android/ui/info/AbstractWebViewFragment.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state line="124" column="89" selection-start="5000" selection-end="5000" vertical-scroll-proportion="0.75206614">
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-    </leaf>
+    <leaf />
   </component>
   <component name="FindManager">
     <FindUsagesManager>
@@ -227,7 +335,6 @@
   <component name="IdeDocumentHistory">
     <option name="changedFiles">
       <list>
-        <option value="$PROJECT_DIR$/src/su/geocaching/android/ui/checkpoints/CheckpointDialog.java" />
         <option value="$PROJECT_DIR$/src/su/geocaching/android/ui/map/providers/OsmUrlTileProvider.java" />
         <option value="$PROJECT_DIR$/src/su/geocaching/android/ui/map/providers/YandexUrlTileProvider.java" />
         <option value="$PROJECT_DIR$/res/menu/info_menu.xml" />
@@ -236,13 +343,14 @@
         <option value="$PROJECT_DIR$/res/menu-land/info_menu.xml" />
         <option value="$PROJECT_DIR$/res/values/info_strings.xml" />
         <option value="$PROJECT_DIR$/src/su/geocaching/android/ui/checkpoints/CreateCheckpointActivity.java" />
-        <option value="$PROJECT_DIR$/src/su/geocaching/android/ui/searchmap/SearchGoogleMapWrapper.java" />
-        <option value="$PROJECT_DIR$/src/su/geocaching/android/ui/map/GoogleMapWrapper.java" />
         <option value="$PROJECT_DIR$/src/su/geocaching/android/ui/selectmap/SelectGoogleMapWrapper.java" />
         <option value="$PROJECT_DIR$/src/su/geocaching/android/controller/managers/PreferencesManager.java" />
         <option value="$PROJECT_DIR$/src/su/geocaching/android/controller/managers/ExternalStorageManager.java" />
         <option value="$PROJECT_DIR$/src/su/geocaching/android/controller/managers/DbManager.java" />
         <option value="$PROJECT_DIR$/src/su/geocaching/android/controller/managers/CheckpointManager.java" />
+        <option value="$PROJECT_DIR$/src/su/geocaching/android/ui/map/GoogleUserLocationLayer.java" />
+        <option value="$PROJECT_DIR$/src/su/geocaching/android/ui/map/GoogleMapWrapper.java" />
+        <option value="$PROJECT_DIR$/src/su/geocaching/android/ui/searchmap/SearchGoogleMapWrapper.java" />
       </list>
     </option>
   </component>
@@ -255,7 +363,7 @@
   <component name="ProjectFrameBounds">
     <option name="x" value="-8" />
     <option name="y" value="-8" />
-    <option name="width" value="1382" />
+    <option name="width" value="1378" />
     <option name="height" value="744" />
   </component>
   <component name="ProjectInspectionProfilesVisibleTreeState">
@@ -320,22 +428,22 @@
       <sortByType />
     </navigator>
     <panes>
-      <pane id="Scope">
-        <subPane subId="Project Files">
-          <PATH>
-            <PATH_ELEMENT USER_OBJECT="Root">
-              <option name="myItemId" value="" />
-              <option name="myItemType" value="" />
-            </PATH_ELEMENT>
-          </PATH>
-        </subPane>
-      </pane>
       <pane id="PackagesPane">
         <subPane>
           <PATH>
             <PATH_ELEMENT>
               <option name="myItemId" value="Android-Geocaching" />
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PackageViewProjectNode" />
+            </PATH_ELEMENT>
+          </PATH>
+        </subPane>
+      </pane>
+      <pane id="Scope">
+        <subPane subId="Project Files">
+          <PATH>
+            <PATH_ELEMENT USER_OBJECT="Root">
+              <option name="myItemId" value="" />
+              <option name="myItemType" value="" />
             </PATH_ELEMENT>
           </PATH>
         </subPane>
@@ -347,81 +455,15 @@
               <option name="myItemId" value="Android-Geocaching" />
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
             </PATH_ELEMENT>
-          </PATH>
-          <PATH>
             <PATH_ELEMENT>
-              <option name="myItemId" value="Android-Geocaching" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="Android-Geocaching" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+              <option name="myItemId" value="External Libraries" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ExternalLibrariesNode" />
             </PATH_ELEMENT>
           </PATH>
           <PATH>
             <PATH_ELEMENT>
               <option name="myItemId" value="Android-Geocaching" />
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="Android-Geocaching" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="src" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="android" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-          </PATH>
-          <PATH>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="Android-Geocaching" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="Android-Geocaching" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="src" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="android" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="controller" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-          </PATH>
-          <PATH>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="Android-Geocaching" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="Android-Geocaching" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="src" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="android" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="controller" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="managers" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
           </PATH>
         </subPane>
@@ -448,7 +490,7 @@
     <property name="FileHistory.org.jetbrains.idea.svn.history.SvnHistoryProvider_flatOrder5" value="5" />
     <property name="FileHistory.org.jetbrains.idea.svn.history.SvnHistoryProvider_treeWidth1" value="98" />
     <property name="FileHistory.org.jetbrains.idea.svn.history.SvnHistoryProvider_flatOrder4" value="4" />
-    <property name="last_opened_file_path" value="$PROJECT_DIR$/../Android-Geocaching.Test/libs/junit-3.8.jar!/" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$/../google-play-services_lib_rev5/libs/google-play-services.jar!/" />
     <property name="FileHistory.org.jetbrains.idea.svn.history.SvnHistoryProvider_treeWidth0" value="99" />
     <property name="FileHistory.org.jetbrains.idea.svn.history.SvnHistoryProvider_treeWidth5" value="774" />
     <property name="FileHistory.org.jetbrains.idea.svn.history.SvnHistoryProvider_treeWidth4" value="100" />
@@ -783,14 +825,6 @@
           <option name="myCopyRoot" value="E:\Projects\android-geocaching\trunk\Android-Geocaching.Test" />
         </SvnCopyRootSimple>
         <SvnCopyRootSimple>
-          <option name="myVcsRoot" value="E:\Projects\android-geocaching\trunk\google-maps-samples" />
-          <option name="myCopyRoot" value="E:\Projects\android-geocaching\trunk\google-maps-samples" />
-        </SvnCopyRootSimple>
-        <SvnCopyRootSimple>
-          <option name="myVcsRoot" value="E:\Projects\android-geocaching\trunk\google-play-services_lib" />
-          <option name="myCopyRoot" value="E:\Projects\android-geocaching\trunk\google-play-services_lib" />
-        </SvnCopyRootSimple>
-        <SvnCopyRootSimple>
           <option name="myVcsRoot" value="E:\Projects\android-geocaching\trunk\JakeWharton-ActionBarSherlock-88fc341\library" />
           <option name="myCopyRoot" value="E:\Projects\android-geocaching\trunk\JakeWharton-ActionBarSherlock-88fc341\library" />
         </SvnCopyRootSimple>
@@ -809,14 +843,6 @@
         <SvnCopyRootSimple>
           <option name="myVcsRoot" value="E:\Projects\android-geocaching\trunk\Android-Geocaching.Test" />
           <option name="myCopyRoot" value="E:\Projects\android-geocaching\trunk\Android-Geocaching.Test" />
-        </SvnCopyRootSimple>
-        <SvnCopyRootSimple>
-          <option name="myVcsRoot" value="E:\Projects\android-geocaching\trunk\google-maps-samples" />
-          <option name="myCopyRoot" value="E:\Projects\android-geocaching\trunk\google-maps-samples" />
-        </SvnCopyRootSimple>
-        <SvnCopyRootSimple>
-          <option name="myVcsRoot" value="E:\Projects\android-geocaching\trunk\google-play-services_lib" />
-          <option name="myCopyRoot" value="E:\Projects\android-geocaching\trunk\google-play-services_lib" />
         </SvnCopyRootSimple>
         <SvnCopyRootSimple>
           <option name="myVcsRoot" value="E:\Projects\android-geocaching\trunk\JakeWharton-ActionBarSherlock-88fc341\library" />
@@ -858,31 +884,31 @@
     </todo-panel>
   </component>
   <component name="ToolWindowManager">
-    <frame x="-8" y="-8" width="1382" height="744" extended-state="0" />
-    <editor active="true" />
+    <frame x="-8" y="-8" width="1378" height="744" extended-state="1" />
+    <editor active="false" />
     <layout>
       <window_info id="Changes" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32676518" sideWeight="0.4969697" order="11" side_tool="false" content_ui="tabs" />
       <window_info id="JetGradle" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.18583396" sideWeight="0.44217688" order="6" side_tool="true" content_ui="tabs" />
       <window_info id="Palette" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="5" side_tool="false" content_ui="tabs" />
-      <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.5400982" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Ant Build" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.21249048" sideWeight="0.42998353" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.75533664" sideWeight="0.7030303" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.70607555" sideWeight="0.29166666" order="7" side_tool="true" content_ui="tabs" />
       <window_info id="Favorites" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="2" side_tool="true" content_ui="tabs" />
       <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32994923" sideWeight="0.5" order="8" side_tool="false" content_ui="tabs" />
-      <window_info id="Android" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.52873564" sideWeight="0.49733436" order="9" side_tool="false" content_ui="tabs" />
-      <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.58756137" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
+      <window_info id="Messages" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33551556" sideWeight="0.5" order="10" side_tool="false" content_ui="tabs" />
+      <window_info id="Android" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.54679805" sideWeight="0.49733436" order="9" side_tool="false" content_ui="tabs" />
+      <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.5862069" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
       <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.24469697" sideWeight="0.23316912" order="1" side_tool="true" content_ui="tabs" />
       <window_info id="Maven Projects" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.07522796" sideWeight="0.4398682" order="7" side_tool="true" content_ui="tabs" />
       <window_info id="Commander" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.3998477" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
-      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.23636363" sideWeight="0.4599018" order="0" side_tool="false" content_ui="combo" />
-      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.56978655" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
+      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.30015197" sideWeight="0.43021345" order="0" side_tool="false" content_ui="combo" />
+      <window_info id="Run" active="true" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.56978655" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Palette&#9;" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32954547" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Cvs" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
       <window_info id="Designer" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32954547" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Preview" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.15454546" sideWeight="0.45963755" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Message" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
-      <window_info id="Messages" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.3366174" sideWeight="0.5" order="10" side_tool="false" content_ui="tabs" />
+      <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.53858787" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Hierarchy" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="4" side_tool="false" content_ui="combo" />
       <window_info id="Inspection" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.46305418" sideWeight="0.5" order="5" side_tool="false" content_ui="tabs" />
     </layout>
@@ -947,118 +973,100 @@
     <option name="FILTER_TARGETS" value="false" />
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/src/su/geocaching/android/ui/map/GoogleMarkerOptions.java">
+    <entry file="file://$PROJECT_DIR$/src/su/geocaching/android/controller/compass/SmoothCompassThread.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="10" column="68" selection-start="433" selection-end="477" vertical-scroll-proportion="0.18085106">
+        <state line="87" column="0" selection-start="3068" selection-end="3068" vertical-scroll-proportion="0.0">
           <folding />
         </state>
       </provider>
     </entry>
-    <entry file="file://C:/Android/android-sdk/sources/android-17/java/util/Set.java">
+    <entry file="file://$PROJECT_DIR$/src/su/geocaching/android/ui/map/GoogleUserLocationLayer.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="163" column="28" selection-start="5601" selection-end="5610" vertical-scroll-proportion="0.6512821">
+        <state line="29" column="57" selection-start="966" selection-end="966" vertical-scroll-proportion="0.04761905" />
+      </provider>
+    </entry>
+    <entry file="jar://$PROJECT_DIR$/../JakeWharton-ActionBarSherlock-88fc341/library/libs/android-support-v4.jar!/android/support/v4/app/FragmentActivity.class">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="109" column="0" selection-start="4683" selection-end="4683" vertical-scroll-proportion="0.68025076" />
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/../JakeWharton-ActionBarSherlock-88fc341/library/src/com/actionbarsherlock/app/SherlockFragmentActivity.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="250" column="0" selection-start="7979" selection-end="7979" vertical-scroll-proportion="0.04657534" />
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/../JakeWharton-ActionBarSherlock-88fc341/library/src/com/actionbarsherlock/internal/ActionBarSherlockCompat.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="116" column="20" selection-start="4923" selection-end="4923" vertical-scroll-proportion="0.53197676" />
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/su/geocaching/android/ui/map/IMapWrapper.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="3" column="34" selection-start="107" selection-end="107" vertical-scroll-proportion="0.14285715" />
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/su/geocaching/android/ui/compass/CompassActivity.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="117" column="29" selection-start="5145" selection-end="5145" vertical-scroll-proportion="0.02972028">
           <folding />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/su/geocaching/android/ui/selectmap/SelectGoogleMapWrapper.java">
+    <entry file="file://$PROJECT_DIR$/src/su/geocaching/android/controller/managers/AbstractUserLocationManager.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="0" column="0" selection-start="0" selection-end="0" vertical-scroll-proportion="0.0">
-          <folding>
-            <element signature="imports" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/su/geocaching/android/controller/Controller.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="289" column="10" selection-start="10157" selection-end="10157" vertical-scroll-proportion="0.0">
+        <state line="140" column="27" selection-start="4705" selection-end="4705" vertical-scroll-proportion="0.02905983">
           <folding />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/su/geocaching/android/controller/utils/SexagesimalSec.java">
+    <entry file="file://$PROJECT_DIR$/src/su/geocaching/android/controller/compass/SmoothCompassThread.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="2" column="2" selection-start="51" selection-end="51" vertical-scroll-proportion="0.0">
+        <state line="87" column="0" selection-start="3068" selection-end="3068" vertical-scroll-proportion="0.02905983">
           <folding />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/su/geocaching/android/controller/managers/ExternalStorageManager.java">
+    <entry file="file://$PROJECT_DIR$/src/su/geocaching/android/controller/managers/CallbackManager.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="172" column="5" selection-start="6709" selection-end="6709" vertical-scroll-proportion="0.5641026">
-          <folding>
-            <element signature="imports" expanded="true" />
-          </folding>
-        </state>
+        <state line="26" column="50" selection-start="668" selection-end="675" vertical-scroll-proportion="1.6709402" />
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/su/geocaching/android/controller/managers/PreferencesManager.java">
+    <entry file="file://$PROJECT_DIR$/src/su/geocaching/android/ui/searchmap/SearchMapActivity.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="102" column="11" selection-start="4131" selection-end="4131" vertical-scroll-proportion="0.0">
+        <state line="464" column="24" selection-start="18301" selection-end="18301" vertical-scroll-proportion="0.33031675">
           <folding />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/su/geocaching/android/controller/managers/CompassManager.java">
+    <entry file="file://$PROJECT_DIR$/src/su/geocaching/android/ui/selectmap/SelectMapActivity.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="114" column="14" selection-start="3947" selection-end="3947" vertical-scroll-proportion="0.13297872">
+        <state line="241" column="23" selection-start="8676" selection-end="8676" vertical-scroll-proportion="0.02972028">
           <folding />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/su/geocaching/android/controller/managers/CheckpointManager.java">
+    <entry file="file://$PROJECT_DIR$/src/su/geocaching/android/controller/compass/ICompassView.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="121" column="6" selection-start="3876" selection-end="3876" vertical-scroll-proportion="0.11615245">
+        <state line="7" column="17" selection-start="142" selection-end="142" vertical-scroll-proportion="0.21174377" />
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/su/geocaching/android/ui/searchmap/ISearchMapWrapper.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="9" column="62" selection-start="419" selection-end="419" vertical-scroll-proportion="0.18632479">
           <folding />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/su/geocaching/android/controller/compass/PreviewCompassDrawing.java">
+    <entry file="file://$PROJECT_DIR$/src/su/geocaching/android/ui/map/GoogleMapWrapper.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="21" column="81" selection-start="688" selection-end="688" vertical-scroll-proportion="0.11188811">
+        <state line="101" column="0" selection-start="3950" selection-end="4115" vertical-scroll-proportion="0.0">
           <folding />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/su/geocaching/android/controller/compass/CompassHelper.java">
+    <entry file="file://$PROJECT_DIR$/src/su/geocaching/android/ui/searchmap/SearchGoogleMapWrapper.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="43" column="17" selection-start="1193" selection-end="1193" vertical-scroll-proportion="0.44786325">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/su/geocaching/android/ui/compass/CompassView.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="130" column="33" selection-start="3917" selection-end="3917" vertical-scroll-proportion="0.33333334">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/su/geocaching/android/controller/compass/AbstractCompassDrawing.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="18" column="46" selection-start="723" selection-end="723" vertical-scroll-proportion="0.52307695">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/su/geocaching/android/controller/compass/DefaultCompassDrawing.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="221" column="15" selection-start="8082" selection-end="8082" vertical-scroll-proportion="0.7325175">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/su/geocaching/android/controller/managers/DbManager.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="188" column="38" selection-start="7895" selection-end="7895" vertical-scroll-proportion="0.0">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/su/geocaching/android/ui/info/AbstractWebViewFragment.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="124" column="89" selection-start="5000" selection-end="5000" vertical-scroll-proportion="0.75206614">
+        <state line="167" column="47" selection-start="6375" selection-end="6375" vertical-scroll-proportion="0.030852994">
           <folding />
         </state>
       </provider>
@@ -1115,7 +1123,7 @@
       </state>
       <state key="ModuleStructureConfigurable.UI">
         <settings>
-          <last-edited>Android-Geocaching.Test</last-edited>
+          <last-edited>Android-Geocaching</last-edited>
           <splitter-proportions>
             <option name="proportions">
               <list>
