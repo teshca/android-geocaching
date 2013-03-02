@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8"?>
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
+	<Preference
+	        android:key="mapPreference"
+	        android:title="@string/map_preference_title" />
+	<Preference
+	        android:key="compassPreference"
+	        android:title="@string/compass_preference_title" />
+	<Preference
+	        android:key="energySavingPreference"
+	        android:title="@string/energy_saving_preference_title" />	
+	<Preference
+	        android:key="trafficPreference"
+	        android:title="@string/traffic_preference_title" />
+
+    <!--
+    <Preference
+            android:selectable="false"
+            android:enabled="false" />
+     -->
+
+    <PreferenceCategory android:title="@string/system_category_title">
+        <Preference
+                android:key="internetPreference"
+                android:title="@string/connection_preference_title" />
+        <Preference
+                android:key="gpsPreference"
+                android:title="@string/location_preference_title" />
+    </PreferenceCategory>
+</PreferenceScreen>

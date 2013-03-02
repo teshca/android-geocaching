@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="settings">Настройки</string>
+	<string name="menu_default_zoom">Вместить всё</string>
+	<string name="menu_start_compass">Компас</string>
+	<string name="menu_start_map">Карта</string>
+	<string name="menu_geocache_info">Информация</string>
+    <string name="menu_driving_directions">Проложить маршрут</string>
+    <string name="menu_external_map">Внешняя карта</string>
+    <string name="menu_gps_status">GPS Status &amp; Toolbox</string>
+    <string name="menu_compass_odometer_show">Показать одометр</string>
+    <string name="menu_compass_odometer_hide">Скрыть одометр</string>
+</resources>

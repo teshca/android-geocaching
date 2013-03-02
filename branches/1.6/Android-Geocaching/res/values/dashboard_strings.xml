@@ -1,0 +1,18 @@
+<resources>
+	<string name="search_geocache">Искать</string>
+	<string name="select_geocache">Выбрать</string>
+	<string name="favorites">Избранное</string>
+	<string name="preference">Настройки</string>
+    <string name="menu_about">О программе</string>
+    <string name="menu_give_feedback">Оцени приложение!</string>
+    <string name="menu_developers_email">Написать разработчикам</string>
+    <string name="developers_email_subject">Отзыв о приложении Геокэшинг</string>
+    <string name="developers_email_body">
+        \n
+        \n
+        --\n
+        Версия приложения: %1$s\n
+        Версия андроид: %2$s\n
+        Устройство: %3$s\n
+    </string>
+</resources>

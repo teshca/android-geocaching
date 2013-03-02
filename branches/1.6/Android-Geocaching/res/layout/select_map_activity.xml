@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_height="fill_parent"
+    android:layout_width="fill_parent">
+
+    <fragment
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        android:id="@+id/map"
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent"
+        class="com.google.android.gms.maps.SupportMapFragment"/>
+
+    <!-- semitransparent info layer -->
+	<LinearLayout
+        style="@style/MapInfoLayer">
+
+		<TextView
+            android:id="@+id/connectionInfoTextView"
+            android:text="@string/map_internet_lost"
+            style="@style/MapInfoItem"/>
+        <View
+            style="@style/MapInfoSpring"/>
+
+		<TextView
+            android:id="@+id/groupingInfoTextView"
+            android:text="@string/grouping_status_message"
+            android:visibility="invisible"
+            style="@style/MapInfoItem"
+            android:layout_marginRight="6dip"/>
+		<TextView
+            android:id="@+id/downloadingInfoTextView"
+            android:text="@string/downloading_status_message"
+            android:visibility="gone"
+            style="@style/MapInfoItem"/>
+        <ProgressBar
+            android:id="@+id/progressCircle"
+            android:layout_width="16dip"
+            android:layout_height="16dip"
+            android:visibility="gone"
+            android:layout_marginRight="2dip"/>
+	</LinearLayout>
+
+</FrameLayout>

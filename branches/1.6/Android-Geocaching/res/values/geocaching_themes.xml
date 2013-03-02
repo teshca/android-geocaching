@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<!-- Generated with http://android-holo-colors.com -->
+<resources xmlns:android="http://schemas.android.com/apk/res/android">
+
+  <style name="Theme.Geocaching.Custom" parent="@style/Theme.Geocaching">
+
+    <item name="android:editTextStyle">@style/EditTextGeocaching</item>
+
+    <item name="android:checkboxStyle">@style/CheckBoxGeocaching</item>
+
+    <item name="android:radioButtonStyle">@style/RadioButtonGeocaching</item>
+
+    <item name="android:buttonStyle">@style/ButtonGeocaching</item>
+
+    <item name="android:imageButtonStyle">@style/ImageButtonGeocaching</item>
+
+    <item name="android:buttonStyleToggle">@style/ToggleGeocaching</item>
+
+    <item name="android:listViewStyle">@style/ListViewGeocaching</item>
+
+    <item name="android:listViewWhiteStyle">@style/ListViewGeocaching.White</item>
+
+  </style>
+
+</resources>
