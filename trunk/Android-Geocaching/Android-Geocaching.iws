@@ -39,7 +39,7 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" readonly="true" id="9dfe056f-2d77-44b2-a1e9-8cd41c586ab0" name="Default" comment="">
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/su/geocaching/android/ui/map/GoogleMapWrapper.java" afterPath="$PROJECT_DIR$/src/su/geocaching/android/ui/map/GoogleMapWrapper.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/Android-Geocaching.iws" afterPath="$PROJECT_DIR$/Android-Geocaching.iws" />
     </list>
     <ignored path="Android-Geocaching.iws" />
     <ignored path=".idea/workspace.xml" />
@@ -136,22 +136,6 @@
     <disable_hints />
   </component>
   <component name="DebuggerManager">
-    <line_breakpoints default_suspend_policy="SuspendAll" default_condition_enabled="true">
-      <breakpoint url="file://$PROJECT_DIR$/src/su/geocaching/android/ui/checkpoints/CheckpointsFolderActivity.java" line="66" class="su.geocaching.android.ui.checkpoints.CheckpointsFolderActivity" package="su.geocaching.android.ui.checkpoints">
-        <option name="ENABLED" value="true" />
-        <option name="LOG_ENABLED" value="false" />
-        <option name="LOG_EXPRESSION_ENABLED" value="false" />
-        <option name="SUSPEND_POLICY" value="SuspendAll" />
-        <option name="SUSPEND" value="true" />
-        <option name="COUNT_FILTER_ENABLED" value="false" />
-        <option name="COUNT_FILTER" value="0" />
-        <option name="CONDITION_ENABLED" value="false" />
-        <option name="CLASS_FILTERS_ENABLED" value="false" />
-        <option name="INSTANCE_FILTERS_ENABLED" value="false" />
-        <option name="CONDITION" value="" />
-        <option name="LOG_MESSAGE" value="" />
-      </breakpoint>
-    </line_breakpoints>
     <ui_properties default_suspend_policy="SuspendAll" default_condition_enabled="true" />
     <breakpoint_any default_suspend_policy="SuspendAll" default_condition_enabled="true">
       <breakpoint>
@@ -187,6 +171,22 @@
         <option name="LOG_MESSAGE" value="" />
       </breakpoint>
     </breakpoint_any>
+    <line_breakpoints default_suspend_policy="SuspendAll" default_condition_enabled="true">
+      <breakpoint url="file://$PROJECT_DIR$/src/su/geocaching/android/ui/checkpoints/CheckpointsFolderActivity.java" line="66" class="su.geocaching.android.ui.checkpoints.CheckpointsFolderActivity" package="su.geocaching.android.ui.checkpoints">
+        <option name="ENABLED" value="true" />
+        <option name="LOG_ENABLED" value="false" />
+        <option name="LOG_EXPRESSION_ENABLED" value="false" />
+        <option name="SUSPEND_POLICY" value="SuspendAll" />
+        <option name="SUSPEND" value="true" />
+        <option name="COUNT_FILTER_ENABLED" value="false" />
+        <option name="COUNT_FILTER" value="0" />
+        <option name="CONDITION_ENABLED" value="false" />
+        <option name="CLASS_FILTERS_ENABLED" value="false" />
+        <option name="INSTANCE_FILTERS_ENABLED" value="false" />
+        <option name="CONDITION" value="" />
+        <option name="LOG_MESSAGE" value="" />
+      </breakpoint>
+    </line_breakpoints>
     <breakpoint_rules />
     <ui_properties />
   </component>
@@ -208,7 +208,7 @@
       <file leaf-file-name="GoogleMapWrapper.java" pinned="false" current="true" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/src/su/geocaching/android/ui/map/GoogleMapWrapper.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="35" column="10" selection-start="1403" selection-end="1403" vertical-scroll-proportion="0.4256881">
+            <state line="35" column="10" selection-start="1403" selection-end="1403" vertical-scroll-proportion="0.076233186">
               <folding />
             </state>
           </provider>
@@ -317,16 +317,6 @@
       <sortByType />
     </navigator>
     <panes>
-      <pane id="PackagesPane">
-        <subPane>
-          <PATH>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="Android-Geocaching" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PackageViewProjectNode" />
-            </PATH_ELEMENT>
-          </PATH>
-        </subPane>
-      </pane>
       <pane id="Scope">
         <subPane subId="Project Files">
           <PATH>
@@ -372,79 +362,15 @@
               <option name="myItemId" value="android" />
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="ui" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
           </PATH>
+        </subPane>
+      </pane>
+      <pane id="PackagesPane">
+        <subPane>
           <PATH>
             <PATH_ELEMENT>
               <option name="myItemId" value="Android-Geocaching" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="Android-Geocaching" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="src" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="android" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="ui" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="searchmap" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-          </PATH>
-          <PATH>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="Android-Geocaching" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="Android-Geocaching" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="src" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="android" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="ui" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="map" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-          </PATH>
-          <PATH>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="Android-Geocaching" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="Android-Geocaching" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="src" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="android" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PackageViewProjectNode" />
             </PATH_ELEMENT>
           </PATH>
         </subPane>
@@ -453,15 +379,15 @@
   </component>
   <component name="PropertiesComponent">
     <property name="FileHistory.org.jetbrains.idea.svn.history.SvnHistoryProvider_flatWidth1" value="114" />
-    <property name="SHOW_ALL_PROCESSES" value="false" />
-    <property name="FileHistory.org.jetbrains.idea.svn.history.SvnHistoryProvider_flatWidth0" value="94" />
     <property name="project.structure.last.edited" value="Modules" />
+    <property name="FileHistory.org.jetbrains.idea.svn.history.SvnHistoryProvider_flatWidth0" value="94" />
+    <property name="SHOW_ALL_PROCESSES" value="false" />
     <property name="FileHistory.org.jetbrains.idea.svn.history.SvnHistoryProvider_flatWidth3" value="44" />
-    <property name="project.structure.proportion" value="0.15" />
-    <property name="OverrideImplement.combined" value="true" />
     <property name="FileHistory.org.jetbrains.idea.svn.history.SvnHistoryProvider_flatWidth2" value="114" />
-    <property name="options.splitter.main.proportions" value="0.3" />
+    <property name="OverrideImplement.combined" value="true" />
+    <property name="project.structure.proportion" value="0.15" />
     <property name="FileHistory.org.jetbrains.idea.svn.history.SvnHistoryProvider_flatOrder1" value="1" />
+    <property name="options.splitter.main.proportions" value="0.3" />
     <property name="FileHistory.org.jetbrains.idea.svn.history.SvnHistoryProvider_flatOrder0" value="0" />
     <property name="FileHistory.org.jetbrains.idea.svn.history.SvnHistoryProvider_flatOrder3" value="3" />
     <property name="FileHistory.org.jetbrains.idea.svn.history.SvnHistoryProvider_flatOrder2" value="2" />
@@ -475,29 +401,29 @@
     <property name="FileHistory.org.jetbrains.idea.svn.history.SvnHistoryProvider_treeWidth0" value="99" />
     <property name="FileHistory.org.jetbrains.idea.svn.history.SvnHistoryProvider_treeWidth5" value="774" />
     <property name="FileHistory.org.jetbrains.idea.svn.history.SvnHistoryProvider_treeWidth4" value="100" />
-    <property name="DEBUGGABLE_DEVICE" value="HT0CARX12214" />
     <property name="FileHistory.org.jetbrains.idea.svn.history.SvnHistoryProvider_treeWidth3" value="99" />
+    <property name="DEBUGGABLE_DEVICE" value="HT0CARX12214" />
     <property name="DEBUGGABLE_PROCESS" value="su.geocaching.android.ui" />
     <property name="GoToClass.toSaveIncludeLibraries" value="false" />
     <property name="MemberChooser.showClasses" value="true" />
     <property name="FileHistory.org.jetbrains.idea.svn.history.SvnHistoryProvider_flatWidth4" value="115" />
-    <property name="GoToClass.includeLibraries" value="false" />
     <property name="FileHistory.org.jetbrains.idea.svn.history.SvnHistoryProvider_flatWidth5" value="789" />
+    <property name="GoToClass.includeLibraries" value="false" />
     <property name="options.splitter.details.proportions" value="0.2" />
-    <property name="last_directory_selection" value="$PROJECT_DIR$/src/su/geocaching/android/ui" />
     <property name="GoToFile.includeJavaFiles" value="false" />
-    <property name="options.lastSelected" value="preferences.pluginManager" />
+    <property name="last_directory_selection" value="$PROJECT_DIR$/src/su/geocaching/android/ui" />
     <property name="FileHistory.org.jetbrains.idea.svn.history.SvnHistoryProvider_treeOrder5" value="5" />
+    <property name="options.lastSelected" value="preferences.pluginManager" />
     <property name="FileHistory.org.jetbrains.idea.svn.history.SvnHistoryProvider_treeOrder3" value="3" />
     <property name="FileHistory.org.jetbrains.idea.svn.history.SvnHistoryProvider_treeOrder4" value="4" />
-    <property name="AndroidLayoutSelectedEditor" value="text-editor" />
     <property name="FileHistory.org.jetbrains.idea.svn.history.SvnHistoryProvider_treeOrder1" value="1" />
-    <property name="FileHistory.org.jetbrains.idea.svn.history.SvnHistoryProvider_treeOrder2" value="2" />
+    <property name="AndroidLayoutSelectedEditor" value="text-editor" />
     <property name="project.structure.side.proportion" value="0.32902467" />
-    <property name="FileHistory.org.jetbrains.idea.svn.history.SvnHistoryProvider_treeOrder0" value="0" />
+    <property name="FileHistory.org.jetbrains.idea.svn.history.SvnHistoryProvider_treeOrder2" value="2" />
     <property name="MemberChooser.copyJavadoc" value="false" />
-    <property name="options.searchVisible" value="true" />
+    <property name="FileHistory.org.jetbrains.idea.svn.history.SvnHistoryProvider_treeOrder0" value="0" />
     <property name="dynamic.classpath" value="false" />
+    <property name="options.searchVisible" value="true" />
   </component>
   <component name="RecentsManager">
     <key name="CopyClassDialog.RECENTS_KEY">
@@ -806,6 +732,10 @@
           <option name="myCopyRoot" value="E:\Projects\android-geocaching\trunk\Android-Geocaching.Test" />
         </SvnCopyRootSimple>
         <SvnCopyRootSimple>
+          <option name="myVcsRoot" value="E:\Projects\android-geocaching\trunk\google-play-services_lib_rev5" />
+          <option name="myCopyRoot" value="E:\Projects\android-geocaching\trunk\google-play-services_lib_rev5" />
+        </SvnCopyRootSimple>
+        <SvnCopyRootSimple>
           <option name="myVcsRoot" value="E:\Projects\android-geocaching\trunk\JakeWharton-ActionBarSherlock-88fc341\library" />
           <option name="myCopyRoot" value="E:\Projects\android-geocaching\trunk\JakeWharton-ActionBarSherlock-88fc341\library" />
         </SvnCopyRootSimple>
@@ -824,6 +754,10 @@
         <SvnCopyRootSimple>
           <option name="myVcsRoot" value="E:\Projects\android-geocaching\trunk\Android-Geocaching.Test" />
           <option name="myCopyRoot" value="E:\Projects\android-geocaching\trunk\Android-Geocaching.Test" />
+        </SvnCopyRootSimple>
+        <SvnCopyRootSimple>
+          <option name="myVcsRoot" value="E:\Projects\android-geocaching\trunk\google-play-services_lib_rev5" />
+          <option name="myCopyRoot" value="E:\Projects\android-geocaching\trunk\google-play-services_lib_rev5" />
         </SvnCopyRootSimple>
         <SvnCopyRootSimple>
           <option name="myVcsRoot" value="E:\Projects\android-geocaching\trunk\JakeWharton-ActionBarSherlock-88fc341\library" />
@@ -866,7 +800,7 @@
   </component>
   <component name="ToolWindowManager">
     <frame x="-8" y="-8" width="1378" height="744" extended-state="0" />
-    <editor active="true" />
+    <editor active="false" />
     <layout>
       <window_info id="Changes" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32676518" sideWeight="0.4969697" order="11" side_tool="false" content_ui="tabs" />
       <window_info id="JetGradle" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.18583396" sideWeight="0.44217688" order="6" side_tool="true" content_ui="tabs" />
@@ -981,23 +915,17 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/src/su/geocaching/android/ui/compass/CompassActivity.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="117" column="29" selection-start="5145" selection-end="5145" vertical-scroll-proportion="0.02972028">
-          <folding />
-        </state>
+        <state line="117" column="29" selection-start="5145" selection-end="5145" vertical-scroll-proportion="0.02972028" />
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/src/su/geocaching/android/controller/managers/AbstractUserLocationManager.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="140" column="27" selection-start="4705" selection-end="4705" vertical-scroll-proportion="0.02905983">
-          <folding />
-        </state>
+        <state line="140" column="27" selection-start="4705" selection-end="4705" vertical-scroll-proportion="0.02905983" />
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/src/su/geocaching/android/controller/compass/SmoothCompassThread.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="87" column="0" selection-start="3068" selection-end="3068" vertical-scroll-proportion="0.02905983">
-          <folding />
-        </state>
+        <state line="87" column="0" selection-start="3068" selection-end="3068" vertical-scroll-proportion="0.02905983" />
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/src/su/geocaching/android/controller/managers/CallbackManager.java">
@@ -1014,9 +942,7 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/src/su/geocaching/android/ui/selectmap/SelectMapActivity.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="241" column="23" selection-start="8676" selection-end="8676" vertical-scroll-proportion="0.02972028">
-          <folding />
-        </state>
+        <state line="241" column="23" selection-start="8676" selection-end="8676" vertical-scroll-proportion="0.02972028" />
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/src/su/geocaching/android/controller/compass/ICompassView.java">
@@ -1047,7 +973,7 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/src/su/geocaching/android/ui/map/GoogleMapWrapper.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="35" column="10" selection-start="1403" selection-end="1403" vertical-scroll-proportion="0.4256881">
+        <state line="35" column="10" selection-start="1403" selection-end="1403" vertical-scroll-proportion="0.076233186">
           <folding />
         </state>
       </provider>

@@ -572,6 +572,9 @@ public class SearchMapActivity extends SherlockFragmentActivity
             // Check if we were successful in obtaining the map.
             if (googleMap != null) {
                 setUpMap();
+            } else {
+                Toast.makeText(this,  this.getString(R.string.error_map_creation), Toast.LENGTH_LONG).show();
+                finish();
             }
         }
     }
