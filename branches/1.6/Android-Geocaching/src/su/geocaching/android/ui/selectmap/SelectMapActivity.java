@@ -272,6 +272,9 @@ public class SelectMapActivity extends SherlockFragmentActivity implements IConn
             // Check if we were successful in obtaining the map.
             if (mMap != null) {
                 setUpMap();
+            } else {
+                Toast.makeText(this,  this.getString(R.string.error_map_creation), Toast.LENGTH_LONG).show();
+                finish();
             }
         }
     }
