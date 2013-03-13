@@ -116,12 +116,14 @@ public class CompassView extends SurfaceView implements SurfaceHolder.Callback, 
     }
 
     public void setDistance(float distance) {
-        compassDrawing.setDistance(distance);
+        if (compassDrawing != null)
+            compassDrawing.setDistance(distance);
     }
 
     @Override
     public void setDeclination(float declination) {
-        compassDrawing.setDeclination(declination);
+        if (compassDrawing != null)
+            compassDrawing.setDeclination(declination);
     }
 
     /**
