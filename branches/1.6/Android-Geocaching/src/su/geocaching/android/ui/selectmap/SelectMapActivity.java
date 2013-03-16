@@ -296,7 +296,12 @@ public class SelectMapActivity extends SherlockFragmentActivity implements IConn
         mapWrapper.setViewPortChangeListener(new ViewPortChangeListener() {
             @Override
             public void OnViewPortChanged(GeoRect viewPort) {
-                selectMapViewModel.beginUpdateGeocacheOverlay(viewPort, mapWrapper.getProjection(), mapFragment.getView().getWidth(), mapFragment.getView().getHeight());
+                View mapView = mapFragment.getView();
+                if (mapView != null) {
+                    selectMapViewModel.beginUpdateGeocacheOverlay(viewPort, mapWrapper.getProjection(), mapView.getWidth(), mapView.getHeight());
+                } else {
+                    LogManager.e(TAG, "mapView is Null");
+                }
             }
         });
 
