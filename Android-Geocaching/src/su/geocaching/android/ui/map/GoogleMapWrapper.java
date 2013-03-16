@@ -1,7 +1,6 @@
 package su.geocaching.android.ui.map;
 
 import android.graphics.Bitmap;
-import android.graphics.Color;
 import android.location.Location;
 import com.google.android.gms.maps.*;
 import com.google.android.gms.maps.model.*;
@@ -39,15 +38,23 @@ public class GoogleMapWrapper implements IMapWrapper {
                 new GoogleMap.OnMarkerClickListener() {
                     @Override
                     public boolean onMarkerClick(Marker marker) {
-                        if (marker.getId().equals(userPositionClickArea.getId()) ||
-                                marker.getId().equals(userPositionClickArea2.getId())) {
-                            if (locationMarkerTapListener != null)
-                                locationMarkerTapListener.OnMarkerTapped();
-                            return true;
-                        }
-                        return onMarkerTap(marker);
+                        return onLocationMarkerTap(marker) || onMarkerTap(marker);
                     }
                 });
+    }
+
+    private boolean onLocationMarkerTap(Marker marker) {
+        if (userPositionClickArea == null) return false;
+        if (userPositionClickArea2 == null) return false;
+
+        if (marker.getId().equals(userPositionClickArea.getId()) ||
+                marker.getId().equals(userPositionClickArea2.getId())) {
+            if (locationMarkerTapListener != null)
+                locationMarkerTapListener.OnMarkerTapped();
+            return true;
+        }
+
+        return false;
     }
 
     protected boolean onMarkerTap(Marker marker) {
