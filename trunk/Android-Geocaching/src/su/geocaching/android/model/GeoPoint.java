@@ -37,4 +37,9 @@ public class GeoPoint {
     public int getLongitudeE6() {
         return (int) (this.longitude * 1E6);
     }
+
+    @Override
+    public String toString() {
+        return String.format("%s, %s", latitude, longitude);
+    }
 }
