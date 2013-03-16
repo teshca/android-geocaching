@@ -3,6 +3,21 @@
   <component name="AntConfiguration">
     <defaultAnt bundledAnt="true" />
   </component>
+  <component name="ArtifactManager">
+    <artifact type="apk" name="Android-Geocaching">
+      <output-path>$PROJECT_DIR$/</output-path>
+      <properties id="android-properties">
+        <options>
+          <option name="keyStoreUrl" value="file://" />
+          <option name="proGuardCfgFileUrl" value="file://" />
+          <option name="signingMode" value="RELEASE_SIGNED" />
+        </options>
+      </properties>
+      <root id="archive" name="Android-Geocaching.apk">
+        <element id="android-final-package" facet="Android-Geocaching/android/Android" />
+      </root>
+    </artifact>
+  </component>
   <component name="CompilerConfiguration">
     <option name="DEFAULT_COMPILER" value="Javac" />
     <excludeFromCompile>
@@ -238,6 +253,13 @@
           </value>
         </entry>
         <entry key="$PROJECT_DIR$/../JakeWharton-ActionBarSherlock-88fc341/samples/demos">
+          <value>
+            <SvnBranchConfiguration>
+              <option name="trunkUrl" value="" />
+            </SvnBranchConfiguration>
+          </value>
+        </entry>
+        <entry key="$PROJECT_DIR$/../google-play-services_lib_rev5">
           <value>
             <SvnBranchConfiguration>
               <option name="trunkUrl" value="" />

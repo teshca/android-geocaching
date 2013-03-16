@@ -13,6 +13,7 @@ import su.geocaching.android.controller.apimanager.GeocachingSuApiManager;
 import su.geocaching.android.controller.apimanager.IApiManager;
 import su.geocaching.android.controller.managers.*;
 import su.geocaching.android.model.GeoCache;
+import su.geocaching.android.ui.BuildConfig;
 import su.geocaching.android.ui.info.InfoViewModel;
 import su.geocaching.android.ui.selectmap.SelectMapViewModel;
 
@@ -28,7 +29,7 @@ public class Controller {
      * This constant is really needed, because compiler can remove code blocks which cannot be execute.
      * Visibility is public because LogManager and AnalyticsManager use this constant
      */
-    public static final boolean DEBUG = true;
+    public static final boolean DEBUG = BuildConfig.DEBUG;
     private static final boolean SHOW_MEMORY_TOAST = false;
 
     private static Controller instance;

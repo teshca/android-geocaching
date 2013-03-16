@@ -67,6 +67,8 @@ public class SelectGoogleMapWrapper extends GoogleMapWrapper implements ISelectM
                 if (groupIterator.hasNext()) {
                     Marker marker = groupIterator.next();
                     marker.setPosition(getCacheLocation(geoCache));
+                    // TODO: don't store group markers in 'markers' hash map. groupMarkers list is enough.
+                    markers.put(marker.getId(), geoCache);
                 } else {
                     Marker marker = addGeoCacheMarker(geoCache);
                     groupIterator.add(marker);
@@ -90,7 +92,8 @@ public class SelectGoogleMapWrapper extends GoogleMapWrapper implements ISelectM
 
         // remove retired group markers
         while (groupIterator.hasNext()) {
-            groupIterator.next();
+            Marker marker = groupIterator.next();
+            removeGeoCacheMarker(marker);
             groupIterator.remove();
         }
     }
