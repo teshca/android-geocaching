@@ -2,9 +2,9 @@
 <manifest
     xmlns:android="http://schemas.android.com/apk/res/android"
     package="su.geocaching.android.ui"
-    android:versionName="1.6.1"
+    android:versionName="1.6.2"
     android:installLocation="auto"
-    android:versionCode="1610">
+    android:versionCode="1620">
 
     <permission
         android:name="su.geocaching.android.ui.permission.MAPS_RECEIVE"
@@ -32,7 +32,7 @@
         android:name="su.geocaching.android.controller.GeocachingApplication"
         android:theme="@style/Theme.Geocaching.Custom"
         android:hardwareAccelerated="true"
-        android:debuggable="true">
+        android:debuggable="false">
 
         <activity
             android:name="su.geocaching.android.ui.DashboardActivity"
