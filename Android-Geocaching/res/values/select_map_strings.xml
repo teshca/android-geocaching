@@ -4,5 +4,7 @@
     <string name="downloading_status_message">Загрузка</string>
     <string name="menu_settings">Настройки</string>
     <string name="menu_mylocation">Моё местоположение</string>
+    <string name="menu_search">Поиск</string>
+    <string name="select_map_search_query_hint">Поиск по топонимам…</string>
     <string name="error_map_creation">Ошибка создания карты.\nВозможно устройство не поддерживается.</string>
 </resources>
