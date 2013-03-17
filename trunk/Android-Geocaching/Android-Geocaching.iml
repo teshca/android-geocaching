@@ -38,7 +38,7 @@
     </content>
     <orderEntry type="jdk" jdkName="Android 4.2 Platform" jdkType="Android SDK" />
     <orderEntry type="sourceFolder" forTests="false" />
-    <orderEntry type="module" module-name="ActionBarSherlock" />
+    <orderEntry type="module" module-name="ActionBarSherlock.library" />
     <orderEntry type="module" module-name="google-play-services_lib_rev5" />
     <orderEntry type="module-library">
       <library>

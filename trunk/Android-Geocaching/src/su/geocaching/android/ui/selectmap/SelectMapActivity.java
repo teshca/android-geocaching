@@ -13,6 +13,7 @@ import com.actionbarsherlock.app.SherlockFragmentActivity;
 import com.actionbarsherlock.view.Menu;
 import com.actionbarsherlock.view.MenuInflater;
 import com.actionbarsherlock.view.MenuItem;
+import com.actionbarsherlock.widget.SearchView;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.SupportMapFragment;
 import su.geocaching.android.controller.Controller;
@@ -127,6 +128,16 @@ public class SelectMapActivity extends SherlockFragmentActivity implements IConn
     public boolean onCreateOptionsMenu(Menu menu) {
         final MenuInflater inflater = getSupportMenuInflater();
         inflater.inflate(R.menu.select_map_menu, menu);
+
+        //Create the search view
+        SearchView searchView = new SearchView(getSupportActionBar().getThemedContext());
+        searchView.setQueryHint(this.getString(R.string.select_map_search_query_hint));
+
+        menu.add(R.string.menu_search)
+            .setIcon(R.drawable.ic_menu_search)
+            .setActionView(searchView)
+            .setShowAsAction(MenuItem.SHOW_AS_ACTION_IF_ROOM | MenuItem.SHOW_AS_ACTION_COLLAPSE_ACTION_VIEW);
+
         return true;
     }
 

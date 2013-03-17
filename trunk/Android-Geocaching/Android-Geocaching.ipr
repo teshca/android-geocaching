@@ -34,6 +34,7 @@
       <directory url="file://$PROJECT_DIR$/../google-maps-samples/gen" includeSubdirectories="true" />
       <directory url="file://$PROJECT_DIR$/../Android-Geocaching.Test/gen" includeSubdirectories="true" />
       <directory url="file://$PROJECT_DIR$/../google-play-services_lib_rev5/gen" includeSubdirectories="true" />
+      <directory url="file://$PROJECT_DIR$/../JakeWharton-ActionBarSherlock-e5c2d1c/library/gen" includeSubdirectories="true" />
     </excludeFromCompile>
     <resourceExtensions />
     <wildcardResourcePatterns>
@@ -215,8 +216,7 @@
   </component>
   <component name="ProjectModuleManager">
     <modules>
-      <module fileurl="file://$PROJECT_DIR$/../JakeWharton-ActionBarSherlock-88fc341/library/ActionBarSherlock.iml" filepath="$PROJECT_DIR$/../JakeWharton-ActionBarSherlock-88fc341/library/ActionBarSherlock.iml" />
-      <module fileurl="file://$PROJECT_DIR$/../JakeWharton-ActionBarSherlock-88fc341/samples/demos/ActionBarSherlockDemos.iml" filepath="$PROJECT_DIR$/../JakeWharton-ActionBarSherlock-88fc341/samples/demos/ActionBarSherlockDemos.iml" />
+      <module fileurl="file://$PROJECT_DIR$/../JakeWharton-ActionBarSherlock-e5c2d1c/library/ActionBarSherlock.library.iml" filepath="$PROJECT_DIR$/../JakeWharton-ActionBarSherlock-e5c2d1c/library/ActionBarSherlock.library.iml" />
       <module fileurl="file://$PROJECT_DIR$/Android-Geocaching.iml" filepath="$PROJECT_DIR$/Android-Geocaching.iml" />
       <module fileurl="file://$PROJECT_DIR$/../Android-Geocaching.Test/Android-Geocaching.Test.iml" filepath="$PROJECT_DIR$/../Android-Geocaching.Test/Android-Geocaching.Test.iml" />
       <module fileurl="file://$PROJECT_DIR$/../google-play-services_lib_rev5/google-play-services_lib_rev5.iml" filepath="$PROJECT_DIR$/../google-play-services_lib_rev5/google-play-services_lib_rev5.iml" />
@@ -245,20 +245,6 @@
             </SvnBranchConfiguration>
           </value>
         </entry>
-        <entry key="$PROJECT_DIR$/../JakeWharton-ActionBarSherlock-88fc341/library">
-          <value>
-            <SvnBranchConfiguration>
-              <option name="trunkUrl" value="" />
-            </SvnBranchConfiguration>
-          </value>
-        </entry>
-        <entry key="$PROJECT_DIR$/../JakeWharton-ActionBarSherlock-88fc341/samples/demos">
-          <value>
-            <SvnBranchConfiguration>
-              <option name="trunkUrl" value="" />
-            </SvnBranchConfiguration>
-          </value>
-        </entry>
         <entry key="$PROJECT_DIR$/../google-play-services_lib_rev5">
           <value>
             <SvnBranchConfiguration>
@@ -272,6 +258,7 @@
   </component>
   <component name="VcsDirectoryMappings">
     <mapping directory="" vcs="svn" />
+    <mapping directory="$PROJECT_DIR$/../JakeWharton-ActionBarSherlock-e5c2d1c/library" vcs="svn" />
     <mapping directory="$PROJECT_DIR$/../google-play-services_lib_rev5" vcs="svn" />
   </component>
 </project>

@@ -40,7 +40,7 @@
         <item name="android:actionBarTabStyle">@style/Geocaching.ActionBar.TabStyle</item>
     	<item name="actionBarTabStyle">@style/Geocaching.ActionBar.TabStyle</item>
 
-        <item name="absForceOverflow">true</item>
+        <!--<item name="absForceOverflow">true</item>-->
     </style>
 
     <style name="Geocaching.ActionBarStyle" parent="@style/geocaching_transparent_ActionBar">

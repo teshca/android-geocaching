@@ -98,7 +98,7 @@
     <!-- map.addWay -->
     <string name="use_group_cache_key">map.addWay</string>
     <string name="use_group_cache_title">Группировка тайников</string>
-    <string name="use_group_cache_summary">На мелом масштабе близкие тайники объединять в группы</string>
+    <string name="use_group_cache_summary">На мелком масштабе близкие тайники объединять в группы</string>
     <bool name="use_group_cache_default_value">true</bool>
 
     <!-- map.filters -->
