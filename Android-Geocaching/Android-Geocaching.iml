@@ -43,7 +43,7 @@
     <orderEntry type="module-library">
       <library>
         <CLASSES>
-          <root url="jar://$MODULE_DIR$/libs/libGoogleAnalytics.jar!/" />
+          <root url="jar://$MODULE_DIR$/libs/libGoogleAnalyticsV2.jar!/" />
         </CLASSES>
         <JAVADOC />
         <SOURCES />
