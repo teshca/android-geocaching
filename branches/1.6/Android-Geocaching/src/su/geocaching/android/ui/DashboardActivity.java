@@ -11,6 +11,7 @@ import com.actionbarsherlock.view.MenuItem;
 import su.geocaching.android.controller.Controller;
 import su.geocaching.android.controller.managers.NavigationManager;
 import su.geocaching.android.model.GeoCache;
+import su.geocaching.android.ui.map.GoogleCompatibility;
 
 /**
  * Main activity of the application
@@ -95,6 +96,8 @@ public class DashboardActivity extends SherlockActivity {
      * Starting activity to select GeoCache
      */
     public void onSelectClick(View v) {
+        if (!GoogleCompatibility.checkGoogleMapsDependencies(this)) return;
+
         NavigationManager.startSelectMapActivity(this);
     }
 
@@ -102,6 +105,8 @@ public class DashboardActivity extends SherlockActivity {
      * Starting activity to search GeoCache
      */
     public void onSearchClick(View v) {
+        if (!GoogleCompatibility.checkGoogleMapsDependencies(this)) return;
+
         GeoCache geoCache = Controller.getInstance().getPreferencesManager().getLastSearchedGeoCache();
         if (geoCache == null) {
             Toast.makeText(this, this.getString(R.string.search_geocache_start_without_geocache), Toast.LENGTH_SHORT).show();

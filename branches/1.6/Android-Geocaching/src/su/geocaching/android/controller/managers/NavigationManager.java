@@ -202,7 +202,7 @@ public class NavigationManager {
      * @param context
      *         parent context
      */
-    private static void startAndroidMarketActivity(Context context, String ApplicationId) {
+    public static void startAndroidMarketActivity(Context context, String ApplicationId) {
         Intent marketIntent = new Intent(Intent.ACTION_VIEW, Uri.parse(String.format("market://details?id=%s", ApplicationId)));
         if (isApplicationAvailable(context, marketIntent)) {
             Controller.getInstance().getGoogleAnalyticsManager().trackExternalActivityLaunch(String.format("/AndroidMarket/%s", ApplicationId));
