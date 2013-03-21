@@ -68,6 +68,12 @@ public class GoogleMapWrapper implements IMapWrapper {
     }
 
     @Override
+    public void animateToGeoPoint(GeoPoint geoPoint) {
+        LatLng center = new LatLng(geoPoint.getLatitude(), geoPoint.getLongitude());
+        googleMap.animateCamera(CameraUpdateFactory.newLatLng(center));
+    }
+
+    @Override
     public MapInfo getMapState() {
         CameraPosition cameraPosition = googleMap.getCameraPosition();
         return new MapInfo(cameraPosition.target.latitude, cameraPosition.target.longitude, cameraPosition.zoom);
