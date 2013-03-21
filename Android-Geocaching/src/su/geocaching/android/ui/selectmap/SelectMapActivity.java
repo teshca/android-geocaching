@@ -4,6 +4,7 @@ import android.app.Dialog;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.location.Location;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.ProgressBar;
@@ -20,9 +21,11 @@ import su.geocaching.android.controller.Controller;
 import su.geocaching.android.controller.apimanager.GeoRect;
 import su.geocaching.android.controller.managers.*;
 import su.geocaching.android.model.GeoCache;
+import su.geocaching.android.model.GeoPoint;
 import su.geocaching.android.model.MapInfo;
 import su.geocaching.android.ui.R;
 import su.geocaching.android.ui.map.GeocacheMarkerTapListener;
+import su.geocaching.android.ui.map.GeocodeTask;
 import su.geocaching.android.ui.map.ViewPortChangeListener;
 import su.geocaching.android.ui.preferences.MapPreferenceActivity;
 
@@ -45,6 +48,7 @@ public class SelectMapActivity extends SherlockFragmentActivity implements IConn
     private TextView connectionInfoTextView;
     private TextView downloadingInfoTextView;
     private TextView groupingInfoTextView;
+    private MenuItem  searchMenuItem;
 
     private Toast tooManyCachesToast;
     private Toast statusNullLastLocationToast;
@@ -130,15 +134,59 @@ public class SelectMapActivity extends SherlockFragmentActivity implements IConn
         inflater.inflate(R.menu.select_map_menu, menu);
 
         //Create the search view
+        SearchView searchView = createSearchView();
+
+        searchMenuItem = menu.add(R.string.menu_search);
+        searchMenuItem.setIcon(R.drawable.ic_menu_search);
+        searchMenuItem.setActionView(searchView);
+        searchMenuItem.setShowAsAction(MenuItem.SHOW_AS_ACTION_IF_ROOM | MenuItem.SHOW_AS_ACTION_COLLAPSE_ACTION_VIEW);
+
+        return true;
+    }
+
+    private SearchView createSearchView() {
         SearchView searchView = new SearchView(getSupportActionBar().getThemedContext());
         searchView.setQueryHint(this.getString(R.string.select_map_search_query_hint));
 
-        menu.add(R.string.menu_search)
-            .setIcon(R.drawable.ic_menu_search)
-            .setActionView(searchView)
-            .setShowAsAction(MenuItem.SHOW_AS_ACTION_IF_ROOM | MenuItem.SHOW_AS_ACTION_COLLAPSE_ACTION_VIEW);
+        searchView.setOnSuggestionListener(new SearchView.OnSuggestionListener() {
+            @Override
+            public boolean onSuggestionSelect(int position) {
+                return false;  //To change body of implemented methods use File | Settings | File Templates.
+            }
 
-        return true;
+            @Override
+            public boolean onSuggestionClick(int position) {
+                return false;  //To change body of implemented methods use File | Settings | File Templates.
+            }
+        });
+
+        final SelectMapActivity activity = this;
+        searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
+            @Override
+            public boolean onQueryTextSubmit(String query) {
+                new GeocodeTask(activity).execute(query);
+                return true;
+            }
+
+            @Override
+            public boolean onQueryTextChange(String newText) {
+                return false;  //To change body of implemented methods use File | Settings | File Templates.
+            }
+        });
+        return searchView;
+    }
+
+    public void animateTo(GeoPoint point) {
+        mapWrapper.animateToGeoPoint(point);
+    }
+
+    @Override
+    public boolean onSearchRequested() {
+        if (searchMenuItem != null) {
+            searchMenuItem.expandActionView();
+            return true;
+        }
+        return false;
     }
 
     /**
