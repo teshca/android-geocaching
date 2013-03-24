@@ -55,7 +55,8 @@
 
         <activity
             android:label="@string/select_map_activity_name"
-            android:name="su.geocaching.android.ui.selectmap.SelectMapActivity">
+            android:name="su.geocaching.android.ui.selectmap.SelectMapActivity"
+            android:windowSoftInputMode="adjustResize">
         </activity>
       
         <activity

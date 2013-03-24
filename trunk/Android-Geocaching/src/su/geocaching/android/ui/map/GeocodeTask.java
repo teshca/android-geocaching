@@ -8,6 +8,7 @@ import android.widget.Toast;
 import su.geocaching.android.controller.managers.LogManager;
 import su.geocaching.android.controller.managers.UncaughtExceptionsHandler;
 import su.geocaching.android.model.GeoPoint;
+import su.geocaching.android.ui.R;
 import su.geocaching.android.ui.selectmap.SelectMapActivity;
 
 import java.io.IOException;
@@ -44,7 +45,7 @@ public class GeocodeTask extends AsyncTask<String, Void, List<Address>> {
     protected void onPostExecute(List<Address> result) {
         LogManager.d(TAG, "onPostExecute");
         if (result == null || result.isEmpty()) {
-            Toast toast = Toast.makeText(activity, "Ничего не найдено", Toast.LENGTH_SHORT);
+            Toast toast = Toast.makeText(activity, R.string.select_map_nothing_found, Toast.LENGTH_SHORT);
             toast.setGravity(Gravity.TOP| Gravity.CENTER_HORIZONTAL, 0, 100);
             toast.show();
             return;
