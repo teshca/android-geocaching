@@ -148,18 +148,6 @@ public class SelectMapActivity extends SherlockFragmentActivity implements IConn
         SearchView searchView = new SearchView(getSupportActionBar().getThemedContext());
         searchView.setQueryHint(this.getString(R.string.select_map_search_query_hint));
 
-        searchView.setOnSuggestionListener(new SearchView.OnSuggestionListener() {
-            @Override
-            public boolean onSuggestionSelect(int position) {
-                return false;  //To change body of implemented methods use File | Settings | File Templates.
-            }
-
-            @Override
-            public boolean onSuggestionClick(int position) {
-                return false;  //To change body of implemented methods use File | Settings | File Templates.
-            }
-        });
-
         final SelectMapActivity activity = this;
         searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
             @Override
@@ -170,7 +158,7 @@ public class SelectMapActivity extends SherlockFragmentActivity implements IConn
 
             @Override
             public boolean onQueryTextChange(String newText) {
-                return false;  //To change body of implemented methods use File | Settings | File Templates.
+                return false;
             }
         });
         return searchView;
