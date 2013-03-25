@@ -292,6 +292,7 @@ public class Controller {
         getExternalStorageManager(); // initialize and update photo cache
         // increase number of application runs
         getPreferencesManager().setNumberOfRuns(getPreferencesManager().getNumberOfRuns() + 1);
+        getGoogleAnalyticsManager(); // initialize Google Analytics tracker
     }
 
     public String getApplicationVersionName() {

@@ -2,7 +2,6 @@ package su.geocaching.android.controller.apimanager;
 
 import android.os.AsyncTask;
 import su.geocaching.android.controller.Controller;
-import su.geocaching.android.controller.managers.UncaughtExceptionsHandler;
 import su.geocaching.android.model.GeoCache;
 import su.geocaching.android.model.GeoCacheStatus;
 import su.geocaching.android.model.GeoCacheType;
@@ -22,7 +21,6 @@ public class DownloadGeoCachesTask extends AsyncTask<GeoRect, Integer, List<GeoC
 
     public DownloadGeoCachesTask(SelectMapViewModel selectMapViewModel) {
         this.selectMapViewModel = selectMapViewModel;
-        Thread.setDefaultUncaughtExceptionHandler(new UncaughtExceptionsHandler());
     }
 
     @Override

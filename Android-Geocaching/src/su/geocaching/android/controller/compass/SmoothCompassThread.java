@@ -4,7 +4,6 @@ import su.geocaching.android.controller.Controller;
 import su.geocaching.android.controller.managers.CompassManager;
 import su.geocaching.android.controller.managers.IBearingAware;
 import su.geocaching.android.controller.managers.LogManager;
-import su.geocaching.android.controller.managers.UncaughtExceptionsHandler;
 
 import java.util.Collections;
 import java.util.LinkedList;
@@ -43,8 +42,6 @@ public class SmoothCompassThread extends Thread implements IBearingAware {
 
         compassManager = Controller.getInstance().getCompassManager();
         compassManager.addSubscriber(this);
-
-        Thread.setDefaultUncaughtExceptionHandler(new UncaughtExceptionsHandler());
     }
 
     public void setRunning(boolean isRunning) {

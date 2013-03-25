@@ -394,7 +394,6 @@ public class AccurateUserLocationManager extends AbstractUserLocationManager imp
          */
         public RemoveUpdatesTask(AccurateUserLocationManager parent) {
             this.parent = parent;
-            Thread.setDefaultUncaughtExceptionHandler(new UncaughtExceptionsHandler());
         }
 
         /*
@@ -415,10 +414,6 @@ public class AccurateUserLocationManager extends AbstractUserLocationManager imp
      * @author Grigory Kalabin. grigory.kalabin@gmail.com
      */
     private class DeprecateLocationNotifier extends TimerTask {
-        public DeprecateLocationNotifier() {
-            Thread.setDefaultUncaughtExceptionHandler(new UncaughtExceptionsHandler());
-        }
-
         /*
          * (non-Javadoc)
          *
