@@ -6,7 +6,6 @@ import android.os.AsyncTask;
 import android.view.Gravity;
 import android.widget.Toast;
 import su.geocaching.android.controller.managers.LogManager;
-import su.geocaching.android.controller.managers.UncaughtExceptionsHandler;
 import su.geocaching.android.model.GeoPoint;
 import su.geocaching.android.ui.R;
 import su.geocaching.android.ui.selectmap.SelectMapActivity;
@@ -22,7 +21,6 @@ public class GeocodeTask extends AsyncTask<String, Void, List<Address>> {
 
     public GeocodeTask(SelectMapActivity context) {
         this.activity = context;
-        Thread.setDefaultUncaughtExceptionHandler(new UncaughtExceptionsHandler());
     }
 
     @Override

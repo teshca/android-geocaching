@@ -2,7 +2,6 @@ package su.geocaching.android.controller.selectmap.geocachegroup;
 
 import android.os.AsyncTask;
 import su.geocaching.android.controller.managers.LogManager;
-import su.geocaching.android.controller.managers.UncaughtExceptionsHandler;
 import su.geocaching.android.model.GeoCache;
 import su.geocaching.android.ui.selectmap.SelectMapViewModel;
 
@@ -18,7 +17,6 @@ public class GroupGeoCacheTask extends AsyncTask<Void, Integer, List<GeoCache>> 
         this.selectMapViewModel = selectMapViewModel;
         this.geoCacheList = geoCacheList;
         analyzer = new GeoCacheListAnalyzer(selectMapViewModel.getProjection(), selectMapViewModel.getMapWidth(), selectMapViewModel.getMapHeight());
-        Thread.setDefaultUncaughtExceptionHandler(new UncaughtExceptionsHandler());
     }
 
     @Override

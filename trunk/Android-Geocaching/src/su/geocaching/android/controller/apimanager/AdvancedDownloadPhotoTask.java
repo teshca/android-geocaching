@@ -3,7 +3,6 @@ package su.geocaching.android.controller.apimanager;
 import android.os.AsyncTask;
 import su.geocaching.android.controller.Controller;
 import su.geocaching.android.controller.managers.LogManager;
-import su.geocaching.android.controller.managers.UncaughtExceptionsHandler;
 import su.geocaching.android.ui.info.GeoCachePhotoViewModel;
 
 /**
@@ -19,7 +18,6 @@ public class AdvancedDownloadPhotoTask extends AsyncTask<Void, Void, Boolean> {
 
     public AdvancedDownloadPhotoTask(GeoCachePhotoViewModel cachePhotoViewModel) {
         this.cachePhotoViewModel = cachePhotoViewModel;
-        Thread.setDefaultUncaughtExceptionHandler(new UncaughtExceptionsHandler());
     }
 
     @Override

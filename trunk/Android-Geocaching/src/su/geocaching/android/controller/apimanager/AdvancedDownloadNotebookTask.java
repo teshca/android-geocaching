@@ -5,7 +5,6 @@ import android.os.AsyncTask;
 import su.geocaching.android.controller.Controller;
 import su.geocaching.android.controller.managers.CheckpointManager;
 import su.geocaching.android.controller.managers.LogManager;
-import su.geocaching.android.controller.managers.UncaughtExceptionsHandler;
 import su.geocaching.android.ui.info.InfoViewModel;
 
 /**
@@ -21,7 +20,6 @@ public class AdvancedDownloadNotebookTask extends AsyncTask<Void, Void, String> 
 
     public AdvancedDownloadNotebookTask(InfoViewModel infoViewModel) {
         this.infoViewModel = infoViewModel;
-        Thread.setDefaultUncaughtExceptionHandler(new UncaughtExceptionsHandler());
     }
 
     @Override

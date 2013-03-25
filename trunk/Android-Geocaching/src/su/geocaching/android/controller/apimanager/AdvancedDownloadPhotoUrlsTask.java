@@ -4,7 +4,6 @@ package su.geocaching.android.controller.apimanager;
 import android.os.AsyncTask;
 import su.geocaching.android.controller.Controller;
 import su.geocaching.android.controller.managers.LogManager;
-import su.geocaching.android.controller.managers.UncaughtExceptionsHandler;
 import su.geocaching.android.ui.info.InfoViewModel;
 
 import java.net.URL;
@@ -23,7 +22,6 @@ public class AdvancedDownloadPhotoUrlsTask extends AsyncTask<Void, Void, List<UR
 
     public AdvancedDownloadPhotoUrlsTask(InfoViewModel infoViewModel) {
         this.infoViewModel = infoViewModel;
-        Thread.setDefaultUncaughtExceptionHandler(new UncaughtExceptionsHandler());
     }
 
     @Override
