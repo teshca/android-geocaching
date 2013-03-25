@@ -149,6 +149,12 @@ public class SelectMapActivity extends SherlockFragmentActivity implements IConn
         searchView.setQueryHint(this.getString(R.string.select_map_search_query_hint));
 
         final SelectMapActivity activity = this;
+        searchView.setOnQueryTextFocusChangeListener(new View.OnFocusChangeListener() {
+            @Override
+            public void onFocusChange(View v, boolean hasFocus) {
+                if (!hasFocus) searchMenuItem.collapseActionView();
+            }
+        });
         searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
             @Override
             public boolean onQueryTextSubmit(String query) {
