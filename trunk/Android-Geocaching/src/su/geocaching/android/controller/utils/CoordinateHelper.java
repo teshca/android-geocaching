@@ -198,4 +198,23 @@ public class CoordinateHelper {
         goalLongitude = Math.toDegrees(goalLongitude);
         return new GeoPoint(goalLatitude, goalLongitude);
     }
+
+    public static String distanceH(double distance, int threshold)
+    {
+        String[] dist = distanceC(distance, threshold);
+        return dist[0] + " " + dist[1];
+    }
+
+    public static String[] distanceC(final double distance, int threshold)
+    {
+        double dist = distance;
+        String distUnit = SMALL_DISTANCE_VALUE_NAME;
+        if (Math.abs(dist) > threshold)
+        {
+            dist = dist / 1000;
+            distUnit = BIG_DISTANCE_VALUE_NAME;
+        }
+
+        return new String[] {String.format("%.0f", dist), distUnit};
+    }
 }
