@@ -24,15 +24,14 @@ import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.LatLng;
 import su.geocaching.android.controller.Controller;
 import su.geocaching.android.controller.GpsUpdateFrequency;
+import su.geocaching.android.controller.apimanager.GeoRect;
 import su.geocaching.android.controller.compass.SmoothCompassThread;
 import su.geocaching.android.controller.managers.*;
 import su.geocaching.android.controller.utils.CoordinateHelper;
 import su.geocaching.android.controller.utils.UiHelper;
 import su.geocaching.android.model.*;
 import su.geocaching.android.ui.R;
-import su.geocaching.android.ui.map.GeocacheMarkerTapListener;
-import su.geocaching.android.ui.map.LocationMarkerTapListener;
-import su.geocaching.android.ui.map.MapLongClickListener;
+import su.geocaching.android.ui.map.*;
 import su.geocaching.android.ui.preferences.DashboardPreferenceActivity;
 
 /**
@@ -61,6 +60,7 @@ public class SearchMapActivity extends SherlockFragmentActivity
     private Toast providerUnavailableToast;
     private Toast connectionLostToast;
     private Toast statusNullLastLocationToast;
+    private ScaleView scaleView;
 
     private SmoothCompassThread animationThread;
 
@@ -94,6 +94,7 @@ public class SearchMapActivity extends SherlockFragmentActivity
         gpsStatusTextView = (TextView) findViewById(R.id.waitingLocationFixText);
         distanceStatusTextView = (TextView) findViewById(R.id.distanceToCacheText);
         progressBarCircle = (ProgressBar) findViewById(R.id.progressCircle);
+        scaleView = (ScaleView)findViewById(R.id.scaleView);
 
         setUpMapIfNeeded();
 
@@ -628,6 +629,13 @@ public class SearchMapActivity extends SherlockFragmentActivity
                 checkpoint.setId(geoCache.getId());
                 checkpoint.setGeoPoint(new GeoPoint(latLng.latitude, latLng.longitude));
                 NavigationManager.startCreateCheckpointActivity(SearchMapActivity.this, checkpoint);
+            }
+        });
+
+        mapWrapper.setViewPortChangeListener(new ViewPortChangeListener() {
+            @Override
+            public void OnViewPortChanged(GeoRect viewPort) {
+                scaleView.updateMapViewPort(viewPort);
             }
         });
     }

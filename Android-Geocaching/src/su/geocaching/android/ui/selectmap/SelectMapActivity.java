@@ -3,6 +3,7 @@ package su.geocaching.android.ui.selectmap;
 import android.app.Dialog;
 import android.content.Intent;
 import android.content.pm.PackageManager;
+import android.location.Geocoder;
 import android.location.Location;
 import android.os.AsyncTask;
 import android.os.Bundle;
@@ -26,6 +27,7 @@ import su.geocaching.android.model.MapInfo;
 import su.geocaching.android.ui.R;
 import su.geocaching.android.ui.map.GeocacheMarkerTapListener;
 import su.geocaching.android.ui.map.GeocodeTask;
+import su.geocaching.android.ui.map.ScaleView;
 import su.geocaching.android.ui.map.ViewPortChangeListener;
 import su.geocaching.android.ui.preferences.MapPreferenceActivity;
 
@@ -49,6 +51,7 @@ public class SelectMapActivity extends SherlockFragmentActivity implements IConn
     private TextView downloadingInfoTextView;
     private TextView groupingInfoTextView;
     private MenuItem  searchMenuItem;
+    private ScaleView scaleView;
 
     private Toast tooManyCachesToast;
     private Toast statusNullLastLocationToast;
@@ -72,6 +75,8 @@ public class SelectMapActivity extends SherlockFragmentActivity implements IConn
         connectionInfoTextView = (TextView) findViewById(R.id.connectionInfoTextView);
         groupingInfoTextView = (TextView) findViewById(R.id.groupingInfoTextView);
         downloadingInfoTextView = (TextView) findViewById(R.id.downloadingInfoTextView);
+
+        scaleView = (ScaleView)findViewById(R.id.scaleView);
 
         locationManager = Controller.getInstance().getLowPowerLocationManager();
         connectionManager = Controller.getInstance().getConnectionManager();
@@ -133,13 +138,15 @@ public class SelectMapActivity extends SherlockFragmentActivity implements IConn
         final MenuInflater inflater = getSupportMenuInflater();
         inflater.inflate(R.menu.select_map_menu, menu);
 
-        //Create the search view
-        SearchView searchView = createSearchView();
+        if (Geocoder.isPresent()) {
+            //Create the search view
+            SearchView searchView = createSearchView();
 
-        searchMenuItem = menu.add(R.string.menu_search);
-        searchMenuItem.setIcon(R.drawable.ic_menu_search);
-        searchMenuItem.setActionView(searchView);
-        searchMenuItem.setShowAsAction(MenuItem.SHOW_AS_ACTION_IF_ROOM | MenuItem.SHOW_AS_ACTION_COLLAPSE_ACTION_VIEW);
+            searchMenuItem = menu.add(R.string.menu_search);
+            searchMenuItem.setIcon(R.drawable.ic_menu_search);
+            searchMenuItem.setActionView(searchView);
+            searchMenuItem.setShowAsAction(MenuItem.SHOW_AS_ACTION_IF_ROOM | MenuItem.SHOW_AS_ACTION_COLLAPSE_ACTION_VIEW);
+        }
 
         return true;
     }
@@ -351,6 +358,7 @@ public class SelectMapActivity extends SherlockFragmentActivity implements IConn
             public void OnViewPortChanged(GeoRect viewPort) {
                 View mapView = mapFragment.getView();
                 if (mapView != null) {
+                    scaleView.updateMapViewPort(viewPort);
                     selectMapViewModel.beginUpdateGeocacheOverlay(viewPort, mapWrapper.getProjection(), mapView.getWidth(), mapView.getHeight());
                 } else {
                     LogManager.e(TAG, "mapView is Null");
