@@ -115,7 +115,7 @@ public class ScaleView extends View {
         if (width == 0) return;
         GeoPoint bottomLeft = new GeoPoint(viewPort.br.getLatitude(), viewPort.tl.getLongitude());
         double newScale = CoordinateHelper.getDistanceBetween(viewPort.br, bottomLeft) / width;
-        if ((int)mpp != (int)newScale) {
+        if (Math.abs(mpp - newScale) < 0.0001) {
             mpp = newScale;
             invalidate();
         }
