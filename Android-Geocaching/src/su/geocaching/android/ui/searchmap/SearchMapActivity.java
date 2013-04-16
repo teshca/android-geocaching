@@ -145,8 +145,11 @@ public class SearchMapActivity extends SherlockFragmentActivity
 
         boolean keepScreenOn = Controller.getInstance().getPreferencesManager().getKeepScreenOnPreference();
         this.mapFragment.getView().setKeepScreenOn(keepScreenOn);
+        scaleView.setVisibility(Controller.getInstance().getPreferencesManager().isMapScaleVisible() ? View.VISIBLE : View.GONE);
+
         updateMapInfoFromSettings();
         mapWrapper.updateMapLayer();
+        mapWrapper.setZoomControlsEnabled(Controller.getInstance().getPreferencesManager().isZoomButtonsVisible());
         mapWrapper.clearGeocacheMarkers();
         mapWrapper.setSearchGeocache(geoCache);
 
@@ -590,9 +593,6 @@ public class SearchMapActivity extends SherlockFragmentActivity
      */
     private void setUpMap() {
         mapWrapper = new SearchGoogleMapWrapper(googleMap);
-
-        boolean isMultiTouchAvailable = getPackageManager().hasSystemFeature(PackageManager.FEATURE_TOUCHSCREEN_MULTITOUCH);
-        mapWrapper.setZoomControlsEnabled(!isMultiTouchAvailable);
 
         mapWrapper.setupMyLocationLayer();
         mapWrapper.setLocationMarkerTapListener(new LocationMarkerTapListener() {

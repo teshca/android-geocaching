@@ -1,6 +1,8 @@
 package su.geocaching.android.ui.preferences;
 
+import android.content.pm.PackageManager;
 import android.os.Bundle;
+import android.preference.CheckBoxPreference;
 import android.preference.ListPreference;
 import android.preference.Preference;
 import com.actionbarsherlock.app.SherlockPreferenceActivity;
@@ -26,6 +28,13 @@ public class MapPreferenceActivity extends SherlockPreferenceActivity {
         Controller.getInstance().getGoogleAnalyticsManager().trackActivityLaunch(MAP_PREFERENCE_ACTIVITY_NAME);
         getSupportActionBar().setHomeButtonEnabled(true);
         addPreferencesFromResource(R.xml.map_preference);
+
+        boolean isMultiTouchAvailable = getPackageManager().hasSystemFeature(PackageManager.FEATURE_TOUCHSCREEN_MULTITOUCH);
+        if (!isMultiTouchAvailable) {
+            final CheckBoxPreference showZoomButtons = (CheckBoxPreference) findPreference(getString(R.string.show_zoom_buttons_key));
+            showZoomButtons.setChecked(true);
+            showZoomButtons.setEnabled(false);
+        }
 
         final ListPreference mapProvider = (ListPreference) findPreference(getString(R.string.map_provider_key));
         mapProvider.setOnPreferenceChangeListener(updateStatusOnListPreferenceChangeListener);

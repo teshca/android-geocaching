@@ -2,6 +2,7 @@ package su.geocaching.android.controller.managers;
 
 import android.content.Context;
 import android.content.SharedPreferences;
+import android.content.pm.PackageManager;
 import android.content.res.Resources;
 import android.location.Location;
 import android.location.LocationManager;
@@ -251,6 +252,17 @@ public class PreferencesManager {
     public Boolean isCacheGroupingEnabled() {
         // keys located in resources, because settings logic described in xml and write it automatically to SharedPreferences
         return preferences.getBoolean(context.getString(R.string.use_group_cache_key), resources.getBoolean(R.bool.use_group_cache_default_value));
+    }
+
+    public Boolean isMapScaleVisible() {
+        // keys located in resources, because settings logic described in xml and write it automatically to SharedPreferences
+        return preferences.getBoolean(context.getString(R.string.show_map_scale_key), resources.getBoolean(R.bool.show_map_scale_default_value));
+    }
+
+    public Boolean isZoomButtonsVisible() {
+        // keys located in resources, because settings logic described in xml and write it automatically to SharedPreferences
+        boolean isMultiTouchAvailable = context.getPackageManager().hasSystemFeature(PackageManager.FEATURE_TOUCHSCREEN_MULTITOUCH);
+        return preferences.getBoolean(context.getString(R.string.show_zoom_buttons_key), !isMultiTouchAvailable);
     }
 
     public GpsUpdateFrequency getGpsUpdateFrequency() {

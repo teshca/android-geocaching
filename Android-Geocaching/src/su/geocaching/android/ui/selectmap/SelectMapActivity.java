@@ -2,10 +2,8 @@ package su.geocaching.android.ui.selectmap;
 
 import android.app.Dialog;
 import android.content.Intent;
-import android.content.pm.PackageManager;
 import android.location.Geocoder;
 import android.location.Location;
-import android.os.AsyncTask;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.ProgressBar;
@@ -68,7 +66,7 @@ public class SelectMapActivity extends SherlockFragmentActivity implements IConn
         setContentView(R.layout.select_map_activity);
         getSupportActionBar().setHomeButtonEnabled(true);
 
-        setUpMapIfNeeded();
+        scaleView = (ScaleView)findViewById(R.id.scaleView);
 
         progressCircle = (ProgressBar) findViewById(R.id.progressCircle);
 
@@ -76,7 +74,7 @@ public class SelectMapActivity extends SherlockFragmentActivity implements IConn
         groupingInfoTextView = (TextView) findViewById(R.id.groupingInfoTextView);
         downloadingInfoTextView = (TextView) findViewById(R.id.downloadingInfoTextView);
 
-        scaleView = (ScaleView)findViewById(R.id.scaleView);
+        setUpMapIfNeeded();
 
         locationManager = Controller.getInstance().getLowPowerLocationManager();
         connectionManager = Controller.getInstance().getConnectionManager();
@@ -100,9 +98,12 @@ public class SelectMapActivity extends SherlockFragmentActivity implements IConn
         super.onResume();
         LogManager.d(TAG, "onResume");
 
+        scaleView.setVisibility(Controller.getInstance().getPreferencesManager().isMapScaleVisible() ? View.VISIBLE : View.GONE);
         setUpMapIfNeeded();
+
         // update mapView setting in case they were changed in preferences
         mapWrapper.updateMapLayer();
+        mapWrapper.setZoomControlsEnabled(Controller.getInstance().getPreferencesManager().isZoomButtonsVisible());
         // add subscriber to connection manager
         connectionManager.addSubscriber(this);
         // ask to enable if disabled
@@ -349,9 +350,6 @@ public class SelectMapActivity extends SherlockFragmentActivity implements IConn
      */
     private void setUpMap() {
         mapWrapper = new SelectGoogleMapWrapper(mMap);
-
-        boolean isMultiTouchAvailable = getPackageManager().hasSystemFeature(PackageManager.FEATURE_TOUCHSCREEN_MULTITOUCH);
-        mapWrapper.setZoomControlsEnabled(!isMultiTouchAvailable);
 
         mapWrapper.setViewPortChangeListener(new ViewPortChangeListener() {
             @Override
