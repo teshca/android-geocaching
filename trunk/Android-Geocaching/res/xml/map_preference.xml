@@ -25,6 +25,16 @@
                 android:title="@string/use_group_cache_title"
                 android:summary="@string/use_group_cache_summary"
                 android:defaultValue="@bool/use_group_cache_default_value"/>
+        <CheckBoxPreference
+                android:key="@string/show_map_scale_key"
+                android:title="@string/show_map_scale_title"
+                android:summary="@string/show_map_scale_summary"
+                android:defaultValue="@bool/show_map_scale_default_value"/>
+        <CheckBoxPreference
+                android:key="@string/show_zoom_buttons_key"
+                android:title="@string/show_zoom_buttons_title"
+                android:summary="@string/show_zoom_buttons_summary"
+                android:defaultValue="@bool/show_zoom_buttons_default_value"/>
     </PreferenceCategory>
 
     <PreferenceCategory android:title="@string/map_filters_title">

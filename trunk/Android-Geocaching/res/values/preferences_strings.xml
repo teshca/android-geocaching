@@ -101,6 +101,18 @@
     <string name="use_group_cache_summary">На мелком масштабе близкие тайники объединять в группы</string>
     <bool name="use_group_cache_default_value">true</bool>
 
+    <!-- map.showScale -->
+    <string name="show_map_scale_key">map.showScale</string>
+    <string name="show_map_scale_title">Масштабная линейка</string>
+    <string name="show_map_scale_summary">Показывать масштабную линейку</string>
+    <bool name="show_map_scale_default_value">true</bool>
+
+    <!-- map.showZoomButtons -->
+    <string name="show_zoom_buttons_key">map.showZoomButtons</string>
+    <string name="show_zoom_buttons_title">Кнопки масштабирования</string>
+    <string name="show_zoom_buttons_title">Показывать кнопки масштабирования</string>
+    <bool name="show_zoom_buttons_default_value">false</bool>
+
     <!-- map.filters -->
     <string name="map_filters_title">Фильтры</string>
     <string name="cache_filter_default_value">ALL</string>
