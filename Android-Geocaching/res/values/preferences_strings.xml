@@ -110,7 +110,7 @@
     <!-- map.showZoomButtons -->
     <string name="show_zoom_buttons_key">map.showZoomButtons</string>
     <string name="show_zoom_buttons_title">Кнопки масштабирования</string>
-    <string name="show_zoom_buttons_title">Показывать кнопки масштабирования</string>
+    <string name="show_zoom_buttons_summary">Показывать кнопки масштабирования</string>
     <bool name="show_zoom_buttons_default_value">false</bool>
 
     <!-- map.filters -->
