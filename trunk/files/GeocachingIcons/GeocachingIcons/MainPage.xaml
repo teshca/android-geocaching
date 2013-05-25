@@ -12,7 +12,7 @@
        </Grid.ColumnDefinitions>
 
        <Viewbox x:Name="Canvas" Width="{Binding ElementName=IconSize, Path=Text}" Height="{Binding ElementName=IconSize, Path=Text}" >
-            <local:LauncherIconRound UseLayoutRounding="False"/>           	   
+            <local:ActionBarNavigationIcon UseLayoutRounding="False" Background="AntiqueWhite"/>           	   
        </Viewbox>
        
        <StackPanel Grid.Column="1" VerticalAlignment="Center">
