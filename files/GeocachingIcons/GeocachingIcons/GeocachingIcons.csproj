@@ -92,6 +92,9 @@
     <Compile Include="App.xaml.cs">
       <DependentUpon>App.xaml</DependentUpon>
     </Compile>
+    <Compile Include="ActionBarNavigationIcon.xaml.cs">
+      <DependentUpon>ActionBarNavigationIcon.xaml</DependentUpon>
+    </Compile>
     <Compile Include="ImageHelper.cs" />
     <Compile Include="LauncherIconRound.xaml.cs">
       <DependentUpon>LauncherIconRound.xaml</DependentUpon>
@@ -111,6 +114,10 @@
     </ApplicationDefinition>
     <Page Include="ActionBarIcon.xaml">
       <Generator>MSBuild:MarkupCompilePass1</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="ActionBarNavigationIcon.xaml">
+      <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
     <Page Include="GeocachingSu.xaml">
