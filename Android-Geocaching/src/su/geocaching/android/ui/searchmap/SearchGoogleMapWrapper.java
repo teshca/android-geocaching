@@ -1,6 +1,8 @@
 package su.geocaching.android.ui.searchmap;
 
+import android.graphics.Point;
 import android.location.Location;
+import android.os.Handler;
 import com.google.android.gms.maps.CameraUpdate;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
@@ -30,11 +32,16 @@ public class SearchGoogleMapWrapper extends GoogleMapWrapper implements ISearchM
 
     private float currentDirection;
 
+    private boolean autoRotationEnabled = false;
+    private Handler uiThreadHandler = new Handler();
+
     public SearchGoogleMapWrapper(GoogleMap map) {
         super(map);
         preciseColor = Controller.getInstance().getResourceManager().getColor(R.color.user_location_arrow_color_precise);
         notPreciseColor = Controller.getInstance().getResourceManager().getColor(R.color.user_location_arrow_color_not_precise);
         geocacheOverlay = new GoogleGeocacheOverlay(map);
+
+        uiThreadHandler = new Handler();
 
         map.setOnMapLongClickListener(
                 new GoogleMap.OnMapLongClickListener() {
@@ -139,6 +146,26 @@ public class SearchGoogleMapWrapper extends GoogleMapWrapper implements ISearchM
     }
 
     @Override
+    public boolean isUserLocationMarkerCentered() {
+        if (currentUserLocation == null) return false;
+        Point userLocation = googleMap.getProjection().toScreenLocation(getUserLocation(currentUserLocation));
+        Point mapCenter = googleMap.getProjection().toScreenLocation(googleMap.getCameraPosition().target);
+        return Math.abs(userLocation.x - mapCenter.x) < 20 && Math.abs(userLocation.y - mapCenter.y) < 20;
+    }
+
+    @Override
+    public boolean isAutoRotationEnabled() {
+        return autoRotationEnabled;
+    }
+
+    @Override
+    public void setAutoRotationEnabled(boolean b) {
+        if (autoRotationEnabled == b) return;
+        autoRotationEnabled = b;
+        rotateMap(autoRotationEnabled ? currentDirection : 0, true);
+    }
+
+    @Override
     public void setMapLongClickListener(MapLongClickListener listener) {
         mapLongClickListener = listener;
     }
@@ -162,11 +189,50 @@ public class SearchGoogleMapWrapper extends GoogleMapWrapper implements ISearchM
         currentDirection = direction;
         if (currentUserLocation != null) {
             currentUserLocation.setBearing(currentDirection);
+            if (isAutoRotationEnabled()) {
+                Runnable r = new Runnable() {
+                    public void run() {
+                        rotateMap(currentDirection, false);
+                    }
+                };
+                uiThreadHandler.post(r);
+            }
             if (locationChangedListener != null) {
                 locationChangedListener.onLocationChanged(currentUserLocation);
             }
         }
         return true;
+    }
+
+    private boolean rotationAnimationInProgress = false;
+    private synchronized void rotateMap(float rotation, boolean animate) {
+        CameraPosition currentCameraPosition = googleMap.getCameraPosition();
+        CameraPosition cameraPosition =
+                new CameraPosition.Builder()
+                        .target(currentCameraPosition.target)
+                        .bearing(rotation)
+                        .zoom(currentCameraPosition.zoom)
+                        .build();
+        CameraUpdateFactory.newCameraPosition(googleMap.getCameraPosition());
+        if (animate) {
+            GoogleMap.CancelableCallback cancelableCallback = new GoogleMap.CancelableCallback() {
+                @Override
+                public void onFinish() {
+                    rotationAnimationInProgress = false;
+                }
+
+                @Override
+                public void onCancel() {
+                    rotationAnimationInProgress = false;
+                }
+            };
+            rotationAnimationInProgress = true;
+            googleMap.animateCamera(CameraUpdateFactory.newCameraPosition(cameraPosition), cancelableCallback);
+        } else {
+            if (!rotationAnimationInProgress) {
+                googleMap.moveCamera(CameraUpdateFactory.newCameraPosition(cameraPosition));
+            }
+        }
     }
 
     @Override

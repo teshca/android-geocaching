@@ -28,4 +28,10 @@ public interface ISearchMapWrapper extends IMapWrapper, ICompassView {
     void setMapLongClickListener(MapLongClickListener listener);
 
     void setGeocacheTapListener(GeocacheMarkerTapListener listener);
+
+    boolean isUserLocationMarkerCentered();
+
+    boolean isAutoRotationEnabled();
+
+    void setAutoRotationEnabled(boolean b);
 }
