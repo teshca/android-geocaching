@@ -3,7 +3,6 @@ package su.geocaching.android.ui.searchmap;
 import android.annotation.SuppressLint;
 import android.app.Dialog;
 import android.content.Intent;
-import android.content.pm.PackageManager;
 import android.location.Location;
 import android.location.LocationManager;
 import android.os.Build;
@@ -216,7 +215,17 @@ public class SearchMapActivity extends SherlockFragmentActivity
         boolean isPrecise = Controller.getInstance().getLocationManager().hasPreciseLocation();
         distanceStatusTextView.setText(CoordinateHelper.distanceToString(distance, isPrecise));
 
+        checkAutoRotationAvailable();
         mapWrapper.updateLocationMarker(userLocation, isPrecise);
+    }
+
+    private void checkAutoRotationAvailable() {
+        boolean isUserLocationMarkerCentered = mapWrapper.isUserLocationMarkerCentered();
+        if (autoRotationAvailable != isUserLocationMarkerCentered) {
+            autoRotationAvailable = isUserLocationMarkerCentered;
+            mapWrapper.setAutoRotationEnabled(false);
+            invalidateOptionsMenu();
+        }
     }
 
     /**
@@ -229,6 +238,26 @@ public class SearchMapActivity extends SherlockFragmentActivity
         return true;
     }
 
+    private boolean autoRotationAvailable = false;
+
+    @Override
+    public boolean onPrepareOptionsMenu(Menu menu) {
+        MenuItem locationMenuItem = menu.findItem(R.id.menu_mylocation);
+        int locationMenuIconId;
+        if (autoRotationAvailable) {
+            if (mapWrapper.isAutoRotationEnabled()) {
+                locationMenuIconId = R.drawable.ic_action_auto_rotation_enabled;
+            } else {
+                locationMenuIconId = R.drawable.ic_action_auto_rotation_disabled;
+            }
+        } else {
+            locationMenuIconId = R.drawable.ic_menu_mylocation;
+        }
+        locationMenuItem.setIcon(Controller.getInstance().getResourceManager().getDrawable(locationMenuIconId));
+
+        return super.onPrepareOptionsMenu(menu);
+    }
+
     /**
      * Called when menu element selected
      */
@@ -239,7 +268,11 @@ public class SearchMapActivity extends SherlockFragmentActivity
                 NavigationManager.startDashboardActivity(this);
                 return true;
             case R.id.menu_mylocation:
-                onMyLocationClick();
+                if (autoRotationAvailable) {
+                    onAutoRotationClick();
+                } else {
+                    onMyLocationClick();
+                }
                 return true;
             case R.id.menuDefaultZoom:
                 resetZoom(true);
@@ -268,6 +301,11 @@ public class SearchMapActivity extends SherlockFragmentActivity
             default:
                 return super.onOptionsItemSelected(item);
         }
+    }
+
+    private void onAutoRotationClick() {
+        mapWrapper.setAutoRotationEnabled(!mapWrapper.isAutoRotationEnabled());
+        invalidateOptionsMenu();
     }
 
     private void resetZoom(final boolean animate) {
@@ -636,6 +674,7 @@ public class SearchMapActivity extends SherlockFragmentActivity
             @Override
             public void OnViewPortChanged(GeoRect viewPort) {
                 scaleView.updateMapViewPort(viewPort);
+                checkAutoRotationAvailable();
             }
         });
     }
