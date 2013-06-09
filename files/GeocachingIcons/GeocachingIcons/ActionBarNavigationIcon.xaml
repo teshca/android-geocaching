@@ -8,18 +8,20 @@
 	d:DesignWidth="640" d:DesignHeight="480">
 
 	<Grid x:Name="LayoutRoot">
-        <Border Width="72" Height="72" Padding="18">
+        <Border Width="72" Height="72" Padding="9">
             <Path 
                 Stroke="#333333"
                 Opacity="0.6"
-                StrokeThickness="4"
+                StrokeThickness="2"
                 Fill="White"
-                Data="M 0,0 1,1 0,-2 -1,1 Z"             
+                Data="M 0,0 30,30 0,-60 -30,30 Z M 0,-10 12,2 0,-35 -12,2 Z"             
                 Stretch="Uniform"
                 UseLayoutRounding="False" />
+            
             <Border.RenderTransform>
                 <RotateTransform Angle="45" CenterX="36" CenterY="36"></RotateTransform>
             </Border.RenderTransform>
+            
         </Border>
     </Grid>
 </UserControl>
