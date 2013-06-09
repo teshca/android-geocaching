@@ -192,7 +192,8 @@ public class SearchGoogleMapWrapper extends GoogleMapWrapper implements ISearchM
             if (isAutoRotationEnabled()) {
                 Runnable r = new Runnable() {
                     public void run() {
-                        rotateMap(currentDirection, false);
+                        if (isAutoRotationEnabled())
+                            rotateMap(currentDirection, false);
                     }
                 };
                 uiThreadHandler.post(r);
@@ -205,7 +206,7 @@ public class SearchGoogleMapWrapper extends GoogleMapWrapper implements ISearchM
     }
 
     private boolean rotationAnimationInProgress = false;
-    private synchronized void rotateMap(float rotation, boolean animate) {
+    private synchronized void rotateMap(final float rotation, boolean animate) {
         CameraPosition currentCameraPosition = googleMap.getCameraPosition();
         CameraPosition cameraPosition =
                 new CameraPosition.Builder()
@@ -213,7 +214,6 @@ public class SearchGoogleMapWrapper extends GoogleMapWrapper implements ISearchM
                         .bearing(rotation)
                         .zoom(currentCameraPosition.zoom)
                         .build();
-        CameraUpdateFactory.newCameraPosition(googleMap.getCameraPosition());
         if (animate) {
             GoogleMap.CancelableCallback cancelableCallback = new GoogleMap.CancelableCallback() {
                 @Override
