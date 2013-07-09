@@ -12,7 +12,7 @@ public interface IMapWrapper {
 
     MapInfo getMapState();
 
-    void restoreMapSate(MapInfo lastMapInfo);
+    void restoreMapState(MapInfo lastMapInfo);
 
     void setZoomControlsEnabled(boolean zoomControlsEnabled);
 

@@ -80,7 +80,7 @@ public class GoogleMapWrapper implements IMapWrapper {
     }
 
     @Override
-    public void restoreMapSate(MapInfo lastMapInfo) {
+    public void restoreMapState(MapInfo lastMapInfo) {
         LatLng center = new LatLng(lastMapInfo.getCenterX(), lastMapInfo.getCenterY());
         CameraUpdate cameraUpdate = CameraUpdateFactory.newLatLngZoom(center, lastMapInfo.getZoom());
         googleMap.moveCamera(cameraUpdate);
