@@ -464,7 +464,7 @@ public class SearchMapActivity extends SherlockFragmentActivity
     }
 
     private void updateMap(SearchMapInfo lastMapInfo) {
-        mapWrapper.restoreMapSate(lastMapInfo);
+        mapWrapper.restoreMapState(lastMapInfo);
     }
 
     /**

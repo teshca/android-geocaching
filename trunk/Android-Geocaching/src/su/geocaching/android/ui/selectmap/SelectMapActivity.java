@@ -85,7 +85,7 @@ public class SelectMapActivity extends SherlockFragmentActivity implements IConn
 
     private void updateMapInfoFromSettings() {
         MapInfo lastMapInfo = Controller.getInstance().getPreferencesManager().getLastSelectMapInfo();
-        mapWrapper.restoreMapSate(lastMapInfo);
+        mapWrapper.restoreMapState(lastMapInfo);
     }
 
     private void saveMapInfoToSettings() {
