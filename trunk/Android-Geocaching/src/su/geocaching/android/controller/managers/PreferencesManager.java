@@ -246,6 +246,8 @@ public class PreferencesManager {
         if (mapType.equals("OsmCycle")) return MapType.OsmCylcle;
         if (mapType.equals("OsmMapQuest")) return MapType.OsmMapQuest;
 
+        if (mapType.equals("MarshrutyRuTopoMap")) return MapType.MarshrutyRu;
+
         return MapType.GoogleNormal;
     }
 

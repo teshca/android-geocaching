@@ -1,5 +1,7 @@
 package su.geocaching.android.ui.info;
 
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.graphics.Picture;
 import android.os.Build;
 import android.os.Bundle;
@@ -18,6 +20,7 @@ import com.actionbarsherlock.view.MenuInflater;
 import com.actionbarsherlock.view.MenuItem;
 import su.geocaching.android.controller.Controller;
 import su.geocaching.android.controller.apimanager.GeocachingSuApiManager;
+import su.geocaching.android.controller.managers.NavigationManager;
 import su.geocaching.android.model.GeoPoint;
 import su.geocaching.android.ui.R;
 
@@ -126,13 +129,27 @@ public abstract class AbstractWebViewFragment extends SherlockFragment implement
                     return true;
                 }
 
-                return false;
+                NavigationManager.ExternalWebBrowser(getActivity(), url);
+                return true;
             }
 
             @Override
             public void onLoadResource(WebView view, String url) {
-                shouldOverrideUrlLoading(view, url);
+                if (url.contains("http://pda.geocaching.su/login.php")) {
+                    webView.stopLoading();
+
+                    AlertDialog alertDialog = new AlertDialog.Builder(getActivity()).create();
+                    alertDialog.setMessage(getResources().getText(R.string.info_login_not_yet_implemented));
+                    alertDialog.setButton(DialogInterface.BUTTON_NEUTRAL, getResources().getText(R.string.ok), new DialogInterface.OnClickListener() {
+                        public void onClick(DialogInterface dialog, int which) {
+                            // here you can add functions
+                        }
+                    });
+
+                    alertDialog.show();
+                }
             }
+
         };
 
         webView.setWebViewClient(webViewClient);

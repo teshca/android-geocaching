@@ -290,4 +290,9 @@ public class NavigationManager {
         intent.setData(Uri.parse(String.format("http://www.geocaching.su/?pn=101&cid=%d", geoCache.getId())));
         context.startActivity(intent);
     }
+
+    public static void ExternalWebBrowser(Context context, String url) {
+        Intent browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse(url));
+        context.startActivity(browserIntent);
+    }
 }
