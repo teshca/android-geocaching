@@ -80,6 +80,9 @@ public class MapPreferenceActivity extends SherlockPreferenceActivity {
         } else if (provider.equals("OSM")) {
             mapType.setEntries(R.array.osm_map_type_entries);
             mapType.setEntryValues(R.array.osm_map_type_values);
+        } else if (provider.equals("MarshrutyRu")) {
+            mapType.setEntries(R.array.marshruty_map_type_entries);
+            mapType.setEntryValues(R.array.marshruty_map_type_values);
         }
         if (setDefaultMapType) {
             mapType.setValue(mapType.getEntryValues()[0].toString());

@@ -7,5 +7,5 @@ public enum MapType {
     GoogleTerrain,
     OsmMapnik,
     OsmCylcle,
-    OsmMapQuest
+    MarshrutyRu, OsmMapQuest
 }

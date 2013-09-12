@@ -27,4 +27,6 @@
 	<string name="info_no_photo_message">Фотографий этого тайника нет</string>
 
     <string name="cache_notes_activity_menu_save">Сохранить</string>
+
+    <string name="info_login_not_yet_implemented">К сожалению данная функция пока не реализована в нашем приложении. Вероятно она появится в одной из следующих версий.</string>
 </resources>

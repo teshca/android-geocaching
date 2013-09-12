@@ -57,11 +57,13 @@
     <string-array name="map_provider_entries">
         <item>Карты Google</item>
         <item>OpenStreetMap (БЕТА)</item>
+        <item>Маршруты.Ру (БЕТА)</item>
         <!--<item>Яндекс карты</item>-->
     </string-array>
     <string-array name="map_provider_values">
         <item>GOOGLE</item>
         <item>OSM</item>
+        <item>MarshrutyRu</item>
         <!--<item>YANDEX</item>-->
     </string-array>
     <string name="map_provider_default_value">GOOGLE</string>
@@ -93,6 +95,13 @@
         <item>OsmMapnik</item>
         <item>OsmCycle</item>
         <item>OsmMapQuest</item>
+    </string-array>
+
+    <string-array name="marshruty_map_type_entries">
+        <item>Топокарта</item>
+    </string-array>
+    <string-array name="marshruty_map_type_values">
+        <item>MarshrutyRuTopoMap</item>
     </string-array>
 
     <!-- map.addWay -->

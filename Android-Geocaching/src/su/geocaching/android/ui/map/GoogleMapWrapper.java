@@ -97,6 +97,16 @@ public class GoogleMapWrapper implements IMapWrapper {
                 new OnCameraChangeListener() {
                     @Override
                     public void onCameraChange(CameraPosition cameraPosition) {
+                        // If custom tile overlay is enabled, use rounded zoom to avoid
+                        // tiles blurring
+                        if (customTileOverlay != null) {
+                            int roundZoom = Math.round(cameraPosition.zoom);
+                            if (Math.abs(cameraPosition.zoom - roundZoom) > 0.01) {
+                                CameraUpdate cameraUpdate = CameraUpdateFactory.zoomTo(roundZoom);
+                                googleMap.animateCamera(cameraUpdate);
+                                return;
+                            }
+                        }
                         GeoRect viewPort = getViewPortGeoRect();
                         listener.OnViewPortChanged(viewPort);
                     }
@@ -160,6 +170,7 @@ public class GoogleMapWrapper implements IMapWrapper {
         currentMapType = mapType;
 
         if (customTileOverlay != null) customTileOverlay.remove();
+        customTileOverlay = null;
 
         switch (mapType) {
             case GoogleNormal: googleMap.setMapType(MAP_TYPE_NORMAL); return;
@@ -193,6 +204,8 @@ public class GoogleMapWrapper implements IMapWrapper {
                 return new OpenCycleMapOsmUrlTileProvider();
             case OsmMapQuest:
                 return new MapQuestOsmUrlTileProvider();
+            case MarshrutyRu:
+                return new MarshrutyRuUrlTileProvider();
         }
         return null;
     }
