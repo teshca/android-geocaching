@@ -43,4 +43,8 @@
             android:id="@+id/menuStartGpsStatus"
             android:title="@string/menu_gps_status"
             android:showAsAction="never"/>
+    <item
+        android:id="@+id/menuStartGeoTracker"
+        android:title="@string/menu_geoTracker"
+        android:showAsAction="never"/>
 </menu>
