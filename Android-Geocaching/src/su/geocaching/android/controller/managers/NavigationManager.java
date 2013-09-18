@@ -151,12 +151,11 @@ public class NavigationManager {
         List<ResolveInfo> list = context.getPackageManager().queryIntentActivities(intent, PackageManager.COMPONENT_ENABLED_STATE_DEFAULT);
         if (list.size() > 0) {
             // Application installed
-            Controller.getInstance().getGoogleAnalyticsManager().trackExternalActivityLaunch("/GpsStatus/1");
+            Controller.getInstance().getGoogleAnalyticsManager().trackExternalActivityLaunch(String.format("/%s", gpsStatusApplicationId));
             context.startActivity(intent);
         } else {
             // Application isn't installed
             startAndroidMarketActivity(context, gpsStatusApplicationId);
-            Controller.getInstance().getGoogleAnalyticsManager().trackExternalActivityLaunch("/GpsStatus/0");
         }
     }
 
@@ -173,18 +172,18 @@ public class NavigationManager {
         List<ResolveInfo> list = context.getPackageManager().queryIntentActivities(intent, PackageManager.COMPONENT_ENABLED_STATE_DEFAULT);
         if (list.size() > 0) {
             // Application installed
-            Controller.getInstance().getGoogleAnalyticsManager().trackExternalActivityLaunch("/ExtternalMap/1");
+            Controller.getInstance().getGoogleAnalyticsManager().trackExternalActivityLaunch("/ExternalMap");
             context.startActivity(intent);
         } else {
             // Application isn't installed
             startAndroidMarketActivity(context, yandexMapsApplicationId);
-            Controller.getInstance().getGoogleAnalyticsManager().trackExternalActivityLaunch("/ExtternalMap/0");
         }
     }
 
     private static final String geocachingApplicationId = "su.geocaching.android.ui";
     private static final String gpsStatusApplicationId = "com.eclipsim.gpsstatus2";
     private static final String yandexMapsApplicationId = "ru.yandex.yandexmaps";
+    private static final String geoTrackerApplicationId = "com.ilyabogdanovich.geotracker";
 
     /**
      * Run Android Market application
@@ -247,7 +246,7 @@ public class NavigationManager {
 
         if (isApplicationAvailable(context, intent)) {
             // Application installed
-            Controller.getInstance().getGoogleAnalyticsManager().trackExternalActivityLaunch("/ExternalDrivingDirrections/Yandex");
+            Controller.getInstance().getGoogleAnalyticsManager().trackExternalActivityLaunch("/ExternalDrivingDirections/Yandex");
             context.startActivity(intent);
         } else {
             // Yandex maps is not found
@@ -259,12 +258,11 @@ public class NavigationManager {
 
             if (isApplicationAvailable(context, intent)) {
                 // Application installed
-                Controller.getInstance().getGoogleAnalyticsManager().trackExternalActivityLaunch("/ExternalDrivingDirrections/1");
+                Controller.getInstance().getGoogleAnalyticsManager().trackExternalActivityLaunch("/ExternalDrivingDirections/Other");
                 context.startActivity(intent);
             } else {
                 // Application isn't installed
                 startAndroidMarketActivity(context, yandexMapsApplicationId);
-                Controller.getInstance().getGoogleAnalyticsManager().trackExternalActivityLaunch("/ExternalDrivingDirrections/0");
             }
         }
     }
@@ -294,5 +292,18 @@ public class NavigationManager {
     public static void ExternalWebBrowser(Context context, String url) {
         Intent browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse(url));
         context.startActivity(browserIntent);
+        Controller.getInstance().getGoogleAnalyticsManager().trackExternalActivityLaunch("/ExternalWebBrowser");
+    }
+
+    public static void startExternalGeoTrackerActivity(Context context) {
+        Intent intent = context.getPackageManager().getLaunchIntentForPackage(geoTrackerApplicationId);
+        if (intent != null) {
+            // Application installed
+            Controller.getInstance().getGoogleAnalyticsManager().trackExternalActivityLaunch(String.format("/%s", geoTrackerApplicationId));
+            context.startActivity(intent);
+        } else {
+            // Application isn't installed
+            startAndroidMarketActivity(context, geoTrackerApplicationId);
+        }
     }
 }

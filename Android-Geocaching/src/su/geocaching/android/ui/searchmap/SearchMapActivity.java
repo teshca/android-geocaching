@@ -298,6 +298,8 @@ public class SearchMapActivity extends SherlockFragmentActivity
             case R.id.menuStartGpsStatus:
                 StartGpsStatusActivity(null);
                 return true;
+            case R.id.menuStartGeoTracker:
+                NavigationManager.startExternalGeoTrackerActivity(this);
             default:
                 return super.onOptionsItemSelected(item);
         }
