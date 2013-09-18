@@ -1,0 +1,23 @@
+﻿<UserControl
+	xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+	xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+	xmlns:local="clr-namespace:GeocachingIcons"
+	x:Class="GeocachingIcons.MainPage"
+	Width="800" Height="600">
+
+	<Grid x:Name="LayoutRoot" Background="White" Margin="20">
+	   <Grid.ColumnDefinitions>
+	       <ColumnDefinition Width="*" />
+           <ColumnDefinition Width="Auto"/>
+       </Grid.ColumnDefinitions>
+
+       <Viewbox x:Name="Canvas" Width="{Binding ElementName=IconSize, Path=Text}" Height="{Binding ElementName=IconSize, Path=Text}" >
+            <local:ActionBarNavigationIcon UseLayoutRounding="False" Background="AntiqueWhite"/>           	   
+       </Viewbox>
+       
+       <StackPanel Grid.Column="1" VerticalAlignment="Center">
+            <TextBox x:Name="IconSize" Text="72" />
+            <Button Content="Сохранить" Click="SaveButtonClick" />
+        </StackPanel>
+    </Grid>
+</UserControl>

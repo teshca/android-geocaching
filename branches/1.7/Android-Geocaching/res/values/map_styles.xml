@@ -1,0 +1,22 @@
+<resources>
+	<style name="MapInfoLayer">
+		<item name="android:layout_width">fill_parent</item>
+		<item name="android:layout_height">wrap_content</item>
+		<item name="android:background">@color/map_info_layer_bg</item>
+	</style>
+
+	<style name="MapInfoItem">
+		<item name="android:layout_width">wrap_content</item>
+		<item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_marginLeft">3dp</item>
+        <item name="android:layout_marginRight">3dp</item>
+		<item name="android:textColor">@color/status_text_color</item>
+		<item name="android:textSize">@dimen/text_size_small</item>
+	</style>
+
+    <style name="MapInfoSpring">
+        <item name="android:layout_width">0dp</item>
+        <item name="android:layout_height">fill_parent</item>
+        <item name="android:layout_weight">1</item>
+    </style>
+</resources>

@@ -1,0 +1,236 @@
+<resources>
+    <string name="preferences_activity_name">Настройки</string>
+
+    <!-- Dashboard -->
+    <string name="map_preference_title">Карта</string>
+    <string name="compass_preference_title">Компас</string>
+    <string name="energy_saving_preference_title">Энергосбережение</string>
+    <string name="location_preference_title">Координаты</string>
+    <string name="connection_preference_title">Беспроводные сети</string>
+    <string name="system_category_title">Системные</string>
+
+    <!-- Keep screen on preference section -->
+    <string name="keep_screen_on_title">Не отключать экран</string>
+    <string name="keep_screen_on_key">keepScreen</string>
+    <string name="keep_screen_on_summary">Не отключать экран во время поиска тайника</string>
+    <bool name="keep_screen_on_default_value">true</bool>
+
+    <!-- GPS power saving section -->
+    <string name="gps_update_frequency_title">Обновление координат</string>
+    <string name="gps_update_frequency_key">energy_saving.gps</string>
+    <string name="gps_update_frequency_dialog_title">Частота обновления координат</string>
+    <string-array name="gps_update_frequency_entries">
+        <item>Очень часто</item>
+        <item>Часто</item>
+        <item>Нормально</item>
+        <item>Редко</item>
+        <item>Очень редко</item>
+    </string-array>
+    <string-array name="gps_update_frequency_values">
+        <item>MAXIMAL</item>
+        <item>OFTEN</item>
+        <item>NORMAL</item>
+        <item>RARELY</item>
+        <item>MINIMAL</item>
+    </string-array>
+    <string name="gps_update_frequency_default_value">NORMAL</string>
+
+    <string name="map_category_title">Карта</string>
+
+    <!-- Map Preferences -->
+    <!-- map.icon -->
+    <string name="map_markers_title">Иконки тайников</string>
+    <string name="prefer_icon_key">map.icon</string>
+    <string-array name="requests_icon_type_entries">
+        <item>Стандартные</item>
+        <item>В стиле Geocaching.su</item>
+    </string-array>
+    <string-array name="requests_icon_type_values">
+        <item>DEFAULT</item>
+        <item>CUSTOM</item>
+    </string-array>
+    <string name="prefer_icon_default_value">CUSTOM</string>
+
+    <!-- map.provider -->
+    <string name="map_provider_title">Провайдер</string>
+    <string name="map_provider_key">map.provider</string>
+    <string-array name="map_provider_entries">
+        <item>Карты Google</item>
+        <item>OpenStreetMap (БЕТА)</item>
+        <item>Маршруты.Ру (БЕТА)</item>
+        <!--<item>Яндекс карты</item>-->
+    </string-array>
+    <string-array name="map_provider_values">
+        <item>GOOGLE</item>
+        <item>OSM</item>
+        <item>MarshrutyRu</item>
+        <!--<item>YANDEX</item>-->
+    </string-array>
+    <string name="map_provider_default_value">GOOGLE</string>
+
+    <!-- map.type -->
+    <string name="prefer_map_type_title">Слой</string>
+    <string name="prefer_map_type_key">map.type</string>
+    <string name="prefer_map_type_default_value">MAP</string>
+
+    <string-array name="google_map_type_entries">
+        <item>Карта</item>
+        <item>Спутник</item>
+        <item>Спутник + Карта</item>
+        <item>Рельеф</item>
+    </string-array>
+    <string-array name="google_map_type_values">
+        <item>MAP</item>
+        <item>SATELLITE</item>
+        <item>HYBRID</item>
+        <item>TERRAIN</item>
+    </string-array>
+
+    <string-array name="osm_map_type_entries">
+        <item>Mapnik</item>
+        <item>OpenCycleMap</item>
+        <item>MapQuest</item>
+    </string-array>
+    <string-array name="osm_map_type_values">
+        <item>OsmMapnik</item>
+        <item>OsmCycle</item>
+        <item>OsmMapQuest</item>
+    </string-array>
+
+    <string-array name="marshruty_map_type_entries">
+        <item>Топокарта</item>
+    </string-array>
+    <string-array name="marshruty_map_type_values">
+        <item>MarshrutyRuTopoMap</item>
+    </string-array>
+
+    <!-- map.addWay -->
+    <string name="use_group_cache_key">map.addWay</string>
+    <string name="use_group_cache_title">Группировка тайников</string>
+    <string name="use_group_cache_summary">На мелком масштабе близкие тайники объединять в группы</string>
+    <bool name="use_group_cache_default_value">true</bool>
+
+    <!-- map.showScale -->
+    <string name="show_map_scale_key">map.showScale</string>
+    <string name="show_map_scale_title">Масштабная линейка</string>
+    <string name="show_map_scale_summary">Показывать масштабную линейку</string>
+    <bool name="show_map_scale_default_value">true</bool>
+
+    <!-- map.showZoomButtons -->
+    <string name="show_zoom_buttons_key">map.showZoomButtons</string>
+    <string name="show_zoom_buttons_title">Кнопки масштабирования</string>
+    <string name="show_zoom_buttons_summary">Показывать кнопки масштабирования</string>
+    <bool name="show_zoom_buttons_default_value">false</bool>
+
+    <!-- map.filters -->
+    <string name="map_filters_title">Фильтры</string>
+    <string name="cache_filter_default_value">ALL</string>
+    <!-- map.filter.type -->
+    <string name="cache_filter_type_title">Тип тайников</string>
+    <string name="cache_filter_type">filter.type</string>
+    <string-array name="cache_filter_type_entries">
+        <item>Традиционный</item>
+        <item>Виртуальный</item>
+        <item>Пошаговый традиционный</item>
+        <item>Пошаговый виртуальный</item>
+        <item>Экстрим</item>
+        <item>Событие</item>
+        <item>Конкурс</item>
+        <item>Веб-камера</item>
+    </string-array>
+    <string-array name="cache_filter_type_values">
+        <item>TRADITIONAL</item>
+        <item>VIRTUAL</item>
+        <item>STEP_BY_STEP_TRADITIONAL</item>
+        <item>STEP_BY_STEP_VIRTUAL</item>
+        <item>EXTREME</item>
+        <item>EVENT</item>
+        <item>CONTEST</item>
+        <item>WEBCAM</item>
+    </string-array>
+    <!-- map.filter.status -->
+    <string name="filter_disabled">Фильтр отключён</string>
+    <string name="filter_warning">"Внимание! Таники не будут показаны"</string>
+    <string name="cache_filter_status_title">Статус тайников</string>
+    <string name="cache_filter_status">filter.status</string>
+    <string-array name="cache_filter_status_entries">
+        <item>Действующий</item>
+        <item>Недействующий</item>
+        <item>Сомнительный</item>
+    </string-array>
+    <string-array name="cache_filter_status_values">
+        <item>VALID</item>
+        <item>NOT_VALID</item>
+        <item>NOT_CONFIRMED</item>
+    </string-array>
+
+
+    <!-- Compass Preferences -->
+    <string name="compass_category_title">Компас</string>
+    <!-- compass.speed -->
+    <string name="prefs_speed_key">compass.speed</string>
+    <string name="prefer_speed_title">Скорость стрелки</string>
+    <string-array name="speed_preference_entries">
+        <item>Без сглаживания</item>
+        <item>Медленная</item>
+        <item>Нормальная</item>
+        <item>Быстрая</item>
+        <item>Инерционная</item>
+    </string-array>
+    <string-array name="speed_preference_values">
+        <item>DIRET</item>
+        <item>SLOW</item>
+        <item>NORMAL</item>
+        <item>FAST</item>
+        <item>SWING</item>
+    </string-array>
+    <string name="prefer_speed_default_value">NORMAL</string>
+    <!-- compass.appearance -->
+    <string name="prefer_appearance_title">Внешний вид</string>
+    <string name="prefs_appearance_key">compass.appearance</string>
+    <string-array name="appearance_preference_entries">
+        <item>Классический</item>
+        <item>Светлый</item>
+    </string-array>
+    <string-array name="appearance_preference_values">
+        <item>CLASSIC</item>
+        <item>PALE</item>
+    </string-array>
+    <string name="prefer_appearance_default_value">PALE</string>
+    <!-- compass.sensor -->
+    <string name="prefer_sensor_type_title">Тип сенсора</string>
+    <string name="prefs_sensor_key">compass.sensor</string>
+    <string-array name="sensor_type_preference_entries">
+        <item>Магнитное поле</item>
+        <item>Спутники GPS</item>
+    </string-array>
+    <string-array name="sensor_preference_values">
+        <item>SENSOR</item>
+        <item>GPS</item>
+    </string-array>
+    <string name="sensor_preference_default_value">SENSOR</string>
+    <!-- compass.odometer -->
+    <string name="prefer_odometer_key">compass.odometer</string>
+    <bool name="prefer_odometer_default_value">false</bool>
+
+    <!-- Mobile internet traffic -->
+    <string name="traffic_preference_category_title">Трафик мобильного интернета</string>
+    <string name="traffic_preference_title">Трафик мобильного интернета</string>
+
+    <string name="download_photos_always_title">Загружать фотографии</string>
+    <string name="download_photos_always_key">downloadPhotosAlwaysKey</string>
+    <string name="download_photos_always_summary">Загружать фотографии тайника без подтверждения</string>
+    <bool name="download_photos_always_value">false</bool>
+	
+    <!--
+    <string name="save_notebook_always_title">Сохранять блокнот</string>
+    <string name="save_notebook_always_key">downloadNoteBookAlways</string>
+    <string name="save_notebook_always_summary">Всегда сохранять блокнот тайника</string>
+    <bool name="save_notebook_always_value">false</bool>
+     -->
+
+    <!-- Other -->
+    <string name="prefs_favorites_sort_key">favorites_sort</string>
+    <string name="remove_cache_without_confirm_key">removeCacheWithoutConfirm</string>
+
+</resources>

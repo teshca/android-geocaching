@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<su.geocaching.android.ui.info.controls.TextSizeAdjustableTextView
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/info_action_bar_tab_text"
+    style="@style/Geocaching.ActionBar.TabTextStyle"
+    android:gravity="center_vertical"    
+    android:ellipsize="none"
+    android:singleLine="true"
+    />

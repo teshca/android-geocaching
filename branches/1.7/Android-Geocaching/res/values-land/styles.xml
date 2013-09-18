@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <style name="Geocaching.ActionBar.TabStyle" parent="@style/geocaching_ActionBarTabStyle">
+        <item name="android:padding">4dip</item>
+    </style>
+
+    <style name="Geocaching.ActionBar.TabTextStyle" parent="@style/Widget.Sherlock.ActionBar.TabText">
+        <item name="android:textSize">14sp</item>
+    </style>
+</resources>

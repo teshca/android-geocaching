@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent">
+
+    <fragment
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        android:id="@+id/map"
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent"
+        class="com.google.android.gms.maps.SupportMapFragment"/>
+
+	<!-- semitransparent info layer -->
+	<LinearLayout style="@style/MapInfoLayer">
+		<TextView
+                android:id="@+id/distanceToCacheText"
+                style="@style/MapInfoItem"/>
+        <View
+                style="@style/MapInfoSpring"/>
+
+		<TextView
+                android:id="@+id/waitingLocationFixText"
+                android:clickable="true"
+                android:onClick="StartGpsStatusActivity"
+                style="@style/MapInfoItem"/>
+        <ProgressBar
+                android:id="@+id/progressCircle"
+                android:onClick="StartGpsStatusActivity"
+                android:layout_width="16dip"
+                android:layout_height="16dip"
+                android:visibility="gone"
+                android:layout_marginRight="2dip"/>
+	</LinearLayout>
+
+    <!-- scale -->
+    <su.geocaching.android.ui.map.ScaleView
+        android:id="@+id/scaleView"
+        android:layout_width="fill_parent"
+        android:layout_height="35dip"
+        android:layout_gravity="bottom"/>
+</FrameLayout>

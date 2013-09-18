@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+	<string name="ne_template" formatted="false">%d° %.3f\' с.ш. | %d° %.3f\' в.д.</string>
+	<string name="se_template" formatted="false">%d° %.3f\' ю.ш. | %d° %.3f\' в.д.</string>
+	<string name="nw_template" formatted="false">%d° %.3f\' с.ш. | %d° %.3f\' з.д.</string>
+	<string name="sw_template" formatted="false">%d° %.3f\' ю.ш. | %d° %.3f\' з.д.</string>
+
+	<string name="meter">м</string>
+	<string name="kilometer">км</string>
+
+	<string name="big_distance_precise_format" formatted="false">%.1f %s</string>
+	<string name="big_distance_not_precise_format" formatted="false">≈%.1f %s</string>
+	<string name="small_distance_precise_format" formatted="false">%.0f %s</string>
+	<string name="small_distance_not_precise_format" formatted="false">≈%.0f %s</string>
+</resources>

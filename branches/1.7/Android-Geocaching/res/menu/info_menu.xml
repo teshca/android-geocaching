@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+	<item
+		android:id="@+id/menu_info_save"
+		android:title="@string/info_activity_menu_save_cache"
+		android:icon="@drawable/ic_menu_save"
+		android:showAsAction="always" />
+	<item
+		android:id="@+id/menu_info_delete"
+		android:title="@string/info_activity_menu_delete_cache"
+		android:icon="@drawable/ic_menu_delete"
+		android:showAsAction="always" />
+    <item
+        android:id="@+id/menu_info_notes"
+        android:title="@string/info_activity_menu_cache_notes"
+        android:icon="@drawable/ic_menu_edit"
+        android:showAsAction="always" />
+	<item
+      	android:id="@+id/menu_info_search_map"
+      	android:title="@string/menu_start_map"
+		android:icon="@drawable/ic_menu_mapmode"
+		android:showAsAction="always" />
+
+    <item
+        android:id="@+id/menu_info_search_compass"
+        android:title="@string/menu_start_compass"
+        android:icon="@drawable/ic_menu_compass"
+        android:showAsAction="ifRoom" />
+
+	<item
+		android:id="@+id/menu_info_refresh"
+		android:title="@string/info_activity_menu_refresh"
+		android:icon="@drawable/ic_menu_refresh"
+		android:showAsAction="never" />
+
+    <item
+        android:id="@+id/menu_info_goto_site"
+        android:title="@string/info_activity_menu_goto_site"
+        android:icon="@drawable/ic_action_goto_site"
+        android:showAsAction="never" />
+</menu>
