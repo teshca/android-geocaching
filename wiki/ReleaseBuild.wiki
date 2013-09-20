@@ -7,8 +7,8 @@ c названием "x.y" где x.y - номер версии. В этой в�
   # В `AndroidManifest.xml` заменить:
     * *versionName* на "x.y.z", где x.y - номер версии, а z - номер хотфикса (изначально 0)
     * *versionCode* на ~~номер текущего комита в svn~~ xyz0, начиная с версии 1430
-    * *android:debuggable="true"* на *android:debuggable="false"*
-  # Изменить значение константы `su.geocaching.android.controller.Controller.DEBUG = false`
+    ~~* *android:debuggable="true"* на *android:debuggable="false"*~~
+  # Изменить значение константы ~~`su.geocaching.android.controller.Controller.DEBUG = false`~~
   # !GooleMapsApiKey вычисляется из отпечатка сертификата (наш уже сгенерирован и лежит в группе)
     * *MD5* генерируется командой *keytool -list -alias agkey -keystore android-geocaching-su.keystore*
     * По полученному отпечатку на сайте http://code.google.com/intl/ru-RU/android/maps-api-signup.html получается *Maps Api Key*.
