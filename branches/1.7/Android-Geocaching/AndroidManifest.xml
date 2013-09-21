@@ -4,7 +4,7 @@
     package="su.geocaching.android.ui"
     android:versionName="1.7.0"
     android:installLocation="auto"
-    android:versionCode="1701">
+    android:versionCode="1702">
 
     <permission
         android:name="su.geocaching.android.ui.permission.MAPS_RECEIVE"
