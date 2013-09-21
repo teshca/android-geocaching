@@ -6,7 +6,77 @@
     </shared>
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="52f4ac09-9ac3-47ba-a627-56f94a024821" name="Default" comment="" />
+    <list default="true" readonly="true" id="52f4ac09-9ac3-47ba-a627-56f94a024821" name="Default" comment="">
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/../google-play-services_lib/res/drawable-hdpi/ic_plusone_medium_off_client.png" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/../google-play-services_lib/res/drawable-mdpi/ic_plusone_medium_off_client.png" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/../google-play-services_lib/res/drawable-xhdpi/ic_plusone_medium_off_client.png" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/../google-play-services_lib/res/drawable-hdpi/ic_plusone_small_off_client.png" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/../google-play-services_lib/res/drawable-mdpi/ic_plusone_small_off_client.png" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/../google-play-services_lib/res/drawable-xhdpi/ic_plusone_small_off_client.png" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/../google-play-services_lib/res/drawable-hdpi/ic_plusone_standard_off_client.png" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/../google-play-services_lib/res/drawable-mdpi/ic_plusone_standard_off_client.png" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/../google-play-services_lib/res/drawable-xhdpi/ic_plusone_standard_off_client.png" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/../google-play-services_lib/res/drawable-hdpi/ic_plusone_tall_off_client.png" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/../google-play-services_lib/res/drawable-mdpi/ic_plusone_tall_off_client.png" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/../google-play-services_lib/res/drawable-xhdpi/ic_plusone_tall_off_client.png" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/../google-play-services_lib/res/values-et-rEE" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/../google-play-services_lib/res/values-ms-rMY" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/../google-play-services_lib/res/values-et-rEE/strings.xml" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/../google-play-services_lib/res/values-ms-rMY/strings.xml" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../google-play-services_lib/libs/google-play-services.jar" afterPath="$PROJECT_DIR$/../google-play-services_lib/libs/google-play-services.jar" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../google-play-services_lib/AndroidManifest.xml" afterPath="$PROJECT_DIR$/../google-play-services_lib/AndroidManifest.xml" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../google-play-services_lib/README.txt" afterPath="$PROJECT_DIR$/../google-play-services_lib/README.txt" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../google-play-services_lib/res/values/strings.xml" afterPath="$PROJECT_DIR$/../google-play-services_lib/res/values/strings.xml" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../google-play-services_lib/res/values-af/strings.xml" afterPath="$PROJECT_DIR$/../google-play-services_lib/res/values-af/strings.xml" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../google-play-services_lib/res/values-am/strings.xml" afterPath="$PROJECT_DIR$/../google-play-services_lib/res/values-am/strings.xml" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../google-play-services_lib/res/values-ar/strings.xml" afterPath="$PROJECT_DIR$/../google-play-services_lib/res/values-ar/strings.xml" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../google-play-services_lib/res/values-be/strings.xml" afterPath="$PROJECT_DIR$/../google-play-services_lib/res/values-be/strings.xml" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../google-play-services_lib/res/values-bg/strings.xml" afterPath="$PROJECT_DIR$/../google-play-services_lib/res/values-bg/strings.xml" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../google-play-services_lib/res/values-ca/strings.xml" afterPath="$PROJECT_DIR$/../google-play-services_lib/res/values-ca/strings.xml" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../google-play-services_lib/res/values-cs/strings.xml" afterPath="$PROJECT_DIR$/../google-play-services_lib/res/values-cs/strings.xml" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../google-play-services_lib/res/values-da/strings.xml" afterPath="$PROJECT_DIR$/../google-play-services_lib/res/values-da/strings.xml" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../google-play-services_lib/res/values-de/strings.xml" afterPath="$PROJECT_DIR$/../google-play-services_lib/res/values-de/strings.xml" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../google-play-services_lib/res/values-el/strings.xml" afterPath="$PROJECT_DIR$/../google-play-services_lib/res/values-el/strings.xml" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../google-play-services_lib/res/values-en-rGB/strings.xml" afterPath="$PROJECT_DIR$/../google-play-services_lib/res/values-en-rGB/strings.xml" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../google-play-services_lib/res/values-es/strings.xml" afterPath="$PROJECT_DIR$/../google-play-services_lib/res/values-es/strings.xml" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../google-play-services_lib/res/values-es-rUS/strings.xml" afterPath="$PROJECT_DIR$/../google-play-services_lib/res/values-es-rUS/strings.xml" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../google-play-services_lib/res/values-et/strings.xml" afterPath="$PROJECT_DIR$/../google-play-services_lib/res/values-et/strings.xml" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../google-play-services_lib/res/values-fa/strings.xml" afterPath="$PROJECT_DIR$/../google-play-services_lib/res/values-fa/strings.xml" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../google-play-services_lib/res/values-fi/strings.xml" afterPath="$PROJECT_DIR$/../google-play-services_lib/res/values-fi/strings.xml" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../google-play-services_lib/res/values-fr/strings.xml" afterPath="$PROJECT_DIR$/../google-play-services_lib/res/values-fr/strings.xml" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../google-play-services_lib/res/values-hi/strings.xml" afterPath="$PROJECT_DIR$/../google-play-services_lib/res/values-hi/strings.xml" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../google-play-services_lib/res/values-hr/strings.xml" afterPath="$PROJECT_DIR$/../google-play-services_lib/res/values-hr/strings.xml" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../google-play-services_lib/res/values-hu/strings.xml" afterPath="$PROJECT_DIR$/../google-play-services_lib/res/values-hu/strings.xml" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../google-play-services_lib/res/values-in/strings.xml" afterPath="$PROJECT_DIR$/../google-play-services_lib/res/values-in/strings.xml" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../google-play-services_lib/res/values-it/strings.xml" afterPath="$PROJECT_DIR$/../google-play-services_lib/res/values-it/strings.xml" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../google-play-services_lib/res/values-iw/strings.xml" afterPath="$PROJECT_DIR$/../google-play-services_lib/res/values-iw/strings.xml" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../google-play-services_lib/res/values-ja/strings.xml" afterPath="$PROJECT_DIR$/../google-play-services_lib/res/values-ja/strings.xml" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../google-play-services_lib/res/values-ko/strings.xml" afterPath="$PROJECT_DIR$/../google-play-services_lib/res/values-ko/strings.xml" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../google-play-services_lib/res/values-lt/strings.xml" afterPath="$PROJECT_DIR$/../google-play-services_lib/res/values-lt/strings.xml" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../google-play-services_lib/res/values-lv/strings.xml" afterPath="$PROJECT_DIR$/../google-play-services_lib/res/values-lv/strings.xml" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../google-play-services_lib/res/values-ms/strings.xml" afterPath="$PROJECT_DIR$/../google-play-services_lib/res/values-ms/strings.xml" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../google-play-services_lib/res/values-nb/strings.xml" afterPath="$PROJECT_DIR$/../google-play-services_lib/res/values-nb/strings.xml" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../google-play-services_lib/res/values-nl/strings.xml" afterPath="$PROJECT_DIR$/../google-play-services_lib/res/values-nl/strings.xml" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../google-play-services_lib/res/values-pl/strings.xml" afterPath="$PROJECT_DIR$/../google-play-services_lib/res/values-pl/strings.xml" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../google-play-services_lib/res/values-pt/strings.xml" afterPath="$PROJECT_DIR$/../google-play-services_lib/res/values-pt/strings.xml" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../google-play-services_lib/res/values-pt-rBR/strings.xml" afterPath="$PROJECT_DIR$/../google-play-services_lib/res/values-pt-rBR/strings.xml" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../google-play-services_lib/res/values-pt-rPT/strings.xml" afterPath="$PROJECT_DIR$/../google-play-services_lib/res/values-pt-rPT/strings.xml" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../google-play-services_lib/res/values-ro/strings.xml" afterPath="$PROJECT_DIR$/../google-play-services_lib/res/values-ro/strings.xml" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../google-play-services_lib/res/values-ru/strings.xml" afterPath="$PROJECT_DIR$/../google-play-services_lib/res/values-ru/strings.xml" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../google-play-services_lib/res/values-sk/strings.xml" afterPath="$PROJECT_DIR$/../google-play-services_lib/res/values-sk/strings.xml" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../google-play-services_lib/res/values-sl/strings.xml" afterPath="$PROJECT_DIR$/../google-play-services_lib/res/values-sl/strings.xml" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../google-play-services_lib/res/values-sr/strings.xml" afterPath="$PROJECT_DIR$/../google-play-services_lib/res/values-sr/strings.xml" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../google-play-services_lib/res/values-sv/strings.xml" afterPath="$PROJECT_DIR$/../google-play-services_lib/res/values-sv/strings.xml" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../google-play-services_lib/res/values-sw/strings.xml" afterPath="$PROJECT_DIR$/../google-play-services_lib/res/values-sw/strings.xml" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../google-play-services_lib/res/values-th/strings.xml" afterPath="$PROJECT_DIR$/../google-play-services_lib/res/values-th/strings.xml" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../google-play-services_lib/res/values-tl/strings.xml" afterPath="$PROJECT_DIR$/../google-play-services_lib/res/values-tl/strings.xml" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../google-play-services_lib/res/values-tr/strings.xml" afterPath="$PROJECT_DIR$/../google-play-services_lib/res/values-tr/strings.xml" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../google-play-services_lib/res/values-uk/strings.xml" afterPath="$PROJECT_DIR$/../google-play-services_lib/res/values-uk/strings.xml" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../google-play-services_lib/res/values-vi/strings.xml" afterPath="$PROJECT_DIR$/../google-play-services_lib/res/values-vi/strings.xml" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../google-play-services_lib/res/values-zh-rCN/strings.xml" afterPath="$PROJECT_DIR$/../google-play-services_lib/res/values-zh-rCN/strings.xml" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../google-play-services_lib/res/values-zh-rTW/strings.xml" afterPath="$PROJECT_DIR$/../google-play-services_lib/res/values-zh-rTW/strings.xml" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../google-play-services_lib/res/values-zu/strings.xml" afterPath="$PROJECT_DIR$/../google-play-services_lib/res/values-zu/strings.xml" />
+    </list>
     <ignored path="Android-Geocaching-Release.iws" />
     <ignored path=".idea/workspace.xml" />
     <option name="TRACKING_ENABLED" value="true" />
@@ -71,7 +141,17 @@
     <favorites_list name="Android-Geocaching-Release" />
   </component>
   <component name="FileEditorManager">
-    <leaf />
+    <leaf>
+      <file leaf-file-name="AndroidManifest.xml" pinned="false" current="true" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/AndroidManifest.xml">
+          <provider selected="true" editor-type-id="text-editor">
+            <state line="6" column="29" selection-start="247" selection-end="247" vertical-scroll-proportion="0.049132947" vertical-offset="68" max-vertical-offset="2040">
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+    </leaf>
   </component>
   <component name="FindManager">
     <FindUsagesManager>
@@ -122,9 +202,6 @@
       <sortByType />
     </navigator>
     <panes>
-      <pane id="PackagesPane">
-        <subPane />
-      </pane>
       <pane id="ProjectPane">
         <subPane>
           <PATH>
@@ -133,23 +210,39 @@
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
             </PATH_ELEMENT>
           </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="Android-Geocaching-Release" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="Android-Geocaching" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+          </PATH>
         </subPane>
       </pane>
       <pane id="Scope" />
+      <pane id="PackagesPane">
+        <subPane />
+      </pane>
     </panes>
   </component>
   <component name="PropertiesComponent">
     <property name="project.structure.last.edited" value="Modules" />
     <property name="GoToFile.includeJavaFiles" value="false" />
     <property name="project.structure.proportion" value="0.0" />
-    <property name="GoToClass.toSaveIncludeLibraries" value="false" />
+    <property name="ExportedApkPath" value="E:\Projects\android-geocaching\branch\Android-Geocaching\Android-Geocaching.apk" />
     <property name="recentsLimit" value="5" />
     <property name="MemberChooser.sorted" value="false" />
+    <property name="ExportedModule" value="Android-Geocaching" />
+    <property name="project.structure.side.proportion" value="0.0" />
+    <property name="MemberChooser.copyJavadoc" value="false" />
+    <property name="GoToClass.toSaveIncludeLibraries" value="false" />
+    <property name="AndroidRunProguardForReleaseBuild" value="false" />
     <property name="FullScreen" value="false" />
     <property name="MemberChooser.showClasses" value="true" />
-    <property name="project.structure.side.proportion" value="0.0" />
     <property name="GoToClass.includeLibraries" value="false" />
-    <property name="MemberChooser.copyJavadoc" value="false" />
   </component>
   <component name="RunManager" selected="Android Application.Android-Geocaching">
     <configuration default="true" type="AndroidTestRunConfigurationType" factoryName="Android Tests">
@@ -330,7 +423,7 @@
   </component>
   <component name="ToolWindowManager">
     <frame x="-8" y="-8" width="1616" height="876" extended-state="6" />
-    <editor active="false" />
+    <editor active="true" />
     <layout>
       <window_info id="Palette&#9;" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Changes" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.3286908" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
@@ -348,7 +441,7 @@
       <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Commander" active="false" anchor="right" auto_hide="false" internal_type="SLIDING" type="SLIDING" visible="false" weight="0.4" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
       <window_info id="Maven Projects" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
-      <window_info id="Project" active="true" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.24967825" sideWeight="0.67270195" order="0" side_tool="false" content_ui="combo" />
+      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.24967825" sideWeight="0.67270195" order="0" side_tool="false" content_ui="combo" />
       <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Cvs" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
       <window_info id="Message" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
@@ -375,13 +468,6 @@
         <state line="25" column="13" selection-start="854" selection-end="854" vertical-scroll-proportion="0.14739884" vertical-offset="34" max-vertical-offset="5899" />
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/AndroidManifest.xml">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="4" column="30" selection-start="181" selection-end="181" vertical-scroll-proportion="0.098265894" vertical-offset="0" max-vertical-offset="2040">
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/su/geocaching/android/ui/checkpoints/CheckpointsFolderActivity.java">
       <provider selected="true" editor-type-id="text-editor">
         <state line="13" column="39" selection-start="490" selection-end="490" vertical-scroll-proportion="0.44517544" vertical-offset="18" max-vertical-offset="3859" />
@@ -390,6 +476,13 @@
     <entry file="file://$PROJECT_DIR$/../JakeWharton-ActionBarSherlock-e5c2d1c/library/src/com/actionbarsherlock/internal/widget/ActionBarContextView.java">
       <provider selected="true" editor-type-id="text-editor">
         <state line="80" column="8" selection-start="3118" selection-end="3118" vertical-scroll-proportion="0.0" vertical-offset="731" max-vertical-offset="8211" />
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/AndroidManifest.xml">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="6" column="29" selection-start="247" selection-end="247" vertical-scroll-proportion="0.049132947" vertical-offset="68" max-vertical-offset="2040">
+          <folding />
+        </state>
       </provider>
     </entry>
   </component>
