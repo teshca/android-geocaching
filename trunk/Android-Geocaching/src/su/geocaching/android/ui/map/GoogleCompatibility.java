@@ -1,19 +1,40 @@
 package su.geocaching.android.ui.map;
 
+import android.app.Activity;
 import android.app.AlertDialog;
+import android.app.Dialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.pm.ApplicationInfo;
 import android.content.pm.PackageManager;
+
+import com.google.android.gms.common.ConnectionResult;
+import com.google.android.gms.common.GooglePlayServicesUtil;
+
 import su.geocaching.android.controller.managers.NavigationManager;
 
 public class GoogleCompatibility {
 
-    public static boolean checkGoogleMapsDependencies(final Context context) {
+    private final static String gmsAppId = "com.google.android.gms";
+
+    public static boolean checkGoogleMapsDependencies(final Activity activity) {
         return
-            checkApplicationIsAvailable(context, "com.google.android.gms", "Сервисы Google Play")
-                    &&
-            checkApplicationIsAvailable(context, "com.google.android.apps.maps", "Карты Google");
+            checkApplicationIsAvailable(activity, gmsAppId, "Сервисы Google Play")
+            && checkGooglePlayServicesAvailable(activity);
+    }
+
+    private static boolean checkGooglePlayServicesAvailable (final Activity activity) {
+        int resultCode = GooglePlayServicesUtil.isGooglePlayServicesAvailable(activity);
+        if(resultCode != ConnectionResult.SUCCESS) {
+            Dialog dialog = GooglePlayServicesUtil.getErrorDialog(resultCode, activity, 69);
+            if (dialog != null)
+                dialog.show();
+            else
+                NavigationManager.startAndroidMarketActivity(activity, gmsAppId);
+            return false;
+        }
+
+        return true;
     }
 
     private static boolean checkApplicationIsAvailable(final Context context, final String appId, final String appName) {
