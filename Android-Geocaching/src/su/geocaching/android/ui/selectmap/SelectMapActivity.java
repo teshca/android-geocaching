@@ -139,7 +139,7 @@ public class SelectMapActivity extends SherlockFragmentActivity implements IConn
         final MenuInflater inflater = getSupportMenuInflater();
         inflater.inflate(R.menu.select_map_menu, menu);
 
-        if (Geocoder.isPresent()) {
+        if (android.os.Build.VERSION.SDK_INT < 9 || Geocoder.isPresent()) {
             //Create the search view
             SearchView searchView = createSearchView();
 
