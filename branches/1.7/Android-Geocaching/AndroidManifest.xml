@@ -2,9 +2,9 @@
 <manifest
     xmlns:android="http://schemas.android.com/apk/res/android"
     package="su.geocaching.android.ui"
-    android:versionName="1.7.0"
+    android:versionName="1.7.3"
     android:installLocation="auto"
-    android:versionCode="1702">
+    android:versionCode="1730">
 
     <permission
         android:name="su.geocaching.android.ui.permission.MAPS_RECEIVE"
