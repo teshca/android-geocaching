@@ -150,7 +150,7 @@
     </string-array>
     <!-- map.filter.status -->
     <string name="filter_disabled">Фильтр отключён</string>
-    <string name="filter_warning">"Внимание! Таники не будут показаны"</string>
+    <string name="filter_warning">"Внимание! Тайники не будут показаны"</string>
     <string name="cache_filter_status_title">Статус тайников</string>
     <string name="cache_filter_status">filter.status</string>
     <string-array name="cache_filter_status_entries">
